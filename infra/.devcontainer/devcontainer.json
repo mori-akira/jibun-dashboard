@@ -1,0 +1,29 @@
+{
+    "name": "jibun-dashboard-terraform",
+    "build": {
+        "context": "..",
+        "dockerfile": "Dockerfile"
+    },
+    "features": {
+        "ghcr.io/devcontainers-extra/features/pre-commit:2": {},
+        "ghcr.io/devcontainers-extra/features/terraform-docs:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "PKief.material-icon-theme",
+                "oderwat.indent-rainbow",
+                "Gruntfuggly.todo-tree",
+                "mosapride.zenkaku",
+                "streetsidesoftware.code-spell-checker",
+                "eamodio.gitlens",
+                "donjayamanne.githistory",
+                "mhutchie.git-graph",
+                "uctakeoff.vscode-counter",
+                "shd101wyy.markdown-preview-enhanced",
+                "hashicorp.terraform"
+            ]
+        }
+    },
+    "postCreateCommand": "pre-commit install"
+}
