@@ -23,5 +23,16 @@ cd bootstrap
 terraform init
 terraform fmt *.tf
 terraform plan
-terraform apply
+terraform apply -auto-approve
+```
+
+## 動作確認
+
+```sh
+cd main
+terraform init
+terraform fmt *.tf
+terraform plan
+terraform apply -auto-approve
+terraform destroy -auto-approve # 削除
 ```
