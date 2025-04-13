@@ -75,7 +75,7 @@ jobs:
         run: |
           mkdir -p doc/04.infra
           cd infra/main
-          find . -type f "*.md" -exec cp --parents -f {} ../../doc/04.infra/ \;
+          find . "*.md" -type f -exec cp --parents -f {} ../../doc/04.infra/ \;
 
       - name: Commit And Push
         run: |
