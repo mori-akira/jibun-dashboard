@@ -3,9 +3,7 @@
 以下を手動実行する。
 
 ```sh
-echo export AWS_ACCESS_KEY_ID=[発行したアクセスキー] >> ~/.bash_profile
-echo export AWS_SECRET_ACCESS_KEY=[発行したシークレット] >> ~/.bash_profile
-source ~/.bash_profile
+aws configure # 指示に従いアクセスキー情報を入力
 aws sts get-caller-identity # 確認
 ```
 

@@ -1,4 +1,4 @@
-name: Continuous Delivery
+name: Continuous Integration - infra
 on:
   push:
     branches:
@@ -34,6 +34,11 @@ jobs:
         with:
           terraform_version: "1.11"
 
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Terraform Init
         run: terraform init
         working-directory: infra/main
@@ -43,9 +48,22 @@ jobs:
         working-directory: infra/main
 
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: terraform plan -input=false -out=plan.out
         working-directory: infra/main
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+      - name: Convert Plan To Json
+        run: terraform show -json plan.out > plan.json
         working-directory: infra/main
+      
+      - name: Render Terraform docs
+        uses: terraform-docs/gh-actions@v1.4.1
+        with:
+          working-dir: infra/main
+          recursive: "true"
+          output-file: ../../doc/04.infra/terraform-doc.md
+          output-format: "markdown document"
+          output-method: replace
+          git-commit-message: "automatically Generated"
+          git-push: "true"
+          git-push-user-email: "github-actions[bot]@users.noreply.github.com"
+          git-push-user-name: "github-actions[bot]"

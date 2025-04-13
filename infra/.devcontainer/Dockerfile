@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/python:3-bookworm
 # tfenv (Terraformのバージョン管理ツール) をgitからインストールし、最新のTerraformをインストール
 RUN git clone --depth=1 https://github.com/tfutils/tfenv.git /opt/tfenv
 ENV PATH=$PATH:/opt/tfenv/bin
-RUN tfenv install latest && tfenv use latest
+RUN tfenv install latest && tfenv use latest:^1.11
 
 # AWS CLIをインストール
 RUN apt-get update && \
