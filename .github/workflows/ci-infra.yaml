@@ -75,8 +75,8 @@ jobs:
         run: |
           mkdir -p doc/04.infra
           cd infra/main
-          ls -lR
           find . -type f -name "*.md" -exec cp --parents -f {} ../../doc/04.infra/ \;
+          sudo chown -R $USER:$USER doc/
 
       - name: Commit And Push
         run: |
