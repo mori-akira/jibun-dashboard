@@ -29,8 +29,12 @@ jobs:
           role-session-name: ${{ env.SESSION_NAME }}
           aws-region: ${{ vars.REGION }}
 
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11"
+
       - name: Terraform Init
-        run: terraform init --backend-config=backend.hcl
+        run: terraform init
         working-directory: infra/main
 
       - name: Terraform Format
