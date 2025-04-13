@@ -16,7 +16,7 @@ jobs:
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
       SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
-      TF_VAR_region: ${{ variables.REGION }}
+      TF_VAR_region: ${{ vars.REGION }}
 
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
           role-session-name: ${{ env.SESSION_NAME }}
-          aws-region: ${{ variables.REGION }}
+          aws-region: ${{ vars.REGION }}
 
       - name: Terraform Init
         run: terraform init --backend-config=backend.hcl
