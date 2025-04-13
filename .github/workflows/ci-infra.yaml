@@ -82,5 +82,7 @@ jobs:
         run: |
           git restore --staged  infra/main
           sudo git add doc
-          git commit -m "Automatically Generated"
-          git push origin
+          if ! git diff --cached --quiet; then
+            git commit -m "Automatically Generated"
+            git push origin
+          fi
