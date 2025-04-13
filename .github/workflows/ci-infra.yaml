@@ -70,7 +70,9 @@ jobs:
           git-push: "false"
       
       - name: Generate Terraform Graph
-        run: terraform graph -type=plan | dot -Tpng > graph.png
+        run: |
+          cd infra/main
+          terraform graph -type=plan | dot -Tpng > graph.png
 
       - name: Copy Docs
         run: |
