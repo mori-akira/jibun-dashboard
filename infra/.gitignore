@@ -39,3 +39,6 @@ terraform.rc
 # Plan Output
 plan.out
 plan.json
+
+# Terraform Visual Report
+terraform-visual-report

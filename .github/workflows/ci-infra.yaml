@@ -61,7 +61,7 @@ jobs:
         run: terraform show -json plan.out > plan.json
         working-directory: infra/main
 
-      - name: Render Terraform docs
+      - name: Generate Terraform Docs
         uses: terraform-docs/gh-actions@v1.4.1
         with:
           working-dir: infra/main
@@ -70,13 +70,20 @@ jobs:
           output-format: "markdown table"
           output-method: replace
           git-push: "false"
+      
+      - name: Generate Terraform Visual Report
+        run: |
+          cd infra/main
+          npm install -g @terraform-visual/cli
+          terraform-visual --plan plan.json
 
-      - name: Copy Terraform Doc
+      - name: Copy Docs
         run: |
           mkdir -p doc/04.infra
           cd infra/main
           cp terraform-doc.md ../../doc/04.infra/terraform-doc.md
           find . -type f -name "*.md" -exec cp --parents -f {} ../../doc/04.infra/ \;
+          cp terraform-visual-report/* ../../doc/04.infra
 
       - name: Commit And Push
         run: |
