@@ -47,10 +47,11 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-      - name: Fix Git Permissions
+      - name: Fix All Permissions
         run: |
-          sudo chown -R $USER:$USER .git/
-          sudo chmod -R u+rwX .git/
+          echo "::info::User is $(whoami)"
+          sudo chown -R runner:runner .
+          sudo chmod -R u+rwX .
 
       - name: Terraform Init
         run: terraform init
