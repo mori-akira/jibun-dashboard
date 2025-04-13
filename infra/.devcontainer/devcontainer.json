@@ -6,7 +6,10 @@
     },
     "features": {
         "ghcr.io/devcontainers-extra/features/pre-commit:2": {},
-        "ghcr.io/devcontainers-extra/features/terraform-docs:1": {}
+        "ghcr.io/devcontainers-extra/features/terraform-docs:1": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "22"
+        }
     },
     "customizations": {
         "vscode": {
@@ -21,7 +24,8 @@
                 "mhutchie.git-graph",
                 "uctakeoff.vscode-counter",
                 "shd101wyy.markdown-preview-enhanced",
-                "hashicorp.terraform"
+                "hashicorp.terraform",
+                "ms-vscode.live-server"
             ]
         }
     },
