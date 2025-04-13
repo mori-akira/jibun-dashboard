@@ -53,6 +53,10 @@ jobs:
           sudo chown -R runner:runner .
           sudo chmod -R u+rwX .
 
+      - name: Check .git/objects permissions
+        run: |
+          find .git/objects -exec ls -ld {} \; | head -20
+
       - name: Terraform Init
         run: terraform init
         working-directory: infra/main
