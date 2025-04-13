@@ -47,6 +47,11 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+      - name: Fix Git Permissions
+        run: |
+          sudo chown -R $USER:$USER .git/
+          sudo chmod -R u+rwX .git/
+
       - name: Terraform Init
         run: terraform init
         working-directory: infra/main
@@ -80,7 +85,7 @@ jobs:
           find . -type f -name "*.md" -exec cp --parents --no-preserve=ownership -f {} ../../doc/04.infra/ \;
           cd ../..
           echo User=$USER
-          sudo chown -R runner:runner doc/
+          sudo chown -R $USER:$USER doc/
           sudo chmod -R u+rw doc/
           ls -lR doc/04.infra
 
