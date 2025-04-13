@@ -16,3 +16,6 @@ RUN apt-get update && \
 
 # ls系のエイリアスを予め使えるようにコメントを外す
 RUN sed -i 's/^#alias ll=/alias ll=/; s/^#alias la=/alias la=/; s/^#alias l=/alias l=/' /home/vscode/.bashrc
+
+# Graphvizをインストール
+RUN apt-get install -y graphviz
