@@ -92,9 +92,9 @@ jobs:
 
       - name: Commit And Push
         run: |
-          git status
-          echo debug1
           git restore --staged  infra/main
+          echo debug1
+          git status
           echo debug2
           git add doc/04.infra/
           echo debug3
