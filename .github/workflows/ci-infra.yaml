@@ -80,7 +80,8 @@ jobs:
           find . -type f -name "*.md" -exec cp --parents --no-preserve=ownership -f {} ../../doc/04.infra/ \;
           cd ../..
           echo User=$USER
-          sudo chown -R runner:runner doc/
+          chown -R runner:runner doc/
+          chmod -R u+rw doc/
           ls -lR doc/04.infra
 
       - name: Commit And Push
