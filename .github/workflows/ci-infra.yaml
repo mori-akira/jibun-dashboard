@@ -81,6 +81,7 @@ jobs:
           cd ../..
           echo User=$USER
           sudo chown -R runner:runner doc/
+          ls -lR doc/04.infra
 
       - name: Commit And Push
         run: |
