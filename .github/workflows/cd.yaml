@@ -4,17 +4,19 @@ on:
     branches:
       - main
 
-environment: dev
-
-env:
-  ROLE_ARN: arn:aws:iam::${{secrets.AWS_ID}}:role/${{secrets.ROLE_NAME}}
-  SESSION_NAME: gh-oidc-${{github.run_id}}-${{github.run_attempt}}
-
 jobs:
   connect:
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
+
+    environment: dev
+
+    env:
+      ROLE_ARN: arn:aws:iam::${{secrets.AWS_ID}}:role/${{secrets.ROLE_NAME}}
+      SESSION_NAME: gh-oidc-${{github.run_id}}-${{github.run_attempt}}
+
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
