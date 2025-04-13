@@ -60,7 +60,7 @@ jobs:
         with:
           working-dir: infra/main
           recursive: "true"
-          output-file: ../../doc/04.infra/terraform-doc.md
+          output-file: "../../doc/04.infra/terraform-doc.md"
           output-format: "markdown document"
           output-method: replace
           git-commit-message: "automatically Generated"
