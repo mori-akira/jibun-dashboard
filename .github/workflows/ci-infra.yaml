@@ -94,10 +94,12 @@ jobs:
         run: |
           git status
           echo debug1
-          git add doc/04.infra/
+          git restore --staged  infra/main
           echo debug2
-          git add doc/04.infra/modules/
+          git add doc/04.infra/
           echo debug3
-          git commit -m "Automatically Generated"
+          git add doc/04.infra/modules/
           echo debug4
+          git commit -m "Automatically Generated"
+          echo debug5
           git push origin
