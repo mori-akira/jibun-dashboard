@@ -84,9 +84,8 @@ jobs:
         run: |
           mkdir -p doc/04.infra
           cd infra/main
-          find . -type f -name "*.md" -exec cp --parents --no-preserve=ownership -f {} ../../doc/04.infra/ \;
+          find . -type f -name "*.md" -exec cp --parents -f {} ../../doc/04.infra/ \;
           cd ../..
-          echo User=$USER
           sudo chown -R $USER:$USER doc/
           sudo chmod -R u+rw doc/
           ls -lR doc/04.infra
