@@ -27,7 +27,7 @@ jobs:
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
           role-session-name: ${{ env.SESSION_NAME }}
-          aws-region: ${{ env.REGION }}
+          aws-region: ${{ secrets.REGION }}
 
       - name: Terraform Init
         run: terraform init --backend-config=backend.hcl
