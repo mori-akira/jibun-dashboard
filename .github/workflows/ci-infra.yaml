@@ -89,6 +89,6 @@ jobs:
       - name: Commit And Push
         run: |
           git status
-          git add doc/*
+          git add doc
           git commit -m "Automatically Generated"
           git push origin
