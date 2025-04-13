@@ -74,10 +74,11 @@ jobs:
       - name: Move terraform-doc.md
         run: |
           mkdir -p doc/04.infra
-          mv infra/main/terraform-doc.md doc/04.infra/terraform-doc.md
+          cd infra/main
+          find . -type f "*.md" -exec cp --parents -f {} ../../doc/04.infra/ \;
 
       - name: Commit And Push
         run: |
-          git add doc
+          git add doc/*
           git commit -m "Automatically Generated"
           git push origin
