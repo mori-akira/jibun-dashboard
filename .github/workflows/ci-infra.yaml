@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: AWS Configure
+      - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -39,6 +39,11 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
       - name: Terraform Init
         run: terraform init
         working-directory: infra/main
@@ -54,16 +59,24 @@ jobs:
       - name: Convert Plan To Json
         run: terraform show -json plan.out > plan.json
         working-directory: infra/main
-      
+
       - name: Render Terraform docs
         uses: terraform-docs/gh-actions@v1.4.1
         with:
           working-dir: infra/main
           recursive: "true"
-          output-file: "../../doc/04.infra/terraform-doc.md"
+          output-file: "terraform-doc.md"
           output-format: "markdown document"
           output-method: replace
-          git-commit-message: "automatically Generated"
-          git-push: "true"
-          git-push-user-email: "github-actions[bot]@users.noreply.github.com"
-          git-push-user-name: "github-actions[bot]"
+          git-push: "false"
+
+      - name: Move terraform-doc.md
+        run: |
+          mkdir -p doc/04.infra
+          mv infra/main/terraform-doc.md doc/04.infra/terraform-doc.md
+
+      - name: Commit And Push
+        run: |
+          git add doc
+          git commit -m "Automatically Generated"
+          git push origin
