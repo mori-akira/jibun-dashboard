@@ -97,7 +97,7 @@ jobs:
           echo debug1
           git status
           echo debug2
-          sudo git add doc/04.infra/modules/
+          sudo git add doc
           echo debug4
           git commit -m "Automatically Generated"
           echo debug5
