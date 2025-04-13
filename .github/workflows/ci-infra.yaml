@@ -89,7 +89,11 @@ jobs:
       - name: Commit And Push
         run: |
           git status
+          echo debug1
           git add doc/04.infra/
+          echo debug2
           git add doc/04.infra/modules/
+          echo debug3
           git commit -m "Automatically Generated"
+          echo debug4
           git push origin
