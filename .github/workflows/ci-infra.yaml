@@ -45,6 +45,11 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+      - name: Fix All Permissions
+        run: |
+          sudo chown -R $USER:$USER .
+          sudo chmod -R u+rwX .
+
       - name: Check .git/objects permissions
         run: |
           find .git/objects -exec ls -ld {} \; | head -20
