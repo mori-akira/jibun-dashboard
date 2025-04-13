@@ -10,8 +10,6 @@ jobs:
 
     permissions:
       id-token: write
-      actions: write
-      checks: write
       contents: write
 
     environment: dev
@@ -46,12 +44,6 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-
-      - name: Fix All Permissions
-        run: |
-          echo "::info::User is $(whoami)"
-          sudo chown -R runner:runner .
-          sudo chmod -R u+rwX .
 
       - name: Check .git/objects permissions
         run: |
@@ -96,6 +88,7 @@ jobs:
 
       - name: Commit And Push
         run: |
+          git status
           git add doc/*
           git commit -m "Automatically Generated"
           git push origin
