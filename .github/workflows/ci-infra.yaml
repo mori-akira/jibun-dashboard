@@ -71,10 +71,12 @@ jobs:
           output-method: replace
           git-push: "false"
 
-      - name: Move terraform-doc.md
+      - name: Copy Terraform Doc
         run: |
           mkdir -p doc/04.infra
-          cd infra/main; find . "*.md" -type f -exec cp --parents -f {} ../../doc/04.infra/ \;
+          cd infra/main
+          ls -lR
+          find . "*.md" -type f -exec cp --parents -f {} ../../doc/04.infra/ \;
 
       - name: Commit And Push
         run: |
