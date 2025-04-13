@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  connect:
+  infra:
     runs-on: ubuntu-latest
 
     permissions:
@@ -14,13 +14,33 @@ jobs:
     environment: dev
 
     env:
-      ROLE_ARN: arn:aws:iam::${{secrets.AWS_ID}}:role/${{secrets.ROLE_NAME}}
-      SESSION_NAME: gh-oidc-${{github.run_id}}-${{github.run_attempt}}
+      ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
+      SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
+      TF_VAR_region: ${{ env.REGION }}
 
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Checkout
+      uses: actions/checkout@v4
+
+      - name: AWS Configure
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{env.ROLE_ARN}}
-          role-session-name: ${{env.SESSION_NAME}}
-          aws-region: ap-northeast-1
-      - run: aws iam list-users
+          role-to-assume: ${{ env.ROLE_ARN }}
+          role-session-name: ${{ env.SESSION_NAME }}
+          aws-region: ${{ env.REGION }}
+
+    - name: Terraform Init
+      run: terraform init --backend-config=backend.hcl
+      working-directory: infra/main
+
+    - name: Terraform Format
+      run: terraform fmt -check
+      working-directory: infra/main
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      working-directory: infra/main
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
+      working-directory: infra/main
