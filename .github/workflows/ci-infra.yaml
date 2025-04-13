@@ -89,6 +89,7 @@ jobs:
       - name: Commit And Push
         run: |
           git status
-          git add doc
+          git add doc/04.infra/
+          git add doc/04.infra/modules/
           git commit -m "Automatically Generated"
           git push origin
