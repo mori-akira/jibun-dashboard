@@ -1,0 +1,32 @@
+type: object
+properties:
+
+  # 基本給
+  basicSalary:
+    type: integer
+    format: int32
+    minimum: 0
+
+  # 残業代
+  overtimePay:
+    type: integer
+    format: int32
+    minimum: 0
+  
+  # 家賃手当
+  housingAllowance:
+    type: integer
+    format: int32
+    minimum: 0
+  
+  # 役職手当
+  positionAllowance:
+    type: integer
+    format: int32
+    minimum: 0
+  
+  # その他
+  other:
+    type: integer
+    format: int32
+    minimum: 0

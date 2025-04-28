@@ -1,0 +1,31 @@
+type: object
+
+required:
+  - userId
+  - targetDate
+  - overview
+  - structure
+  - payslipData
+
+properties:
+
+  # ユーザID
+  userId:
+    type: string
+  
+  # 対象日付
+  targetDate:
+    type: string
+    format: date
+
+  # 給与概要
+  overview:
+    $ref: overview.yaml
+
+  # 給与構成
+  structure:
+    $ref: structure.yaml
+  
+  # 明細情報
+  payslipData:
+    type: array
