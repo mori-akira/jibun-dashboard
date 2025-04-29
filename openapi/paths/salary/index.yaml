@@ -1,4 +1,5 @@
 get:
+  operationId: getSalary
   summary: 給与データ取得
   tags:
     - Salary
@@ -9,3 +10,5 @@ get:
         application/json:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/Salary"
+    "400":
+      description: パラメータ不正

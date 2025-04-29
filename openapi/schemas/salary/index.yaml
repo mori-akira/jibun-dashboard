@@ -29,3 +29,5 @@ properties:
   # 明細情報
   payslipData:
     type: array
+    items:
+      $ref: payslipData.yaml
