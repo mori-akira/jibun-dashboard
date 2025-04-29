@@ -1,0 +1,8 @@
+type: object
+description: エラー情報
+
+properties:
+  errors:
+    type: array
+    items:
+      $ref: "errorDetail.yaml"

@@ -1,1 +1,34 @@
 type: object
+description: 給与明細情報
+
+required:
+  - key
+  - data
+
+properties:
+
+  key:
+    description: 明細カテゴリキー
+    type: string
+  
+  data:
+    description: 明細カテゴリ
+    type: array
+    items:
+
+      type: object
+
+      required:
+        - key
+        - data
+      
+      properties:
+
+        key:
+          description: 明細キー
+          type: string
+
+        data:
+          description: 明細データ
+          type: number
+          format: double

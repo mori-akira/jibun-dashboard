@@ -1,32 +1,41 @@
 type: object
+description: 給与構成
+
+required:
+  - basicSalary
+  - overtimePay
+  - housingAllowance
+  - positionAllowance
+  - other
+
 properties:
 
-  # 基本給
   basicSalary:
+    description: 基本給
     type: integer
     format: int32
     minimum: 0
 
-  # 残業代
   overtimePay:
+    description: 残業代
     type: integer
     format: int32
     minimum: 0
   
-  # 家賃手当
   housingAllowance:
+    description: 家賃手当
     type: integer
     format: int32
     minimum: 0
   
-  # 役職手当
   positionAllowance:
+    description: 役職手当
     type: integer
     format: int32
     minimum: 0
   
-  # その他
   other:
+    description: その他
     type: integer
     format: int32
     minimum: 0

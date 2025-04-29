@@ -1,0 +1,33 @@
+type: object
+description: エラー詳細
+
+required:
+  - errorCode
+  - errorLevel
+  - errorMessage
+
+properties:
+
+  errorCode:
+    description: エラーコード
+    type: string
+  
+  errorLevel:
+    description: エラーレベル
+    type: string
+    enum:
+      - DEBUG
+      - INFO
+      - WARN
+      - ERROR
+      - CRITICAL
+  
+  errorMessage:
+    description: エラーメッセージ
+    type: string
+
+  errorItem:
+    description: エラーアイテム
+    type: array
+    items:
+      type: string

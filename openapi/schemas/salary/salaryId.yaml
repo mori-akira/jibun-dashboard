@@ -1,0 +1,6 @@
+type: object
+properties:
+  salaryId:
+    description: 給与ID
+    type: string
+    format: uuid

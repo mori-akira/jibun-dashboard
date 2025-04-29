@@ -14,9 +14,14 @@ servers:
 paths:
   /salary:
     $ref: "paths/salary/index.yaml"
+  /salary/{salaryId}:
+    $ref: "paths/salary/{salaryId}.yaml"
 
 components:
   schemas:
     Salary:
-      allOf:
-        - $ref: "schemas/salary/index.yaml"
+      $ref: "schemas/salary/index.yaml"
+    SalaryId:
+      $ref: "schemas/salary/salaryId.yaml"
+    ErrorInfo:
+      $ref: "schemas/error/errorInfo.yaml"

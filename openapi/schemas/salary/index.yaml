@@ -1,4 +1,5 @@
 type: object
+description: 給与データ
 
 required:
   - userId
@@ -9,24 +10,26 @@ required:
 
 properties:
 
-  # ユーザID
+  salaryId:
+    description: 給与ID
+    type: string
+    format: uuid
+
   userId:
+    description: ユーザID
     type: string
   
-  # 対象日付
   targetDate:
+    description: 対象年月日
     type: string
     format: date
 
-  # 給与概要
   overview:
     $ref: overview.yaml
 
-  # 給与構成
   structure:
     $ref: structure.yaml
   
-  # 明細情報
   payslipData:
     type: array
     items:

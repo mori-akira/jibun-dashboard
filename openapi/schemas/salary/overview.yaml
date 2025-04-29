@@ -1,1 +1,47 @@
 type: object
+description: 給与概要
+
+required:
+  - grossIncome
+  - netIncome
+  - operatingTime
+  - overtime
+  - bonus
+  - bonusTakeHome
+
+properties:
+  grossIncome:
+    description: 額面
+    type: integer
+    format: int32
+    minimum: 0
+  
+  netIncome:
+    description: 手取り
+    type: integer
+    format: int32
+    minimum: 0
+
+  operatingTime:
+    description: 稼働時間
+    type: number
+    format: double
+    minimum: 0.0
+
+  overtime:
+    description: 残業時間
+    type: number
+    format: double
+    minimum: 0.0
+
+  bonus:
+    description: ボーナス
+    type: integer
+    format: int32
+    minimum: 0
+
+  bonusTakeHome:
+    description: ボーナス(手取り)
+    type: integer
+    format: int32
+    minimum: 0
