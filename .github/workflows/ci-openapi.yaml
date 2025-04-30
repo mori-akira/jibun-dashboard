@@ -1,0 +1,53 @@
+name: Continuous Integration - OpenAPI
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "openapi/**"
+
+jobs:
+  infra:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Install redoc-cli
+        run: npm install -g redoc-cli
+
+      - name: Generate Doc
+        run: |
+          cd openapi
+          npx @redocly/cli build-docs openapi.yaml --output interface-api.html
+
+      - name: Copy Docs
+        run: |
+          mkdir -p doc/05.interface-api
+          cd openapi
+          cp interface-api.html ../doc/05.interface-api/interface-api.html
+
+      - name: Commit And Push
+        run: |
+          git restore --staged  openapi
+          sudo git add doc
+          if ! git diff --cached --quiet; then
+            git commit -m "Automatically Generated"
+            git push origin
+          fi
