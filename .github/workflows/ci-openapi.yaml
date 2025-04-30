@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - "openapi/**"
+      - ".github/ci-openapi.yaml"
 
 jobs:
   infra:
