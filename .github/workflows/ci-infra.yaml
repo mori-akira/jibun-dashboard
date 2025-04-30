@@ -5,7 +5,7 @@ on:
       - main
     paths:
       - "infra/**"
-      - ".github/ci-infra.yaml"
+      - ".github/workflows/ci-infra.yaml"
 
 jobs:
   infra:
