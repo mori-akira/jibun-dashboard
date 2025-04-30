@@ -1,0 +1,38 @@
+{
+    "name": "jibun-dashboard-front",
+    "build": {
+        "context": "..",
+        "dockerfile": "Dockerfile"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "23"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "PKief.material-icon-theme",
+                "oderwat.indent-rainbow",
+                "Gruntfuggly.todo-tree",
+                "mosapride.zenkaku",
+                "streetsidesoftware.code-spell-checker",
+                "eamodio.gitlens",
+                "donjayamanne.githistory",
+                "mhutchie.git-graph",
+                "uctakeoff.vscode-counter",
+                "shd101wyy.markdown-preview-enhanced",
+                "ms-vscode.live-server",
+                "Vue.volar",
+                "vitest.explorer",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "forwardPorts": [
+        8888,
+        4011
+    ],
+    "postCreateCommand": "npm install -g @openapitools/openapi-generator-cli @stoplight/prism-cli"
+}
