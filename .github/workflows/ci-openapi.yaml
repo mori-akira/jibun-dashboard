@@ -8,7 +8,7 @@ on:
       - ".github/workflows/ci-openapi.yaml"
 
 jobs:
-  infra:
+  generate-doc:
     runs-on: ubuntu-latest
 
     permissions:
@@ -45,8 +45,46 @@ jobs:
 
       - name: Commit And Push
         run: |
-          git restore --staged  openapi
+          git restore --staged openapi
           sudo git add doc
+          if ! git diff --cached --quiet; then
+            git commit -m "Automatically Generated"
+            git push origin
+          fi
+
+  generate-module:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      
+      - name: Install OpenAPI Generator CLI
+        run: npm install -g @openapitools/openapi-generator-cli
+      
+      - name: Generate API Client Module
+        run: |
+          cd openapi
+          openapi-generator-cli generate
+
+      - name: Commit And Push
+        run: |
+          git restore --staged openapi
+          sudo git add front/src/api
           if ! git diff --cached --quiet; then
             git commit -m "Automatically Generated"
             git push origin
