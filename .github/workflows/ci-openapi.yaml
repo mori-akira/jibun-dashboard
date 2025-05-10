@@ -83,7 +83,6 @@ jobs:
 
       - name: Commit And Push
         run: |
-          git restore --staged openapi
           sudo git add front/src/api
           if ! git diff --cached --quiet; then
             git commit -m "Automatically Generated"
