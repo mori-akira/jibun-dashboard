@@ -6,7 +6,10 @@
     },
     "features": {
         "ghcr.io/devcontainers/features/node:1": {
-            "version": "23"
+            "version": "22"
+        },
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "21"
         }
     },
     "customizations": {
@@ -31,7 +34,7 @@
         }
     },
     "forwardPorts": [
-        8888,
+        3333,
         4011
     ],
     "postCreateCommand": "npm install -g @openapitools/openapi-generator-cli @stoplight/prism-cli"
