@@ -1,0 +1,29 @@
+{
+    "editor.formatOnSave": true,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "go.formatTool": "gofmt",
+    "go.lintTool": "golint",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "[go]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "cSpell.words": [
+        "autotest",
+        "donjayamanne",
+        "eamodio",
+        "githistory",
+        "goscript",
+        "Gruntfuggly",
+        "mhutchie",
+        "mosapride",
+        "uctakeoff",
+        "windmilleng",
+        "zenkaku"
+    ]
+}
