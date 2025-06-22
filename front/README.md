@@ -23,3 +23,15 @@ aws sts get-caller-identity # 確認
 cd ../openapi
 openapi-generator-cli generate
 ```
+
+## 開発用にサーバーを起動
+
+```sh
+npm run dev
+```
+
+## Mock サーバーを起動
+
+```sh
+npm run mock
+```

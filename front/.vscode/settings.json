@@ -17,6 +17,7 @@
         "Nuxt",
         "openapitools",
         "uctakeoff",
+        "unhead",
         "zenkaku"
     ],
     "explorer.fileNesting.enabled": true,

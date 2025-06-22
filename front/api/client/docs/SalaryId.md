@@ -1,5 +1,6 @@
 # SalaryId
 
+給与ID
 
 ## Properties
 

@@ -203,7 +203,7 @@ export interface PayslipDataDataInner {
     'data': number;
 }
 /**
- * 
+ * 給与ID
  * @export
  * @interface SalaryId
  */

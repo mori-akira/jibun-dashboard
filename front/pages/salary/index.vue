@@ -2,9 +2,10 @@
 import { ref } from "vue";
 import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
+import api from "~/api/client/api.ts";
 
 const inputText = ref("未入力");
-const onChangeText = (text): void => {
+const onChangeText = (text: any): void => {
   inputText.value = text || "未入力";
 };
 </script>
@@ -18,8 +19,8 @@ const onChangeText = (text): void => {
     <Panel>
       <TextBox
         label="テキスト"
-        @on-change:value="onChangeText"
-        @on-blur:value="onChangeText"
+        @change:value="onChangeText"
+        @blur:value="onChangeText"
       />
       <p>入力されたテキスト: {{ inputText }}</p>
     </Panel>

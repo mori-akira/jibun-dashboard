@@ -4,6 +4,11 @@
         "context": "..",
         "dockerfile": "Dockerfile"
     },
+    "workspaceFolder": "/workspace/front",
+    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+    "mounts": [
+        "source=node_modules,target=/workspace/front/node_modules,type=volume"
+    ],
     "features": {
         "ghcr.io/devcontainers/features/node:1": {
             "version": "22"
