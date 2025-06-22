@@ -1,4 +1,6 @@
 type: object
+description: 給与ID
+
 properties:
   salaryId:
     description: 給与ID

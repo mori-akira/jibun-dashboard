@@ -3,6 +3,8 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
+    "workspaceFolder": "/workspace/tool",
+    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
     "customizations": {
         "vscode": {
             "extensions": [
