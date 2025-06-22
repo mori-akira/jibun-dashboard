@@ -4,9 +4,6 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     && rm -rf /var/lib/apt/lists/*
-
 RUN useradd -m vscode
-USER vscode
-WORKDIR /workspace/tool
 
 CMD ["sleep", "infinity"]
