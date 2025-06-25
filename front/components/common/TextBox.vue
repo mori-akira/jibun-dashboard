@@ -4,12 +4,12 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "onChange:value"): void;
-  (event: "onBlur:value"): void;
+  (event: "change:value"): void;
+  (event: "blur:value"): void;
 }>();
 
-const onChangeValue = (e): void => emit("onChange:value", e.target.value);
-const onBlurValue = (e): void => emit("onBlur:value", e.target.value);
+const onChangeValue = (e): void => emit("change:value", e.target.value);
+const onBlurValue = (e): void => emit("blur:value", e.target.value);
 </script>
 
 <template>

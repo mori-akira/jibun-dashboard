@@ -2,10 +2,9 @@
 import { ref } from "vue";
 import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
-import api from "~/api/client/api.ts";
 
 const inputText = ref("未入力");
-const onChangeText = (text: any): void => {
+const onChangeText = (text: string): void => {
   inputText.value = text || "未入力";
 };
 </script>
