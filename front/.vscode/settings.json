@@ -3,7 +3,9 @@
     "files.eol": "\n",
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
+    "terminal.integrated.defaultProfile.linux": "bash",
     "cSpell.words": [
+        "clsx",
         "dbaeumer",
         "devcontainers",
         "donjayamanne",
@@ -16,6 +18,7 @@
         "mosapride",
         "Nuxt",
         "openapitools",
+        "tabler",
         "uctakeoff",
         "unhead",
         "zenkaku"
