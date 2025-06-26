@@ -1,34 +1,50 @@
 <template>
-  <nav>
-    <div class="toggle-area">
-      <Icon name="tabler:caret-right-filled" class="toggle-icon" />
+  <nav :class="clsx({ closed: !commonStore.isNavOpen })">
+    <div
+      :class="clsx('toggle-area', { closed: !commonStore.isNavOpen })"
+      @click="commonStore.toggleNav"
+    >
+      <Icon name="tabler:caret-left-filled" class="toggle-icon" />
     </div>
-    <ul>
-      <li>
-        <NuxtLink to="/">
-          <Icon name="tabler:home-filled" class="nav-icon" />
-          <span class="ml-2">Home</span>
-        </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/salary">
-          <Icon name="tabler:report-money" class="nav-icon" />
-          <span class="ml-2">Salary</span>
-        </NuxtLink>
-      </li>
-    </ul>
+    <div :class="clsx('content-area', { closed: !commonStore.isNavOpen })">
+      <ul>
+        <li>
+          <NuxtLink class="text-gray-900" to="/">
+            <Icon name="tabler:home-filled" class="nav-icon" />
+            <span class="font-cursive ml-2">home</span>
+          </NuxtLink>
+        </li>
+        <li>
+          <NuxtLink class="text-gray-900" to="/salary">
+            <Icon name="tabler:report-money" class="nav-icon" />
+            <span class="font-cursive ml-2">salary</span>
+          </NuxtLink>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+import { useCommonStore } from "~/stores/common";
+import { clsx } from "clsx";
+
+const commonStore = useCommonStore();
+</script>
 
 <style scoped>
 nav {
   width: 16rem;
-  background-color: #fff;
-  border-right: #888 4px solid;
+  background-color: #eee;
+  border-right: #666 4px solid;
   padding: 4rem 1rem 0;
   min-height: 100vh;
+  transition: 0.5s;
+}
+
+nav.closed {
+  width: 13px;
+  padding: 0;
 }
 
 ul {
@@ -42,7 +58,6 @@ a {
   padding: 0.2rem 1rem;
   margin-bottom: 15px;
   border-radius: 0.5rem;
-  color: #333;
   text-decoration: none;
   font-weight: bold;
 }
@@ -60,8 +75,9 @@ a:hover {
   width: 1.4rem;
   height: 1.4rem;
   background-color: #fff;
-  border: #888 4px solid;
+  border: #666 3px solid;
   border-radius: 50%;
+  transition: 0.5s;
 }
 
 .toggle-area:hover {
@@ -69,10 +85,27 @@ a:hover {
   background-color: #ddd;
 }
 
+.toggle-area.closed {
+  left: 0px;
+}
+
+.toggle-area.closed .toggle-icon {
+  transform: translate(-1px, -1px) scaleX(-1);
+}
+
 .toggle-area .toggle-icon {
   font-size: 1.2rem;
-  color: #888;
-  transform: translate(-2px, -2px);
+  color: #333;
+  transform: translate(-1px, -1px);
+}
+
+.content-area {
+  width: 14rem;
+  transition: 0.5s;
+}
+
+.content-area.closed {
+  transform: translateX(-14rem);
 }
 
 .nav-icon {
