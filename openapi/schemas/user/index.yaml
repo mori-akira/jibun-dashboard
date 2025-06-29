@@ -1,0 +1,21 @@
+type: object
+description: ユーザ情報
+
+required:
+  - userName
+  - emailAddress
+
+properties:
+
+  userId:
+    description: ユーザID
+    type: string
+
+  userName:
+    description: ユーザ名
+    type: string
+  
+  emailAddress:
+    description: eメールアドレス
+    type: string
+    format: email

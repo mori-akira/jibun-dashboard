@@ -5,7 +5,7 @@ info:
   title: 自分ダッシュボードAPI定義
 
 tags:
-  - name: user
+  - name: User
     description: ユーザ情報API
   - name: Salary
     description: 給与情報API
@@ -14,6 +14,10 @@ servers:
   - url: http://localhost:4011/api/v1
 
 paths:
+  /user:
+    $ref: "paths/user/index.yaml"
+  /user/password:
+    $ref: "paths/user/password.yaml"
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
@@ -21,6 +25,10 @@ paths:
 
 components:
   schemas:
+    User:
+      $ref: "schemas/user/index.yaml"
+    Password:
+      $ref: "schemas/user/password.yaml"
     Salary:
       $ref: "schemas/salary/index.yaml"
     SalaryId:

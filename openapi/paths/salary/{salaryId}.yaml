@@ -1,7 +1,7 @@
 get:
   operationId: getSalaryById
-  summary: 給与データ取得(ID)
-  description: IDを指定して給与データを取得する
+  summary: 給与情報取得(ID)
+  description: IDを指定して給与情報を取得する
   tags:
     - Salary
 
@@ -32,8 +32,8 @@ get:
 
 delete:
   operationId: deleteSalary
-  summary: 給与データ削除(ID)
-  description: IDを指定して給与データを削除する
+  summary: 給与情報削除(ID)
+  description: IDを指定して給与情報を削除する
   tags:
     - Salary
 

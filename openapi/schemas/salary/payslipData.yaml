@@ -29,6 +29,6 @@ properties:
           type: string
 
         data:
-          description: 明細データ
+          description: 明細情報
           type: number
           format: double

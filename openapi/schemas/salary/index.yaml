@@ -1,5 +1,5 @@
 type: object
-description: 給与データ
+description: 給与情報
 
 required:
   - userId

@@ -1,7 +1,7 @@
 get:
   operationId: getSalary
-  summary: 給与データ取得
-  description: 単一の対象日付、または対象日付From~対象日付Toを指定して給与データを取得する
+  summary: 給与情報取得
+  description: 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
   tags:
     - Salary
 
@@ -48,8 +48,8 @@ get:
 
 put:
   operationId: putSalary
-  summary: 給与データ登録
-  description: 給与データを登録(登録済みの場合はデータを置き換え)する
+  summary: 給与情報登録
+  description: 給与情報を登録(登録済みの場合は情報を置き換え)する
   tags:
     - Salary
 
