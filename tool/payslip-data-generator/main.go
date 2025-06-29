@@ -160,6 +160,9 @@ func main() {
 		}
 	}
 
-	out, _ := json.MarshalIndent(results, "", "  ")
-	os.WriteFile("../../openapi/examples/salary/index.json", out, 0644)
+	out1, _ := json.MarshalIndent(results, "", "  ")
+	os.WriteFile("../../openapi/examples/salary/get.json", out1, 0644)
+
+	out2, _ := json.MarshalIndent(results[len(results)-1], "", "  ")
+	os.WriteFile("../../openapi/examples/salary/{salaryId}/get.json", out2, 0644)
 }

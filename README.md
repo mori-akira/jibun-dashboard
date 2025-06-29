@@ -7,5 +7,6 @@
   ├ terraform - インフラ定義 (Terraform)
   ├ openapi   - API仕様定義 (OpenAPI)
   ├ front     - フロントエンドモジュール定義
-  └ back      - バックエンドモジュール定義
+  ├ back      - バックエンドモジュール定義
+  └ tool      - 開発用ツール
 ```

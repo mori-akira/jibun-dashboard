@@ -38,7 +38,7 @@ get:
             items:
               $ref: "../../openapi.yaml#/components/schemas/Salary"
           example:
-            $ref: "../../examples/salary/index.json"
+            $ref: "../../examples/salary/get.json"
     "400":
       description: パラメータ不正
       content:

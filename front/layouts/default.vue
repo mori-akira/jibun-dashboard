@@ -24,7 +24,7 @@ import Navigation from "~/components/common/AppNavigation.vue";
 .content {
   flex: 1;
   padding: 20px;
-  background-color: #f6f6f6;
+  background-color: #eee;
 }
 
 main {
