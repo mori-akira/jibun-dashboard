@@ -26,11 +26,11 @@ paths:
 components:
   schemas:
     User:
-      $ref: "schemas/user/index.yaml"
+      $ref: "schemas/user/user.yaml"
     Password:
       $ref: "schemas/user/password.yaml"
     Salary:
-      $ref: "schemas/salary/index.yaml"
+      $ref: "schemas/salary/salary.yaml"
     SalaryId:
       $ref: "schemas/salary/salaryId.yaml"
     ErrorInfo:
