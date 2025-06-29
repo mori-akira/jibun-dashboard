@@ -83,7 +83,7 @@ jobs:
 
       - name: Commit And Push
         run: |
-          sudo git add front/src/api
+          sudo git add front/api
           if ! git diff --cached --quiet; then
             git commit -m "Automatically Generated"
             git push origin
