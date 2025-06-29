@@ -1,17 +1,14 @@
 # Index
 
-給与データ
+ユーザ情報
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**salaryId** | **string** | 給与ID | [optional] [default to undefined]
-**userId** | **string** | ユーザID | [default to undefined]
-**targetDate** | **string** | 対象年月日 | [default to undefined]
-**overview** | [**Overview**](Overview.md) |  | [default to undefined]
-**structure** | [**Structure**](Structure.md) |  | [default to undefined]
-**payslipData** | [**Array&lt;PayslipData&gt;**](PayslipData.md) |  | [default to undefined]
+**userId** | **string** | ユーザID | [optional] [default to undefined]
+**userName** | **string** | ユーザ名 | [default to undefined]
+**emailAddress** | **string** | eメールアドレス | [default to undefined]
 
 ## Example
 
@@ -19,12 +16,9 @@ Name | Type | Description | Notes
 import { Index } from './api';
 
 const instance: Index = {
-    salaryId,
     userId,
-    targetDate,
-    overview,
-    structure,
-    payslipData,
+    userName,
+    emailAddress,
 };
 ```
 

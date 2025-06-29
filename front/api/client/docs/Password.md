@@ -1,21 +1,22 @@
-# PayslipDataDataInner
+# Password
 
+パスワード情報
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**key** | **string** | 明細キー | [default to undefined]
-**data** | **number** | 明細情報 | [default to undefined]
+**oldPassword** | **string** | 旧パスワード | [default to undefined]
+**newPassword** | **string** | 新パスワード | [default to undefined]
 
 ## Example
 
 ```typescript
-import { PayslipDataDataInner } from './api';
+import { Password } from './api';
 
-const instance: PayslipDataDataInner = {
-    key,
-    data,
+const instance: Password = {
+    oldPassword,
+    newPassword,
 };
 ```
 

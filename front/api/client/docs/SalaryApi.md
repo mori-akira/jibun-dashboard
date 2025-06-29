@@ -1,18 +1,18 @@
 # SalaryApi
 
-All URIs are relative to */api/v1*
+All URIs are relative to *http://localhost:4011/api/v1*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**deleteSalary**](#deletesalary) | **DELETE** /salary/{salaryId} | 給与データ削除(ID)|
-|[**getSalary**](#getsalary) | **GET** /salary | 給与データ取得|
-|[**getSalaryById**](#getsalarybyid) | **GET** /salary/{salaryId} | 給与データ取得(ID)|
-|[**putSalary**](#putsalary) | **PUT** /salary | 給与データ登録|
+|[**deleteSalary**](#deletesalary) | **DELETE** /salary/{salaryId} | 給与情報削除(ID)|
+|[**getSalary**](#getsalary) | **GET** /salary | 給与情報取得|
+|[**getSalaryById**](#getsalarybyid) | **GET** /salary/{salaryId} | 給与情報取得(ID)|
+|[**putSalary**](#putsalary) | **PUT** /salary | 給与情報登録|
 
 # **deleteSalary**
 > deleteSalary()
 
-IDを指定して給与データを削除する
+IDを指定して給与情報を削除する
 
 ### Example
 
@@ -62,9 +62,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getSalary**
-> Array<Index> getSalary()
+> Array<Index1> getSalary()
 
-単一の対象日付、または対象日付From~対象日付Toを指定して給与データを取得する
+単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
 
 ### Example
 
@@ -99,7 +99,7 @@ const { status, data } = await apiInstance.getSalary(
 
 ### Return type
 
-**Array<Index>**
+**Array<Index1>**
 
 ### Authorization
 
@@ -122,7 +122,7 @@ No authorization required
 # **getSalaryById**
 > SalaryId getSalaryById()
 
-IDを指定して給与データを取得する
+IDを指定して給与情報を取得する
 
 ### Example
 
@@ -174,7 +174,7 @@ No authorization required
 # **putSalary**
 > SalaryId putSalary()
 
-給与データを登録(登録済みの場合はデータを置き換え)する
+給与情報を登録(登録済みの場合は情報を置き換え)する
 
 ### Example
 
@@ -187,7 +187,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new SalaryApi(configuration);
 
-let body: Index; // (optional)
+let body: Index1; // (optional)
 
 const { status, data } = await apiInstance.putSalary(
     body
@@ -198,7 +198,7 @@ const { status, data } = await apiInstance.putSalary(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Index**|  | |
+| **body** | **Index1**|  | |
 
 
 ### Return type
