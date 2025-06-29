@@ -6,15 +6,15 @@ common.ts
 configuration.ts
 docs/ErrorDetail.md
 docs/ErrorInfo.md
-docs/Index.md
-docs/Index1.md
 docs/Overview.md
 docs/Password.md
 docs/PayslipData.md
 docs/PayslipDataDataInner.md
+docs/Salary.md
 docs/SalaryApi.md
 docs/SalaryId.md
 docs/Structure.md
+docs/User.md
 docs/UserApi.md
 git_push.sh
 index.ts

@@ -1,6 +1,6 @@
 # SalaryApi
 
-All URIs are relative to *http://localhost:4011/api/v1*
+All URIs are relative to *http://localhost:4011*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
@@ -62,7 +62,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getSalary**
-> Array<Index1> getSalary()
+> Array<Salary> getSalary()
 
 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
 
@@ -99,7 +99,7 @@ const { status, data } = await apiInstance.getSalary(
 
 ### Return type
 
-**Array<Index1>**
+**Array<Salary>**
 
 ### Authorization
 
@@ -181,16 +181,17 @@ No authorization required
 ```typescript
 import {
     SalaryApi,
-    Configuration
+    Configuration,
+    Salary
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new SalaryApi(configuration);
 
-let body: Index1; // (optional)
+let salary: Salary; // (optional)
 
 const { status, data } = await apiInstance.putSalary(
-    body
+    salary
 );
 ```
 
@@ -198,7 +199,7 @@ const { status, data } = await apiInstance.putSalary(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Index1**|  | |
+| **salary** | **Salary**|  | |
 
 
 ### Return type

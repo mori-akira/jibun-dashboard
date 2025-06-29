@@ -9,25 +9,38 @@
       <span class="line bg-gray-900" />
     </div>
     <div class="title-area">
-      <span class="font-sacramento text-3xl text-gray-900 font-bold"
-        >Jibun Dashboard</span
+      <NuxtLink to="/" class="font-sacramento text-3xl text-gray-900 font-bold"
+        >Jibun Dashboard</NuxtLink
       >
     </div>
-    <div class="icon-area"></div>
+    <div class="user-area">
+      <span class="user-name">{{ userStore?.user?.userName ?? "" }}</span>
+      <div class="toggle-menu-wrapper" @click="commonStore.toggleHeaderMenu">
+        <Icon
+          name="tabler:caret-left-filled"
+          :class="
+            clsx('toggle-menu-icon', { open: commonStore.isHeaderMenuOpen })
+          "
+        />
+      </div>
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from "~/stores/common";
 import { clsx } from "clsx";
+import { useCommonStore } from "~/stores/common";
+import { useUserStore } from "~/stores/user";
 
 const commonStore = useCommonStore();
+const userStore = useUserStore();
 </script>
 
 <style scoped>
 header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   z-index: 9999;
   padding: 0.8rem 0 0.2rem;
@@ -49,7 +62,7 @@ header {
 .toggle-area .line {
   position: absolute;
   display: inline-block;
-  top: 15px;
+  top: 12px;
   width: 30px;
   height: 4px;
   transition: 0.5s;
@@ -60,11 +73,11 @@ header {
 }
 
 .toggle-area .line:nth-child(1) {
-  top: 6px;
+  top: 3px;
 }
 
 .toggle-area .line:nth-child(3) {
-  top: 24px;
+  top: 21px;
 }
 
 .toggle-area.opened .line:nth-child(1) {
@@ -77,5 +90,32 @@ header {
 
 .toggle-area.opened .line:nth-child(3) {
   transform: rotate(45deg) translateY(-12px);
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.user-area .user-name {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.toggle-menu-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.toggle-menu-wrapper:hover {
+  cursor: pointer;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.toggle-menu-icon.open {
+  transform: rotate(-90deg);
 }
 </style>

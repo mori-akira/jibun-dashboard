@@ -1,6 +1,6 @@
 # UserApi
 
-All URIs are relative to *http://localhost:4011/api/v1*
+All URIs are relative to *http://localhost:4011*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
@@ -9,7 +9,7 @@ All URIs are relative to *http://localhost:4011/api/v1*
 |[**putUser**](#putuser) | **PUT** /user | ユーザ情報登録|
 
 # **getUser**
-> Index getUser()
+> User getUser()
 
 アクセストークンを用いて、現在ログイン中のユーザ情報を取得する
 
@@ -33,7 +33,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Index**
+**User**
 
 ### Authorization
 
@@ -116,16 +116,17 @@ No authorization required
 ```typescript
 import {
     UserApi,
-    Configuration
+    Configuration,
+    User
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UserApi(configuration);
 
-let body: Index; // (optional)
+let user: User; // (optional)
 
 const { status, data } = await apiInstance.putUser(
-    body
+    user
 );
 ```
 
@@ -133,7 +134,7 @@ const { status, data } = await apiInstance.putUser(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Index**|  | |
+| **user** | **User**|  | |
 
 
 ### Return type

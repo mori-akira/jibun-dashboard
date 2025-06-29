@@ -1,8 +1,9 @@
 <template>
   <div class="layout">
-    <AppHeader />
+    <Header />
+    <HeaderMenu />
     <Navigation />
-    <div class="content">
+    <div class="content" @click="commonStore.setHeaderMenuOpen(false)">
       <main>
         <NuxtPage />
       </main>
@@ -10,9 +11,26 @@
   </div>
 </template>
 
-<script setup>
-import AppHeader from "~/components/common/AppHeader.vue";
+<script setup lang="ts">
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useCommonStore } from "~/stores/common";
+import { useUserStore } from "~/stores/user";
+import Header from "~/components/common/AppHeader.vue";
 import Navigation from "~/components/common/AppNavigation.vue";
+import HeaderMenu from "~/components/common/HeaderMenu.vue";
+
+const router = useRouter();
+const commonStore = useCommonStore();
+const userStore = useUserStore();
+
+router.afterEach(() => {
+  commonStore.setHeaderMenuOpen(false);
+});
+
+onMounted(() => {
+  userStore.fetchUser();
+});
 </script>
 
 <style scoped>
@@ -24,7 +42,7 @@ import Navigation from "~/components/common/AppNavigation.vue";
 .content {
   flex: 1;
   padding: 20px;
-  background-color: #eee;
+  background-color: #fff;
 }
 
 main {

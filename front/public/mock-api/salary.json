@@ -1,0 +1,4337 @@
+[
+  {
+    "salaryId": "237ed461-080f-4016-9a3f-c3b3218924ba",
+    "userId": "test-user",
+    "targetDate": "2021-01-01",
+    "overview": {
+      "grossIncome": 443000,
+      "netIncome": 292380,
+      "operatingTime": 144,
+      "overtime": 54,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 108000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 54
+          },
+          {
+            "key": "有給取得",
+            "data": 3
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 108000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 88600
+          },
+          {
+            "key": "健康保険料",
+            "data": 22150
+          },
+          {
+            "key": "所得税",
+            "data": 26580
+          },
+          {
+            "key": "住民税",
+            "data": 13290
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "12101852-c66b-422d-aabd-b62f1c90115e",
+    "userId": "test-user",
+    "targetDate": "2021-02-01",
+    "overview": {
+      "grossIncome": 353000,
+      "netIncome": 232980,
+      "operatingTime": 144,
+      "overtime": 9,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 18000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 9
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 18000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 70600
+          },
+          {
+            "key": "健康保険料",
+            "data": 17650
+          },
+          {
+            "key": "所得税",
+            "data": 21180
+          },
+          {
+            "key": "住民税",
+            "data": 10590
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "66112c07-0cab-4a52-bf78-90ffdec448d8",
+    "userId": "test-user",
+    "targetDate": "2021-03-01",
+    "overview": {
+      "grossIncome": 503000,
+      "netIncome": 331980,
+      "operatingTime": 168,
+      "overtime": 84,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 168000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 84
+          },
+          {
+            "key": "有給取得",
+            "data": 3
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 168000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 100600
+          },
+          {
+            "key": "健康保険料",
+            "data": 25150
+          },
+          {
+            "key": "所得税",
+            "data": 30180
+          },
+          {
+            "key": "住民税",
+            "data": 15090
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "7149dc71-64a8-481a-a422-2c03e64e4a0c",
+    "userId": "test-user",
+    "targetDate": "2021-04-01",
+    "overview": {
+      "grossIncome": 355000,
+      "netIncome": 234300,
+      "operatingTime": 160,
+      "overtime": 10,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 20000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 10
+          },
+          {
+            "key": "有給取得",
+            "data": 1
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 20000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 71000
+          },
+          {
+            "key": "健康保険料",
+            "data": 17750
+          },
+          {
+            "key": "所得税",
+            "data": 21300
+          },
+          {
+            "key": "住民税",
+            "data": 10650
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "577d2898-cba2-4b60-b883-377602439aa1",
+    "userId": "test-user",
+    "targetDate": "2021-05-01",
+    "overview": {
+      "grossIncome": 373000,
+      "netIncome": 246180,
+      "operatingTime": 152,
+      "overtime": 19,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 38000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 19
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 38000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 74600
+          },
+          {
+            "key": "健康保険料",
+            "data": 18650
+          },
+          {
+            "key": "所得税",
+            "data": 22380
+          },
+          {
+            "key": "住民税",
+            "data": 11190
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "4c9cbfa1-41fd-49c2-9507-70c17a7cf934",
+    "userId": "test-user",
+    "targetDate": "2021-06-01",
+    "overview": {
+      "grossIncome": 1287000,
+      "netIncome": 849420,
+      "operatingTime": 176,
+      "overtime": 11,
+      "bonus": 930000,
+      "bonusTakeHome": 613800
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 22000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 176
+          },
+          {
+            "key": "残業時間",
+            "data": 11
+          },
+          {
+            "key": "有給取得",
+            "data": 1
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 22000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 930000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 257400
+          },
+          {
+            "key": "健康保険料",
+            "data": 64350
+          },
+          {
+            "key": "所得税",
+            "data": 77220
+          },
+          {
+            "key": "住民税",
+            "data": 38610
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "29bc335e-ab3f-4941-89e4-356fb7a13159",
+    "userId": "test-user",
+    "targetDate": "2021-07-01",
+    "overview": {
+      "grossIncome": 411000,
+      "netIncome": 271260,
+      "operatingTime": 152,
+      "overtime": 38,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 76000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 38
+          },
+          {
+            "key": "有給取得",
+            "data": 3
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 76000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 82200
+          },
+          {
+            "key": "健康保険料",
+            "data": 20550
+          },
+          {
+            "key": "所得税",
+            "data": 24660
+          },
+          {
+            "key": "住民税",
+            "data": 12330
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "f790bf14-33f2-47ee-a46d-7c02b8edb416",
+    "userId": "test-user",
+    "targetDate": "2021-08-01",
+    "overview": {
+      "grossIncome": 479000,
+      "netIncome": 316140,
+      "operatingTime": 144,
+      "overtime": 72,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 144000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 72
+          },
+          {
+            "key": "有給取得",
+            "data": 2
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 144000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 95800
+          },
+          {
+            "key": "健康保険料",
+            "data": 23950
+          },
+          {
+            "key": "所得税",
+            "data": 28740
+          },
+          {
+            "key": "住民税",
+            "data": 14370
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "98c96bd6-3125-48ee-b87c-dfa5387dd958",
+    "userId": "test-user",
+    "targetDate": "2021-09-01",
+    "overview": {
+      "grossIncome": 495000,
+      "netIncome": 326700,
+      "operatingTime": 160,
+      "overtime": 80,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 160000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 80
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 160000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 99000
+          },
+          {
+            "key": "健康保険料",
+            "data": 24750
+          },
+          {
+            "key": "所得税",
+            "data": 29700
+          },
+          {
+            "key": "住民税",
+            "data": 14850
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "0088df18-2e92-4aca-9bd9-e7358815b499",
+    "userId": "test-user",
+    "targetDate": "2021-10-01",
+    "overview": {
+      "grossIncome": 377000,
+      "netIncome": 248820,
+      "operatingTime": 168,
+      "overtime": 21,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 42000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 21
+          },
+          {
+            "key": "有給取得",
+            "data": 1
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 42000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 75400
+          },
+          {
+            "key": "健康保険料",
+            "data": 18850
+          },
+          {
+            "key": "所得税",
+            "data": 22620
+          },
+          {
+            "key": "住民税",
+            "data": 11310
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "80472670-c8f8-4659-89c0-e0b8ea45a046",
+    "userId": "test-user",
+    "targetDate": "2021-11-01",
+    "overview": {
+      "grossIncome": 355000,
+      "netIncome": 234300,
+      "operatingTime": 160,
+      "overtime": 10,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 20000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 10
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 20000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 71000
+          },
+          {
+            "key": "健康保険料",
+            "data": 17750
+          },
+          {
+            "key": "所得税",
+            "data": 21300
+          },
+          {
+            "key": "住民税",
+            "data": 10650
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "2da8fedd-fdaf-4868-acb6-0403bd0b7dee",
+    "userId": "test-user",
+    "targetDate": "2021-12-01",
+    "overview": {
+      "grossIncome": 1333000,
+      "netIncome": 879780,
+      "operatingTime": 152,
+      "overtime": 19,
+      "bonus": 960000,
+      "bonusTakeHome": 633600
+    },
+    "structure": {
+      "basicSalary": 300000,
+      "overtimePay": 38000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 19
+          },
+          {
+            "key": "有給取得",
+            "data": 1
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 300000
+          },
+          {
+            "key": "残業代",
+            "data": 38000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 960000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 266600
+          },
+          {
+            "key": "健康保険料",
+            "data": 66650
+          },
+          {
+            "key": "所得税",
+            "data": 79980
+          },
+          {
+            "key": "住民税",
+            "data": 39990
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "a2192d68-c1c5-469f-a43c-9d404040ec00",
+    "userId": "test-user",
+    "targetDate": "2022-01-01",
+    "overview": {
+      "grossIncome": 345000,
+      "netIncome": 227700,
+      "operatingTime": 144,
+      "overtime": 0,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 0,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 0
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 0
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 69000
+          },
+          {
+            "key": "健康保険料",
+            "data": 17250
+          },
+          {
+            "key": "所得税",
+            "data": 20700
+          },
+          {
+            "key": "住民税",
+            "data": 10350
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "e33df933-15c9-4f09-98a2-3329733a31c8",
+    "userId": "test-user",
+    "targetDate": "2022-02-01",
+    "overview": {
+      "grossIncome": 401700,
+      "netIncome": 265122,
+      "operatingTime": 144,
+      "overtime": 27,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 56700,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 27
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 56700
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 80340
+          },
+          {
+            "key": "健康保険料",
+            "data": 20085
+          },
+          {
+            "key": "所得税",
+            "data": 24102
+          },
+          {
+            "key": "住民税",
+            "data": 12051
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "c1010679-0087-4ae6-8d8c-e6134a778e00",
+    "userId": "test-user",
+    "targetDate": "2022-03-01",
+    "overview": {
+      "grossIncome": 345000,
+      "netIncome": 227700,
+      "operatingTime": 168,
+      "overtime": 0,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 0,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 0
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 0
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 69000
+          },
+          {
+            "key": "健康保険料",
+            "data": 17250
+          },
+          {
+            "key": "所得税",
+            "data": 20700
+          },
+          {
+            "key": "住民税",
+            "data": 10350
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "941dbe2c-bb36-484d-8909-9f160a97581b",
+    "userId": "test-user",
+    "targetDate": "2022-04-01",
+    "overview": {
+      "grossIncome": 345000,
+      "netIncome": 227700,
+      "operatingTime": 160,
+      "overtime": 0,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 0,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 0
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 0
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 69000
+          },
+          {
+            "key": "健康保険料",
+            "data": 17250
+          },
+          {
+            "key": "所得税",
+            "data": 20700
+          },
+          {
+            "key": "住民税",
+            "data": 10350
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "431c5c79-4a78-411d-a2b3-1ce52a356fe7",
+    "userId": "test-user",
+    "targetDate": "2022-05-01",
+    "overview": {
+      "grossIncome": 424800,
+      "netIncome": 280368,
+      "operatingTime": 152,
+      "overtime": 38,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 79800,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 38
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 79800
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 84960
+          },
+          {
+            "key": "健康保険料",
+            "data": 21240
+          },
+          {
+            "key": "所得税",
+            "data": 25488
+          },
+          {
+            "key": "住民税",
+            "data": 12744
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "4f3ec43c-49de-4e78-9e49-eccaa6d7e537",
+    "userId": "test-user",
+    "targetDate": "2022-06-01",
+    "overview": {
+      "grossIncome": 1444600,
+      "netIncome": 953436,
+      "operatingTime": 176,
+      "overtime": 66,
+      "bonus": 961000,
+      "bonusTakeHome": 634260
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 138600,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 176
+          },
+          {
+            "key": "残業時間",
+            "data": 66
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 138600
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 961000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 288920
+          },
+          {
+            "key": "健康保険料",
+            "data": 72230
+          },
+          {
+            "key": "所得税",
+            "data": 86676
+          },
+          {
+            "key": "住民税",
+            "data": 43338
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "5f53cce4-9d09-4402-b1a9-70dacb2b2e38",
+    "userId": "test-user",
+    "targetDate": "2022-07-01",
+    "overview": {
+      "grossIncome": 424800,
+      "netIncome": 280368,
+      "operatingTime": 152,
+      "overtime": 38,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 79800,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 38
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 79800
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 84960
+          },
+          {
+            "key": "健康保険料",
+            "data": 21240
+          },
+          {
+            "key": "所得税",
+            "data": 25488
+          },
+          {
+            "key": "住民税",
+            "data": 12744
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "aae90b6c-d13e-4163-8c94-31a437f2a274",
+    "userId": "test-user",
+    "targetDate": "2022-08-01",
+    "overview": {
+      "grossIncome": 458400,
+      "netIncome": 302544,
+      "operatingTime": 144,
+      "overtime": 54,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 113400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 54
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 113400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 91680
+          },
+          {
+            "key": "健康保険料",
+            "data": 22920
+          },
+          {
+            "key": "所得税",
+            "data": 27504
+          },
+          {
+            "key": "住民税",
+            "data": 13752
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "f0f5d9ab-43b3-4854-9b98-eb4d92251870",
+    "userId": "test-user",
+    "targetDate": "2022-09-01",
+    "overview": {
+      "grossIncome": 450000,
+      "netIncome": 297000,
+      "operatingTime": 160,
+      "overtime": 50,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 105000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 50
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 105000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 90000
+          },
+          {
+            "key": "健康保険料",
+            "data": 22500
+          },
+          {
+            "key": "所得税",
+            "data": 27000
+          },
+          {
+            "key": "住民税",
+            "data": 13500
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "1760d5eb-e520-4cd1-b176-bfb0eeb6db03",
+    "userId": "test-user",
+    "targetDate": "2022-10-01",
+    "overview": {
+      "grossIncome": 433200,
+      "netIncome": 285912,
+      "operatingTime": 168,
+      "overtime": 42,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 88200,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 42
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 88200
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 86640
+          },
+          {
+            "key": "健康保険料",
+            "data": 21660
+          },
+          {
+            "key": "所得税",
+            "data": 25992
+          },
+          {
+            "key": "住民税",
+            "data": 12996
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "c403eb4d-34d4-411b-9c77-c71fb95e4832",
+    "userId": "test-user",
+    "targetDate": "2022-11-01",
+    "overview": {
+      "grossIncome": 366000,
+      "netIncome": 241560,
+      "operatingTime": 160,
+      "overtime": 10,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 21000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 10
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 21000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 73200
+          },
+          {
+            "key": "健康保険料",
+            "data": 18300
+          },
+          {
+            "key": "所得税",
+            "data": 21960
+          },
+          {
+            "key": "住民税",
+            "data": 10980
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "bd6e36aa-ff34-44f0-812c-13e43da1ca18",
+    "userId": "test-user",
+    "targetDate": "2022-12-01",
+    "overview": {
+      "grossIncome": 1413600,
+      "netIncome": 932976,
+      "operatingTime": 152,
+      "overtime": 66,
+      "bonus": 930000,
+      "bonusTakeHome": 613800
+    },
+    "structure": {
+      "basicSalary": 310000,
+      "overtimePay": 138600,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 66
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 310000
+          },
+          {
+            "key": "残業代",
+            "data": 138600
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 930000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 282720
+          },
+          {
+            "key": "健康保険料",
+            "data": 70680
+          },
+          {
+            "key": "所得税",
+            "data": 84816
+          },
+          {
+            "key": "住民税",
+            "data": 42408
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "29b4ddd4-cd54-4599-8823-4a804790e992",
+    "userId": "test-user",
+    "targetDate": "2023-01-01",
+    "overview": {
+      "grossIncome": 414400,
+      "netIncome": 273504,
+      "operatingTime": 144,
+      "overtime": 27,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 59400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 27
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 59400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 82880
+          },
+          {
+            "key": "健康保険料",
+            "data": 20720
+          },
+          {
+            "key": "所得税",
+            "data": 24864
+          },
+          {
+            "key": "住民税",
+            "data": 12432
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "14d0d155-b7fe-482f-8762-6cb9262397c0",
+    "userId": "test-user",
+    "targetDate": "2023-02-01",
+    "overview": {
+      "grossIncome": 394600,
+      "netIncome": 260436,
+      "operatingTime": 144,
+      "overtime": 18,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 39600,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 18
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 39600
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 78920
+          },
+          {
+            "key": "健康保険料",
+            "data": 19730
+          },
+          {
+            "key": "所得税",
+            "data": 23676
+          },
+          {
+            "key": "住民税",
+            "data": 11838
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "cad8fb0b-7e34-4200-8f98-04debd40d2bd",
+    "userId": "test-user",
+    "targetDate": "2023-03-01",
+    "overview": {
+      "grossIncome": 469400,
+      "netIncome": 309804,
+      "operatingTime": 168,
+      "overtime": 52,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 114400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 52
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 114400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 93880
+          },
+          {
+            "key": "健康保険料",
+            "data": 23470
+          },
+          {
+            "key": "所得税",
+            "data": 28164
+          },
+          {
+            "key": "住民税",
+            "data": 14082
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "7a6db1b0-2811-46ae-afdc-44aaca43903f",
+    "userId": "test-user",
+    "targetDate": "2023-04-01",
+    "overview": {
+      "grossIncome": 531000,
+      "netIncome": 350460,
+      "operatingTime": 160,
+      "overtime": 80,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 176000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 80
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 176000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 106200
+          },
+          {
+            "key": "健康保険料",
+            "data": 26550
+          },
+          {
+            "key": "所得税",
+            "data": 31860
+          },
+          {
+            "key": "住民税",
+            "data": 15930
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "62841b07-bace-41a2-9cd3-400769f7baa9",
+    "userId": "test-user",
+    "targetDate": "2023-05-01",
+    "overview": {
+      "grossIncome": 374800,
+      "netIncome": 247368,
+      "operatingTime": 152,
+      "overtime": 9,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 19800,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 9
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 19800
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 74960
+          },
+          {
+            "key": "健康保険料",
+            "data": 18740
+          },
+          {
+            "key": "所得税",
+            "data": 22488
+          },
+          {
+            "key": "住民税",
+            "data": 11244
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "9a494134-3a58-4b11-81fd-6f27f69f315e",
+    "userId": "test-user",
+    "targetDate": "2023-06-01",
+    "overview": {
+      "grossIncome": 1308000,
+      "netIncome": 863280,
+      "operatingTime": 176,
+      "overtime": 55,
+      "bonus": 832000,
+      "bonusTakeHome": 549120
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 121000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 176
+          },
+          {
+            "key": "残業時間",
+            "data": 55
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 121000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 832000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 261600
+          },
+          {
+            "key": "健康保険料",
+            "data": 65400
+          },
+          {
+            "key": "所得税",
+            "data": 78480
+          },
+          {
+            "key": "住民税",
+            "data": 39240
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "abc1213f-4b50-4294-9417-3b1c853a30b1",
+    "userId": "test-user",
+    "targetDate": "2023-07-01",
+    "overview": {
+      "grossIncome": 480400,
+      "netIncome": 317064,
+      "operatingTime": 152,
+      "overtime": 57,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 125400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 57
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 125400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 96080
+          },
+          {
+            "key": "健康保険料",
+            "data": 24020
+          },
+          {
+            "key": "所得税",
+            "data": 28824
+          },
+          {
+            "key": "住民税",
+            "data": 14412
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "8042c3fd-2465-4176-a79f-26faee617db4",
+    "userId": "test-user",
+    "targetDate": "2023-08-01",
+    "overview": {
+      "grossIncome": 473800,
+      "netIncome": 312708,
+      "operatingTime": 144,
+      "overtime": 54,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 118800,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 54
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 118800
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 94760
+          },
+          {
+            "key": "健康保険料",
+            "data": 23690
+          },
+          {
+            "key": "所得税",
+            "data": 28428
+          },
+          {
+            "key": "住民税",
+            "data": 14214
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "8ed82098-61de-45e7-aec5-bb6bb739891e",
+    "userId": "test-user",
+    "targetDate": "2023-09-01",
+    "overview": {
+      "grossIncome": 487000,
+      "netIncome": 321420,
+      "operatingTime": 160,
+      "overtime": 60,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 132000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 60
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 132000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 97400
+          },
+          {
+            "key": "健康保険料",
+            "data": 24350
+          },
+          {
+            "key": "所得税",
+            "data": 29220
+          },
+          {
+            "key": "住民税",
+            "data": 14610
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "248c5ef9-3fd2-438f-8b69-ed9a69408909",
+    "userId": "test-user",
+    "targetDate": "2023-10-01",
+    "overview": {
+      "grossIncome": 539800,
+      "netIncome": 356268,
+      "operatingTime": 168,
+      "overtime": 84,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 184800,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 84
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 184800
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 107960
+          },
+          {
+            "key": "健康保険料",
+            "data": 26990
+          },
+          {
+            "key": "所得税",
+            "data": 32388
+          },
+          {
+            "key": "住民税",
+            "data": 16194
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "b954ad27-72ca-46ea-9eb2-4fb321bd62b1",
+    "userId": "test-user",
+    "targetDate": "2023-11-01",
+    "overview": {
+      "grossIncome": 531000,
+      "netIncome": 350460,
+      "operatingTime": 160,
+      "overtime": 80,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 176000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 80
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 176000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 106200
+          },
+          {
+            "key": "健康保険料",
+            "data": 26550
+          },
+          {
+            "key": "所得税",
+            "data": 31860
+          },
+          {
+            "key": "住民税",
+            "data": 15930
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "00fec86f-d145-4f06-a481-17b87403e62f",
+    "userId": "test-user",
+    "targetDate": "2023-12-01",
+    "overview": {
+      "grossIncome": 1354400,
+      "netIncome": 893904,
+      "operatingTime": 152,
+      "overtime": 47,
+      "bonus": 896000,
+      "bonusTakeHome": 591360
+    },
+    "structure": {
+      "basicSalary": 320000,
+      "overtimePay": 103400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 47
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 320000
+          },
+          {
+            "key": "残業代",
+            "data": 103400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 896000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 270880
+          },
+          {
+            "key": "健康保険料",
+            "data": 67720
+          },
+          {
+            "key": "所得税",
+            "data": 81264
+          },
+          {
+            "key": "住民税",
+            "data": 40632
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "96ceebcc-f9d7-42f3-ade5-31dd85a29fed",
+    "userId": "test-user",
+    "targetDate": "2024-01-01",
+    "overview": {
+      "grossIncome": 427100,
+      "netIncome": 281886,
+      "operatingTime": 144,
+      "overtime": 27,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 62100,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 27
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 62100
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 85420
+          },
+          {
+            "key": "健康保険料",
+            "data": 21355
+          },
+          {
+            "key": "所得税",
+            "data": 25626
+          },
+          {
+            "key": "住民税",
+            "data": 12813
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "8f279e89-d67a-4fcf-b077-32f6f3ace67a",
+    "userId": "test-user",
+    "targetDate": "2024-02-01",
+    "overview": {
+      "grossIncome": 489200,
+      "netIncome": 322872,
+      "operatingTime": 144,
+      "overtime": 54,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 124200,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 54
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 124200
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 97840
+          },
+          {
+            "key": "健康保険料",
+            "data": 24460
+          },
+          {
+            "key": "所得税",
+            "data": 29352
+          },
+          {
+            "key": "住民税",
+            "data": 14676
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "c2694694-faf1-4997-8f15-278b8565dbfd",
+    "userId": "test-user",
+    "targetDate": "2024-03-01",
+    "overview": {
+      "grossIncome": 461600,
+      "netIncome": 304656,
+      "operatingTime": 168,
+      "overtime": 42,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 96600,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 42
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 96600
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 92320
+          },
+          {
+            "key": "健康保険料",
+            "data": 23080
+          },
+          {
+            "key": "所得税",
+            "data": 27696
+          },
+          {
+            "key": "住民税",
+            "data": 13848
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "a4f938b1-8f14-4f15-b141-9b5742ab6d6f",
+    "userId": "test-user",
+    "targetDate": "2024-04-01",
+    "overview": {
+      "grossIncome": 480000,
+      "netIncome": 316800,
+      "operatingTime": 160,
+      "overtime": 50,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 115000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 50
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 115000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 96000
+          },
+          {
+            "key": "健康保険料",
+            "data": 24000
+          },
+          {
+            "key": "所得税",
+            "data": 28800
+          },
+          {
+            "key": "住民税",
+            "data": 14400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "7a47d707-ddd9-4f56-8205-521efc932c56",
+    "userId": "test-user",
+    "targetDate": "2024-05-01",
+    "overview": {
+      "grossIncome": 365000,
+      "netIncome": 240900,
+      "operatingTime": 152,
+      "overtime": 0,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 0,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 0
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 0
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 73000
+          },
+          {
+            "key": "健康保険料",
+            "data": 18250
+          },
+          {
+            "key": "所得税",
+            "data": 21900
+          },
+          {
+            "key": "住民税",
+            "data": 10950
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "f39bb333-67ab-4b4a-af6f-1c1547f6786d",
+    "userId": "test-user",
+    "targetDate": "2024-06-01",
+    "overview": {
+      "grossIncome": 1349500,
+      "netIncome": 890670,
+      "operatingTime": 176,
+      "overtime": 55,
+      "bonus": 858000,
+      "bonusTakeHome": 566280
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 126500,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 176
+          },
+          {
+            "key": "残業時間",
+            "data": 55
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 126500
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 858000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 269900
+          },
+          {
+            "key": "健康保険料",
+            "data": 67475
+          },
+          {
+            "key": "所得税",
+            "data": 80970
+          },
+          {
+            "key": "住民税",
+            "data": 40485
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "26c90727-dac6-4e39-93b6-24ecc429d004",
+    "userId": "test-user",
+    "targetDate": "2024-07-01",
+    "overview": {
+      "grossIncome": 408700,
+      "netIncome": 269742,
+      "operatingTime": 152,
+      "overtime": 19,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 43700,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 19
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 43700
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 81740
+          },
+          {
+            "key": "健康保険料",
+            "data": 20435
+          },
+          {
+            "key": "所得税",
+            "data": 24522
+          },
+          {
+            "key": "住民税",
+            "data": 12261
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "48515d5f-335f-4ab3-b43c-180bedd66880",
+    "userId": "test-user",
+    "targetDate": "2024-08-01",
+    "overview": {
+      "grossIncome": 468500,
+      "netIncome": 309210,
+      "operatingTime": 144,
+      "overtime": 45,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 103500,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 45
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 103500
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 93700
+          },
+          {
+            "key": "健康保険料",
+            "data": 23425
+          },
+          {
+            "key": "所得税",
+            "data": 28110
+          },
+          {
+            "key": "住民税",
+            "data": 14055
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "6bd029a6-b490-4fb0-820f-61b2389a3ff2",
+    "userId": "test-user",
+    "targetDate": "2024-09-01",
+    "overview": {
+      "grossIncome": 480000,
+      "netIncome": 316800,
+      "operatingTime": 160,
+      "overtime": 50,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 115000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 50
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 115000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 96000
+          },
+          {
+            "key": "健康保険料",
+            "data": 24000
+          },
+          {
+            "key": "所得税",
+            "data": 28800
+          },
+          {
+            "key": "住民税",
+            "data": 14400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "560a084c-ec6f-4c61-89e1-717491a39e17",
+    "userId": "test-user",
+    "targetDate": "2024-10-01",
+    "overview": {
+      "grossIncome": 436300,
+      "netIncome": 287958,
+      "operatingTime": 168,
+      "overtime": 31,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 71300,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 31
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 71300
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 87260
+          },
+          {
+            "key": "健康保険料",
+            "data": 21815
+          },
+          {
+            "key": "所得税",
+            "data": 26178
+          },
+          {
+            "key": "住民税",
+            "data": 13089
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "a9c6657c-ce13-4865-b984-5702549ce963",
+    "userId": "test-user",
+    "targetDate": "2024-11-01",
+    "overview": {
+      "grossIncome": 480000,
+      "netIncome": 316800,
+      "operatingTime": 160,
+      "overtime": 50,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 115000,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 160
+          },
+          {
+            "key": "残業時間",
+            "data": 50
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 115000
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 96000
+          },
+          {
+            "key": "健康保険料",
+            "data": 24000
+          },
+          {
+            "key": "所得税",
+            "data": 28800
+          },
+          {
+            "key": "住民税",
+            "data": 14400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "418d6762-d669-4f9f-a33c-e61962d53a81",
+    "userId": "test-user",
+    "targetDate": "2024-12-01",
+    "overview": {
+      "grossIncome": 1574400,
+      "netIncome": 1039104,
+      "operatingTime": 152,
+      "overtime": 38,
+      "bonus": 1122000,
+      "bonusTakeHome": 740520
+    },
+    "structure": {
+      "basicSalary": 330000,
+      "overtimePay": 87400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 152
+          },
+          {
+            "key": "残業時間",
+            "data": 38
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 330000
+          },
+          {
+            "key": "残業代",
+            "data": 87400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 1122000
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 314880
+          },
+          {
+            "key": "健康保険料",
+            "data": 78720
+          },
+          {
+            "key": "所得税",
+            "data": 94464
+          },
+          {
+            "key": "住民税",
+            "data": 47232
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "503740e4-78d6-4cce-bb8e-e23db75a5f50",
+    "userId": "test-user",
+    "targetDate": "2025-01-01",
+    "overview": {
+      "grossIncome": 418200,
+      "netIncome": 276012,
+      "operatingTime": 144,
+      "overtime": 18,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 340000,
+      "overtimePay": 43200,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 18
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 340000
+          },
+          {
+            "key": "残業代",
+            "data": 43200
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 83640
+          },
+          {
+            "key": "健康保険料",
+            "data": 20910
+          },
+          {
+            "key": "所得税",
+            "data": 25092
+          },
+          {
+            "key": "住民税",
+            "data": 12546
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "bea4d5dc-9d0e-4ad0-9b3c-cff952929102",
+    "userId": "test-user",
+    "targetDate": "2025-02-01",
+    "overview": {
+      "grossIncome": 439800,
+      "netIncome": 290268,
+      "operatingTime": 144,
+      "overtime": 27,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 340000,
+      "overtimePay": 64800,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 144
+          },
+          {
+            "key": "残業時間",
+            "data": 27
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 340000
+          },
+          {
+            "key": "残業代",
+            "data": 64800
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 87960
+          },
+          {
+            "key": "健康保険料",
+            "data": 21990
+          },
+          {
+            "key": "所得税",
+            "data": 26388
+          },
+          {
+            "key": "住民税",
+            "data": 13194
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "salaryId": "41b2e68d-442f-4910-82e7-49c1e3f864d8",
+    "userId": "test-user",
+    "targetDate": "2025-03-01",
+    "overview": {
+      "grossIncome": 449400,
+      "netIncome": 296604,
+      "operatingTime": 168,
+      "overtime": 31,
+      "bonus": 0,
+      "bonusTakeHome": 0
+    },
+    "structure": {
+      "basicSalary": 340000,
+      "overtimePay": 74400,
+      "housingAllowance": 30000,
+      "positionAllowance": 0,
+      "other": 5000
+    },
+    "payslipData": [
+      {
+        "key": "勤怠",
+        "data": [
+          {
+            "key": "稼働時間",
+            "data": 168
+          },
+          {
+            "key": "残業時間",
+            "data": 31
+          },
+          {
+            "key": "有給取得",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "支給",
+        "data": [
+          {
+            "key": "基本給",
+            "data": 340000
+          },
+          {
+            "key": "残業代",
+            "data": 74400
+          },
+          {
+            "key": "住宅手当",
+            "data": 30000
+          },
+          {
+            "key": "その他",
+            "data": 5000
+          },
+          {
+            "key": "ボーナス",
+            "data": 0
+          }
+        ]
+      },
+      {
+        "key": "控除",
+        "data": [
+          {
+            "key": "社会保険料",
+            "data": 89880
+          },
+          {
+            "key": "健康保険料",
+            "data": 22470
+          },
+          {
+            "key": "所得税",
+            "data": 26964
+          },
+          {
+            "key": "住民税",
+            "data": 13482
+          }
+        ]
+      }
+    ]
+  }
+]

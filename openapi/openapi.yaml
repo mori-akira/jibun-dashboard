@@ -11,7 +11,7 @@ tags:
     description: 給与情報API
 
 servers:
-  - url: http://localhost:4011/api/v1
+  - url: http://localhost:4011/
 
 paths:
   /user:

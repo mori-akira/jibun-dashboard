@@ -79,74 +79,6 @@ export interface ErrorInfo {
     'errors'?: Array<ErrorDetail>;
 }
 /**
- * ユーザ情報
- * @export
- * @interface Index
- */
-export interface Index {
-    /**
-     * ユーザID
-     * @type {string}
-     * @memberof Index
-     */
-    'userId'?: string;
-    /**
-     * ユーザ名
-     * @type {string}
-     * @memberof Index
-     */
-    'userName': string;
-    /**
-     * eメールアドレス
-     * @type {string}
-     * @memberof Index
-     */
-    'emailAddress': string;
-}
-/**
- * 給与情報
- * @export
- * @interface Index1
- */
-export interface Index1 {
-    /**
-     * 給与ID
-     * @type {string}
-     * @memberof Index1
-     */
-    'salaryId'?: string;
-    /**
-     * ユーザID
-     * @type {string}
-     * @memberof Index1
-     */
-    'userId': string;
-    /**
-     * 対象年月日
-     * @type {string}
-     * @memberof Index1
-     */
-    'targetDate': string;
-    /**
-     * 
-     * @type {Overview}
-     * @memberof Index1
-     */
-    'overview': Overview;
-    /**
-     * 
-     * @type {Structure}
-     * @memberof Index1
-     */
-    'structure': Structure;
-    /**
-     * 
-     * @type {Array<PayslipData>}
-     * @memberof Index1
-     */
-    'payslipData': Array<PayslipData>;
-}
-/**
  * 給与概要
  * @export
  * @interface Overview
@@ -247,6 +179,49 @@ export interface PayslipDataDataInner {
     'data': number;
 }
 /**
+ * 給与情報
+ * @export
+ * @interface Salary
+ */
+export interface Salary {
+    /**
+     * 給与ID
+     * @type {string}
+     * @memberof Salary
+     */
+    'salaryId'?: string;
+    /**
+     * ユーザID
+     * @type {string}
+     * @memberof Salary
+     */
+    'userId': string;
+    /**
+     * 対象年月日
+     * @type {string}
+     * @memberof Salary
+     */
+    'targetDate': string;
+    /**
+     * 
+     * @type {Overview}
+     * @memberof Salary
+     */
+    'overview': Overview;
+    /**
+     * 
+     * @type {Structure}
+     * @memberof Salary
+     */
+    'structure': Structure;
+    /**
+     * 
+     * @type {Array<PayslipData>}
+     * @memberof Salary
+     */
+    'payslipData': Array<PayslipData>;
+}
+/**
  * 給与ID
  * @export
  * @interface SalaryId
@@ -295,6 +270,31 @@ export interface Structure {
      * @memberof Structure
      */
     'other': number;
+}
+/**
+ * ユーザ情報
+ * @export
+ * @interface User
+ */
+export interface User {
+    /**
+     * ユーザID
+     * @type {string}
+     * @memberof User
+     */
+    'userId'?: string;
+    /**
+     * ユーザ名
+     * @type {string}
+     * @memberof User
+     */
+    'userName': string;
+    /**
+     * eメールアドレス
+     * @type {string}
+     * @memberof User
+     */
+    'emailAddress': string;
 }
 
 /**
@@ -425,11 +425,11 @@ export const SalaryApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
          * @summary 給与情報登録
-         * @param {Index1} [body] 
+         * @param {Salary} [salary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putSalary: async (body?: Index1, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putSalary: async (salary?: Salary, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/salary`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -449,7 +449,7 @@ export const SalaryApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(salary, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -488,7 +488,7 @@ export const SalaryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSalary(targetDate?: string, targetDateFrom?: string, targetDateTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Index1>>> {
+        async getSalary(targetDate?: string, targetDateFrom?: string, targetDateTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Salary>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSalary(targetDate, targetDateFrom, targetDateTo, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SalaryApi.getSalary']?.[localVarOperationServerIndex]?.url;
@@ -510,12 +510,12 @@ export const SalaryApiFp = function(configuration?: Configuration) {
         /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
          * @summary 給与情報登録
-         * @param {Index1} [body] 
+         * @param {Salary} [salary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putSalary(body?: Index1, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putSalary(body, options);
+        async putSalary(salary?: Salary, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putSalary(salary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SalaryApi.putSalary']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -549,7 +549,7 @@ export const SalaryApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSalary(targetDate?: string, targetDateFrom?: string, targetDateTo?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Index1>> {
+        getSalary(targetDate?: string, targetDateFrom?: string, targetDateTo?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Salary>> {
             return localVarFp.getSalary(targetDate, targetDateFrom, targetDateTo, options).then((request) => request(axios, basePath));
         },
         /**
@@ -565,12 +565,12 @@ export const SalaryApiFactory = function (configuration?: Configuration, basePat
         /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
          * @summary 給与情報登録
-         * @param {Index1} [body] 
+         * @param {Salary} [salary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putSalary(body?: Index1, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId> {
-            return localVarFp.putSalary(body, options).then((request) => request(axios, basePath));
+        putSalary(salary?: Salary, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId> {
+            return localVarFp.putSalary(salary, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -601,7 +601,7 @@ export interface SalaryApiInterface {
      * @throws {RequiredError}
      * @memberof SalaryApiInterface
      */
-    getSalary(targetDate?: string, targetDateFrom?: string, targetDateTo?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Index1>>;
+    getSalary(targetDate?: string, targetDateFrom?: string, targetDateTo?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Salary>>;
 
     /**
      * IDを指定して給与情報を取得する
@@ -616,12 +616,12 @@ export interface SalaryApiInterface {
     /**
      * 給与情報を登録(登録済みの場合は情報を置き換え)する
      * @summary 給与情報登録
-     * @param {Index1} [body] 
+     * @param {Salary} [salary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SalaryApiInterface
      */
-    putSalary(body?: Index1, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
+    putSalary(salary?: Salary, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
 
 }
 
@@ -673,13 +673,13 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
     /**
      * 給与情報を登録(登録済みの場合は情報を置き換え)する
      * @summary 給与情報登録
-     * @param {Index1} [body] 
+     * @param {Salary} [salary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SalaryApi
      */
-    public putSalary(body?: Index1, options?: RawAxiosRequestConfig) {
-        return SalaryApiFp(this.configuration).putSalary(body, options).then((request) => request(this.axios, this.basePath));
+    public putSalary(salary?: Salary, options?: RawAxiosRequestConfig) {
+        return SalaryApiFp(this.configuration).putSalary(salary, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -758,11 +758,11 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
          * @summary ユーザ情報登録
-         * @param {Index} [body] 
+         * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putUser: async (body?: Index, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putUser: async (user?: User, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -782,7 +782,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -805,7 +805,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Index>> {
+        async getUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.getUser']?.[localVarOperationServerIndex]?.url;
@@ -827,12 +827,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
          * @summary ユーザ情報登録
-         * @param {Index} [body] 
+         * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putUser(body?: Index, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putUser(body, options);
+        async putUser(user?: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putUser(user, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.putUser']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -853,7 +853,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUser(options?: RawAxiosRequestConfig): AxiosPromise<Index> {
+        getUser(options?: RawAxiosRequestConfig): AxiosPromise<User> {
             return localVarFp.getUser(options).then((request) => request(axios, basePath));
         },
         /**
@@ -869,12 +869,12 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         /**
          * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
          * @summary ユーザ情報登録
-         * @param {Index} [body] 
+         * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putUser(body?: Index, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.putUser(body, options).then((request) => request(axios, basePath));
+        putUser(user?: User, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.putUser(user, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -892,7 +892,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getUser(options?: RawAxiosRequestConfig): AxiosPromise<Index>;
+    getUser(options?: RawAxiosRequestConfig): AxiosPromise<User>;
 
     /**
      * パスワード情報を更新する
@@ -907,12 +907,12 @@ export interface UserApiInterface {
     /**
      * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
      * @summary ユーザ情報登録
-     * @param {Index} [body] 
+     * @param {User} [user] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    putUser(body?: Index, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    putUser(user?: User, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
 }
 
@@ -949,13 +949,13 @@ export class UserApi extends BaseAPI implements UserApiInterface {
     /**
      * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
      * @summary ユーザ情報登録
-     * @param {Index} [body] 
+     * @param {User} [user] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public putUser(body?: Index, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).putUser(body, options).then((request) => request(this.axios, this.basePath));
+    public putUser(user?: User, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).putUser(user, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
