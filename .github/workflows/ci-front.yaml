@@ -36,12 +36,6 @@ jobs:
         working-directory: front
         run: npm run generate
 
-      - name: Upload Static Site
-        uses: actions/upload-artifact@v3
-        with:
-          name: my_site
-          path: front/dist
-
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
