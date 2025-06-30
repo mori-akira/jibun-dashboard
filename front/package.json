@@ -1,7 +1,7 @@
 {
   "name": "nuxt-app",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev --port 3333",
@@ -23,12 +23,13 @@
     "nuxt": "^3.17.2",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.10",
-    "typescript": "^5.8.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.5.0",
-    "@nuxt/icon": "^1.13.0"
+    "@nuxt/icon": "^1.13.0",
+    "@openapitools/openapi-generator-cli": "^2.21.0",
+    "@stoplight/prism-cli": "^5.14.2"
   }
 }

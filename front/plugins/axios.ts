@@ -4,7 +4,7 @@ import axios from "axios";
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  axios.defaults.baseURL = (config.public.apiBaseUrl as string) || "/api/v1";
+  axios.defaults.baseURL = config.public.apiBaseUrl as string;
 
   const instance = axios.create();
   if (config.public.apiMode === "mock") {
