@@ -8,7 +8,7 @@ on:
       - ".github/workflows/ci-front.yaml"
 
 jobs:
-  generate-doc:
+  build:
     runs-on: ubuntu-latest
     env:
       NUXT_PUBLIC_API_BASE_URL: /mock-api
