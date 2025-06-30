@@ -1,0 +1,1 @@
+import n from"./Cp4sodjc.js";import{_ as t,c as s,b as c,a,o as r}from"./CZp-VV0q.js";const l={};function _(m,e){const o=n;return r(),s("h2",null,[c(o,{name:"tabler:lock",class:"title-icon"}),e[0]||(e[0]=a("span",{class:"font-cursive font-bold ml-2"},"Change Password",-1))])}const i=t(l,[["render",_]]);export{i as default};

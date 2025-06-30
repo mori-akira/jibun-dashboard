@@ -1,0 +1,1 @@
+import n from"./Cp4sodjc.js";import{_ as t,c,b as a,a as s,o as r}from"./CZp-VV0q.js";const l={};function _(m,o){const e=n;return r(),c("h2",null,[a(e,{name:"tabler:book",class:"title-icon"}),o[0]||(o[0]=s("span",{class:"font-cursive font-bold ml-2"},"Vocabulary",-1))])}const p=t(l,[["render",_]]);export{p as default};

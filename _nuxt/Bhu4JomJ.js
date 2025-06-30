@@ -1,0 +1,1 @@
+import t from"./Cp4sodjc.js";import{_ as n,c,b as a,a as s,o as r}from"./CZp-VV0q.js";const i={};function l(_,e){const o=t;return r(),c("h2",null,[a(o,{name:"tabler:certificate",class:"title-icon"}),e[0]||(e[0]=s("span",{class:"font-cursive font-bold ml-2"},"Qualification",-1))])}const p=n(i,[["render",l]]);export{p as default};

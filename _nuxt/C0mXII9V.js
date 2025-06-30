@@ -1,0 +1,1 @@
+import t from"./Cp4sodjc.js";import{_ as n,c,b as s,a as r,o as a}from"./CZp-VV0q.js";const l={};function _(i,e){const o=t;return a(),c("h2",null,[s(o,{name:"tabler:edit",class:"title-icon"}),e[0]||(e[0]=r("span",{class:"font-cursive font-bold ml-2"},"Edit Profile",-1))])}const d=n(l,[["render",_]]);export{d as default};

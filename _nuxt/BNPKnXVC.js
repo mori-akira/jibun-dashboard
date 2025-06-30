@@ -1,0 +1,1 @@
+import o from"./Cp4sodjc.js";import{_ as t,c as s,b as c,a,o as r}from"./CZp-VV0q.js";const l={};function _(m,e){const n=o;return r(),s("h2",null,[c(n,{name:"tabler:report-money",class:"title-icon"}),e[0]||(e[0]=a("span",{class:"font-cursive font-bold ml-2"},"Financial Asset",-1))])}const p=t(l,[["render",_]]);export{p as default};
