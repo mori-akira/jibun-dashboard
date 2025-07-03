@@ -6,11 +6,9 @@ export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
   axios.defaults.baseURL = config.public.apiBaseUrl as string;
 
-  const instance = axios.create();
-  console.log(`apiMode: ${config.public.apiMode}`);
   if (config.public.apiMode === "mock") {
-    console.log(`mock mode`);
-    instance.interceptors.request.use((req) => {
+    console.log("using mock mode");
+    axios.interceptors.request.use((req) => {
       const url = req.url?.replace(/^\/?/, "");
       console.log(`mock url: ${urlJoin("/mock-api/", `${url}.json`)}`);
       req.url = urlJoin("/mock-api/", `${url}.json`);
@@ -19,9 +17,5 @@ export default defineNuxtPlugin(() => {
     });
   }
 
-  return {
-    provide: {
-      axios: instance,
-    },
-  };
+  return {};
 });
