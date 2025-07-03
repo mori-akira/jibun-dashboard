@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost:4011*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**getUser**](#getuser) | **GET** /user | ユーザ情報取得|
-|[**putPassword**](#putpassword) | **POST** /user/password | パスワード更新|
+|[**postPassword**](#postpassword) | **POST** /user/password | パスワード更新|
 |[**putUser**](#putuser) | **PUT** /user | ユーザ情報登録|
 
 # **getUser**
@@ -53,8 +53,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **putPassword**
-> putPassword()
+# **postPassword**
+> postPassword()
 
 パスワード情報を更新する
 
@@ -72,7 +72,7 @@ const apiInstance = new UserApi(configuration);
 
 let password: Password; // (optional)
 
-const { status, data } = await apiInstance.putPassword(
+const { status, data } = await apiInstance.postPassword(
     password
 );
 ```

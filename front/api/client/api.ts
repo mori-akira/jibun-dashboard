@@ -728,7 +728,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putPassword: async (password?: Password, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        postPassword: async (password?: Password, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/user/password`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -818,10 +818,10 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putPassword(password?: Password, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putPassword(password, options);
+        async postPassword(password?: Password, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postPassword(password, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.putPassword']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.postPassword']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -863,8 +863,8 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putPassword(password?: Password, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.putPassword(password, options).then((request) => request(axios, basePath));
+        postPassword(password?: Password, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postPassword(password, options).then((request) => request(axios, basePath));
         },
         /**
          * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
@@ -902,7 +902,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    putPassword(password?: Password, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    postPassword(password?: Password, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
@@ -942,8 +942,8 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public putPassword(password?: Password, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).putPassword(password, options).then((request) => request(this.axios, this.basePath));
+    public postPassword(password?: Password, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).postPassword(password, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
