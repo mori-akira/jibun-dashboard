@@ -14,8 +14,12 @@ properties:
   userName:
     description: ユーザ名
     type: string
+    minLength: 1
+    maxLength: 64
   
   emailAddress:
     description: eメールアドレス
     type: string
     format: email
+    minLength: 1
+    maxLength: 256
