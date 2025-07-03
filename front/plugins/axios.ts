@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
   if (config.public.apiMode === "mock") {
     instance.interceptors.request.use((req) => {
       const url = req.url?.replace(/^\/?/, "");
-      req.url = urlJoin("mock-api", `${url}.json`);
+      req.url = urlJoin("/mock-api/", `${url}.json`);
       req.method = "get";
       return req;
     });
