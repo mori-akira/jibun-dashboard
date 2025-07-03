@@ -13,10 +13,14 @@ defineProps<{
 
 <style scoped>
 .panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
   background-color: #fff;
   margin: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 2px #000;
+  box-shadow: 2px 2px 4px #000;
 }
 </style>

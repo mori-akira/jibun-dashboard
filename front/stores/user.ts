@@ -18,9 +18,27 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  async function putUser(newUser: User) {
+    try {
+      await userApi.putUser(newUser);
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
+  }
+
+  async function postPassword(newPassword: Password) {
+    try {
+      await userApi.postPassword(newPassword);
+    } catch (error) {
+      console.error("Failed to update password:", error);
+    }
+  }
+
   return {
     user,
     password,
     fetchUser,
+    putUser,
+    postPassword,
   };
 });

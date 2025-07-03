@@ -1,27 +1,35 @@
-<script setup lang="ts">
-defineProps<{
-  label?: string;
-}>();
-
-const emit = defineEmits<{
-  (event: "change:value"): void;
-  (event: "blur:value"): void;
-}>();
-
-const onChangeValue = (e): void => emit("change:value", e.target.value);
-const onBlurValue = (e): void => emit("blur:value", e.target.value);
-</script>
-
 <template>
   <div class="wrapper">
     <label v-show="label">{{ label }}</label>
     <input
       type="text"
+      :value="value"
       @change="onChangeValue($event)"
       @blur="onBlurValue($event)"
     />
   </div>
 </template>
+
+<script setup lang="ts">
+defineProps<{
+  label?: string;
+  value?: string;
+}>();
+
+const emit = defineEmits<{
+  (event: "change:value" | "blur:value", value: string): void;
+}>();
+
+const onChangeValue = (e: Event): void => {
+  const target = e.target as HTMLInputElement;
+  emit("change:value", target.value);
+};
+
+const onBlurValue = (e: Event): void => {
+  const target = e.target as HTMLInputElement;
+  emit("blur:value", target.value);
+};
+</script>
 
 <style scoped>
 .wrapper {
