@@ -12,9 +12,6 @@ export default defineNuxtPlugin(() => {
       const url = req.url?.replace(/^\/?/, "");
       req.url = urlJoin("mock-api", `${url}.json`);
       req.method = "get";
-      req.baseURL = config.public.baseUrl as string;
-      console.log("Mock BASE URL:", req.baseURL);
-      console.log("Mock API URL:", req.url);
       return req;
     });
   }
