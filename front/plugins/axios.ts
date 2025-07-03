@@ -7,6 +7,7 @@ export default defineNuxtPlugin(() => {
   axios.defaults.baseURL = config.public.apiBaseUrl as string;
 
   const instance = axios.create();
+  console.log(`apiMode: ${config.public.apiMode}`);
   if (config.public.apiMode === "mock") {
     instance.interceptors.request.use((req) => {
       const url = req.url?.replace(/^\/?/, "");
