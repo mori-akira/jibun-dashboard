@@ -74,12 +74,13 @@ jobs:
           git config --global user.name "github-actions[bot]"
       
       - name: Install OpenAPI Generator CLI
-        run: npm install -g @openapitools/openapi-generator-cli
+        run: npm install -g @openapitools/openapi-generator-cli openapi-zod-client
       
       - name: Generate API Client Module
         run: |
           cd openapi
           openapi-generator-cli generate
+          npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
 
       - name: Commit And Push
         run: |
