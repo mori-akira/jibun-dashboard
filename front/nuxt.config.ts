@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   modules: ["@nuxt/content", "@nuxt/eslint", "@nuxt/ui", "@nuxt/icon"],
   runtimeConfig: {
     public: {
+      baseUrl: process.env.NUXT_PUBLIC_BASE_URL || "/",
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || "",
       apiMode: process.env.NUXT_PUBLIC_API_MODE || "default",
     },

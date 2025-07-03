@@ -1,5 +1,6 @@
 import { defineNuxtPlugin, useRuntimeConfig } from "#app";
 import axios from "axios";
+import urlJoin from "url-join";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
@@ -10,7 +11,11 @@ export default defineNuxtPlugin(() => {
   if (config.public.apiMode === "mock") {
     instance.interceptors.request.use((req) => {
       const url = req.url?.replace(/^\/?/, "");
-      req.url = `/mock-api/${url}.json`;
+      req.url = urlJoin(
+        config.public.baseUrl as string,
+        "mock-api",
+        `${url}.json`
+      );
       req.method = "get";
       req.baseURL = "";
       console.log("Mock API request:", req.url);
