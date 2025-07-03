@@ -55,7 +55,7 @@ const userStore = useUserStore();
 }
 
 .container .mail-area {
-  width: 100%;
+  width: stretch;
   padding: 0 1rem;
 }
 
@@ -70,7 +70,7 @@ li:nth-child(n + 2) {
 
 .menu-item {
   display: inline-block;
-  width: 100%;
+  width: stretch;
   padding: 0.2rem 1rem;
   border-radius: 0.5rem;
   text-decoration: none;

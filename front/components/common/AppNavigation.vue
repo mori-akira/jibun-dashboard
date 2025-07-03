@@ -78,7 +78,7 @@ ul {
 
 a {
   display: inline-block;
-  width: 100%;
+  width: stretch;
   padding: 0.2rem 1rem;
   margin-bottom: 15px;
   border-radius: 0.5rem;
