@@ -46,6 +46,7 @@ jobs:
       - name: Commit And Push
         run: |
           git restore --staged openapi
+          git pull origin main
           sudo git add doc
           if ! git diff --cached --quiet; then
             git commit -m "Automatically Generated"
@@ -84,6 +85,7 @@ jobs:
 
       - name: Commit And Push
         run: |
+          git pull origin main
           sudo git add front/api
           if ! git diff --cached --quiet; then
             git commit -m "Automatically Generated"
