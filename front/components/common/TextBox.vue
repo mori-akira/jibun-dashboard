@@ -75,7 +75,7 @@ input.error {
 
 .wrapper {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: start;
   margin: 1rem;
 }
