@@ -24,7 +24,10 @@ const ErrorInfo = z
   .partial()
   .passthrough();
 const Password = z
-  .object({ oldPassword: z.string(), newPassword: z.string() })
+  .object({
+    oldPassword: z.string().min(8).max(32),
+    newPassword: z.string().min(8).max(32),
+  })
   .passthrough();
 const Salary = z
   .object({
