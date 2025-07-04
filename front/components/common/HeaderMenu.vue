@@ -1,5 +1,5 @@
 <template>
-  <div :class="clsx('container', { closed: !commonStore.isHeaderMenuOpen })">
+  <div :class="['container', { closed: !commonStore.isHeaderMenuOpen }]">
     <div class="mail-area">
       <Icon name="tabler:mail" class="adjust-icon" />
       <span class="inline-block ml-2">{{ userStore?.user?.emailAddress }}</span>
@@ -13,7 +13,7 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/profile/changePassword" class="menu-item font-cursive">
+        <NuxtLink to="/profile/change-password" class="menu-item font-cursive">
           <Icon name="tabler:lock" class="menu-icon" />
           Change Password
         </NuxtLink>
@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { clsx } from "clsx";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 
@@ -42,7 +41,7 @@ const userStore = useUserStore();
   position: fixed;
   top: 4rem;
   right: 1rem;
-  z-index: 9998;
+  z-index: 998;
   width: 16rem;
   background-color: #eee;
   box-shadow: 2px 2px 4px #000;

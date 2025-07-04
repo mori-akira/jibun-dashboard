@@ -1,7 +1,7 @@
 <template>
   <header class="w-screen bg-white">
     <div
-      :class="clsx('toggle-area', { opened: commonStore.isNavOpen })"
+      :class="['toggle-area', { opened: commonStore.isNavOpen }]"
       @click="commonStore.toggleNav"
     >
       <span class="line bg-gray-900" />
@@ -18,9 +18,7 @@
       <div class="toggle-menu-wrapper" @click="commonStore.toggleHeaderMenu">
         <Icon
           name="tabler:caret-left-filled"
-          :class="
-            clsx('toggle-menu-icon', { open: commonStore.isHeaderMenuOpen })
-          "
+          :class="['toggle-menu-icon', { open: commonStore.isHeaderMenuOpen }]"
         />
       </div>
     </div>
@@ -28,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { clsx } from "clsx";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 
@@ -42,7 +39,7 @@ header {
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  z-index: 9999;
+  z-index: 999;
   padding: 0.8rem 0 0.2rem;
   border-bottom: #666 2px solid;
   transform: translateY(-8px);

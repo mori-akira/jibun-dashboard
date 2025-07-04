@@ -5,7 +5,25 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-01-01",
   devtools: { enabled: true },
   css: ["~/asset/css/main.css"],
-  modules: ["@nuxt/content", "@nuxt/eslint", "@nuxt/ui", "@nuxt/icon"],
+  modules: [
+    "@nuxt/eslint",
+    "@nuxt/ui",
+    "@nuxt/icon",
+    [
+      "@vee-validate/nuxt",
+      {
+        // disable or enable auto imports
+        autoImports: true,
+        // Use different names for components
+        componentNames: {
+          Form: "VeeForm",
+          Field: "VeeField",
+          FieldArray: "VeeFieldArray",
+          ErrorMessage: "VeeErrorMessage",
+        },
+      },
+    ],
+  ],
   runtimeConfig: {
     public: {
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL || "/",

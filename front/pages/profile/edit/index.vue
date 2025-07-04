@@ -1,45 +1,85 @@
 <template>
   <div>
     <h2>
-      <Icon name="tabler:edit" class="title-icon" />
+      <Icon name="tabler:edit" class="adjust-icon" />
       <span class="font-cursive font-bold ml-2">Edit Profile</span>
     </h2>
 
-    <Panel>
-      <TextBox
-        label="Name"
-        :value="user?.userName || ''"
-        @blur:value="
-          (value) => {
-            if (user) {
-              user.userName = value;
-            }
-          }
-        "
-      />
-      <TextBox
-        label="Email"
-        :value="user?.emailAddress || ''"
-        @blur:value="
-          (value) => {
-            if (user) {
-              user.emailAddress = value;
-            }
-          }
-        "
-      />
-    </Panel>
+    <Form v-slot="{ meta, handleSubmit }">
+      <Panel class="w-2/3 flex-col items-center" centered>
+        <Field
+          v-slot="{ field, errorMessage }"
+          name="userName"
+          :rules="validationRules.userName"
+          :value="user?.userName"
+        >
+          <TextBox
+            label="Name"
+            v-bind="field"
+            :error-message="errorMessage"
+            required
+            wrapper-class="w-full"
+            label-class="w-20 ml-4 font-cursive"
+            input-wrapper-class="w-2/3"
+            @blur:event="field.onBlur"
+          />
+        </Field>
+        <Field
+          v-slot="{ field, errorMessage }"
+          name="emailAddress"
+          :rules="validationRules.emailAddress"
+          :value="user?.emailAddress"
+        >
+          <TextBox
+            label="Email"
+            v-bind="field"
+            :error-message="errorMessage"
+            required
+            wrapper-class="w-full"
+            label-class="w-20 ml-4 font-cursive"
+            input-wrapper-class="w-2/3"
+            @blur:event="field.onBlur"
+          />
+        </Field>
+        <div class="m-4">
+          <Button
+            :disabled="!meta.valid"
+            type="action"
+            @click="handleSubmit(onSubmit)"
+          >
+            <Icon name="tabler:database-share" class="adjust-icon" />
+            <span class="font-cursive ml-2">Execute</span>
+          </Button>
+        </div>
+      </Panel>
+    </Form>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { GenericObject, SubmissionHandler } from "vee-validate";
+import { Form, Field } from "vee-validate";
+
 import type { User } from "~/api/client/api";
+import { schemas } from "~/api/client/schemas";
 import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
+import Button from "~/components/common/Button.vue";
 import { useUserStore } from "~/stores/user";
+import { zodToVeeRules } from "~/util/zod-to-vee-rules";
 
 const userStore = useUserStore();
 const user = ref<User | null>({ ...userStore.user } as User);
-</script>
+const validationRules = {
+  userName: zodToVeeRules(schemas.User.shape.userName),
+  emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),
+};
 
-<style scoped></style>
+const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
+  user.value = {
+    ...user.value,
+    ...(values as User),
+  };
+  await userStore.putUser(user.value as User);
+};
+</script>

@@ -1,9 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+
 import type { User, Password } from "~/api/client/api";
 import { UserApi } from "~/api/client/api";
+import { useCommonStore } from "~/stores/common";
 
 const userApi = new UserApi();
+const commonStore = useCommonStore();
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<User | null>(null);
@@ -20,9 +23,13 @@ export const useUserStore = defineStore("user", () => {
 
   async function putUser(newUser: User) {
     try {
+      commonStore.setLoading(true);
       await userApi.putUser(newUser);
+      await fetchUser();
     } catch (error) {
       console.error("Failed to update user:", error);
+    } finally {
+      commonStore.setLoading(false);
     }
   }
 

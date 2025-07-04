@@ -1,12 +1,12 @@
 <template>
-  <nav :class="clsx({ closed: !commonStore.isNavOpen })">
+  <nav :class="[{ closed: !commonStore.isNavOpen }]">
     <div
-      :class="clsx('toggle-area', { closed: !commonStore.isNavOpen })"
+      :class="['toggle-area', { closed: !commonStore.isNavOpen }]"
       @click="commonStore.toggleNav"
     >
       <Icon name="tabler:caret-left-filled" class="toggle-icon" />
     </div>
-    <div :class="clsx('content-area', { closed: !commonStore.isNavOpen })">
+    <div :class="['content-area', { closed: !commonStore.isNavOpen }]">
       <ul>
         <li>
           <NuxtLink class="text-gray-900" to="/">
@@ -33,13 +33,13 @@
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/financialAsset">
+          <NuxtLink class="text-gray-900" to="/financial-asset">
             <Icon name="tabler:report-money" class="nav-icon" />
             <span class="font-cursive ml-2">Financial Asset</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/studyPlan">
+          <NuxtLink class="text-gray-900" to="/study-plan">
             <Icon name="tabler:file-pencil" class="nav-icon" />
             <span class="font-cursive ml-2">Study Plan</span>
           </NuxtLink>
@@ -50,7 +50,6 @@
 </template>
 
 <script setup lang="ts">
-import { clsx } from "clsx";
 import { useCommonStore } from "~/stores/common";
 
 const commonStore = useCommonStore();

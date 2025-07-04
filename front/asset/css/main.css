@@ -13,10 +13,6 @@ body {
   font-family: "Sacramento", cursive;
 }
 
-.title-icon {
-  transform: translateY(2px);
-}
-
 .adjust-icon {
   transform: translateY(2px);
 }

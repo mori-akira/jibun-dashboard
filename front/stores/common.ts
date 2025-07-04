@@ -4,6 +4,7 @@ import { ref } from "vue";
 export const useCommonStore = defineStore("common", () => {
   const isNavOpen = ref(true);
   const isHeaderMenuOpen = ref(false);
+  const isLoading = ref(false);
 
   function toggleNav() {
     isNavOpen.value = !isNavOpen.value;
@@ -21,12 +22,18 @@ export const useCommonStore = defineStore("common", () => {
     isHeaderMenuOpen.value = value;
   }
 
+  function setLoading(value: boolean) {
+    isLoading.value = value;
+  }
+
   return {
     isNavOpen,
     isHeaderMenuOpen,
+    isLoading,
     toggleNav,
     setNavOpen,
     toggleHeaderMenu,
     setHeaderMenuOpen,
+    setLoading,
   };
 });

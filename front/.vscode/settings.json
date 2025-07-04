@@ -5,7 +5,6 @@
     "files.trimTrailingWhitespace": true,
     "terminal.integrated.defaultProfile.linux": "bash",
     "cSpell.words": [
-        "clsx",
         "dbaeumer",
         "devcontainers",
         "donjayamanne",
