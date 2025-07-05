@@ -14,25 +14,33 @@ get:
         type: string
     - in: query
       name: status
-      description: 状態
+      description: ステータス
       required: false
+      style: form
+      explode: true
       schema:
-        type: string
-        enum:
-          - dream
-          - planning
-          - acquired
+        type: array
+        items:
+          type: string
+          enum:
+            - dream
+            - planning
+            - acquired
     - in: query
       name: rank
       description: ランク
       required: false
+      style: form
+      explode: true
       schema:
-        type: string
-        enum:
-          - D
-          - C
-          - B
-          - A
+        type: array
+        items:
+          type: string
+          enum:
+            - D
+            - C
+            - B
+            - A
     - in: query
       name: organization
       description: 発行組織

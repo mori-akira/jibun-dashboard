@@ -33,7 +33,7 @@ properties:
     type: string
   
   status:
-    description: 状態
+    description: ステータス
     type: string
     enum:
       - dream
