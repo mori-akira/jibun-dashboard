@@ -64,7 +64,7 @@ No authorization required
 # **getSalary**
 > Array<Salary> getSalary()
 
-単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+検索条件を指定して給与情報を取得する
 
 ### Example
 
