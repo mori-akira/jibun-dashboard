@@ -179,6 +179,121 @@ export interface PayslipDataDataInner {
     'data': number;
 }
 /**
+ * 資格情報
+ * @export
+ * @interface Qualification
+ */
+export interface Qualification {
+    /**
+     * 資格ID
+     * @type {string}
+     * @memberof Qualification
+     */
+    'qualificationId'?: string;
+    /**
+     * ユーザID
+     * @type {string}
+     * @memberof Qualification
+     */
+    'userId': string;
+    /**
+     * 資格名
+     * @type {string}
+     * @memberof Qualification
+     */
+    'qualificationName': string;
+    /**
+     * 略称
+     * @type {string}
+     * @memberof Qualification
+     */
+    'abbreviation'?: string;
+    /**
+     * バージョン
+     * @type {string}
+     * @memberof Qualification
+     */
+    'version'?: string;
+    /**
+     * 状態
+     * @type {string}
+     * @memberof Qualification
+     */
+    'status': QualificationStatusEnum;
+    /**
+     * ランク
+     * @type {string}
+     * @memberof Qualification
+     */
+    'rank': QualificationRankEnum;
+    /**
+     * 発行組織
+     * @type {string}
+     * @memberof Qualification
+     */
+    'organization': string;
+    /**
+     * 取得年月日
+     * @type {string}
+     * @memberof Qualification
+     */
+    'acquiredDate'?: string;
+    /**
+     * 有効期限
+     * @type {string}
+     * @memberof Qualification
+     */
+    'expirationDate'?: string;
+    /**
+     * 公式URL
+     * @type {string}
+     * @memberof Qualification
+     */
+    'officialUrl': string;
+    /**
+     * 証明書URL
+     * @type {string}
+     * @memberof Qualification
+     */
+    'certificationUrl'?: string;
+    /**
+     * バッジURL
+     * @type {string}
+     * @memberof Qualification
+     */
+    'badgeUrl'?: string;
+}
+
+export const QualificationStatusEnum = {
+    Dream: 'dream',
+    Planning: 'planning',
+    Acquired: 'acquired'
+} as const;
+
+export type QualificationStatusEnum = typeof QualificationStatusEnum[keyof typeof QualificationStatusEnum];
+export const QualificationRankEnum = {
+    D: 'D',
+    C: 'C',
+    B: 'B',
+    A: 'A'
+} as const;
+
+export type QualificationRankEnum = typeof QualificationRankEnum[keyof typeof QualificationRankEnum];
+
+/**
+ * 資格ID
+ * @export
+ * @interface QualificationId
+ */
+export interface QualificationId {
+    /**
+     * 資格ID
+     * @type {string}
+     * @memberof QualificationId
+     */
+    'qualificationId'?: string;
+}
+/**
  * 給与情報
  * @export
  * @interface Salary
@@ -298,6 +413,480 @@ export interface User {
 }
 
 /**
+ * QualificationApi - axios parameter creator
+ * @export
+ */
+export const QualificationApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * IDを指定して資格情報を削除する
+         * @summary 資格情報削除(ID)
+         * @param {string} qualificationId 資格ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteQualification: async (qualificationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'qualificationId' is not null or undefined
+            assertParamExists('deleteQualification', 'qualificationId', qualificationId)
+            const localVarPath = `/qualification/{qualificationId}`
+                .replace(`{${"qualificationId"}}`, encodeURIComponent(String(qualificationId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 検索条件を指定して資格情報を取得する
+         * @summary 資格情報取得
+         * @param {string} [qualificationName] 資格名
+         * @param {GetQualificationStatusEnum} [status] 状態
+         * @param {GetQualificationRankEnum} [rank] ランク
+         * @param {string} [organization] 発行組織
+         * @param {string} [acquiredDateFrom] 取得年月日From
+         * @param {string} [acquiredDateTo] 取得年月日To
+         * @param {string} [expirationDateFrom] 有効期限From
+         * @param {string} [expirationDateTo] 有効期限To
+         * @param {GetQualificationSortKeyEnum} [sortKey] ソートキー
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getQualification: async (qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/qualification`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (qualificationName !== undefined) {
+                localVarQueryParameter['qualificationName'] = qualificationName;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
+            if (rank !== undefined) {
+                localVarQueryParameter['rank'] = rank;
+            }
+
+            if (organization !== undefined) {
+                localVarQueryParameter['organization'] = organization;
+            }
+
+            if (acquiredDateFrom !== undefined) {
+                localVarQueryParameter['acquiredDateFrom'] = (acquiredDateFrom as any instanceof Date) ?
+                    (acquiredDateFrom as any).toISOString().substring(0,10) :
+                    acquiredDateFrom;
+            }
+
+            if (acquiredDateTo !== undefined) {
+                localVarQueryParameter['acquiredDateTo'] = (acquiredDateTo as any instanceof Date) ?
+                    (acquiredDateTo as any).toISOString().substring(0,10) :
+                    acquiredDateTo;
+            }
+
+            if (expirationDateFrom !== undefined) {
+                localVarQueryParameter['expirationDateFrom'] = (expirationDateFrom as any instanceof Date) ?
+                    (expirationDateFrom as any).toISOString().substring(0,10) :
+                    expirationDateFrom;
+            }
+
+            if (expirationDateTo !== undefined) {
+                localVarQueryParameter['expirationDateTo'] = (expirationDateTo as any instanceof Date) ?
+                    (expirationDateTo as any).toISOString().substring(0,10) :
+                    expirationDateTo;
+            }
+
+            if (sortKey !== undefined) {
+                localVarQueryParameter['sortKey'] = sortKey;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * IDを指定して資格情報を取得する
+         * @summary 資格情報取得(ID)
+         * @param {string} qualificationId 資格ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getQualificationById: async (qualificationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'qualificationId' is not null or undefined
+            assertParamExists('getQualificationById', 'qualificationId', qualificationId)
+            const localVarPath = `/qualification/{qualificationId}`
+                .replace(`{${"qualificationId"}}`, encodeURIComponent(String(qualificationId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 資格報を登録(登録済みの場合は情報を置き換え)する
+         * @summary 資格情報登録
+         * @param {Qualification} [qualification] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putQualification: async (qualification?: Qualification, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/qualification`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(qualification, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * QualificationApi - functional programming interface
+ * @export
+ */
+export const QualificationApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = QualificationApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * IDを指定して資格情報を削除する
+         * @summary 資格情報削除(ID)
+         * @param {string} qualificationId 資格ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteQualification(qualificationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteQualification(qualificationId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QualificationApi.deleteQualification']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 検索条件を指定して資格情報を取得する
+         * @summary 資格情報取得
+         * @param {string} [qualificationName] 資格名
+         * @param {GetQualificationStatusEnum} [status] 状態
+         * @param {GetQualificationRankEnum} [rank] ランク
+         * @param {string} [organization] 発行組織
+         * @param {string} [acquiredDateFrom] 取得年月日From
+         * @param {string} [acquiredDateTo] 取得年月日To
+         * @param {string} [expirationDateFrom] 有効期限From
+         * @param {string} [expirationDateTo] 有効期限To
+         * @param {GetQualificationSortKeyEnum} [sortKey] ソートキー
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Qualification>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getQualification(qualificationName, status, rank, organization, acquiredDateFrom, acquiredDateTo, expirationDateFrom, expirationDateTo, sortKey, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QualificationApi.getQualification']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * IDを指定して資格情報を取得する
+         * @summary 資格情報取得(ID)
+         * @param {string} qualificationId 資格ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<QualificationId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getQualificationById(qualificationId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QualificationApi.getQualificationById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 資格報を登録(登録済みの場合は情報を置き換え)する
+         * @summary 資格情報登録
+         * @param {Qualification} [qualification] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async putQualification(qualification?: Qualification, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<QualificationId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putQualification(qualification, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QualificationApi.putQualification']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * QualificationApi - factory interface
+ * @export
+ */
+export const QualificationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = QualificationApiFp(configuration)
+    return {
+        /**
+         * IDを指定して資格情報を削除する
+         * @summary 資格情報削除(ID)
+         * @param {string} qualificationId 資格ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteQualification(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteQualification(qualificationId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 検索条件を指定して資格情報を取得する
+         * @summary 資格情報取得
+         * @param {string} [qualificationName] 資格名
+         * @param {GetQualificationStatusEnum} [status] 状態
+         * @param {GetQualificationRankEnum} [rank] ランク
+         * @param {string} [organization] 発行組織
+         * @param {string} [acquiredDateFrom] 取得年月日From
+         * @param {string} [acquiredDateTo] 取得年月日To
+         * @param {string} [expirationDateFrom] 有効期限From
+         * @param {string} [expirationDateTo] 有効期限To
+         * @param {GetQualificationSortKeyEnum} [sortKey] ソートキー
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<Qualification>> {
+            return localVarFp.getQualification(qualificationName, status, rank, organization, acquiredDateFrom, acquiredDateTo, expirationDateFrom, expirationDateTo, sortKey, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * IDを指定して資格情報を取得する
+         * @summary 資格情報取得(ID)
+         * @param {string} qualificationId 資格ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<QualificationId> {
+            return localVarFp.getQualificationById(qualificationId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 資格報を登録(登録済みの場合は情報を置き換え)する
+         * @summary 資格情報登録
+         * @param {Qualification} [qualification] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putQualification(qualification?: Qualification, options?: RawAxiosRequestConfig): AxiosPromise<QualificationId> {
+            return localVarFp.putQualification(qualification, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * QualificationApi - interface
+ * @export
+ * @interface QualificationApi
+ */
+export interface QualificationApiInterface {
+    /**
+     * IDを指定して資格情報を削除する
+     * @summary 資格情報削除(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApiInterface
+     */
+    deleteQualification(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 検索条件を指定して資格情報を取得する
+     * @summary 資格情報取得
+     * @param {string} [qualificationName] 資格名
+     * @param {GetQualificationStatusEnum} [status] 状態
+     * @param {GetQualificationRankEnum} [rank] ランク
+     * @param {string} [organization] 発行組織
+     * @param {string} [acquiredDateFrom] 取得年月日From
+     * @param {string} [acquiredDateTo] 取得年月日To
+     * @param {string} [expirationDateFrom] 有効期限From
+     * @param {string} [expirationDateTo] 有効期限To
+     * @param {GetQualificationSortKeyEnum} [sortKey] ソートキー
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApiInterface
+     */
+    getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<Qualification>>;
+
+    /**
+     * IDを指定して資格情報を取得する
+     * @summary 資格情報取得(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApiInterface
+     */
+    getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<QualificationId>;
+
+    /**
+     * 資格報を登録(登録済みの場合は情報を置き換え)する
+     * @summary 資格情報登録
+     * @param {Qualification} [qualification] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApiInterface
+     */
+    putQualification(qualification?: Qualification, options?: RawAxiosRequestConfig): AxiosPromise<QualificationId>;
+
+}
+
+/**
+ * QualificationApi - object-oriented interface
+ * @export
+ * @class QualificationApi
+ * @extends {BaseAPI}
+ */
+export class QualificationApi extends BaseAPI implements QualificationApiInterface {
+    /**
+     * IDを指定して資格情報を削除する
+     * @summary 資格情報削除(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApi
+     */
+    public deleteQualification(qualificationId: string, options?: RawAxiosRequestConfig) {
+        return QualificationApiFp(this.configuration).deleteQualification(qualificationId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 検索条件を指定して資格情報を取得する
+     * @summary 資格情報取得
+     * @param {string} [qualificationName] 資格名
+     * @param {GetQualificationStatusEnum} [status] 状態
+     * @param {GetQualificationRankEnum} [rank] ランク
+     * @param {string} [organization] 発行組織
+     * @param {string} [acquiredDateFrom] 取得年月日From
+     * @param {string} [acquiredDateTo] 取得年月日To
+     * @param {string} [expirationDateFrom] 有効期限From
+     * @param {string} [expirationDateTo] 有効期限To
+     * @param {GetQualificationSortKeyEnum} [sortKey] ソートキー
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApi
+     */
+    public getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig) {
+        return QualificationApiFp(this.configuration).getQualification(qualificationName, status, rank, organization, acquiredDateFrom, acquiredDateTo, expirationDateFrom, expirationDateTo, sortKey, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * IDを指定して資格情報を取得する
+     * @summary 資格情報取得(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApi
+     */
+    public getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig) {
+        return QualificationApiFp(this.configuration).getQualificationById(qualificationId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 資格報を登録(登録済みの場合は情報を置き換え)する
+     * @summary 資格情報登録
+     * @param {Qualification} [qualification] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QualificationApi
+     */
+    public putQualification(qualification?: Qualification, options?: RawAxiosRequestConfig) {
+        return QualificationApiFp(this.configuration).putQualification(qualification, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+/**
+ * @export
+ */
+export const GetQualificationStatusEnum = {
+    Dream: 'dream',
+    Planning: 'planning',
+    Acquired: 'acquired'
+} as const;
+export type GetQualificationStatusEnum = typeof GetQualificationStatusEnum[keyof typeof GetQualificationStatusEnum];
+/**
+ * @export
+ */
+export const GetQualificationRankEnum = {
+    D: 'D',
+    C: 'C',
+    B: 'B',
+    A: 'A'
+} as const;
+export type GetQualificationRankEnum = typeof GetQualificationRankEnum[keyof typeof GetQualificationRankEnum];
+/**
+ * @export
+ */
+export const GetQualificationSortKeyEnum = {
+    QualificationName: 'qualificationName',
+    Rank: 'rank',
+    Organization: 'organization',
+    AcquiredDate: 'acquiredDate',
+    ExpirationDate: 'expirationDate'
+} as const;
+export type GetQualificationSortKeyEnum = typeof GetQualificationSortKeyEnum[keyof typeof GetQualificationSortKeyEnum];
+
+
+/**
  * SalaryApi - axios parameter creator
  * @export
  */
@@ -338,7 +927,7 @@ export const SalaryApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+         * 検索条件を指定して給与情報を取得する
          * @summary 給与情報取得
          * @param {string} [targetDate] 対象年月日
          * @param {string} [targetDateFrom] 対象年月日From
@@ -480,7 +1069,7 @@ export const SalaryApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+         * 検索条件を指定して給与情報を取得する
          * @summary 給与情報取得
          * @param {string} [targetDate] 対象年月日
          * @param {string} [targetDateFrom] 対象年月日From
@@ -541,7 +1130,7 @@ export const SalaryApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.deleteSalary(salaryId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+         * 検索条件を指定して給与情報を取得する
          * @summary 給与情報取得
          * @param {string} [targetDate] 対象年月日
          * @param {string} [targetDateFrom] 対象年月日From
@@ -592,7 +1181,7 @@ export interface SalaryApiInterface {
     deleteSalary(salaryId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
-     * 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+     * 検索条件を指定して給与情報を取得する
      * @summary 給与情報取得
      * @param {string} [targetDate] 対象年月日
      * @param {string} [targetDateFrom] 対象年月日From
@@ -645,7 +1234,7 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
     }
 
     /**
-     * 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+     * 検索条件を指定して給与情報を取得する
      * @summary 給与情報取得
      * @param {string} [targetDate] 対象年月日
      * @param {string} [targetDateFrom] 対象年月日From

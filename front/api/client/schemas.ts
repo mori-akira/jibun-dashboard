@@ -77,6 +77,27 @@ const SalaryId = z
   .object({ salaryId: z.string().uuid() })
   .partial()
   .passthrough();
+const Qualification = z
+  .object({
+    qualificationId: z.string().uuid().optional(),
+    userId: z.string(),
+    qualificationName: z.string(),
+    abbreviation: z.string().optional(),
+    version: z.string().optional(),
+    status: z.enum(["dream", "planning", "acquired"]),
+    rank: z.enum(["D", "C", "B", "A"]),
+    organization: z.string(),
+    acquiredDate: z.string().optional(),
+    expirationDate: z.string().optional(),
+    officialUrl: z.string().url(),
+    certificationUrl: z.string().url().optional(),
+    badgeUrl: z.string().url().optional(),
+  })
+  .passthrough();
+const QualificationId = z
+  .object({ qualificationId: z.string().uuid() })
+  .partial()
+  .passthrough();
 
 export const schemas = {
   User,
@@ -84,14 +105,155 @@ export const schemas = {
   Password,
   Salary,
   SalaryId,
+  Qualification,
+  QualificationId,
 };
 
 const endpoints = makeApi([
   {
     method: "get",
+    path: "/qualification",
+    alias: "getQualification",
+    description: `検索条件を指定して資格情報を取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "qualificationName",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+      {
+        name: "status",
+        type: "Query",
+        schema: z.enum(["dream", "planning", "acquired"]).optional(),
+      },
+      {
+        name: "rank",
+        type: "Query",
+        schema: z.enum(["D", "C", "B", "A"]).optional(),
+      },
+      {
+        name: "organization",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+      {
+        name: "acquiredDateFrom",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+      {
+        name: "acquiredDateTo",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+      {
+        name: "expirationDateFrom",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+      {
+        name: "expirationDateTo",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+      {
+        name: "sortKey",
+        type: "Query",
+        schema: z
+          .enum([
+            "qualificationName",
+            "rank",
+            "organization",
+            "acquiredDate",
+            "expirationDate",
+          ])
+          .optional(),
+      },
+    ],
+    response: z.array(Qualification),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "put",
+    path: "/qualification",
+    alias: "putQualification",
+    description: `資格報を登録(登録済みの場合は情報を置き換え)する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: Qualification,
+      },
+    ],
+    response: z
+      .object({ qualificationId: z.string().uuid() })
+      .partial()
+      .passthrough(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/qualification/:qualificationId",
+    alias: "getQualificationById",
+    description: `IDを指定して資格情報を取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "qualificationId",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: Qualification,
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "delete",
+    path: "/qualification/:qualificationId",
+    alias: "deleteQualification",
+    description: `IDを指定して資格情報を削除する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "qualificationId",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
     path: "/salary",
     alias: "getSalary",
-    description: `単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する`,
+    description: `検索条件を指定して給与情報を取得する`,
     requestFormat: "json",
     parameters: [
       {
