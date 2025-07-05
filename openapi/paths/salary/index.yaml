@@ -1,7 +1,7 @@
 get:
   operationId: getSalary
   summary: 給与情報取得
-  description: 単一の対象日付、または対象日付From~対象日付Toを指定して給与情報を取得する
+  description: 検索条件を指定して給与情報を取得する
   tags:
     - Salary
 

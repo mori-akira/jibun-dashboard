@@ -1,0 +1,57 @@
+get:
+  operationId: getQualificationById
+  summary: 資格情報取得(ID)
+  description: IDを指定して資格情報を取得する
+  tags:
+    - Qualification
+
+  parameters:
+    - in: path
+      name: qualificationId
+      description: 資格ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/Qualification"
+          example:
+            $ref: "../../examples/qualification/{qualificationId}/get.yaml"
+    "400":
+      description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+
+delete:
+  operationId: deleteQualification
+  summary: 資格情報削除(ID)
+  description: IDを指定して資格情報を削除する
+  tags:
+    - Qualification
+
+  parameters:
+    - in: path
+      name: qualificationId
+      description: 資格ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"

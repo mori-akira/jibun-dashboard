@@ -9,6 +9,8 @@ tags:
     description: ユーザ情報API
   - name: Salary
     description: 給与情報API
+  - name: Qualification
+    description: 資格情報API
 
 servers:
   - url: http://localhost:4011/
@@ -22,6 +24,10 @@ paths:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
     $ref: "paths/salary/{salaryId}.yaml"
+  /qualification:
+    $ref: "paths/qualification/index.yaml"
+  /qualification/{qualificationId}:
+    $ref: "paths/qualification/{qualificationId}.yaml"
 
 components:
   schemas:
@@ -33,5 +39,9 @@ components:
       $ref: "schemas/salary/salary.yaml"
     SalaryId:
       $ref: "schemas/salary/salaryId.yaml"
+    Qualification:
+      $ref: "schemas/qualification/qualification.yaml"
+    QualificationId:
+      $ref: "schemas/qualification/qualificationId.yaml"
     ErrorInfo:
       $ref: "schemas/error/errorInfo.yaml"

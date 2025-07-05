@@ -1,0 +1,8 @@
+type: object
+description: 資格ID
+
+properties:
+  qualificationId:
+    description: 資格ID
+    type: string
+    format: uuid
