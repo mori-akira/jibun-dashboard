@@ -22,9 +22,9 @@ import { useRouter } from "vue-router";
 
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
-import Header from "~/components/common/AppHeader.vue";
-import Navigation from "~/components/common/AppNavigation.vue";
-import HeaderMenu from "~/components/common/HeaderMenu.vue";
+import Header from "~/components/app/AppHeader.vue";
+import Navigation from "~/components/app/AppNavigation.vue";
+import HeaderMenu from "~/components/app/HeaderMenu.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 
