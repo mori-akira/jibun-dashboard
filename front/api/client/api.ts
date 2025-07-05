@@ -215,7 +215,7 @@ export interface Qualification {
      */
     'version'?: string;
     /**
-     * 状態
+     * ステータス
      * @type {string}
      * @memberof Qualification
      */
@@ -456,8 +456,8 @@ export const QualificationApiAxiosParamCreator = function (configuration?: Confi
          * 検索条件を指定して資格情報を取得する
          * @summary 資格情報取得
          * @param {string} [qualificationName] 資格名
-         * @param {GetQualificationStatusEnum} [status] 状態
-         * @param {GetQualificationRankEnum} [rank] ランク
+         * @param {Array<GetQualificationStatusEnum>} [status] ステータス
+         * @param {Array<GetQualificationRankEnum>} [rank] ランク
          * @param {string} [organization] 発行組織
          * @param {string} [acquiredDateFrom] 取得年月日From
          * @param {string} [acquiredDateTo] 取得年月日To
@@ -467,7 +467,7 @@ export const QualificationApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getQualification: async (qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getQualification: async (qualificationName?: string, status?: Array<GetQualificationStatusEnum>, rank?: Array<GetQualificationRankEnum>, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/qualification`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -484,11 +484,11 @@ export const QualificationApiAxiosParamCreator = function (configuration?: Confi
                 localVarQueryParameter['qualificationName'] = qualificationName;
             }
 
-            if (status !== undefined) {
+            if (status) {
                 localVarQueryParameter['status'] = status;
             }
 
-            if (rank !== undefined) {
+            if (rank) {
                 localVarQueryParameter['rank'] = rank;
             }
 
@@ -630,8 +630,8 @@ export const QualificationApiFp = function(configuration?: Configuration) {
          * 検索条件を指定して資格情報を取得する
          * @summary 資格情報取得
          * @param {string} [qualificationName] 資格名
-         * @param {GetQualificationStatusEnum} [status] 状態
-         * @param {GetQualificationRankEnum} [rank] ランク
+         * @param {Array<GetQualificationStatusEnum>} [status] ステータス
+         * @param {Array<GetQualificationRankEnum>} [rank] ランク
          * @param {string} [organization] 発行組織
          * @param {string} [acquiredDateFrom] 取得年月日From
          * @param {string} [acquiredDateTo] 取得年月日To
@@ -641,7 +641,7 @@ export const QualificationApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Qualification>>> {
+        async getQualification(qualificationName?: string, status?: Array<GetQualificationStatusEnum>, rank?: Array<GetQualificationRankEnum>, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Qualification>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getQualification(qualificationName, status, rank, organization, acquiredDateFrom, acquiredDateTo, expirationDateFrom, expirationDateTo, sortKey, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['QualificationApi.getQualification']?.[localVarOperationServerIndex]?.url;
@@ -697,8 +697,8 @@ export const QualificationApiFactory = function (configuration?: Configuration, 
          * 検索条件を指定して資格情報を取得する
          * @summary 資格情報取得
          * @param {string} [qualificationName] 資格名
-         * @param {GetQualificationStatusEnum} [status] 状態
-         * @param {GetQualificationRankEnum} [rank] ランク
+         * @param {Array<GetQualificationStatusEnum>} [status] ステータス
+         * @param {Array<GetQualificationRankEnum>} [rank] ランク
          * @param {string} [organization] 発行組織
          * @param {string} [acquiredDateFrom] 取得年月日From
          * @param {string} [acquiredDateTo] 取得年月日To
@@ -708,7 +708,7 @@ export const QualificationApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<Qualification>> {
+        getQualification(qualificationName?: string, status?: Array<GetQualificationStatusEnum>, rank?: Array<GetQualificationRankEnum>, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<Qualification>> {
             return localVarFp.getQualification(qualificationName, status, rank, organization, acquiredDateFrom, acquiredDateTo, expirationDateFrom, expirationDateTo, sortKey, options).then((request) => request(axios, basePath));
         },
         /**
@@ -754,8 +754,8 @@ export interface QualificationApiInterface {
      * 検索条件を指定して資格情報を取得する
      * @summary 資格情報取得
      * @param {string} [qualificationName] 資格名
-     * @param {GetQualificationStatusEnum} [status] 状態
-     * @param {GetQualificationRankEnum} [rank] ランク
+     * @param {Array<GetQualificationStatusEnum>} [status] ステータス
+     * @param {Array<GetQualificationRankEnum>} [rank] ランク
      * @param {string} [organization] 発行組織
      * @param {string} [acquiredDateFrom] 取得年月日From
      * @param {string} [acquiredDateTo] 取得年月日To
@@ -766,7 +766,7 @@ export interface QualificationApiInterface {
      * @throws {RequiredError}
      * @memberof QualificationApiInterface
      */
-    getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<Qualification>>;
+    getQualification(qualificationName?: string, status?: Array<GetQualificationStatusEnum>, rank?: Array<GetQualificationRankEnum>, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<Qualification>>;
 
     /**
      * IDを指定して資格情報を取得する
@@ -813,8 +813,8 @@ export class QualificationApi extends BaseAPI implements QualificationApiInterfa
      * 検索条件を指定して資格情報を取得する
      * @summary 資格情報取得
      * @param {string} [qualificationName] 資格名
-     * @param {GetQualificationStatusEnum} [status] 状態
-     * @param {GetQualificationRankEnum} [rank] ランク
+     * @param {Array<GetQualificationStatusEnum>} [status] ステータス
+     * @param {Array<GetQualificationRankEnum>} [rank] ランク
      * @param {string} [organization] 発行組織
      * @param {string} [acquiredDateFrom] 取得年月日From
      * @param {string} [acquiredDateTo] 取得年月日To
@@ -825,7 +825,7 @@ export class QualificationApi extends BaseAPI implements QualificationApiInterfa
      * @throws {RequiredError}
      * @memberof QualificationApi
      */
-    public getQualification(qualificationName?: string, status?: GetQualificationStatusEnum, rank?: GetQualificationRankEnum, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig) {
+    public getQualification(qualificationName?: string, status?: Array<GetQualificationStatusEnum>, rank?: Array<GetQualificationRankEnum>, organization?: string, acquiredDateFrom?: string, acquiredDateTo?: string, expirationDateFrom?: string, expirationDateTo?: string, sortKey?: GetQualificationSortKeyEnum, options?: RawAxiosRequestConfig) {
         return QualificationApiFp(this.configuration).getQualification(qualificationName, status, rank, organization, acquiredDateFrom, acquiredDateTo, expirationDateFrom, expirationDateTo, sortKey, options).then((request) => request(this.axios, this.basePath));
     }
 

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **qualificationName** | **string** | 資格名 | [default to undefined]
 **abbreviation** | **string** | 略称 | [optional] [default to undefined]
 **version** | **string** | バージョン | [optional] [default to undefined]
-**status** | **string** | 状態 | [default to undefined]
+**status** | **string** | ステータス | [default to undefined]
 **rank** | **string** | ランク | [default to undefined]
 **organization** | **string** | 発行組織 | [default to undefined]
 **acquiredDate** | **string** | 取得年月日 | [optional] [default to undefined]

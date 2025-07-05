@@ -125,12 +125,12 @@ const endpoints = makeApi([
       {
         name: "status",
         type: "Query",
-        schema: z.enum(["dream", "planning", "acquired"]).optional(),
+        schema: z.array(z.enum(["dream", "planning", "acquired"])).optional(),
       },
       {
         name: "rank",
         type: "Query",
-        schema: z.enum(["D", "C", "B", "A"]).optional(),
+        schema: z.array(z.enum(["D", "C", "B", "A"])).optional(),
       },
       {
         name: "organization",

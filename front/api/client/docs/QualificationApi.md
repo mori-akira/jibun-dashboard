@@ -78,8 +78,8 @@ const configuration = new Configuration();
 const apiInstance = new QualificationApi(configuration);
 
 let qualificationName: string; //資格名 (optional) (default to undefined)
-let status: 'dream' | 'planning' | 'acquired'; //状態 (optional) (default to undefined)
-let rank: 'D' | 'C' | 'B' | 'A'; //ランク (optional) (default to undefined)
+let status: Array<'dream' | 'planning' | 'acquired'>; //ステータス (optional) (default to undefined)
+let rank: Array<'D' | 'C' | 'B' | 'A'>; //ランク (optional) (default to undefined)
 let organization: string; //発行組織 (optional) (default to undefined)
 let acquiredDateFrom: string; //取得年月日From (optional) (default to undefined)
 let acquiredDateTo: string; //取得年月日To (optional) (default to undefined)
@@ -105,8 +105,8 @@ const { status, data } = await apiInstance.getQualification(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **qualificationName** | [**string**] | 資格名 | (optional) defaults to undefined|
-| **status** | [**&#39;dream&#39; | &#39;planning&#39; | &#39;acquired&#39;**]**Array<&#39;dream&#39; &#124; &#39;planning&#39; &#124; &#39;acquired&#39;>** | 状態 | (optional) defaults to undefined|
-| **rank** | [**&#39;D&#39; | &#39;C&#39; | &#39;B&#39; | &#39;A&#39;**]**Array<&#39;D&#39; &#124; &#39;C&#39; &#124; &#39;B&#39; &#124; &#39;A&#39;>** | ランク | (optional) defaults to undefined|
+| **status** | **Array<&#39;dream&#39; &#124; &#39;planning&#39; &#124; &#39;acquired&#39;>** | ステータス | (optional) defaults to undefined|
+| **rank** | **Array<&#39;D&#39; &#124; &#39;C&#39; &#124; &#39;B&#39; &#124; &#39;A&#39;>** | ランク | (optional) defaults to undefined|
 | **organization** | [**string**] | 発行組織 | (optional) defaults to undefined|
 | **acquiredDateFrom** | [**string**] | 取得年月日From | (optional) defaults to undefined|
 | **acquiredDateTo** | [**string**] | 取得年月日To | (optional) defaults to undefined|
