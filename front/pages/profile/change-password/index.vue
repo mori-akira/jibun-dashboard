@@ -121,7 +121,7 @@ const validationRules = {
     ((value: string, ctx: FieldValidationMetaInfo): true | string => {
       return value === ctx?.form?.newPassword
         ? true
-        : "新しいパスワードと一致しません";
+        : "パスワードが一致しません";
     }) as GenericValidateFunction,
   ],
 };
