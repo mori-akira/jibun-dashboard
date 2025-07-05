@@ -6,13 +6,13 @@
     <div :class="[inputWrapperClass]">
       <input
         :id="id"
-        type="text"
+        :type="type || 'text'"
         :class="[inputClass, { error: errorMessage }]"
         :value="value"
         @change="onChangeValue($event)"
         @blur="onBlurValue($event)"
       />
-      <span class="error-message">{{ errorMessage }}</span>
+      <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@ import { generateRandomString } from "~/util/rand";
 defineProps<{
   label?: string;
   value?: string;
+  type?: string;
   required?: boolean;
   errorMessage?: string;
   wrapperClass?: string;
@@ -87,6 +88,7 @@ input.error {
 }
 
 .error-message {
+  display: inline-block;
   margin-left: 1rem;
   color: #f33;
   font-size: 0.8rem;

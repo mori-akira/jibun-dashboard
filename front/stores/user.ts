@@ -4,6 +4,7 @@ import { ref } from "vue";
 import type { User, Password } from "~/api/client/api";
 import { UserApi } from "~/api/client/api";
 import { useCommonStore } from "~/stores/common";
+import { getErrorMessage } from "~/util/error";
 
 const userApi = new UserApi();
 const commonStore = useCommonStore();
@@ -17,7 +18,8 @@ export const useUserStore = defineStore("user", () => {
       const res = await userApi.getUser();
       user.value = res.data;
     } catch (error) {
-      console.error("Failed to fetch user:", error);
+      console.error("Failed to call api:", error);
+      commonStore.addErrorMessage(getErrorMessage(error));
     }
   }
 
@@ -27,7 +29,8 @@ export const useUserStore = defineStore("user", () => {
       await userApi.putUser(newUser);
       await fetchUser();
     } catch (error) {
-      console.error("Failed to update user:", error);
+      console.error("Failed to call api:", error);
+      commonStore.addErrorMessage(getErrorMessage(error));
     } finally {
       commonStore.setLoading(false);
     }
@@ -35,9 +38,13 @@ export const useUserStore = defineStore("user", () => {
 
   async function postPassword(newPassword: Password) {
     try {
+      commonStore.setLoading(true);
       await userApi.postPassword(newPassword);
     } catch (error) {
-      console.error("Failed to update password:", error);
+      console.error("Failed to call api:", error);
+      commonStore.addErrorMessage(getErrorMessage(error));
+    } finally {
+      commonStore.setLoading(false);
     }
   }
 

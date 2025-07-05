@@ -53,6 +53,15 @@
         </div>
       </Panel>
     </Form>
+
+    <Dialog
+      :show-dialog="showDialog"
+      type="info"
+      message="Process Completed Successfully"
+      button-type="ok"
+      @click:ok="onCloseDialog"
+      @close="onCloseDialog"
+    />
   </div>
 </template>
 
@@ -65,6 +74,7 @@ import { schemas } from "~/api/client/schemas";
 import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
+import Dialog from "~/components/common/Dialog.vue";
 import { useUserStore } from "~/stores/user";
 import { zodToVeeRules } from "~/util/zod-to-vee-rules";
 
@@ -74,6 +84,7 @@ const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
   emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),
 };
+const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   user.value = {
@@ -81,5 +92,11 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
     ...(values as User),
   };
   await userStore.putUser(user.value as User);
+  showDialog.value = true;
+};
+const onCloseDialog = (): void => {
+  console.log("Dialog closed");
+  showDialog.value = false;
+  navigateTo("/");
 };
 </script>

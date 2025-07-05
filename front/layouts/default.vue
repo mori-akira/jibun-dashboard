@@ -9,6 +9,10 @@
       </main>
     </div>
     <LoadingOverlay :is-loading="commonStore.isLoading" />
+    <ErrorMessageDialog
+      :error-messages="commonStore.errorMessages"
+      @close="commonStore.clearErrorMessages"
+    />
   </div>
 </template>
 
@@ -22,6 +26,7 @@ import Header from "~/components/common/AppHeader.vue";
 import Navigation from "~/components/common/AppNavigation.vue";
 import HeaderMenu from "~/components/common/HeaderMenu.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
+import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 
 const router = useRouter();
 const commonStore = useCommonStore();
@@ -29,6 +34,7 @@ const userStore = useUserStore();
 
 router.afterEach(() => {
   commonStore.setHeaderMenuOpen(false);
+  commonStore.clearErrorMessages();
 });
 
 onMounted(async () => {

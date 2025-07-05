@@ -5,6 +5,7 @@ export const useCommonStore = defineStore("common", () => {
   const isNavOpen = ref(true);
   const isHeaderMenuOpen = ref(false);
   const isLoading = ref(false);
+  const errorMessages = ref<string[]>([]);
 
   function toggleNav() {
     isNavOpen.value = !isNavOpen.value;
@@ -26,14 +27,30 @@ export const useCommonStore = defineStore("common", () => {
     isLoading.value = value;
   }
 
+  function addErrorMessage(message: string) {
+    errorMessages.value.push(message);
+  }
+
+  function addErrorMessages(messages: string[]) {
+    messages.forEach((message) => errorMessages.value.push(message));
+  }
+
+  function clearErrorMessages() {
+    errorMessages.value = [];
+  }
+
   return {
     isNavOpen,
     isHeaderMenuOpen,
     isLoading,
+    errorMessages,
     toggleNav,
     setNavOpen,
     toggleHeaderMenu,
     setHeaderMenuOpen,
     setLoading,
+    addErrorMessage,
+    addErrorMessages,
+    clearErrorMessages,
   };
 });

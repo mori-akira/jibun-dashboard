@@ -25,8 +25,16 @@ const ErrorInfo = z
   .passthrough();
 const Password = z
   .object({
-    oldPassword: z.string().min(8).max(32),
-    newPassword: z.string().min(8).max(32),
+    oldPassword: z
+      .string()
+      .min(8)
+      .max(32)
+      .regex(/^[a-zA-Z0-9!\"#\$%&'\(\)=~\|@{}\[\]\+\*,\.\/\\<>?_]+$/),
+    newPassword: z
+      .string()
+      .min(8)
+      .max(32)
+      .regex(/^[a-zA-Z0-9!\"#\$%&'\(\)=~\|@{}\[\]\+\*,\.\/\\<>?_]+$/),
   })
   .passthrough();
 const Salary = z

@@ -1,10 +1,25 @@
 import type { ZodTypeAny } from "zod";
 import { ZodEffects, ZodNumber, ZodString } from "zod";
 
-export function zodToVeeRules(
-  schema: ZodTypeAny
-): ((value: unknown) => true | string)[] {
-  const rules: ((value: unknown) => true | string)[] = [];
+export type FieldValidationMetaInfo = {
+  field: string;
+  name: string;
+  label?: string;
+  value: unknown;
+  form: Record<string, unknown>;
+  rule?: {
+    name: string;
+    params?: Record<string, unknown> | unknown[];
+  };
+};
+
+export type GenericValidateFunction<TValue = unknown> = (
+  value: TValue,
+  ctx: FieldValidationMetaInfo
+) => boolean | string;
+
+export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
+  const rules: ((value: unknown, ctx?: unknown) => true | string)[] = [];
 
   if (schema instanceof ZodEffects) {
     schema = schema._def.schema;
@@ -27,6 +42,12 @@ export function zodToVeeRules(
             ? true
             : `${check.value}文字以下で入力してください`
         );
+      } else if (check.kind === "regex") {
+        rules.push((value) =>
+          check.regex.test(value as string)
+            ? true
+            : `使用できない文字が含まれています`
+        );
       } else if (check.kind === "email") {
         rules.push((value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
@@ -34,7 +55,6 @@ export function zodToVeeRules(
             : "メールアドレスの形式で入力してください"
         );
       }
-      // TODO: patternも実装
     }
   }
 
@@ -55,7 +75,7 @@ export function zodToVeeRules(
         );
       } else if (check.kind === "int") {
         rules.push((value) =>
-          Number.isInteger(value as number) ? true : `整数を入力してください`
+          Number.isInteger(value as string) ? true : `整数を入力してください`
         );
       }
     }

@@ -1,7 +1,10 @@
 <template>
   <div :class="['wrapper', wrapperClass]">
     <button
-      :class="[buttonClass, { 'action-button': type === 'action' }]"
+      :class="[
+        buttonClass,
+        { 'action-button': type === 'action' || type === 'marked' },
+      ]"
       :disabled="disabled"
       type="button"
       @click="onClick"
@@ -13,7 +16,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  type?: string;
+  type?: "action" | "marked" | "default";
   disabled?: boolean;
   wrapperClass?: string;
   buttonClass?: string;
