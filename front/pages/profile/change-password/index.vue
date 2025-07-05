@@ -113,6 +113,11 @@ const validationRules = {
   ],
   newPasswordConfirm: [
     ...zodToVeeRules(schemas.Password.shape.newPassword),
+    ((value: string): true | string => {
+      return matchCharacterTypeRule(value)
+        ? true
+        : "大文字・小文字・数字・記号のうち3種類以上を含めてください";
+    }) as GenericValidateFunction,
     ((value: string, ctx: FieldValidationMetaInfo): true | string => {
       return value === ctx?.form?.newPassword
         ? true
