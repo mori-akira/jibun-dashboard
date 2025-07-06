@@ -94,7 +94,7 @@
       <InformationForm
         :item="selectedQualification"
         :item-defs="itemDefs"
-        wrapper-class="flex flex-col items-center w-80vw"
+        wrapper-class="flex flex-col items-center w-80vw max-w-3xl"
         label-class="bg-gray-800 text-white w-1/3 font-cursive"
         item-class="bg-gray-200 w-2/3"
       />
