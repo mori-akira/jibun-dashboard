@@ -5,6 +5,8 @@
     "files.trimTrailingWhitespace": true,
     "terminal.integrated.defaultProfile.linux": "bash",
     "cSpell.words": [
+        "datatable",
+        "datepicker",
         "dbaeumer",
         "devcontainers",
         "donjayamanne",
@@ -12,6 +14,7 @@
         "esbenp",
         "githistory",
         "Gruntfuggly",
+        "iconify",
         "jibun",
         "mhutchie",
         "mosapride",
@@ -20,6 +23,7 @@
         "tabler",
         "uctakeoff",
         "unhead",
+        "vuepic",
         "zenkaku"
     ],
     "explorer.fileNesting.enabled": true,

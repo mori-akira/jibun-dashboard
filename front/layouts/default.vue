@@ -2,8 +2,8 @@
   <div class="layout">
     <Header />
     <HeaderMenu />
-    <Navigation />
     <div class="content" @click="commonStore.setHeaderMenuOpen(false)">
+      <Navigation />
       <main>
         <NuxtPage />
       </main>
@@ -49,13 +49,17 @@ onMounted(async () => {
 }
 
 .content {
-  flex: 1;
-  padding: 20px;
+  width: 100vw;
+  display: flex;
   background-color: #fff;
 }
 
 main {
+  flex: 1;
+  height: calc(100vh - 4rem);
   margin-top: 3rem;
   padding: 1rem;
+  padding-right: 2rem;
+  overflow-y: scroll;
 }
 </style>

@@ -1,8 +1,11 @@
 <template>
   <div :class="['wrapper', wrapperClass]">
-    <label v-show="label" :class="labelClass" :for="id"
-      >{{ label }}<span v-show="required" class="required">*</span></label
-    >
+    <Label
+      :label="label"
+      :for-id="id"
+      :required="required"
+      :label-class="labelClass"
+    />
     <div :class="[inputWrapperClass]">
       <input
         :id="id"
@@ -19,12 +22,13 @@
 
 <script setup lang="ts">
 import { generateRandomString } from "~/util/rand";
+import Label from "~/components/common/Label.vue";
 
-defineProps<{
+const props = defineProps<{
   label?: string;
+  required?: boolean;
   value?: string;
   type?: string;
-  required?: boolean;
   errorMessage?: string;
   wrapperClass?: string;
   labelClass?: string;
@@ -39,14 +43,18 @@ const emit = defineEmits<{
 
 const onChangeValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
-  emit("change:value", target.value);
-  emit("change:event", e);
+  if (props.value !== target.value) {
+    emit("change:value", target.value);
+    emit("change:event", e);
+  }
 };
 
 const onBlurValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
-  emit("blur:value", target.value);
-  emit("blur:event", e);
+  if (props.value !== target.value) {
+    emit("blur:value", target.value);
+    emit("blur:event", e);
+  }
 };
 
 const id = generateRandomString();
@@ -76,15 +84,6 @@ input.error {
 
 .wrapper {
   display: flex;
-  justify-content: center;
-  align-items: start;
-  margin: 1rem;
-}
-
-.required {
-  margin-left: 0.2rem;
-  color: #f33;
-  font-size: 0.8rem;
 }
 
 .error-message {

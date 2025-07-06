@@ -42,6 +42,10 @@ button {
   box-shadow: 1px 1px 2px #000;
 }
 
+button:nth-of-type(n + 2) {
+  margin-left: 1rem;
+}
+
 button[disabled] {
   border: 3px solid #bbb;
   color: #bbb;

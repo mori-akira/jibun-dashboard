@@ -18,7 +18,7 @@
             v-bind="field"
             :error-message="errorMessage"
             required
-            wrapper-class="w-full"
+            wrapper-class="m-4 w-full"
             label-class="w-20 ml-4 font-cursive"
             input-wrapper-class="w-2/3"
             @blur:event="field.onBlur"
@@ -35,7 +35,7 @@
             v-bind="field"
             :error-message="errorMessage"
             required
-            wrapper-class="w-full"
+            wrapper-class="m-4 w-full"
             label-class="w-20 ml-4 font-cursive"
             input-wrapper-class="w-2/3"
             @blur:event="field.onBlur"
@@ -45,6 +45,7 @@
           <Button
             :disabled="!meta.valid"
             type="action"
+            wrapper-class="flex justify-center mt-8"
             @click="handleSubmit(onSubmit)"
           >
             <Icon name="tabler:database-share" class="adjust-icon" />
@@ -95,7 +96,6 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   showDialog.value = true;
 };
 const onCloseDialog = (): void => {
-  console.log("Dialog closed");
   showDialog.value = false;
   navigateTo("/");
 };
