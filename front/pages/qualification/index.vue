@@ -69,6 +69,19 @@
       </Accordion>
     </Panel>
 
+    <Panel>
+      <h3>
+        <Icon name="tabler:chart-infographic" class="adjust-icon" />
+        <span class="font-cursive font-bold ml-2">Summary</span>
+      </h3>
+      <div class="flex justify-center">
+        <RankSummary
+          :qualifications="qualificationStore.qualifications ?? []"
+          wrapper-class="w-4/5"
+        />
+      </div>
+    </Panel>
+
     <Panel panel-class="overflow-x-auto">
       <h3>
         <Icon name="tabler:list" class="adjust-icon" />
@@ -104,6 +117,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 import type {
   Qualification,
@@ -120,8 +134,12 @@ import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
 import InformationForm from "~/components/common/InformationForm.vue";
 import type { ItemDef } from "~/components/common/InformationForm.vue";
+import RankSummary from "~/components/qualification/RankSummary.vue";
 import { useQualificationStore } from "~/stores/qualification";
+import { getRankColorClass } from "~/util/qualification";
 
+const router = useRoute();
+const rank = router.query?.rank;
 const qualificationStore = useQualificationStore();
 
 onMounted(async () => {
@@ -138,7 +156,9 @@ const onClickStatusOption = async (value: string) => {
   await fetchQualificationApi();
 };
 
-const selectedRank = ref<GetQualificationRankEnum[]>([]);
+const selectedRank = ref<GetQualificationRankEnum[]>(
+  rank ? [rank as GetQualificationRankEnum] : []
+);
 const onClickRankOption = async (value: string) => {
   if (selectedRank.value.includes(value as GetQualificationRankEnum)) {
     selectedRank.value = selectedRank.value.filter((e) => e !== value);
@@ -197,21 +217,6 @@ const fetchQualificationApi = async () => {
     expirationDateTo.value
   );
   isLoading.value = false;
-};
-
-const getRankColorClass = (rank: unknown): string => {
-  switch (rank) {
-    case "A":
-      return "text-blue-500";
-    case "B":
-      return "text-green-500";
-    case "C":
-      return "text-orange-500";
-    case "D":
-      return "text-yellow-500";
-    default:
-      return "";
-  }
 };
 
 const columnDefs: ColumnDef[] = [
