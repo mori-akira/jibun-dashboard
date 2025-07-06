@@ -6,10 +6,9 @@ import { UserApi } from "~/api/client/api";
 import { useCommonStore } from "~/stores/common";
 import { getErrorMessage } from "~/util/error";
 
-const userApi = new UserApi();
-const commonStore = useCommonStore();
-
 export const useUserStore = defineStore("user", () => {
+  const userApi = new UserApi();
+  const commonStore = useCommonStore();
   const user = ref<User | null>(null);
   const password = ref<Password | null>(null);
 

@@ -11,9 +11,9 @@ import { QualificationApi } from "~/api/client/api";
 import { useCommonStore } from "~/stores/common";
 import { getErrorMessage } from "~/util/error";
 
-const qualificationApi = new QualificationApi();
-const commonStore = useCommonStore();
 export const useQualificationStore = defineStore("qualification", () => {
+  const qualificationApi = new QualificationApi();
+  const commonStore = useCommonStore();
   const qualifications = ref<Qualification[] | null>(null);
 
   async function fetchQualification(
