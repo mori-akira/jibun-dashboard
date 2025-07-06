@@ -7,7 +7,7 @@
       <thead>
         <tr>
           <th
-            v-for="(column, index) in columns"
+            v-for="(column, index) in columnDefs"
             :key="`header-${index}`"
             :class="[headerClass, column.headerClass]"
           >
@@ -32,16 +32,16 @@
       <tbody>
         <tr v-for="(row, index) in displayRows" :key="index" :class="[bodyClass, {clickable: rowClickable}]">
           <td
-            v-for="(column, index2) in columns"
+            v-for="(def, index2) in columnDefs"
             :key="`body-${index}-${index2}`"
             :class="[
               bodyClass,
-              column.bodyClass,
-              column.bodyClassFunction?.((row as Record<string, any>)[column.field], row as Record<string, any>)
+              def.bodyClass,
+              def.bodyClassFunction?.((row as Record<string, any>)[def.field], row as Record<string, any>)
             ]"
             @click="onClickRow((row as Record<string, any>)[rowActionKey as string])"
           >
-            {{ (row as Record<string, any>)[column.field] }}
+            {{ (row as Record<string, any>)[def.field] }}
           </td>
         </tr>
       </tbody>
@@ -67,7 +67,7 @@ export type SortDef = {
 // プロパティ定義
 const props = defineProps<{
   rows: unknown[];
-  columns: ColumnDef[];
+  columnDefs: ColumnDef[];
   isLoading?: boolean;
   rowClickable?: boolean;
   rowActionKey?: string;

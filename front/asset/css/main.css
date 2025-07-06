@@ -16,3 +16,31 @@ body {
 .adjust-icon {
   transform: translateY(2px);
 }
+
+.w-10vw {
+  width: 10vw;
+}
+
+.w-20vw {
+  width: 20vw;
+}
+
+.w-30vw {
+  width: 30vw;
+}
+
+.w-40vw {
+  width: 40vw;
+}
+
+.w-50vw {
+  width: 50vw;
+}
+
+.w-80vw {
+  width: 80vw;
+}
+
+.w-100vw {
+  width: 100vw;
+}

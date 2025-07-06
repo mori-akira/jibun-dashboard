@@ -76,7 +76,7 @@
       </h3>
       <DataTable
         :rows="rows"
-        :columns="columns"
+        :column-defs="columnDefs"
         :is-loading="isLoading"
         row-clickable
         row-action-key="qualificationId"
@@ -86,6 +86,19 @@
         @click:row="onClickRow"
       ></DataTable>
     </Panel>
+
+    <ModalWindow
+      :show-modal="selectedQualification !== null"
+      @close="onCloseModal"
+    >
+      <InformationForm
+        :item="selectedQualification"
+        :item-defs="itemDefs"
+        wrapper-class="flex flex-col items-center w-80vw"
+        label-class="bg-gray-800 text-white w-1/3 font-cursive"
+        item-class="bg-gray-200 w-2/3"
+      />
+    </ModalWindow>
   </div>
 </template>
 
@@ -104,6 +117,9 @@ import TextBox from "~/components/common/TextBox.vue";
 import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
+import ModalWindow from "~/components/common/ModalWindow.vue";
+import InformationForm from "~/components/common/InformationForm.vue";
+import type { ItemDef } from "~/components/common/InformationForm.vue";
 import { useQualificationStore } from "~/stores/qualification";
 
 const qualificationStore = useQualificationStore();
@@ -197,7 +213,8 @@ const getRankColorClass = (rank: unknown): string => {
       return "";
   }
 };
-const columns: ColumnDef[] = [
+
+const columnDefs: ColumnDef[] = [
   {
     field: "index",
     header: "",
@@ -252,6 +269,78 @@ const initSortState: SortDef = {
   direction: "asc",
 };
 const onClickRow = (id: unknown) => {
-  console.log(`clicked: ${id}`);
+  const filtered = qualificationStore.qualifications?.filter(
+    (e) => e.qualificationId === id
+  );
+  selectedQualification.value = filtered ? filtered[0] : null;
 };
+
+const selectedQualification = ref<Qualification | null>(null);
+const itemDefs: ItemDef[] = [
+  {
+    field: "qualificationId",
+    label: "Id",
+    skipIfNull: true,
+  },
+  {
+    field: "qualificationName",
+    label: "Qualification Name",
+    skipIfNull: true,
+  },
+  {
+    field: "abbreviation",
+    label: "Abbreviation",
+    skipIfNull: true,
+  },
+  {
+    field: "version",
+    label: "Version",
+    skipIfNull: true,
+  },
+  {
+    field: "status",
+    label: "Status",
+    skipIfNull: true,
+  },
+  {
+    field: "rank",
+    label: "Rank",
+    skipIfNull: true,
+    itemClassFunction: (value) => getRankColorClass(value),
+  },
+  {
+    field: "organization",
+    label: "Organization",
+    skipIfNull: true,
+  },
+  {
+    field: "acquiredDate",
+    label: "Acquired Date",
+    skipIfNull: true,
+  },
+  {
+    field: "expirationDate",
+    label: "Expiration Date",
+    skipIfNull: true,
+  },
+  {
+    field: "officialUrl",
+    label: "Official URL",
+    skipIfNull: true,
+    itemType: "anchorLink",
+  },
+  {
+    field: "certificationUrl",
+    label: "Certification URL",
+    skipIfNull: true,
+    itemType: "anchorLink",
+  },
+  {
+    field: "badgeUrl",
+    label: "Badge URL",
+    skipIfNull: true,
+    itemType: "anchorLink",
+  },
+];
+const onCloseModal = () => (selectedQualification.value = null);
 </script>
