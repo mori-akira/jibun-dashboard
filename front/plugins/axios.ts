@@ -8,7 +8,7 @@ export default defineNuxtPlugin(() => {
 
   if (config.public.apiMode === "mock") {
     axios.interceptors.request.use((req) => {
-      const url = req.url?.replace(/^\/?/, "");
+      const url = req.url?.replace(/^\/?/, "").replace(/\?.+$/, "");
       req.url = urlJoin("/mock-api/", `${url}.json`);
       req.method = "get";
       return req;
