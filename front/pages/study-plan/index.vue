@@ -4,5 +4,3 @@
     <span class="font-cursive font-bold ml-2">Study Plan</span>
   </h2>
 </template>
-
-<style scoped></style>

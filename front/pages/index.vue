@@ -17,5 +17,3 @@ const onAddError = () => {
   commonStore.addErrorMessage("This is a test error message.");
 };
 </script>
-
-<style scoped></style>

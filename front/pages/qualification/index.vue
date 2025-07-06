@@ -183,6 +183,20 @@ const fetchQualificationApi = async () => {
   isLoading.value = false;
 };
 
+const getRankColorClass = (rank: unknown): string => {
+  switch (rank) {
+    case "A":
+      return "text-blue-500";
+    case "B":
+      return "text-green-500";
+    case "C":
+      return "text-orange-500";
+    case "D":
+      return "text-yellow-500";
+    default:
+      return "";
+  }
+};
 const columns: ColumnDef[] = [
   {
     field: "index",
@@ -210,7 +224,8 @@ const columns: ColumnDef[] = [
     header: "Rank",
     sortable: true,
     headerClass: "w-26",
-    bodyClass: "text-center h-12",
+    bodyClass: "text-center h-12 font-bold",
+    bodyClassFunction: (value) => getRankColorClass(value),
   },
   {
     field: "acquiredDate",
@@ -240,5 +255,3 @@ const onClickRow = (id: unknown) => {
   console.log(`clicked: ${id}`);
 };
 </script>
-
-<style scoped></style>

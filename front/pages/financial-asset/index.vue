@@ -4,5 +4,3 @@
     <span class="font-cursive font-bold ml-2">Financial Asset</span>
   </h2>
 </template>
-
-<style scoped></style>

@@ -34,7 +34,11 @@
           <td
             v-for="(column, index2) in columns"
             :key="`body-${index}-${index2}`"
-            :class="(bodyClass, column.bodyClass)"
+            :class="[
+              bodyClass,
+              column.bodyClass,
+              column.bodyClassFunction?.((row as Record<string, any>)[column.field], row as Record<string, any>)
+            ]"
             @click="onClickRow((row as Record<string, any>)[rowActionKey as string])"
           >
             {{ (row as Record<string, any>)[column.field] }}
@@ -53,6 +57,7 @@ export type ColumnDef = {
   sortable?: boolean;
   headerClass?: string;
   bodyClass?: string;
+  bodyClassFunction?: (value: unknown, row: Record<string, unknown>) => string;
 };
 export type SortDef = {
   column: string;
@@ -117,7 +122,7 @@ const sortRows = (rows: unknown[]): unknown[] => {
 };
 
 // 表示行
-const displayRows = ref<unknown[]>(sortRows(props.rows));
+const displayRows = ref<unknown[]>(sortRows(props.rows || []));
 watch(
   () => sortState.value,
   () => {
