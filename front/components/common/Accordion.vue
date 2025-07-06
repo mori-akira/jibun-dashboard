@@ -62,11 +62,12 @@ const onClickHeader = () => (isOpened.value = !isOpened.value);
 .body {
   transition: 0.5s;
   height: 0;
-  transform: translateY(calc(-100% - 3rem));
+  opacity: 0;
 }
 
 .body.opened {
   height: 100%;
-  transform: translateY(0);
+  height: auto;
+  opacity: 1;
 }
 </style>
