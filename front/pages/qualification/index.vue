@@ -306,6 +306,7 @@ const itemDefs: ItemDef[] = [
     field: "rank",
     label: "Rank",
     skipIfNull: true,
+    itemClass: "font-bold",
     itemClassFunction: (value) => getRankColorClass(value),
   },
   {
