@@ -18,7 +18,7 @@
             v-bind="field"
             :error-message="errorMessage"
             required
-            wrapper-class="m-4 w-full"
+            wrapper-class="m-4 w-full justify-center"
             label-class="w-20 ml-4 font-cursive"
             input-wrapper-class="w-2/3"
             @blur:event="field.onBlur"
@@ -35,7 +35,7 @@
             v-bind="field"
             :error-message="errorMessage"
             required
-            wrapper-class="m-4 w-full"
+            wrapper-class="m-4 w-full justify-center"
             label-class="w-20 ml-4 font-cursive"
             input-wrapper-class="w-2/3"
             @blur:event="field.onBlur"

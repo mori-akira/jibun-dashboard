@@ -18,7 +18,7 @@
             :error-message="errorMessage"
             required
             type="password"
-            wrapper-class="mt-4 w-full"
+            wrapper-class="mt-4 w-full justify-center"
             label-class="w-50 ml-4 font-cursive"
             input-wrapper-class="w-1/3"
             @blur:event="field.onBlur"
@@ -35,7 +35,7 @@
             :error-message="errorMessage"
             required
             type="password"
-            wrapper-class="mt-4 w-full"
+            wrapper-class="mt-4 w-full justify-center"
             label-class="w-50 ml-4 font-cursive"
             input-wrapper-class="w-1/3"
             @blur:event="field.onBlur"
@@ -52,7 +52,7 @@
             :error-message="errorMessage"
             required
             type="password"
-            wrapper-class="mt-4 w-full"
+            wrapper-class="mt-4 w-full justify-center"
             label-class="w-50 ml-4 font-cursive"
             input-wrapper-class="w-1/3"
             @blur:event="field.onBlur"
