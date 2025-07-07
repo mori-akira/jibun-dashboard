@@ -83,6 +83,7 @@ li:nth-child(n + 2) {
 }
 
 .menu-item .menu-icon {
-  transform: translateY(2px);
+  transform: translate(-1px, 4px);
+  font-size: 1.3rem;
 }
 </style>

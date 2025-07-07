@@ -8,7 +8,7 @@
         <p
           v-for="(errorMessage, key) in errorMessages"
           :key="key"
-          class="font-cursive font-bold text-white"
+          class="font-bold text-white"
         >
           {{ errorMessage }}
         </p>

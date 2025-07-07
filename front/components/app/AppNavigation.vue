@@ -132,6 +132,7 @@ a:hover {
 }
 
 .nav-icon {
-  transform: translate(-1px, 2px);
+  transform: translate(-1px, 4px);
+  font-size: 1.3rem;
 }
 </style>

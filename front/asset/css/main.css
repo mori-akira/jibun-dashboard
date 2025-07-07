@@ -14,7 +14,8 @@ body {
 }
 
 .adjust-icon {
-  transform: translateY(2px);
+  transform: translateY(4px);
+  font-size: 1.3rem;
 }
 
 .w-10vw {

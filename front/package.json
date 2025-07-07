@@ -35,6 +35,7 @@
     "@nuxt/icon": "^1.13.0",
     "@openapitools/openapi-generator-cli": "^2.21.0",
     "@stoplight/prism-cli": "^5.14.2",
+    "eslint-plugin-pinia": "^0.4.1",
     "openapi-zod-client": "^1.18.3"
   }
 }
