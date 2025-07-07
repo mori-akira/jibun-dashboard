@@ -17,7 +17,7 @@
         </template>
       </div>
       <div class="ml-4">
-        <span class="font-cursive">{{ message }}</span>
+        <span :class="[messageClass]">{{ message }}</span>
       </div>
     </div>
     <div v-if="buttonType === 'ok'" class="mt-4 flex justify-center">
@@ -42,6 +42,7 @@ defineProps<{
   iconName?: string;
   message?: string;
   buttonType?: "ok" | "yesNo";
+  messageClass?: string;
 }>();
 
 const emit = defineEmits<{

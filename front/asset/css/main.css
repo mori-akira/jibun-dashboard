@@ -6,11 +6,11 @@ body {
 }
 
 .font-cursive {
-  font-family: cursive;
+  font-family: cursive, sans-serif;
 }
 
 .font-sacramento {
-  font-family: "Sacramento", cursive;
+  font-family: "Sacramento", cursive, sans-serif;
 }
 
 .adjust-icon {

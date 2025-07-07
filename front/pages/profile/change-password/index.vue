@@ -66,7 +66,7 @@
             @click="handleSubmit(onSubmit)"
           >
             <Icon name="tabler:database-share" class="adjust-icon" />
-            <span class="font-cursive ml-2">Execute</span>
+            <span class="ml-2">Execute</span>
           </Button>
         </div>
       </Panel>
