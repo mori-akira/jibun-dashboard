@@ -1,5 +1,5 @@
 <template>
-  <a :href="link" :class="[anchorClass]" target="_blank">
+  <a :href="link" :class="[anchorClass]" :target="target">
     <span>{{ text }}</span>
     <Icon name="tabler:external-link" class="link-icon" />
   </a>
@@ -9,6 +9,7 @@
 defineProps<{
   link: string;
   text: string;
+  target?: "_blank";
   anchorClass?: string;
 }>();
 </script>

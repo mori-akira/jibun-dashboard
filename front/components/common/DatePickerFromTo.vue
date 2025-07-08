@@ -41,7 +41,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "change:from" | "change:to", value: string): void;
+  (event: "change:from" | "change:to", value?: string): void;
 }>();
 
 const dateFromObj = ref<Date | null>(
@@ -55,7 +55,7 @@ watch(dateFromObj, (newVal) => {
   if (newVal) {
     emit("change:from", moment(newVal).format("YYYY-MM-DD"));
   } else {
-    emit("change:from", "");
+    emit("change:from", undefined);
   }
 });
 
@@ -63,7 +63,7 @@ watch(dateToObj, (newVal) => {
   if (newVal) {
     emit("change:to", moment(newVal).format("YYYY-MM-DD"));
   } else {
-    emit("change:to", "");
+    emit("change:to", undefined);
   }
 });
 

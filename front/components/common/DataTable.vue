@@ -10,6 +10,8 @@
             v-for="(column, index) in columnDefs"
             :key="`header-${index}`"
             :class="[headerClass, column.headerClass]"
+            :aria-selected="sortState?.column === column.field"
+            :aria-sort="sortState?.column === column.field ? (sortState?.direction === 'desc'? 'descending' : 'ascending') : undefined"
           >
             <div class="header-inner">
               <div>{{ column.header }}</div>

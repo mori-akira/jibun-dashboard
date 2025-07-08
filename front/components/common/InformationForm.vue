@@ -19,6 +19,7 @@
           v-show="def.itemType === 'anchorLink'"
           :link="(item as Record<string, unknown>)[def.field] as string"
           :text="(item as Record<string, unknown>)[def.field] as string"
+          target="_blank"
           anchor-class="truncate"
         />
         <span v-show="def.itemType === undefined">{{ (item as Record<string, unknown>)[def.field] }}</span>

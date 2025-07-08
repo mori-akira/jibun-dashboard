@@ -180,26 +180,26 @@ const onBlurOrganization = async (value: string) => {
   await fetchQualificationApi();
 };
 
-const acquiredDateFrom = ref<string>("");
-const onChangeAcquiredDateFrom = async (value: string) => {
+const acquiredDateFrom = ref<string | undefined>("");
+const onChangeAcquiredDateFrom = async (value: string | undefined) => {
   acquiredDateFrom.value = value;
   await fetchQualificationApi();
 };
 
-const acquiredDateTo = ref<string>("");
-const onChangeAcquiredDateTo = async (value: string) => {
+const acquiredDateTo = ref<string | undefined>("");
+const onChangeAcquiredDateTo = async (value: string | undefined) => {
   acquiredDateTo.value = value;
   await fetchQualificationApi();
 };
 
-const expirationDateFrom = ref<string>("");
-const onChangeExpirationDateFrom = async (value: string) => {
+const expirationDateFrom = ref<string | undefined>("");
+const onChangeExpirationDateFrom = async (value: string | undefined) => {
   acquiredDateFrom.value = value;
   await fetchQualificationApi();
 };
 
-const expirationDateTo = ref<string>("");
-const onChangeExpirationDateTo = async (value: string) => {
+const expirationDateTo = ref<string | undefined>("");
+const onChangeExpirationDateTo = async (value: string | undefined) => {
   acquiredDateTo.value = value;
   await fetchQualificationApi();
 };
