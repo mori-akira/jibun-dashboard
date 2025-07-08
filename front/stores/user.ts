@@ -14,11 +14,14 @@ export const useUserStore = defineStore("user", () => {
 
   async function fetchUser() {
     try {
+      commonStore.setLoading(true);
       const res = await userApi.getUser();
       user.value = res.data;
     } catch (error) {
       console.error("Failed to call api:", error);
       commonStore.addErrorMessage(getErrorMessage(error));
+    } finally {
+      commonStore.setLoading(false);
     }
   }
 
