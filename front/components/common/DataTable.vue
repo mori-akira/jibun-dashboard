@@ -1,8 +1,8 @@
 <template>
-  <div v-show="isLoading" class="loading-spinner-wrapper">
-    <Icon name="tabler:loader" class="loading-spinner" />
-  </div>
   <div :class="['wrapper', wrapperClass]">
+    <div v-show="isLoading" class="loading-overlay">
+      <Icon name="tabler:loader" class="loading-spinner" />
+    </div>
     <table :class="[tableClass]">
       <thead>
         <tr>
@@ -133,6 +133,10 @@ watch(
 </script>
 
 <style scoped>
+.wrapper {
+  position: relative;
+}
+
 table {
   width: 100%;
   table-layout: fixed;
@@ -186,8 +190,10 @@ td {
   border-bottom: 1px solid #333;
 }
 
-.loading-spinner-wrapper {
+.loading-overlay {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: #ffffffdd;
