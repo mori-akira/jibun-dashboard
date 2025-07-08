@@ -9,7 +9,7 @@ import type {
 } from "~/api/client/api";
 import { QualificationApi } from "~/api/client/api";
 import { useCommonStore } from "~/stores/common";
-import { getErrorMessage } from "~/util/error";
+import { getErrorMessage } from "~/utils/error";
 
 export const useQualificationStore = defineStore("qualification", () => {
   const qualificationApi = new QualificationApi();

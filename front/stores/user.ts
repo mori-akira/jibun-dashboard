@@ -4,7 +4,7 @@ import { ref } from "vue";
 import type { User, Password } from "~/api/client/api";
 import { UserApi } from "~/api/client/api";
 import { useCommonStore } from "~/stores/common";
-import { getErrorMessage } from "~/util/error";
+import { getErrorMessage } from "~/utils/error";
 
 export const useUserStore = defineStore("user", () => {
   const userApi = new UserApi();

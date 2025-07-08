@@ -2,7 +2,7 @@ import { defineNuxtPlugin, useRuntimeConfig } from "#app";
 import axios from "axios";
 import urlJoin from "url-join";
 
-import { sleep } from "~/util/sleep";
+import { sleep } from "~/utils/sleep";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();

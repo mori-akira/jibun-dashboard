@@ -136,7 +136,7 @@ import InformationForm from "~/components/common/InformationForm.vue";
 import type { ItemDef } from "~/components/common/InformationForm.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
 import { useQualificationStore } from "~/stores/qualification";
-import { getRankColorClass } from "~/util/qualification";
+import { getRankColorClass } from "~/utils/qualification";
 
 const router = useRoute();
 const rank = router.query?.rank;

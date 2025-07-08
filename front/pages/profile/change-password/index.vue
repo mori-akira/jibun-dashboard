@@ -94,12 +94,12 @@ import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useUserStore } from "~/stores/user";
-import { zodToVeeRules } from "~/util/zod-to-vee-rules";
+import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import type {
   FieldValidationMetaInfo,
   GenericValidateFunction,
-} from "~/util/zod-to-vee-rules";
-import { matchCharacterTypeRule } from "~/util/password";
+} from "~/utils/zod-to-vee-rules";
+import { matchCharacterTypeRule } from "~/utils/password";
 
 const userStore = useUserStore();
 const validationRules = {

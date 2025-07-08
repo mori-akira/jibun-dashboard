@@ -77,7 +77,7 @@ import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useUserStore } from "~/stores/user";
-import { zodToVeeRules } from "~/util/zod-to-vee-rules";
+import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const userStore = useUserStore();
 const user = ref<User | null>({ ...userStore.user } as User);

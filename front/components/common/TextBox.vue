@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { generateRandomString } from "~/util/rand";
+import { generateRandomString } from "~/utils/rand";
 import Label from "~/components/common/Label.vue";
 
 const props = defineProps<{

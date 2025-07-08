@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import type { Qualification } from "~/api/client";
-import { getRankColorClass } from "~/util/qualification";
+import { getRankColorClass } from "~/utils/qualification";
 
 type Counter = {
   A: number;
