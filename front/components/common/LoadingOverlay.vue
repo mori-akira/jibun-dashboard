@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading" class="loading-overlay">
+  <div v-if="isLoading" class="loading-overlay" role="status" aria-busy="true">
     <Icon name="tabler:loader" class="loading-icon" />
   </div>
 </template>

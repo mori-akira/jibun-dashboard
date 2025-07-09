@@ -12,6 +12,7 @@
         :type="type || 'text'"
         :class="[inputClass, { error: errorMessage }]"
         :value="value"
+        :aria-invalid="!!errorMessage"
         @change="onChangeValue($event)"
         @blur="onBlurValue($event)"
       />
@@ -57,7 +58,7 @@ const onBlurValue = (e: Event): void => {
   }
 };
 
-const id = generateRandomString();
+const id = computed(() => `input-${generateRandomString()}`);
 </script>
 
 <style scoped>

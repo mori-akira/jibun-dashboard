@@ -16,15 +16,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   title?: string;
+  initOpened?: boolean;
   wrapperClass?: string;
   headerClass?: string;
   titleClass?: string;
   bodyClass?: string;
 }>();
 
-const isOpened = ref<boolean>(false);
+const isOpened = ref<boolean>(props.initOpened || false);
 const onClickHeader = () => (isOpened.value = !isOpened.value);
 </script>
 
@@ -66,7 +67,6 @@ const onClickHeader = () => (isOpened.value = !isOpened.value);
 }
 
 .body.opened {
-  height: 100%;
   height: auto;
   opacity: 1;
 }

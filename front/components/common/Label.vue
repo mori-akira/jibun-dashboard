@@ -1,6 +1,7 @@
 <template>
   <label v-show="label" :class="labelClass" :for="forId"
-    >{{ label }}<span v-show="required" class="required">*</span></label
+    ><span>{{ label }}</span
+    ><span v-show="required" class="required" aria-hidden="true">*</span></label
   >
 </template>
 

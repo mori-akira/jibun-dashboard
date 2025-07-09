@@ -9,7 +9,7 @@
 defineProps<{
   link: string;
   text: string;
-  target?: "_blank";
+  target?: "_blank" | "_self" | "_parent" | "_top";
   anchorClass?: string;
 }>();
 </script>

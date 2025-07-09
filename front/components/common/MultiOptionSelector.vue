@@ -10,7 +10,10 @@
         { selected: selectedOptions.includes(values[index]) },
       ]"
       :value="values[index]"
+      role="button"
+      tabindex="0"
       @click="onClickOption(values[index])"
+      @keydown.enter="onClickOption(values[index])"
     >
       {{ option }}
     </div>
@@ -28,7 +31,6 @@ defineProps<{
   selectedOptions: string[];
   wrapperClass?: string;
   labelClass?: string;
-  optionsWrapperClass?: string;
   optionClass?: string;
 }>();
 

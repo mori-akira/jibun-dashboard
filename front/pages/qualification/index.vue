@@ -194,13 +194,13 @@ const onChangeAcquiredDateTo = async (value: string | undefined) => {
 
 const expirationDateFrom = ref<string | undefined>("");
 const onChangeExpirationDateFrom = async (value: string | undefined) => {
-  acquiredDateFrom.value = value;
+  expirationDateFrom.value = value;
   await fetchQualificationApi();
 };
 
 const expirationDateTo = ref<string | undefined>("");
 const onChangeExpirationDateTo = async (value: string | undefined) => {
-  acquiredDateTo.value = value;
+  expirationDateTo.value = value;
   await fetchQualificationApi();
 };
 
@@ -264,9 +264,11 @@ const columnDefs: ColumnDef[] = [
     bodyClass: "text-center h-12",
   },
 ];
-const rows = ref<Qualification[]>(
-  qualificationStore.qualifications?.map((e, i) => ({ ...e, index: i + 1 })) ??
-    []
+const rows = computed(() =>
+  (qualificationStore.qualifications ?? []).map((e, i) => ({
+    ...e,
+    index: i + 1,
+  }))
 );
 const isLoading = ref<boolean>(false);
 const initSortState: SortDef = {

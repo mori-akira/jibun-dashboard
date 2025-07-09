@@ -80,7 +80,7 @@ import { useUserStore } from "~/stores/user";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const userStore = useUserStore();
-const user = ref<User | null>({ ...userStore.user } as User);
+const user = ref<User>({ ...userStore.user } as User);
 const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
   emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),

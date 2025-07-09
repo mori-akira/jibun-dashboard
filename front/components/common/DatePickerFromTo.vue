@@ -67,7 +67,7 @@ watch(dateToObj, (newVal) => {
   }
 });
 
-const format = (date: Date) => moment(date).format("yyyy-MM-DD");
+const format = (date: Date) => moment(date).format("YYYY-MM-DD");
 </script>
 
 <style scoped>

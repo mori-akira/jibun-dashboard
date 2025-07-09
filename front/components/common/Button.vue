@@ -6,7 +6,7 @@
         { 'action-button': type === 'action' || type === 'marked' },
       ]"
       :disabled="disabled"
-      type="button"
+      :type="htmlType || 'button'"
       @click="onClick"
     >
       <slot />
@@ -17,10 +17,10 @@
 <script setup lang="ts">
 defineProps<{
   type?: "action" | "marked" | "default";
+  htmlType?: "button" | "submit" | "reset";
   disabled?: boolean;
   wrapperClass?: string;
   buttonClass?: string;
-  labelClass?: string;
 }>();
 
 const emit = defineEmits<{
@@ -40,10 +40,6 @@ button {
   padding: 0.2rem 1rem;
   border-radius: 0.5rem;
   box-shadow: 1px 1px 2px #000;
-}
-
-button:nth-of-type(n + 2) {
-  margin-left: 1rem;
 }
 
 button[disabled] {

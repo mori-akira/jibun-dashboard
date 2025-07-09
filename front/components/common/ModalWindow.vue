@@ -1,5 +1,11 @@
 <template>
-  <div v-if="showModal" class="modal-overlay" @click="onClose">
+  <div
+    v-if="showModal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    @click="onClose"
+  >
     <div :class="['modal-box', modalBoxClass]" @click.stop>
       <slot />
     </div>

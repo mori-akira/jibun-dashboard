@@ -2,7 +2,7 @@
   <div :class="['wrapper', wrapperClass]">
     <div
       v-for="(def, index) in itemDefs"
-      v-show="def.skipIfNull && (item as Record<string, unknown>)[def.field]"
+      v-show="def.skipIfNull && typedItem[def.field]"
       :key="index"
       :class="['row', rowClass]"
     >
@@ -11,25 +11,30 @@
         :class="[
           'item',
           itemClass,
-          def.itemClass, def.itemClassFunction?.((item as Record<string, unknown>)[def.field], item as Record<string, unknown>)
+          def.itemClass,
+          def.itemClassFunction?.(typedItem[def.field], typedItem),
         ]"
       >
-        <span v-show="def.itemType === 'plainText'">{{ (item as Record<string, unknown>)[def.field] }}</span>
+        <span v-if="def.itemType === 'plainText'">{{
+          typedItem[def.field]
+        }}</span>
         <AnchorLink
-          v-show="def.itemType === 'anchorLink'"
-          :link="(item as Record<string, unknown>)[def.field] as string"
-          :text="(item as Record<string, unknown>)[def.field] as string"
+          v-else-if="def.itemType === 'anchorLink'"
+          :link="(typedItem)[def.field] as string"
+          :text="(typedItem)[def.field] as string"
           target="_blank"
           anchor-class="truncate"
         />
-        <span v-show="def.itemType === undefined">{{ (item as Record<string, unknown>)[def.field] }}</span>
+        <span v-else-if="def.itemType === undefined">{{
+          typedItem[def.field]
+        }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import AnchorLink from '~/components/common/AnchorLink.vue';
+import AnchorLink from "~/components/common/AnchorLink.vue";
 
 export type ItemDef = {
   field: string;
@@ -41,7 +46,7 @@ export type ItemDef = {
   itemClassFunction?: (value: unknown, row: Record<string, unknown>) => string;
 };
 
-defineProps<{
+const props = defineProps<{
   item: unknown;
   itemDefs: ItemDef[];
   wrapperClass?: string;
@@ -49,6 +54,8 @@ defineProps<{
   labelClass?: string;
   itemClass?: string;
 }>();
+
+const typedItem = computed(() => props.item as Record<string, unknown>);
 </script>
 
 <style scoped>

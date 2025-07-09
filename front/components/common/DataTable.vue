@@ -32,7 +32,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) in displayRows" :key="index" :class="[bodyClass, {clickable: rowClickable}]">
+        <tr
+          v-for="(row, index) in displayRows"
+          :key="index"
+          :class="[bodyClass, {clickable: rowClickable}]"
+          @click="onClickRow((row as Record<string, any>)[rowActionKey as string])"
+        >
           <td
             v-for="(def, index2) in columnDefs"
             :key="`body-${index}-${index2}`"
@@ -41,7 +46,6 @@
               def.bodyClass,
               def.bodyClassFunction?.((row as Record<string, any>)[def.field], row as Record<string, any>)
             ]"
-            @click="onClickRow((row as Record<string, any>)[rowActionKey as string])"
           >
             {{ (row as Record<string, any>)[def.field] }}
           </td>

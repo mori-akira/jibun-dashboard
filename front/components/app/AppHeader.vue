@@ -14,7 +14,7 @@
       >
     </div>
     <div class="user-area">
-      <span class="user-name">{{ userStore?.user?.userName ?? "" }}</span>
+      <span class="user-name">{{ userName }}</span>
       <div class="toggle-menu-wrapper" @click="commonStore.toggleHeaderMenu">
         <Icon
           name="tabler:caret-left-filled"
@@ -31,6 +31,7 @@ import { useUserStore } from "~/stores/user";
 
 const commonStore = useCommonStore();
 const userStore = useUserStore();
+const userName = computed(() => userStore.user?.userName ?? "");
 </script>
 
 <style scoped>
