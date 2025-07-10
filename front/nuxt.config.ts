@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxt/ui",
     "@nuxt/icon",
+    "@nuxt/test-utils/module",
     [
       "@vee-validate/nuxt",
       {

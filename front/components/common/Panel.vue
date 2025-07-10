@@ -13,7 +13,6 @@ defineProps<{
 
 <style scoped>
 .panel {
-  width: 100%;
   margin: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
