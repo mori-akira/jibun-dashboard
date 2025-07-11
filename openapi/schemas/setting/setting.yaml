@@ -1,0 +1,19 @@
+type: object
+description: 設定
+
+required:
+  - salary
+
+properties:
+
+  settingId:
+    description: 設定ID
+    type: string
+    format: uuid
+
+  userId:
+    description: ユーザID
+    type: string
+
+  salary:
+    $ref: salary.yaml

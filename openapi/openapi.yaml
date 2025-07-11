@@ -7,6 +7,8 @@ info:
 tags:
   - name: User
     description: ユーザ情報API
+  - name: Setting
+    description: 設定API
   - name: Salary
     description: 給与情報API
   - name: Qualification
@@ -20,6 +22,10 @@ paths:
     $ref: "paths/user/index.yaml"
   /user/password:
     $ref: "paths/user/password.yaml"
+  /setting:
+    $ref: "paths/setting/index.yaml"
+  /setting/salary:
+    $ref: "paths/setting/salary/index.yaml"
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
@@ -35,6 +41,10 @@ components:
       $ref: "schemas/user/user.yaml"
     Password:
       $ref: "schemas/user/password.yaml"
+    Setting:
+      $ref: "schemas/setting/setting.yaml"
+    SettingSalary:
+      $ref: "schemas/setting/salary.yaml"
     Salary:
       $ref: "schemas/salary/salary.yaml"
     SalaryId:

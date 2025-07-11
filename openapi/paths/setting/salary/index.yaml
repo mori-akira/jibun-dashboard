@@ -1,0 +1,22 @@
+get:
+  operationId: getSettingSalary
+  summary: 給与設定取得
+  description: アクセストークンを用いて、現在ログイン中のユーザの給与設定を取得する
+  tags:
+    - Setting
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../../openapi.yaml#/components/schemas/SettingSalary"
+          example:
+            $ref: "../../../examples/setting/salary/get.yaml"
+    "400":
+      description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "../../../openapi.yaml#/components/schemas/ErrorInfo"

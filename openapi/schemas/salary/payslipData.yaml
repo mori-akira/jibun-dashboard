@@ -1,5 +1,5 @@
 type: object
-description: 給与明細情報
+description: 給与明細
 
 required:
   - key
