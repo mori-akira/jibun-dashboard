@@ -16,7 +16,7 @@
           <span
             :class="[
               'inline-block',
-              'font-cursive',
+              'font-bold',
               'w-1/2',
               { 'text-blue-600': yearIncome.thisYear >= yearIncome.lastYear },
               { 'text-red-600': yearIncome.thisYear < yearIncome.lastYear },
@@ -42,7 +42,7 @@
         />
         <div class="w-full mt-4 ml-2">
           <span class="inline-block font-cursive w-1/2">Last Year</span>
-          <span class="inline-block font-cursive w-1/2">{{
+          <span class="inline-block font-bold w-1/2">{{
             `￥${yearIncome.lastYear.toLocaleString()}`
           }}</span>
         </div>
