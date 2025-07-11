@@ -37,6 +37,17 @@ const Password = z
       .regex(/^[a-zA-Z0-9!\"#\$%&'\(\)=~\|@{}\[\]\+\*,\.\/\\<>?_]+$/),
   })
   .passthrough();
+const SettingSalary = z
+  .object({ financialYearStartMonth: z.number().int().gte(1).lte(12) })
+  .partial()
+  .passthrough();
+const Setting = z
+  .object({
+    settingId: z.string().uuid().optional(),
+    userId: z.string().optional(),
+    salary: SettingSalary,
+  })
+  .passthrough();
 const Salary = z
   .object({
     salaryId: z.string().uuid().optional(),
@@ -103,6 +114,8 @@ export const schemas = {
   User,
   ErrorInfo,
   Password,
+  SettingSalary,
+  Setting,
   Salary,
   SalaryId,
   Qualification,
@@ -339,6 +352,61 @@ const endpoints = makeApi([
       },
     ],
     response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/setting",
+    alias: "getSetting",
+    description: `アクセストークンを用いて、現在ログイン中のユーザの設定を取得する`,
+    requestFormat: "json",
+    response: Setting,
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "put",
+    path: "/setting",
+    alias: "putSetting",
+    description: `アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: Setting,
+      },
+    ],
+    response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/setting/salary",
+    alias: "getSettingSalary",
+    description: `アクセストークンを用いて、現在ログイン中のユーザの給与設定を取得する`,
+    requestFormat: "json",
+    response: z
+      .object({ financialYearStartMonth: z.number().int().gte(1).lte(12) })
+      .partial()
+      .passthrough(),
     errors: [
       {
         status: 400,
