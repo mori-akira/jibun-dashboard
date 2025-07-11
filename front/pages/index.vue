@@ -11,13 +11,19 @@
           <Icon name="tabler:report-money" class="adjust-icon" />
           <span class="font-cursive font-bold ml-2">Salary</span>
         </h3>
+        <div class="h-36 flex items-center">
+          <YearIncomeComparer
+            :salaries="salaryStore.salaries ?? []"
+            wrapper-class="w-full"
+          />
+        </div>
       </Panel>
-      <Panel panel-class="w-full">
+      <Panel panel-class="w-full items-center">
         <h3>
           <Icon name="tabler:certificate" class="adjust-icon" />
           <span class="font-cursive font-bold ml-2">Qualification</span>
         </h3>
-        <div class="flex justify-center">
+        <div class="h-36 flex justify-center items-center">
           <RankSummary
             :qualifications="qualificationStore.qualifications ?? []"
             wrapper-class="w-full"
@@ -41,6 +47,7 @@ import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
+import YearIncomeComparer from "~/components/salary/YearIncomeComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
 
 const commonStore = useCommonStore();

@@ -20,8 +20,9 @@ const props = defineProps<{
   rightClass?: string;
 }>();
 
+const total = props.leftValue + props.rightValue;
 const leftValuePercent =
-  (props.leftValue * 100) / (props.leftValue + props.rightValue);
+  total === 0 ? undefined : (props.leftValue * 100) / total;
 const rightValuePercent =
-  (props.rightValue * 100) / (props.leftValue + props.rightValue);
+  total === 0 ? undefined : (props.rightValue * 100) / total;
 </script>

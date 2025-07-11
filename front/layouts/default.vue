@@ -22,6 +22,7 @@ import { useRouter } from "vue-router";
 
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
+import { useSettingStore } from "~/stores/setting";
 import Header from "~/components/app/AppHeader.vue";
 import Navigation from "~/components/app/AppNavigation.vue";
 import HeaderMenu from "~/components/app/HeaderMenu.vue";
@@ -31,6 +32,7 @@ import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 const router = useRouter();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
+const settingStore = useSettingStore();
 
 router.afterEach(() => {
   commonStore.setHeaderMenuOpen(false);
@@ -38,7 +40,7 @@ router.afterEach(() => {
 });
 
 onMounted(async () => {
-  await userStore.fetchUser();
+  await Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]);
 });
 </script>
 
