@@ -52,11 +52,12 @@ defineProps<{
 const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
-const financialYearStartMonth =
-  settingStore.setting?.salary.financialYearStartMonth ?? 1;
+const financialYearStartMonth = computed(
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+);
 const salaries = computed(() => salaryStore.salaries ?? []);
 const years = computed(() =>
-  getFinancialYears(salaries.value ?? [], financialYearStartMonth)
+  getFinancialYears(salaries.value ?? [], financialYearStartMonth.value)
 );
 const thisYear = computed(() => years.value.at(-1) ?? "");
 const lastYear = computed(() => years.value.at(-2) ?? "");
@@ -64,12 +65,12 @@ const annualIncome = computed(() => ({
   thisYear: getTotalAnnualIncome(
     salaries.value,
     thisYear.value,
-    financialYearStartMonth
+    financialYearStartMonth.value
   ),
   lastYear: getTotalAnnualIncome(
     salaries.value,
     lastYear.value,
-    financialYearStartMonth
+    financialYearStartMonth.value
   ),
 }));
 </script>
