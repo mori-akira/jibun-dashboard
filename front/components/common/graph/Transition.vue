@@ -65,3 +65,9 @@ const chartOptions = {
   },
 };
 </script>
+
+<style lang="css" scoped>
+canvas {
+  height: unset !important;
+}
+</style>
