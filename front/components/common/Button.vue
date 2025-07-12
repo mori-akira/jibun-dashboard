@@ -32,7 +32,7 @@ const onClick = (): void => {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 button {
   border: 3px solid #ddd;
   background-color: #666;

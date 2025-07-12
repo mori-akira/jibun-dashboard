@@ -60,7 +60,7 @@ const onClickRank = (rank: string) => {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .wrapper {
   display: flex;
   justify-content: space-around;

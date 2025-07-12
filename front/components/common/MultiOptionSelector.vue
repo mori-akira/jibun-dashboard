@@ -43,7 +43,7 @@ const onClickOption = (value: string) => {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .option {
   margin-left: 1rem;
   padding: 0.2rem 1rem;

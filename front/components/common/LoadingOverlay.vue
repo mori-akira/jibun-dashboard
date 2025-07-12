@@ -10,7 +10,7 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .loading-overlay {
   position: fixed;
   top: 0;

@@ -44,7 +44,7 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .layout {
   display: flex;
   min-height: 100vh;

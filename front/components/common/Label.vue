@@ -14,7 +14,7 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .required {
   margin-left: 0.2rem;
   color: #f33;

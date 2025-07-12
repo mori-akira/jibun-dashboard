@@ -61,7 +61,7 @@ const onBlurValue = (e: Event): void => {
 const id = computed(() => `input-${generateRandomString()}`);
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 input {
   width: stretch;
   outline: none;

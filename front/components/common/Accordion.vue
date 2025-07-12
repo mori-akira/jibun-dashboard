@@ -29,7 +29,7 @@ const isOpened = ref<boolean>(props.initOpened || false);
 const onClickHeader = () => (isOpened.value = !isOpened.value);
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .header {
   display: inline-block;
   padding: 0.2rem 0.5rem;

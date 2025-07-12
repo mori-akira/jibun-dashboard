@@ -68,6 +68,53 @@
         </div>
       </Panel>
     </div>
+
+    <div class="flex justify-between">
+      <Panel panel-class="w-9/12">
+        <Tabs
+          :tabs="[
+            { label: 'Gross Income', slot: 'grossIncome' },
+            { label: 'Net Income', slot: 'netIncome' },
+            { label: 'Operating Time', slot: 'operatingTime' },
+            { label: 'Overtime', slot: 'overtime' },
+          ]"
+        >
+          <template #grossIncome>
+            <div class="mt-4">
+              <h3>
+                <Icon name="tabler:clipboard-data" class="adjust-icon" />
+                <span class="font-cursive font-bold ml-2">Gross Income</span>
+              </h3>
+            </div>
+          </template>
+          <template #netIncome>
+            <div class="mt-4">
+              <h3>
+                <Icon name="tabler:clipboard-data" class="adjust-icon" />
+                <span class="font-cursive font-bold ml-2">Net Income</span>
+              </h3>
+            </div>
+          </template>
+          <template #operatingTime>
+            <div class="mt-4">
+              <h3>
+                <Icon name="tabler:clipboard-data" class="adjust-icon" />
+                <span class="font-cursive font-bold ml-2">Operating Time</span>
+              </h3>
+            </div>
+          </template>
+          <template #overtime>
+            <div class="mt-4">
+              <h3>
+                <Icon name="tabler:clipboard-data" class="adjust-icon" />
+                <span class="font-cursive font-bold ml-2">Overtime</span>
+              </h3>
+            </div>
+          </template>
+        </Tabs>
+      </Panel>
+      <Panel panel-class="w-3/12"></Panel>
+    </div>
   </div>
 </template>
 
@@ -79,8 +126,9 @@ import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
-import AnnualComparer from "~/components/salary/AnnualComparer.vue";
+import Tabs from "~/components/common/Tabs.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
+import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
 import { trimArray } from "~/utils/trim-array";
 
@@ -129,10 +177,3 @@ onMounted(async () => {
   commonStore.setLoading(false);
 });
 </script>
-
-<style lang="css" scoped>
-.row {
-  width: 100%;
-  margin-top: 1rem;
-}
-</style>

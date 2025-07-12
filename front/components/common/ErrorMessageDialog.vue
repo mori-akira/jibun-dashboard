@@ -37,7 +37,7 @@ const onClose = (): void => {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .dialog-box {
   display: flex;
   justify-content: space-between;

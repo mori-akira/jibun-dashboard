@@ -11,7 +11,7 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .panel {
   margin: 1rem;
   padding: 1rem;

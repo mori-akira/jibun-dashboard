@@ -34,7 +34,7 @@ const userStore = useUserStore();
 const userName = computed(() => userStore.user?.userName ?? "");
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 header {
   display: flex;
   justify-content: space-between;

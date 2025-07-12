@@ -70,7 +70,7 @@ watch(dateToObj, (newVal) => {
 const format = (date: Date) => moment(date).format("YYYY-MM-DD");
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .wrapper {
   display: flex;
   align-items: center;

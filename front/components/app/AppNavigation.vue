@@ -55,7 +55,7 @@ import { useCommonStore } from "~/stores/common";
 const commonStore = useCommonStore();
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 nav {
   width: 16rem;
   background-color: #eee;

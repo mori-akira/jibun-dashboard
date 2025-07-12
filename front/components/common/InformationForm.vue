@@ -58,7 +58,7 @@ const props = defineProps<{
 const typedItem = computed(() => props.item as Record<string, unknown>);
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .row {
   display: flex;
   justify-content: center;

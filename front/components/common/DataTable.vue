@@ -138,7 +138,7 @@ watch(
 );
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .wrapper {
   position: relative;
 }

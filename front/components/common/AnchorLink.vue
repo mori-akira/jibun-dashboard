@@ -14,7 +14,7 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 a {
   color: #33f;
   text-decoration: underline;

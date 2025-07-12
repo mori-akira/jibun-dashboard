@@ -42,7 +42,7 @@ const commonStore = useCommonStore();
 const userStore = useUserStore();
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .container {
   position: fixed;
   top: 4rem;
