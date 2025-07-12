@@ -54,20 +54,20 @@ const salaryStore = useSalaryStore();
 
 const financialYearStartMonth =
   settingStore.setting?.salary.financialYearStartMonth ?? 1;
-const salaries = salaryStore.salaries ?? [];
+const salaries = computed(() => salaryStore.salaries ?? []);
 const years = computed(() =>
-  getFinancialYears(salaries ?? [], financialYearStartMonth)
+  getFinancialYears(salaries.value ?? [], financialYearStartMonth)
 );
 const thisYear = computed(() => years.value.at(-1) ?? "");
 const lastYear = computed(() => years.value.at(-2) ?? "");
 const annualIncome = computed(() => ({
   thisYear: getTotalAnnualIncome(
-    salaries,
+    salaries.value,
     thisYear.value,
     financialYearStartMonth
   ),
   lastYear: getTotalAnnualIncome(
-    salaries,
+    salaries.value,
     lastYear.value,
     financialYearStartMonth
   ),
