@@ -5,7 +5,7 @@ import {
   getFinancialYear,
   getFinancialYears,
   filterSalaryByFinancialYear,
-  getAnnualIncome,
+  aggregateAnnually,
 } from "./salary";
 
 const salaries: Salary[] = [
@@ -81,14 +81,24 @@ describe("filterSalaryByFinancialYear", () => {
   });
 });
 
-describe("getTotalAnnualIncome", () => {
+describe("aggregateAnnually", () => {
   it("正常", () => {
-    const result = getAnnualIncome(salaries, "2024", 4);
+    const result = aggregateAnnually(
+      salaries,
+      (salary) => salary.overview.grossIncome,
+      "2024",
+      4
+    );
     expect(result).toEqual(1900000);
   });
 
   it("空配列", () => {
-    const result = getAnnualIncome([], "2024", 4);
+    const result = aggregateAnnually(
+      [],
+      (salary) => salary.overview.grossIncome,
+      "2024",
+      4
+    );
     expect(result).toEqual(0);
   });
 });

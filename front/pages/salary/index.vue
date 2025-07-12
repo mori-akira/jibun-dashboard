@@ -58,7 +58,7 @@ import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import AnnualIncomeComparer from "~/components/salary/AnnualIncomeComparer.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
-import { getFinancialYears, getAnnualIncome } from "~/utils/salary";
+import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
@@ -72,8 +72,9 @@ const years = computed(() =>
 );
 const annualIncomes = computed(() => {
   return years.value.map((year) => {
-    return getAnnualIncome(
+    return aggregateAnnually(
       salaryStore.salaries ?? [],
+      (salary) => salary.overview.grossIncome,
       year,
       financialYearStartMonth.value
     );

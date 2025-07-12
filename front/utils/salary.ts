@@ -57,8 +57,9 @@ export function filterSalaryByFinancialYear(
   );
 }
 
-export function getAnnualIncome(
+export function aggregateAnnually(
   salaries: Salary[],
+  selector: (salary: Salary) => number,
   targetYear: string,
   financialYearStartMonth: number
 ): number {
@@ -66,5 +67,5 @@ export function getAnnualIncome(
     salaries,
     targetYear,
     financialYearStartMonth
-  ).reduce((total: number, cv: Salary) => total + cv.overview.grossIncome, 0);
+  ).reduce((total: number, cv: Salary) => total + selector(cv), 0);
 }

@@ -40,10 +40,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Salary } from "~/api/client";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import CompareBar from "~/components/common/CompareBar.vue";
-import { getFinancialYears, getAnnualIncome } from "~/utils/salary";
+import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
 
 defineProps<{
   wrapperClass?: string;
@@ -62,13 +63,15 @@ const years = computed(() =>
 const thisYear = computed(() => years.value.at(-1) ?? "");
 const lastYear = computed(() => years.value.at(-2) ?? "");
 const annualIncome = computed(() => ({
-  thisYear: getAnnualIncome(
+  thisYear: aggregateAnnually(
     salaries.value,
+    (salary: Salary) => salary.overview.grossIncome,
     thisYear.value,
     financialYearStartMonth.value
   ),
-  lastYear: getAnnualIncome(
+  lastYear: aggregateAnnually(
     salaries.value,
+    (salary: Salary) => salary.overview.grossIncome,
     lastYear.value,
     financialYearStartMonth.value
   ),
