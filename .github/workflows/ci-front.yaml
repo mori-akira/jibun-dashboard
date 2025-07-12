@@ -8,6 +8,7 @@ on:
       - ".github/workflows/ci-front.yaml"
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     env:
@@ -32,6 +33,10 @@ jobs:
       - name: Install Dependencies
         working-directory: front
         run: npm ci
+
+      - name: Run Tests
+        working-directory: front
+        run: npx vitest run
 
       - name: Generate Static Site
         working-directory: front

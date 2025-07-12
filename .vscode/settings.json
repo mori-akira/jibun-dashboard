@@ -9,6 +9,7 @@
         "redoc",
         "redocly",
         "TOIEC",
-        "UMTP"
+        "UMTP",
+        "vitest"
     ]
 }

@@ -82,6 +82,13 @@ jobs:
           cd openapi
           openapi-generator-cli generate
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+      
+      - name: Add ESLint Disable Comment
+        run: |
+          FILE=front/api/client/schemas.ts
+          if [ -f "$FILE" ]; then
+            sed -i '1s;^;/* eslint-disable */\n;' "$FILE"
+          fi
 
       - name: Commit And Push
         run: |
