@@ -16,4 +16,14 @@ properties:
     type: string
 
   salary:
-    $ref: salary.yaml
+    description: 給与設定
+    type: object
+
+    properties:
+
+      financialYearStartMonth:
+        type: integer
+        minimum: 1
+        exclusiveMinimum: false
+        maximum: 12
+        exclusiveMaximum: false

@@ -37,15 +37,14 @@ const Password = z
       .regex(/^[a-zA-Z0-9!\"#\$%&'\(\)=~\|@{}\[\]\+\*,\.\/\\<>?_]+$/),
   })
   .passthrough();
-const SettingSalary = z
-  .object({ financialYearStartMonth: z.number().int().gte(1).lte(12) })
-  .partial()
-  .passthrough();
 const Setting = z
   .object({
     settingId: z.string().uuid().optional(),
     userId: z.string().optional(),
-    salary: SettingSalary,
+    salary: z
+      .object({ financialYearStartMonth: z.number().int().gte(1).lte(12) })
+      .partial()
+      .passthrough(),
   })
   .passthrough();
 const Salary = z
@@ -114,7 +113,6 @@ export const schemas = {
   User,
   ErrorInfo,
   Password,
-  SettingSalary,
   Setting,
   Salary,
   SalaryId,
@@ -389,24 +387,6 @@ const endpoints = makeApi([
       },
     ],
     response: z.void(),
-    errors: [
-      {
-        status: 400,
-        description: `パラメータ不正`,
-        schema: ErrorInfo,
-      },
-    ],
-  },
-  {
-    method: "get",
-    path: "/setting/salary",
-    alias: "getSettingSalary",
-    description: `アクセストークンを用いて、現在ログイン中のユーザの給与設定を取得する`,
-    requestFormat: "json",
-    response: z
-      .object({ financialYearStartMonth: z.number().int().gte(1).lte(12) })
-      .partial()
-      .passthrough(),
     errors: [
       {
         status: 400,

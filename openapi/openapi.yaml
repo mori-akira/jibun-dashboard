@@ -24,8 +24,6 @@ paths:
     $ref: "paths/user/password.yaml"
   /setting:
     $ref: "paths/setting/index.yaml"
-  /setting/salary:
-    $ref: "paths/setting/salary/index.yaml"
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
@@ -43,8 +41,6 @@ components:
       $ref: "schemas/user/password.yaml"
     Setting:
       $ref: "schemas/setting/setting.yaml"
-    SettingSalary:
-      $ref: "schemas/setting/salary.yaml"
     Salary:
       $ref: "schemas/salary/salary.yaml"
     SalaryId:
