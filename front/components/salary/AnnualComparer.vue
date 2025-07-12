@@ -8,32 +8,38 @@
           'inline-block',
           'font-bold',
           'w-1/2',
-          { 'text-blue-600': annualIncome.thisYear >= annualIncome.lastYear },
-          { 'text-red-600': annualIncome.thisYear < annualIncome.lastYear },
+          {
+            [positiveColorTextClass || 'text-blue-600']:
+              annualAggregation.thisYear >= annualAggregation.lastYear,
+          },
+          {
+            [negativeColorTextClass || 'text-red-600']:
+              annualAggregation.thisYear < annualAggregation.lastYear,
+          },
         ]"
-        >{{ `￥${annualIncome.thisYear.toLocaleString()}` }}</span
+        >{{ valueFormat(annualAggregation.thisYear) }}</span
       >
     </div>
     <CompareBar
-      v-if="annualIncome.thisYear >= annualIncome.lastYear"
-      :left-value="annualIncome.lastYear"
-      :right-value="annualIncome.thisYear - annualIncome.lastYear"
+      v-if="annualAggregation.thisYear >= annualAggregation.lastYear"
+      :left-value="annualAggregation.lastYear"
+      :right-value="annualAggregation.thisYear - annualAggregation.lastYear"
       wrapper-class="mt-4"
       left-class="bg-gray-600"
-      right-class="bg-blue-600"
+      :right-class="positiveColorBackgroundClass || 'bg-blue-600'"
     />
     <CompareBar
-      v-else-if="annualIncome.thisYear < annualIncome.lastYear"
-      :left-value="annualIncome.thisYear"
-      :right-value="annualIncome.lastYear - annualIncome.thisYear"
+      v-else-if="annualAggregation.thisYear < annualAggregation.lastYear"
+      :left-value="annualAggregation.thisYear"
+      :right-value="annualAggregation.lastYear - annualAggregation.thisYear"
       wrapper-class="mt-4 ml-2 mr-2"
-      left-class="bg-red-600"
+      :left-class="negativeColorBackgroundClass || 'bg-red-600'"
       right-class="bg-gray-600"
     />
     <div class="w-full mt-4 ml-2">
       <span class="inline-block font-cursive w-1/2">Last Year</span>
       <span v-if="salaries?.length" class="inline-block font-bold w-1/2">{{
-        `￥${annualIncome.lastYear.toLocaleString()}`
+        valueFormat(annualAggregation.lastYear)
       }}</span>
     </div>
   </div>
@@ -46,7 +52,13 @@ import { useSalaryStore } from "~/stores/salary";
 import CompareBar from "~/components/common/CompareBar.vue";
 import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
 
-defineProps<{
+const props = defineProps<{
+  selector: (salary: Salary) => number;
+  valueFormat: (value: number) => string;
+  positiveColorTextClass?: string;
+  negativeColorTextClass?: string;
+  positiveColorBackgroundClass?: string;
+  negativeColorBackgroundClass?: string;
   wrapperClass?: string;
 }>();
 
@@ -62,16 +74,16 @@ const years = computed(() =>
 );
 const thisYear = computed(() => years.value.at(-1) ?? "");
 const lastYear = computed(() => years.value.at(-2) ?? "");
-const annualIncome = computed(() => ({
+const annualAggregation = computed(() => ({
   thisYear: aggregateAnnually(
     salaries.value,
-    (salary: Salary) => salary.overview.grossIncome,
+    props.selector,
     thisYear.value,
     financialYearStartMonth.value
   ),
   lastYear: aggregateAnnually(
     salaries.value,
-    (salary: Salary) => salary.overview.grossIncome,
+    props.selector,
     lastYear.value,
     financialYearStartMonth.value
   ),

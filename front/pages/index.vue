@@ -12,7 +12,11 @@
           <span class="font-cursive font-bold ml-2">Salary</span>
         </h3>
         <div class="h-36 flex items-center">
-          <AnnualIncomeComparer wrapper-class="w-full" />
+          <AnnualComparer
+            :selector="(salary: Salary) => salary.overview.grossIncome"
+            :value-format="(value: number) => `￥${value.toLocaleString()}`"
+            wrapper-class="w-full"
+          />
         </div>
       </Panel>
       <Panel panel-class="w-full items-center">
@@ -44,8 +48,9 @@ import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
-import AnnualIncomeComparer from "~/components/salary/AnnualIncomeComparer.vue";
+import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
+import type { Salary } from "~/api/client";
 
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();

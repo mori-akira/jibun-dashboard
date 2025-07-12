@@ -36,6 +36,17 @@ ChartJS.register(
 const props = defineProps<{
   labels: string[];
   values: number[];
+  fill?: boolean;
+  borderColor?: string;
+  backgroundColor?: string;
+  showXGrid?: boolean;
+  showYGrid?: boolean;
+  xAxisMin?: number;
+  xAxisMax?: number;
+  yAxisMin?: number;
+  yAxisMax?: number;
+  showLegend?: boolean;
+  showTitle?: boolean;
   wrapperClass?: string;
 }>();
 
@@ -44,25 +55,36 @@ const chartData = computed(() => ({
   datasets: [
     {
       data: props.values,
-      fill: false,
-      borderColor: "#33DD88",
-      backgroundColor: "#33DD8880",
+      fill: props.fill ?? false,
+      borderColor: props.borderColor ?? "#33DD88",
+      backgroundColor: props.backgroundColor ?? "#33DD8880",
     },
   ],
 }));
 const chartOptions = {
   maintainAspectRatio: false,
   scales: {
+    x: {
+      grid: {
+        display: props.showXGrid ?? false,
+      },
+      min: props.xAxisMin,
+      max: props.xAxisMax,
+    },
     y: {
-      min: 0,
+      grid: {
+        display: props.showYGrid ?? false,
+      },
+      min: props.yAxisMin,
+      max: props.yAxisMax,
     },
   },
   plugins: {
     legend: {
-      display: false,
+      display: props.showLegend ?? false,
     },
     title: {
-      display: false,
+      display: props.showTitle ?? false,
     },
   },
 };
