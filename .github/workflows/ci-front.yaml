@@ -34,7 +34,7 @@ jobs:
         working-directory: front
         run: npm ci
 
-      - name: Run Tests
+      - name: Run Lint
         working-directory: front
         run: npx eslint .
 
