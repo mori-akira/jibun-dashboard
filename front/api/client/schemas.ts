@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
