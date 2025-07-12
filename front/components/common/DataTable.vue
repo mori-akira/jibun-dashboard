@@ -130,7 +130,7 @@ const sortRows = (rows: unknown[]): unknown[] => {
 // 表示行
 const displayRows = ref<unknown[]>(sortRows(props.rows || []));
 watch(
-  () => sortState.value,
+  () => [props.rows, sortState.value],
   () => {
     displayRows.value = sortRows(props.rows);
   },
