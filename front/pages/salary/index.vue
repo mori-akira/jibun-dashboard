@@ -148,7 +148,7 @@
             v-for="(data, index) in summaryData"
             :key="index"
             class="w-full flex justify-center"
-            :style="{ color: compareDataBackgroundColors.reverse()[index] }"
+            :style="{ color: compareDataBackgroundColors.toReversed()[index] }"
           >
             <span class="font-cursive">{{ data.label }}</span>
             <span class="font-bold ml-4">
