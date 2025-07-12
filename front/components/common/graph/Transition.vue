@@ -69,5 +69,6 @@ const chartOptions = {
 <style lang="css" scoped>
 canvas {
   height: unset !important;
+  width: unset !important;
 }
 </style>
