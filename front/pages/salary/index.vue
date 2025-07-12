@@ -11,7 +11,7 @@
           <Icon name="tabler:coin-yen" class="adjust-icon" />
           <span class="font-cursive font-bold ml-2">Annual Income</span>
         </h3>
-        <YearIncomeComparer :salaries="salaryStore.salaries ?? []" />
+        <AnnualIncomeComparer />
       </Panel>
       <Panel panel-class="w-7/12">
         <h3>
@@ -29,7 +29,7 @@ import { onMounted } from "vue";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
-import YearIncomeComparer from "~/components/salary/YearIncomeComparer.vue";
+import AnnualIncomeComparer from "~/components/salary/AnnualIncomeComparer.vue";
 // import { getYears, getTotalYearIncome } from "~/utils/salary";
 
 const commonStore = useCommonStore();
