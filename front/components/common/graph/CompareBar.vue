@@ -79,5 +79,8 @@ const chartOptions = {
       display: props.showTitle ?? false,
     },
   },
+  animation: {
+    duration: 0,
+  },
 };
 </script>
