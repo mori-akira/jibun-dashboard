@@ -82,6 +82,7 @@ import Panel from "~/components/common/Panel.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
 import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
+import { trimArray } from "~/utils/trim-array";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
@@ -93,26 +94,34 @@ const financialYearStartMonth = computed(
 const years = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
-const annualIncomes = computed(() => {
-  return years.value.map((year) => {
-    return aggregateAnnually(
-      salaryStore.salaries ?? [],
-      (salary) => salary.overview.grossIncome,
-      year,
-      financialYearStartMonth.value
-    );
-  });
-});
-const annualOvertime = computed(() => {
-  return years.value.map((year) => {
-    return aggregateAnnually(
-      salaryStore.salaries ?? [],
-      (salary) => salary.overview.overtime,
-      year,
-      financialYearStartMonth.value
-    );
-  });
-});
+const annualIncomes = computed(() =>
+  trimArray(
+    years.value.map((year) => {
+      return aggregateAnnually(
+        salaryStore.salaries ?? [],
+        (salary) => salary.overview.grossIncome,
+        year,
+        financialYearStartMonth.value
+      );
+    }),
+    7,
+    { from: "end" }
+  )
+);
+const annualOvertime = computed(() =>
+  trimArray(
+    years.value.map((year) => {
+      return aggregateAnnually(
+        salaryStore.salaries ?? [],
+        (salary) => salary.overview.overtime,
+        year,
+        financialYearStartMonth.value
+      );
+    }),
+    7,
+    { from: "end" }
+  )
+);
 
 onMounted(async () => {
   commonStore.setLoading(true);
