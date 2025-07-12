@@ -57,7 +57,7 @@ export function filterSalaryByFinancialYear(
   );
 }
 
-export function getTotalAnnualIncome(
+export function getAnnualIncome(
   salaries: Salary[],
   targetYear: string,
   financialYearStartMonth: number

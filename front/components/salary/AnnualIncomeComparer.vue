@@ -43,7 +43,7 @@
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import CompareBar from "~/components/common/CompareBar.vue";
-import { getFinancialYears, getTotalAnnualIncome } from "~/utils/salary";
+import { getFinancialYears, getAnnualIncome } from "~/utils/salary";
 
 defineProps<{
   wrapperClass?: string;
@@ -62,12 +62,12 @@ const years = computed(() =>
 const thisYear = computed(() => years.value.at(-1) ?? "");
 const lastYear = computed(() => years.value.at(-2) ?? "");
 const annualIncome = computed(() => ({
-  thisYear: getTotalAnnualIncome(
+  thisYear: getAnnualIncome(
     salaries.value,
     thisYear.value,
     financialYearStartMonth.value
   ),
-  lastYear: getTotalAnnualIncome(
+  lastYear: getAnnualIncome(
     salaries.value,
     lastYear.value,
     financialYearStartMonth.value

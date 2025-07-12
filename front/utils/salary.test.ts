@@ -5,7 +5,7 @@ import {
   getFinancialYear,
   getFinancialYears,
   filterSalaryByFinancialYear,
-  getTotalAnnualIncome,
+  getAnnualIncome,
 } from "./salary";
 
 const salaries: Salary[] = [
@@ -83,12 +83,12 @@ describe("filterSalaryByFinancialYear", () => {
 
 describe("getTotalAnnualIncome", () => {
   it("正常", () => {
-    const result = getTotalAnnualIncome(salaries, "2024", 4);
+    const result = getAnnualIncome(salaries, "2024", 4);
     expect(result).toEqual(1900000);
   });
 
   it("空配列", () => {
-    const result = getTotalAnnualIncome([], "2024", 4);
+    const result = getAnnualIncome([], "2024", 4);
     expect(result).toEqual(0);
   });
 });

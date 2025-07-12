@@ -11,13 +11,22 @@
           <Icon name="tabler:coin-yen" class="adjust-icon" />
           <span class="font-cursive font-bold ml-2">Annual Income</span>
         </h3>
-        <AnnualIncomeComparer />
+        <div class="h-36 flex items-center">
+          <AnnualIncomeComparer wrapper-class="w-full" />
+        </div>
       </Panel>
       <Panel panel-class="w-7/12">
         <h3>
           <Icon name="tabler:graph" class="adjust-icon" />
           <span class="font-cursive font-bold ml-2">Transition</span>
         </h3>
+        <div class="h-36 flex items-center">
+          <TransitionGraph
+            :labels="years"
+            :values="annualIncomes"
+            wrapper-class="w-full h-36"
+          />
+        </div>
       </Panel>
     </div>
   </div>
@@ -27,21 +36,32 @@
 import { onMounted } from "vue";
 
 import { useCommonStore } from "~/stores/common";
+import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import AnnualIncomeComparer from "~/components/salary/AnnualIncomeComparer.vue";
-// import { getYears, getTotalYearIncome } from "~/utils/salary";
+import TransitionGraph from "~/components/common/graph/Transition.vue";
+import { getFinancialYears, getAnnualIncome } from "~/utils/salary";
 
 const commonStore = useCommonStore();
+const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
-// const years = computed(() => getYears(salaryStore.salaries ?? []));
-// const thisYear = computed(() => years.value.at(-1) ?? "");
-// const lastYear = computed(() => years.value.at(-2) ?? "");
-// const yearIncome = computed(() => ({
-//   thisYear: getTotalYearIncome(salaryStore.salaries ?? [], thisYear.value),
-//   lastYear: getTotalYearIncome(salaryStore.salaries ?? [], lastYear.value),
-// }));
+const financialYearStartMonth = computed(
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+);
+const years = computed(() =>
+  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
+);
+const annualIncomes = computed(() => {
+  return years.value.map((year) => {
+    return getAnnualIncome(
+      salaryStore.salaries ?? [],
+      year,
+      financialYearStartMonth.value
+    );
+  });
+});
 
 onMounted(async () => {
   commonStore.setLoading(true);
