@@ -1,10 +1,12 @@
 <template>
   <div :class="[wrapperClass, 'mt-4']">
-    <Line
-      :data="chartData"
-      :options="chartOptions"
-      :style="{ height: '300px' }"
-    />
+    <ClientOnly>
+      <Line
+        :data="chartData"
+        :options="chartOptions"
+        :style="{ height: '300px' }"
+      />
+    </ClientOnly>
   </div>
 </template>
 
@@ -69,6 +71,5 @@ const chartOptions = {
 <style lang="css" scoped>
 canvas {
   height: unset !important;
-  width: unset !important;
 }
 </style>
