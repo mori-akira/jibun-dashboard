@@ -83,6 +83,7 @@
             { label: 'Overtime', slot: 'overtime' },
           ]"
           :init-tab="selectedTab"
+          button-class="font-cursive"
           @change:tab="onChangeTab"
         >
           <template #grossIncome>
