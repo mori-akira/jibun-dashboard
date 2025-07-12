@@ -350,7 +350,7 @@ export interface SalaryId {
     'salaryId'?: string;
 }
 /**
- * 設定
+ * 設定情報
  * @export
  * @interface Setting
  */
@@ -1320,7 +1320,7 @@ export const SettingApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
-         * @summary 設定取得
+         * @summary 設定情報取得
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1350,7 +1350,7 @@ export const SettingApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
-         * @summary 設定登録
+         * @summary 設定情報登録
          * @param {Setting} [setting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1394,7 +1394,7 @@ export const SettingApiFp = function(configuration?: Configuration) {
     return {
         /**
          * アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
-         * @summary 設定取得
+         * @summary 設定情報取得
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1406,7 +1406,7 @@ export const SettingApiFp = function(configuration?: Configuration) {
         },
         /**
          * アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
-         * @summary 設定登録
+         * @summary 設定情報登録
          * @param {Setting} [setting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1429,7 +1429,7 @@ export const SettingApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
-         * @summary 設定取得
+         * @summary 設定情報取得
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1438,7 +1438,7 @@ export const SettingApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
-         * @summary 設定登録
+         * @summary 設定情報登録
          * @param {Setting} [setting] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1457,7 +1457,7 @@ export const SettingApiFactory = function (configuration?: Configuration, basePa
 export interface SettingApiInterface {
     /**
      * アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
-     * @summary 設定取得
+     * @summary 設定情報取得
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SettingApiInterface
@@ -1466,7 +1466,7 @@ export interface SettingApiInterface {
 
     /**
      * アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
-     * @summary 設定登録
+     * @summary 設定情報登録
      * @param {Setting} [setting] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1485,7 +1485,7 @@ export interface SettingApiInterface {
 export class SettingApi extends BaseAPI implements SettingApiInterface {
     /**
      * アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
-     * @summary 設定取得
+     * @summary 設定情報取得
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SettingApi
@@ -1496,7 +1496,7 @@ export class SettingApi extends BaseAPI implements SettingApiInterface {
 
     /**
      * アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
-     * @summary 設定登録
+     * @summary 設定情報登録
      * @param {Setting} [setting] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
