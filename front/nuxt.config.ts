@@ -38,6 +38,12 @@ export default defineNuxtConfig({
   build: {
     transpile: ["@vuepic/vue-datepicker"],
   },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      ignore: ["/profile/setting", "/jibun-dashboard/profile/setting"],
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {
