@@ -8,7 +8,7 @@ function getYearMonthAsNumber(date: string): (number | null)[] {
 export function getMonthsInFinancialYear(
   financialYear: string,
   financialYearStartMonth: number,
-  day?: number
+  withFirstDay?: boolean
 ): string[] {
   return Array.from({ length: 12 }, (_, i) => {
     const month = ((i + financialYearStartMonth - 1) % 12) + 1;
@@ -17,8 +17,7 @@ export function getMonthsInFinancialYear(
         ? parseInt(financialYear) + 1
         : parseInt(financialYear);
     const monthStr = String(month).padStart(2, "0");
-    const dayStr = day !== undefined ? `-${String(day).padStart(2, "0")}` : "";
-    return day ? `${year}-${monthStr}-${dayStr}` : `${year}-${monthStr}`;
+    return withFirstDay ? `${year}-${monthStr}-01` : `${year}-${monthStr}`;
   });
 }
 
@@ -55,6 +54,17 @@ export function filterSalaryByFinancialYear(
   return salaries.filter(
     (e) => getFinancialYear(e, financialYearStartMonth) === targetYear
   );
+}
+
+export function filterSalaryByFinancialYearMonth(
+  salaries: Salary[],
+  targetYearMonth: string
+): Salary | undefined {
+  const targetDate = targetYearMonth.match(/^\d{4}-\d{2}$/)
+    ? `${targetYearMonth}-01`
+    : targetYearMonth;
+  const filtered = salaries.filter((e) => e.targetDate === targetDate);
+  return filtered.length > 0 ? filtered[0] : undefined;
 }
 
 export function aggregateAnnually(

@@ -5,6 +5,7 @@ import {
   getFinancialYear,
   getFinancialYears,
   filterSalaryByFinancialYear,
+  filterSalaryByFinancialYearMonth,
   aggregateAnnually,
 } from "./salary";
 
@@ -78,6 +79,34 @@ describe("filterSalaryByFinancialYear", () => {
   it("空配列", () => {
     const result = filterSalaryByFinancialYear([], "2024", 4);
     expect(result).toEqual([]);
+  });
+});
+
+describe("filterSalaryByFinancialYearMonth", () => {
+  it("ヒットあり(年月)", () => {
+    const result = filterSalaryByFinancialYearMonth(salaries, "2026-04");
+    expect(result).toEqual({
+      targetDate: "2026-04-01",
+      overview: { grossIncome: 300000 },
+    });
+  });
+
+  it("ヒットあり(年月日)", () => {
+    const result = filterSalaryByFinancialYearMonth(salaries, "2026-04-01");
+    expect(result).toEqual({
+      targetDate: "2026-04-01",
+      overview: { grossIncome: 300000 },
+    });
+  });
+
+  it("ヒットなし(年月日)", () => {
+    const result = filterSalaryByFinancialYearMonth(salaries, "2026-04-02");
+    expect(result).toEqual(undefined);
+  });
+
+  it("空配列", () => {
+    const result = filterSalaryByFinancialYearMonth([], "2026-04");
+    expect(result).toEqual(undefined);
   });
 });
 

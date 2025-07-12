@@ -21,15 +21,24 @@
 import { ref } from "vue";
 import TabList from "~/components/common/TabList.vue";
 
-defineProps<{
+const props = defineProps<{
   tabs: { label: string; slot: string }[];
+  initTab?: string;
   wrapperClass?: string;
   tabListWrapperClass?: string;
   buttonClass?: string;
 }>();
 
-const activeIndex = ref(0);
+const emits = defineEmits<{
+  (e: "change:tab", slot: string): void;
+}>();
+
+const initialIndex = computed(() =>
+  props.initTab ? props.tabs.findIndex((tab) => tab.slot === props.initTab) : 0
+);
+const activeIndex = ref(initialIndex.value);
 const setActiveIndex = (index: number) => {
   activeIndex.value = index;
+  emits("change:tab", props.tabs[index].slot);
 };
 </script>

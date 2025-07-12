@@ -29,7 +29,7 @@
             :labels="years"
             :values="annualIncomes"
             :show-y-grid="true"
-            wrapper-class="w-full h-36"
+            wrapper-class="w-full h-36 mt-4"
           />
         </div>
       </Panel>
@@ -63,7 +63,7 @@
             :labels="years"
             :values="annualOvertime"
             :show-y-grid="true"
-            wrapper-class="w-full h-36"
+            wrapper-class="w-full h-36 mt-4"
           />
         </div>
       </Panel>
@@ -71,6 +71,10 @@
 
     <div class="flex justify-between">
       <Panel panel-class="w-9/12">
+        <h3>
+          <Icon name="tabler:clipboard-data" class="adjust-icon" />
+          <span class="font-cursive font-bold ml-2">Compare</span>
+        </h3>
         <Tabs
           :tabs="[
             { label: 'Gross Income', slot: 'grossIncome' },
@@ -78,42 +82,80 @@
             { label: 'Operating Time', slot: 'operatingTime' },
             { label: 'Overtime', slot: 'overtime' },
           ]"
+          :init-tab="selectedTab"
+          @change:tab="onChangeTab"
         >
           <template #grossIncome>
             <div class="mt-4">
-              <h3>
-                <Icon name="tabler:clipboard-data" class="adjust-icon" />
-                <span class="font-cursive font-bold ml-2">Gross Income</span>
-              </h3>
+              <div class="h-36 flex items-center">
+                <CompareBarGraph
+                  :labels="compareDataHeaders"
+                  :datasets="compareData.grossIncome"
+                  :y-axis-min="0"
+                  :y-axis-max="incomeMaxRange"
+                  :show-y-grid="true"
+                  wrapper-class="w-full h-36 mt-4"
+                />
+              </div>
             </div>
           </template>
           <template #netIncome>
             <div class="mt-4">
-              <h3>
-                <Icon name="tabler:clipboard-data" class="adjust-icon" />
-                <span class="font-cursive font-bold ml-2">Net Income</span>
-              </h3>
+              <div class="h-36 flex items-center">
+                <CompareBarGraph
+                  :labels="compareDataHeaders"
+                  :datasets="compareData.netIncome"
+                  :y-axis-min="0"
+                  :y-axis-max="incomeMaxRange"
+                  :show-y-grid="true"
+                  wrapper-class="w-full h-36 mt-4"
+                />
+              </div>
             </div>
           </template>
           <template #operatingTime>
             <div class="mt-4">
-              <h3>
-                <Icon name="tabler:clipboard-data" class="adjust-icon" />
-                <span class="font-cursive font-bold ml-2">Operating Time</span>
-              </h3>
+              <div class="h-36 flex items-center">
+                <CompareBarGraph
+                  :labels="compareDataHeaders"
+                  :datasets="compareData.operatingTime"
+                  :show-y-grid="true"
+                  wrapper-class="w-full h-36 mt-4"
+                />
+              </div>
             </div>
           </template>
           <template #overtime>
             <div class="mt-4">
-              <h3>
-                <Icon name="tabler:clipboard-data" class="adjust-icon" />
-                <span class="font-cursive font-bold ml-2">Overtime</span>
-              </h3>
+              <div class="h-36 flex items-center">
+                <CompareBarGraph
+                  :labels="compareDataHeaders"
+                  :datasets="compareData.overtime"
+                  :show-y-grid="true"
+                  wrapper-class="w-full h-36 mt-4"
+                />
+              </div>
             </div>
           </template>
         </Tabs>
       </Panel>
-      <Panel panel-class="w-3/12"></Panel>
+      <Panel panel-class="w-3/12">
+        <div
+          class="w-full h-full flex flex-col justify-around items-center p-4"
+        >
+          <div
+            v-for="(data, index) in summaryData"
+            :key="index"
+            class="w-full flex justify-center"
+            :style="{ color: compareDataBackgroundColors.reverse()[index] }"
+          >
+            <span class="font-cursive">{{ data.label }}</span>
+            <span class="font-bold ml-4">
+              {{ data.value.toLocaleString() }}
+            </span>
+          </div>
+        </div>
+      </Panel>
     </div>
   </div>
 </template>
@@ -121,20 +163,33 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
-import type { Salary } from "~/api/client";
+import type { Salary, Overview } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
+import CompareBarGraph from "~/components/common/graph/CompareBar.vue";
+import type { DataSet as CompareBarGraphDataSet } from "~/components/common/graph/CompareBar.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
-import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
+import {
+  getFinancialYears,
+  getMonthsInFinancialYear,
+  aggregateAnnually,
+  filterSalaryByFinancialYearMonth,
+} from "~/utils/salary";
 import { trimArray } from "~/utils/trim-array";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
+
+onMounted(async () => {
+  commonStore.setLoading(true);
+  await salaryStore.fetchSalary();
+  commonStore.setLoading(false);
+});
 
 const financialYearStartMonth = computed(
   () => settingStore.setting?.salary.financialYearStartMonth ?? 1
@@ -143,37 +198,106 @@ const years = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
 const annualIncomes = computed(() =>
-  trimArray(
-    years.value.map((year) => {
-      return aggregateAnnually(
-        salaryStore.salaries ?? [],
-        (salary) => salary.overview.grossIncome,
-        year,
-        financialYearStartMonth.value
-      );
-    }),
-    7,
-    { from: "end" }
-  )
+  trimArray(years.value, 7, { from: "end" }).map((year) => {
+    return aggregateAnnually(
+      salaryStore.salaries ?? [],
+      (salary) => salary.overview.grossIncome,
+      year,
+      financialYearStartMonth.value
+    );
+  })
 );
 const annualOvertime = computed(() =>
-  trimArray(
-    years.value.map((year) => {
-      return aggregateAnnually(
-        salaryStore.salaries ?? [],
-        (salary) => salary.overview.overtime,
-        year,
-        financialYearStartMonth.value
-      );
-    }),
-    7,
-    { from: "end" }
-  )
+  trimArray(years.value, 7, { from: "end" }).map((year) => {
+    return aggregateAnnually(
+      salaryStore.salaries ?? [],
+      (salary) => salary.overview.overtime,
+      year,
+      financialYearStartMonth.value
+    );
+  })
 );
 
-onMounted(async () => {
-  commonStore.setLoading(true);
-  await salaryStore.fetchSalary();
-  commonStore.setLoading(false);
+const aggregateCompareData = (
+  targetYears: string[],
+  label: keyof Overview,
+  backgroundColor: string[]
+): CompareBarGraphDataSet[] => {
+  return targetYears.map((year, index) => {
+    return {
+      label: `FY${year}`,
+      backgroundColor: backgroundColor[index],
+      data: getMonthsInFinancialYear(
+        year,
+        financialYearStartMonth.value,
+        true
+      ).map((date) => {
+        const salary = filterSalaryByFinancialYearMonth(
+          salaryStore.salaries ?? [],
+          date
+        );
+        return salary ? salary?.overview?.[label] : 0;
+      }),
+    };
+  });
+};
+const compareDataBackgroundColors = ["#44DDDD", "#EE88EE", "#EEBB44"];
+const compareDataHeaders = [
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+  "Jan",
+  "Feb",
+  "Mar",
+];
+type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
+const compareData = computed(() => {
+  return {
+    grossIncome: aggregateCompareData(
+      trimArray(years.value, 3, { from: "end" }),
+      "grossIncome",
+      compareDataBackgroundColors
+    ),
+    netIncome: aggregateCompareData(
+      trimArray(years.value, 3, { from: "end" }),
+      "netIncome",
+      compareDataBackgroundColors
+    ),
+    operatingTime: aggregateCompareData(
+      trimArray(years.value, 3, { from: "end" }),
+      "operatingTime",
+      compareDataBackgroundColors
+    ),
+    overtime: aggregateCompareData(
+      trimArray(years.value, 3, { from: "end" }),
+      "overtime",
+      compareDataBackgroundColors
+    ),
+  };
+});
+const incomeMaxRange = computed(() => {
+  const maxValue = compareData.value.grossIncome.reduce(
+    (max: number, dataset) => Math.max(max, ...dataset.data),
+    0
+  );
+  return Math.ceil(maxValue / 100000) * 100000;
+});
+
+const selectedTab = ref<TabSlot>("grossIncome");
+const onChangeTab = (slot: string) => {
+  selectedTab.value = slot as TabSlot;
+};
+const summaryData = computed<{ label: string; value: number }[]>(() => {
+  const targetData = compareData.value[selectedTab.value];
+  return targetData.toReversed().map((dataset) => ({
+    label: dataset.label,
+    value: dataset.data.reduce((sum, value) => sum + value, 0),
+  }));
 });
 </script>

@@ -115,7 +115,7 @@ func main() {
 				Overview: Overview{
 					GrossIncome:   gross,
 					NetIncome:     net,
-					OperatingTime: workdays * standardDailyHours,
+					OperatingTime: workdays*standardDailyHours + overtime,
 					Overtime:      overtime,
 					Bonus:         bonus,
 					BonusTakeHome: bonusTakeHome,
@@ -162,7 +162,9 @@ func main() {
 
 	out1, _ := json.MarshalIndent(results, "", "  ")
 	os.WriteFile("../../openapi/examples/salary/get.json", out1, 0644)
+	os.WriteFile("../../front/public/mock-api/salary.json", out1, 0644)
 
 	out2, _ := json.MarshalIndent(results[len(results)-1], "", "  ")
 	os.WriteFile("../../openapi/examples/salary/{salaryId}/get.json", out2, 0644)
+	os.WriteFile(fmt.Sprintf("../../front/public/mock-api/salary/%s.json", results[len(results)-1].SalaryId), out2, 0644)
 }

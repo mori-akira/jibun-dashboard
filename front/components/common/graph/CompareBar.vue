@@ -1,44 +1,41 @@
 <template>
   <div :class="[wrapperClass]">
     <ClientOnly>
-      <Line
-        :data="chartData"
-        :options="chartOptions"
-        :style="{ height: '300px' }"
-      />
+      <Bar :data="chartData" :options="chartOptions" />
     </ClientOnly>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Line } from "vue-chartjs";
+import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Title,
   Tooltip,
   Legend,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
 } from "chart.js";
 
 ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  LineElement,
   CategoryScale,
   LinearScale,
-  PointElement
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
 );
+
+export type DataSet = {
+  label: string;
+  data: number[];
+  backgroundColor: string;
+};
 
 const props = defineProps<{
   labels: string[];
-  values: number[];
-  fill?: boolean;
-  borderColor?: string;
-  backgroundColor?: string;
+  datasets: DataSet[];
   showXGrid?: boolean;
   showYGrid?: boolean;
   xAxisMin?: number;
@@ -52,16 +49,11 @@ const props = defineProps<{
 
 const chartData = computed(() => ({
   labels: props.labels,
-  datasets: [
-    {
-      data: props.values,
-      fill: props.fill ?? false,
-      borderColor: props.borderColor ?? "#33DD88",
-      backgroundColor: props.backgroundColor ?? "#33DD8880",
-    },
-  ],
+  datasets: props.datasets,
 }));
+
 const chartOptions = {
+  responsive: true,
   maintainAspectRatio: false,
   scales: {
     x: {
@@ -89,9 +81,3 @@ const chartOptions = {
   },
 };
 </script>
-
-<style lang="css" scoped>
-canvas {
-  height: unset !important;
-}
-</style>
