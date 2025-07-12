@@ -58,8 +58,8 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
     }
   }
 
-  if (schema instanceof ZodNumber) {
-    const checks = schema._def.checks;
+  if (schema._def.innerType instanceof ZodNumber) {
+    const checks = schema._def.innerType._def.checks;
     for (const check of checks) {
       if (check.kind === "min") {
         rules.push((value) =>

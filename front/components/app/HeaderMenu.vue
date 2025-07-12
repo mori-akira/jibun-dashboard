@@ -19,6 +19,12 @@
         </NuxtLink>
       </li>
       <li>
+        <NuxtLink to="/profile/setting" class="menu-item font-cursive">
+          <Icon name="tabler:settings" class="menu-icon" />
+          Setting
+        </NuxtLink>
+      </li>
+      <li>
         <span class="menu-item font-cursive">
           <Icon name="tabler:logout" class="menu-icon" />
           Logout
@@ -50,7 +56,7 @@ const userStore = useUserStore();
 }
 
 .container.closed {
-  transform: translateY(-14rem);
+  transform: translateY(-17rem);
 }
 
 .container .mail-area {
