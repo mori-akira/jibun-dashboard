@@ -33,7 +33,7 @@
     <div class="flex justify-between">
       <Panel panel-class="w-5/12">
         <h3>
-          <Icon name="tabler:time" class="adjust-icon" />
+          <Icon name="tabler:stopwatch" class="adjust-icon" />
           <span class="font-cursive font-bold ml-2">Annual Overtime</span>
         </h3>
         <div class="h-36 flex items-center"></div>
