@@ -1,5 +1,5 @@
 type: object
-description: 設定
+description: 設定情報
 
 required:
   - salary

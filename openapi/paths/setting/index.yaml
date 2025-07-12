@@ -1,6 +1,6 @@
 get:
   operationId: getSetting
-  summary: 設定取得
+  summary: 設定情報取得
   description: アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
   tags:
     - Setting
@@ -23,7 +23,7 @@ get:
 
 put:
   operationId: putSetting
-  summary: 設定登録
+  summary: 設定情報登録
   description: アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
   tags:
     - Setting

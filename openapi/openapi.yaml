@@ -8,7 +8,7 @@ tags:
   - name: User
     description: ユーザ情報API
   - name: Setting
-    description: 設定API
+    description: 設定情報API
   - name: Salary
     description: 給与情報API
   - name: Qualification
