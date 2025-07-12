@@ -38,14 +38,26 @@ export default defineNuxtConfig({
   build: {
     transpile: ["@vuepic/vue-datepicker"],
   },
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      ignore: ["/profile/setting", "/jibun-dashboard/profile/setting"],
-    },
-  },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        name: "vite-plugin-ignore-sourcemap-warnings",
+        apply: "build",
+        configResolved(config) {
+          config.build.rollupOptions.onwarn = (warning, warn) => {
+            if (
+              warning.code === "SOURCEMAP_BROKEN" &&
+              warning.plugin === "@tailwindcss/vite:generate:build"
+            ) {
+              return;
+            }
+
+            warn(warning);
+          };
+        },
+      },
+    ],
     server: {
       watch: {
         usePolling: true,

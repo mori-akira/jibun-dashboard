@@ -16,7 +16,7 @@
             v-slot="{ field, errorMessage }"
             name="userName"
             :rules="validationRules.salary.financialYearStartMonth"
-            :value="setting?.salary.financialYearStartMonth"
+            :value="setting?.salary?.financialYearStartMonth"
           >
             <TextBox
               label="Financial Year Start Month"
@@ -81,7 +81,7 @@ const setting = ref<Setting>({ ...settingStore.setting } as Setting);
 const validationRules = {
   salary: {
     financialYearStartMonth: zodToVeeRules(
-      schemas.SettingSalary.shape.financialYearStartMonth
+      schemas.Setting.shape.salary.shape.financialYearStartMonth
     ),
   },
 };
