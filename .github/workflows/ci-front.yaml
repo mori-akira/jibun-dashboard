@@ -36,6 +36,10 @@ jobs:
 
       - name: Run Tests
         working-directory: front
+        run: npx eslint .
+
+      - name: Run Tests
+        working-directory: front
         run: npx vitest run
 
       - name: Generate Static Site
