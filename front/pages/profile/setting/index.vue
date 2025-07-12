@@ -72,6 +72,10 @@ import Dialog from "~/components/common/Dialog.vue";
 import { useSettingStore } from "~/stores/setting";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
+definePageMeta({
+  prerender: false,
+});
+
 const settingStore = useSettingStore();
 const setting = ref<Setting>({ ...settingStore.setting } as Setting);
 const validationRules = {
