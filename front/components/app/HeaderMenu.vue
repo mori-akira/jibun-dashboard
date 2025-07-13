@@ -7,19 +7,31 @@
     <hr class="mt-3" />
     <ul class="mt-3">
       <li>
-        <NuxtLink to="/profile/edit" class="menu-item font-cursive">
+        <NuxtLink
+          to="/profile/edit"
+          class="menu-item font-cursive"
+          active-class="active"
+        >
           <Icon name="tabler:edit" class="menu-icon" />
           Edit Profile
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/profile/change-password" class="menu-item font-cursive">
+        <NuxtLink
+          to="/profile/change-password"
+          class="menu-item font-cursive"
+          active-class="active"
+        >
           <Icon name="tabler:lock" class="menu-icon" />
           Change Password
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/profile/setting" class="menu-item font-cursive">
+        <NuxtLink
+          to="/profile/setting"
+          class="menu-item font-cursive"
+          active-class="active"
+        >
           <Icon name="tabler:settings" class="menu-icon" />
           Setting
         </NuxtLink>
@@ -86,6 +98,15 @@ li:nth-child(n + 2) {
   background-color: #00000033;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.menu-item.active {
+  background-color: #00000033;
+  text-decoration: underline;
+}
+
+.menu-item.active:hover {
+  cursor: unset;
 }
 
 .menu-item .menu-icon {

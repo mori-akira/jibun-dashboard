@@ -9,37 +9,53 @@
     <div :class="['content-area', { closed: !commonStore.isNavOpen }]">
       <ul>
         <li>
-          <NuxtLink class="text-gray-900" to="/">
+          <NuxtLink class="text-gray-900" to="/" active-class="active">
             <Icon name="tabler:home" class="nav-icon" />
             <span class="font-cursive ml-2">Home</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/salary">
+          <NuxtLink class="text-gray-900" to="/salary" active-class="active">
             <Icon name="tabler:report-money" class="nav-icon" />
             <span class="font-cursive ml-2">Salary</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/qualification">
+          <NuxtLink
+            class="text-gray-900"
+            to="/qualification"
+            active-class="active"
+          >
             <Icon name="tabler:certificate" class="nav-icon" />
             <span class="font-cursive ml-2">Qualification</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/vocabulary">
+          <NuxtLink
+            class="text-gray-900"
+            to="/vocabulary"
+            active-class="active"
+          >
             <Icon name="tabler:book" class="nav-icon" />
             <span class="font-cursive ml-2">Vocabulary</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/financial-asset">
+          <NuxtLink
+            class="text-gray-900"
+            to="/financial-asset"
+            active-class="active"
+          >
             <Icon name="tabler:report-money" class="nav-icon" />
             <span class="font-cursive ml-2">Financial Asset</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/study-plan">
+          <NuxtLink
+            class="text-gray-900"
+            to="/study-plan"
+            active-class="active"
+          >
             <Icon name="tabler:file-pencil" class="nav-icon" />
             <span class="font-cursive ml-2">Study Plan</span>
           </NuxtLink>
@@ -89,6 +105,15 @@ a:hover {
   background-color: #00000033;
   cursor: pointer;
   text-decoration: underline;
+}
+
+a.active {
+  background-color: #00000033;
+  text-decoration: underline;
+}
+
+a.active:hover {
+  cursor: unset;
 }
 
 .toggle-area {
