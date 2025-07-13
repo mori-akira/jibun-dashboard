@@ -3,6 +3,7 @@ description: 設定情報
 
 required:
   - salary
+  - qualification
 
 properties:
 
@@ -19,12 +20,12 @@ properties:
     description: 給与設定
     type: object
 
-    properties:
+    required:
+      - financialYearStartMonth
+      - transitionItemCount
+      - compareDataColors
 
-      required:
-        - financialYearStartMonth
-        - transitionItemCount
-        - compareDataColors
+    properties:
 
       financialYearStartMonth:
         type: integer
@@ -52,13 +53,13 @@ properties:
     description: 資格設定
     type: object
 
-    properties:
+    required:
+      - rankAColor
+      - rankBColor
+      - rankCColor
+      - rankDColor
 
-      required:
-        - rankAColor
-        - rankBColor
-        - rankCColor
-        - rankDColor
+    properties:
 
       rankAColor:
         type: string
