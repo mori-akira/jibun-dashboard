@@ -4,7 +4,7 @@
   "salary": {
     "financialYearStartMonth": 4,
     "transitionItemCount": 5,
-    "compareDataColors": ["#44DDDD", "#EE88EE", "#EEBB44"]
+    "compareDataColors": ["#EEBB44", "#EE88EE", "#44DDDD"]
   },
   "qualification": {
     "rankAColor": "#2B7FFF",
