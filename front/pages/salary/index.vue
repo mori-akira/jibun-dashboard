@@ -29,7 +29,9 @@
         </h3>
         <div class="h-36 flex items-center">
           <TransitionGraph
-            :labels="trimArray(years, transitionItemCount, { from: 'end' })"
+            :labels="
+              trimArray(financialYears, transitionItemCount, { from: 'end' })
+            "
             :values="
               trimArray(annualIncomes, transitionItemCount, { from: 'end' })
             "
@@ -66,7 +68,9 @@
         </h3>
         <div class="h-36 flex items-center">
           <TransitionGraph
-            :labels="trimArray(years, transitionItemCount, { from: 'end' })"
+            :labels="
+              trimArray(financialYears, transitionItemCount, { from: 'end' })
+            "
             :values="
               trimArray(annualOvertime, transitionItemCount, { from: 'end' })
             "
@@ -170,11 +174,11 @@ const compareDataColors = computed(() => {
   const colors = settingStore.setting?.salary.compareDataColors ?? [];
   return [colors?.[0] ?? "#ddd", colors?.[1] ?? "#ddd", colors?.[2] ?? "#ddd"];
 });
-const years = computed(() =>
+const financialYears = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
 const annualIncomes = computed(() =>
-  trimArray(years.value, 7, { from: "end" }).map((year) => {
+  trimArray(financialYears.value, 7, { from: "end" }).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview.grossIncome,
@@ -184,7 +188,7 @@ const annualIncomes = computed(() =>
   })
 );
 const annualOvertime = computed(() =>
-  trimArray(years.value, 7, { from: "end" }).map((year) => {
+  trimArray(financialYears.value, 7, { from: "end" }).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview.overtime,
@@ -199,28 +203,28 @@ const compareData = computed(() => {
   return {
     grossIncome: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(years.value, 3, { from: "end" }),
+      trimArray(financialYears.value, 3, { from: "end" }),
       "grossIncome",
       compareDataColors.value,
       financialYearStartMonth.value
     ),
     netIncome: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(years.value, 3, { from: "end" }),
+      trimArray(financialYears.value, 3, { from: "end" }),
       "netIncome",
       compareDataColors.value,
       financialYearStartMonth.value
     ),
     operatingTime: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(years.value, 3, { from: "end" }),
+      trimArray(financialYears.value, 3, { from: "end" }),
       "operatingTime",
       compareDataColors.value,
       financialYearStartMonth.value
     ),
     overtime: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(years.value, 3, { from: "end" }),
+      trimArray(financialYears.value, 3, { from: "end" }),
       "overtime",
       compareDataColors.value,
       financialYearStartMonth.value
