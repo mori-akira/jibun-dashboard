@@ -184,7 +184,7 @@
           <Icon name="tabler:align-box-left-top" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Payslip</span>
         </h3>
-        <div class="h-112 flex justify-between items-center px-4 py-2">
+        <div class="h-128 flex justify-between items-center px-4 py-2">
           <template
             v-for="salary in trimArray(
               filterSalaryByFinancialYears(

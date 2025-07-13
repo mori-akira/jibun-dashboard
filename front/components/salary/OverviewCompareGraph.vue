@@ -1,5 +1,5 @@
 <template>
-  <div class="h-36 flex items-center">
+  <div class="h-48 flex items-center">
     <CompareBarGraph
       :labels="compareDataHeaders"
       :datasets="datasets"
