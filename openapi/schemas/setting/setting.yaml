@@ -49,7 +49,7 @@ properties:
         minItems: 3
         maxItems: 3
 
-  Qualification:
+  qualification:
     description: 資格設定
     type: object
 
