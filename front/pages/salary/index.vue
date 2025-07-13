@@ -124,21 +124,7 @@
         </Tabs>
       </Panel>
       <Panel panel-class="w-3/12">
-        <div
-          class="w-full h-full flex flex-col justify-around items-center p-4"
-        >
-          <div
-            v-for="(data, index) in summaryData"
-            :key="index"
-            class="w-full flex justify-center"
-            :style="{ color: compareDataColors.toReversed()[index] }"
-          >
-            <span class="font-cursive">{{ data.label }}</span>
-            <span class="font-bold ml-4">
-              {{ data.value.toLocaleString() }}
-            </span>
-          </div>
-        </div>
+        <OverviewCompareSummary :summary-data="summaryData" />
       </Panel>
     </div>
   </div>
@@ -147,21 +133,20 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
-import type { Salary, Overview } from "~/api/client";
+import type { Salary } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
-import type { DataSet as CompareBarGraphDataSet } from "~/components/common/graph/CompareBar.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import OverviewCompareGraph from "~/components/salary/OverviewCompareGraph.vue";
+import OverviewCompareSummary from "~/components/salary/OverviewCompareSummary.vue";
 import {
   getFinancialYears,
-  getMonthsInFinancialYear,
   aggregateAnnually,
-  filterSalaryByFinancialYearMonth,
+  aggregateCompareData,
 } from "~/utils/salary";
 import { trimArray } from "~/utils/trim-array";
 
@@ -210,50 +195,35 @@ const annualOvertime = computed(() =>
 );
 
 type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
-const aggregateCompareData = (
-  targetYears: string[],
-  label: keyof Overview,
-  backgroundColor: string[]
-): CompareBarGraphDataSet[] => {
-  return targetYears.map((year, index) => {
-    return {
-      label: `FY${year}`,
-      backgroundColor: backgroundColor[index],
-      data: getMonthsInFinancialYear(
-        year,
-        financialYearStartMonth.value,
-        true
-      ).map((date) => {
-        const salary = filterSalaryByFinancialYearMonth(
-          salaryStore.salaries ?? [],
-          date
-        );
-        return salary ? salary?.overview?.[label] : 0;
-      }),
-    };
-  });
-};
 const compareData = computed(() => {
   return {
     grossIncome: aggregateCompareData(
+      salaryStore.salaries ?? [],
       trimArray(years.value, 3, { from: "end" }),
       "grossIncome",
-      compareDataColors.value
+      compareDataColors.value,
+      financialYearStartMonth.value
     ),
     netIncome: aggregateCompareData(
+      salaryStore.salaries ?? [],
       trimArray(years.value, 3, { from: "end" }),
       "netIncome",
-      compareDataColors.value
+      compareDataColors.value,
+      financialYearStartMonth.value
     ),
     operatingTime: aggregateCompareData(
+      salaryStore.salaries ?? [],
       trimArray(years.value, 3, { from: "end" }),
       "operatingTime",
-      compareDataColors.value
+      compareDataColors.value,
+      financialYearStartMonth.value
     ),
     overtime: aggregateCompareData(
+      salaryStore.salaries ?? [],
       trimArray(years.value, 3, { from: "end" }),
       "overtime",
-      compareDataColors.value
+      compareDataColors.value,
+      financialYearStartMonth.value
     ),
   };
 });

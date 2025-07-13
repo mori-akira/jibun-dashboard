@@ -1,4 +1,5 @@
-import type { Salary } from "~/api/client";
+import type { Overview, Salary } from "~/api/client";
+import type { DataSet as CompareBarGraphDataSet } from "~/components/common/graph/CompareBar.vue";
 
 function getYearMonthAsNumber(date: string): (number | null)[] {
   const [year, month] = date.split("-");
@@ -78,4 +79,25 @@ export function aggregateAnnually(
     targetYear,
     financialYearStartMonth
   ).reduce((total: number, cv: Salary) => total + selector(cv), 0);
+}
+
+export function aggregateCompareData(
+  salaries: Salary[],
+  targetYears: string[],
+  label: keyof Overview,
+  backgroundColors: string[],
+  financialYearStartMonth: number
+): CompareBarGraphDataSet[] {
+  return targetYears.map((year, index) => {
+    return {
+      label: `FY${year}`,
+      backgroundColor: backgroundColors[index],
+      data: getMonthsInFinancialYear(year, financialYearStartMonth, true).map(
+        (date) => {
+          const salary = filterSalaryByFinancialYearMonth(salaries ?? [], date);
+          return salary ? salary?.overview?.[label] : 0;
+        }
+      ),
+    };
+  });
 }
