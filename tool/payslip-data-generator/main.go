@@ -49,7 +49,7 @@ type Salary struct {
 const (
 	startYear         = 2015
 	endYear           = 2025
-	baseSalary        = 300000
+	baseSalary        = 200000
 	raisePerYear      = 10000
 	baseOvertimeRate  = 2000
 	overtimeRaiseYear = 100
@@ -57,7 +57,7 @@ const (
 	otherFixed        = 5000
 	maxPaidLeaveYear  = 15
 
-	socialInsuranceRate = 0.20
+	socialInsuranceRate = 0.15
 	healthInsuranceRate = 0.05
 	incomeTaxRate       = 0.06
 	residentTaxRate     = 0.03

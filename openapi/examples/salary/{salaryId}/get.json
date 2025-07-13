@@ -1,18 +1,18 @@
 {
-  "salaryId": "7df5d473-8eac-4532-b0d1-1c438a1f0e2a",
+  "salaryId": "20ca2e31-bd7b-4ed3-8bc9-6de13f91990a",
   "userId": "test-user",
   "targetDate": "2025-03-01",
   "overview": {
-    "grossIncome": 465000,
-    "netIncome": 306900,
-    "operatingTime": 178,
-    "overtime": 10,
+    "grossIncome": 524000,
+    "netIncome": 372040,
+    "operatingTime": 231,
+    "overtime": 63,
     "bonus": 0,
     "bonusTakeHome": 0
   },
   "structure": {
-    "basicSalary": 400000,
-    "overtimePay": 30000,
+    "basicSalary": 300000,
+    "overtimePay": 189000,
     "housingAllowance": 30000,
     "positionAllowance": 0,
     "other": 5000
@@ -27,7 +27,7 @@
         },
         {
           "key": "残業時間",
-          "data": 10
+          "data": 63
         },
         {
           "key": "有給取得",
@@ -40,11 +40,11 @@
       "data": [
         {
           "key": "基本給",
-          "data": 400000
+          "data": 300000
         },
         {
           "key": "残業代",
-          "data": 30000
+          "data": 189000
         },
         {
           "key": "住宅手当",
@@ -65,19 +65,19 @@
       "data": [
         {
           "key": "社会保険料",
-          "data": 93000
+          "data": 78600
         },
         {
           "key": "健康保険料",
-          "data": 23250
+          "data": 26200
         },
         {
           "key": "所得税",
-          "data": 27900
+          "data": 31440
         },
         {
           "key": "住民税",
-          "data": 13950
+          "data": 15720
         }
       ]
     }
