@@ -17,6 +17,7 @@
               .toReversed()
           "
           :value="baseFinancialYear"
+          label-class="font-cursive"
           @change:value="baseFinancialYear = $event"
         />
       </Panel>
