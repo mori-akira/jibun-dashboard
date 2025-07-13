@@ -47,7 +47,7 @@ type Salary struct {
 }
 
 const (
-	startYear         = 2021
+	startYear         = 2015
 	endYear           = 2025
 	baseSalary        = 300000
 	raisePerYear      = 10000
