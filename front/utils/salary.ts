@@ -47,6 +47,13 @@ export function getFinancialYears(
   return uniqueYears.sort();
 }
 
+export function filterFinancialYears(
+  financialYears: string[],
+  untilYear: string
+): string[] {
+  return financialYears.filter((year) => year <= untilYear);
+}
+
 export function filterSalaryByFinancialYear(
   salaries: Salary[],
   targetYear: string,

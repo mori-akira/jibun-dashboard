@@ -5,7 +5,21 @@
       <span class="font-cursive font-bold ml-2">Salary</span>
     </h2>
     <div class="flex justify-between">
-      <Panel panel-class="w-full"> </Panel>
+      <Panel panel-class="w-full">
+        <SelectBox
+          label="Base Financial Year"
+          :options="
+            financialYears
+              .map((year) => ({
+                label: year,
+                value: year,
+              }))
+              .toReversed()
+          "
+          :value="baseFinancialYear"
+          @change:value="baseFinancialYear = $event"
+        />
+      </Panel>
     </div>
 
     <div class="flex justify-between">
@@ -18,6 +32,7 @@
           <AnnualComparer
             :selector="(salary: Salary) => salary.overview.grossIncome"
             :value-format="(value: number) => `￥${value.toLocaleString()}`"
+            :base-financial-year="baseFinancialYear"
             wrapper-class="w-full"
           />
         </div>
@@ -30,7 +45,9 @@
         <div class="h-36 flex items-center">
           <TransitionGraph
             :labels="
-              trimArray(financialYears, transitionItemCount, { from: 'end' })
+              trimArray(targetFinancialYears, transitionItemCount, {
+                from: 'end',
+              })
             "
             :values="
               trimArray(annualIncomes, transitionItemCount, { from: 'end' })
@@ -53,6 +70,7 @@
           <AnnualComparer
             :selector="(salary: Salary) => salary.overview.overtime"
             :value-format="(value: number) => `${value.toLocaleString()} H`"
+            :base-financial-year="baseFinancialYear"
             positive-color-text-class="text-red-600"
             negative-color-text-class="text-blue-600"
             positive-color-background-class="bg-red-600"
@@ -69,7 +87,9 @@
         <div class="h-36 flex items-center">
           <TransitionGraph
             :labels="
-              trimArray(financialYears, transitionItemCount, { from: 'end' })
+              trimArray(targetFinancialYears, transitionItemCount, {
+                from: 'end',
+              })
             "
             :values="
               trimArray(annualOvertime, transitionItemCount, { from: 'end' })
@@ -143,12 +163,14 @@ import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
+import SelectBox from "~/components/common/SelectBox.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import OverviewCompareGraph from "~/components/salary/OverviewCompareGraph.vue";
 import OverviewCompareSummary from "~/components/salary/OverviewCompareSummary.vue";
 import {
   getFinancialYears,
+  filterFinancialYears,
   aggregateAnnually,
   aggregateCompareData,
 } from "~/utils/salary";
@@ -177,8 +199,17 @@ const compareDataColors = computed(() => {
 const financialYears = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
+const baseFinancialYear = ref(financialYears.value.at(-1) ?? "");
+watch(
+  () => financialYears.value,
+  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? ""),
+  { immediate: true }
+);
+const targetFinancialYears = computed(() =>
+  filterFinancialYears(financialYears.value, baseFinancialYear.value)
+);
 const annualIncomes = computed(() =>
-  trimArray(financialYears.value, 7, { from: "end" }).map((year) => {
+  trimArray(targetFinancialYears.value, 7, { from: "end" }).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview.grossIncome,
@@ -188,7 +219,7 @@ const annualIncomes = computed(() =>
   })
 );
 const annualOvertime = computed(() =>
-  trimArray(financialYears.value, 7, { from: "end" }).map((year) => {
+  trimArray(targetFinancialYears.value, 7, { from: "end" }).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview.overtime,
@@ -203,28 +234,28 @@ const compareData = computed(() => {
   return {
     grossIncome: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(financialYears.value, 3, { from: "end" }),
+      trimArray(targetFinancialYears.value, 3, { from: "end" }),
       "grossIncome",
       compareDataColors.value,
       financialYearStartMonth.value
     ),
     netIncome: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(financialYears.value, 3, { from: "end" }),
+      trimArray(targetFinancialYears.value, 3, { from: "end" }),
       "netIncome",
       compareDataColors.value,
       financialYearStartMonth.value
     ),
     operatingTime: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(financialYears.value, 3, { from: "end" }),
+      trimArray(targetFinancialYears.value, 3, { from: "end" }),
       "operatingTime",
       compareDataColors.value,
       financialYearStartMonth.value
     ),
     overtime: aggregateCompareData(
       salaryStore.salaries ?? [],
-      trimArray(financialYears.value, 3, { from: "end" }),
+      trimArray(targetFinancialYears.value, 3, { from: "end" }),
       "overtime",
       compareDataColors.value,
       financialYearStartMonth.value

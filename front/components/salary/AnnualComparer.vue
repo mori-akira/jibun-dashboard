@@ -55,6 +55,7 @@ import { getFinancialYears, aggregateAnnually } from "~/utils/salary";
 const props = defineProps<{
   selector: (salary: Salary) => number;
   valueFormat: (value: number) => string;
+  baseFinancialYear?: string;
   positiveColorTextClass?: string;
   negativeColorTextClass?: string;
   positiveColorBackgroundClass?: string;
@@ -72,8 +73,15 @@ const salaries = computed(() => salaryStore.salaries ?? []);
 const years = computed(() =>
   getFinancialYears(salaries.value ?? [], financialYearStartMonth.value)
 );
-const thisYear = computed(() => years.value.at(-1) ?? "");
-const lastYear = computed(() => years.value.at(-2) ?? "");
+const thisYear = computed(
+  () => props.baseFinancialYear ?? years.value.at(-1) ?? ""
+);
+const lastYear = computed(() =>
+  props.baseFinancialYear
+    ? (Number(props.baseFinancialYear) - 1).toString()
+    : years.value.at(-2) ?? ""
+);
+console.log("thisYear", thisYear.value, "lastYear", lastYear.value);
 const annualAggregation = computed(() => ({
   thisYear: aggregateAnnually(
     salaries.value,
