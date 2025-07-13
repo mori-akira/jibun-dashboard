@@ -4,6 +4,9 @@
       <Icon name="tabler:report-money" class="adjust-icon" />
       <span class="font-cursive font-bold ml-2">Salary</span>
     </h2>
+    <div class="flex justify-between">
+      <Panel panel-class="w-full"> </Panel>
+    </div>
 
     <div class="flex justify-between">
       <Panel panel-class="w-5/12">
@@ -94,54 +97,28 @@
         >
           <template #grossIncome>
             <div class="mt-4">
-              <div class="h-36 flex items-center">
-                <CompareBarGraph
-                  :labels="compareDataHeaders"
-                  :datasets="compareData.grossIncome"
-                  :y-axis-min="0"
-                  :y-axis-max="incomeMaxRange"
-                  :show-y-grid="true"
-                  wrapper-class="w-full h-36 mt-4"
-                />
-              </div>
+              <OverviewCompareGraph
+                :datasets="compareData.grossIncome"
+                :y-axis-max="incomeMaxRange"
+              />
             </div>
           </template>
           <template #netIncome>
             <div class="mt-4">
-              <div class="h-36 flex items-center">
-                <CompareBarGraph
-                  :labels="compareDataHeaders"
-                  :datasets="compareData.netIncome"
-                  :y-axis-min="0"
-                  :y-axis-max="incomeMaxRange"
-                  :show-y-grid="true"
-                  wrapper-class="w-full h-36 mt-4"
-                />
-              </div>
+              <OverviewCompareGraph
+                :datasets="compareData.netIncome"
+                :y-axis-max="incomeMaxRange"
+              />
             </div>
           </template>
           <template #operatingTime>
             <div class="mt-4">
-              <div class="h-36 flex items-center">
-                <CompareBarGraph
-                  :labels="compareDataHeaders"
-                  :datasets="compareData.operatingTime"
-                  :show-y-grid="true"
-                  wrapper-class="w-full h-36 mt-4"
-                />
-              </div>
+              <OverviewCompareGraph :datasets="compareData.operatingTime" />
             </div>
           </template>
           <template #overtime>
             <div class="mt-4">
-              <div class="h-36 flex items-center">
-                <CompareBarGraph
-                  :labels="compareDataHeaders"
-                  :datasets="compareData.overtime"
-                  :show-y-grid="true"
-                  wrapper-class="w-full h-36 mt-4"
-                />
-              </div>
+              <OverviewCompareGraph :datasets="compareData.overtime" />
             </div>
           </template>
         </Tabs>
@@ -177,9 +154,9 @@ import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
-import CompareBarGraph from "~/components/common/graph/CompareBar.vue";
 import type { DataSet as CompareBarGraphDataSet } from "~/components/common/graph/CompareBar.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
+import OverviewCompareGraph from "~/components/salary/OverviewCompareGraph.vue";
 import {
   getFinancialYears,
   getMonthsInFinancialYear,
@@ -232,6 +209,7 @@ const annualOvertime = computed(() =>
   })
 );
 
+type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
 const aggregateCompareData = (
   targetYears: string[],
   label: keyof Overview,
@@ -255,21 +233,6 @@ const aggregateCompareData = (
     };
   });
 };
-const compareDataHeaders = [
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-  "Jan",
-  "Feb",
-  "Mar",
-];
-type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
 const compareData = computed(() => {
   return {
     grossIncome: aggregateCompareData(
