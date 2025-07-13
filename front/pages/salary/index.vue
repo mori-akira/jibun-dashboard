@@ -41,6 +41,7 @@
               .toReversed()
           "
           :value="baseFinancialYear"
+          wrapper-class="items-center"
           label-class="font-cursive"
           @change:value="baseFinancialYear = $event"
         />
