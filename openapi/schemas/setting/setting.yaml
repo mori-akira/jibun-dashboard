@@ -27,3 +27,16 @@ properties:
         exclusiveMinimum: false
         maximum: 12
         exclusiveMaximum: false
+      
+      transitionItemCount:
+        type: integer
+        minimum: 1
+        exclusiveMinimum: false
+        maximum: 10
+        exclusiveMaximum: false
+      
+      compareDataColors:
+        type: array
+        items:
+          type: string
+          pattern: "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"
