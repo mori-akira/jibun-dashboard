@@ -21,6 +21,11 @@ properties:
 
     properties:
 
+      required:
+        - financialYearStartMonth
+        - transitionItemCount
+        - compareDataColors
+
       financialYearStartMonth:
         type: integer
         minimum: 1
@@ -40,3 +45,33 @@ properties:
         items:
           type: string
           pattern: "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"
+        minItems: 3
+        maxItems: 3
+
+  Qualification:
+    description: 資格設定
+    type: object
+
+    properties:
+
+      required:
+        - rankAColor
+        - rankBColor
+        - rankCColor
+        - rankDColor
+
+      rankAColor:
+        type: string
+        pattern: "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"
+
+      rankBColor:
+        type: string
+        pattern: "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"
+
+      rankCColor:
+        type: string
+        pattern: "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"
+
+      rankDColor:
+        type: string
+        pattern: "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"

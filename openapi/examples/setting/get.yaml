@@ -7,3 +7,8 @@ salary:
     - "#44DDDD"
     - "#EE88EE"
     - "#EEBB44"
+qualification:
+  rankAColor: "#2B7FFF"
+  rankBColor: "#18CB56"
+  rankCColor: "#FF6900"
+  rankDColor: "#F0B100"
