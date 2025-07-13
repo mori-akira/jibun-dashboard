@@ -30,6 +30,7 @@
             :values="
               trimArray(annualIncomes, transitionItemCount, { from: 'end' })
             "
+            :y-axis-min="0"
             :show-y-grid="true"
             wrapper-class="w-full h-36 mt-4"
           />
@@ -66,6 +67,7 @@
             :values="
               trimArray(annualOvertime, transitionItemCount, { from: 'end' })
             "
+            :y-axis-min="0"
             :show-y-grid="true"
             wrapper-class="w-full h-36 mt-4"
           />
