@@ -8,11 +8,12 @@
       <div class="flex items-center mr-4">
         <Button
           type="navigation"
+          size="small"
           html-type="button"
           button-class="w-32"
           @click="() => navigateTo('/qualification/edit')"
         >
-          <Icon name="tabler:database-edit" class="adjust-icon-4" />
+          <Icon name="tabler:database-edit" class="text-base translate-y-0.5" />
           <span class="font-cursive font-bold ml-2">Edit</span>
         </Button>
       </div>

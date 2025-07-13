@@ -8,21 +8,26 @@
       <div class="flex items-center mr-4">
         <Button
           type="navigation"
+          size="small"
           html-type="button"
           button-class="w-32"
           @click="() => navigateTo('/salary/payslip')"
         >
-          <Icon name="tabler:align-box-left-top" class="adjust-icon-4" />
+          <Icon
+            name="tabler:align-box-left-top"
+            class="text-base translate-y-0.5"
+          />
           <span class="font-cursive font-bold ml-2">Payslip</span>
         </Button>
         <Button
           type="navigation"
+          size="small"
           html-type="button"
           button-class="w-32"
           wrapper-class="ml-2"
           @click="() => navigateTo('/salary/edit')"
         >
-          <Icon name="tabler:database-edit" class="adjust-icon-4" />
+          <Icon name="tabler:database-edit" class="text-base translate-y-0.5" />
           <span class="font-cursive font-bold ml-2">Edit</span>
         </Button>
       </div>

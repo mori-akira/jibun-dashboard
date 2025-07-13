@@ -3,6 +3,7 @@
     <button
       :class="[
         buttonClass,
+        size,
         { 'action-button': type === 'action' || type === 'marked' },
         { 'navigation-button': type === 'navigation' },
       ]"
@@ -18,6 +19,7 @@
 <script setup lang="ts">
 defineProps<{
   type?: "action" | "marked" | "navigation" | "default";
+  size?: "small" | "normal";
   htmlType?: "button" | "submit" | "reset";
   disabled?: boolean;
   wrapperClass?: string;
@@ -43,6 +45,11 @@ button {
   box-shadow: 1px 1px 2px #000;
 }
 
+button.small {
+  font-size: 0.9rem;
+  padding: 0.1rem 0.5rem;
+}
+
 button[disabled] {
   border: 3px solid #bbb;
   color: #bbb;
@@ -61,6 +68,6 @@ button.action-button {
 }
 
 button.navigation-button {
-  background-color: #3c8;
+  background-color: #888;
 }
 </style>
