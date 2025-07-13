@@ -1,7 +1,7 @@
 <template>
   <div :class="['container', { closed: !commonStore.isHeaderMenuOpen }]">
     <div class="mail-area">
-      <Icon name="tabler:mail" class="adjust-icon" />
+      <Icon name="tabler:mail" class="adjust-icon-4" />
       <span class="inline-block ml-2">{{ userStore?.user?.emailAddress }}</span>
     </div>
     <hr class="mt-3" />

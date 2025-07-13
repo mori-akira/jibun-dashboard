@@ -1,13 +1,26 @@
 <template>
   <div>
-    <h2>
-      <Icon name="tabler:certificate" class="adjust-icon" />
-      <span class="font-cursive font-bold ml-2">Qualification</span>
-    </h2>
+    <div class="flex justify-between items-center">
+      <div class="flex items-start">
+        <Icon name="tabler:certificate" class="adjust-icon-2" />
+        <span class="font-cursive font-bold ml-2">Qualification</span>
+      </div>
+      <div class="flex items-center mr-4">
+        <Button
+          type="navigation"
+          html-type="button"
+          button-class="w-32"
+          @click="() => navigateTo('/qualification/edit')"
+        >
+          <Icon name="tabler:database-edit" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Edit</span>
+        </Button>
+      </div>
+    </div>
 
     <Panel>
       <h3>
-        <Icon name="tabler:search" class="adjust-icon" />
+        <Icon name="tabler:search" class="adjust-icon-4" />
         <span class="font-cursive font-bold ml-2">Condition</span>
       </h3>
       <MultiOptionSelector
@@ -71,7 +84,7 @@
 
     <Panel>
       <h3>
-        <Icon name="tabler:chart-infographic" class="adjust-icon" />
+        <Icon name="tabler:chart-infographic" class="adjust-icon-4" />
         <span class="font-cursive font-bold ml-2">Summary</span>
       </h3>
       <div class="flex justify-center">
@@ -84,7 +97,7 @@
 
     <Panel panel-class="overflow-x-auto">
       <h3>
-        <Icon name="tabler:list" class="adjust-icon" />
+        <Icon name="tabler:list" class="adjust-icon-4" />
         <span class="font-cursive font-bold ml-2">Result</span>
       </h3>
       <DataTable
@@ -130,6 +143,7 @@ import Accordion from "~/components/common/Accordion.vue";
 import MultiOptionSelector from "~/components/common/MultiOptionSelector.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
+import Button from "~/components/common/Button.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";

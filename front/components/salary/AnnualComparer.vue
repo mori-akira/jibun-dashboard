@@ -81,7 +81,6 @@ const lastYear = computed(() =>
     ? (Number(props.baseFinancialYear) - 1).toString()
     : years.value.at(-2) ?? ""
 );
-console.log("thisYear", thisYear.value, "lastYear", lastYear.value);
 const annualAggregation = computed(() => ({
   thisYear: aggregateAnnually(
     salaries.value,

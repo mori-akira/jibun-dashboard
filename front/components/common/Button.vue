@@ -4,6 +4,7 @@
       :class="[
         buttonClass,
         { 'action-button': type === 'action' || type === 'marked' },
+        { 'navigation-button': type === 'navigation' },
       ]"
       :disabled="disabled"
       :type="htmlType || 'button'"
@@ -16,7 +17,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  type?: "action" | "marked" | "default";
+  type?: "action" | "marked" | "navigation" | "default";
   htmlType?: "button" | "submit" | "reset";
   disabled?: boolean;
   wrapperClass?: string;
@@ -57,5 +58,9 @@ button:not([disabled]):hover {
 
 button.action-button {
   background-color: #88f;
+}
+
+button.navigation-button {
+  background-color: #3c8;
 }
 </style>

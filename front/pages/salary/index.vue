@@ -1,9 +1,33 @@
 <template>
   <div>
-    <h2>
-      <Icon name="tabler:report-money" class="adjust-icon" />
-      <span class="font-cursive font-bold ml-2">Salary</span>
-    </h2>
+    <div class="flex justify-between items-center">
+      <div class="flex items-start">
+        <Icon name="tabler:report-money" class="adjust-icon-2" />
+        <span class="font-cursive font-bold ml-2">Salary</span>
+      </div>
+      <div class="flex items-center mr-4">
+        <Button
+          type="navigation"
+          html-type="button"
+          button-class="w-32"
+          @click="() => navigateTo('/salary/payslip')"
+        >
+          <Icon name="tabler:align-box-left-top" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Payslip</span>
+        </Button>
+        <Button
+          type="navigation"
+          html-type="button"
+          button-class="w-32"
+          wrapper-class="ml-2"
+          @click="() => navigateTo('/salary/edit')"
+        >
+          <Icon name="tabler:database-edit" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Edit</span>
+        </Button>
+      </div>
+    </div>
+
     <div class="flex justify-between">
       <Panel panel-class="w-full">
         <SelectBox
@@ -26,7 +50,7 @@
     <div class="flex justify-between">
       <Panel panel-class="w-5/12">
         <h3>
-          <Icon name="tabler:coin-yen" class="adjust-icon" />
+          <Icon name="tabler:coin-yen" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Annual Income</span>
         </h3>
         <div class="h-36 flex items-center">
@@ -40,7 +64,7 @@
       </Panel>
       <Panel panel-class="w-7/12">
         <h3>
-          <Icon name="tabler:graph" class="adjust-icon" />
+          <Icon name="tabler:graph" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Transition</span>
         </h3>
         <div class="h-36 flex items-center">
@@ -64,7 +88,7 @@
     <div class="flex justify-between">
       <Panel panel-class="w-5/12">
         <h3>
-          <Icon name="tabler:stopwatch" class="adjust-icon" />
+          <Icon name="tabler:stopwatch" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Annual Overtime</span>
         </h3>
         <div class="h-36 flex items-center">
@@ -82,7 +106,7 @@
       </Panel>
       <Panel panel-class="w-7/12">
         <h3>
-          <Icon name="tabler:graph" class="adjust-icon" />
+          <Icon name="tabler:graph" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Transition</span>
         </h3>
         <div class="h-36 flex items-center">
@@ -106,7 +130,7 @@
     <div class="flex justify-between">
       <Panel panel-class="w-9/12">
         <h3>
-          <Icon name="tabler:clipboard-data" class="adjust-icon" />
+          <Icon name="tabler:clipboard-data" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Compare</span>
         </h3>
         <Tabs
@@ -152,6 +176,44 @@
         <OverviewCompareSummary :summary-data="summaryData" />
       </Panel>
     </div>
+
+    <div class="flex justify-between">
+      <Panel panel-class="w-full overflow-x-auto">
+        <h3>
+          <Icon name="tabler:align-box-left-top" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Payslip</span>
+        </h3>
+        <div class="h-112 flex justify-between items-center px-4 py-2">
+          <template
+            v-for="salary in trimArray(
+              filterSalaryByFinancialYears(
+                salaryStore.salaries ?? [],
+                targetFinancialYears,
+                financialYearStartMonth
+              ).toReversed(),
+              3
+            )"
+            :key="salary.salaryId"
+          >
+            <Payslip
+              :salary="salary"
+              wrapper-class="w-full h-full"
+              title-class="font-cursive font-bold"
+              headline-class="font-cursive"
+              label-class="font-cursive"
+            />
+          </template>
+        </div>
+        <div class="h-8 flex justify-end items-end px-4">
+          <AnchorLink
+            link="/salary/payslip"
+            text="View All Payslips"
+            target="_self"
+            anchor-class="font-cursive"
+          />
+        </div>
+      </Panel>
+    </div>
   </div>
 </template>
 
@@ -165,13 +227,17 @@ import { useSalaryStore } from "~/stores/salary";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import SelectBox from "~/components/common/SelectBox.vue";
+import AnchorLink from "~/components/common/AnchorLink.vue";
+import Button from "~/components/common/Button.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import OverviewCompareGraph from "~/components/salary/OverviewCompareGraph.vue";
 import OverviewCompareSummary from "~/components/salary/OverviewCompareSummary.vue";
+import Payslip from "~/components/salary/Payslip.vue";
 import {
   getFinancialYears,
   filterFinancialYears,
+  filterSalaryByFinancialYears,
   aggregateAnnually,
   aggregateCompareData,
 } from "~/utils/salary";

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>
-      <Icon name="tabler:settings" class="adjust-icon" />
+      <Icon name="tabler:settings" class="adjust-icon-4" />
       <span class="font-cursive font-bold ml-2">Setting</span>
     </h2>
 
@@ -199,7 +199,7 @@
             wrapper-class="flex justify-center mt-8"
             @click="handleSubmit(onSubmit)"
           >
-            <Icon name="tabler:database-share" class="adjust-icon" />
+            <Icon name="tabler:database-share" class="adjust-icon-4" />
             <span class="ml-2">Execute</span>
           </Button>
         </div>
@@ -240,7 +240,6 @@ const settingStore = useSettingStore();
 const setting = computed<Setting>(
   () => ({ ...settingStore.setting } as Setting)
 );
-console.log("Setting:", setting.value);
 const validationRules = {
   salary: {
     financialYearStartMonth: zodToVeeRules(

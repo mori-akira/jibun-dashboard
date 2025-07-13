@@ -13,7 +13,12 @@ body {
   font-family: "Sacramento", cursive, sans-serif;
 }
 
-.adjust-icon {
+.adjust-icon-2 {
+  transform: translateY(2px);
+  font-size: 1.3rem;
+}
+
+.adjust-icon-4 {
   transform: translateY(4px);
   font-size: 1.3rem;
 }

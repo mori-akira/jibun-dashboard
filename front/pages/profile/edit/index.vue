@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>
-      <Icon name="tabler:edit" class="adjust-icon" />
+      <Icon name="tabler:edit" class="adjust-icon-4" />
       <span class="font-cursive font-bold ml-2">Edit Profile</span>
     </h2>
 
@@ -48,7 +48,7 @@
             wrapper-class="flex justify-center mt-8"
             @click="handleSubmit(onSubmit)"
           >
-            <Icon name="tabler:database-share" class="adjust-icon" />
+            <Icon name="tabler:database-share" class="adjust-icon-4" />
             <span class="ml-2">Execute</span>
           </Button>
         </div>

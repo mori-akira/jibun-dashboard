@@ -1,8 +1,23 @@
 <template>
-  <a :href="link" :class="[anchorClass]" :target="target">
+  <a
+    v-if="target === '_blank'"
+    :href="link"
+    :class="[anchorClass]"
+    :target="target"
+  >
     <span>{{ text }}</span>
     <Icon name="tabler:external-link" class="link-icon" />
   </a>
+  <NuxtLink
+    v-else-if="target === '_self'"
+    class="text-gray-900"
+    :to="link"
+    :class="[anchorClass]"
+    :target="target"
+  >
+    <Icon name="tabler:math-greater" class="link-icon" />
+    <span class="font-cursive ml-2">{{ text }}</span>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
