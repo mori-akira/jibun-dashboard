@@ -386,6 +386,18 @@ export interface SettingSalary {
      * @memberof SettingSalary
      */
     'financialYearStartMonth'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SettingSalary
+     */
+    'transitionItemCount'?: number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SettingSalary
+     */
+    'compareDataColors'?: Array<string>;
 }
 /**
  * 給与構成

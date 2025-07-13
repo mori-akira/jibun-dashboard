@@ -43,7 +43,13 @@ const Setting = z
     settingId: z.string().uuid().optional(),
     userId: z.string().optional(),
     salary: z
-      .object({ financialYearStartMonth: z.number().int().gte(1).lte(12) })
+      .object({
+        financialYearStartMonth: z.number().int().gte(1).lte(12),
+        transitionItemCount: z.number().int().gte(1).lte(10),
+        compareDataColors: z.array(
+          z.string().regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/)
+        ),
+      })
       .partial()
       .passthrough(),
   })
