@@ -11,7 +11,7 @@
           v-slot="{ field, errorMessage }"
           name="userName"
           :rules="validationRules.userName"
-          :value="user?.userName"
+          :value="userStore.user?.userName"
         >
           <TextBox
             label="Name"
@@ -28,7 +28,7 @@
           v-slot="{ field, errorMessage }"
           name="emailAddress"
           :rules="validationRules.emailAddress"
-          :value="user?.emailAddress"
+          :value="userStore.user?.emailAddress"
         >
           <TextBox
             label="Email"
@@ -80,7 +80,6 @@ import { useUserStore } from "~/stores/user";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const userStore = useUserStore();
-const user = computed<User>(() => ({ ...userStore.user } as User));
 const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
   emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),
@@ -89,7 +88,7 @@ const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   await userStore.putUser({
-    ...user.value,
+    ...userStore.user,
     ...(values as User),
   });
   showDialog.value = true;
