@@ -46,12 +46,31 @@ const Setting = z
       .object({
         financialYearStartMonth: z.number().int().gte(1).lte(12),
         transitionItemCount: z.number().int().gte(1).lte(10),
-        compareDataColors: z.array(
-          z.string().regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/)
-        ),
+        compareDataColors: z
+          .array(
+            z.string().regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/)
+          )
+          .min(3)
+          .max(3),
       })
-      .partial()
       .passthrough(),
+    Qualification: z
+      .object({
+        rankAColor: z
+          .string()
+          .regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/),
+        rankBColor: z
+          .string()
+          .regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/),
+        rankCColor: z
+          .string()
+          .regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/),
+        rankDColor: z
+          .string()
+          .regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/),
+      })
+      .passthrough()
+      .optional(),
   })
   .passthrough();
 const Salary = z

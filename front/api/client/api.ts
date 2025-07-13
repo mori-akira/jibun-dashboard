@@ -373,6 +373,43 @@ export interface Setting {
      * @memberof Setting
      */
     'salary': SettingSalary;
+    /**
+     * 
+     * @type {SettingQualification}
+     * @memberof Setting
+     */
+    'Qualification'?: SettingQualification;
+}
+/**
+ * 資格設定
+ * @export
+ * @interface SettingQualification
+ */
+export interface SettingQualification {
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingQualification
+     */
+    'rankAColor': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingQualification
+     */
+    'rankBColor': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingQualification
+     */
+    'rankCColor': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingQualification
+     */
+    'rankDColor': string;
 }
 /**
  * 給与設定
@@ -385,19 +422,19 @@ export interface SettingSalary {
      * @type {number}
      * @memberof SettingSalary
      */
-    'financialYearStartMonth'?: number;
+    'financialYearStartMonth': number;
     /**
      * 
      * @type {number}
      * @memberof SettingSalary
      */
-    'transitionItemCount'?: number;
+    'transitionItemCount': number;
     /**
      * 
      * @type {Array<string>}
      * @memberof SettingSalary
      */
-    'compareDataColors'?: Array<string>;
+    'compareDataColors': Array<string>;
 }
 /**
  * 給与構成
