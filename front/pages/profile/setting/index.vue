@@ -14,7 +14,7 @@
         >
           <Field
             v-slot="{ field, errorMessage }"
-            name="userName"
+            name="financialYearStartMonth"
             :rules="validationRules.salary.financialYearStartMonth"
             :value="setting?.salary?.financialYearStartMonth"
           >
@@ -29,6 +29,82 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @blur:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="transitionItemCount"
+            :rules="validationRules.salary.transitionItemCount"
+            :value="setting?.salary?.transitionItemCount"
+          >
+            <TextBox
+              label="Transition Item Count"
+              v-bind="field"
+              :error-message="errorMessage"
+              required
+              type="number"
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @blur:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="compareDataColor1"
+            :rules="validationRules.salary.compareDataColor1"
+            :value="setting?.salary?.compareDataColors?.[0]"
+          >
+            <ColorPicker
+              label="Compare Data Color 1"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="compareDataColor2"
+            :rules="validationRules.salary.compareDataColor2"
+            :value="setting?.salary?.compareDataColors?.[1]"
+          >
+            <ColorPicker
+              label="Compare Data Color 2"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="compareDataColor3"
+            :rules="validationRules.salary.compareDataColor3"
+            :value="setting?.salary?.compareDataColors?.[2]"
+          >
+            <ColorPicker
+              label="Compare Data Color 3"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
             />
           </Field>
         </Accordion>
@@ -67,6 +143,7 @@ import { schemas } from "~/api/client/schemas";
 import Panel from "~/components/common/Panel.vue";
 import Accordion from "~/components/common/Accordion.vue";
 import TextBox from "~/components/common/TextBox.vue";
+import ColorPicker from "~/components/common/ColorPicker.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useSettingStore } from "~/stores/setting";
@@ -77,22 +154,45 @@ definePageMeta({
 });
 
 const settingStore = useSettingStore();
-const setting = ref<Setting>({ ...settingStore.setting } as Setting);
+const setting = computed<Setting>(
+  () => ({ ...settingStore.setting } as Setting)
+);
+console.log("Setting:", setting.value);
 const validationRules = {
   salary: {
     financialYearStartMonth: zodToVeeRules(
       schemas.Setting.shape.salary.shape.financialYearStartMonth
+    ),
+    transitionItemCount: zodToVeeRules(
+      schemas.Setting.shape.salary.shape.transitionItemCount
+    ),
+    compareDataColor1: zodToVeeRules(
+      schemas.Setting.shape.salary.shape.compareDataColors._def.innerType
+    ),
+    compareDataColor2: zodToVeeRules(
+      schemas.Setting.shape.salary.shape.compareDataColors._def.innerType
+    ),
+    compareDataColor3: zodToVeeRules(
+      schemas.Setting.shape.salary.shape.compareDataColors._def.innerType
     ),
   },
 };
 const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  setting.value = {
+  await settingStore.putSetting({
     ...setting.value,
-    ...(values as Setting),
-  };
-  await settingStore.putSetting(setting.value as Setting);
+    salary: {
+      ...setting.value.salary,
+      financialYearStartMonth: values.financialYearStartMonth,
+      transitionItemCount: values.transitionItemCount,
+      compareDataColors: [
+        values.compareDataColor1,
+        values.compareDataColor2,
+        values.compareDataColor3,
+      ],
+    },
+  });
   showDialog.value = true;
 };
 const onCloseDialog = (): void => {

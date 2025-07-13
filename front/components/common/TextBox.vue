@@ -10,11 +10,16 @@
       <input
         :id="id"
         :type="type || 'text'"
-        :class="[inputClass, { error: errorMessage }]"
+        :class="[
+          inputClass,
+          { 'no-border': noDrawBorder },
+          { error: errorMessage },
+        ]"
         :value="value"
         :aria-invalid="!!errorMessage"
         @change="onChangeValue($event)"
         @blur="onBlurValue($event)"
+        @input="onInputValue($event)"
       />
       <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
     </div>
@@ -30,6 +35,7 @@ const props = defineProps<{
   required?: boolean;
   value?: string;
   type?: string;
+  noDrawBorder?: boolean;
   errorMessage?: string;
   wrapperClass?: string;
   labelClass?: string;
@@ -38,8 +44,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "change:value" | "blur:value", value: string): void;
-  (event: "change:event" | "blur:event", e: Event): void;
+  (event: "change:value" | "blur:value" | "input:value", value: string): void;
+  (event: "change:event" | "blur:event" | "input:event", e: Event): void;
 }>();
 
 const onChangeValue = (e: Event): void => {
@@ -56,6 +62,12 @@ const onBlurValue = (e: Event): void => {
     emit("blur:value", target.value);
     emit("blur:event", e);
   }
+};
+
+const onInputValue = (e: Event): void => {
+  const target = e.target as HTMLInputElement;
+  emit("input:value", target.value);
+  emit("input:event", e);
 };
 
 const id = computed(() => `input-${generateRandomString()}`);
@@ -77,6 +89,10 @@ input:not(:focus) {
 
 input:focus {
   border-color: #333;
+}
+
+input.no-border {
+  border: none !important;
 }
 
 input.error {

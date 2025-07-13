@@ -26,8 +26,10 @@
         </h3>
         <div class="h-36 flex items-center">
           <TransitionGraph
-            :labels="years"
-            :values="annualIncomes"
+            :labels="trimArray(years, transitionItemCount, { from: 'end' })"
+            :values="
+              trimArray(annualIncomes, transitionItemCount, { from: 'end' })
+            "
             :show-y-grid="true"
             wrapper-class="w-full h-36 mt-4"
           />
@@ -60,8 +62,10 @@
         </h3>
         <div class="h-36 flex items-center">
           <TransitionGraph
-            :labels="years"
-            :values="annualOvertime"
+            :labels="trimArray(years, transitionItemCount, { from: 'end' })"
+            :values="
+              trimArray(annualOvertime, transitionItemCount, { from: 'end' })
+            "
             :show-y-grid="true"
             wrapper-class="w-full h-36 mt-4"
           />
@@ -148,7 +152,7 @@
             v-for="(data, index) in summaryData"
             :key="index"
             class="w-full flex justify-center"
-            :style="{ color: compareDataBackgroundColors.toReversed()[index] }"
+            :style="{ color: compareDataColors.toReversed()[index] }"
           >
             <span class="font-cursive">{{ data.label }}</span>
             <span class="font-bold ml-4">
@@ -195,6 +199,13 @@ onMounted(async () => {
 const financialYearStartMonth = computed(
   () => settingStore.setting?.salary.financialYearStartMonth ?? 1
 );
+const transitionItemCount = computed(
+  () => settingStore.setting?.salary.transitionItemCount ?? 1
+);
+const compareDataColors = computed(() => {
+  const colors = settingStore.setting?.salary.compareDataColors ?? [];
+  return [colors?.[0] ?? "#ddd", colors?.[1] ?? "#ddd", colors?.[2] ?? "#ddd"];
+});
 const years = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
@@ -242,7 +253,6 @@ const aggregateCompareData = (
     };
   });
 };
-const compareDataBackgroundColors = ["#44DDDD", "#EE88EE", "#EEBB44"];
 const compareDataHeaders = [
   "Apr",
   "May",
@@ -263,22 +273,22 @@ const compareData = computed(() => {
     grossIncome: aggregateCompareData(
       trimArray(years.value, 3, { from: "end" }),
       "grossIncome",
-      compareDataBackgroundColors
+      compareDataColors.value
     ),
     netIncome: aggregateCompareData(
       trimArray(years.value, 3, { from: "end" }),
       "netIncome",
-      compareDataBackgroundColors
+      compareDataColors.value
     ),
     operatingTime: aggregateCompareData(
       trimArray(years.value, 3, { from: "end" }),
       "operatingTime",
-      compareDataBackgroundColors
+      compareDataColors.value
     ),
     overtime: aggregateCompareData(
       trimArray(years.value, 3, { from: "end" }),
       "overtime",
-      compareDataBackgroundColors
+      compareDataColors.value
     ),
   };
 });

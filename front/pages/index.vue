@@ -34,6 +34,40 @@
       </Panel>
     </div>
 
+    <div class="flex justify-between">
+      <Panel panel-class="w-full">
+        <h3>
+          <Icon name="tabler:book" class="adjust-icon" />
+          <span class="font-cursive font-bold ml-2">Vocabulary</span>
+        </h3>
+        <div class="h-36 flex items-center"></div>
+      </Panel>
+      <Panel panel-class="w-full items-center">
+        <h3>
+          <Icon name="tabler:report-money" class="adjust-icon" />
+          <span class="font-cursive font-bold ml-2">Financial Asset</span>
+        </h3>
+        <div class="h-36 flex justify-center items-center"></div>
+      </Panel>
+    </div>
+
+    <div class="flex justify-between">
+      <Panel panel-class="w-full">
+        <h3>
+          <Icon name="tabler:file-pencil" class="adjust-icon" />
+          <span class="font-cursive font-bold ml-2">Study Plan</span>
+        </h3>
+        <div class="h-36 flex items-center"></div>
+      </Panel>
+      <Panel panel-class="w-full items-center">
+        <h3>
+          <Icon name="tabler:settings" class="adjust-icon" />
+          <span class="font-cursive font-bold ml-2">Setting</span>
+        </h3>
+        <div class="h-36 flex justify-center items-center"></div>
+      </Panel>
+    </div>
+
     <div>
       <Button wrapper-class="mt-4" @click="onAddError"> Add Error </Button>
     </div>
