@@ -378,7 +378,7 @@ export interface Setting {
      * @type {SettingQualification}
      * @memberof Setting
      */
-    'Qualification'?: SettingQualification;
+    'qualification': SettingQualification;
 }
 /**
  * 資格設定

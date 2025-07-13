@@ -54,7 +54,7 @@ const Setting = z
           .max(3),
       })
       .passthrough(),
-    Qualification: z
+    qualification: z
       .object({
         rankAColor: z
           .string()
@@ -69,8 +69,7 @@ const Setting = z
           .string()
           .regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/),
       })
-      .passthrough()
-      .optional(),
+      .passthrough(),
   })
   .passthrough();
 const Salary = z
