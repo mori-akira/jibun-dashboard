@@ -52,7 +52,7 @@ const chartData = computed(() => ({
   datasets: props.datasets,
 }));
 
-const chartOptions = {
+const chartOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -82,5 +82,5 @@ const chartOptions = {
   animation: {
     duration: 0,
   },
-};
+}));
 </script>
