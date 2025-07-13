@@ -27,13 +27,13 @@
         {{ salary?.overview?.overtime?.toLocaleString() }}
       </div>
     </div>
-    <div v-if="salary?.overview.overtime" class="row">
+    <div v-if="salary?.overview.bonus" class="row">
       <div :class="['label', labelClass]">Bonus</div>
       <div :class="['value', valueClass]">
         {{ salary?.overview?.bonus?.toLocaleString() }}
       </div>
     </div>
-    <div v-if="salary?.overview.overtime" class="row">
+    <div v-if="salary?.overview.bonusTakeHome" class="row">
       <div :class="['label', labelClass]">Bonus (Take Home)</div>
       <div :class="['value', valueClass]">
         {{ salary?.overview?.bonusTakeHome?.toLocaleString() }}
