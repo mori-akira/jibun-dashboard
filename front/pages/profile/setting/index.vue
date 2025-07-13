@@ -14,7 +14,7 @@
         >
           <Field
             v-slot="{ field, errorMessage }"
-            name="financialYearStartMonth"
+            name="salary.financialYearStartMonth"
             :rules="validationRules.salary.financialYearStartMonth"
             :value="setting?.salary?.financialYearStartMonth"
           >
@@ -33,7 +33,7 @@
           </Field>
           <Field
             v-slot="{ field, errorMessage }"
-            name="transitionItemCount"
+            name="salary.transitionItemCount"
             :rules="validationRules.salary.transitionItemCount"
             :value="setting?.salary?.transitionItemCount"
           >
@@ -52,7 +52,7 @@
           </Field>
           <Field
             v-slot="{ field, errorMessage }"
-            name="compareDataColor1"
+            name="salary.compareDataColor1"
             :rules="validationRules.salary.compareDataColor1"
             :value="setting?.salary?.compareDataColors?.[0]"
           >
@@ -71,7 +71,7 @@
           </Field>
           <Field
             v-slot="{ field, errorMessage }"
-            name="compareDataColor2"
+            name="salary.compareDataColor2"
             :rules="validationRules.salary.compareDataColor2"
             :value="setting?.salary?.compareDataColors?.[1]"
           >
@@ -90,12 +90,95 @@
           </Field>
           <Field
             v-slot="{ field, errorMessage }"
-            name="compareDataColor3"
+            name="salary.compareDataColor3"
             :rules="validationRules.salary.compareDataColor3"
             :value="setting?.salary?.compareDataColors?.[2]"
           >
             <ColorPicker
               label="Compare Data Color 3"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
+            />
+          </Field>
+        </Accordion>
+
+        <Accordion
+          title="Qualification"
+          title-class="font-cursive"
+          wrapper-class="m-4"
+        >
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="qualification.rankAColor"
+            :rules="validationRules.qualification.rankAColor"
+            :value="setting?.qualification?.rankAColor"
+          >
+            <ColorPicker
+              label="Rank A Color"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="qualification.rankBColor"
+            :rules="validationRules.qualification.rankBColor"
+            :value="setting?.qualification?.rankBColor"
+          >
+            <ColorPicker
+              label="Rank B Color"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="qualification.rankCColor"
+            :rules="validationRules.qualification.rankCColor"
+            :value="setting?.qualification?.rankCColor"
+          >
+            <ColorPicker
+              label="Rank C Color"
+              v-bind="field"
+              format="hex"
+              :error-message="errorMessage"
+              required
+              wrapper-class="m-4 w-full justify-center"
+              label-class="w-56 ml-4 font-cursive"
+              input-wrapper-class="w-48"
+              input-class="text-center"
+              @input:event="field.onBlur"
+            />
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            name="qualification.rankDColor"
+            :rules="validationRules.qualification.rankDColor"
+            :value="setting?.qualification?.rankDColor"
+          >
+            <ColorPicker
+              label="Rank D Color"
               v-bind="field"
               format="hex"
               :error-message="errorMessage"
@@ -167,13 +250,27 @@ const validationRules = {
       schemas.Setting.shape.salary.shape.transitionItemCount
     ),
     compareDataColor1: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.innerType
+      schemas.Setting.shape.salary.shape.compareDataColors._def.type
     ),
     compareDataColor2: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.innerType
+      schemas.Setting.shape.salary.shape.compareDataColors._def.type
     ),
     compareDataColor3: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.innerType
+      schemas.Setting.shape.salary.shape.compareDataColors._def.type
+    ),
+  },
+  qualification: {
+    rankAColor: zodToVeeRules(
+      schemas.Setting.shape.qualification.shape.rankAColor
+    ),
+    rankBColor: zodToVeeRules(
+      schemas.Setting.shape.qualification.shape.rankBColor
+    ),
+    rankCColor: zodToVeeRules(
+      schemas.Setting.shape.qualification.shape.rankCColor
+    ),
+    rankDColor: zodToVeeRules(
+      schemas.Setting.shape.qualification.shape.rankDColor
     ),
   },
 };
@@ -184,13 +281,20 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
     ...setting.value,
     salary: {
       ...setting.value.salary,
-      financialYearStartMonth: values.financialYearStartMonth,
-      transitionItemCount: values.transitionItemCount,
+      financialYearStartMonth: values.salary.financialYearStartMonth,
+      transitionItemCount: values.salary.transitionItemCount,
       compareDataColors: [
-        values.compareDataColor1,
-        values.compareDataColor2,
-        values.compareDataColor3,
+        values.salary.compareDataColor1,
+        values.salary.compareDataColor2,
+        values.salary.compareDataColor3,
       ],
+    },
+    qualification: {
+      ...setting.value.qualification,
+      rankAColor: values.qualification.rankAColor,
+      rankBColor: values.qualification.rankBColor,
+      rankCColor: values.qualification.rankCColor,
+      rankDColor: values.qualification.rankDColor,
     },
   });
   showDialog.value = true;

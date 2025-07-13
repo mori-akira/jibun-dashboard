@@ -80,7 +80,7 @@ import { useUserStore } from "~/stores/user";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const userStore = useUserStore();
-const user = ref<User>({ ...userStore.user } as User);
+const user = computed<User>(() => ({ ...userStore.user } as User));
 const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
   emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),
@@ -88,11 +88,10 @@ const validationRules = {
 const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  user.value = {
+  await userStore.putUser({
     ...user.value,
     ...(values as User),
-  };
-  await userStore.putUser(user.value as User);
+  });
   showDialog.value = true;
 };
 const onCloseDialog = (): void => {

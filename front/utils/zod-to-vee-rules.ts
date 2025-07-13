@@ -75,7 +75,7 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
         );
       } else if (check.kind === "int") {
         rules.push((value) =>
-          Number.isInteger(value as string) ? true : `整数を入力してください`
+          Number.isInteger(Number(value)) ? true : `整数を入力してください`
         );
       }
     }

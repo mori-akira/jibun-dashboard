@@ -123,6 +123,7 @@ import type {
   Qualification,
   GetQualificationStatusEnum,
   GetQualificationRankEnum,
+  SettingQualification,
 } from "~/api/client/api";
 import Panel from "~/components/common/Panel.vue";
 import Accordion from "~/components/common/Accordion.vue";
@@ -135,11 +136,14 @@ import ModalWindow from "~/components/common/ModalWindow.vue";
 import InformationForm from "~/components/common/InformationForm.vue";
 import type { ItemDef } from "~/components/common/InformationForm.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
+import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
-import { getRankColorClass } from "~/utils/qualification";
+import { getRankColorHexCode } from "~/utils/qualification";
+import type { Rank } from "~/utils/qualification";
 
 const router = useRoute();
 const rank = router.query?.rank;
+const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
 
 onMounted(async () => {
@@ -247,7 +251,12 @@ const columnDefs: ColumnDef[] = [
     sortable: true,
     headerClass: "w-26",
     bodyClass: "text-center h-12 font-bold",
-    bodyClassFunction: (value) => getRankColorClass(value),
+    bodyStyleFunction: (value) => ({
+      color: getRankColorHexCode(
+        value as Rank,
+        settingStore.setting?.qualification as SettingQualification
+      ),
+    }),
   },
   {
     field: "acquiredDate",
@@ -314,7 +323,12 @@ const itemDefs: ItemDef[] = [
     label: "Rank",
     skipIfNull: true,
     itemClass: "font-bold",
-    itemClassFunction: (value) => getRankColorClass(value),
+    itemStyleFunction: (value) => ({
+      color: getRankColorHexCode(
+        value as Rank,
+        settingStore.setting?.qualification as SettingQualification
+      ),
+    }),
   },
   {
     field: "organization",

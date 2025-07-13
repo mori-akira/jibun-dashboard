@@ -5,13 +5,14 @@
       :key="index"
       class="summary-item"
     >
-      <span :class="['label', getRankColorClass(key)]">{{ key }} :</span>
       <span
-        :class="[
-          'value',
-          getRankColorClass(key),
-          { 'can-navigate': canNavigate },
-        ]"
+        :class="['label']"
+        :style="{color: getRankColorHexCode(key, settingStore.setting?.qualification as SettingQualification)}"
+        >{{ key }} :</span
+      >
+      <span
+        :class="['value', { 'can-navigate': canNavigate }]"
+        :style="{color: getRankColorHexCode(key, settingStore.setting?.qualification as SettingQualification)}"
         @click="onClickRank(key)"
         >{{ value }}</span
       >
@@ -20,8 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Qualification } from "~/api/client";
-import { getRankColorClass } from "~/utils/qualification";
+import type { Qualification, SettingQualification } from "~/api/client";
+import { useSettingStore } from "~/stores/setting";
+import { getRankColorHexCode } from "~/utils/qualification";
 
 type Counter = {
   A: number;
@@ -35,6 +37,7 @@ const props = defineProps<{
   wrapperClass?: string;
   canNavigate?: boolean;
 }>();
+const settingStore = useSettingStore();
 
 const counter = computed(() => {
   const counter: Counter = {

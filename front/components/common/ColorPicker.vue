@@ -54,7 +54,7 @@ const convertValue = (hex: string) => {
   if (props.format === "rgba") {
     return hexToRgba(hex);
   } else {
-    return hex;
+    return hex.toUpperCase();
   }
 };
 

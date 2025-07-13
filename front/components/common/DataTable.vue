@@ -46,6 +46,10 @@
               def.bodyClass,
               def.bodyClassFunction?.((row as Record<string, any>)[def.field], row as Record<string, any>)
             ]"
+            :style="{
+              ...def.bodyStyle,
+              ...def.bodyStyleFunction?.((row as Record<string, any>)[def.field], row as Record<string, any>)
+            }"
           >
             {{ (row as Record<string, any>)[def.field] }}
           </td>
@@ -64,6 +68,8 @@ export type ColumnDef = {
   headerClass?: string;
   bodyClass?: string;
   bodyClassFunction?: (value: unknown, row: Record<string, unknown>) => string;
+  bodyStyle?: Record<string, string>;
+  bodyStyleFunction?: (value: unknown, row: Record<string, unknown>) => Record<string, string>;
 };
 export type SortDef = {
   column: string;

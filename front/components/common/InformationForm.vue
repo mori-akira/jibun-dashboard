@@ -14,6 +14,10 @@
           def.itemClass,
           def.itemClassFunction?.(typedItem[def.field], typedItem),
         ]"
+        :style="{
+          ...def.itemStyle,
+          ...def.itemStyleFunction?.(typedItem[def.field], typedItem),
+        }"
       >
         <span v-if="def.itemType === 'plainText'">{{
           typedItem[def.field]
@@ -44,6 +48,11 @@ export type ItemDef = {
   labelClass?: string;
   itemClass?: string;
   itemClassFunction?: (value: unknown, row: Record<string, unknown>) => string;
+  itemStyle?: Record<string, string>;
+  itemStyleFunction?: (
+    value: unknown,
+    row: Record<string, unknown>
+  ) => Record<string, string>;
 };
 
 const props = defineProps<{

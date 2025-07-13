@@ -1,14 +1,11 @@
-export function getRankColorClass(rank: unknown): string {
-  switch (rank) {
-    case "A":
-      return "text-blue-500";
-    case "B":
-      return "text-green-500";
-    case "C":
-      return "text-orange-500";
-    case "D":
-      return "text-yellow-500";
-    default:
-      return "";
-  }
+import type { SettingQualification } from "~/api/client";
+
+export type Rank = "A" | "B" | "C" | "D";
+
+export function getRankColorHexCode(
+  rank: Rank,
+  rankColors: SettingQualification
+): string {
+  const rankColorStr = `rank${rank}Color` as keyof SettingQualification;
+  return rankColors?.[rankColorStr] || "#888";
 }
