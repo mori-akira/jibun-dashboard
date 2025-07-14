@@ -1,16 +1,16 @@
 <template>
   <nav>
-    <ul>
-      <li v-for="(item, index) in items" :key="index">
+    <ul class="flex">
+      <li v-for="(item, index) in items" :key="index" class="flex flex-start">
         <Icon
           v-if="index > 0"
           name="tabler:math-greater"
-          class="adjust-icon-2 mx-4"
+          class="adjust-icon-4 mx-4"
         />
         <Icon
           v-if="item.iconName"
           :name="item.iconName"
-          class="adjust-icon-4"
+          class="adjust-icon-2"
         />
         <template v-if="item.link">
           <AnchorLink
