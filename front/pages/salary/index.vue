@@ -226,7 +226,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
-import type { Salary } from "~/api/client";
+import type { Overview, Salary } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
@@ -283,58 +283,33 @@ watch(
 const targetFinancialYears = computed(() =>
   filterFinancialYears(financialYears.value, baseFinancialYear.value)
 );
-const annualIncomes = computed(() =>
+const aggregateOverviewAnnually = (key: keyof Overview) =>
   trimArray(targetFinancialYears.value, 7, { from: "end" }).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
-      (salary) => salary.overview.grossIncome,
+      (salary) => salary.overview?.[key],
       year,
       financialYearStartMonth.value
     );
-  })
-);
-const annualOvertime = computed(() =>
-  trimArray(targetFinancialYears.value, 7, { from: "end" }).map((year) => {
-    return aggregateAnnually(
-      salaryStore.salaries ?? [],
-      (salary) => salary.overview.overtime,
-      year,
-      financialYearStartMonth.value
-    );
-  })
-);
+  });
+const annualIncomes = computed(() => aggregateOverviewAnnually("grossIncome"));
+const annualOvertime = computed(() => aggregateOverviewAnnually("overtime"));
 
 type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
+const aggregateCompareDataWrapper = (key: TabSlot) =>
+  aggregateCompareData(
+    salaryStore.salaries ?? [],
+    trimArray(targetFinancialYears.value, 3, { from: "end" }),
+    key,
+    compareDataColors.value,
+    financialYearStartMonth.value
+  );
 const compareData = computed(() => {
   return {
-    grossIncome: aggregateCompareData(
-      salaryStore.salaries ?? [],
-      trimArray(targetFinancialYears.value, 3, { from: "end" }),
-      "grossIncome",
-      compareDataColors.value,
-      financialYearStartMonth.value
-    ),
-    netIncome: aggregateCompareData(
-      salaryStore.salaries ?? [],
-      trimArray(targetFinancialYears.value, 3, { from: "end" }),
-      "netIncome",
-      compareDataColors.value,
-      financialYearStartMonth.value
-    ),
-    operatingTime: aggregateCompareData(
-      salaryStore.salaries ?? [],
-      trimArray(targetFinancialYears.value, 3, { from: "end" }),
-      "operatingTime",
-      compareDataColors.value,
-      financialYearStartMonth.value
-    ),
-    overtime: aggregateCompareData(
-      salaryStore.salaries ?? [],
-      trimArray(targetFinancialYears.value, 3, { from: "end" }),
-      "overtime",
-      compareDataColors.value,
-      financialYearStartMonth.value
-    ),
+    grossIncome: aggregateCompareDataWrapper("grossIncome"),
+    netIncome: aggregateCompareDataWrapper("netIncome"),
+    operatingTime: aggregateCompareDataWrapper("operatingTime"),
+    overtime: aggregateCompareDataWrapper("overtime"),
   };
 });
 const incomeMaxRange = computed(() => {
