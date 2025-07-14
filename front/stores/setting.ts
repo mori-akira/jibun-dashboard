@@ -5,6 +5,7 @@ import type { Setting } from "~/api/client/api";
 import { SettingApi } from "~/api/client/api";
 import { useCommonStore } from "~/stores/common";
 import { getErrorMessage } from "~/utils/error";
+import { generateRandomString } from "~/utils/rand";
 
 export const useSettingStore = defineStore("setting", () => {
   const settingApi = new SettingApi();
@@ -12,28 +13,30 @@ export const useSettingStore = defineStore("setting", () => {
   const setting = ref<Setting | null>(null);
 
   async function fetchSetting() {
+    const id = generateRandomString();
     try {
-      commonStore.setLoading(true);
+      commonStore.addLoadingQueue(id);
       const res = await settingApi.getSetting();
       setting.value = res.data;
     } catch (error) {
       console.error("Failed to call api:", error);
       commonStore.addErrorMessage(getErrorMessage(error));
     } finally {
-      commonStore.setLoading(false);
+      commonStore.deleteLoadingQueue(id);
     }
   }
 
   async function putSetting(newSetting: Setting) {
+    const id = generateRandomString();
     try {
-      commonStore.setLoading(true);
+      commonStore.addLoadingQueue(id);
       await settingApi.putSetting(newSetting);
       await fetchSetting();
     } catch (error) {
       console.error("Failed to call api:", error);
       commonStore.addErrorMessage(getErrorMessage(error));
     } finally {
-      commonStore.setLoading(false);
+      commonStore.deleteLoadingQueue(id);
     }
   }
 

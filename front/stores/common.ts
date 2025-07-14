@@ -4,7 +4,7 @@ import { ref } from "vue";
 export const useCommonStore = defineStore("common", () => {
   const isNavOpen = ref(true);
   const isHeaderMenuOpen = ref(false);
-  const isLoading = ref(false);
+  const loadingQueue = ref<string[]>([]);
   const errorMessages = ref<string[]>([]);
 
   function toggleNav() {
@@ -23,8 +23,12 @@ export const useCommonStore = defineStore("common", () => {
     isHeaderMenuOpen.value = value;
   }
 
-  function setLoading(value: boolean) {
-    isLoading.value = value;
+  function addLoadingQueue(id: string) {
+    loadingQueue.value = [...loadingQueue.value, id];
+  }
+
+  function deleteLoadingQueue(id: string) {
+    loadingQueue.value = loadingQueue.value.filter((e) => e !== id);
   }
 
   function addErrorMessage(message: string) {
@@ -42,13 +46,14 @@ export const useCommonStore = defineStore("common", () => {
   return {
     isNavOpen,
     isHeaderMenuOpen,
-    isLoading,
+    loadingQueue,
     errorMessages,
     toggleNav,
     setNavOpen,
     toggleHeaderMenu,
     setHeaderMenuOpen,
-    setLoading,
+    addLoadingQueue,
+    deleteLoadingQueue,
     addErrorMessage,
     addErrorMessages,
     clearErrorMessages,

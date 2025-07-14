@@ -8,7 +8,7 @@
         <NuxtPage />
       </main>
     </div>
-    <LoadingOverlay :is-loading="commonStore.isLoading" />
+    <LoadingOverlay :is-loading="commonStore.loadingQueue.length > 0" />
     <ErrorMessageDialog
       :error-messages="commonStore.errorMessages"
       @close="commonStore.clearErrorMessages"

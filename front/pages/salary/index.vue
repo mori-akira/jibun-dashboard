@@ -248,15 +248,17 @@ import {
   aggregateCompareData,
 } from "~/utils/salary";
 import { trimArray } from "~/utils/trim-array";
+import { generateRandomString } from "~/utils/rand";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 onMounted(async () => {
-  commonStore.setLoading(true);
+  const id = generateRandomString();
+  commonStore.addLoadingQueue(id);
   await salaryStore.fetchSalary();
-  commonStore.setLoading(false);
+  commonStore.deleteLoadingQueue(id);
 });
 
 const financialYearStartMonth = computed(
