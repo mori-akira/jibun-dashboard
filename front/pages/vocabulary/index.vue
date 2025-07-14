@@ -1,6 +1,9 @@
 <template>
-  <h2>
-    <Icon name="tabler:book" class="adjust-icon-4" />
-    <span class="font-cursive font-bold ml-2">Vocabulary</span>
-  </h2>
+  <div>
+    <Breadcrumb :items="[{ text: 'Vocabulary', iconName: 'tabler:book' }]" />
+  </div>
 </template>
+
+<script setup lang="ts">
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
+</script>

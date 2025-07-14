@@ -5,19 +5,21 @@
       <VueDatePicker
         v-model="dateFromObj"
         :format="format"
+        :month-picker="monthPicker"
         :enable-time-picker="false"
         :teleport="true"
         position="center"
-        auto-position="top"
+        :auto-position="autoPosition"
       />
       <span>~</span>
       <VueDatePicker
         v-model="dateToObj"
         :format="format"
+        :month-picker="monthPicker"
         :enable-time-picker="false"
         :teleport="true"
         position="center"
-        auto-position="top"
+        :auto-position="autoPosition"
       />
     </div>
   </div>
@@ -33,6 +35,8 @@ import Label from "~/components/common/Label.vue";
 const props = defineProps<{
   label?: string;
   required?: boolean;
+  monthPicker?: boolean;
+  autoPosition?: "top" | "bottom";
   dateFrom?: string;
   dateTo?: string;
   wrapperClass?: string;

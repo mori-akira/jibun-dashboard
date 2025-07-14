@@ -1,6 +1,11 @@
 <template>
-  <h2>
-    <Icon name="tabler:report-money" class="adjust-icon-4" />
-    <span class="font-cursive font-bold ml-2">Financial Asset</span>
-  </h2>
+  <div>
+    <Breadcrumb
+      :items="[{ text: 'Financial Asset', iconName: 'tabler:report-money' }]"
+    />
+  </div>
 </template>
+
+<script setup lang="ts">
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
+</script>

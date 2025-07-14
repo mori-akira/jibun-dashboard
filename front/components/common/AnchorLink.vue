@@ -6,7 +6,11 @@
     :target="target"
   >
     <span>{{ text }}</span>
-    <Icon name="tabler:external-link" class="link-icon" />
+    <Icon
+      v-if="!noIcon"
+      :name="iconName ?? 'tabler:external-link'"
+      :class="iconClass ?? 'link-icon'"
+    />
   </a>
   <NuxtLink
     v-else-if="target === '_self'"
@@ -15,7 +19,11 @@
     :class="[anchorClass]"
     :target="target"
   >
-    <Icon name="tabler:math-greater" class="link-icon" />
+    <Icon
+      v-if="!noIcon"
+      :name="iconName ?? 'tabler:math-greater'"
+      :class="iconClass ?? 'link-icon'"
+    />
     <span class="font-cursive ml-2">{{ text }}</span>
   </NuxtLink>
 </template>
@@ -25,7 +33,10 @@ defineProps<{
   link: string;
   text: string;
   target?: "_blank" | "_self" | "_parent" | "_top";
+  iconName?: string;
+  noIcon?: boolean;
   anchorClass?: string;
+  iconClass?: string;
 }>();
 </script>
 

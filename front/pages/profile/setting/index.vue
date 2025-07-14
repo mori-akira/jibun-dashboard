@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h2>
-      <Icon name="tabler:settings" class="adjust-icon-4" />
-      <span class="font-cursive font-bold ml-2">Setting</span>
-    </h2>
+    <Breadcrumb :items="[{ text: 'Setting', iconName: 'tabler:settings' }]" />
 
     <Form v-slot="{ meta, handleSubmit }">
       <Panel class="w-2/3 flex-col items-center" centered>
@@ -223,6 +220,7 @@ import { Form, Field } from "vee-validate";
 
 import type { Setting } from "~/api/client/api";
 import { schemas } from "~/api/client/schemas";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Accordion from "~/components/common/Accordion.vue";
 import TextBox from "~/components/common/TextBox.vue";

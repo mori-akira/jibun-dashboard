@@ -1,6 +1,14 @@
 <template>
-  <h2>
-    <Icon name="tabler:database-edit" class="adjust-icon-4" />
-    <span class="font-cursive font-bold ml-2">Edit</span>
-  </h2>
+  <div>
+    <Breadcrumb
+      :items="[
+        { text: 'Salary', iconName: 'tabler:report-money', link: '/salary' },
+        { text: 'Edit', iconName: 'tabler:database-edit' },
+      ]"
+    />
+  </div>
 </template>
+
+<script setup lang="ts">
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
+</script>

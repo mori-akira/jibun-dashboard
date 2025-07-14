@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h2>
-      <Icon name="tabler:edit" class="adjust-icon-4" />
-      <span class="font-cursive font-bold ml-2">Edit Profile</span>
-    </h2>
+    <Breadcrumb :items="[{ text: 'Edit Profile', iconName: 'tabler:edit' }]" />
 
     <Form v-slot="{ meta, handleSubmit }">
       <Panel class="w-2/3 flex-col items-center" centered>
@@ -72,6 +69,7 @@ import { Form, Field } from "vee-validate";
 
 import type { User } from "~/api/client/api";
 import { schemas } from "~/api/client/schemas";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";

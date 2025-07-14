@@ -1,10 +1,9 @@
 <template>
   <div>
     <div class="flex justify-between items-center">
-      <div class="flex items-start">
-        <Icon name="tabler:certificate" class="adjust-icon-2" />
-        <span class="font-cursive font-bold ml-2">Qualification</span>
-      </div>
+      <Breadcrumb
+        :items="[{ text: 'Qualification', iconName: 'tabler:certificate' }]"
+      />
       <div class="flex items-center mr-4">
         <Button
           type="navigation"
@@ -139,6 +138,7 @@ import type {
   GetQualificationRankEnum,
   SettingQualification,
 } from "~/api/client/api";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Accordion from "~/components/common/Accordion.vue";
 import MultiOptionSelector from "~/components/common/MultiOptionSelector.vue";

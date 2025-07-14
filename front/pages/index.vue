@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h2>
-      <Icon name="tabler:home" class="adjust-icon-4" />
-      <span class="font-cursive font-bold ml-2">Home</span>
-    </h2>
+    <Breadcrumb :items="[{ text: 'Home', iconName: 'tabler:home' }]" />
 
     <div class="flex justify-between">
       <Panel panel-class="w-full">
@@ -80,6 +77,7 @@ import { onMounted } from "vue";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";

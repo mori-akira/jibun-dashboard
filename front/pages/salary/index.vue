@@ -1,10 +1,9 @@
 <template>
   <div>
     <div class="flex justify-between items-center">
-      <div class="flex items-start">
-        <Icon name="tabler:report-money" class="adjust-icon-2" />
-        <span class="font-cursive font-bold ml-2">Salary</span>
-      </div>
+      <Breadcrumb
+        :items="[{ text: 'Salary', iconName: 'tabler:report-money' }]"
+      />
       <div class="flex items-center mr-4">
         <Button
           type="navigation"
@@ -230,6 +229,7 @@ import type { Overview, Salary } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import SelectBox from "~/components/common/SelectBox.vue";

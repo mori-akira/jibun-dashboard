@@ -1,6 +1,11 @@
 <template>
-  <h2>
-    <Icon name="tabler:file-pencil" class="adjust-icon-4" />
-    <span class="font-cursive font-bold ml-2">Study Plan</span>
-  </h2>
+  <div>
+    <Breadcrumb
+      :items="[{ text: 'Study Plan', iconName: 'tabler:file-pencil' }]"
+    />
+  </div>
 </template>
+
+<script setup lang="ts">
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
+</script>
