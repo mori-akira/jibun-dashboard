@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between">
       <Breadcrumb
         :items="[{ text: 'Qualification', iconName: 'tabler:certificate' }]"
       />
