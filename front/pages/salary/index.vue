@@ -209,7 +209,7 @@
             />
           </template>
         </div>
-        <div class="h-8 flex justify-end items-end px-4">
+        <div class="h-10 flex justify-end items-end px-4">
           <AnchorLink
             link="/salary/payslip"
             text="View All Payslips"
