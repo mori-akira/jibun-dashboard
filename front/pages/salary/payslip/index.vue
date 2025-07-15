@@ -93,7 +93,7 @@ const financialYearStartMonth = computed(
 const fetchSalary = async () => {
   const id = generateRandomString();
   commonStore.addLoadingQueue(id);
-  salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value);
+  await salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value);
   commonStore.deleteLoadingQueue(id);
 };
 
