@@ -1,7 +1,7 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div :class="['flex items-center', wrapperClass]">
     <Label :label="label" :required="required" :label-class="labelClass" />
-    <div :class="['pickers-wrapper', pickersWrapperClass]">
+    <div :class="['flex items-center', pickersWrapperClass]">
       <VueDatePicker
         v-model="dateFromObj"
         :format="format"
@@ -75,16 +75,6 @@ const format = (date: Date) => moment(date).format("YYYY-MM-DD");
 </script>
 
 <style lang="css" scoped>
-.wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.pickers-wrapper {
-  display: flex;
-  align-items: center;
-}
-
 .pickers-wrapper > * {
   margin-left: 1rem;
 }
