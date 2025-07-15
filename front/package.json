@@ -33,6 +33,7 @@
     "zod": "^3.25.71"
   },
   "devDependencies": {
+    "@iconify-json/tabler": "^1.2.19",
     "@nuxt/icon": "^1.13.0",
     "@nuxt/test-utils": "^3.19.2",
     "@openapitools/openapi-generator-cli": "^2.21.0",

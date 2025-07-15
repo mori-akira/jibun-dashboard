@@ -223,8 +223,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-
 import type { Overview, Salary } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
@@ -247,7 +245,7 @@ import {
   aggregateAnnually,
   aggregateCompareData,
 } from "~/utils/salary";
-import { trimArray } from "~/utils/trim-array";
+import { trimArray } from "~/utils/array";
 import { generateRandomString } from "~/utils/rand";
 
 const commonStore = useCommonStore();

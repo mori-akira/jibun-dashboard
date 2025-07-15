@@ -34,6 +34,17 @@ export default defineNuxtConfig({
   },
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || "/",
+    head: {
+      title: "Jibun Dashboard",
+      viewport: "width=device-width",
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "/favicon.ico",
+        },
+      ],
+    },
   },
   build: {
     transpile: ["@vuepic/vue-datepicker"],

@@ -13,3 +13,14 @@ export function trimArray<T>(
     return arr.slice(arr.length - maxSize);
   }
 }
+
+export function chunkArray<T>(array: T[], size: number): T[][] {
+  const result: T[][] = [];
+  if (size <= 0) {
+    return result;
+  }
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+}
