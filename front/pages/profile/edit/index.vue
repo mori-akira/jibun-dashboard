@@ -74,9 +74,11 @@ import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
+const commonStore = useCommonStore();
 const userStore = useUserStore();
 const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
@@ -85,11 +87,18 @@ const validationRules = {
 const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  await userStore.putUser({
-    ...userStore.user,
-    ...(values as User),
-  });
-  showDialog.value = true;
+  const id = commonStore.addLoadingQueue();
+  try {
+    await userStore.putUser({
+      ...userStore.user,
+      ...(values as User),
+    });
+    showDialog.value = true;
+  } catch (error) {
+    commonStore.addErrorMessage(getErrorMessage(error));
+  } finally {
+    commonStore.deleteLoadingQueue(id);
+  }
 };
 const onCloseDialog = (): void => {
   showDialog.value = false;

@@ -9,12 +9,12 @@
 
     <div class="flex justify-center">
       <Panel panel-class="w-2/3">
-        <DatePicker
+        <MonthPicker
           label="Target"
           month-picker
-          :date="targetDate"
+          :date="tempDate"
           label-class="w-20 font-cursive"
-          pickers-wrapper-class="min-w-36 w-1/5"
+          pickers-wrapper-class="min-w-40 w-1/5"
           @change="onChangeDate"
         />
       </Panel>
@@ -36,7 +36,7 @@
               <Accordion
                 title="Overview"
                 title-class="font-cursive"
-                wrapper-class="w-full m-4"
+                wrapper-class="m-4"
               >
                 <template
                   v-for="fieldDef in overviewFields"
@@ -53,7 +53,7 @@
                       v-bind="field"
                       :error-message="errorMessage"
                       type="number"
-                      wrapper-class="m-4 w-full justify-center"
+                      wrapper-class="mx-4 my-2 w-full justify-center"
                       label-class="w-40 ml-4 font-cursive"
                       input-wrapper-class="w-60"
                       input-class="text-center"
@@ -73,7 +73,7 @@
               <Accordion
                 title="Structure"
                 title-class="font-cursive"
-                wrapper-class="w-full m-4"
+                wrapper-class="m-4"
               >
                 <template
                   v-for="fieldDef in structureFields"
@@ -90,7 +90,7 @@
                       v-bind="field"
                       :error-message="errorMessage"
                       type="number"
-                      wrapper-class="m-4 w-full justify-center"
+                      wrapper-class="mx-4 my-2 w-full justify-center"
                       label-class="w-40 ml-4 font-cursive"
                       input-wrapper-class="w-60"
                       input-class="text-center"
@@ -107,7 +107,118 @@
                   </Field>
                 </template>
               </Accordion>
-              <div class="w-full flex justify-center">
+              <template
+                v-for="payslipCategory in targetSalary.payslipData"
+                :key="`category-${payslipCategory.key}`"
+              >
+                <Accordion
+                  :title="payslipCategory.key"
+                  title-class="font-cursive"
+                  wrapper-class="m-4"
+                >
+                  <template
+                    v-for="payslip in payslipCategory.data"
+                    :key="`${targetSalary.id}-payslip.${payslip.key}`"
+                  >
+                    <div class="flex flex-start">
+                      <Field
+                        v-slot="{ field, errorMessage, validate }"
+                        :name="`payslip.${payslip.key}`"
+                        :rules="validationRules.payslipData"
+                        :value="payslip.data.toString()"
+                      >
+                        <TextBox
+                          :label="payslip.key"
+                          v-bind="field"
+                          :error-message="errorMessage"
+                          type="number"
+                          wrapper-class="mx-4 my-2 w-full justify-center"
+                          label-class="w-40 ml-4 font-cursive"
+                          input-wrapper-class="w-60"
+                          input-class="text-center"
+                          @blur:event="
+                            async ($event) => {
+                              field.onBlur($event);
+                              const result = await validate();
+                              if (result.valid) {
+                                onChangePayslipData(
+                                  $event,
+                                  payslipCategory.key,
+                                  payslip.key
+                                );
+                              }
+                            }
+                          "
+                        />
+                      </Field>
+                      <IconButton
+                        type="cancel"
+                        wrapper-class="ml-2 flex items-center"
+                        icon-class="justify-icon-2 text-color-gray-700"
+                        @click="
+                          () =>
+                            onDeletePayslipData(
+                              payslipCategory.key,
+                              payslip.key
+                            )
+                        "
+                      />
+                    </div>
+                  </template>
+                  <div class="mx-4 my-2 w-full flex justify-center">
+                    <div class="w-40 flex justify-start">
+                      <TextBox
+                        :value="newPayslipKeys[payslipCategory.key]"
+                        input-wrapper-class="w-40"
+                        @blur:value="
+                          ($value) =>
+                            onChangeNewPayslipKey($value, payslipCategory.key)
+                        "
+                      />
+                      <IconButton
+                        type="plus"
+                        wrapper-class="ml-2 flex items-center"
+                        icon-class="justify-icon-2 text-color-gray-700"
+                        @click="() => onAddNewPayslipKey(payslipCategory.key)"
+                      />
+                    </div>
+                    <div class="w-80" />
+                  </div>
+                  <div class="w-full flex justify-center mt-8 pb-2">
+                    <Button
+                      type="delete"
+                      size="small"
+                      @click="
+                        () => {
+                          showConfirmDeleteCategoryDialog = true;
+                          deleteTargetCategory = payslipCategory.key;
+                        }
+                      "
+                    >
+                      <Icon
+                        name="tabler:trash"
+                        class="text-base translate-y-0.5"
+                      />
+                      <span class="ml-2">Delete Category</span>
+                    </Button>
+                  </div>
+                </Accordion>
+              </template>
+              <div class="flex justify-start ml-4">
+                <TextBox
+                  :value="newCategory"
+                  input-wrapper-class="w-40"
+                  @blur:value="onChangeNewCategory"
+                />
+                <IconButton
+                  type="plus"
+                  wrapper-class="ml-2 flex items-center"
+                  icon-class="justify-icon-2 text-color-gray-700"
+                  @click="onAddCategory"
+                />
+              </div>
+
+              <div class="w-full flex justify-center mt-8">
                 <Button
                   :disabled="!meta?.valid"
                   type="action"
@@ -133,12 +244,37 @@
     </div>
 
     <Dialog
-      :show-dialog="showDialog"
+      :show-dialog="showCompleteDialog"
       type="info"
       message="Process Completed Successfully"
       button-type="ok"
-      @click:ok="() => (showDialog = false)"
-      @close="() => (showDialog = false)"
+      @click:ok="() => (showCompleteDialog = false)"
+      @close="() => (showCompleteDialog = false)"
+    />
+
+    <Dialog
+      :show-dialog="showConfirmDeleteCategoryDialog"
+      type="confirm"
+      message="Confirm Deletion Of The Category?"
+      button-type="yesNo"
+      @click:yes="
+        () => {
+          onDeleteCategory();
+          showConfirmDeleteCategoryDialog = false;
+        }
+      "
+      @click:no="() => (showConfirmDeleteCategoryDialog = false)"
+      @close="() => (showConfirmDeleteCategoryDialog = false)"
+    />
+
+    <Dialog
+      :show-dialog="showConfirmUnsavedChangeDialog"
+      type="confirm"
+      message="You Have Unsaved Change. Continue?"
+      button-type="yesNo"
+      @click:yes="() => continueAction && continueAction()"
+      @click:no="() => abortAction && abortAction()"
+      @close="() => abortAction && abortAction()"
     />
   </div>
 </template>
@@ -152,9 +288,10 @@ import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import Accordion from "~/components/common/Accordion.vue";
-import DatePicker from "~/components/common/DatePicker.vue";
+import MonthPicker from "~/components/common/MonthPicker.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
+import IconButton from "~/components/common/IconButton.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
@@ -163,6 +300,7 @@ import { getCurrentMonthFirstDateString } from "~/utils/date";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const commonStore = useCommonStore();
+commonStore.setHasUnsavedChange(false);
 const salaryStore = useSalaryStore();
 const validationRules = {
   overview: {
@@ -192,6 +330,9 @@ const validationRules = {
     ),
     other: zodToVeeRules(schemas.Salary.shape.structure.shape.other),
   },
+  payslipData: zodToVeeRules(
+    schemas.Salary.shape.payslipData._def.type.shape.data._def.type.shape.data
+  ),
 };
 
 onMounted(async () => {
@@ -202,15 +343,38 @@ const fetchSalary = async () => {
   const id = commonStore.addLoadingQueue();
   await salaryStore.fetchSalary(targetDate.value);
   commonStore.deleteLoadingQueue(id);
+  commonStore.setHasUnsavedChange(false);
 };
 
 const targetDate = ref<string>(getCurrentMonthFirstDateString());
+const tempDate = ref<string>(targetDate.value);
+const showConfirmUnsavedChangeDialog = ref<boolean>(false);
+const continueAction = ref<(() => void) | undefined>(undefined);
+const abortAction = ref<(() => void) | undefined>(undefined);
 const onChangeDate = async (value: string | undefined) => {
   if (!value) {
     return;
   }
-  targetDate.value = value;
-  await fetchSalary();
+  tempDate.value = value;
+  if (commonStore.hasUnsavedChange) {
+    showConfirmUnsavedChangeDialog.value = true;
+    continueAction.value = () => {
+      showConfirmUnsavedChangeDialog.value = false;
+      continueAction.value = undefined;
+      abortAction.value = undefined;
+      targetDate.value = tempDate.value;
+      fetchSalary();
+    };
+    abortAction.value = () => {
+      showConfirmUnsavedChangeDialog.value = false;
+      continueAction.value = undefined;
+      abortAction.value = undefined;
+      tempDate.value = targetDate.value;
+    };
+  } else {
+    targetDate.value = tempDate.value;
+    await fetchSalary();
+  }
 };
 
 const target = computed(() => salaryStore.salaries?.[0] ?? undefined);
@@ -283,6 +447,7 @@ const onChangeOverview = (e: Event, key: keyof Overview) => {
   const target = e.target as HTMLInputElement;
   const parsed = Number(target.value);
   targetSalary.value.overview[key] = Number.isFinite(parsed) ? parsed : 0;
+  commonStore.setHasUnsavedChange(true);
 };
 const structureFields: {
   key: keyof Structure;
@@ -298,19 +463,103 @@ const onChangeStructure = (e: Event, key: keyof Structure) => {
   const target = e.target as HTMLInputElement;
   const parsed = Number(target.value);
   targetSalary.value.structure[key] = Number.isFinite(parsed) ? parsed : 0;
+  commonStore.setHasUnsavedChange(true);
+};
+
+const newCategory = ref<string>("");
+const onChangeNewCategory = (val: string) => {
+  newCategory.value = val;
+};
+const onAddCategory = () => {
+  if (newCategory.value) {
+    targetSalary.value.payslipData.push({
+      key: newCategory.value,
+      data: [],
+    });
+    newCategory.value = "";
+    commonStore.setHasUnsavedChange(true);
+  }
+};
+const showConfirmDeleteCategoryDialog = ref<boolean>(false);
+const deleteTargetCategory = ref<string | undefined>();
+const onDeleteCategory = () => {
+  targetSalary.value.payslipData = targetSalary.value.payslipData.filter(
+    (e) => e.key !== deleteTargetCategory.value
+  );
+  commonStore.setHasUnsavedChange(true);
+};
+
+const newPayslipKeys = reactive<{ [x: string]: string }>({});
+watch(
+  targetSalary,
+  () => {
+    const newKeys: { [x: string]: string } = {};
+    targetSalary.value.payslipData.forEach((e) => (newKeys[e.key] = ""));
+    Object.assign(newPayslipKeys, newKeys);
+  },
+  { immediate: true }
+);
+const onChangeNewPayslipKey = (newVal: string, category: string) => {
+  if (category in newPayslipKeys) {
+    newPayslipKeys[category] = newVal;
+  }
+};
+const onAddNewPayslipKey = (category: string) => {
+  const payslipCategory = targetSalary.value.payslipData.filter(
+    (e) => e.key === category
+  )?.[0];
+  if (payslipCategory && newPayslipKeys?.[category]) {
+    payslipCategory.data.push({
+      key: newPayslipKeys[category],
+      data: 0,
+    });
+    newPayslipKeys[category] = "";
+    commonStore.setHasUnsavedChange(true);
+  }
+};
+const onChangePayslipData = (e: Event, category: string, key: string) => {
+  const input = e.target as HTMLInputElement;
+  const val = Number(input.value);
+  const categoryObj = targetSalary.value.payslipData.find(
+    (c) => c.key === category
+  );
+  const payslip = categoryObj?.data.find((p) => p.key === key);
+  if (payslip) {
+    payslip.data = Number.isFinite(val) ? val : 0;
+    commonStore.setHasUnsavedChange(true);
+  }
+};
+const onDeletePayslipData = (category: string, key: string) => {
+  const payslipCategory = targetSalary.value.payslipData.find(
+    (e) => e.key === category
+  );
+  if (payslipCategory) {
+    payslipCategory.data = payslipCategory.data.filter((e) => e.key !== key);
+    commonStore.setHasUnsavedChange(true);
+  }
 };
 
 const putSalary = async () => {
   const id = commonStore.addLoadingQueue();
-  await salaryStore.putSalary({
-    ...salaryStore.salaries,
-    targetDate: targetDate.value,
-    overview: { ...targetSalary.value.overview },
-    structure: { ...targetSalary.value.structure },
-    payslipData: structuredClone(toRaw(targetSalary.value?.payslipData ?? [])),
-  });
-  commonStore.deleteLoadingQueue(id);
-  showDialog.value = true;
+  try {
+    await salaryStore.putSalary({
+      ...target.value,
+      targetDate: targetDate.value,
+      overview: { ...targetSalary.value.overview },
+      structure: { ...targetSalary.value.structure },
+      payslipData: structuredClone(
+        toRaw(targetSalary.value?.payslipData ?? []).map((e) =>
+          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
+        )
+      ),
+    });
+    showCompleteDialog.value = true;
+  } catch (error) {
+    console.error(error);
+    commonStore.addErrorMessage(getErrorMessage(error));
+  } finally {
+    commonStore.deleteLoadingQueue(id);
+  }
 };
-const showDialog = ref(false);
+const showCompleteDialog = ref<boolean>(false);
 </script>

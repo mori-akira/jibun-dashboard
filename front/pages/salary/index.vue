@@ -246,15 +246,13 @@ import {
   aggregateCompareData,
 } from "~/utils/salary";
 import { trimArray } from "~/utils/array";
-import { generateRandomString } from "~/utils/rand";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 onMounted(async () => {
-  const id = generateRandomString();
-  commonStore.addLoadingQueue(id);
+  const id = commonStore.addLoadingQueue();
   await salaryStore.fetchSalary();
   commonStore.deleteLoadingQueue(id);
 });

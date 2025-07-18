@@ -71,7 +71,6 @@ import Payslip from "~/components/salary/Payslip.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
-import { generateRandomString } from "~/utils/rand";
 import { chunkArray } from "~/utils/array";
 import { getFinancialYears, filterSalaryByFinancialYear } from "~/utils/salary";
 
@@ -88,8 +87,7 @@ const financialYearStartMonth = computed(
 );
 
 const fetchSalary = async () => {
-  const id = generateRandomString();
-  commonStore.addLoadingQueue(id);
+  const id = commonStore.addLoadingQueue();
   await salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value);
   commonStore.deleteLoadingQueue(id);
 };

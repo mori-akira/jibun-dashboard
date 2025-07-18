@@ -5,6 +5,8 @@
         buttonClass,
         size,
         { 'action-button': type === 'action' || type === 'marked' },
+        { 'add-button': type === 'add' },
+        { 'delete-button': type === 'delete' },
         { 'navigation-button': type === 'navigation' },
       ]"
       :disabled="disabled"
@@ -18,7 +20,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  type?: "action" | "marked" | "navigation" | "default";
+  type?: "action" | "marked" | "navigation" | "add" | "delete" | "default";
   size?: "small" | "normal";
   htmlType?: "button" | "submit" | "reset";
   disabled?: boolean;
@@ -65,6 +67,14 @@ button:not([disabled]):hover {
 
 button.action-button {
   background-color: #88f;
+}
+
+button.add-button {
+  background-color: #f88;
+}
+
+button.delete-button {
+  background-color: #888;
 }
 
 button.navigation-button {

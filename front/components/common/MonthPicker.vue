@@ -3,13 +3,14 @@
     <Label :label="label" :required="required" :label-class="labelClass" />
     <div :class="['flex items-center ml-4', pickersWrapperClass]">
       <VueDatePicker
-        v-model="dateObj"
+        :model-value="dateObj"
         :format="format"
-        :month-picker="monthPicker"
+        :month-picker="true"
         :enable-time-picker="false"
         :teleport="true"
         position="center"
         :auto-position="autoPosition"
+        @update:model-value="onChange"
       />
     </div>
   </div>
@@ -25,7 +26,6 @@ import Label from "~/components/common/Label.vue";
 const props = defineProps<{
   label?: string;
   required?: boolean;
-  monthPicker?: boolean;
   autoPosition?: "top" | "bottom";
   date?: string;
   wrapperClass?: string;
@@ -37,15 +37,26 @@ const emit = defineEmits<{
   (event: "change", value?: string): void;
 }>();
 
-const dateObj = ref<Date | null>(props.date ? new Date(props.date) : null);
+const format = (date: Date) => moment(date).format("YYYY-MM-DD");
 
-watch(dateObj, (newVal) => {
-  if (newVal) {
-    emit("change", moment(newVal).format("YYYY-MM-DD"));
+const dateObj = ref();
+watch(
+  () => props.date,
+  () => {
+    if (props.date) {
+      const [yearStr, monthStr] = props.date.split("-");
+      const year = Number(yearStr);
+      const month = Number(monthStr) - 1;
+      dateObj.value = { year, month };
+    }
+  },
+  { immediate: true }
+);
+const onChange = (data: { year: number; month: number } | null) => {
+  if (data) {
+    emit("change", format(new Date(data.year, data.month, 1)));
   } else {
     emit("change", undefined);
   }
-});
-
-const format = (date: Date) => moment(date).format("YYYY-MM-DD");
+};
 </script>

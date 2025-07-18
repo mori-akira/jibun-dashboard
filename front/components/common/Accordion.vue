@@ -7,7 +7,7 @@
       />
       <span :class="['title', titleClass]">{{ title }}</span>
     </div>
-    <div :class="['body-wrapper', bodyWrapperClass]">
+    <div :class="['body-wrapper', bodyWrapperClass, { opened: isOpened }]">
       <div :class="['body', bodyClass, { opened: isOpened }]">
         <slot />
       </div>
@@ -59,6 +59,11 @@ const onClickHeader = () => (isOpened.value = !isOpened.value);
 
 .body-wrapper {
   overflow: hidden;
+  height: 0;
+}
+
+.body-wrapper.opened {
+  height: auto;
 }
 
 .body {

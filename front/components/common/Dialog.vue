@@ -36,9 +36,11 @@
 import ModalWindow from "~/components/common/ModalWindow.vue";
 import Button from "~/components/common/Button.vue";
 
+export type DialogType = "info" | "confirm" | "warning" | "error";
+
 defineProps<{
   showDialog: boolean;
-  type?: "info" | "warning" | "error";
+  type?: DialogType;
   iconName?: string;
   message?: string;
   buttonType?: "ok" | "yesNo";
@@ -62,20 +64,24 @@ const onClickNo = (): void => {
   emit("click:no");
 };
 
-const getIconNameByType = (type: "info" | "warning" | "error") => {
+const getIconNameByType = (type: DialogType) => {
   switch (type) {
     case "info":
       return "tabler:info-circle";
+    case "confirm":
+      return "tabler:help-circle";
     case "warning":
       return "tabler:alert-triangle";
     case "error":
       return "tabler:alert-circle";
   }
 };
-const getIconColorByType = (type: "info" | "warning" | "error") => {
+const getIconColorByType = (type: DialogType) => {
   switch (type) {
     case "info":
       return "text-blue-700";
+    case "confirm":
+      return "text-green-700";
     case "warning":
       return "text-yellow-600";
     case "error":

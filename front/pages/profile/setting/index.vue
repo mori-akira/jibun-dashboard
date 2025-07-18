@@ -227,6 +227,7 @@ import TextBox from "~/components/common/TextBox.vue";
 import ColorPicker from "~/components/common/ColorPicker.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
@@ -234,6 +235,7 @@ definePageMeta({
   prerender: false,
 });
 
+const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const setting = computed<Setting>(
   () => ({ ...settingStore.setting } as Setting)
@@ -274,27 +276,34 @@ const validationRules = {
 const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  await settingStore.putSetting({
-    ...setting.value,
-    salary: {
-      ...setting.value.salary,
-      financialYearStartMonth: values.salary.financialYearStartMonth,
-      transitionItemCount: values.salary.transitionItemCount,
-      compareDataColors: [
-        values.salary.compareDataColor1,
-        values.salary.compareDataColor2,
-        values.salary.compareDataColor3,
-      ],
-    },
-    qualification: {
-      ...setting.value.qualification,
-      rankAColor: values.qualification.rankAColor,
-      rankBColor: values.qualification.rankBColor,
-      rankCColor: values.qualification.rankCColor,
-      rankDColor: values.qualification.rankDColor,
-    },
-  });
-  showDialog.value = true;
+  const id = commonStore.addLoadingQueue();
+  try {
+    await settingStore.putSetting({
+      ...setting.value,
+      salary: {
+        ...setting.value.salary,
+        financialYearStartMonth: values.salary.financialYearStartMonth,
+        transitionItemCount: values.salary.transitionItemCount,
+        compareDataColors: [
+          values.salary.compareDataColor1,
+          values.salary.compareDataColor2,
+          values.salary.compareDataColor3,
+        ],
+      },
+      qualification: {
+        ...setting.value.qualification,
+        rankAColor: values.qualification.rankAColor,
+        rankBColor: values.qualification.rankBColor,
+        rankCColor: values.qualification.rankCColor,
+        rankDColor: values.qualification.rankDColor,
+      },
+    });
+    showDialog.value = true;
+  } catch (error) {
+    commonStore.addErrorMessage(getErrorMessage(error));
+  } finally {
+    commonStore.deleteLoadingQueue(id);
+  }
 };
 const onCloseDialog = (): void => {
   showDialog.value = false;

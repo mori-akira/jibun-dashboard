@@ -93,6 +93,7 @@ import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import type {
@@ -101,6 +102,7 @@ import type {
 } from "~/utils/zod-to-vee-rules";
 import { matchCharacterTypeRule } from "~/utils/password";
 
+const commonStore = useCommonStore();
 const userStore = useUserStore();
 const validationRules = {
   oldPassword: zodToVeeRules(schemas.Password.shape.oldPassword),
@@ -136,10 +138,17 @@ type PasswordForm = {
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   const valuesTyped = values as PasswordForm;
-  await userStore.postPassword({
-    newPassword: valuesTyped.newPassword,
-    oldPassword: valuesTyped.oldPassword,
-  });
+  const id = commonStore.addLoadingQueue();
+  try {
+    await userStore.postPassword({
+      newPassword: valuesTyped.newPassword,
+      oldPassword: valuesTyped.oldPassword,
+    });
+  } catch (error) {
+    commonStore.addErrorMessage(getErrorMessage(error));
+  } finally {
+    commonStore.deleteLoadingQueue(id);
+  }
   showDialog.value = true;
 };
 const onCloseDialog = (): void => {

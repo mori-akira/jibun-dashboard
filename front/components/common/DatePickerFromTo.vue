@@ -11,7 +11,7 @@
         position="center"
         :auto-position="autoPosition"
       />
-      <span>~</span>
+      <span class="mx-2">~</span>
       <VueDatePicker
         v-model="dateToObj"
         :format="format"
