@@ -80,10 +80,7 @@ const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 onMounted(async () => {
-  const id = generateRandomString();
-  commonStore.addLoadingQueue(id);
-  await salaryStore.fetchSalary();
-  commonStore.deleteLoadingQueue(id);
+  await fetchSalary();
 });
 
 const financialYearStartMonth = computed(

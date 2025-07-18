@@ -2,8 +2,9 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useCommonStore = defineStore("common", () => {
-  const isNavOpen = ref(true);
-  const isHeaderMenuOpen = ref(false);
+  const isNavOpen = ref<boolean>(true);
+  const isHeaderMenuOpen = ref<boolean>(false);
+  const updated = ref<boolean>(false);
   const loadingQueue = ref<string[]>([]);
   const errorMessages = ref<string[]>([]);
 
@@ -21,6 +22,10 @@ export const useCommonStore = defineStore("common", () => {
 
   function setHeaderMenuOpen(value: boolean) {
     isHeaderMenuOpen.value = value;
+  }
+
+  function setUpdated(value: boolean) {
+    updated.value = value;
   }
 
   function addLoadingQueue(id: string) {
@@ -46,12 +51,14 @@ export const useCommonStore = defineStore("common", () => {
   return {
     isNavOpen,
     isHeaderMenuOpen,
+    updated,
     loadingQueue,
     errorMessages,
     toggleNav,
     setNavOpen,
     toggleHeaderMenu,
     setHeaderMenuOpen,
+    setUpdated,
     addLoadingQueue,
     deleteLoadingQueue,
     addErrorMessage,

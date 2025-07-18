@@ -189,36 +189,54 @@ const onClickRankOption = async (value: string) => {
 
 const qualificationName = ref<string>("");
 const onBlurQualificationName = async (value: string) => {
+  if (qualificationName.value === value) {
+    return;
+  }
   qualificationName.value = value;
   await fetchQualificationApi();
 };
 
 const organization = ref<string>("");
 const onBlurOrganization = async (value: string) => {
+  if (organization.value === value) {
+    return;
+  }
   organization.value = value;
   await fetchQualificationApi();
 };
 
 const acquiredDateFrom = ref<string | undefined>("");
 const onChangeAcquiredDateFrom = async (value: string | undefined) => {
+  if (acquiredDateFrom.value === value) {
+    return;
+  }
   acquiredDateFrom.value = value;
   await fetchQualificationApi();
 };
 
 const acquiredDateTo = ref<string | undefined>("");
 const onChangeAcquiredDateTo = async (value: string | undefined) => {
+  if (acquiredDateTo.value === value) {
+    return;
+  }
   acquiredDateTo.value = value;
   await fetchQualificationApi();
 };
 
 const expirationDateFrom = ref<string | undefined>("");
 const onChangeExpirationDateFrom = async (value: string | undefined) => {
+  if (expirationDateFrom.value === value) {
+    return;
+  }
   expirationDateFrom.value = value;
   await fetchQualificationApi();
 };
 
 const expirationDateTo = ref<string | undefined>("");
 const onChangeExpirationDateTo = async (value: string | undefined) => {
+  if (expirationDateTo.value === value) {
+    return;
+  }
   expirationDateTo.value = value;
   await fetchQualificationApi();
 };

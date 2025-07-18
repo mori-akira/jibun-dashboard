@@ -30,7 +30,7 @@
 import { generateRandomString } from "~/utils/rand";
 import Label from "~/components/common/Label.vue";
 
-const props = defineProps<{
+defineProps<{
   label?: string;
   required?: boolean;
   value?: string;
@@ -50,18 +50,14 @@ const emit = defineEmits<{
 
 const onChangeValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
-  if (props.value !== target.value) {
-    emit("change:value", target.value);
-    emit("change:event", e);
-  }
+  emit("change:value", target.value);
+  emit("change:event", e);
 };
 
 const onBlurValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
-  if (props.value !== target.value) {
-    emit("blur:value", target.value);
-    emit("blur:event", e);
-  }
+  emit("blur:value", target.value);
+  emit("blur:event", e);
 };
 
 const onInputValue = (e: Event): void => {
