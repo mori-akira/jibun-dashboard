@@ -37,7 +37,7 @@
                 <Accordion
                   title="Overview"
                   title-class="font-cursive"
-                  wrapper-class="m-4"
+                  wrapper-class="w-full m-4"
                 >
                   <template
                     v-for="fieldDef in overviewFields"
@@ -54,7 +54,7 @@
                         v-bind="field"
                         :error-message="errorMessage"
                         type="number"
-                        wrapper-class="m-4 w-full justify-start"
+                        wrapper-class="m-4 w-full justify-center"
                         label-class="w-40 ml-4 font-cursive"
                         input-wrapper-class="w-60"
                         input-class="text-center"

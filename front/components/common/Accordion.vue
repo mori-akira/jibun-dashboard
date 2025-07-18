@@ -7,7 +7,7 @@
       />
       <span :class="['title', titleClass]">{{ title }}</span>
     </div>
-    <div class="body-wrapper">
+    <div :class="['body-wrapper', bodyWrapperClass]">
       <div :class="['body', bodyClass, { opened: isOpened }]">
         <slot />
       </div>
@@ -22,6 +22,7 @@ const props = defineProps<{
   wrapperClass?: string;
   headerClass?: string;
   titleClass?: string;
+  bodyWrapperClass?: string;
   bodyClass?: string;
 }>();
 
