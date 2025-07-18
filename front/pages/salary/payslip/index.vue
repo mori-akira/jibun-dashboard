@@ -9,9 +9,8 @@
 
     <div class="flex justify-between">
       <Panel panel-class="w-full">
-        <DatePickerFromTo
+        <MonthPickerFromTo
           label="Scope"
-          month-picker
           :date-from="dateFrom"
           :date-to="dateTo"
           label-class="w-20 font-cursive"
@@ -66,7 +65,7 @@
 <script setup lang="ts">
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
-import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
+import MonthPickerFromTo from "~/components/common/MonthPickerFromTo.vue";
 import Payslip from "~/components/salary/Payslip.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";

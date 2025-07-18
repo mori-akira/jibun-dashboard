@@ -1,11 +1,10 @@
 <template>
   <div :class="['flex items-center', wrapperClass]">
     <Label :label="label" :required="required" :label-class="labelClass" />
-    <div :class="['flex items-center ml-4', pickersWrapperClass]">
+    <div :class="['flex items-center', pickersWrapperClass]">
       <VueDatePicker
         :model-value="dateObj"
         :format="format"
-        :month-picker="true"
         :enable-time-picker="false"
         :teleport="true"
         position="center"
@@ -43,20 +42,12 @@ const dateObj = ref();
 watch(
   () => props.date,
   () => {
-    if (props.date) {
-      const [yearStr, monthStr] = props.date.split("-");
-      const year = Number(yearStr);
-      const month = Number(monthStr) - 1;
-      dateObj.value = { year, month };
-    } else {
-      dateObj.value = null;
-    }
-  },
-  { immediate: true }
+    dateObj.value = props.date ? new Date(props.date) : null;
+  }
 );
-const onChange = (data: { year: number; month: number } | null) => {
+const onChange = (data: Date | null) => {
   if (data) {
-    emit("change", format(new Date(data.year, data.month, 1)));
+    emit("change", format(data));
   } else {
     emit("change", undefined);
   }

@@ -1,10 +1,11 @@
 <template>
   <div :class="['flex items-center', wrapperClass]">
     <Label :label="label" :required="required" :label-class="labelClass" />
-    <div :class="['flex items-center', pickersWrapperClass]">
+    <div :class="['flex items-center ml-4', pickersWrapperClass]">
       <VueDatePicker
         :model-value="dateFromObj"
         :format="format"
+        :month-picker="true"
         :enable-time-picker="false"
         :teleport="true"
         position="center"
@@ -15,6 +16,7 @@
       <VueDatePicker
         :model-value="dateToObj"
         :format="format"
+        :month-picker="true"
         :enable-time-picker="false"
         :teleport="true"
         position="center"
@@ -54,25 +56,41 @@ const dateToObj = ref();
 watch(
   () => props.dateFrom,
   () => {
-    dateFromObj.value = props.dateFrom ? new Date(props.dateFrom) : null;
-  }
+    if (props.dateFrom) {
+      const [yearStr, monthStr] = props.dateFrom.split("-");
+      const year = Number(yearStr);
+      const month = Number(monthStr) - 1;
+      dateFromObj.value = { year, month };
+    } else {
+      dateFromObj.value = null;
+    }
+  },
+  { immediate: true }
 );
 watch(
   () => props.dateTo,
   () => {
-    dateToObj.value = props.dateTo ? new Date(props.dateTo) : null;
-  }
+    if (props.dateTo) {
+      const [yearStr, monthStr] = props.dateTo.split("-");
+      const year = Number(yearStr);
+      const month = Number(monthStr) - 1;
+      dateToObj.value = { year, month };
+    } else {
+      dateToObj.value = null;
+    }
+  },
+  { immediate: true }
 );
-const onChangeFrom = (data: Date | null) => {
+const onChangeFrom = (data: { year: number; month: number } | null) => {
   if (data) {
-    emit("change:from", format(data));
+    emit("change:from", format(new Date(data.year, data.month, 1)));
   } else {
     emit("change:from", undefined);
   }
 };
-const onChangeTo = (data: Date | null) => {
+const onChangeTo = (data: { year: number; month: number } | null) => {
   if (data) {
-    emit("change:to", format(data));
+    emit("change:to", format(new Date(data.year, data.month, 1)));
   } else {
     emit("change:to", undefined);
   }
