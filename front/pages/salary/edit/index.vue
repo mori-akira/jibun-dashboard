@@ -33,45 +33,80 @@
         >
           <template #editAsForm>
             <Form v-slot="{ meta }">
-              <div class="flex justify-center">
-                <Accordion
-                  title="Overview"
-                  title-class="font-cursive"
-                  wrapper-class="w-full m-4"
+              <Accordion
+                title="Overview"
+                title-class="font-cursive"
+                wrapper-class="w-full m-4"
+              >
+                <template
+                  v-for="fieldDef in overviewFields"
+                  :key="`${targetSalary.id}-overview.${fieldDef.key}`"
                 >
-                  <template
-                    v-for="fieldDef in overviewFields"
-                    :key="`${targetSalary.id}-overview.${fieldDef.key}`"
+                  <Field
+                    v-slot="{ field, errorMessage, validate }"
+                    :name="`overview.${fieldDef.key}`"
+                    :rules="validationRules.overview[fieldDef.key]"
+                    :value="targetSalary.overview[fieldDef.key]?.toString()"
                   >
-                    <Field
-                      v-slot="{ field, errorMessage, validate }"
-                      :name="`overview.${fieldDef.key}`"
-                      :rules="validationRules.overview[fieldDef.key]"
-                      :value="targetSalary.overview[fieldDef.key]?.toString()"
-                    >
-                      <TextBox
-                        :label="fieldDef.label"
-                        v-bind="field"
-                        :error-message="errorMessage"
-                        type="number"
-                        wrapper-class="m-4 w-full justify-center"
-                        label-class="w-40 ml-4 font-cursive"
-                        input-wrapper-class="w-60"
-                        input-class="text-center"
-                        @blur:event="
-                          async ($event) => {
-                            field.onBlur($event);
-                            const result = await validate();
-                            if (result.valid) {
-                              onChangeOverview($event, fieldDef.key);
-                            }
+                    <TextBox
+                      :label="fieldDef.label"
+                      v-bind="field"
+                      :error-message="errorMessage"
+                      type="number"
+                      wrapper-class="m-4 w-full justify-center"
+                      label-class="w-40 ml-4 font-cursive"
+                      input-wrapper-class="w-60"
+                      input-class="text-center"
+                      @blur:event="
+                        async ($event) => {
+                          field.onBlur($event);
+                          const result = await validate();
+                          if (result.valid) {
+                            onChangeOverview($event, fieldDef.key);
                           }
-                        "
-                      />
-                    </Field>
-                  </template>
-                </Accordion>
-              </div>
+                        }
+                      "
+                    />
+                  </Field>
+                </template>
+              </Accordion>
+              <Accordion
+                title="Structure"
+                title-class="font-cursive"
+                wrapper-class="w-full m-4"
+              >
+                <template
+                  v-for="fieldDef in structureFields"
+                  :key="`${targetSalary.id}-structure.${fieldDef.key}`"
+                >
+                  <Field
+                    v-slot="{ field, errorMessage, validate }"
+                    :name="`structure.${fieldDef.key}`"
+                    :rules="validationRules.structure[fieldDef.key]"
+                    :value="targetSalary.structure[fieldDef.key]?.toString()"
+                  >
+                    <TextBox
+                      :label="fieldDef.label"
+                      v-bind="field"
+                      :error-message="errorMessage"
+                      type="number"
+                      wrapper-class="m-4 w-full justify-center"
+                      label-class="w-40 ml-4 font-cursive"
+                      input-wrapper-class="w-60"
+                      input-class="text-center"
+                      @blur:event="
+                        async ($event) => {
+                          field.onBlur($event);
+                          const result = await validate();
+                          if (result.valid) {
+                            onChangeStructure($event, fieldDef.key);
+                          }
+                        }
+                      "
+                    />
+                  </Field>
+                </template>
+              </Accordion>
               <div class="w-full flex justify-center">
                 <Button
                   :disabled="!meta?.valid"
@@ -128,6 +163,21 @@ const validationRules = {
     bonusTakeHome: zodToVeeRules(
       schemas.Salary.shape.overview.shape.grossIncome
     ),
+  },
+  structure: {
+    basicSalary: zodToVeeRules(
+      schemas.Salary.shape.structure.shape.basicSalary
+    ),
+    overtimePay: zodToVeeRules(
+      schemas.Salary.shape.structure.shape.overtimePay
+    ),
+    housingAllowance: zodToVeeRules(
+      schemas.Salary.shape.structure.shape.housingAllowance
+    ),
+    positionAllowance: zodToVeeRules(
+      schemas.Salary.shape.structure.shape.positionAllowance
+    ),
+    other: zodToVeeRules(schemas.Salary.shape.structure.shape.other),
   },
 };
 
@@ -221,5 +271,20 @@ const onChangeOverview = (e: Event, key: keyof Overview) => {
   const target = e.target as HTMLInputElement;
   const parsed = Number(target.value);
   targetSalary.value.overview[key] = Number.isFinite(parsed) ? parsed : 0;
+};
+const structureFields: {
+  key: keyof Structure;
+  label: string;
+}[] = [
+  { key: "basicSalary", label: "Basic Salary" },
+  { key: "overtimePay", label: "Overtime Pay" },
+  { key: "housingAllowance", label: "Housing Allowance" },
+  { key: "positionAllowance", label: "Positional Allowance" },
+  { key: "other", label: "Other" },
+];
+const onChangeStructure = (e: Event, key: keyof Structure) => {
+  const target = e.target as HTMLInputElement;
+  const parsed = Number(target.value);
+  targetSalary.value.structure[key] = Number.isFinite(parsed) ? parsed : 0;
 };
 </script>
