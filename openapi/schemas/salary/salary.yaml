@@ -2,7 +2,6 @@ type: object
 description: 給与情報
 
 required:
-  - userId
   - targetDate
   - overview
   - structure

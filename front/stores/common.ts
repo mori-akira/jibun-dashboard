@@ -28,8 +28,15 @@ export const useCommonStore = defineStore("common", () => {
     updated.value = value;
   }
 
-  function addLoadingQueue(id: string) {
-    loadingQueue.value = [...loadingQueue.value, id];
+  function addLoadingQueue(id?: string): string {
+    let newId = "";
+    if (id) {
+      newId = id;
+    } else {
+      newId = generateRandomString();
+    }
+    loadingQueue.value = [...loadingQueue.value, newId];
+    return newId;
   }
 
   function deleteLoadingQueue(id: string) {

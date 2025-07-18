@@ -27,9 +27,8 @@ export const useSettingStore = defineStore("setting", () => {
   }
 
   async function putSetting(newSetting: Setting) {
-    const id = generateRandomString();
+    const id = commonStore.addLoadingQueue();
     try {
-      commonStore.addLoadingQueue(id);
       await settingApi.putSetting(newSetting);
       await fetchSetting();
     } catch (error) {

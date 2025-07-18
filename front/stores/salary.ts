@@ -29,8 +29,22 @@ export const useSalaryStore = defineStore("salary", () => {
     }
   }
 
+  async function putSalary(salary: Salary) {
+    const id = commonStore.addLoadingQueue();
+    try {
+      await salaryApi.putSalary(salary);
+      await fetchSalary();
+    } catch (error) {
+      console.error("Failed to call api:", error);
+      commonStore.addErrorMessage(getErrorMessage(error));
+    } finally {
+      commonStore.deleteLoadingQueue(id);
+    }
+  }
+
   return {
     salaries,
     fetchSalary,
+    putSalary,
   };
 });

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
@@ -75,7 +74,7 @@ const Setting = z
 const Salary = z
   .object({
     salaryId: z.string().uuid().optional(),
-    userId: z.string(),
+    userId: z.string().optional(),
     targetDate: z.string(),
     overview: z
       .object({

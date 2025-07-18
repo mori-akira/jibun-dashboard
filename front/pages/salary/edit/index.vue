@@ -12,7 +12,7 @@
         <DatePicker
           label="Target"
           month-picker
-          :date="date"
+          :date="targetDate"
           label-class="w-20 font-cursive"
           pickers-wrapper-class="min-w-36 w-1/5"
           @change="onChangeDate"
@@ -112,6 +112,7 @@
                   :disabled="!meta?.valid"
                   type="action"
                   wrapper-class="flex justify-center"
+                  @click="putSalary"
                 >
                   <Icon name="tabler:database-share" class="adjust-icon-4" />
                   <span class="ml-2">Execute</span>
@@ -119,15 +120,26 @@
               </div>
             </Form>
           </template>
+
           <template #editAsJson>
             <p>Edit As JSON</p>
           </template>
+
           <template #uploadAndOcr>
             <p>Upload And OCR</p>
           </template>
         </Tabs>
       </Panel>
     </div>
+
+    <Dialog
+      :show-dialog="showDialog"
+      type="info"
+      message="Process Completed Successfully"
+      button-type="ok"
+      @click:ok="() => (showDialog = false)"
+      @close="() => (showDialog = false)"
+    />
   </div>
 </template>
 
@@ -143,6 +155,7 @@ import Accordion from "~/components/common/Accordion.vue";
 import DatePicker from "~/components/common/DatePicker.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
+import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { generateRandomString } from "~/utils/rand";
@@ -186,18 +199,17 @@ onMounted(async () => {
 });
 
 const fetchSalary = async () => {
-  const id = generateRandomString();
-  commonStore.addLoadingQueue(id);
-  await salaryStore.fetchSalary(date.value);
+  const id = commonStore.addLoadingQueue();
+  await salaryStore.fetchSalary(targetDate.value);
   commonStore.deleteLoadingQueue(id);
 };
 
-const date = ref<string>(getCurrentMonthFirstDateString());
+const targetDate = ref<string>(getCurrentMonthFirstDateString());
 const onChangeDate = async (value: string | undefined) => {
   if (!value) {
     return;
   }
-  date.value = value;
+  targetDate.value = value;
   await fetchSalary();
 };
 
@@ -287,4 +299,18 @@ const onChangeStructure = (e: Event, key: keyof Structure) => {
   const parsed = Number(target.value);
   targetSalary.value.structure[key] = Number.isFinite(parsed) ? parsed : 0;
 };
+
+const putSalary = async () => {
+  const id = commonStore.addLoadingQueue();
+  await salaryStore.putSalary({
+    ...salaryStore.salaries,
+    targetDate: targetDate.value,
+    overview: { ...targetSalary.value.overview },
+    structure: { ...targetSalary.value.structure },
+    payslipData: structuredClone(toRaw(targetSalary.value?.payslipData ?? [])),
+  });
+  commonStore.deleteLoadingQueue(id);
+  showDialog.value = true;
+};
+const showDialog = ref(false);
 </script>

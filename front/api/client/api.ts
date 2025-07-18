@@ -310,7 +310,7 @@ export interface Salary {
      * @type {string}
      * @memberof Salary
      */
-    'userId': string;
+    'userId'?: string;
     /**
      * 対象年月日
      * @type {string}
