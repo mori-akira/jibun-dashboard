@@ -42,32 +42,34 @@
                   v-for="fieldDef in overviewFields"
                   :key="`${targetSalary.id}-overview.${fieldDef.key}`"
                 >
-                  <Field
-                    v-slot="{ field, errorMessage, validate }"
-                    :name="`overview.${fieldDef.key}`"
-                    :rules="validationRules.overview[fieldDef.key]"
-                    :value="targetSalary.overview[fieldDef.key]?.toString()"
-                  >
-                    <TextBox
-                      :label="fieldDef.label"
-                      v-bind="field"
-                      :error-message="errorMessage"
-                      type="number"
-                      wrapper-class="mx-4 my-2 w-full justify-center"
-                      label-class="w-40 ml-4 font-cursive"
-                      input-wrapper-class="w-60"
-                      input-class="text-center"
-                      @blur:event="
-                        async ($event) => {
-                          field.onBlur($event);
-                          const result = await validate();
-                          if (result.valid) {
-                            onChangeOverview($event, fieldDef.key);
+                  <div class="w-full flex justify-center">
+                    <Field
+                      v-slot="{ field, errorMessage, validate }"
+                      :name="`overview.${fieldDef.key}`"
+                      :rules="validationRules.overview[fieldDef.key]"
+                      :value="targetSalary.overview[fieldDef.key]?.toString()"
+                    >
+                      <TextBox
+                        :label="fieldDef.label"
+                        v-bind="field"
+                        :error-message="errorMessage"
+                        type="number"
+                        wrapper-class="mx-4 my-2"
+                        label-class="w-40 ml-4 font-cursive"
+                        input-wrapper-class="w-60"
+                        input-class="text-center"
+                        @blur:event="
+                          async ($event) => {
+                            field.onBlur($event);
+                            const result = await validate();
+                            if (result.valid) {
+                              onChangeOverview($event, fieldDef.key);
+                            }
                           }
-                        }
-                      "
-                    />
-                  </Field>
+                        "
+                      />
+                    </Field>
+                  </div>
                 </template>
               </Accordion>
               <Accordion
@@ -79,32 +81,34 @@
                   v-for="fieldDef in structureFields"
                   :key="`${targetSalary.id}-structure.${fieldDef.key}`"
                 >
-                  <Field
-                    v-slot="{ field, errorMessage, validate }"
-                    :name="`structure.${fieldDef.key}`"
-                    :rules="validationRules.structure[fieldDef.key]"
-                    :value="targetSalary.structure[fieldDef.key]?.toString()"
-                  >
-                    <TextBox
-                      :label="fieldDef.label"
-                      v-bind="field"
-                      :error-message="errorMessage"
-                      type="number"
-                      wrapper-class="mx-4 my-2 w-full justify-center"
-                      label-class="w-40 ml-4 font-cursive"
-                      input-wrapper-class="w-60"
-                      input-class="text-center"
-                      @blur:event="
-                        async ($event) => {
-                          field.onBlur($event);
-                          const result = await validate();
-                          if (result.valid) {
-                            onChangeStructure($event, fieldDef.key);
+                  <div class="w-full flex justify-center">
+                    <Field
+                      v-slot="{ field, errorMessage, validate }"
+                      :name="`structure.${fieldDef.key}`"
+                      :rules="validationRules.structure[fieldDef.key]"
+                      :value="targetSalary.structure[fieldDef.key]?.toString()"
+                    >
+                      <TextBox
+                        :label="fieldDef.label"
+                        v-bind="field"
+                        :error-message="errorMessage"
+                        type="number"
+                        wrapper-class="mx-4 my-2"
+                        label-class="w-40 ml-4 font-cursive"
+                        input-wrapper-class="w-60"
+                        input-class="text-center"
+                        @blur:event="
+                          async ($event) => {
+                            field.onBlur($event);
+                            const result = await validate();
+                            if (result.valid) {
+                              onChangeStructure($event, fieldDef.key);
+                            }
                           }
-                        }
-                      "
-                    />
-                  </Field>
+                        "
+                      />
+                    </Field>
+                  </div>
                 </template>
               </Accordion>
               <template
@@ -120,7 +124,7 @@
                     v-for="payslip in payslipCategory.data"
                     :key="`${targetSalary.id}-payslip.${payslip.key}`"
                   >
-                    <div class="flex flex-start">
+                    <div class="w-full flex justify-center">
                       <Field
                         v-slot="{ field, errorMessage, validate }"
                         :name="`payslip.${payslip.key}`"
@@ -132,7 +136,7 @@
                           v-bind="field"
                           :error-message="errorMessage"
                           type="number"
-                          wrapper-class="mx-4 my-2 w-full justify-center"
+                          wrapper-class="mx-4 my-2"
                           label-class="w-40 ml-4 font-cursive"
                           input-wrapper-class="w-60"
                           input-class="text-center"
@@ -153,7 +157,7 @@
                       </Field>
                       <IconButton
                         type="cancel"
-                        wrapper-class="ml-2 flex items-center"
+                        wrapper-class="w-10 ml-2 flex items-center"
                         icon-class="justify-icon-2 text-color-gray-700"
                         @click="
                           () =>
@@ -182,7 +186,7 @@
                         @click="() => onAddNewPayslipKey(payslipCategory.key)"
                       />
                     </div>
-                    <div class="w-80" />
+                    <div class="w-84" />
                   </div>
                   <div class="w-full flex justify-center mt-8 pb-2">
                     <Button
