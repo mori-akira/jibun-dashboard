@@ -2,25 +2,25 @@ import { ref } from "vue";
 
 export const useConfirmDialog = () => {
   const showConfirmDialog = ref(false);
-  const dialogMessage = ref("");
+  const confirmDialogMessage = ref("");
   let resolver: ((result: boolean) => void) | null = null;
 
   const openConfirmDialog = (message: string): Promise<boolean> => {
     showConfirmDialog.value = true;
-    dialogMessage.value = message;
+    confirmDialogMessage.value = message;
 
     return new Promise((resolve) => {
       resolver = resolve;
     });
   };
 
-  const onYes = () => {
+  const onConfirmYes = () => {
     showConfirmDialog.value = false;
     resolver?.(true);
     resolver = null;
   };
 
-  const onNo = () => {
+  const onConfirmNo = () => {
     showConfirmDialog.value = false;
     resolver?.(false);
     resolver = null;
@@ -28,9 +28,9 @@ export const useConfirmDialog = () => {
 
   return {
     showConfirmDialog,
-    dialogMessage,
+    confirmDialogMessage,
     openConfirmDialog,
-    onYes,
-    onNo,
+    onConfirmYes,
+    onConfirmNo,
   };
 };

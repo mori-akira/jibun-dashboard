@@ -254,11 +254,11 @@
     <Dialog
       :show-dialog="showConfirmDialog"
       type="confirm"
-      :message="dialogMessage"
+      :message="confirmDialogMessage"
       button-type="yesNo"
-      @click:yes="onYes"
-      @click:no="onNo"
-      @close="onNo"
+      @click:yes="onConfirmYes"
+      @click:no="onConfirmNo"
+      @close="onConfirmNo"
     />
   </div>
 </template>
@@ -287,8 +287,13 @@ import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 const commonStore = useCommonStore();
 commonStore.setHasUnsavedChange(false);
 const salaryStore = useSalaryStore();
-const { showConfirmDialog, dialogMessage, openConfirmDialog, onYes, onNo } =
-  useConfirmDialog();
+const {
+  showConfirmDialog,
+  confirmDialogMessage,
+  openConfirmDialog,
+  onConfirmYes,
+  onConfirmNo,
+} = useConfirmDialog();
 const validationRules = {
   overview: {
     grossIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),

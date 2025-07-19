@@ -17,11 +17,11 @@
     <Dialog
       :show-dialog="showConfirmDialog"
       type="confirm"
-      :message="dialogMessage"
+      :message="confirmDialogMessage"
       button-type="yesNo"
-      @click:yes="onYes"
-      @click:no="onNo"
-      @close="onNo"
+      @click:yes="onConfirmYes"
+      @click:no="onConfirmNo"
+      @close="onConfirmNo"
     />
   </div>
 </template>
@@ -46,8 +46,13 @@ const commonStore = useCommonStore();
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 
-const { showConfirmDialog, dialogMessage, openConfirmDialog, onYes, onNo } =
-  useConfirmDialog();
+const {
+  showConfirmDialog,
+  confirmDialogMessage,
+  openConfirmDialog,
+  onConfirmYes,
+  onConfirmNo,
+} = useConfirmDialog();
 router.beforeEach(async (to, _, next) => {
   if (commonStore.hasUnsavedChange) {
     next(false);
