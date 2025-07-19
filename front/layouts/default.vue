@@ -17,11 +17,11 @@
     <Dialog
       :show-dialog="showConfirmDialog"
       type="confirm"
-      message="You Have Unsaved Change. Continue?"
+      :message="dialogMessage"
       button-type="yesNo"
-      @click:yes="() => continueAction && continueAction()"
-      @click:no="() => abortAction && abortAction()"
-      @close="() => abortAction && abortAction()"
+      @click:yes="onYes"
+      @click:no="onNo"
+      @close="onNo"
     />
   </div>
 </template>
@@ -39,32 +39,25 @@ import HeaderMenu from "~/components/app/HeaderMenu.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useConfirmDialog } from "~/composables/useConfirmDialog";
 
 const router = useRouter();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const settingStore = useSettingStore();
 
-const showConfirmDialog = ref<boolean>(false);
-const continueAction = ref<() => void>(() => undefined);
-const abortAction = ref<() => void>(() => undefined);
-const resetDialog = () => {
-  showConfirmDialog.value = false;
-  continueAction.value = () => undefined;
-  abortAction.value = () => undefined;
-};
-router.beforeEach((to, _, next) => {
+const { showConfirmDialog, dialogMessage, openConfirmDialog, onYes, onNo } =
+  useConfirmDialog();
+router.beforeEach(async (to, _, next) => {
   if (commonStore.hasUnsavedChange) {
     next(false);
-    showConfirmDialog.value = true;
-    continueAction.value = () => {
-      resetDialog();
-      router.push(to.fullPath);
+    const confirmed = await openConfirmDialog(
+      "You Have Unsaved Change. Continue?"
+    );
+    if (confirmed) {
       commonStore.setHasUnsavedChange(false);
-    };
-    abortAction.value = () => {
-      resetDialog();
-    };
+      router.push(to.fullPath);
+    }
   } else {
     next();
   }
@@ -82,7 +75,7 @@ watchEffect(() => {
   const baseTitle = "Jibun Dashboard";
   if (document?.title) {
     if (commonStore.hasUnsavedChange) {
-      document.title = "● " + baseTitle;
+      document.title = "*" + baseTitle;
     } else {
       document.title = baseTitle;
     }

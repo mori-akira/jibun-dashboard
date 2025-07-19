@@ -192,12 +192,7 @@
                     <Button
                       type="delete"
                       size="small"
-                      @click="
-                        () => {
-                          showConfirmDeleteCategoryDialog = true;
-                          deleteTargetCategory = payslipCategory.key;
-                        }
-                      "
+                      @click="onDeleteCategory(payslipCategory.key)"
                     >
                       <Icon
                         name="tabler:trash"
@@ -257,28 +252,13 @@
     />
 
     <Dialog
-      :show-dialog="showConfirmDeleteCategoryDialog"
+      :show-dialog="showConfirmDialog"
       type="confirm"
-      message="Confirm Deletion Of The Category?"
+      :message="dialogMessage"
       button-type="yesNo"
-      @click:yes="
-        () => {
-          onDeleteCategory();
-          showConfirmDeleteCategoryDialog = false;
-        }
-      "
-      @click:no="() => (showConfirmDeleteCategoryDialog = false)"
-      @close="() => (showConfirmDeleteCategoryDialog = false)"
-    />
-
-    <Dialog
-      :show-dialog="showConfirmUnsavedChangeDialog"
-      type="confirm"
-      message="You Have Unsaved Change. Continue?"
-      button-type="yesNo"
-      @click:yes="() => continueAction && continueAction()"
-      @click:no="() => abortAction && abortAction()"
-      @close="() => abortAction && abortAction()"
+      @click:yes="onYes"
+      @click:no="onNo"
+      @close="onNo"
     />
   </div>
 </template>
@@ -297,6 +277,7 @@ import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import IconButton from "~/components/common/IconButton.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useConfirmDialog } from "~/composables/useConfirmDialog";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { generateRandomString } from "~/utils/rand";
@@ -306,6 +287,8 @@ import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 const commonStore = useCommonStore();
 commonStore.setHasUnsavedChange(false);
 const salaryStore = useSalaryStore();
+const { showConfirmDialog, dialogMessage, openConfirmDialog, onYes, onNo } =
+  useConfirmDialog();
 const validationRules = {
   overview: {
     grossIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),
@@ -352,30 +335,21 @@ const fetchSalary = async () => {
 
 const targetDate = ref<string>(getCurrentMonthFirstDateString());
 const tempDate = ref<string>(targetDate.value);
-const showConfirmUnsavedChangeDialog = ref<boolean>(false);
-const continueAction = ref<() => void>(() => undefined);
-const abortAction = ref<() => void>(() => undefined);
-const resetDialog = () => {
-  showConfirmUnsavedChangeDialog.value = false;
-  continueAction.value = () => undefined;
-  abortAction.value = () => undefined;
-};
 const onChangeDate = async (value: string | undefined) => {
   if (!value) {
     return;
   }
   tempDate.value = value;
   if (commonStore.hasUnsavedChange) {
-    showConfirmUnsavedChangeDialog.value = true;
-    continueAction.value = () => {
-      resetDialog();
+    const confirmed = await openConfirmDialog(
+      "You Have Unsaved Change. Continue?"
+    );
+    if (confirmed) {
       targetDate.value = tempDate.value;
       fetchSalary();
-    };
-    abortAction.value = () => {
-      resetDialog();
+    } else {
       tempDate.value = targetDate.value;
-    };
+    }
   } else {
     targetDate.value = tempDate.value;
     await fetchSalary();
@@ -485,13 +459,16 @@ const onAddCategory = () => {
     commonStore.setHasUnsavedChange(true);
   }
 };
-const showConfirmDeleteCategoryDialog = ref<boolean>(false);
-const deleteTargetCategory = ref<string | undefined>();
-const onDeleteCategory = () => {
-  targetSalary.value.payslipData = targetSalary.value.payslipData.filter(
-    (e) => e.key !== deleteTargetCategory.value
+const onDeleteCategory = async (category: string) => {
+  const confirmed = await openConfirmDialog(
+    "Confirm Deletion Of The Category?"
   );
-  commonStore.setHasUnsavedChange(true);
+  if (confirmed) {
+    targetSalary.value.payslipData = targetSalary.value.payslipData.filter(
+      (e) => e.key !== category
+    );
+    commonStore.setHasUnsavedChange(true);
+  }
 };
 
 const newPayslipKeys = reactive<{ [x: string]: string }>({});
@@ -559,6 +536,7 @@ const putSalary = async () => {
       ),
     });
     showCompleteDialog.value = true;
+    commonStore.setHasUnsavedChange(false);
   } catch (error) {
     console.error(error);
     commonStore.addErrorMessage(getErrorMessage(error));

@@ -153,6 +153,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
     commonStore.deleteLoadingQueue(id);
   }
   showDialog.value = true;
+  commonStore.setHasUnsavedChange(false);
 };
 const onCloseDialog = (): void => {
   showDialog.value = false;

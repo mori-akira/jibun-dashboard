@@ -96,6 +96,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
       ...(values as User),
     });
     showDialog.value = true;
+    commonStore.setHasUnsavedChange(false);
   } catch (error) {
     commonStore.addErrorMessage(getErrorMessage(error));
   } finally {
