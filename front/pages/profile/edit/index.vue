@@ -19,6 +19,7 @@
             label-class="w-20 ml-4 font-cursive"
             input-wrapper-class="w-2/3"
             @blur:event="field.onBlur"
+            @input:value="() => commonStore.setHasUnsavedChange(true)"
           />
         </Field>
         <Field
@@ -36,6 +37,7 @@
             label-class="w-20 ml-4 font-cursive"
             input-wrapper-class="w-2/3"
             @blur:event="field.onBlur"
+            @input:value="() => commonStore.setHasUnsavedChange(true)"
           />
         </Field>
         <div class="m-4">

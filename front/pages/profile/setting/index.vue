@@ -26,6 +26,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @blur:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -45,6 +46,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @blur:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -64,6 +66,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -83,6 +86,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -102,6 +106,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
         </Accordion>
@@ -128,6 +133,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -147,6 +153,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -166,6 +173,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
           <Field
@@ -185,6 +193,7 @@
               input-wrapper-class="w-48"
               input-class="text-center"
               @input:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
             />
           </Field>
         </Accordion>

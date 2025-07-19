@@ -353,8 +353,13 @@ const fetchSalary = async () => {
 const targetDate = ref<string>(getCurrentMonthFirstDateString());
 const tempDate = ref<string>(targetDate.value);
 const showConfirmUnsavedChangeDialog = ref<boolean>(false);
-const continueAction = ref<(() => void) | undefined>(undefined);
-const abortAction = ref<(() => void) | undefined>(undefined);
+const continueAction = ref<() => void>(() => undefined);
+const abortAction = ref<() => void>(() => undefined);
+const resetDialog = () => {
+  showConfirmUnsavedChangeDialog.value = false;
+  continueAction.value = () => undefined;
+  abortAction.value = () => undefined;
+};
 const onChangeDate = async (value: string | undefined) => {
   if (!value) {
     return;
@@ -363,16 +368,12 @@ const onChangeDate = async (value: string | undefined) => {
   if (commonStore.hasUnsavedChange) {
     showConfirmUnsavedChangeDialog.value = true;
     continueAction.value = () => {
-      showConfirmUnsavedChangeDialog.value = false;
-      continueAction.value = undefined;
-      abortAction.value = undefined;
+      resetDialog();
       targetDate.value = tempDate.value;
       fetchSalary();
     };
     abortAction.value = () => {
-      showConfirmUnsavedChangeDialog.value = false;
-      continueAction.value = undefined;
-      abortAction.value = undefined;
+      resetDialog();
       tempDate.value = targetDate.value;
     };
   } else {
