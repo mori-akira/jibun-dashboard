@@ -7,6 +7,13 @@ get:
   
   parameters:
     - in: query
+      name: targetDate
+      description: 対象年月日
+      required: true
+      schema:
+        type: string
+        format: date
+    - in: query
       name: fileId
       description: ファイルID
       required: true
