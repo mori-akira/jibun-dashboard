@@ -277,11 +277,12 @@ import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import IconButton from "~/components/common/IconButton.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useConfirmDialog } from "~/composables/useConfirmDialog";
+import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { generateRandomString } from "~/utils/rand";
 import { getCurrentMonthFirstDateString } from "~/utils/date";
+import { withErrorHandling } from "~/utils/api-call";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const commonStore = useCommonStore();
@@ -332,9 +333,10 @@ onMounted(async () => {
 });
 
 const fetchSalary = async () => {
-  const id = commonStore.addLoadingQueue();
-  await salaryStore.fetchSalary(targetDate.value);
-  commonStore.deleteLoadingQueue(id);
+  await withErrorHandling(
+    () => salaryStore.fetchSalary(targetDate.value),
+    commonStore
+  );
   commonStore.setHasUnsavedChange(false);
 };
 
@@ -527,27 +529,23 @@ const onDeletePayslipData = (category: string, key: string) => {
 };
 
 const putSalary = async () => {
-  const id = commonStore.addLoadingQueue();
-  try {
-    await salaryStore.putSalary({
-      ...target.value,
-      targetDate: targetDate.value,
-      overview: { ...targetSalary.value.overview },
-      structure: { ...targetSalary.value.structure },
-      payslipData: structuredClone(
-        toRaw(targetSalary.value?.payslipData ?? []).map((e) =>
-          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
-        )
-      ),
-    });
-    showCompleteDialog.value = true;
-    commonStore.setHasUnsavedChange(false);
-  } catch (error) {
-    console.error(error);
-    commonStore.addErrorMessage(getErrorMessage(error));
-  } finally {
-    commonStore.deleteLoadingQueue(id);
-  }
+  withErrorHandling(
+    () =>
+      salaryStore.putSalary({
+        ...target.value,
+        targetDate: targetDate.value,
+        overview: { ...targetSalary.value.overview },
+        structure: { ...targetSalary.value.structure },
+        payslipData: structuredClone(
+          toRaw(targetSalary.value?.payslipData ?? []).map((e) =>
+            toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
+          )
+        ),
+      }),
+    commonStore
+  );
+  showCompleteDialog.value = true;
+  commonStore.setHasUnsavedChange(false);
 };
 const showCompleteDialog = ref<boolean>(false);
 </script>

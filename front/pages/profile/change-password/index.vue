@@ -98,6 +98,7 @@ import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
+import { withErrorHandling } from "~/utils/api-call";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import type {
   FieldValidationMetaInfo,
@@ -141,17 +142,14 @@ type PasswordForm = {
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   const valuesTyped = values as PasswordForm;
-  const id = commonStore.addLoadingQueue();
-  try {
-    await userStore.postPassword({
-      newPassword: valuesTyped.newPassword,
-      oldPassword: valuesTyped.oldPassword,
-    });
-  } catch (error) {
-    commonStore.addErrorMessage(getErrorMessage(error));
-  } finally {
-    commonStore.deleteLoadingQueue(id);
-  }
+  await withErrorHandling(
+    () =>
+      userStore.postPassword({
+        newPassword: valuesTyped.newPassword,
+        oldPassword: valuesTyped.oldPassword,
+      }),
+    commonStore
+  );
   showDialog.value = true;
   commonStore.setHasUnsavedChange(false);
 };

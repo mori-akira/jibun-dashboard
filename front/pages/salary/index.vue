@@ -246,15 +246,14 @@ import {
   aggregateCompareData,
 } from "~/utils/salary";
 import { trimArray } from "~/utils/array";
+import { withErrorHandling } from "~/utils/api-call";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 onMounted(async () => {
-  const id = commonStore.addLoadingQueue();
-  await salaryStore.fetchSalary();
-  commonStore.deleteLoadingQueue(id);
+  withErrorHandling(() => salaryStore.fetchSalary(), commonStore);
 });
 
 const financialYearStartMonth = computed(

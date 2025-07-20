@@ -74,6 +74,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
+import type { Salary } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
@@ -82,17 +83,21 @@ import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
-import type { Salary } from "~/api/client";
+import { withErrorHandling } from "~/utils/api-call";
 
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
 const qualificationStore = useQualificationStore();
 
 onMounted(async () => {
-  await Promise.all([
-    qualificationStore.fetchQualification(),
-    salaryStore.fetchSalary(),
-  ]);
+  withErrorHandling(
+    () =>
+      Promise.all([
+        qualificationStore.fetchQualification(),
+        salaryStore.fetchSalary(),
+      ]),
+    commonStore
+  );
 });
 
 const onAddError = () => {

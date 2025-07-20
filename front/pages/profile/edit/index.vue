@@ -5,6 +5,7 @@
     <Form v-slot="{ meta, handleSubmit }">
       <Panel class="w-2/3 flex-col items-center" centered>
         <Field
+          :key="`userName-${userStore.user?.userName}`"
           v-slot="{ field, errorMessage }"
           name="userName"
           :rules="validationRules.userName"
@@ -23,6 +24,7 @@
           />
         </Field>
         <Field
+          :key="`emailAddress-${userStore.user?.emailAddress}`"
           v-slot="{ field, errorMessage }"
           name="emailAddress"
           :rules="validationRules.emailAddress"
@@ -78,6 +80,7 @@ import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
+import { withErrorHandling } from "~/utils/api-call";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const commonStore = useCommonStore();
@@ -89,19 +92,16 @@ const validationRules = {
 const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  const id = commonStore.addLoadingQueue();
-  try {
-    await userStore.putUser({
-      ...userStore.user,
-      ...(values as User),
-    });
-    showDialog.value = true;
-    commonStore.setHasUnsavedChange(false);
-  } catch (error) {
-    commonStore.addErrorMessage(getErrorMessage(error));
-  } finally {
-    commonStore.deleteLoadingQueue(id);
-  }
+  await withErrorHandling(
+    () =>
+      userStore.putUser({
+        ...userStore.user,
+        ...(values as User),
+      }),
+    commonStore
+  );
+  showDialog.value = true;
+  commonStore.setHasUnsavedChange(false);
 };
 const onCloseDialog = (): void => {
   showDialog.value = false;

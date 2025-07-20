@@ -151,6 +151,7 @@ import ModalWindow from "~/components/common/ModalWindow.vue";
 import InformationForm from "~/components/common/InformationForm.vue";
 import type { ItemDef } from "~/components/common/InformationForm.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
+import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
 import { getRankColorHexCode } from "~/utils/qualification";
@@ -158,6 +159,7 @@ import type { Rank } from "~/utils/qualification";
 
 const router = useRoute();
 const rank = router.query?.rank;
+const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
 
@@ -243,17 +245,23 @@ const onChangeExpirationDateTo = async (value: string | undefined) => {
 
 const fetchQualificationApi = async () => {
   isLoading.value = true;
-  await qualificationStore.fetchQualification(
-    qualificationName.value,
-    selectedStatus.value,
-    selectedRank.value,
-    organization.value,
-    acquiredDateFrom.value,
-    acquiredDateTo.value,
-    expirationDateFrom.value,
-    expirationDateTo.value
-  );
-  isLoading.value = false;
+  try {
+    await qualificationStore.fetchQualification(
+      qualificationName.value,
+      selectedStatus.value,
+      selectedRank.value,
+      organization.value,
+      acquiredDateFrom.value,
+      acquiredDateTo.value,
+      expirationDateFrom.value,
+      expirationDateTo.value
+    );
+  } catch (err) {
+    console.error(err);
+    commonStore.addErrorMessage(getErrorMessage(err));
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const columnDefs: ColumnDef[] = [

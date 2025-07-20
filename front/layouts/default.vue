@@ -30,16 +30,17 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 
-import { useCommonStore } from "~/stores/common";
-import { useUserStore } from "~/stores/user";
-import { useSettingStore } from "~/stores/setting";
 import Header from "~/components/app/AppHeader.vue";
 import Navigation from "~/components/app/AppNavigation.vue";
 import HeaderMenu from "~/components/app/HeaderMenu.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useConfirmDialog } from "~/composables/useConfirmDialog";
+import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
+import { useCommonStore } from "~/stores/common";
+import { useUserStore } from "~/stores/user";
+import { useSettingStore } from "~/stores/setting";
+import { withErrorHandling } from "~/utils/api-call";
 
 const router = useRouter();
 const commonStore = useCommonStore();
@@ -73,7 +74,10 @@ router.afterEach(() => {
 });
 
 onMounted(async () => {
-  await Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]);
+  await withErrorHandling(
+    () => Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]),
+    commonStore
+  );
 });
 
 watchEffect(() => {

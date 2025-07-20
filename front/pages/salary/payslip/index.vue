@@ -71,6 +71,7 @@ import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import { chunkArray } from "~/utils/array";
+import { withErrorHandling } from "~/utils/api-call";
 import { getFinancialYears, filterSalaryByFinancialYear } from "~/utils/salary";
 
 const commonStore = useCommonStore();
@@ -86,9 +87,10 @@ const financialYearStartMonth = computed(
 );
 
 const fetchSalary = async () => {
-  const id = commonStore.addLoadingQueue();
-  await salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value);
-  commonStore.deleteLoadingQueue(id);
+  withErrorHandling(
+    () => salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value),
+    commonStore
+  );
 };
 
 const dateFrom = ref<string | undefined>("");

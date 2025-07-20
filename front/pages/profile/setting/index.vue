@@ -10,6 +10,7 @@
           wrapper-class="m-4"
         >
           <Field
+            :key="`financialYearStartMonth-${setting?.salary?.financialYearStartMonth}`"
             v-slot="{ field, errorMessage }"
             name="salary.financialYearStartMonth"
             :rules="validationRules.salary.financialYearStartMonth"
@@ -30,6 +31,7 @@
             />
           </Field>
           <Field
+            :key="`transitionItemCount-${setting?.salary?.transitionItemCount}`"
             v-slot="{ field, errorMessage }"
             name="salary.transitionItemCount"
             :rules="validationRules.salary.transitionItemCount"
@@ -50,6 +52,7 @@
             />
           </Field>
           <Field
+            :key="`compareDataColor1-${setting?.salary?.compareDataColors?.[0]}`"
             v-slot="{ field, errorMessage }"
             name="salary.compareDataColor1"
             :rules="validationRules.salary.compareDataColor1"
@@ -70,6 +73,7 @@
             />
           </Field>
           <Field
+            :key="`compareDataColor2-${setting?.salary?.compareDataColors?.[1]}`"
             v-slot="{ field, errorMessage }"
             name="salary.compareDataColor2"
             :rules="validationRules.salary.compareDataColor2"
@@ -90,6 +94,7 @@
             />
           </Field>
           <Field
+            :key="`compareDataColor3-${setting?.salary?.compareDataColors?.[2]}`"
             v-slot="{ field, errorMessage }"
             name="salary.compareDataColor3"
             :rules="validationRules.salary.compareDataColor3"
@@ -117,6 +122,7 @@
           wrapper-class="m-4"
         >
           <Field
+            :key="`rankAColor-${setting?.qualification?.rankAColor}`"
             v-slot="{ field, errorMessage }"
             name="qualification.rankAColor"
             :rules="validationRules.qualification.rankAColor"
@@ -137,6 +143,7 @@
             />
           </Field>
           <Field
+            :key="`rankBColor-${setting?.qualification?.rankBColor}`"
             v-slot="{ field, errorMessage }"
             name="qualification.rankBColor"
             :rules="validationRules.qualification.rankBColor"
@@ -157,6 +164,7 @@
             />
           </Field>
           <Field
+            :key="`rankCColor-${setting?.qualification?.rankCColor}`"
             v-slot="{ field, errorMessage }"
             name="qualification.rankCColor"
             :rules="validationRules.qualification.rankCColor"
@@ -177,6 +185,7 @@
             />
           </Field>
           <Field
+            :key="`rankDColor-${setting?.qualification?.rankDColor}`"
             v-slot="{ field, errorMessage }"
             name="qualification.rankDColor"
             :rules="validationRules.qualification.rankDColor"
@@ -238,6 +247,7 @@ import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
+import { withErrorHandling } from "~/utils/api-call";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 definePageMeta({
@@ -285,35 +295,32 @@ const validationRules = {
 const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  const id = commonStore.addLoadingQueue();
-  try {
-    await settingStore.putSetting({
-      ...setting.value,
-      salary: {
-        ...setting.value.salary,
-        financialYearStartMonth: values.salary.financialYearStartMonth,
-        transitionItemCount: values.salary.transitionItemCount,
-        compareDataColors: [
-          values.salary.compareDataColor1,
-          values.salary.compareDataColor2,
-          values.salary.compareDataColor3,
-        ],
-      },
-      qualification: {
-        ...setting.value.qualification,
-        rankAColor: values.qualification.rankAColor,
-        rankBColor: values.qualification.rankBColor,
-        rankCColor: values.qualification.rankCColor,
-        rankDColor: values.qualification.rankDColor,
-      },
-    });
-    showDialog.value = true;
-    commonStore.setHasUnsavedChange(false);
-  } catch (error) {
-    commonStore.addErrorMessage(getErrorMessage(error));
-  } finally {
-    commonStore.deleteLoadingQueue(id);
-  }
+  withErrorHandling(
+    () =>
+      settingStore.putSetting({
+        ...setting.value,
+        salary: {
+          ...setting.value.salary,
+          financialYearStartMonth: values.salary.financialYearStartMonth,
+          transitionItemCount: values.salary.transitionItemCount,
+          compareDataColors: [
+            values.salary.compareDataColor1,
+            values.salary.compareDataColor2,
+            values.salary.compareDataColor3,
+          ],
+        },
+        qualification: {
+          ...setting.value.qualification,
+          rankAColor: values.qualification.rankAColor,
+          rankBColor: values.qualification.rankBColor,
+          rankCColor: values.qualification.rankCColor,
+          rankDColor: values.qualification.rankDColor,
+        },
+      }),
+    commonStore
+  );
+  showDialog.value = true;
+  commonStore.setHasUnsavedChange(false);
 };
 const onCloseDialog = (): void => {
   showDialog.value = false;
