@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col mt-4">
     <NuxtCodeMirror
       v-model="text"
       :extensions="[json()]"
@@ -146,7 +146,7 @@ const onExecute = () => {
 <style lang="css" scoped>
 .code-mirror {
   flex: 1;
-  max-height: calc(100vh - 26rem);
+  max-height: calc(100vh - 27rem);
   box-shadow: 1px 1px 3px #000;
   overflow-y: auto;
 }
