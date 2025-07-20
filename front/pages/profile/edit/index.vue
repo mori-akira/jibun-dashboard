@@ -94,16 +94,14 @@ const validationRules = {
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  await withErrorHandling(
-    () =>
-      userStore.putUser({
-        ...userStore.user,
-        ...(values as User),
-      }),
-    commonStore
-  );
-  commonStore.setHasUnsavedChange(false);
-  await openInfoDialog("Process Completed Successfully");
-  navigateTo("/");
+  await withErrorHandling(async () => {
+    userStore.putUser({
+      ...userStore.user,
+      ...(values as User),
+    });
+    commonStore.setHasUnsavedChange(false);
+    await openInfoDialog("Process Completed Successfully");
+    navigateTo("/");
+  }, commonStore);
 };
 </script>

@@ -11,6 +11,7 @@
     "mock": "prism mock ../openapi/openapi.yaml --port 4011"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.2",
     "@nuxt/eslint": "^1.4.0",
     "@nuxt/ui": "^3.1.2",
     "@tailwindcss/vite": "^4.1.10",
@@ -22,8 +23,10 @@
     "axios": "^1.10.0",
     "better-sqlite3": "^11.10.0",
     "chart.js": "^4.5.0",
+    "codemirror": "^6.0.2",
     "moment": "^2.30.1",
     "nuxt": "^3.17.2",
+    "nuxt-codemirror": "^0.0.16",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.10",
     "url-join": "^5.0.0",

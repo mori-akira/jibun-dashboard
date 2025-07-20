@@ -87,7 +87,7 @@ const financialYearStartMonth = computed(
 );
 
 const fetchSalary = async () => {
-  withErrorHandling(
+  await withErrorHandling(
     () => salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value),
     commonStore
   );

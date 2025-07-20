@@ -34,13 +34,15 @@
           <template #editAsForm>
             <FormEditor
               v-model:target-salary="targetSalary"
-              :target-date="targetDate"
               @execute="putSalary"
-            ></FormEditor>
+            />
           </template>
 
           <template #editAsJson>
-            <p>Edit As JSON</p>
+            <JsonEditor
+              v-model:target-salary="targetSalary"
+              @execute="putSalary"
+            />
           </template>
 
           <template #uploadAndOcr>
@@ -77,14 +79,16 @@ import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import MonthPicker from "~/components/common/MonthPicker.vue";
-import FormEditor from "~/components/salary/edit/FormEditor.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import FormEditor from "~/components/salary/edit/FormEditor.vue";
+import JsonEditor from "~/components/salary/edit/JsonEditor.vue";
 import { useInfoDialog } from "~/composables/common/useInfoDialog";
 import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { getCurrentMonthFirstDateString } from "~/utils/date";
 import { withErrorHandling } from "~/utils/api-call";
+import { generateRandomString } from "~/utils/rand";
 
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
@@ -188,22 +192,20 @@ watch(
 );
 
 const putSalary = async () => {
-  withErrorHandling(
-    () =>
-      salaryStore.putSalary({
-        ...target.value,
-        targetDate: targetDate.value,
-        overview: { ...targetSalary.value.overview },
-        structure: { ...targetSalary.value.structure },
-        payslipData: structuredClone(
-          toRaw(targetSalary.value?.payslipData ?? []).map((e) =>
-            toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
-          )
-        ),
-      }),
-    commonStore
-  );
-  commonStore.setHasUnsavedChange(false);
-  await openInfoDialog("Process Completed Successfully");
+  await withErrorHandling(async () => {
+    await salaryStore.putSalary({
+      ...target.value,
+      targetDate: targetDate.value,
+      overview: { ...targetSalary.value.overview },
+      structure: { ...targetSalary.value.structure },
+      payslipData: structuredClone(
+        toRaw(targetSalary.value?.payslipData ?? []).map((e) =>
+          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
+        )
+      ),
+    });
+    commonStore.setHasUnsavedChange(false);
+    await openInfoDialog("Process Completed Successfully");
+  }, commonStore);
 };
 </script>

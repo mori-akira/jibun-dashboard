@@ -13,6 +13,7 @@
           <div class="w-full flex justify-center">
             <Field
               v-slot="{ field, errorMessage, validate }"
+              :key="`${targetSalary.id}-overview.${fieldDef.key}`"
               :name="`overview.${fieldDef.key}`"
               :rules="validationRules.overview[fieldDef.key]"
               :value="targetSalary.overview[fieldDef.key]?.toString()"
@@ -52,6 +53,7 @@
           <div class="w-full flex justify-center">
             <Field
               v-slot="{ field, errorMessage, validate }"
+              :key="`${targetSalary.id}-structure.${fieldDef.key}`"
               :name="`structure.${fieldDef.key}`"
               :rules="validationRules.structure[fieldDef.key]"
               :value="targetSalary.structure[fieldDef.key]?.toString()"
@@ -95,6 +97,7 @@
             <div class="w-full flex justify-center">
               <Field
                 v-slot="{ field, errorMessage, validate }"
+                :key="`${targetSalary.id}-payslip.${payslip.key}`"
                 :name="`payslip.${payslip.key}`"
                 :rules="validationRules.payslipData"
                 :value="payslip.data.toString()"
@@ -217,7 +220,6 @@ import { useCommonStore } from "~/stores/common";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const props = defineProps<{
-  targetDate: string;
   targetSalary: {
     id: string;
     overview: Overview;

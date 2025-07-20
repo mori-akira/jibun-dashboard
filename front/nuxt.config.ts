@@ -24,6 +24,7 @@ export default defineNuxtConfig({
         },
       },
     ],
+    "nuxt-codemirror",
   ],
   runtimeConfig: {
     public: {
@@ -48,6 +49,9 @@ export default defineNuxtConfig({
   },
   build: {
     transpile: ["@vuepic/vue-datepicker"],
+  },
+  nuxtCodemirror: {
+    basicSetup: true,
   },
   vite: {
     plugins: [

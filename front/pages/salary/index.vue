@@ -253,7 +253,7 @@ const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 onMounted(async () => {
-  withErrorHandling(() => salaryStore.fetchSalary(), commonStore);
+  await withErrorHandling(() => salaryStore.fetchSalary(), commonStore);
 });
 
 const financialYearStartMonth = computed(
@@ -272,8 +272,7 @@ const financialYears = computed(() =>
 const baseFinancialYear = ref(financialYears.value.at(-1) ?? "");
 watch(
   () => financialYears.value,
-  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? ""),
-  { immediate: true }
+  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? "")
 );
 const targetFinancialYears = computed(() =>
   filterFinancialYears(financialYears.value, baseFinancialYear.value)

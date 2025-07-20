@@ -297,32 +297,30 @@ const validationRules = {
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  withErrorHandling(
-    () =>
-      settingStore.putSetting({
-        ...setting.value,
-        salary: {
-          ...setting.value.salary,
-          financialYearStartMonth: values.salary.financialYearStartMonth,
-          transitionItemCount: values.salary.transitionItemCount,
-          compareDataColors: [
-            values.salary.compareDataColor1,
-            values.salary.compareDataColor2,
-            values.salary.compareDataColor3,
-          ],
-        },
-        qualification: {
-          ...setting.value.qualification,
-          rankAColor: values.qualification.rankAColor,
-          rankBColor: values.qualification.rankBColor,
-          rankCColor: values.qualification.rankCColor,
-          rankDColor: values.qualification.rankDColor,
-        },
-      }),
-    commonStore
-  );
-  commonStore.setHasUnsavedChange(false);
-  await openInfoDialog("Process Completed Successfully");
-  navigateTo("/");
+  await withErrorHandling(async () => {
+    settingStore.putSetting({
+      ...setting.value,
+      salary: {
+        ...setting.value.salary,
+        financialYearStartMonth: values.salary.financialYearStartMonth,
+        transitionItemCount: values.salary.transitionItemCount,
+        compareDataColors: [
+          values.salary.compareDataColor1,
+          values.salary.compareDataColor2,
+          values.salary.compareDataColor3,
+        ],
+      },
+      qualification: {
+        ...setting.value.qualification,
+        rankAColor: values.qualification.rankAColor,
+        rankBColor: values.qualification.rankBColor,
+        rankCColor: values.qualification.rankCColor,
+        rankDColor: values.qualification.rankDColor,
+      },
+    });
+    commonStore.setHasUnsavedChange(false);
+    await openInfoDialog("Process Completed Successfully");
+    navigateTo("/");
+  }, commonStore);
 };
 </script>

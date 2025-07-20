@@ -90,7 +90,7 @@ const salaryStore = useSalaryStore();
 const qualificationStore = useQualificationStore();
 
 onMounted(async () => {
-  withErrorHandling(
+  await withErrorHandling(
     () =>
       Promise.all([
         qualificationStore.fetchQualification(),
