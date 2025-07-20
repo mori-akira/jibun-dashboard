@@ -1,0 +1,23 @@
+type: object
+description: アップロードURL情報
+
+required:
+  - fileId
+  - uploadUrl
+
+properties:
+
+  fileId:
+    description: ファイルID
+    type: string
+    format: uuid
+
+  uploadUrl:
+    description: アップロードURL
+    type: string
+    format: uri
+  
+  expireDateTime:
+    description: 期限切れ日時
+    type: string
+    format: date-time

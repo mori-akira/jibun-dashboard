@@ -1,0 +1,35 @@
+get:
+  operationId: getSalaryOcr
+  summary: 給与情報登録OCR実行
+  description: 給与情報登録のOCR処理を実行する
+  tags:
+    - Salary
+  
+  parameters:
+    - in: query
+      name: fileId
+      description: ファイルID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常時(置き換え)
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/SalaryId"
+    "201":
+      description: 正常時(新規登録)
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/SalaryId"
+    "400":
+      description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"

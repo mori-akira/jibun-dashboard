@@ -1,0 +1,29 @@
+get:
+  operationId: getUploadUrl
+  summary: アップロードURL取得
+  description: ファイルアップロード用の署名付きURLを発行し、取得する
+  tags:
+    - File
+  
+  parameters:
+    - in: query
+      name: fileId
+      description: ファイルID
+      required: false
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常系
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/UploadUrl"
+    "400":
+      description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"

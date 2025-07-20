@@ -9,6 +9,8 @@ tags:
     description: ユーザ情報API
   - name: Setting
     description: 設定情報API
+  - name: File
+    description: ファイルAPI
   - name: Salary
     description: 給与情報API
   - name: Qualification
@@ -24,10 +26,14 @@ paths:
     $ref: "paths/user/password.yaml"
   /setting:
     $ref: "paths/setting/index.yaml"
+  /file/upload-url:
+    $ref: "paths/file/upload-url.yaml"
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
     $ref: "paths/salary/{salaryId}.yaml"
+  /salary/ocr:
+    $ref: "paths/salary/ocr.yaml"
   /qualification:
     $ref: "paths/qualification/index.yaml"
   /qualification/{qualificationId}:
@@ -41,6 +47,8 @@ components:
       $ref: "schemas/user/password.yaml"
     Setting:
       $ref: "schemas/setting/setting.yaml"
+    UploadUrl:
+      $ref: "schemas/file/uploadUrl.yaml"
     Salary:
       $ref: "schemas/salary/salary.yaml"
     SalaryId:

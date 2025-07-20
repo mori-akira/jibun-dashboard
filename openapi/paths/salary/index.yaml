@@ -60,8 +60,14 @@ put:
           $ref: "../../openapi.yaml#/components/schemas/Salary"
 
   responses:
+    "200":
+      description: 正常時(置き換え)
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/SalaryId"
     "201":
-      description: 正常時
+      description: 正常時(新規登録)
       content:
         application/json:
           schema:
