@@ -133,15 +133,18 @@
               />
             </div>
           </template>
-          <div class="ml-2 mt-2 flex justify-start">
-            <Button
-              type="add"
-              size="small"
-              @click="onAddNewPayslipKey(payslipCategory.key)"
-            >
-              <Icon name="tabler:plus" class="text-base translate-y-0.5" />
-              <span class="ml-2">Add Payslip</span>
-            </Button>
+          <div class="ml-4 mt-2 w-full flex justify-center">
+            <div class="w-40">
+              <Button
+                type="add"
+                size="small"
+                @click="onAddNewPayslipKey(payslipCategory.key)"
+              >
+                <Icon name="tabler:plus" class="text-base translate-y-0.5" />
+                <span class="ml-2">Add Payslip</span>
+              </Button>
+            </div>
+            <div class="w-76" />
           </div>
           <div class="w-full flex justify-center mt-8 pb-2">
             <Button
