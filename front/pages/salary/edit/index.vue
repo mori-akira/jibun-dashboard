@@ -46,7 +46,7 @@
           </template>
 
           <template #uploadAndOcr>
-            <p>Upload And OCR</p>
+            <PayslipUploader />
           </template>
         </Tabs>
       </Panel>
@@ -82,6 +82,7 @@ import MonthPicker from "~/components/common/MonthPicker.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import FormEditor from "~/components/salary/edit/FormEditor.vue";
 import JsonEditor from "~/components/salary/edit/JsonEditor.vue";
+import PayslipUploader from "~/components/salary/edit/PayslipUploader.vue";
 import { useInfoDialog } from "~/composables/common/useInfoDialog";
 import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
 import { useCommonStore } from "~/stores/common";
