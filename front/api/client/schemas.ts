@@ -72,6 +72,13 @@ const Setting = z
       .passthrough(),
   })
   .passthrough();
+const UploadUrl = z
+  .object({
+    fileId: z.string().uuid(),
+    uploadUrl: z.string().url(),
+    expireDateTime: z.string().datetime({ offset: true }).optional(),
+  })
+  .passthrough();
 const Salary = z
   .object({
     salaryId: z.string().uuid().optional(),
@@ -139,6 +146,7 @@ export const schemas = {
   ErrorInfo,
   Password,
   Setting,
+  UploadUrl,
   Salary,
   SalaryId,
   Qualification,
@@ -146,6 +154,28 @@ export const schemas = {
 };
 
 const endpoints = makeApi([
+  {
+    method: "get",
+    path: "/file/upload-url",
+    alias: "getUploadUrl",
+    description: `ファイルアップロード用の署名付きURLを発行し、取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "fileId",
+        type: "Query",
+        schema: z.string().uuid().optional(),
+      },
+    ],
+    response: UploadUrl,
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
   {
     method: "get",
     path: "/qualification",
@@ -375,6 +405,28 @@ const endpoints = makeApi([
       },
     ],
     response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/salary/ocr",
+    alias: "getSalaryOcr",
+    description: `給与情報登録のOCR処理を実行する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "fileId",
+        type: "Query",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: z.object({ salaryId: z.string().uuid() }).partial().passthrough(),
     errors: [
       {
         status: 400,

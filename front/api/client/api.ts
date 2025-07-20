@@ -474,6 +474,31 @@ export interface Structure {
     'other': number;
 }
 /**
+ * アップロードURL情報
+ * @export
+ * @interface UploadUrl
+ */
+export interface UploadUrl {
+    /**
+     * ファイルID
+     * @type {string}
+     * @memberof UploadUrl
+     */
+    'fileId': string;
+    /**
+     * アップロードURL
+     * @type {string}
+     * @memberof UploadUrl
+     */
+    'uploadUrl': string;
+    /**
+     * 期限切れ日時
+     * @type {string}
+     * @memberof UploadUrl
+     */
+    'expireDateTime'?: string;
+}
+/**
  * ユーザ情報
  * @export
  * @interface User
@@ -498,6 +523,133 @@ export interface User {
      */
     'emailAddress': string;
 }
+
+/**
+ * FileApi - axios parameter creator
+ * @export
+ */
+export const FileApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * ファイルアップロード用の署名付きURLを発行し、取得する
+         * @summary アップロードURL取得
+         * @param {string} [fileId] ファイルID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUploadUrl: async (fileId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/file/upload-url`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (fileId !== undefined) {
+                localVarQueryParameter['fileId'] = fileId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FileApi - functional programming interface
+ * @export
+ */
+export const FileApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FileApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * ファイルアップロード用の署名付きURLを発行し、取得する
+         * @summary アップロードURL取得
+         * @param {string} [fileId] ファイルID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUploadUrl(fileId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UploadUrl>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUploadUrl(fileId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FileApi.getUploadUrl']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * FileApi - factory interface
+ * @export
+ */
+export const FileApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FileApiFp(configuration)
+    return {
+        /**
+         * ファイルアップロード用の署名付きURLを発行し、取得する
+         * @summary アップロードURL取得
+         * @param {string} [fileId] ファイルID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUploadUrl(fileId?: string, options?: RawAxiosRequestConfig): AxiosPromise<UploadUrl> {
+            return localVarFp.getUploadUrl(fileId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FileApi - interface
+ * @export
+ * @interface FileApi
+ */
+export interface FileApiInterface {
+    /**
+     * ファイルアップロード用の署名付きURLを発行し、取得する
+     * @summary アップロードURL取得
+     * @param {string} [fileId] ファイルID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApiInterface
+     */
+    getUploadUrl(fileId?: string, options?: RawAxiosRequestConfig): AxiosPromise<UploadUrl>;
+
+}
+
+/**
+ * FileApi - object-oriented interface
+ * @export
+ * @class FileApi
+ * @extends {BaseAPI}
+ */
+export class FileApi extends BaseAPI implements FileApiInterface {
+    /**
+     * ファイルアップロード用の署名付きURLを発行し、取得する
+     * @summary アップロードURL取得
+     * @param {string} [fileId] ファイルID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApi
+     */
+    public getUploadUrl(fileId?: string, options?: RawAxiosRequestConfig) {
+        return FileApiFp(this.configuration).getUploadUrl(fileId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 
 /**
  * QualificationApi - axios parameter creator
@@ -1099,6 +1251,43 @@ export const SalaryApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * 給与情報登録のOCR処理を実行する
+         * @summary 給与情報登録OCR実行
+         * @param {string} fileId ファイルID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSalaryOcr: async (fileId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fileId' is not null or undefined
+            assertParamExists('getSalaryOcr', 'fileId', fileId)
+            const localVarPath = `/salary/ocr`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (fileId !== undefined) {
+                localVarQueryParameter['fileId'] = fileId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
          * @summary 給与情報登録
          * @param {Salary} [salary] 
@@ -1184,6 +1373,19 @@ export const SalaryApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 給与情報登録のOCR処理を実行する
+         * @summary 給与情報登録OCR実行
+         * @param {string} fileId ファイルID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryOcr(fileId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SalaryApi.getSalaryOcr']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
          * @summary 給与情報登録
          * @param {Salary} [salary] 
@@ -1239,6 +1441,16 @@ export const SalaryApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.getSalaryById(salaryId, options).then((request) => request(axios, basePath));
         },
         /**
+         * 給与情報登録のOCR処理を実行する
+         * @summary 給与情報登録OCR実行
+         * @param {string} fileId ファイルID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId> {
+            return localVarFp.getSalaryOcr(fileId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
          * @summary 給与情報登録
          * @param {Salary} [salary] 
@@ -1288,6 +1500,16 @@ export interface SalaryApiInterface {
      * @memberof SalaryApiInterface
      */
     getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
+
+    /**
+     * 給与情報登録のOCR処理を実行する
+     * @summary 給与情報登録OCR実行
+     * @param {string} fileId ファイルID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SalaryApiInterface
+     */
+    getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
 
     /**
      * 給与情報を登録(登録済みの場合は情報を置き換え)する
@@ -1344,6 +1566,18 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
      */
     public getSalaryById(salaryId: string, options?: RawAxiosRequestConfig) {
         return SalaryApiFp(this.configuration).getSalaryById(salaryId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 給与情報登録のOCR処理を実行する
+     * @summary 給与情報登録OCR実行
+     * @param {string} fileId ファイルID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SalaryApi
+     */
+    public getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig) {
+        return SalaryApiFp(this.configuration).getSalaryOcr(fileId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
