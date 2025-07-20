@@ -31,6 +31,10 @@ import Dialog from "~/components/common/Dialog.vue";
 import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
 import { useCommonStore } from "~/stores/common";
 
+const props = defineProps<{
+  targetDate: string;
+}>();
+
 const commonStore = useCommonStore();
 const {
   showConfirmDialog,
@@ -50,5 +54,6 @@ const onUploadFile = async (file: File) => {
     }
   }
   console.log(file.name);
+  console.log(props.targetDate);
 };
 </script>

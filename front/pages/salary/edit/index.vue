@@ -46,7 +46,7 @@
           </template>
 
           <template #uploadAndOcr>
-            <PayslipUploader />
+            <PayslipUploader :target-date="targetDate" />
           </template>
         </Tabs>
       </Panel>
