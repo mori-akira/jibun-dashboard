@@ -92,9 +92,9 @@ jobs:
 
       - name: Commit And Push
         run: |
-          git pull origin main
+          sudo git pull origin main
           sudo git add front/api
           if ! git diff --cached --quiet; then
-            git commit -m "Automatically Generated"
-            git push origin
+            sudo git commit -m "Automatically Generated"
+            sudo git push origin
           fi
