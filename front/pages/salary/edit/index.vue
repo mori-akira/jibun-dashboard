@@ -162,7 +162,6 @@ const targetSalary = ref<{
 watch(
   target,
   () => {
-    console.log();
     targetSalary.value = {
       id: generateRandomString(),
       overview: {
