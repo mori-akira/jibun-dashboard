@@ -11,9 +11,10 @@
         :id="id"
         :type="type || 'text'"
         :class="[
-          inputClass,
+          Array.isArray(inputClass) ? inputClass.join(' ') : inputClass,
           { 'no-border': noDrawBorder },
           { error: errorMessage },
+          { 'ml-4': label },
         ]"
         :value="value"
         :aria-invalid="!!errorMessage"
@@ -40,7 +41,7 @@ defineProps<{
   wrapperClass?: string;
   labelClass?: string;
   inputWrapperClass?: string;
-  inputClass?: string;
+  inputClass?: string | string[];
 }>();
 
 const emit = defineEmits<{
@@ -75,7 +76,6 @@ input {
   outline: none;
   border-bottom: solid 2px transparent;
   box-sizing: content-box;
-  margin-left: 1rem;
   transition: 0.2s;
 }
 

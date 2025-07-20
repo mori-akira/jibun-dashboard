@@ -57,12 +57,12 @@
     </Form>
 
     <Dialog
-      :show-dialog="showDialog"
+      :show-dialog="showInfoDialog"
       type="info"
-      message="Process Completed Successfully"
+      :message="InfoDialogMessage"
       button-type="ok"
-      @click:ok="onCloseDialog"
-      @close="onCloseDialog"
+      @click:ok="onInfoOk"
+      @close="onInfoOk"
     />
   </div>
 </template>
@@ -78,6 +78,7 @@ import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useInfoDialog } from "~/composables/common/useInfoDialog";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { withErrorHandling } from "~/utils/api-call";
@@ -85,11 +86,12 @@ import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const commonStore = useCommonStore();
 const userStore = useUserStore();
+const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
+  useInfoDialog();
 const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
   emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),
 };
-const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   await withErrorHandling(
@@ -100,11 +102,8 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
       }),
     commonStore
   );
-  showDialog.value = true;
   commonStore.setHasUnsavedChange(false);
-};
-const onCloseDialog = (): void => {
-  showDialog.value = false;
+  await openInfoDialog("Process Completed Successfully");
   navigateTo("/");
 };
 </script>

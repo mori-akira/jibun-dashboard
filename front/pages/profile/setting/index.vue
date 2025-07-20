@@ -222,12 +222,12 @@
     </Form>
 
     <Dialog
-      :show-dialog="showDialog"
+      :show-dialog="showInfoDialog"
       type="info"
-      message="Process Completed Successfully"
+      :message="InfoDialogMessage"
       button-type="ok"
-      @click:ok="onCloseDialog"
-      @close="onCloseDialog"
+      @click:ok="onInfoOk"
+      @close="onInfoOk"
     />
   </div>
 </template>
@@ -245,6 +245,7 @@ import TextBox from "~/components/common/TextBox.vue";
 import ColorPicker from "~/components/common/ColorPicker.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import { useInfoDialog } from "~/composables/common/useInfoDialog";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { withErrorHandling } from "~/utils/api-call";
@@ -259,6 +260,8 @@ const settingStore = useSettingStore();
 const setting = computed<Setting>(
   () => ({ ...settingStore.setting } as Setting)
 );
+const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
+  useInfoDialog();
 const validationRules = {
   salary: {
     financialYearStartMonth: zodToVeeRules(
@@ -292,7 +295,6 @@ const validationRules = {
     ),
   },
 };
-const showDialog = ref(false);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   withErrorHandling(
@@ -319,11 +321,8 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
       }),
     commonStore
   );
-  showDialog.value = true;
   commonStore.setHasUnsavedChange(false);
-};
-const onCloseDialog = (): void => {
-  showDialog.value = false;
+  await openInfoDialog("Process Completed Successfully");
   navigateTo("/");
 };
 </script>
