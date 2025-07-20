@@ -1253,11 +1253,14 @@ export const SalaryApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 給与情報登録のOCR処理を実行する
          * @summary 給与情報登録OCR実行
+         * @param {string} targetDate 対象年月日
          * @param {string} fileId ファイルID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSalaryOcr: async (fileId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getSalaryOcr: async (targetDate: string, fileId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'targetDate' is not null or undefined
+            assertParamExists('getSalaryOcr', 'targetDate', targetDate)
             // verify required parameter 'fileId' is not null or undefined
             assertParamExists('getSalaryOcr', 'fileId', fileId)
             const localVarPath = `/salary/ocr`;
@@ -1271,6 +1274,12 @@ export const SalaryApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (targetDate !== undefined) {
+                localVarQueryParameter['targetDate'] = (targetDate as any instanceof Date) ?
+                    (targetDate as any).toISOString().substring(0,10) :
+                    targetDate;
+            }
 
             if (fileId !== undefined) {
                 localVarQueryParameter['fileId'] = fileId;
@@ -1375,12 +1384,13 @@ export const SalaryApiFp = function(configuration?: Configuration) {
         /**
          * 給与情報登録のOCR処理を実行する
          * @summary 給与情報登録OCR実行
+         * @param {string} targetDate 対象年月日
          * @param {string} fileId ファイルID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryOcr(fileId, options);
+        async getSalaryOcr(targetDate: string, fileId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryOcr(targetDate, fileId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SalaryApi.getSalaryOcr']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1443,12 +1453,13 @@ export const SalaryApiFactory = function (configuration?: Configuration, basePat
         /**
          * 給与情報登録のOCR処理を実行する
          * @summary 給与情報登録OCR実行
+         * @param {string} targetDate 対象年月日
          * @param {string} fileId ファイルID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId> {
-            return localVarFp.getSalaryOcr(fileId, options).then((request) => request(axios, basePath));
+        getSalaryOcr(targetDate: string, fileId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId> {
+            return localVarFp.getSalaryOcr(targetDate, fileId, options).then((request) => request(axios, basePath));
         },
         /**
          * 給与情報を登録(登録済みの場合は情報を置き換え)する
@@ -1504,12 +1515,13 @@ export interface SalaryApiInterface {
     /**
      * 給与情報登録のOCR処理を実行する
      * @summary 給与情報登録OCR実行
+     * @param {string} targetDate 対象年月日
      * @param {string} fileId ファイルID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SalaryApiInterface
      */
-    getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
+    getSalaryOcr(targetDate: string, fileId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
 
     /**
      * 給与情報を登録(登録済みの場合は情報を置き換え)する
@@ -1571,13 +1583,14 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
     /**
      * 給与情報登録のOCR処理を実行する
      * @summary 給与情報登録OCR実行
+     * @param {string} targetDate 対象年月日
      * @param {string} fileId ファイルID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SalaryApi
      */
-    public getSalaryOcr(fileId: string, options?: RawAxiosRequestConfig) {
-        return SalaryApiFp(this.configuration).getSalaryOcr(fileId, options).then((request) => request(this.axios, this.basePath));
+    public getSalaryOcr(targetDate: string, fileId: string, options?: RawAxiosRequestConfig) {
+        return SalaryApiFp(this.configuration).getSalaryOcr(targetDate, fileId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -421,6 +421,11 @@ const endpoints = makeApi([
     requestFormat: "json",
     parameters: [
       {
+        name: "targetDate",
+        type: "Query",
+        schema: z.string(),
+      },
+      {
         name: "fileId",
         type: "Query",
         schema: z.string().uuid(),
