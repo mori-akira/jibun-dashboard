@@ -23,6 +23,7 @@
         @blur="onBlurValue($event)"
         @input="onInputValue($event)"
         @keydown.enter="onKeydownEnter"
+        @keydown.escape="onKeydownEscape"
       />
       <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
     </div>
@@ -49,7 +50,7 @@ defineProps<{
 const emit = defineEmits<{
   (event: "change:value" | "blur:value" | "input:value", value: string): void;
   (event: "change:event" | "blur:event" | "input:event", e: Event): void;
-  (event: "keydown:enter"): void;
+  (event: "keydown:enter" | "keydown:escape"): void;
 }>();
 
 const inputRef = ref<HTMLInputElement>();
@@ -80,6 +81,9 @@ const onInputValue = (e: Event): void => {
 };
 const onKeydownEnter = (): void => {
   emit("keydown:enter");
+};
+const onKeydownEscape = (): void => {
+  emit("keydown:escape");
 };
 
 const id = computed(() => `input-${generateRandomString()}`);

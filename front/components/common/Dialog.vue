@@ -34,6 +34,7 @@
               :input-class="['ml-0', inputClass ?? '']"
               @input:value="onChangeInputValue"
               @keydown:enter="onClickOk"
+              @keydown:escape="onClickCancel"
             ></TextBox>
           </div>
         </div>
