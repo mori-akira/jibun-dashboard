@@ -11,7 +11,7 @@
       </div>
       <div class="w-full flex justify-center font-cursive mt-2">
         <Icon name="tabler:hand-click" class="adjust-icon-2" />
-        <span class="ml-2">Or Click To Select One</span>
+        <span class="ml-2">Or Click Here To Select One</span>
       </div>
     </FileUploader>
 
