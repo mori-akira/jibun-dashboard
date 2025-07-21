@@ -5,4 +5,8 @@ put:
 
   responses:
     "200":
-      description: Success
+      description: 正常系
+      content:
+        application/pdf:
+          schema:
+            type: string

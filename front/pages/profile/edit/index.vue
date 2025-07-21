@@ -78,7 +78,7 @@ import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useInfoDialog } from "~/composables/common/useInfoDialog";
+import { useInfoDialog } from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { withErrorHandling } from "~/utils/api-call";
