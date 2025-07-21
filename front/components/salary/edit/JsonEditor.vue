@@ -2,10 +2,12 @@
   <div class="flex flex-col mt-4">
     <NuxtCodeMirror
       v-model="text"
-      :extensions="[json()]"
-      :class="['code-mirror', { invalid: !isValid }]"
-      theme="light"
+      basic-setup
       editable
+      theme="light"
+      :class="['code-mirror', { invalid: !isValid }]"
+      :extensions="[json(), lintGutter(), linter(jsonParseLinter())]"
+      :linter="jsonParseLinter()"
       @on-change="onUpdate"
     />
     <div v-if="!isValidJson" class="text-red-500 mt-2">Invalid JSON format</div>
@@ -23,7 +25,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { json } from "@codemirror/lang-json";
+import { linter, lintGutter } from "@codemirror/lint";
+import { json, jsonParseLinter } from "@codemirror/lang-json";
 
 import type { Overview, PayslipData, Structure } from "~/api/client";
 import { schemas } from "~/api/client/schemas";

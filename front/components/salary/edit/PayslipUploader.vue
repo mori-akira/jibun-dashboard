@@ -6,10 +6,12 @@
       @upload="onUploadFile"
     >
       <div class="w-full flex justify-center font-cursive">
-        Drag and drop a file here
+        <Icon name="tabler:drag-drop" class="adjust-icon-2" />
+        <span class="ml-2">Drag And Drop File Here</span>
       </div>
-      <div class="w-full flex justify-center font-cursive">
-        Or click to select one
+      <div class="w-full flex justify-center font-cursive mt-2">
+        <Icon name="tabler:hand-click" class="adjust-icon-2" />
+        <span class="ml-2">Or Click To Select One</span>
       </div>
     </FileUploader>
 
