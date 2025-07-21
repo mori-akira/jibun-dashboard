@@ -533,10 +533,13 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary ローカル環境用Mock API
+         * @param {File} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fileUploadMockPut: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fileUploadMockPut: async (body: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('fileUploadMockPut', 'body', body)
             const localVarPath = `/file/upload-mock`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -551,9 +554,12 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/pdf';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -608,11 +614,12 @@ export const FileApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary ローカル環境用Mock API
+         * @param {File} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fileUploadMockPut(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.fileUploadMockPut(options);
+        async fileUploadMockPut(body: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fileUploadMockPut(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FileApi.fileUploadMockPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -643,11 +650,12 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary ローカル環境用Mock API
+         * @param {File} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fileUploadMockPut(options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.fileUploadMockPut(options).then((request) => request(axios, basePath));
+        fileUploadMockPut(body: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.fileUploadMockPut(body, options).then((request) => request(axios, basePath));
         },
         /**
          * ファイルアップロード用の署名付きURLを発行し、取得する
@@ -671,11 +679,12 @@ export interface FileApiInterface {
     /**
      * 
      * @summary ローカル環境用Mock API
+     * @param {File} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FileApiInterface
      */
-    fileUploadMockPut(options?: RawAxiosRequestConfig): AxiosPromise<string>;
+    fileUploadMockPut(body: File, options?: RawAxiosRequestConfig): AxiosPromise<string>;
 
     /**
      * ファイルアップロード用の署名付きURLを発行し、取得する
@@ -699,12 +708,13 @@ export class FileApi extends BaseAPI implements FileApiInterface {
     /**
      * 
      * @summary ローカル環境用Mock API
+     * @param {File} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FileApi
      */
-    public fileUploadMockPut(options?: RawAxiosRequestConfig) {
-        return FileApiFp(this.configuration).fileUploadMockPut(options).then((request) => request(this.axios, this.basePath));
+    public fileUploadMockPut(body: File, options?: RawAxiosRequestConfig) {
+        return FileApiFp(this.configuration).fileUploadMockPut(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
