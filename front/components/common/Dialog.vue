@@ -29,9 +29,11 @@
           </div>
           <div v-if="type === 'input'" class="mt-4">
             <TextBox
+              ref="inputRef"
               :value="inputValue"
               :input-class="['ml-0', inputClass ?? '']"
-              @change:value="onChangeInputValue"
+              @input:value="onChangeInputValue"
+              @keydown:enter="onClickOk"
             ></TextBox>
           </div>
         </div>
@@ -60,10 +62,12 @@ import ModalWindow from "~/components/common/ModalWindow.vue";
 import Button from "~/components/common/Button.vue";
 import IconButton from "./IconButton.vue";
 import TextBox from "./TextBox.vue";
+import type { TextBoxExpose } from "./TextBox.vue";
+import type { ComponentPublicInstance } from "vue";
 
 export type DialogType = "info" | "confirm" | "input" | "warning" | "error";
 
-defineProps<{
+const props = defineProps<{
   showDialog: boolean;
   type?: DialogType;
   iconName?: string;
@@ -79,7 +83,19 @@ const emit = defineEmits<{
 }>();
 
 const inputValue = ref<string>("");
+const inputRef = ref<ComponentPublicInstance<TextBoxExpose>>();
 const onChangeInputValue = (newValue: string) => (inputValue.value = newValue);
+
+watch(
+  () => props.showDialog,
+  async (newVal) => {
+    if (newVal && props.type === "input") {
+      await nextTick();
+      await inputRef.value?.focus();
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const onClose = (): void => {
   emit("close");

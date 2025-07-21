@@ -9,6 +9,7 @@
     <div :class="[inputWrapperClass]">
       <input
         :id="id"
+        ref="inputRef"
         :type="type || 'text'"
         :class="[
           Array.isArray(inputClass) ? inputClass.join(' ') : inputClass,
@@ -21,6 +22,7 @@
         @change="onChangeValue($event)"
         @blur="onBlurValue($event)"
         @input="onInputValue($event)"
+        @keydown.enter="onKeydownEnter"
       />
       <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
     </div>
@@ -47,24 +49,37 @@ defineProps<{
 const emit = defineEmits<{
   (event: "change:value" | "blur:value" | "input:value", value: string): void;
   (event: "change:event" | "blur:event" | "input:event", e: Event): void;
+  (event: "keydown:enter"): void;
 }>();
+
+const inputRef = ref<HTMLInputElement>();
+defineExpose({
+  focus: async () => {
+    await nextTick();
+    inputRef.value?.focus();
+  },
+});
+export type TextBoxExpose = {
+  focus: () => void;
+};
 
 const onChangeValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
   emit("change:value", target.value);
   emit("change:event", e);
 };
-
 const onBlurValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
   emit("blur:value", target.value);
   emit("blur:event", e);
 };
-
 const onInputValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
   emit("input:value", target.value);
   emit("input:event", e);
+};
+const onKeydownEnter = (): void => {
+  emit("keydown:enter");
 };
 
 const id = computed(() => `input-${generateRandomString()}`);
