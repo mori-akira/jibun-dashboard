@@ -44,7 +44,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   (
-    e: "update:targetSalary",
+    event: "update:targetSalary",
     value: {
       id: string;
       overview: Overview;
@@ -52,7 +52,7 @@ const emit = defineEmits<{
       payslipData: PayslipData[];
     }
   ): void;
-  (e: "execute"): void;
+  (event: "execute"): void;
 }>();
 
 const commonStore = useCommonStore();

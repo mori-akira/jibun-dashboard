@@ -23,63 +23,16 @@
         <Icon name="tabler:search" class="adjust-icon-4" />
         <span class="font-cursive font-bold ml-2">Condition</span>
       </h3>
-      <MultiOptionSelector
-        label="Status"
-        :options="['acquired', 'planning', 'dream']"
-        :values="['acquired', 'planning', 'dream']"
-        :selected-options="selectedStatus"
-        wrapper-class="m-4 flex justify-start items-center"
-        label-class="w-25 font-cursive"
-        @click:value="onClickStatusOption"
-      ></MultiOptionSelector>
-      <MultiOptionSelector
-        label="Rank"
-        :options="['A', 'B', 'C', 'D']"
-        :values="['A', 'B', 'C', 'D']"
-        :selected-options="selectedRank"
-        wrapper-class="m-4 flex justify-start items-center"
-        label-class="w-25 font-cursive"
-        @click:value="onClickRankOption"
-      ></MultiOptionSelector>
-
-      <Accordion title="More Detail" title-class="font-cursive">
-        <TextBox
-          label="Qualification Name"
-          :value="qualificationName"
-          wrapper-class="m-4"
-          label-class="w-40 font-cursive"
-          input-wrapper-class="w-1/2"
-          @blur:value="onBlurQualificationName"
-        />
-        <TextBox
-          label="Organization"
-          :value="organization"
-          wrapper-class="m-4"
-          label-class="w-40 font-cursive"
-          input-wrapper-class="w-1/2"
-          @blur:value="onBlurOrganization"
-        />
-        <DatePickerFromTo
-          label="Acquired Date"
-          :date-from="acquiredDateFrom"
-          :date-to="acquiredDateTo"
-          wrapper-class="m-4"
-          label-class="w-40 font-cursive"
-          pickers-wrapper-class="min-w-96 w-1/2"
-          @change:from="onChangeAcquiredDateFrom"
-          @change:to="onChangeAcquiredDateTo"
-        />
-        <DatePickerFromTo
-          label="Expiration Date"
-          :date-from="expirationDateFrom"
-          :date-to="expirationDateTo"
-          wrapper-class="m-4"
-          label-class="w-40 font-cursive"
-          pickers-wrapper-class="min-w-96 w-1/2"
-          @change:from="onChangeExpirationDateFrom"
-          @change:to="onChangeExpirationDateTo"
-        />
-      </Accordion>
+      <SearchConditionForm
+        v-model:selected-status="selectedStatus"
+        v-model:selected-rank="selectedRank"
+        v-model:qualification-name="qualificationName"
+        v-model:organization="organization"
+        v-model:acquired-date-from="acquiredDateFrom"
+        v-model:acquired-date-to="acquiredDateTo"
+        v-model:expiration-date-from="expirationDateFrom"
+        v-model:expiration-date-to="expirationDateTo"
+      />
     </Panel>
 
     <Panel>
@@ -129,21 +82,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
-
 import type {
-  Qualification,
-  GetQualificationStatusEnum,
   GetQualificationRankEnum,
+  GetQualificationStatusEnum,
+  Qualification,
   SettingQualification,
 } from "~/api/client/api";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
-import Accordion from "~/components/common/Accordion.vue";
-import MultiOptionSelector from "~/components/common/MultiOptionSelector.vue";
-import TextBox from "~/components/common/TextBox.vue";
-import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
 import Button from "~/components/common/Button.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
@@ -151,97 +97,45 @@ import ModalWindow from "~/components/common/ModalWindow.vue";
 import InformationForm from "~/components/common/InformationForm.vue";
 import type { ItemDef } from "~/components/common/InformationForm.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
+import SearchConditionForm from "~/components/qualification/SearchConditionForm.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
 import { getRankColorHexCode } from "~/utils/qualification";
 import type { Rank } from "~/utils/qualification";
 
-const router = useRoute();
-const rank = router.query?.rank;
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
+const router = useRoute();
+const rank = router.query?.rank as GetQualificationRankEnum;
 
 onMounted(async () => {
   await fetchQualificationApi();
 });
 
 const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
-const onClickStatusOption = async (value: string) => {
-  if (selectedStatus.value.includes(value as GetQualificationStatusEnum)) {
-    selectedStatus.value = selectedStatus.value.filter((e) => e !== value);
-  } else {
-    selectedStatus.value.push(value as GetQualificationStatusEnum);
-  }
-  await fetchQualificationApi();
-};
-
-const selectedRank = ref<GetQualificationRankEnum[]>(
-  rank ? [rank as GetQualificationRankEnum] : []
-);
-const onClickRankOption = async (value: string) => {
-  if (selectedRank.value.includes(value as GetQualificationRankEnum)) {
-    selectedRank.value = selectedRank.value.filter((e) => e !== value);
-  } else {
-    selectedRank.value.push(value as GetQualificationRankEnum);
-  }
-  await fetchQualificationApi();
-};
-
+const selectedRank = ref<GetQualificationRankEnum[]>(rank ? [rank] : []);
 const qualificationName = ref<string>("");
-const onBlurQualificationName = async (value: string) => {
-  if (qualificationName.value === value) {
-    return;
-  }
-  qualificationName.value = value;
-  await fetchQualificationApi();
-};
-
 const organization = ref<string>("");
-const onBlurOrganization = async (value: string) => {
-  if (organization.value === value) {
-    return;
-  }
-  organization.value = value;
-  await fetchQualificationApi();
-};
-
-const acquiredDateFrom = ref<string | undefined>("");
-const onChangeAcquiredDateFrom = async (value: string | undefined) => {
-  if (acquiredDateFrom.value === value) {
-    return;
-  }
-  acquiredDateFrom.value = value;
-  await fetchQualificationApi();
-};
-
-const acquiredDateTo = ref<string | undefined>("");
-const onChangeAcquiredDateTo = async (value: string | undefined) => {
-  if (acquiredDateTo.value === value) {
-    return;
-  }
-  acquiredDateTo.value = value;
-  await fetchQualificationApi();
-};
-
-const expirationDateFrom = ref<string | undefined>("");
-const onChangeExpirationDateFrom = async (value: string | undefined) => {
-  if (expirationDateFrom.value === value) {
-    return;
-  }
-  expirationDateFrom.value = value;
-  await fetchQualificationApi();
-};
-
-const expirationDateTo = ref<string | undefined>("");
-const onChangeExpirationDateTo = async (value: string | undefined) => {
-  if (expirationDateTo.value === value) {
-    return;
-  }
-  expirationDateTo.value = value;
-  await fetchQualificationApi();
-};
+const acquiredDateFrom = ref<string>("");
+const acquiredDateTo = ref<string>("");
+const expirationDateFrom = ref<string>("");
+const expirationDateTo = ref<string>("");
+watch(
+  () => [
+    selectedStatus,
+    selectedRank,
+    qualificationName,
+    organization,
+    acquiredDateFrom,
+    acquiredDateTo,
+    expirationDateFrom,
+    expirationDateTo,
+  ],
+  async () => await fetchQualificationApi(),
+  { immediate: true, deep: true }
+);
 
 const fetchQualificationApi = async () => {
   isLoading.value = true;
