@@ -611,7 +611,7 @@ export const FileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fileUploadMockPut(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async fileUploadMockPut(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fileUploadMockPut(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FileApi.fileUploadMockPut']?.[localVarOperationServerIndex]?.url;
@@ -646,7 +646,7 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fileUploadMockPut(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        fileUploadMockPut(options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.fileUploadMockPut(options).then((request) => request(axios, basePath));
         },
         /**
@@ -675,7 +675,7 @@ export interface FileApiInterface {
      * @throws {RequiredError}
      * @memberof FileApiInterface
      */
-    fileUploadMockPut(options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    fileUploadMockPut(options?: RawAxiosRequestConfig): AxiosPromise<string>;
 
     /**
      * ファイルアップロード用の署名付きURLを発行し、取得する
