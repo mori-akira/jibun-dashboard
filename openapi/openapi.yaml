@@ -28,6 +28,8 @@ paths:
     $ref: "paths/setting/index.yaml"
   /file/upload-url:
     $ref: "paths/file/upload-url.yaml"
+  /file/upload-mock:
+    $ref: "paths/file/upload-mock.yaml"
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:

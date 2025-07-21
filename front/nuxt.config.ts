@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
+import urlJoin from "url-join";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -42,7 +43,7 @@ export default defineNuxtConfig({
         {
           rel: "icon",
           type: "image/x-icon",
-          href: "/favicon.ico",
+          href: urlJoin(process.env.NUXT_PUBLIC_BASE_URL || "/", "favicon.ico"),
         },
       ],
     },

@@ -24,17 +24,29 @@
       @click:no="onConfirmNo"
       @close="onConfirmNo"
     />
+
+    <Dialog
+      :show-dialog="showWarningDialog"
+      type="warning"
+      :message="WarningDialogMessage"
+      button-type="ok"
+      @click:ok="onWarningOk"
+      @close="onWarningOk"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import FileUploader from "~/components/common/FileUploader.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
+import {
+  useConfirmDialog,
+  useWarningDialog,
+} from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
 
-const props = defineProps<{
-  targetDate: string;
+const emits = defineEmits<{
+  (event: "upload", file: File): void;
 }>();
 
 const commonStore = useCommonStore();
@@ -45,17 +57,52 @@ const {
   onConfirmYes,
   onConfirmNo,
 } = useConfirmDialog();
+const {
+  showWarningDialog,
+  WarningDialogMessage,
+  openWarningDialog,
+  onWarningOk,
+} = useWarningDialog();
 
 const onUploadFile = async (file: File) => {
-  if (commonStore.hasUnsavedChange) {
-    const confirmed = await openConfirmDialog(
-      "You Have Unsaved Change. Continue?"
-    );
-    if (!confirmed) {
+  const id = commonStore.addLoadingQueue();
+  try {
+    if (commonStore.hasUnsavedChange) {
+      const confirmed = await openConfirmDialog(
+        "You Have Unsaved Change. Continue?"
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+    if (!(await checkFile(file))) {
       return;
     }
+    emits("upload", file);
+  } finally {
+    commonStore.deleteLoadingQueue(id);
   }
-  console.log(file.name);
-  console.log(props.targetDate);
+};
+const checkFile = async (file: File): Promise<boolean> => {
+  if (!checkFileExtension(file) || !checkFileType(file)) {
+    await openWarningDialog("Only PDF files are accepted.");
+    return false;
+  }
+  if (!checkFileSize(file)) {
+    await openConfirmDialog("The file size must be 1MB or less.");
+    return false;
+  }
+  return true;
+};
+const checkFileExtension = (file: File) => {
+  const fileName = file.name.toLowerCase();
+  return fileName.endsWith(".pdf");
+};
+const checkFileType = (file: File) => {
+  return file.type === "application/pdf";
+};
+const checkFileSize = (file: File) => {
+  const maxSizeInBytes = 1 * 1024 * 1024;
+  return file.size <= maxSizeInBytes;
 };
 </script>

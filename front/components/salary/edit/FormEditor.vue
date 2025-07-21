@@ -214,8 +214,10 @@ import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import IconButton from "~/components/common/IconButton.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
-import { useInputDialog } from "~/composables/common/useInputDialog";
+import {
+  useConfirmDialog,
+  useInputDialog,
+} from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 

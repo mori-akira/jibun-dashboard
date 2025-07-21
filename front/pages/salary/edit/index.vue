@@ -46,7 +46,7 @@
           </template>
 
           <template #uploadAndOcr>
-            <PayslipUploader :target-date="targetDate" />
+            <PayslipUploader @upload="executeOcr" />
           </template>
         </Tabs>
       </Panel>
@@ -74,6 +74,9 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
+
+import { FileApi, SalaryApi } from "~/api/client";
 import type { Overview, PayslipData, Structure } from "~/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
@@ -83,14 +86,18 @@ import Dialog from "~/components/common/Dialog.vue";
 import FormEditor from "~/components/salary/edit/FormEditor.vue";
 import JsonEditor from "~/components/salary/edit/JsonEditor.vue";
 import PayslipUploader from "~/components/salary/edit/PayslipUploader.vue";
-import { useInfoDialog } from "~/composables/common/useInfoDialog";
-import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
+import {
+  useInfoDialog,
+  useConfirmDialog,
+} from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { getCurrentMonthFirstDateString } from "~/utils/date";
 import { withErrorHandling } from "~/utils/api-call";
 import { generateRandomString } from "~/utils/rand";
 
+const fileApi = new FileApi();
+const salaryApi = new SalaryApi();
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
 const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
@@ -109,7 +116,7 @@ onMounted(async () => {
 
 const fetchSalary = async () => {
   await withErrorHandling(
-    () => salaryStore.fetchSalary(targetDate.value),
+    async () => salaryStore.fetchSalary(targetDate.value),
     commonStore
   );
   commonStore.setHasUnsavedChange(false);
@@ -206,6 +213,23 @@ const putSalary = async () => {
       ),
     });
     commonStore.setHasUnsavedChange(false);
+    await openInfoDialog("Process Completed Successfully");
+  }, commonStore);
+};
+
+const executeOcr = async (file: File) => {
+  await withErrorHandling(async () => {
+    const res = await fileApi.getUploadUrl();
+    const { fileId, uploadUrl } = res.data;
+    if (!uploadUrl) {
+      throw new TypeError(`uploadUrl is invalid: ${uploadUrl}`);
+    }
+    await axios.put(uploadUrl, file, {
+      headers: {
+        "Content-Type": "application/pdf",
+      },
+    });
+    await salaryApi.getSalaryOcr(targetDate.value, fileId);
     await openInfoDialog("Process Completed Successfully");
   }, commonStore);
 };

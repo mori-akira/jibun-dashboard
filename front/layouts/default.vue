@@ -36,7 +36,7 @@ import HeaderMenu from "~/components/app/HeaderMenu.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useConfirmDialog } from "~/composables/common/useConfirmDialog";
+import { useConfirmDialog } from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { useSettingStore } from "~/stores/setting";

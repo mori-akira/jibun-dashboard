@@ -21,6 +21,8 @@ get:
         application/json:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/UploadUrl"
+          example:
+            $ref: "../../examples/file/upload-url/get.json"
     "400":
       description: パラメータ不正
       content:

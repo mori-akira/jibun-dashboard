@@ -8,8 +8,10 @@ export function getErrorMessage(error: AxiosError | unknown): string {
       return "認証に失敗しました。再度ログインしてください";
     } else if (error.response?.status === 403) {
       return "アクセス権限がありません";
-    } else {
+    } else if (error.response?.status) {
       return `想定外のエラーが発生しました (ステータスコード: ${error.response?.status})`;
+    } else {
+      return "想定外のエラーが発生しました";
     }
   } else {
     return "想定外のエラーが発生しました";

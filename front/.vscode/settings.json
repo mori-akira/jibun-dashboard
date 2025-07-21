@@ -5,6 +5,7 @@
     "files.trimTrailingWhitespace": true,
     "terminal.integrated.defaultProfile.linux": "bash",
     "cSpell.words": [
+        "axios",
         "chartjs",
         "datatable",
         "datepicker",
