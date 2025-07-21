@@ -155,6 +155,13 @@ export const schemas = {
 
 const endpoints = makeApi([
   {
+    method: "put",
+    path: "/file/upload-mock",
+    alias: "putFileuploadMock",
+    requestFormat: "json",
+    response: z.void(),
+  },
+  {
     method: "get",
     path: "/file/upload-url",
     alias: "getUploadUrl",
