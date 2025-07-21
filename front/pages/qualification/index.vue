@@ -110,6 +110,28 @@ const qualificationStore = useQualificationStore();
 const router = useRoute();
 const rank = router.query?.rank as GetQualificationRankEnum;
 
+const isLoading = ref<boolean>(false);
+const fetchQualificationApi = async () => {
+  isLoading.value = true;
+  try {
+    await qualificationStore.fetchQualification(
+      qualificationName.value,
+      selectedStatus.value,
+      selectedRank.value,
+      organization.value,
+      acquiredDateFrom.value,
+      acquiredDateTo.value,
+      expirationDateFrom.value,
+      expirationDateTo.value
+    );
+  } catch (err) {
+    console.error(err);
+    commonStore.addErrorMessage(getErrorMessage(err));
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 onMounted(async () => {
   await fetchQualificationApi();
 });
@@ -137,28 +159,8 @@ watch(
   { immediate: true, deep: true }
 );
 
-const fetchQualificationApi = async () => {
-  isLoading.value = true;
-  try {
-    await qualificationStore.fetchQualification(
-      qualificationName.value,
-      selectedStatus.value,
-      selectedRank.value,
-      organization.value,
-      acquiredDateFrom.value,
-      acquiredDateTo.value,
-      expirationDateFrom.value,
-      expirationDateTo.value
-    );
-  } catch (err) {
-    console.error(err);
-    commonStore.addErrorMessage(getErrorMessage(err));
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const columnDefs: ColumnDef[] = [
+type QualificationWithIndex = Qualification & { index: number };
+const columnDefs: ColumnDef<QualificationWithIndex>[] = [
   {
     field: "index",
     header: "",
@@ -214,16 +216,15 @@ const rows = computed(() =>
     index: i + 1,
   }))
 );
-const isLoading = ref<boolean>(false);
-const initSortState: SortDef = {
+const initSortState: SortDef<QualificationWithIndex> = {
   column: "index",
   direction: "asc",
 };
-const onClickRow = (id: unknown) => {
-  const filtered = qualificationStore.qualifications?.filter(
-    (e) => e.qualificationId === id
+const onClickRow = (row: QualificationWithIndex) => {
+  const filtered = qualificationStore.qualifications?.find(
+    (e) => e.qualificationId === row.qualificationId
   );
-  selectedQualification.value = filtered ? filtered[0] : null;
+  selectedQualification.value = filtered ?? null;
 };
 
 const selectedQualification = ref<Qualification | null>(null);

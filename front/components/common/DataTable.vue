@@ -11,20 +11,71 @@
             :key="`header-${index}`"
             :class="[headerClass, column.headerClass]"
             :aria-selected="sortState?.column === column.field"
-            :aria-sort="sortState?.column === column.field ? (sortState?.direction === 'desc'? 'descending' : 'ascending') : undefined"
+            :aria-sort="
+              sortState?.column === column.field
+                ? sortState?.direction === 'desc'
+                  ? 'descending'
+                  : 'ascending'
+                : undefined
+            "
           >
             <div class="header-inner">
-              <div>{{ column.header }}</div>
+              <div>
+                <CheckBox
+                  v-if="column.headerCheckable"
+                  :status="
+                    (
+                      column.headerCheckStatusFunction && column.headerCheckStatusFunction(
+                        (displayRows as T[])
+                      )
+                    ) ?? 'off'
+                  "
+                  type="hasNeutral"
+                  @change:status="
+                    ($event) =>
+                      column.onChangeHeaderCheck && column.onChangeHeaderCheck(
+                        $event, (displayRows as T[])
+                      )
+                  "
+                />
+                <span>{{ column?.header ?? "" }}</span>
+              </div>
               <div v-show="column.sortable" class="sort-button-group">
                 <Icon
                   name="tabler:triangle-filled"
-                  :class="['sort-button', 'asc', {selected: sortState?.column === column.field && sortState?.direction === 'asc'}]"
-                  @click="onChangeSortState({ column: column.field, direction: 'asc'})"
+                  :class="[
+                    'sort-button',
+                    'asc',
+                    {
+                      selected:
+                        sortState?.column === column.field &&
+                        sortState?.direction === 'asc',
+                    },
+                  ]"
+                  @click="
+                    onChangeSortState({
+                      column: column.field!,
+                      direction: 'asc',
+                    })
+                  "
                 />
-                  <Icon
+                <Icon
                   name="tabler:triangle-inverted-filled"
-                  :class="['sort-button', 'desc', {selected: sortState?.column === column.field && sortState?.direction === 'desc'}]"
-                  @click="onChangeSortState({ column: column.field, direction: 'desc'})"
+                  :class="[
+                    'sort-button',
+                    'desc',
+                    {
+                      selected:
+                        sortState?.column === column.field &&
+                        sortState?.direction === 'desc',
+                    },
+                  ]"
+                  @click="
+                    onChangeSortState({
+                      column: column.field!,
+                      direction: 'desc',
+                    })
+                  "
                 />
               </div>
             </div>
@@ -33,10 +84,10 @@
       </thead>
       <tbody>
         <tr
-          v-for="(row, index) in displayRows"
+          v-for="(row, index) in (displayRows as T[])"
           :key="index"
-          :class="[bodyClass, {clickable: rowClickable}]"
-          @click="onClickRow((row as Record<string, any>)[rowActionKey as string])"
+          :class="[bodyClass, { clickable: rowClickable }]"
+          @click="rowActionKey && onClickRow(row)"
         >
           <td
             v-for="(def, index2) in columnDefs"
@@ -44,14 +95,25 @@
             :class="[
               bodyClass,
               def.bodyClass,
-              def.bodyClassFunction?.((row as Record<string, any>)[def.field], row as Record<string, any>)
+              def?.field && def.bodyClassFunction?.(row[def.field], row),
             ]"
             :style="{
               ...def.bodyStyle,
-              ...def.bodyStyleFunction?.((row as Record<string, any>)[def.field], row as Record<string, any>)
+              ...(def?.field && def.bodyStyleFunction?.(row[def.field], row)),
             }"
           >
-            {{ (row as Record<string, any>)[def.field] }}
+            <CheckBox
+              v-if="def.checkable"
+              :status="
+                (def.checkStatusFunction && def.checkStatusFunction(row)) ??
+                'off'
+              "
+              type="onOff"
+              @change:status="
+                ($event) => def.onChangeCheck && def.onChangeCheck($event, row)
+              "
+            />
+            <span>{{ def.field ? row[def.field] : "" }}</span>
           </td>
         </tr>
       </tbody>
@@ -59,62 +121,71 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, unknown>">
+import CheckBox from "~/components/common/CheckBox.vue";
+import type { CheckBoxStatus } from "~/components/common/CheckBox.vue";
+
 // 型定義
-export type ColumnDef = {
-  field: string;
-  header: string;
+export type ColumnDef<T> = {
+  field?: keyof T;
+  header?: string;
   sortable?: boolean;
+  checkable?: boolean;
+  checkStatusFunction?: (row: T) => CheckBoxStatus;
+  headerCheckable?: boolean;
+  headerCheckStatusFunction?: (rows: T[]) => CheckBoxStatus;
   headerClass?: string;
   bodyClass?: string;
-  bodyClassFunction?: (value: unknown, row: Record<string, unknown>) => string;
+  bodyClassFunction?: (value: unknown, row: T) => string;
   bodyStyle?: Record<string, string>;
-  bodyStyleFunction?: (value: unknown, row: Record<string, unknown>) => Record<string, string>;
+  bodyStyleFunction?: (value: unknown, row: T) => Record<string, string>;
+  onChangeCheck?: (status: CheckBoxStatus, row: T) => void;
+  onChangeHeaderCheck?: (status: CheckBoxStatus, rows: T[]) => void;
 };
-export type SortDef = {
-  column: string;
+export type SortDef<T> = {
+  column: keyof T;
   direction: "asc" | "desc";
-}
+};
 
 // プロパティ定義
 const props = defineProps<{
-  rows: unknown[];
-  columnDefs: ColumnDef[];
+  rows: T[];
+  columnDefs: ColumnDef<T>[];
   isLoading?: boolean;
   rowClickable?: boolean;
-  rowActionKey?: string;
+  rowActionKey?: keyof T;
   wrapperClass?: string;
-  initSortState?: SortDef;
+  initSortState?: SortDef<T>;
   tableClass?: string;
   headerClass?: string;
   bodyClass?: string;
 }>();
 const emit = defineEmits<{
-  (event: "click:row", value:unknown): void;
+  (event: "click:row", row: T): void;
 }>();
 
 // 行アクション
-const onClickRow = (value: unknown) => {
+const onClickRow = (row: T) => {
   if (!props.rowClickable || !props.rowActionKey) {
     return;
   }
-  emit("click:row", value);
-}
+  emit("click:row", row);
+};
 
 // ソート
-const sortState = ref<SortDef | null>(props.initSortState || null);
-const onChangeSortState = (value: SortDef) => {
+const sortState = ref<SortDef<T> | null>(props.initSortState || null);
+const onChangeSortState = (value: SortDef<T>) => {
   sortState.value = value;
-}
-const sortRows = (rows: unknown[]): unknown[] => {
+};
+const sortRows = (rows: T[]): T[] => {
   if (!sortState.value) {
     return [...rows];
   }
 
   const { column, direction } = sortState.value;
   return [...rows].sort((a, b) => {
-    const aVal = (a as Record<string, unknown>)[column];
-    const bVal = (b as Record<string, unknown>)[column];
+    const aVal = a[column as keyof T];
+    const bVal = b[column as keyof T];
 
     if (aVal == null) {
       return 1;
@@ -134,7 +205,7 @@ const sortRows = (rows: unknown[]): unknown[] => {
 };
 
 // 表示行
-const displayRows = ref<unknown[]>(sortRows(props.rows || []));
+const displayRows = ref<T[]>(sortRows(props.rows ?? []));
 watch(
   () => [props.rows, sortState.value],
   () => {

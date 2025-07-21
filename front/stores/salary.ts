@@ -3,12 +3,9 @@ import { ref } from "vue";
 
 import type { Salary } from "~/api/client/api";
 import { SalaryApi } from "~/api/client/api";
-import { useCommonStore } from "~/stores/common";
-import { getErrorMessage } from "~/utils/error";
 
 export const useSalaryStore = defineStore("salary", () => {
   const salaryApi = new SalaryApi();
-  const commonStore = useCommonStore();
   const salaries = ref<Salary[] | null>(null);
 
   async function fetchSalary(
@@ -16,27 +13,17 @@ export const useSalaryStore = defineStore("salary", () => {
     targetDateFrom?: string,
     targetDateTo?: string
   ) {
-    try {
-      const res = await salaryApi.getSalary(
-        targetDate,
-        targetDateFrom,
-        targetDateTo
-      );
-      salaries.value = res.data;
-    } catch (error) {
-      console.error("Failed to call api:", error);
-      commonStore.addErrorMessage(getErrorMessage(error));
-    }
+    const res = await salaryApi.getSalary(
+      targetDate,
+      targetDateFrom,
+      targetDateTo
+    );
+    salaries.value = res.data;
   }
 
   async function putSalary(salary: Salary) {
-    try {
-      await salaryApi.putSalary(salary);
-      await fetchSalary();
-    } catch (error) {
-      console.error("Failed to call api:", error);
-      commonStore.addErrorMessage(getErrorMessage(error));
-    }
+    await salaryApi.putSalary(salary);
+    await fetchSalary();
   }
 
   return {

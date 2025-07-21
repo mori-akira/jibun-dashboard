@@ -28,7 +28,7 @@
     <Dialog
       :show-dialog="showWarningDialog"
       type="warning"
-      :message="WarningDialogMessage"
+      :message="warningDialogMessage"
       button-type="ok"
       @click:ok="onWarningOk"
       @close="onWarningOk"
@@ -59,7 +59,7 @@ const {
 } = useConfirmDialog();
 const {
   showWarningDialog,
-  WarningDialogMessage,
+  warningDialogMessage,
   openWarningDialog,
   onWarningOk,
 } = useWarningDialog();

@@ -55,7 +55,7 @@
     <Dialog
       :show-dialog="showInfoDialog"
       type="info"
-      :message="InfoDialogMessage"
+      :message="infoDialogMessage"
       button-type="ok"
       @click:ok="onInfoOk"
       @close="onInfoOk"
@@ -100,7 +100,7 @@ const fileApi = new FileApi();
 const salaryApi = new SalaryApi();
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
-const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
+const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
   useInfoDialog();
 const {
   showConfirmDialog,

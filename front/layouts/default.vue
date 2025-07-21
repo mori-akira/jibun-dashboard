@@ -75,7 +75,8 @@ router.afterEach(() => {
 
 onMounted(async () => {
   await withErrorHandling(
-    () => Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]),
+    async () =>
+      await Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]),
     commonStore
   );
 });

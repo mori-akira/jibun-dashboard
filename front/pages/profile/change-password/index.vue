@@ -77,7 +77,7 @@
     <Dialog
       :show-dialog="showInfoDialog"
       type="info"
-      :message="InfoDialogMessage"
+      :message="infoDialogMessage"
       button-type="ok"
       @click:ok="onInfoOk"
       @close="onInfoOk"
@@ -109,7 +109,7 @@ import { matchCharacterTypeRule } from "~/utils/password";
 
 const commonStore = useCommonStore();
 const userStore = useUserStore();
-const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
+const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
   useInfoDialog();
 const validationRules = {
   oldPassword: zodToVeeRules(schemas.Password.shape.oldPassword),

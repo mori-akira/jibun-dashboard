@@ -8,12 +8,9 @@ import type {
   GetQualificationSortKeyEnum,
 } from "~/api/client/api";
 import { QualificationApi } from "~/api/client/api";
-import { useCommonStore } from "~/stores/common";
-import { getErrorMessage } from "~/utils/error";
 
 export const useQualificationStore = defineStore("qualification", () => {
   const qualificationApi = new QualificationApi();
-  const commonStore = useCommonStore();
   const qualifications = ref<Qualification[] | null>(null);
 
   async function fetchQualification(
@@ -27,27 +24,27 @@ export const useQualificationStore = defineStore("qualification", () => {
     expirationDateTo?: string,
     sortKey?: GetQualificationSortKeyEnum
   ) {
-    try {
-      const res = await qualificationApi.getQualification(
-        qualificationName || undefined,
-        status || undefined,
-        rank || undefined,
-        organization || undefined,
-        acquiredDateFrom || undefined,
-        acquiredDateTo || undefined,
-        expirationDateFrom || undefined,
-        expirationDateTo || undefined,
-        sortKey || undefined
-      );
-      qualifications.value = res.data;
-    } catch (error) {
-      console.error("Failed to call api:", error);
-      commonStore.addErrorMessage(getErrorMessage(error));
-    }
+    const res = await qualificationApi.getQualification(
+      qualificationName || undefined,
+      status || undefined,
+      rank || undefined,
+      organization || undefined,
+      acquiredDateFrom || undefined,
+      acquiredDateTo || undefined,
+      expirationDateFrom || undefined,
+      expirationDateTo || undefined,
+      sortKey || undefined
+    );
+    qualifications.value = res.data;
+  }
+
+  async function deleteQualification(qualificationId: string) {
+    await qualificationApi.deleteQualification(qualificationId);
   }
 
   return {
     qualifications,
     fetchQualification,
+    deleteQualification,
   };
 });

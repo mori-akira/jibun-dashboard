@@ -2,12 +2,12 @@ import { ref } from "vue";
 
 export const useInfoDialog = () => {
   const showInfoDialog = ref(false);
-  const InfoDialogMessage = ref("");
+  const infoDialogMessage = ref("");
   let resolver: (() => void) | null = null;
 
   const openInfoDialog = (message: string): Promise<void> => {
     showInfoDialog.value = true;
-    InfoDialogMessage.value = message;
+    infoDialogMessage.value = message;
 
     return new Promise((resolve) => {
       resolver = resolve;
@@ -22,7 +22,7 @@ export const useInfoDialog = () => {
 
   return {
     showInfoDialog,
-    InfoDialogMessage,
+    infoDialogMessage,
     openInfoDialog,
     onInfoOk,
   };
@@ -120,8 +120,36 @@ export const useWarningDialog = () => {
 
   return {
     showWarningDialog,
-    WarningDialogMessage: warningDialogMessage,
+    warningDialogMessage,
     openWarningDialog,
     onWarningOk,
+  };
+};
+
+export const useErrorDialog = () => {
+  const showErrorDialog = ref(false);
+  const errorDialogMessage = ref("");
+  let resolver: (() => void) | null = null;
+
+  const openErrorDialog = (message: string): Promise<void> => {
+    showErrorDialog.value = true;
+    errorDialogMessage.value = message;
+
+    return new Promise((resolve) => {
+      resolver = resolve;
+    });
+  };
+
+  const onErrorOk = () => {
+    showErrorDialog.value = false;
+    resolver?.();
+    resolver = null;
+  };
+
+  return {
+    showErrorDialog,
+    errorDialogMessage,
+    openErrorDialog,
+    onErrorOk,
   };
 };
