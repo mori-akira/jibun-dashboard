@@ -231,6 +231,7 @@ const executeOcr = async (file: File) => {
     });
     await salaryApi.getSalaryOcr(targetDate.value, fileId);
     await openInfoDialog("Process Completed Successfully");
+    await fetchSalary();
   }, commonStore);
 };
 </script>
