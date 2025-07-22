@@ -113,7 +113,6 @@ import {
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
-import { withErrorHandling } from "~/utils/api-call";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
@@ -274,17 +273,22 @@ const onDeleteAll = async () => {
   if (!confirmed) {
     return;
   }
-  const result = await withErrorHandling(async () => {
+  const id = commonStore.addLoadingQueue();
+  try {
     await Promise.all(
       checkedId.value.map(async (e) =>
         qualificationStore.deleteQualification(e)
       )
     );
-  }, commonStore);
-  if (result) {
+    commonStore.deleteLoadingQueue(id);
     checkedId.value = [];
     await openInfoDialog("Process Completed Successfully");
     await fetchQualificationApi();
+  } catch (err) {
+    console.error(err);
+    commonStore.addErrorMessage(getErrorMessage(err));
+  } finally {
+    commonStore.deleteLoadingQueue(id);
   }
 };
 </script>
