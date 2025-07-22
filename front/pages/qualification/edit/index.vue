@@ -274,15 +274,17 @@ const onDeleteAll = async () => {
   if (!confirmed) {
     return;
   }
-  await withErrorHandling(async () => {
+  const result = await withErrorHandling(async () => {
     await Promise.all(
       checkedId.value.map(async (e) =>
         qualificationStore.deleteQualification(e)
       )
     );
-    checkedId.value = [];
   }, commonStore);
-  await openInfoDialog("Process Completed Successfully");
-  await fetchQualificationApi();
+  if (result) {
+    checkedId.value = [];
+    await openInfoDialog("Process Completed Successfully");
+    await fetchQualificationApi();
+  }
 };
 </script>

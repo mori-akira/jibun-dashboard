@@ -115,11 +115,13 @@ onMounted(async () => {
 });
 
 const fetchSalary = async () => {
-  await withErrorHandling(
+  const result = await withErrorHandling(
     async () => salaryStore.fetchSalary(targetDate.value),
     commonStore
   );
-  commonStore.setHasUnsavedChange(false);
+  if (result) {
+    commonStore.setHasUnsavedChange(false);
+  }
 };
 
 const targetDate = ref<string>(getCurrentMonthFirstDateString());
@@ -200,7 +202,7 @@ watch(
 );
 
 const putSalary = async () => {
-  await withErrorHandling(async () => {
+  const result = await withErrorHandling(async () => {
     await salaryStore.putSalary({
       ...target.value,
       targetDate: targetDate.value,
@@ -212,13 +214,15 @@ const putSalary = async () => {
         )
       ),
     });
+  }, commonStore);
+  if (result) {
     commonStore.setHasUnsavedChange(false);
     await openInfoDialog("Process Completed Successfully");
-  }, commonStore);
+  }
 };
 
 const executeOcr = async (file: File) => {
-  await withErrorHandling(async () => {
+  const result = await withErrorHandling(async () => {
     const res = await fileApi.getUploadUrl();
     const { fileId, uploadUrl } = res.data;
     if (!uploadUrl) {
@@ -230,8 +234,10 @@ const executeOcr = async (file: File) => {
       },
     });
     await salaryApi.getSalaryOcr(targetDate.value, fileId);
+  }, commonStore);
+  if (result) {
     await openInfoDialog("Process Completed Successfully");
     await fetchSalary();
-  }, commonStore);
+  }
 };
 </script>

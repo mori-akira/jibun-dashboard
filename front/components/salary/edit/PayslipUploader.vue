@@ -65,23 +65,18 @@ const {
 } = useWarningDialog();
 
 const onUploadFile = async (file: File) => {
-  const id = commonStore.addLoadingQueue();
-  try {
-    if (commonStore.hasUnsavedChange) {
-      const confirmed = await openConfirmDialog(
-        "You Have Unsaved Change. Continue?"
-      );
-      if (!confirmed) {
-        return;
-      }
-    }
-    if (!(await checkFile(file))) {
+  if (commonStore.hasUnsavedChange) {
+    const confirmed = await openConfirmDialog(
+      "You Have Unsaved Change. Continue?"
+    );
+    if (!confirmed) {
       return;
     }
-    emits("upload", file);
-  } finally {
-    commonStore.deleteLoadingQueue(id);
   }
+  if (!(await checkFile(file))) {
+    return;
+  }
+  emits("upload", file);
 };
 const checkFile = async (file: File): Promise<boolean> => {
   if (!checkFileExtension(file) || !checkFileType(file)) {

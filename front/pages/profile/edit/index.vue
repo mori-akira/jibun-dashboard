@@ -59,7 +59,7 @@
     <Dialog
       :show-dialog="showInfoDialog"
       type="info"
-      :message="InfoDialogMessage"
+      :message="infoDialogMessage"
       button-type="ok"
       @click:ok="onInfoOk"
       @close="onInfoOk"
@@ -86,7 +86,7 @@ import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const commonStore = useCommonStore();
 const userStore = useUserStore();
-const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
+const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
   useInfoDialog();
 const validationRules = {
   userName: zodToVeeRules(schemas.User.shape.userName),
@@ -94,14 +94,16 @@ const validationRules = {
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  await withErrorHandling(async () => {
+  const result = await withErrorHandling(async () => {
     userStore.putUser({
       ...userStore.user,
       ...(values as User),
     });
+  }, commonStore);
+  if (result) {
     commonStore.setHasUnsavedChange(false);
     await openInfoDialog("Process Completed Successfully");
     navigateTo("/");
-  }, commonStore);
+  }
 };
 </script>

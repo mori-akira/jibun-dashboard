@@ -144,14 +144,16 @@ type PasswordForm = {
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   const valuesTyped = values as PasswordForm;
-  await withErrorHandling(async () => {
+  const result = await withErrorHandling(async () => {
     userStore.postPassword({
       newPassword: valuesTyped.newPassword,
       oldPassword: valuesTyped.oldPassword,
     });
+  }, commonStore);
+  if (result) {
     commonStore.setHasUnsavedChange(false);
     await openInfoDialog("Process Completed Successfully");
     navigateTo("/");
-  }, commonStore);
+  }
 };
 </script>

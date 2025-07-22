@@ -224,7 +224,7 @@
     <Dialog
       :show-dialog="showInfoDialog"
       type="info"
-      :message="InfoDialogMessage"
+      :message="infoDialogMessage"
       button-type="ok"
       @click:ok="onInfoOk"
       @close="onInfoOk"
@@ -260,7 +260,7 @@ const settingStore = useSettingStore();
 const setting = computed<Setting>(
   () => ({ ...settingStore.setting } as Setting)
 );
-const { showInfoDialog, InfoDialogMessage, openInfoDialog, onInfoOk } =
+const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
   useInfoDialog();
 const validationRules = {
   salary: {
@@ -297,7 +297,7 @@ const validationRules = {
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  await withErrorHandling(async () => {
+  const result = await withErrorHandling(async () => {
     settingStore.putSetting({
       ...setting.value,
       salary: {
@@ -318,9 +318,11 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
         rankDColor: values.qualification.rankDColor,
       },
     });
+  }, commonStore);
+  if (result) {
     commonStore.setHasUnsavedChange(false);
     await openInfoDialog("Process Completed Successfully");
     navigateTo("/");
-  }, commonStore);
+  }
 };
 </script>
