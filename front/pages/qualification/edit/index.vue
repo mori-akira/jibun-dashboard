@@ -126,7 +126,6 @@ const {
   onConfirmYes,
   onConfirmNo,
 } = useConfirmDialog();
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { showErrorDialog, errorDialogMessage, openErrorDialog, onErrorOk } =
   useErrorDialog();
 
@@ -286,7 +285,7 @@ const onDeleteAll = async () => {
     await fetchQualificationApi();
   } catch (err) {
     console.error(err);
-    commonStore.addErrorMessage(getErrorMessage(err));
+    await openErrorDialog("Something Cloud Not Be Deleted, Try Again.");
   } finally {
     commonStore.deleteLoadingQueue(id);
   }
