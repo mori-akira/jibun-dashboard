@@ -87,7 +87,7 @@
           v-for="(row, index) in (displayRows as T[])"
           :key="index"
           :class="[bodyClass, { clickable: rowClickable }]"
-          @click="rowActionKey && onClickRow(row)"
+          @click="onClickRow(row)"
         >
           <td
             v-for="(def, index2) in columnDefs"
@@ -113,7 +113,29 @@
                 ($event) => def.onChangeCheck && def.onChangeCheck($event, row)
               "
             />
-            <span>{{ def.field ? row[def.field] : "" }}</span>
+            <span v-if="def.field">{{ row[def.field] }}</span>
+            <div
+              v-if="def.actionButtons"
+              class="flex justify-around items-center"
+            >
+              <template
+                v-for="(actionButton, index3) in def.actionButtons"
+                :key="`button-${index}-${index2}-${index3}`"
+              >
+                <IconButton
+                  v-if="actionButton === 'edit'"
+                  type="edit"
+                  :icon-class="def.iconClass"
+                  @click="() => def.onClickEdit && def.onClickEdit(row)"
+                />
+                <IconButton
+                  v-if="actionButton === 'delete'"
+                  type="delete"
+                  :icon-class="def.iconClass"
+                  @click="() => def.onClickDelete && def.onClickDelete(row)"
+                />
+              </template>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -123,6 +145,7 @@
 
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import CheckBox from "~/components/common/CheckBox.vue";
+import IconButton from "./IconButton.vue";
 import type { CheckBoxStatus } from "~/components/common/CheckBox.vue";
 
 // 型定義
@@ -132,15 +155,19 @@ export type ColumnDef<T> = {
   sortable?: boolean;
   checkable?: boolean;
   checkStatusFunction?: (row: T) => CheckBoxStatus;
+  onChangeCheck?: (status: CheckBoxStatus, row: T) => void;
   headerCheckable?: boolean;
   headerCheckStatusFunction?: (rows: T[]) => CheckBoxStatus;
+  onChangeHeaderCheck?: (status: CheckBoxStatus, rows: T[]) => void;
+  actionButtons?: ("edit" | "delete")[];
+  onClickEdit?: (row: T) => void;
+  onClickDelete?: (row: T) => void;
   headerClass?: string;
   bodyClass?: string;
   bodyClassFunction?: (value: unknown, row: T) => string;
   bodyStyle?: Record<string, string>;
   bodyStyleFunction?: (value: unknown, row: T) => Record<string, string>;
-  onChangeCheck?: (status: CheckBoxStatus, row: T) => void;
-  onChangeHeaderCheck?: (status: CheckBoxStatus, rows: T[]) => void;
+  iconClass?: string;
 };
 export type SortDef<T> = {
   column: keyof T;
@@ -153,7 +180,6 @@ const props = defineProps<{
   columnDefs: ColumnDef<T>[];
   isLoading?: boolean;
   rowClickable?: boolean;
-  rowActionKey?: keyof T;
   wrapperClass?: string;
   initSortState?: SortDef<T>;
   tableClass?: string;
@@ -166,7 +192,7 @@ const emit = defineEmits<{
 
 // 行アクション
 const onClickRow = (row: T) => {
-  if (!props.rowClickable || !props.rowActionKey) {
+  if (!props.rowClickable) {
     return;
   }
   emit("click:row", row);
@@ -282,6 +308,7 @@ td {
   background-color: #ffffffdd;
   display: flex;
   justify-content: center;
+  z-index: 900;
 }
 
 .loading-spinner {

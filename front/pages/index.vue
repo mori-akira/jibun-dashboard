@@ -66,7 +66,7 @@
     </div>
 
     <div>
-      <Button wrapper-class="mt-4" @click="onAddError"> Add Error </Button>
+      <Button wrapper-class="mt-4" @click="onAddError">Add Error</Button>
     </div>
   </div>
 </template>

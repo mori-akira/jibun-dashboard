@@ -42,24 +42,52 @@
           @click="onDeleteAll"
         >
           <Icon name="tabler:trash" class="text-base translate-y-0.5" />
-          <span class="font-cursive font-bold ml-2">Delete All</span>
+          <span class="font-bold ml-2">Delete All</span>
         </Button>
         <Button type="add" size="small" wrapper-class="mx-8">
           <Icon name="tabler:plus" class="text-base translate-y-0.5" />
-          <span class="font-cursive font-bold ml-2">Add New One</span>
+          <span class="font-bold ml-2">Add New One</span>
         </Button>
       </div>
       <DataTable
         :rows="rows"
         :column-defs="columnDefs"
         :is-loading="isLoading"
-        row-clickable
-        row-action-key="qualificationId"
         :init-sort-state="initSortState"
         wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
         header-class="font-cursive h-8 bg-gray-800 text-white"
-      ></DataTable>
+      />
     </Panel>
+
+    <ModalWindow :show-modal="editTargetQualification !== undefined">
+      <Form
+        v-slot="{
+          /* meta, handleSubmit */
+        }"
+      >
+        <div class="w-2/3 flex-col items-center">
+          <template v-for="def in editFieldDefs" :key="`filed-${def.key}`">
+            <Field
+              v-slot="{ field, errorMessage }"
+              :name="def.key"
+              :rules="validationRules[def.key]"
+            >
+              <TextBox
+                :label="def.label"
+                v-bind="field"
+                :error-message="errorMessage"
+                required
+                wrapper-class="mt-4 w-full justify-center"
+                label-class="w-50 ml-4 font-cursive"
+                input-wrapper-class="w-1/3"
+                @blur:event="field.onBlur"
+                @input:value="() => commonStore.setHasUnsavedChange(true)"
+              />
+            </Field>
+          </template>
+        </div>
+      </Form>
+    </ModalWindow>
 
     <Dialog
       :show-dialog="showInfoDialog"
@@ -92,17 +120,22 @@
 </template>
 
 <script setup lang="ts">
+// import type { GenericObject, SubmissionHandler } from "vee-validate";
+import { Form, Field } from "vee-validate";
+
 import type {
   GetQualificationRankEnum,
   GetQualificationStatusEnum,
   Qualification,
   SettingQualification,
 } from "~/api/client";
+import { schemas } from "~/api/client/schemas";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
+import ModalWindow from "~/components/common/ModalWindow.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import SearchConditionForm from "~/components/qualification/SearchConditionForm.vue";
 import {
@@ -113,6 +146,7 @@ import {
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
+import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
@@ -154,6 +188,41 @@ const fetchQualificationApi = async () => {
 onMounted(async () => {
   await fetchQualificationApi();
 });
+
+const editTargetQualification = ref<Qualification | undefined>(undefined);
+const validationRules: {
+  [K in keyof Qualification]?: GenericValidateFunction[];
+} = {
+  qualificationName: zodToVeeRules(
+    schemas.Qualification.shape.qualificationName
+  ),
+  abbreviation: zodToVeeRules(schemas.Qualification.shape.abbreviation),
+  version: zodToVeeRules(schemas.Qualification.shape.version),
+  status: zodToVeeRules(schemas.Qualification.shape.status),
+  rank: zodToVeeRules(schemas.Qualification.shape.rank),
+  organization: zodToVeeRules(schemas.Qualification.shape.organization),
+  acquiredDate: zodToVeeRules(schemas.Qualification.shape.acquiredDate),
+  expirationDate: zodToVeeRules(schemas.Qualification.shape.expirationDate),
+  officialUrl: zodToVeeRules(schemas.Qualification.shape.officialUrl),
+  certificationUrl: zodToVeeRules(schemas.Qualification.shape.certificationUrl),
+  badgeUrl: zodToVeeRules(schemas.Qualification.shape.badgeUrl),
+};
+const editFieldDefs: {
+  key: keyof Qualification;
+  label: string;
+}[] = [
+  { key: "qualificationName", label: "Qualification Name" },
+  { key: "abbreviation", label: "Abbreviation" },
+  { key: "version", label: "Version" },
+  { key: "status", label: "Status" },
+  { key: "rank", label: "Rank" },
+  { key: "organization", label: "Organization" },
+  { key: "acquiredDate", label: "Acquired Date" },
+  { key: "expirationDate", label: "Expiration Date" },
+  { key: "officialUrl", label: "Official Url" },
+  { key: "certificationUrl", label: "Certification Url" },
+  { key: "badgeUrl", label: "Badge Url" },
+];
 
 const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
 const selectedRank = ref<GetQualificationRankEnum[]>([]);
@@ -252,6 +321,36 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
         settingStore.setting?.qualification as SettingQualification
       ),
     }),
+  },
+  {
+    header: "Action",
+    actionButtons: ["edit"],
+    onClickEdit: (row: QualificationWithIndex) => {
+      const target = qualificationStore.qualifications?.find(
+        (e) => e.qualificationId === row.qualificationId
+      );
+      editTargetQualification.value = target
+        ? {
+            qualificationId: target.qualificationId,
+            userId: target.userId,
+            qualificationName: target.qualificationName,
+            abbreviation: target.abbreviation,
+            version: target.version,
+            status: target.status,
+            rank: target.rank,
+            organization: target.organization,
+            acquiredDate: target.acquiredDate,
+            expirationDate: target.expirationDate,
+            officialUrl: target.officialUrl,
+            certificationUrl: target.certificationUrl,
+            badgeUrl: target.badgeUrl,
+          }
+        : undefined;
+      console.log(editTargetQualification.value);
+    },
+    headerClass: "w-20",
+    bodyClass: "h-12",
+    iconClass: "w-5 h-5 text-indigo-700 translate-y-1",
   },
 ];
 const rows = computed(() =>

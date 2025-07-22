@@ -16,7 +16,7 @@
             name="tabler:align-box-left-top"
             class="text-base translate-y-0.5"
           />
-          <span class="font-cursive font-bold ml-2">Payslip</span>
+          <span class="font-cursive ml-2">Payslip</span>
         </Button>
         <Button
           type="navigation"
@@ -27,7 +27,7 @@
           @click="() => navigateTo('/salary/edit')"
         >
           <Icon name="tabler:database-edit" class="text-base translate-y-0.5" />
-          <span class="font-cursive font-bold ml-2">Edit</span>
+          <span class="font-cursive ml-2">Edit</span>
         </Button>
       </div>
     </div>

@@ -15,12 +15,22 @@
       name="tabler:x"
       :class="['icon', iconClass]"
     />
+    <Icon
+      v-if="type === 'edit'"
+      name="tabler:database-edit"
+      :class="['icon', iconClass]"
+    />
+    <Icon
+      v-if="type === 'delete'"
+      name="tabler:trash"
+      :class="['icon', iconClass]"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  type: "plus" | "cancel";
+  type: "plus" | "cancel" | "edit" | "delete";
   wrapperClass?: string;
   iconClass?: string;
 }>();

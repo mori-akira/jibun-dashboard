@@ -13,7 +13,7 @@
           @click="() => navigateTo('/qualification/edit')"
         >
           <Icon name="tabler:database-edit" class="text-base translate-y-0.5" />
-          <span class="font-cursive font-bold ml-2">Edit</span>
+          <span class="font-bold ml-2">Edit</span>
         </Button>
       </div>
     </div>
@@ -58,7 +58,6 @@
         :column-defs="columnDefs"
         :is-loading="isLoading"
         row-clickable
-        row-action-key="qualificationId"
         :init-sort-state="initSortState"
         wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
         header-class="font-cursive h-8 bg-gray-800 text-white"

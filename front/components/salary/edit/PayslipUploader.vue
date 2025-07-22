@@ -5,11 +5,11 @@
       wrapper-class="mt-4 h-48 flex-col"
       @upload="onUploadFile"
     >
-      <div class="w-full flex justify-center font-cursive">
+      <div class="w-full flex justify-center">
         <Icon name="tabler:drag-drop" class="adjust-icon-2" />
         <span class="ml-2">Drag And Drop File Here</span>
       </div>
-      <div class="w-full flex justify-center font-cursive mt-2">
+      <div class="w-full flex justify-center mt-2">
         <Icon name="tabler:hand-click" class="adjust-icon-2" />
         <span class="ml-2">Or Click Here To Select One</span>
       </div>
