@@ -44,7 +44,12 @@
           <Icon name="tabler:trash" class="text-base translate-y-0.5" />
           <span class="font-bold ml-2">Delete All</span>
         </Button>
-        <Button type="add" size="small" wrapper-class="mx-8">
+        <Button
+          type="add"
+          size="small"
+          wrapper-class="mx-8"
+          @click="onAddNewOne"
+        >
           <Icon name="tabler:plus" class="text-base translate-y-0.5" />
           <span class="font-bold ml-2">Add New One</span>
         </Button>
@@ -59,33 +64,35 @@
       />
     </Panel>
 
-    <ModalWindow :show-modal="editTargetQualification !== undefined">
+    <ModalWindow
+      :show-modal="editTargetQualification !== undefined"
+      modal-box-class="w-2/3 flex-col items-center"
+      @close="onCloseModal"
+    >
       <Form
         v-slot="{
           /* meta, handleSubmit */
         }"
       >
-        <div class="w-2/3 flex-col items-center">
-          <template v-for="def in editFieldDefs" :key="`filed-${def.key}`">
-            <Field
-              v-slot="{ field, errorMessage }"
-              :name="def.key"
-              :rules="validationRules[def.key]"
-            >
-              <TextBox
-                :label="def.label"
-                v-bind="field"
-                :error-message="errorMessage"
-                required
-                wrapper-class="mt-4 w-full justify-center"
-                label-class="w-50 ml-4 font-cursive"
-                input-wrapper-class="w-1/3"
-                @blur:event="field.onBlur"
-                @input:value="() => commonStore.setHasUnsavedChange(true)"
-              />
-            </Field>
-          </template>
-        </div>
+        <template v-for="def in editFieldDefs" :key="`filed-${def.key}`">
+          <Field
+            v-slot="{ field, errorMessage }"
+            :name="def.key"
+            :rules="validationRules[def.key]"
+          >
+            <TextBox
+              :label="def.label"
+              v-bind="field"
+              :error-message="errorMessage"
+              required
+              wrapper-class="mt-4 w-full justify-center"
+              label-class="w-50 ml-4 font-cursive"
+              input-wrapper-class="w-1/3"
+              @blur:event="field.onBlur"
+              @input:value="() => commonStore.setHasUnsavedChange(true)"
+            />
+          </Field>
+        </template>
       </Form>
     </ModalWindow>
 
@@ -223,6 +230,23 @@ const editFieldDefs: {
   { key: "certificationUrl", label: "Certification Url" },
   { key: "badgeUrl", label: "Badge Url" },
 ];
+const onAddNewOne = () =>
+  (editTargetQualification.value = {
+    qualificationId: undefined,
+    userId: "",
+    qualificationName: "",
+    abbreviation: "",
+    version: "",
+    status: "dream",
+    rank: "D",
+    organization: "",
+    acquiredDate: "",
+    expirationDate: "",
+    officialUrl: "",
+    certificationUrl: "",
+    badgeUrl: "",
+  });
+const onCloseModal = () => (editTargetQualification.value = undefined);
 
 const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
 const selectedRank = ref<GetQualificationRankEnum[]>([]);
