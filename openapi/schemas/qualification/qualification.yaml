@@ -2,7 +2,6 @@ type: object
 description: 資格情報
 
 required:
-  - userId
   - qualificationName
   - status
   - rank
