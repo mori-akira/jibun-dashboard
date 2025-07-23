@@ -232,8 +232,6 @@ const editFieldDefs: {
 ];
 const onAddNewOne = () =>
   (editTargetQualification.value = {
-    qualificationId: undefined,
-    userId: "",
     qualificationName: "",
     abbreviation: "",
     version: "",
