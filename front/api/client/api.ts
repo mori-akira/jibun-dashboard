@@ -195,7 +195,7 @@ export interface Qualification {
      * @type {string}
      * @memberof Qualification
      */
-    'userId': string;
+    'userId'?: string;
     /**
      * 資格名
      * @type {string}

@@ -122,7 +122,7 @@ const SalaryId = z
 const Qualification = z
   .object({
     qualificationId: z.string().uuid().optional(),
-    userId: z.string(),
+    userId: z.string().optional(),
     qualificationName: z.string(),
     abbreviation: z.string().optional(),
     version: z.string().optional(),
