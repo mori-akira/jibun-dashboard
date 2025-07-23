@@ -241,117 +241,6 @@ onMounted(async () => {
   await fetchQualificationApi();
 });
 
-const editTargetQualification = ref<Qualification | undefined>(undefined);
-const validationRules: {
-  [K in keyof Qualification]?: GenericValidateFunction[];
-} = {
-  qualificationName: zodToVeeRules(
-    schemas.Qualification.shape.qualificationName
-  ),
-  abbreviation: zodToVeeRules(schemas.Qualification.shape.abbreviation),
-  version: zodToVeeRules(schemas.Qualification.shape.version),
-  status: zodToVeeRules(schemas.Qualification.shape.status),
-  rank: zodToVeeRules(schemas.Qualification.shape.rank),
-  organization: zodToVeeRules(schemas.Qualification.shape.organization),
-  acquiredDate: zodToVeeRules(schemas.Qualification.shape.acquiredDate),
-  expirationDate: zodToVeeRules(schemas.Qualification.shape.expirationDate),
-  officialUrl: zodToVeeRules(schemas.Qualification.shape.officialUrl),
-  certificationUrl: zodToVeeRules(schemas.Qualification.shape.certificationUrl),
-  badgeUrl: zodToVeeRules(schemas.Qualification.shape.badgeUrl),
-};
-const editFieldDefs: {
-  key: keyof Qualification;
-  label: string;
-  type: "textbox" | "select" | "datepicker";
-  options?: string[];
-  required: boolean;
-}[] = [
-  {
-    key: "qualificationName",
-    label: "Qualification Name",
-    type: "textbox",
-    required: true,
-  },
-  {
-    key: "abbreviation",
-    label: "Abbreviation",
-    type: "textbox",
-    required: false,
-  },
-  { key: "version", label: "Version", type: "textbox", required: false },
-  {
-    key: "status",
-    label: "Status",
-    type: "select",
-    options: ["dream", "planning", "acquired"],
-    required: true,
-  },
-  {
-    key: "rank",
-    label: "Rank",
-    type: "select",
-    options: ["A", "B", "C", "D"],
-    required: true,
-  },
-  {
-    key: "organization",
-    label: "Organization",
-    type: "textbox",
-    required: true,
-  },
-  {
-    key: "acquiredDate",
-    label: "Acquired Date",
-    type: "datepicker",
-    required: false,
-  },
-  {
-    key: "expirationDate",
-    label: "Expiration Date",
-    type: "datepicker",
-    required: false,
-  },
-  {
-    key: "officialUrl",
-    label: "Official Url",
-    type: "textbox",
-    required: true,
-  },
-  {
-    key: "certificationUrl",
-    label: "Certification Url",
-    type: "textbox",
-    required: false,
-  },
-  { key: "badgeUrl", label: "Badge Url", type: "textbox", required: false },
-];
-const onAddNewOne = () =>
-  (editTargetQualification.value = {
-    qualificationName: "",
-    abbreviation: "",
-    version: "",
-    status: "dream",
-    rank: "D",
-    organization: "",
-    acquiredDate: "",
-    expirationDate: "",
-    officialUrl: "",
-    certificationUrl: "",
-    badgeUrl: "",
-  });
-const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
-  const valueTyped = value as Qualification;
-  const result = await withErrorHandling(async () => {
-    qualificationStore.putQualification(valueTyped);
-  }, commonStore);
-  if (result) {
-    commonStore.setHasUnsavedChange(false);
-    editTargetQualification.value = undefined;
-    await openInfoDialog("Process Completed Successfully");
-  }
-};
-const onCloseModal = () => (editTargetQualification.value = undefined);
-
 const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
 const selectedRank = ref<GetQualificationRankEnum[]>([]);
 const qualificationName = ref<string>("");
@@ -492,6 +381,117 @@ const initSortState: SortDef<QualificationWithIndex> = {
   direction: "asc",
 };
 
+const editTargetQualification = ref<Qualification | undefined>(undefined);
+const validationRules: {
+  [K in keyof Qualification]?: GenericValidateFunction[];
+} = {
+  qualificationName: zodToVeeRules(
+    schemas.Qualification.shape.qualificationName
+  ),
+  abbreviation: zodToVeeRules(schemas.Qualification.shape.abbreviation),
+  version: zodToVeeRules(schemas.Qualification.shape.version),
+  status: zodToVeeRules(schemas.Qualification.shape.status),
+  rank: zodToVeeRules(schemas.Qualification.shape.rank),
+  organization: zodToVeeRules(schemas.Qualification.shape.organization),
+  acquiredDate: zodToVeeRules(schemas.Qualification.shape.acquiredDate),
+  expirationDate: zodToVeeRules(schemas.Qualification.shape.expirationDate),
+  officialUrl: zodToVeeRules(schemas.Qualification.shape.officialUrl),
+  certificationUrl: zodToVeeRules(schemas.Qualification.shape.certificationUrl),
+  badgeUrl: zodToVeeRules(schemas.Qualification.shape.badgeUrl),
+};
+const editFieldDefs: {
+  key: keyof Qualification;
+  label: string;
+  type: "textbox" | "select" | "datepicker";
+  options?: string[];
+  required: boolean;
+}[] = [
+  {
+    key: "qualificationName",
+    label: "Qualification Name",
+    type: "textbox",
+    required: true,
+  },
+  {
+    key: "abbreviation",
+    label: "Abbreviation",
+    type: "textbox",
+    required: false,
+  },
+  { key: "version", label: "Version", type: "textbox", required: false },
+  {
+    key: "status",
+    label: "Status",
+    type: "select",
+    options: ["dream", "planning", "acquired"],
+    required: true,
+  },
+  {
+    key: "rank",
+    label: "Rank",
+    type: "select",
+    options: ["A", "B", "C", "D"],
+    required: true,
+  },
+  {
+    key: "organization",
+    label: "Organization",
+    type: "textbox",
+    required: true,
+  },
+  {
+    key: "acquiredDate",
+    label: "Acquired Date",
+    type: "datepicker",
+    required: false,
+  },
+  {
+    key: "expirationDate",
+    label: "Expiration Date",
+    type: "datepicker",
+    required: false,
+  },
+  {
+    key: "officialUrl",
+    label: "Official Url",
+    type: "textbox",
+    required: true,
+  },
+  {
+    key: "certificationUrl",
+    label: "Certification Url",
+    type: "textbox",
+    required: false,
+  },
+  { key: "badgeUrl", label: "Badge Url", type: "textbox", required: false },
+];
+const onAddNewOne = () =>
+  (editTargetQualification.value = {
+    qualificationName: "",
+    abbreviation: "",
+    version: "",
+    status: "dream",
+    rank: "D",
+    organization: "",
+    acquiredDate: "",
+    expirationDate: "",
+    officialUrl: "",
+    certificationUrl: "",
+    badgeUrl: "",
+  });
+const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
+  const valueTyped = value as Qualification;
+  const result = await withErrorHandling(async () => {
+    qualificationStore.putQualification(valueTyped);
+  }, commonStore);
+  if (result) {
+    commonStore.setHasUnsavedChange(false);
+    editTargetQualification.value = undefined;
+    await openInfoDialog("Process Completed Successfully");
+  }
+};
+const onCloseModal = () => (editTargetQualification.value = undefined);
+
 const onDeleteAll = async () => {
   const confirmed = await openConfirmDialog(
     "Confirm Deletion Of The All Checked Qualification?"
@@ -512,6 +512,7 @@ const onDeleteAll = async () => {
     await fetchQualificationApi();
   } catch (err) {
     console.error(err);
+    commonStore.deleteLoadingQueue(id);
     await openErrorDialog("Something Cloud Not Be Deleted, Try Again.");
   } finally {
     commonStore.deleteLoadingQueue(id);
