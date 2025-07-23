@@ -17,7 +17,6 @@
         :value="value"
         :aria-invalid="!!errorMessage"
         @change="onChangeValue($event)"
-        @blur="onBlurValue($event)"
       >
         <option v-if="placeholder" disabled value="">{{ placeholder }}</option>
         <option
@@ -52,8 +51,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "change:value" | "blur:value", value: string): void;
-  (event: "change:event" | "blur:event", e: Event): void;
+  (event: "change:value", value: string): void;
+  (event: "change:event", e: Event): void;
 }>();
 
 const onChangeValue = (e: Event): void => {
@@ -61,14 +60,6 @@ const onChangeValue = (e: Event): void => {
   if (props.value !== target.value) {
     emit("change:value", target.value);
     emit("change:event", e);
-  }
-};
-
-const onBlurValue = (e: Event): void => {
-  const target = e.target as HTMLSelectElement;
-  if (props.value !== target.value) {
-    emit("blur:value", target.value);
-    emit("blur:event", e);
   }
 };
 
