@@ -38,6 +38,11 @@ export const useQualificationStore = defineStore("qualification", () => {
     qualifications.value = res.data;
   }
 
+  async function putQualification(qualification: Qualification) {
+    await qualificationApi.putQualification(qualification);
+    await fetchQualification();
+  }
+
   async function deleteQualification(qualificationId: string) {
     await qualificationApi.deleteQualification(qualificationId);
   }
@@ -45,6 +50,7 @@ export const useQualificationStore = defineStore("qualification", () => {
   return {
     qualifications,
     fetchQualification,
+    putQualification,
     deleteQualification,
   };
 });

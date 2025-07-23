@@ -22,14 +22,18 @@ properties:
   qualificationName:
     description: 資格名
     type: string
+    minLength: 1
+    maxLength: 128
 
   abbreviation:
     description: 略称
     type: string
+    maxLength: 128
   
   version:
     description: バージョン
     type: string
+    maxLength: 128
   
   status:
     description: ステータス
@@ -51,6 +55,8 @@ properties:
   organization:
     description: 発行組織
     type: string
+    minLength: 1
+    maxLength: 128
 
   acquiredDate:
     description: 取得年月日
@@ -66,13 +72,17 @@ properties:
     description: 公式URL
     type: string
     format: uri
+    minLength: 1
+    maxLength: 512
 
   certificationUrl:
     description: 証明書URL
     type: string
     format: uri
+    maxLength: 512
 
   badgeUrl:
     description: バッジURL
     type: string
     format: uri
+    maxLength: 512
