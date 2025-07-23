@@ -51,6 +51,46 @@ body {
   width: 100vw;
 }
 
+.h-10vh {
+  height: 10vh;
+}
+
+.h-20vh {
+  height: 20vh;
+}
+
+.h-30vh {
+  height: 30vh;
+}
+
+.h-40vh {
+  height: 40vh;
+}
+
+.h-50vh {
+  height: 50vh;
+}
+
+.h-60vh {
+  height: 60vh;
+}
+
+.h-70vh {
+  height: 70vh;
+}
+
+.h-80vh {
+  height: 80vh;
+}
+
+.h-90vh {
+  height: 90vh;
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
 .translate-x-40vw {
   transform: translateX(40vw);
 }

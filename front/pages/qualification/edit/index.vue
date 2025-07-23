@@ -66,7 +66,7 @@
 
     <ModalWindow
       :show-modal="editTargetQualification !== undefined"
-      modal-box-class="w-1/2  flex-col items-center"
+      modal-box-class="w-1/2 h-80vh flex-col items-center overflow-y-auto"
       @close="onCloseModal"
     >
       <Form v-slot="{ meta, handleSubmit }">
@@ -99,7 +99,7 @@
             <SelectBox
               v-if="def.type === 'select'"
               :label="def.label"
-              v-bind="field"
+              :value="field.value"
               :options="
                 def?.options?.map((e) => ({ label: e, value: e })) ?? []
               "
@@ -108,8 +108,12 @@
               label-class="w-40 ml-4 font-cursive"
               select-wrapper-class="w-1/2"
               select-class="text-center"
-              @blur:event="field.onBlur"
-              @input:value="() => commonStore.setHasUnsavedChange(true)"
+              @change:event="
+                (e) => {
+                  commonStore.setHasUnsavedChange(true);
+                  field.onBlur(e);
+                }
+              "
             />
             <DatePicker
               v-if="def.type === 'datepicker'"
@@ -119,7 +123,12 @@
               wrapper-class="mt-4 w-full justify-center"
               label-class="w-40 ml-4 font-cursive"
               pickers-wrapper-class="w-1/2 px-12"
-              @change="(value) => field?.['onUpdate:modelValue']?.(value)"
+              @change="
+                (value) => {
+                  commonStore.setHasUnsavedChange(true);
+                  field?.['onUpdate:modelValue']?.(value);
+                }
+              "
             />
           </Field>
         </template>
@@ -349,7 +358,6 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
       editTargetQualification.value = target
         ? {
             qualificationId: target.qualificationId,
-            userId: target.userId,
             qualificationName: target.qualificationName,
             abbreviation: target.abbreviation,
             version: target.version,
@@ -363,7 +371,6 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
             badgeUrl: target.badgeUrl,
           }
         : undefined;
-      console.log(editTargetQualification.value);
     },
     headerClass: "w-20",
     bodyClass: "h-12",
@@ -468,21 +475,28 @@ const editFieldDefs: {
 const onAddNewOne = () =>
   (editTargetQualification.value = {
     qualificationName: "",
-    abbreviation: "",
-    version: "",
     status: "dream",
     rank: "D",
     organization: "",
-    acquiredDate: "",
-    expirationDate: "",
     officialUrl: "",
-    certificationUrl: "",
-    badgeUrl: "",
   });
 const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
   const valueTyped = value as Qualification;
   const result = await withErrorHandling(async () => {
-    qualificationStore.putQualification(valueTyped);
+    qualificationStore.putQualification({
+      qualificationId: valueTyped.qualificationId,
+      qualificationName: valueTyped.qualificationName,
+      abbreviation: valueTyped.abbreviation || undefined,
+      version: valueTyped.version || undefined,
+      status: valueTyped.status,
+      rank: valueTyped.rank,
+      organization: valueTyped.organization,
+      acquiredDate: valueTyped.acquiredDate || undefined,
+      expirationDate: valueTyped.expirationDate || undefined,
+      officialUrl: valueTyped.officialUrl,
+      certificationUrl: valueTyped.certificationUrl || undefined,
+      badgeUrl: valueTyped.badgeUrl || undefined,
+    });
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
@@ -490,7 +504,18 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
     await openInfoDialog("Process Completed Successfully");
   }
 };
-const onCloseModal = () => (editTargetQualification.value = undefined);
+const onCloseModal = async () => {
+  if (commonStore.hasUnsavedChange) {
+    const confirmed = await openConfirmDialog(
+      "You Have Unsaved Change. Continue?"
+    );
+    if (!confirmed) {
+      return;
+    }
+  }
+  editTargetQualification.value = undefined;
+  commonStore.setHasUnsavedChange(false);
+};
 
 const onDeleteAll = async () => {
   const confirmed = await openConfirmDialog(
