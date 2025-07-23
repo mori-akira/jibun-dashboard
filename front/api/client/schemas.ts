@@ -123,17 +123,17 @@ const Qualification = z
   .object({
     qualificationId: z.string().uuid().optional(),
     userId: z.string().optional(),
-    qualificationName: z.string(),
-    abbreviation: z.string().optional(),
-    version: z.string().optional(),
+    qualificationName: z.string().min(1).max(128),
+    abbreviation: z.string().max(128).optional(),
+    version: z.string().max(128).optional(),
     status: z.enum(["dream", "planning", "acquired"]),
     rank: z.enum(["D", "C", "B", "A"]),
-    organization: z.string(),
+    organization: z.string().min(1).max(128),
     acquiredDate: z.string().optional(),
     expirationDate: z.string().optional(),
-    officialUrl: z.string().url(),
-    certificationUrl: z.string().url().optional(),
-    badgeUrl: z.string().url().optional(),
+    officialUrl: z.string().min(1).max(512).url(),
+    certificationUrl: z.string().max(512).url().optional(),
+    badgeUrl: z.string().max(512).url().optional(),
   })
   .passthrough();
 const QualificationId = z
