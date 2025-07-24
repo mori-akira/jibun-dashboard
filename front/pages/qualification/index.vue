@@ -56,7 +56,7 @@
       <DataTable
         :rows="rows"
         :column-defs="columnDefs"
-        :is-loading="isLoading"
+        :is-loading="loadingQueue.length > 0"
         row-clickable
         :init-sort-state="initSortState"
         wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
@@ -102,6 +102,7 @@ import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
 import { getRankColorHexCode } from "~/utils/qualification";
 import type { Rank } from "~/utils/qualification";
+import { generateRandomString } from "~/utils/rand";
 
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
@@ -109,9 +110,10 @@ const qualificationStore = useQualificationStore();
 const router = useRoute();
 const rank = router.query?.rank as GetQualificationRankEnum;
 
-const isLoading = ref<boolean>(false);
+const loadingQueue = ref<string[]>([]);
 const fetchQualificationApi = async () => {
-  isLoading.value = true;
+  const id = generateRandomString();
+  loadingQueue.value.push(id);
   try {
     await qualificationStore.fetchQualification(
       qualificationName.value,
@@ -127,7 +129,7 @@ const fetchQualificationApi = async () => {
     console.error(err);
     commonStore.addErrorMessage(getErrorMessage(err));
   } finally {
-    isLoading.value = false;
+    loadingQueue.value = loadingQueue.value.filter((e) => e !== id);
   }
 };
 
