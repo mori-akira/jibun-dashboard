@@ -11,5 +11,6 @@
         "TOIEC",
         "UMTP",
         "vitest"
-    ]
+    ],
+    "markdown-preview-enhanced.enableExtendedTableSyntax": true
 }
