@@ -22,7 +22,7 @@ module "cognito" {
   source          = "./modules/cognito"
   region          = var.region
   application_tag = module.application.application_tag
-  domain_name     = "${var.app_name}.${var.env_name}"
+  domain_name     = "${var.app_name}-${var.env_name}"
 }
 
 module "api_gateway" {
