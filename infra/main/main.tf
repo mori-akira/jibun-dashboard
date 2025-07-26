@@ -10,3 +10,8 @@ module "dynamodb" {
   source          = "./modules/dynamodb"
   application_tag = module.application.application_tag
 }
+
+module "cognito" {
+  source          = "./modules/cognito"
+  application_tag = module.application.application_tag
+}
