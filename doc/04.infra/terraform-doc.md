@@ -12,6 +12,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
+| <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
 | <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
 
 ## Resources
