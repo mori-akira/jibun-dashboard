@@ -8,7 +8,7 @@ variable "application_tag" {
   type        = map(string)
 }
 
-variable "domain_name" {
-  description = "ドメイン名"
+variable "frontend_bucket_name" {
+  description = "S3バケット名"
   type        = string
 }
