@@ -1,6 +1,7 @@
 resource "aws_apigatewayv2_api" "http_api" {
   name          = "jibun-dashboard-http-api"
   protocol_type = "HTTP"
+  tags          = var.application_tag
 }
 
 resource "aws_apigatewayv2_integration" "frontend_integration" {

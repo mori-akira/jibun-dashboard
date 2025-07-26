@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "frontend" {
   bucket = var.frontend_bucket_name
+  tags   = var.application_tag
 }
 
 resource "aws_s3_bucket_policy" "frontend_policy" {
