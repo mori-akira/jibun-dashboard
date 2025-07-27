@@ -4,7 +4,6 @@ export default defineNuxtRouteMiddleware(() => {
   const config = useRuntimeConfig();
   const requireAuth: boolean = config.public.requireAuth;
 
-  console.log(`requireAuth: ${requireAuth}`);
   if (!requireAuth) {
     return;
   }
@@ -18,7 +17,6 @@ export default defineNuxtRouteMiddleware(() => {
     const domain = config.public.cognitoDomain;
     const redirectUri = window.location.origin + "/callback";
     const loginUrl = `https://${domain}.auth.${region}.amazoncognito.com/login?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
-    // window.location.href = loginUrl;
-    console.log(`loginUrl: ${loginUrl}`);
+    window.location.href = loginUrl;
   }
 });
