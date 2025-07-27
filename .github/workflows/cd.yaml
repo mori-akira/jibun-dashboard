@@ -52,6 +52,7 @@ jobs:
 
   front:
     runs-on: ubuntu-latest
+    needs: infra
     permissions:
       id-token: write
       contents: read
