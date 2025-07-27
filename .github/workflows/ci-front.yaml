@@ -20,7 +20,7 @@ jobs:
       NUXT_PUBLIC_BASE_URL: /jibun-dashboard/
       NUXT_PUBLIC_API_BASE_URL: /jibun-dashboard/
       NUXT_PUBLIC_API_MODE: mock
-      NUXT_PUBLIC_REQUIRE_AUTH: off
+      # NUXT_PUBLIC_REQUIRE_AUTH: off
 
     steps:
       - name: Checkout
