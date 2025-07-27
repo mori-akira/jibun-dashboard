@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: front
-        run: npm ci
+        run: npm install
 
       - name: Run Lint
         working-directory: front
