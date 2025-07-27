@@ -8,14 +8,15 @@
 import { useCommonStore } from "~/stores/common";
 
 const commonStore = useCommonStore();
+const router = useRoute();
 
 const extractTokensFromHash = (): Record<string, string> => {
-  const hash = window.location.hash.substring(1);
+  const hash = router?.hash?.substring(1) ?? "";
   return Object.fromEntries(new URLSearchParams(hash));
 };
 const tokens = extractTokensFromHash();
 
-if (tokens.id_token) {
+if (tokens.id_token && import.meta.client) {
   localStorage.setItem("id_token", tokens.id_token);
   localStorage.setItem("access_token", tokens.access_token);
   navigateTo("/");

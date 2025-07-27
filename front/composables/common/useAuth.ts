@@ -6,8 +6,18 @@ type JwtPayload = {
 };
 
 export const useAuth = () => {
-  const getIdToken = () => localStorage.getItem("id_token");
-  const getAccessToken = () => localStorage.getItem("access_token");
+  const getIdToken = (): string | null => {
+    if (!import.meta.client) {
+      return null;
+    }
+    return localStorage.getItem("id_token");
+  };
+  const getAccessToken = (): string | null => {
+    if (!import.meta.client) {
+      return null;
+    }
+    return localStorage.getItem("access_token");
+  };
 
   const isTokenExpired = (): boolean => {
     const token = getAccessToken();
