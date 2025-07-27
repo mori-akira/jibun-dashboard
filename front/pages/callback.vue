@@ -5,12 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import axios from "axios";
 import { useCommonStore } from "~/stores/common";
 
 const commonStore = useCommonStore();
-const router = useRouter();
 
 const extractTokensFromHash = (): Record<string, string> => {
   const hash = window.location.hash.substring(1);
@@ -25,9 +23,9 @@ if (tokens.id_token) {
     req.headers.Authorization = `Bearer ${tokens.access_token}`;
     return req;
   });
-  router.replace("/");
+  navigateTo("/");
 } else {
   commonStore.addErrorMessage("Failed to login. Please try again.");
-  router.replace("/");
+  navigateTo("/");
 }
 </script>
