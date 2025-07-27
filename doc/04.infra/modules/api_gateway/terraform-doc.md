@@ -26,6 +26,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_apigw_invoke_role_arn"></a> [apigw\_invoke\_role\_arn](#input\_apigw\_invoke\_role\_arn) | API Gatewayからのアクセスを許可するロールのARN | `string` | n/a | yes |
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
 | <a name="input_frontend_bucket_name"></a> [frontend\_bucket\_name](#input\_frontend\_bucket\_name) | フロントエンドのS3バケット名 | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
