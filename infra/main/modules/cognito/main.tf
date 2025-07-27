@@ -2,7 +2,6 @@ resource "aws_cognito_user_pool" "user_pool" {
   name                     = "jibun-dashboard-user-pool"
   username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
-  alias_attributes         = ["email"]
   tags                     = var.application_tag
 }
 
