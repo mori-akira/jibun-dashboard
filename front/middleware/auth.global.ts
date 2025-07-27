@@ -4,6 +4,7 @@ export default defineNuxtRouteMiddleware(() => {
   const config = useRuntimeConfig();
   const requireAuth: boolean = config.public.requireAuth;
 
+  console.log(`requireAuth: ${requireAuth}`);
   if (!requireAuth) {
     return;
   }
