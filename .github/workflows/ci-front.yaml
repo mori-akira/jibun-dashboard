@@ -11,15 +11,15 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    env:
-      NUXT_PUBLIC_BASE_URL: /jibun-dashboard/
-      NUXT_PUBLIC_API_BASE_URL: /jibun-dashboard/
-      NUXT_PUBLIC_API_MODE: mock
-
     permissions:
       id-token: write
       contents: write
       pages: write
+
+    env:
+      NUXT_PUBLIC_BASE_URL: /jibun-dashboard/
+      NUXT_PUBLIC_API_BASE_URL: /jibun-dashboard/
+      NUXT_PUBLIC_API_MODE: mock
 
     steps:
       - name: Checkout

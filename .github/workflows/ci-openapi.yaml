@@ -10,7 +10,6 @@ on:
 jobs:
   generate-doc:
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: write
@@ -55,7 +54,6 @@ jobs:
 
   generate-module:
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: write
