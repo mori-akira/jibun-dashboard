@@ -4,16 +4,16 @@ resource "aws_apigatewayv2_api" "http_api" {
   tags          = var.application_tag
 }
 
-resource "aws_apigatewayv2_integration" "frontend_integration" {
-  api_id           = aws_apigatewayv2_api.http_api.id
-  integration_type = "AWS_PROXY"
-  integration_uri  = "arn:aws:apigateway:${var.region}:s3:path/${var.frontend_bucket_name}/{proxy}"
-  credentials_arn  = var.apigw_invoke_role_arn
+# resource "aws_apigatewayv2_integration" "frontend_integration" {
+#   api_id           = aws_apigatewayv2_api.http_api.id
+#   integration_type = "AWS_PROXY"
+#   integration_uri  = "arn:aws:apigateway:${var.region}:s3:path/${var.frontend_bucket_name}/{proxy}"
+#   credentials_arn  = var.apigw_invoke_role_arn
 
-  request_parameters = {
-    "override.path.proxy" = "$request.path.proxy"
-  }
-}
+#   request_parameters = {
+#     "override.path.proxy" = "$request.path.proxy"
+#   }
+# }
 
 # resource "aws_apigatewayv2_integration" "backend_integration" {
 #   api_id             = aws_apigatewayv2_api.http_api.id
@@ -40,12 +40,12 @@ resource "aws_apigatewayv2_integration" "frontend_integration" {
 #   authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
 # }
 
-resource "aws_apigatewayv2_route" "default_route" {
-  api_id             = aws_apigatewayv2_api.http_api.id
-  route_key          = "$default"
-  target             = "integrations/${aws_apigatewayv2_integration.frontend_integration.id}"
-  authorization_type = "NONE"
-}
+# resource "aws_apigatewayv2_route" "default_route" {
+#   api_id             = aws_apigatewayv2_api.http_api.id
+#   route_key          = "$default"
+#   target             = "integrations/${aws_apigatewayv2_integration.frontend_integration.id}"
+#   authorization_type = "NONE"
+# }
 
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.http_api.id
