@@ -11,8 +11,8 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["openid"]
 
-  callback_urls = ["http://localhost:3000/callback"]
-  logout_urls   = ["http://localhost:3000/logout"]
+  callback_urls = [var.cognito_callback_url]
+  logout_urls   = [var.cognito_logout_url]
 
   supported_identity_providers = ["COGNITO"]
   explicit_auth_flows = [

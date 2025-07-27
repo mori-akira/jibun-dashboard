@@ -17,6 +17,8 @@ jobs:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
       SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
       TF_VAR_region: ${{ vars.REGION }}
+      TF_VAR_cognito_callback_url: ${{ vars.COGNITO_CALLBACK_URL }}
+      TF_VAR_cognito_logout_url: ${{ vars.COGNITO_LOGOUT_URL }}
 
     steps:
       - name: Checkout
