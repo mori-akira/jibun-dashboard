@@ -87,9 +87,9 @@ jobs:
 
       - name: Commit And Push
         run: |
-          git restore --staged  infra/main
+          sudo git restore --staged  infra/main
           sudo git add doc
           if ! git diff --cached --quiet; then
-            git commit -m "Automatically Generated"
-            git push origin
+            sudo git commit -m "Automatically Generated"
+            sudo git push origin
           fi
