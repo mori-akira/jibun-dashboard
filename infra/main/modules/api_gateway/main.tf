@@ -5,10 +5,14 @@ resource "aws_apigatewayv2_api" "http_api" {
 }
 
 resource "aws_apigatewayv2_integration" "frontend_integration" {
-  api_id             = aws_apigatewayv2_api.http_api.id
-  integration_type   = "HTTP_PROXY"
-  integration_method = "GET"
-  integration_uri    = "http://${var.frontend_bucket_name}.s3-website-${var.region}.amazonaws.com"
+  api_id           = aws_apigatewayv2_api.http_api.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = "arn:aws:apigateway:${var.region}:s3:path/${var.frontend_bucket_name}/{proxy}"
+  credentials_arn  = var.apigw_invoke_role_arn
+
+  request_parameters = {
+    "override.path.proxy" = "$request.path.proxy"
+  }
 }
 
 # resource "aws_apigatewayv2_integration" "backend_integration" {

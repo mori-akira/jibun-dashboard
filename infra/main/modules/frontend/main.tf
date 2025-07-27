@@ -9,13 +9,14 @@ resource "aws_s3_bucket_policy" "frontend_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Sid : "AllowAPIGatewayAccess",
+      Sid : "AllowAPIGatewayInvokeViaRole",
       Effect : "Allow",
-      Principal : {
-        Service : "apigateway.amazonaws.com"
-      },
-      Action : "s3:GetObject",
-      Resource : "${aws_s3_bucket.frontend.arn}/*"
+      Principal : { AWS = aws_iam_role.apigw_s3_invoke_role_default.arn },
+      Action : ["s3:GetObject", "s3:ListBucket"],
+      Resource = [
+        aws_s3_bucket.frontend.arn,
+        "${aws_s3_bucket.frontend.arn}/*"
+      ]
     }]
   })
 }
