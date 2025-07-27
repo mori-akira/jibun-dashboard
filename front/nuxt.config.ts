@@ -32,6 +32,12 @@ export default defineNuxtConfig({
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL || "/",
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || "/",
       apiMode: process.env.NUXT_PUBLIC_API_MODE || "default",
+      requireAuth: ["true", "on"].includes(
+        process.env.NUXT_PUBLIC_REQUIRE_AUTH?.toLowerCase() || "off"
+      ),
+      region: process.env.NUXT_PUBLIC_REGION || "",
+      cognitoClientId: process.env.NUXT_PUBLIC_COGNITO_CLIENT_ID || "",
+      cognitoDomain: process.env.NUXT_PUBLIC_COGNITO_DOMAIN || "",
     },
   },
   app: {

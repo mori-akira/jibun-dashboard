@@ -19,3 +19,4 @@ RUN mkdir -p /workspace/front/node_modules && \
 
 # 環境変数設定
 ENV NUXT_PUBLIC_API_BASE_URL="http://localhost:4011/"
+ENV NUXT_PUBLIC_REQUIRE_AUTH="off"
