@@ -49,3 +49,50 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
         working-directory: infra/main
+
+  front:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: dev
+
+    env:
+      ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
+      SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
+      TF_VAR_region: ${{ vars.REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Dependencies
+        working-directory: front
+        run: npm ci
+
+      - name: Run Lint
+        working-directory: front
+        run: npx eslint .
+
+      - name: Run Tests
+        working-directory: front
+        run: npx vitest run
+
+      - name: Generate Static Site
+        working-directory: front
+        run: npm run generate
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE_ARN }}
+          role-session-name: ${{ env.SESSION_NAME }}
+          aws-region: ${{ vars.REGION }}
+
+      - name: Upload to S3
+        run: aws s3 sync front/dist s3://${{ var.FRONT_BUCKET_NAME }} --delete
