@@ -76,6 +76,7 @@
 <script setup lang="ts">
 import axios from "axios";
 
+import { Configuration } from "~/api/client/configuration";
 import { FileApi, SalaryApi } from "~/api/client";
 import type { Overview, PayslipData, Structure } from "~/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
@@ -90,14 +91,21 @@ import {
   useInfoDialog,
   useConfirmDialog,
 } from "~/composables/common/useDialog";
+import { useAuth } from "~/composables/common/useAuth";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { getCurrentMonthFirstDateString } from "~/utils/date";
 import { withErrorHandling } from "~/utils/api-call";
 import { generateRandomString } from "~/utils/rand";
 
-const fileApi = new FileApi();
-const salaryApi = new SalaryApi();
+const { getAccessToken } = useAuth();
+const configuration = new Configuration({
+  baseOptions: {
+    headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
+  },
+});
+const fileApi = new FileApi(configuration);
+const salaryApi = new SalaryApi(configuration);
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
 const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =

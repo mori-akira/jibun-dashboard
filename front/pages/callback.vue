@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import { useCommonStore } from "~/stores/common";
 
 const commonStore = useCommonStore();
@@ -19,10 +18,6 @@ const tokens = extractTokensFromHash();
 if (tokens.id_token) {
   localStorage.setItem("id_token", tokens.id_token);
   localStorage.setItem("access_token", tokens.access_token);
-  axios.interceptors.request.use((req) => {
-    req.headers.Authorization = `Bearer ${tokens.access_token}`;
-    return req;
-  });
   navigateTo("/");
 } else {
   commonStore.addErrorMessage("Failed to login. Please try again.");

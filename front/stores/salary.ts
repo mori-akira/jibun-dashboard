@@ -1,11 +1,19 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+import { Configuration } from "~/api/client/configuration";
 import type { Salary } from "~/api/client/api";
 import { SalaryApi } from "~/api/client/api";
+import { useAuth } from "~/composables/common/useAuth";
 
 export const useSalaryStore = defineStore("salary", () => {
-  const salaryApi = new SalaryApi();
+  const { getAccessToken } = useAuth();
+  const configuration = new Configuration({
+    baseOptions: {
+      headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
+    },
+  });
+  const salaryApi = new SalaryApi(configuration);
   const salaries = ref<Salary[] | null>(null);
 
   async function fetchSalary(

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useAuth } from "~/composables/common/useAuth";
 
 export default defineNuxtRouteMiddleware(() => {
@@ -9,7 +8,7 @@ export default defineNuxtRouteMiddleware(() => {
     return;
   }
 
-  const { getIdToken, getAccessToken, isTokenExpired } = useAuth();
+  const { getIdToken, isTokenExpired } = useAuth();
   const idToken = getIdToken();
   if (!idToken || isTokenExpired()) {
     localStorage.clear();
@@ -20,10 +19,4 @@ export default defineNuxtRouteMiddleware(() => {
     const loginUrl = `https://${domain}.auth.${region}.amazoncognito.com/login?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
     window.location.href = loginUrl;
   }
-
-  const accessToken = getAccessToken();
-  axios.interceptors.request.use((req) => {
-    req.headers.Authorization = `Bearer ${accessToken}`;
-    return req;
-  });
 });
