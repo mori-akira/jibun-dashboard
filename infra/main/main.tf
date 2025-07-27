@@ -19,10 +19,12 @@ module "frontend" {
 }
 
 module "cognito" {
-  source          = "./modules/cognito"
-  region          = var.region
-  application_tag = module.application.application_tag
-  domain_name     = "${var.app_name}-${var.env_name}"
+  source               = "./modules/cognito"
+  region               = var.region
+  application_tag      = module.application.application_tag
+  domain_name          = "${var.app_name}-${var.env_name}"
+  cognito_callback_url = var.cognito_callback_url
+  cognito_logout_url   = var.cognito_logout_url
 }
 
 module "api_gateway" {

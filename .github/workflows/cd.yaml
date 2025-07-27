@@ -65,7 +65,6 @@ jobs:
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
       SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
-      TF_VAR_region: ${{ vars.REGION }}
       NUXT_PUBLIC_BASE_URL: /
       NUXT_PUBLIC_API_BASE_URL: /
       NUXT_PUBLIC_API_MODE: mock
