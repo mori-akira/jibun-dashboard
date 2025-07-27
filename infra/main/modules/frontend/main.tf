@@ -3,24 +3,6 @@ resource "aws_s3_bucket" "frontend" {
   tags   = var.application_tag
 }
 
-resource "aws_s3_bucket_policy" "frontend_policy" {
-  bucket = aws_s3_bucket.frontend.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Sid : "AllowAPIGatewayInvokeViaRole",
-      Effect : "Allow",
-      Principal : { AWS = aws_iam_role.apigw_s3_invoke_role_default.arn },
-      Action : ["s3:GetObject", "s3:ListBucket"],
-      Resource = [
-        aws_s3_bucket.frontend.arn,
-        "${aws_s3_bucket.frontend.arn}/*"
-      ]
-    }]
-  })
-}
-
 resource "aws_s3_bucket_website_configuration" "frontend_website" {
   bucket = aws_s3_bucket.frontend.id
 
@@ -43,10 +25,10 @@ resource "aws_s3_bucket_versioning" "frontend" {
 
 resource "aws_s3_bucket_public_access_block" "frontend" {
   bucket                  = aws_s3_bucket.frontend.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
 }
 
 output "bucket_name" {

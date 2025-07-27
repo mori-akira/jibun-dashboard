@@ -18,11 +18,6 @@ variable "s3_bucket_arn" {
   type        = string
 }
 
-variable "apigw_invoke_role_arn" {
-  description = "API Gatewayからのアクセスを許可するロールのARN"
-  type        = string
-}
-
 variable "user_pool_id" {
   description = "CognitoユーザープールID"
   type        = string
