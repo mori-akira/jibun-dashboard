@@ -11,30 +11,30 @@ resource "aws_apigatewayv2_integration" "frontend_integration" {
   integration_uri    = "http://${var.frontend_bucket_name}.s3-website-${var.region}.amazonaws.com"
 }
 
-resource "aws_apigatewayv2_integration" "backend_integration" {
-  api_id             = aws_apigatewayv2_api.http_api.id
-  integration_type   = "MOCK"
-  integration_method = "ANY"
-}
+# resource "aws_apigatewayv2_integration" "backend_integration" {
+#   api_id             = aws_apigatewayv2_api.http_api.id
+#   integration_type   = "MOCK"
+#   integration_method = "ANY"
+# }
 
-resource "aws_apigatewayv2_authorizer" "cognito_auth" {
-  name             = "CognitoAuth"
-  api_id           = aws_apigatewayv2_api.http_api.id
-  authorizer_type  = "JWT"
-  identity_sources = ["$request.header.Authorization"]
-  jwt_configuration {
-    audience = [var.user_pool_client_id]
-    issuer   = "https://cognito-idp.${var.region}.amazonaws.com/${var.user_pool_id}"
-  }
-}
+# resource "aws_apigatewayv2_authorizer" "cognito_auth" {
+#   name             = "CognitoAuth"
+#   api_id           = aws_apigatewayv2_api.http_api.id
+#   authorizer_type  = "JWT"
+#   identity_sources = ["$request.header.Authorization"]
+#   jwt_configuration {
+#     audience = [var.user_pool_client_id]
+#     issuer   = "https://cognito-idp.${var.region}.amazonaws.com/${var.user_pool_id}"
+#   }
+# }
 
-resource "aws_apigatewayv2_route" "api_proxy" {
-  api_id             = aws_apigatewayv2_api.http_api.id
-  route_key          = "ANY /api/{proxy+}"
-  target             = "integrations/${aws_apigatewayv2_integration.backend_integration.id}"
-  authorization_type = "JWT"
-  authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
-}
+# resource "aws_apigatewayv2_route" "api_proxy" {
+#   api_id             = aws_apigatewayv2_api.http_api.id
+#   route_key          = "ANY /api/{proxy+}"
+#   target             = "integrations/${aws_apigatewayv2_integration.backend_integration.id}"
+#   authorization_type = "JWT"
+#   authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
+# }
 
 resource "aws_apigatewayv2_route" "default_route" {
   api_id             = aws_apigatewayv2_api.http_api.id
