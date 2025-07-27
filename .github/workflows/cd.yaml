@@ -96,4 +96,4 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Upload to S3
-        run: aws s3 sync front/dist s3://${{ var.FRONT_BUCKET_NAME }} --delete
+        run: aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete
