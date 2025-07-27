@@ -49,7 +49,9 @@ resource "aws_apigatewayv2_stage" "default" {
   auto_deploy = true
 
   default_route_settings {
-    logging_level = "OFF"
+    logging_level          = "OFF"
+    throttling_rate_limit  = 1000
+    throttling_burst_limit = 500
   }
 }
 
