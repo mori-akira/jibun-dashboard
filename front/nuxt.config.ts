@@ -5,6 +5,7 @@ import urlJoin from "url-join";
 export default defineNuxtConfig({
   compatibilityDate: "2025-01-01",
   devtools: { enabled: true },
+  ssr: false,
   css: ["~/assets/css/main.css"],
   modules: [
     "@nuxt/eslint",
