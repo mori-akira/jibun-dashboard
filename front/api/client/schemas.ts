@@ -2,13 +2,7 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
-const User = z
-  .object({
-    userId: z.string().optional(),
-    userName: z.string().min(1).max(64),
-    emailAddress: z.string().min(1).max(256).email(),
-  })
-  .passthrough();
+const I18n = z.record(z.string());
 const ErrorInfo = z
   .object({
     errors: z.array(
@@ -23,6 +17,13 @@ const ErrorInfo = z
     ),
   })
   .partial()
+  .passthrough();
+const User = z
+  .object({
+    userId: z.string().optional(),
+    userName: z.string().min(1).max(64),
+    emailAddress: z.string().min(1).max(256).email(),
+  })
   .passthrough();
 const Password = z
   .object({
@@ -142,8 +143,9 @@ const QualificationId = z
   .passthrough();
 
 export const schemas = {
-  User,
+  I18n,
   ErrorInfo,
+  User,
   Password,
   Setting,
   UploadUrl,
@@ -314,6 +316,28 @@ const endpoints = makeApi([
       },
     ],
     response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/resource/i18n/:locale",
+    alias: "getI18n",
+    description: `国際化リソースを取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "locale",
+        type: "Path",
+        schema: z.unknown(),
+      },
+    ],
+    response: z.record(z.string()),
     errors: [
       {
         status: 400,
