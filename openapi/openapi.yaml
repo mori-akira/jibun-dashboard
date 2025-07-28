@@ -5,6 +5,8 @@ info:
   title: 自分ダッシュボードAPI定義
 
 tags:
+  - name: Resource
+    description: リソースAPI
   - name: User
     description: ユーザ情報API
   - name: Setting
@@ -20,6 +22,8 @@ servers:
   - url: http://localhost:4011/
 
 paths:
+  /resource/i18n/{locale}:
+    $ref: "paths/resource/i18n/{locale}.yaml"
   /user:
     $ref: "paths/user/index.yaml"
   /user/password:
@@ -43,6 +47,8 @@ paths:
 
 components:
   schemas:
+    I18n:
+      $ref: "schemas/resource/i18n.yaml"
     User:
       $ref: "schemas/user/user.yaml"
     Password:

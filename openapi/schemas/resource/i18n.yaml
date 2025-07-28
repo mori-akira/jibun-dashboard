@@ -1,0 +1,5 @@
+type: object
+description: 国際化リソース
+
+additionalProperties:
+  type: string
