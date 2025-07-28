@@ -84,7 +84,7 @@ const checkFile = async (file: File): Promise<boolean> => {
     return false;
   }
   if (!checkFileSize(file)) {
-    await openConfirmDialog("The file size must be 1MB or less.");
+    await openWarningDialog("The file size must be 1MB or less.");
     return false;
   }
   return true;
