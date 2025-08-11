@@ -1,5 +1,11 @@
 type: object
 description: 国際化リソース
 
+properties:
+  localeCode:
+    type: string
+    description: ロケールコード
+    pattern: ^[a-z]{2}$
+
 additionalProperties:
   type: string

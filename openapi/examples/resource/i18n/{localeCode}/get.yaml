@@ -1,3 +1,5 @@
+localeCode: en
+
 message.info.completeSuccessfully: Process completed successfully.
 
 message.confirm.checkUnsavedChanges: You have unsaved changes. Continue?

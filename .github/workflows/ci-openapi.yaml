@@ -80,6 +80,9 @@ jobs:
           cd openapi
           openapi-generator-cli generate
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+
+      - name: Add I18n Schema Definition
+        run: echo "export type LocaleCode = I18n;" >> front/api/client/api.ts
       
       - name: Add ESLint Disable Comment
         run: |

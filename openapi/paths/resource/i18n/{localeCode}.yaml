@@ -7,12 +7,12 @@ get:
   
   parameters:
     - in: path
-      name: locale
-      description: ロケール
+      name: localeCode
+      description: ロケールコード
       required: true
-      schemas:
+      schema:
         type: string
-        pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+        pattern: ^[a-z]{2}$
 
   responses:
     "200":
@@ -21,8 +21,8 @@ get:
         application/json:
           schema:
             $ref: "../../../openapi.yaml#/components/schemas/I18n"
-          example:
-            $ref: "../../../examples/resource/i18n/{locale}/get.yaml"
+          # example:
+          #   $ref: "../../../examples/resource/i18n/{localeCode}/get.yaml"
     "400":
       description: パラメータ不正
       content:

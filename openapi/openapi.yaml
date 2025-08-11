@@ -22,8 +22,8 @@ servers:
   - url: http://localhost:4011/
 
 paths:
-  /resource/i18n/{locale}:
-    $ref: "paths/resource/i18n/{locale}.yaml"
+  /resource/i18n/{localeCode}:
+    $ref: "paths/resource/i18n/{localeCode}.yaml"
   /user:
     $ref: "paths/user/index.yaml"
   /user/password:
