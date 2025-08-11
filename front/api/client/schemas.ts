@@ -326,15 +326,15 @@ const endpoints = makeApi([
   },
   {
     method: "get",
-    path: "/resource/i18n/:locale",
+    path: "/resource/i18n/:localeCode",
     alias: "getI18n",
     description: `国際化リソースを取得する`,
     requestFormat: "json",
     parameters: [
       {
-        name: "locale",
+        name: "localeCode",
         type: "Path",
-        schema: z.unknown(),
+        schema: z.string().regex(/^[a-z]{2}$/),
       },
     ],
     response: z.record(z.string()),
