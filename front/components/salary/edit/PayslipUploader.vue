@@ -83,7 +83,7 @@ const onUploadFile = async (file: File) => {
 };
 const checkFile = async (file: File): Promise<boolean> => {
   if (!checkFileExtension(file) || !checkFileType(file)) {
-    await openWarningDialog(t("onlyPDFAccepted"));
+    await openWarningDialog(t("message.warning.onlyPDFAccepted"));
     return false;
   }
   if (!checkFileSize(file)) {
