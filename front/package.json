@@ -31,7 +31,6 @@
     "nuxt-codemirror": "^0.0.16",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.10",
-    "unenv": "^1.10.0",
     "url-join": "^5.0.0",
     "vue": "^3.5.13",
     "vue-chartjs": "^5.3.2",
