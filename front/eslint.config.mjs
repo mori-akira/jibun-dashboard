@@ -5,12 +5,7 @@ export default withNuxt({
   plugins: { pinia },
   rules: {
     "vue/html-self-closing": "off",
-    "vue/multi-word-component-names": [
-      "error",
-      {
-        ignores: ["index", "error", "default"],
-      },
-    ],
+    "vue/multi-word-component-names": "off",
   },
   files: ["**/*.ts", "**/*.vue"],
   ignores: ["api/client/**"],
