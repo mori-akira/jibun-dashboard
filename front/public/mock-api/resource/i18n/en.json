@@ -23,5 +23,7 @@
   "message.validation.maxNumber": "Please enter a number less than or equal to {max}.",
   "message.validation.integer": "Please enter an integer.",
   "message.validation.password.complexity": "Please include at least three of the following: uppercase letters, lowercase letters, numbers, and symbols.",
-  "message.validation.password.mismatch": "Passwords do not match."
+  "message.validation.password.mismatch": "Passwords do not match.",
+  "message.validation.json.invalidFormat": "Invalid JSON Format.",
+  "message.validation.json.invalidSchema": "Invalid JSON Schema"
 }

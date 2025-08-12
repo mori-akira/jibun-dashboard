@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 import Header from "~/components/app/AppHeader.vue";
 import Navigation from "~/components/app/AppNavigation.vue";
@@ -43,6 +44,7 @@ import { useSettingStore } from "~/stores/setting";
 import { withErrorHandling } from "~/utils/api-call";
 
 const router = useRouter();
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const settingStore = useSettingStore();

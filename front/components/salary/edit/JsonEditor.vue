@@ -10,9 +10,11 @@
       :linter="jsonParseLinter()"
       @on-change="onUpdate"
     />
-    <div v-if="!isValidJson" class="text-red-500 mt-2">Invalid JSON format</div>
+    <div v-if="!isValidJson" class="text-red-500 mt-2">
+      {{ t("message.validation.json.invalidFormat") }}
+    </div>
     <div v-if="isValidJson && !isValidSchema" class="text-red-500 mt-2">
-      Invalid Schema
+      {{ t("message.validation.json.invalidSchema") }}
     </div>
     <div class="mt-4 flex justify-center space-x-2">
       <Button type="action" :disabled="!isValid" @click="onExecute">
@@ -27,6 +29,7 @@
 import { ref, computed } from "vue";
 import { linter, lintGutter } from "@codemirror/lint";
 import { json, jsonParseLinter } from "@codemirror/lang-json";
+import { useI18n } from "vue-i18n";
 
 import type { Overview, PayslipData, Structure } from "~/api/client";
 import { schemas } from "~/api/client/schemas";
@@ -55,6 +58,7 @@ const emit = defineEmits<{
   (event: "execute"): void;
 }>();
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 
 const text = ref(

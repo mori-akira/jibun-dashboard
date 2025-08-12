@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 import axios from "axios";
+import { useI18n } from "vue-i18n";
 
 import { Configuration } from "~/api/client/configuration";
 import { FileApi, SalaryApi } from "~/api/client";
@@ -98,6 +99,7 @@ import { getCurrentMonthFirstDateString } from "~/utils/date";
 import { withErrorHandling } from "~/utils/api-call";
 import { generateRandomString } from "~/utils/rand";
 
+const { t } = useI18n();
 const { getAccessToken } = useAuth();
 const configuration = new Configuration({
   baseOptions: {

@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 import FileUploader from "~/components/common/FileUploader.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import {
@@ -49,6 +51,7 @@ const emits = defineEmits<{
   (event: "upload", file: File): void;
 }>();
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const {
   showConfirmDialog,

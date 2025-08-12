@@ -206,6 +206,7 @@
 
 <script setup lang="ts">
 import { Form, Field } from "vee-validate";
+import { useI18n } from "vue-i18n";
 
 import type { Overview, PayslipData, Structure } from "~/api/client";
 import { schemas } from "~/api/client/schemas";
@@ -242,6 +243,7 @@ const emit = defineEmits<{
   (e: "execute"): void;
 }>();
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const {
   showConfirmDialog,
