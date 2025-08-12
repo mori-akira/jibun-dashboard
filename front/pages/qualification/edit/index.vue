@@ -542,7 +542,7 @@ const onDeleteAll = async () => {
   } catch (err) {
     console.error(err);
     commonStore.deleteLoadingQueue(id);
-    await openErrorDialog(t("message.error.checkUnsavedChanges"));
+    await openErrorDialog(t("message.error.somethingCloudNotDeleted"));
   } finally {
     commonStore.deleteLoadingQueue(id);
   }
