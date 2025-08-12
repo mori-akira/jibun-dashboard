@@ -12,7 +12,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   const fetchMessages = async (
     locale: string
   ): Promise<Record<string, string>> => {
-    if (cache.value[locale]) return cache.value[locale];
+    if (cache.value[locale]) {
+      return cache.value[locale];
+    }
 
     const { getAccessToken } = useAuth();
     const configuration = new Configuration({
@@ -21,7 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
     });
     const api = new ResourceApi(configuration);
-    const data = (await api.getI18n(locale)).data as Record<string, unknown>;
+    const data = (await api.getI18n(locale)).data;
 
     const messages: Record<string, string> = {};
     for (const [k, v] of Object.entries(data)) {
@@ -42,7 +44,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       const messages = await fetchMessages(locale);
       i18n.setLocaleMessage(locale, messages);
     } else if (!cache.value[locale]) {
-      // キャッシュ同期（再生成時の無駄 fetch を防ぐだけ）
       cache.value[locale] = Object.fromEntries(
         Object.entries(current).map(([k, v]) => [k, String(v ?? "")])
       );
