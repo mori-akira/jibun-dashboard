@@ -1,5 +1,6 @@
 import type { ZodTypeAny } from "zod";
 import { ZodEffects, ZodNumber, ZodString } from "zod";
+import { i18nT } from "~/utils/i18n";
 
 export type FieldValidationMetaInfo = {
   field: string;
@@ -33,55 +34,52 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
           (value as string)?.length >= check.value
             ? true
             : check.value === 1
-            ? "入力必須項目です"
-            : `${check.value}文字以上で入力してください`
+            ? i18nT("message.validation.required")
+            : i18nT("message.validation.minCharacters", { min: check.value })
         );
       } else if (check.kind === "max") {
         rules.push((value) =>
           (value as string)?.length <= check.value
             ? true
-            : `${check.value}文字以下で入力してください`
+            : i18nT("message.validation.maxCharacters", { max: check.value })
         );
       } else if (check.kind === "regex") {
         rules.push((value) =>
           check.regex.test(value as string)
             ? true
-            : `使用できない文字が含まれています`
+            : i18nT("message.validation.invalidCharacters")
         );
       } else if (check.kind === "email") {
         rules.push((value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
             ? true
-            : "メールアドレスの形式で入力してください"
+            : i18nT("message.validation.email")
         );
       }
     }
   }
 
-  if (
-    schema instanceof ZodNumber ||
-    schema._def.innerType instanceof ZodNumber
-  ) {
-    const checks =
-      schema instanceof ZodNumber
-        ? schema._def.checks
-        : schema._def.innerType._def.checks;
+  const zNumber = schema instanceof ZodNumber ? schema : schema._def?.innerType;
+  if (zNumber instanceof ZodNumber) {
+    const checks = zNumber._def.checks;
     for (const check of checks) {
       if (check.kind === "min") {
         rules.push((value) =>
           Number(value as string) >= check.value
             ? true
-            : `${check.value}以上の数値を入力してください`
+            : i18nT("message.validation.minNumber", { min: check.value })
         );
       } else if (check.kind === "max") {
         rules.push((value) =>
           Number(value as string) <= check.value
             ? true
-            : `${check.value}以下の数値を入力してください`
+            : i18nT("message.validation.maxNumber", { max: check.value })
         );
       } else if (check.kind === "int") {
         rules.push((value) =>
-          Number.isInteger(Number(value)) ? true : `整数を入力してください`
+          Number.isInteger(Number(value))
+            ? true
+            : i18nT("message.validation.integer")
         );
       }
     }

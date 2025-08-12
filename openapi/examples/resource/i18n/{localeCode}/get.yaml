@@ -13,14 +13,14 @@ message.error.invalidInput: There is an error in your input.
 message.error.authenticationFailed: Authentication failed.
 message.error.permissionDenied: You do not have permission to access this resource.
 message.error.unexpectedError: An unexpected error occurred.
-message.error.unexpectedErrorWithStatusCode: "An unexpected error occurred (status code: ${statusCode})."
+message.error.unexpectedErrorWithStatusCode: "An unexpected error occurred (status code: {statusCode})."
 message.error.somethingCloudNotDeleted: Something could not be deleted, try again.
 
 message.validation.required: This field is required.
-message.validation.minCharacters: Please enter at least ${min} characters.
-message.validation.maxCharacters: Please enter no more than ${max} characters.
+message.validation.minCharacters: Please enter at least {min} characters.
+message.validation.maxCharacters: Please enter no more than {max} characters.
 message.validation.invalidCharacters: Your input contains invalid characters.
 message.validation.email: Please enter a valid email address.
-message.validation.minNumber: Please enter a number greater than or equal to ${min}.
-message.validation.maxNumber: Please enter a number less than or equal to ${max}.
+message.validation.minNumber: Please enter a number greater than or equal to {min}.
+message.validation.maxNumber: Please enter a number less than or equal to {max}.
 message.validation.integer: Please enter an integer.

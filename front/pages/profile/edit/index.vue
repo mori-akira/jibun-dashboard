@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
+import { useI18n } from "vue-i18n";
 
 import type { User } from "~/api/client/api";
 import { schemas } from "~/api/client/schemas";
@@ -84,6 +85,7 @@ import { useUserStore } from "~/stores/user";
 import { withErrorHandling } from "~/utils/api-call";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
@@ -102,7 +104,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
     navigateTo("/");
   }
 };

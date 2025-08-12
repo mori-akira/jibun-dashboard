@@ -1,19 +1,18 @@
+import type { Composer } from "vue-i18n";
 import { Configuration } from "~/api/client/configuration";
 import { ResourceApi } from "~/api/client";
 import { useAuth } from "~/composables/common/useAuth";
 
-type Dict = Record<string, string>;
-
 export default defineNuxtPlugin((nuxtApp) => {
-  const cache = useState<Record<string, Dict>>("i18nCache", () => ({}));
+  const cache = useState<Record<string, Record<string, string>>>(
+    "i18nCache",
+    () => ({})
+  );
 
-  const normalizePlaceholders = (s: string) =>
-    s.replace(/\$\{(\w+)\}/g, "{$1}");
-
-  const fetchMessages = async (locale: string): Promise<Dict> => {
-    if (cache.value[locale]) {
-      return cache.value[locale];
-    }
+  const fetchMessages = async (
+    locale: string
+  ): Promise<Record<string, string>> => {
+    if (cache.value[locale]) return cache.value[locale];
 
     const { getAccessToken } = useAuth();
     const configuration = new Configuration({
@@ -21,52 +20,41 @@ export default defineNuxtPlugin((nuxtApp) => {
         headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
       },
     });
-    const resourceApi = new ResourceApi(configuration);
+    const api = new ResourceApi(configuration);
+    const data = (await api.getI18n(locale)).data as Record<string, unknown>;
 
-    const data = (await resourceApi.getI18n(locale)).data;
-    // 値の正規化
-    const normalized: Dict = {};
+    const messages: Record<string, string> = {};
     for (const [k, v] of Object.entries(data)) {
-      normalized[k] = normalizePlaceholders(v ?? "");
+      if (k === "localeCode") continue;
+      messages[k] = String(v ?? "");
     }
-    cache.value[locale] = normalized;
-    return normalized;
+    cache.value[locale] = messages;
+    return messages;
   };
 
-  // i18n へ注入するユーティリティ
   const ensureLocaleLoaded = async (locale: "en") => {
-    const { setLocaleMessage, availableLocales } = useI18n();
-    if (!availableLocales.includes(locale)) {
+    const i18n = nuxtApp.$i18n as Composer;
+    const current = i18n.getLocaleMessage(locale) as
+      | Record<string, unknown>
+      | undefined;
+
+    if (!current || Object.keys(current).length === 0) {
       const messages = await fetchMessages(locale);
-      setLocaleMessage(locale, messages);
+      i18n.setLocaleMessage(locale, messages);
+    } else if (!cache.value[locale]) {
+      // キャッシュ同期（再生成時の無駄 fetch を防ぐだけ）
+      cache.value[locale] = Object.fromEntries(
+        Object.entries(current).map(([k, v]) => [k, String(v ?? "")])
+      );
     }
   };
 
-  // アプリ起動時（SSR含む）に現在ロケールをロード
-  nuxtApp.hook("app:created", async () => {
-    const { locale } = useI18n();
-    await ensureLocaleLoaded(locale.value);
-  });
-
-  // ルート戦略でロケールが切り替わる場合に備えてミドルウェアで確実にロード
-  addRouteMiddleware(
-    "i18n-api-loader",
-    async (to) => {
-      // /en/... のように prefix がある場合は to.params.locale（設定に依存）
-      const routeLocale =
-        (to.params?.locale as "en" | undefined) ?? useI18n().locale.value;
-      await ensureLocaleLoaded(routeLocale);
-    },
-    { global: true }
-  );
-
-  // 言語切替用のヘルパを提供（UIの言語スイッチャから使う）
   return {
     provide: {
-      setLocaleFromApi: async (locale: "en") => {
-        const { setLocale } = useI18n();
+      setLocaleFromApi: async (locale: "en" = "en") => {
+        const i18n = nuxtApp.$i18n as Composer;
         await ensureLocaleLoaded(locale);
-        await setLocale(locale);
+        i18n.locale.value = locale;
       },
     },
   };

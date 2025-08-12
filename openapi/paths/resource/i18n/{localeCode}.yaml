@@ -21,8 +21,8 @@ get:
         application/json:
           schema:
             $ref: "../../../openapi.yaml#/components/schemas/I18n"
-          # example:
-          #   $ref: "../../../examples/resource/i18n/{localeCode}/get.yaml"
+          example:
+            $ref: "../../../examples/resource/i18n/{localeCode}/get.yaml"
     "400":
       description: パラメータ不正
       content:
