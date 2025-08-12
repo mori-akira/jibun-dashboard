@@ -8,7 +8,7 @@ export default withNuxt({
     "vue/multi-word-component-names": [
       "error",
       {
-        ignores: ["index", "error"],
+        ignores: ["index", "error", "default"],
       },
     ],
   },

@@ -67,7 +67,7 @@ const {
 const onUploadFile = async (file: File) => {
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      "You Have Unsaved Change. Continue?"
+      t("message.confirm.checkUnsavedChanges")
     );
     if (!confirmed) {
       return;
@@ -80,11 +80,11 @@ const onUploadFile = async (file: File) => {
 };
 const checkFile = async (file: File): Promise<boolean> => {
   if (!checkFileExtension(file) || !checkFileType(file)) {
-    await openWarningDialog("Only PDF files are accepted.");
+    await openWarningDialog(t("onlyPDFAccepted"));
     return false;
   }
   if (!checkFileSize(file)) {
-    await openWarningDialog("The file size must be 1MB or less.");
+    await openWarningDialog(t("message.warning.fileSizeLimitExceeded"));
     return false;
   }
   return true;

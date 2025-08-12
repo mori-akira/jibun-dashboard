@@ -141,7 +141,7 @@ const onChangeDate = async (value: string | undefined) => {
   tempDate.value = value;
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      "You Have Unsaved Change. Continue?"
+      t("message.confirm.checkUnsavedChanges")
     );
     if (confirmed) {
       targetDate.value = tempDate.value;
@@ -225,7 +225,7 @@ const putSalary = async () => {
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
   }
 };
 
@@ -244,7 +244,7 @@ const executeOcr = async (file: File) => {
     await salaryApi.getSalaryOcr(targetDate.value, fileId);
   }, commonStore);
   if (result) {
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
     await fetchSalary();
   }
 };

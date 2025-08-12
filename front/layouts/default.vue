@@ -58,7 +58,7 @@ router.beforeEach(async (to, _, next) => {
   if (commonStore.hasUnsavedChange) {
     next(false);
     const confirmed = await openConfirmDialog(
-      "You Have Unsaved Change. Continue?"
+      t("message.confirm.checkUnsavedChanges")
     );
     if (confirmed) {
       commonStore.setHasUnsavedChange(false);

@@ -339,7 +339,9 @@ const onChangeStructure = (e: Event, key: keyof Structure) => {
 };
 
 const onAddCategory = async () => {
-  const newCategory = await openInputDialog("Input New Category Name");
+  const newCategory = await openInputDialog(
+    t("message.info.inputNewCategoryName")
+  );
   if (newCategory) {
     const newSalary = {
       ...props.targetSalary,
@@ -354,7 +356,7 @@ const onAddCategory = async () => {
 };
 const onDeleteCategory = async (category: string) => {
   const confirmed = await openConfirmDialog(
-    "Confirm Deletion Of The Category?"
+    t("message.confirm.deleteCategory")
   );
   if (confirmed) {
     const newSalary = {
@@ -369,7 +371,9 @@ const onDeleteCategory = async (category: string) => {
 };
 
 const onAddNewPayslipKey = async (category: string) => {
-  const newPayslipKey = await openInputDialog("Input New Payslip");
+  const newPayslipKey = await openInputDialog(
+    t("message.info.inputNewPayslip")
+  );
   if (newPayslipKey) {
     const newPayslipData = props.targetSalary.payslipData.map((e) =>
       e.key === category

@@ -89,6 +89,7 @@
 import { navigateTo } from "nuxt/app";
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
+import { useI18n } from "vue-i18n";
 
 import { schemas } from "~/api/client/schemas";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
@@ -107,6 +108,7 @@ import type {
 } from "~/utils/zod-to-vee-rules";
 import { matchCharacterTypeRule } from "~/utils/password";
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
@@ -118,7 +120,7 @@ const validationRules = {
     ((value: string): true | string => {
       return matchCharacterTypeRule(value)
         ? true
-        : "大文字・小文字・数字・記号のうち3種類以上を含めてください";
+        : t("message.validation.password.complexity");
     }) as GenericValidateFunction,
   ],
   newPasswordConfirm: [
@@ -126,12 +128,12 @@ const validationRules = {
     ((value: string): true | string => {
       return matchCharacterTypeRule(value)
         ? true
-        : "大文字・小文字・数字・記号のうち3種類以上を含めてください";
+        : t("message.validation.password.complexity");
     }) as GenericValidateFunction,
     ((value: string, ctx: FieldValidationMetaInfo): true | string => {
       return value === ctx?.form?.newPassword
         ? true
-        : "パスワードが一致しません";
+        : t("message.validation.password.mismatch");
     }) as GenericValidateFunction,
   ],
 };
@@ -152,7 +154,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
     navigateTo("/");
   }
 };

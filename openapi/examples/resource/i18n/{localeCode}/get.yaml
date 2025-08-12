@@ -1,6 +1,8 @@
 localeCode: en
 
 message.info.completeSuccessfully: Process completed successfully.
+message.info.inputNewCategory: Input New Category
+message.info.inputNewPayslip: Input New Payslip
 
 message.confirm.checkUnsavedChanges: You have unsaved changes. Continue?
 message.confirm.deleteCategory: Confirm deletion of the category?
@@ -24,3 +26,5 @@ message.validation.email: Please enter a valid email address.
 message.validation.minNumber: Please enter a number greater than or equal to {min}.
 message.validation.maxNumber: Please enter a number less than or equal to {max}.
 message.validation.integer: Please enter an integer.
+message.validation.password.complexity: "Please include at least three of the following: uppercase letters, lowercase letters, numbers, and symbols."
+message.validation.password.mismatch: Passwords do not match.

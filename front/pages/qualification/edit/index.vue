@@ -179,6 +179,7 @@
 <script setup lang="ts">
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
+import { useI18n } from "vue-i18n";
 
 import type {
   GetQualificationRankEnum,
@@ -210,6 +211,7 @@ import { useQualificationStore } from "~/stores/qualification";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import { generateRandomString } from "~/utils/rand";
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
@@ -503,13 +505,13 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
   if (result) {
     commonStore.setHasUnsavedChange(false);
     editTargetQualification.value = undefined;
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
   }
 };
 const onCloseModal = async () => {
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      "You Have Unsaved Change. Continue?"
+      t("message.confirm.checkUnsavedChanges")
     );
     if (!confirmed) {
       return;
@@ -521,7 +523,7 @@ const onCloseModal = async () => {
 
 const onDeleteAll = async () => {
   const confirmed = await openConfirmDialog(
-    "Confirm Deletion Of The All Checked Qualification?"
+    t("message.confirm.deleteAllQualifications")
   );
   if (!confirmed) {
     return;
@@ -535,12 +537,12 @@ const onDeleteAll = async () => {
     );
     commonStore.deleteLoadingQueue(id);
     checkedId.value = [];
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
     await fetchQualificationApi();
   } catch (err) {
     console.error(err);
     commonStore.deleteLoadingQueue(id);
-    await openErrorDialog("Something Cloud Not Be Deleted, Try Again.");
+    await openErrorDialog(t("message.error.checkUnsavedChanges"));
   } finally {
     commonStore.deleteLoadingQueue(id);
   }

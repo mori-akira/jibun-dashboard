@@ -235,6 +235,7 @@
 <script setup lang="ts">
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
+import { useI18n } from "vue-i18n";
 
 import type { Setting } from "~/api/client/api";
 import { schemas } from "~/api/client/schemas";
@@ -255,6 +256,7 @@ definePageMeta({
   prerender: false,
 });
 
+const { t } = useI18n();
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const setting = computed<Setting>(
@@ -321,7 +323,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
-    await openInfoDialog("Process Completed Successfully");
+    await openInfoDialog(t("message.info.completeSuccessfully"));
     navigateTo("/");
   }
 };
