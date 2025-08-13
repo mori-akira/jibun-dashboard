@@ -136,15 +136,8 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-// コンパイル前にSpotlessApplyを実行
+// コンパイル前にOpenAPIコード生成を実行
 tasks.named("compileKotlin") {
-    dependsOn("spotlessApply")
-}
-// SpotlessApply前にOpenAPIコード生成を実行
-tasks.named("spotlessApply") {
-    dependsOn("openApiGenerate")
-}
-tasks.named("spotlessKotlinGenerated") {
     dependsOn("openApiGenerate")
 }
 // OpenAPIコード生成前にバンドルを実行
