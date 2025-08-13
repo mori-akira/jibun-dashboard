@@ -118,7 +118,7 @@ jobs:
         working-directory: front
         run: npm run generate
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -127,3 +127,58 @@ jobs:
 
       - name: Upload to S3
         run: aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete
+
+  back:
+    runs-on: ubuntu-latest
+    needs: front
+    permissions:
+      id-token: write
+      contents: read
+    environment: dev
+    defaults:
+      run:
+        working-directory: back
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [resource]
+
+    env:
+      ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
+      SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Make Gradle Wrapper Executable
+        run: sudo chmod +x gradlew
+
+      - name: "Build Lambda Zip (Service: ${{ matrix.service }})"
+        run: |
+          ./gradlew \
+            :services:${{ matrix.service }}:detekt \
+            :services:${{ matrix.service }}:spotlessCheck \
+            :services:${{ matrix.service }}:test \
+            :services:${{ matrix.service }}:bundleLambda \
+            --no-daemon
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE_ARN }}
+          role-session-name: ${{ env.SESSION_NAME }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Upload to S3
+        run: aws s3 cp services/${{ matrix.service }}/build/distributions/${{ matrix.service }}.zip s3://${{ vars.ARTIFACTS_BUCKET_NAME }}
