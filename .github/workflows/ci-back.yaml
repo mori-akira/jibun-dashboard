@@ -1,4 +1,4 @@
-name: Continuous Integration - Back
+name: Continuous Integration - Backend
 on:
   push:
     branches:
