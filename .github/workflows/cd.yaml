@@ -88,6 +88,14 @@ jobs:
         working-directory: front
         run: npm ci --prefer-offline --no-audit --no-fund
 
+      - name: Generate API Client Module
+        run: |
+          cd openapi
+          npx openapi-generator-cli generate
+          npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+          cd ../front
+          npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
+
       - name: Run Lint
         working-directory: front
         run: npx eslint .
