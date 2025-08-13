@@ -1,10 +1,13 @@
+import com.diffplug.spotless.LineEnding
+
 plugins {
-    kotlin("jvm") version "2.0.0"
-    id("org.jetbrains.kotlin.plugin.spring") version "2.0.0"
-    id("org.springframework.boot") version "3.3.1"
-    id("io.spring.dependency-management") version "1.1.5"
-    id("org.openapi.generator") version "7.14.0"
-    id("com.github.node-gradle.node") version "7.0.2"
+    kotlin("jvm")
+    id("org.jetbrains.kotlin.plugin.spring")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+    id("org.openapi.generator")
+    id("com.github.node-gradle.node")
+    id("com.diffplug.spotless")
 }
 
 kotlin {
@@ -91,8 +94,44 @@ kotlin {
     }
 }
 
-// コンパイル前にOpenAPIコード生成を実行
+// Spotless設定
+spotless {
+    // 成果物のフォーマット
+    kotlin {
+        target(
+            "src/**/*.kt",
+        )
+        ktlint("1.3.1")
+            .editorConfigOverride(
+                mapOf(
+                    // ワイルドカードimportを許可
+                    "ktlint_standard_no-wildcard-imports" to "disabled",
+                    // 長い行の警告をOFF
+                    "ktlint_standard_max-line-length" to "off"
+                )
+            )
+        endWithNewline()
+        trimTrailingWhitespace()
+        lineEndings = LineEnding.UNIX
+    }
+    // 生成コードのフォーマット
+    format("kotlinGenerated") {
+        target("build/generated/**/*.kt")
+        trimTrailingWhitespace()
+        endWithNewline()
+        lineEndings = LineEnding.UNIX
+    }
+}
+
+// コンパイル前にSpotlessApplyを実行
 tasks.named("compileKotlin") {
+    dependsOn("spotlessApply")
+}
+// SpotlessApply前にOpenAPIコード生成を実行
+tasks.named("spotlessApply") {
+    dependsOn("openApiGenerate")
+}
+tasks.named("spotlessKotlinGenerated") {
     dependsOn("openApiGenerate")
 }
 // OpenAPIコード生成前にバンドルを実行

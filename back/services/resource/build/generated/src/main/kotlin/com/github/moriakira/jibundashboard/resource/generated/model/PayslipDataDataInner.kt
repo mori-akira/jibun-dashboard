@@ -14,7 +14,7 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- * 
+ *
  * @param key 明細キー
  * @param &#x60;data&#x60; 明細情報
  */
@@ -28,4 +28,3 @@ data class PayslipDataDataInner(
     ) {
 
 }
-

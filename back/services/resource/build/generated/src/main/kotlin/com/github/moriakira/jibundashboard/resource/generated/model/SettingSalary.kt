@@ -15,9 +15,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 給与設定
- * @param financialYearStartMonth 
- * @param transitionItemCount 
- * @param compareDataColors 
+ * @param financialYearStartMonth
+ * @param transitionItemCount
+ * @param compareDataColors
  */
 data class SettingSalary(
 
@@ -31,10 +31,9 @@ data class SettingSalary(
     @Schema(example = "null", required = true, description = "")
     @get:JsonProperty("transitionItemCount", required = true) val transitionItemCount: kotlin.Int,
 
-    @get:Size(min=3,max=3) 
+    @get:Size(min=3,max=3)
     @Schema(example = "null", required = true, description = "")
     @get:JsonProperty("compareDataColors", required = true) val compareDataColors: kotlin.collections.List<kotlin.String>
     ) {
 
 }
-
