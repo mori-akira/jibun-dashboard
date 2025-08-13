@@ -15,10 +15,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 資格設定
- * @param rankAColor
- * @param rankBColor
- * @param rankCColor
- * @param rankDColor
+ * @param rankAColor 
+ * @param rankBColor 
+ * @param rankCColor 
+ * @param rankDColor 
  */
 data class SettingQualification(
 
@@ -40,3 +40,4 @@ data class SettingQualification(
     ) {
 
 }
+

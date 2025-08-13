@@ -19,9 +19,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 /**
  * 給与情報
  * @param targetDate 対象年月日
- * @param overview
- * @param structure
- * @param payslipData
+ * @param overview 
+ * @param structure 
+ * @param payslipData 
  * @param salaryId 給与ID
  * @param userId ユーザID
  */
@@ -51,3 +51,4 @@ data class Salary(
     ) {
 
 }
+

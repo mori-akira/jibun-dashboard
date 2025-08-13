@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * エラー情報
- * @param errors
+ * @param errors 
  */
 data class ErrorInfo(
 
@@ -26,3 +26,4 @@ data class ErrorInfo(
     ) {
 
 }
+

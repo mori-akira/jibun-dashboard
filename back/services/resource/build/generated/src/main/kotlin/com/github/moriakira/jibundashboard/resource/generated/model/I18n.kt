@@ -29,3 +29,4 @@ data class I18n(
     ) {
 
 }
+
