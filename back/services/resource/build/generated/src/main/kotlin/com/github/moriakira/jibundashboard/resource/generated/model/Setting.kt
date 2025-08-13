@@ -17,8 +17,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 設定情報
- * @param salary 
- * @param qualification 
+ * @param salary
+ * @param qualification
  * @param settingId 設定ID
  * @param userId ユーザID
  */
@@ -40,4 +40,3 @@ data class Setting(
     ) {
 
 }
-
