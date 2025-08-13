@@ -105,7 +105,7 @@ jobs:
       max-parallel: 1
       matrix:
         service: [resource]
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -128,13 +128,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      
-      - name: Generate backend server stubs (OpenAPI)
+
+      - name: Generate Backend Server Stubs (OpenAPI)
         working-directory: back
         run: |
-          ./gradlew :services:${{ matrix.service }}:openApiGenerate --info
-          ./gradlew :services:${{ matrix.service }}:build -x test
-      
+          ./gradlew :services:${{ matrix.service }}:openApiGenerate
+
       - name: Commit And Push
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
