@@ -64,19 +64,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-      
-      - name: Install OpenAPI Generator CLI
-        run: npm install -g @openapitools/openapi-generator-cli openapi-zod-client
-      
+
       - name: Generate API Client Module
         run: |
           cd openapi
-          openapi-generator-cli generate
+          npx openapi-generator-cli generate
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+          npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
+          npx --yes eslint --fix "api/client/**/*.{ts,tsx,js}"
 
       - name: Add I18n Schema Definition
         run: echo "export type LocaleCode = I18n;" >> front/api/client/api.ts
-      
+
       - name: Add ESLint Disable Comment
         run: |
           FILE=front/api/client/schemas.ts
@@ -133,6 +132,9 @@ jobs:
         working-directory: back
         run: |
           ./gradlew :services:${{ matrix.service }}:openApiGenerate
+          KTLINT_VERSION="1.3.1"
+          curl -sSLo ktlint.jar "https://github.com/pinterest/ktlint/releases/download/${KTLINT_VERSION}/ktlint-${KTLINT_VERSION}-all.jar"
+          java -jar ktlint.jar -F "back/services/${{ matrix.service }}/build/generated/**/*.kt" || true
 
       - name: Commit And Push
         run: |
