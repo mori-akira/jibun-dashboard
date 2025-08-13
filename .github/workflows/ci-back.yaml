@@ -1,0 +1,42 @@
+name: Continuous Integration - Backend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "back/**"
+      - ".github/workflows/ci-back.yaml"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: back
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Make Gradle Wrapper Executable
+        run: sudo chmod +x gradlew
+
+      - name: Detekt (Linter)
+        run: ./gradlew detekt --no-daemon
+
+      - name: Spotless Check (Format)
+        run: ./gradlew spotlessCheck --no-daemon
+
+      - name: Test
+        run: ./gradlew test --no-daemon
