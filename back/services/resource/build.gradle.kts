@@ -8,6 +8,7 @@ plugins {
     id("org.openapi.generator")
     id("com.github.node-gradle.node")
     id("com.diffplug.spotless")
+    id("io.gitlab.arturbosch.detekt")
 }
 
 kotlin {
@@ -24,7 +25,12 @@ dependencies {
 
     implementation(project(":libs:common"))
 
+    testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
+    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
+    testImplementation("io.mockk:mockk:1.14.5")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 // Lambdaのビルド設定
@@ -46,12 +52,11 @@ node {
 val bundledPath: String = layout.buildDirectory.file("openapi-bundled.yaml").get().asFile.absolutePath
 tasks.register<com.github.gradle.node.npm.task.NpxTask>("bundleOpenApi") {
     command.set("@redocly/cli")
-    args.set(listOf(
-        "bundle",
-        "${rootProject.projectDir.parentFile}/openapi/openapi.yaml",
-        "-o",
-        bundledPath
-    ))
+    args.set(
+        listOf(
+            "bundle", "${rootProject.projectDir.parentFile}/openapi/openapi.yaml", "-o", bundledPath
+        )
+    )
 }
 
 // OpenAPIコード生成タスク
@@ -98,11 +103,8 @@ kotlin {
 spotless {
     // 成果物のフォーマット
     kotlin {
-        target(
-            "src/**/*.kt",
-        )
-        ktlint("1.3.1")
-            .editorConfigOverride(
+        target("src/**/*.kt")
+        ktlint("1.3.1").editorConfigOverride(
                 mapOf(
                     // ワイルドカードimportを許可
                     "ktlint_standard_no-wildcard-imports" to "disabled",
@@ -121,6 +123,17 @@ spotless {
         endWithNewline()
         lineEndings = LineEnding.UNIX
     }
+}
+
+detekt {
+    config.setFrom(files("$rootDir/detekt.yml"))
+    buildUponDefaultConfig = true
+    autoCorrect = false
+    parallel = true
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 // コンパイル前にSpotlessApplyを実行

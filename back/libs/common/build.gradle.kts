@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm")
 }
 
 kotlin {
@@ -10,6 +10,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
 }
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
 }
