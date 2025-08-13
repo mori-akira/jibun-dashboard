@@ -989,7 +989,7 @@ export const QualificationApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<QualificationId>> {
+        async getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Qualification>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getQualificationById(qualificationId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['QualificationApi.getQualificationById']?.[localVarOperationServerIndex]?.url;
@@ -1053,7 +1053,7 @@ export const QualificationApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<QualificationId> {
+        getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<Qualification> {
             return localVarFp.getQualificationById(qualificationId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1111,7 +1111,7 @@ export interface QualificationApiInterface {
      * @throws {RequiredError}
      * @memberof QualificationApiInterface
      */
-    getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<QualificationId>;
+    getQualificationById(qualificationId: string, options?: RawAxiosRequestConfig): AxiosPromise<Qualification>;
 
     /**
      * 資格報を登録(登録済みの場合は情報を置き換え)する
@@ -1278,7 +1278,7 @@ export const ResourceApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getI18n(localeCode: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LocaleCode>> {
+        async getI18n(localeCode: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<I18n>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getI18n(localeCode, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ResourceApi.getI18n']?.[localVarOperationServerIndex]?.url;
@@ -1301,7 +1301,7 @@ export const ResourceApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getI18n(localeCode: string, options?: RawAxiosRequestConfig): AxiosPromise<LocaleCode> {
+        getI18n(localeCode: string, options?: RawAxiosRequestConfig): AxiosPromise<I18n> {
             return localVarFp.getI18n(localeCode, options).then((request) => request(axios, basePath));
         },
     };
@@ -1321,7 +1321,7 @@ export interface ResourceApiInterface {
      * @throws {RequiredError}
      * @memberof ResourceApiInterface
      */
-    getI18n(localeCode: string, options?: RawAxiosRequestConfig): AxiosPromise<LocaleCode>;
+    getI18n(localeCode: string, options?: RawAxiosRequestConfig): AxiosPromise<I18n>;
 
 }
 
@@ -1597,7 +1597,7 @@ export const SalaryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>> {
+        async getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Salary>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryById(salaryId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SalaryApi.getSalaryById']?.[localVarOperationServerIndex]?.url;
@@ -1669,7 +1669,7 @@ export const SalaryApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId> {
+        getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): AxiosPromise<Salary> {
             return localVarFp.getSalaryById(salaryId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1732,7 +1732,7 @@ export interface SalaryApiInterface {
      * @throws {RequiredError}
      * @memberof SalaryApiInterface
      */
-    getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): AxiosPromise<SalaryId>;
+    getSalaryById(salaryId: string, options?: RawAxiosRequestConfig): AxiosPromise<Salary>;
 
     /**
      * 給与情報登録のOCR処理を実行する
