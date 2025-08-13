@@ -27,6 +27,13 @@ module "cognito" {
   cognito_logout_url   = var.cognito_logout_url
 }
 
+module "artifacts" {
+  source               = "./modules/artifacts"
+  region               = var.region
+  application_tag      = module.application.application_tag
+  artifact_bucket_name = "${var.app_name}-artifact-bucket"
+}
+
 module "api_gateway" {
   source               = "./modules/api_gateway"
   region               = var.region
