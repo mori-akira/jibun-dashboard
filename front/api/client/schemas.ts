@@ -2,7 +2,13 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
-const I18n = z.record(z.string());
+const I18n = z
+  .object({
+    localeCode: z.string().regex(/^[a-z]{2}$/),
+    messages: z.record(z.string()),
+  })
+  .partial()
+  .passthrough();
 const ErrorInfo = z
   .object({
     errors: z.array(
@@ -337,7 +343,7 @@ const endpoints = makeApi([
         schema: z.string().regex(/^[a-z]{2}$/),
       },
     ],
-    response: z.record(z.string()),
+    response: I18n,
     errors: [
       {
         status: 400,

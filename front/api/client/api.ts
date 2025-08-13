@@ -84,14 +84,18 @@ export interface ErrorInfo {
  * @interface I18n
  */
 export interface I18n {
-    [key: string]: string | any;
-
     /**
      * ロケールコード
      * @type {string}
      * @memberof I18n
      */
     'localeCode'?: string;
+    /**
+     * メッセージ
+     * @type {{ [key: string]: string; }}
+     * @memberof I18n
+     */
+    'messages'?: { [key: string]: string; };
 }
 /**
  * 給与概要
