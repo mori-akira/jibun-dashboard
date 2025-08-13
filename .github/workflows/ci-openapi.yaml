@@ -54,6 +54,7 @@ jobs:
 
   generate-module:
     runs-on: ubuntu-latest
+    needs: generate-doc
     permissions:
       id-token: write
       contents: write
