@@ -23,11 +23,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
       - name: Install redoc-cli
         run: npm install -g redoc-cli
 
@@ -44,6 +39,8 @@ jobs:
 
       - name: Commit And Push
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           sudo git restore --staged openapi
           sudo git pull origin main
           sudo git add doc
@@ -67,11 +64,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
       
       - name: Install OpenAPI Generator CLI
         run: npm install -g @openapitools/openapi-generator-cli openapi-zod-client
@@ -94,6 +86,8 @@ jobs:
 
       - name: Commit And Push
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           sudo git pull --ff-only origin main || true
           sudo git add front/api
           if ! git diff --cached --quiet; then
@@ -122,11 +116,6 @@ jobs:
           distribution: temurin
           java-version: "21"
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
       - name: Make Gradle Wrapper Executable
         run: sudo chmod +x back/gradlew
 
@@ -148,6 +137,8 @@ jobs:
       
       - name: Commit And Push
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           sudo git pull --ff-only origin main || true
           sudo git add -f back/services/${{ matrix.service }}/build/generated
           sudo git add -f back/services/${{ matrix.service }}/build/openapi-bundled.yaml
