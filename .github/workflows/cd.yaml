@@ -99,6 +99,13 @@ jobs:
           cd ../front
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
 
+      - name: Add ESLint Disable Comment
+        run: |
+          FILE=front/api/client/schemas.ts
+          if [ -f "$FILE" ]; then
+            sed -i '1s;^;/* eslint-disable */\n;' "$FILE"
+          fi
+
       - name: Run Lint
         working-directory: front
         run: npx eslint .
