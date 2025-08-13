@@ -3121,3 +3121,4 @@ export class UserApi extends BaseAPI implements UserApiInterface {
 
 export type LocaleCode = I18n;
 export type LocaleCode = I18n;
+export type LocaleCode = I18n;
