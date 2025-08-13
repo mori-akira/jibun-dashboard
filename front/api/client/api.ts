@@ -567,7 +567,7 @@ export interface User {
  * @export
  */
 export const FileApiAxiosParamCreator = function (
-  configuration?: Configuration,
+  configuration?: Configuration
 ) {
   return {
     /**
@@ -579,7 +579,7 @@ export const FileApiAxiosParamCreator = function (
      */
     getUploadUrl: async (
       fileId?: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/file/upload-url`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -624,7 +624,7 @@ export const FileApiAxiosParamCreator = function (
      */
     uploadFileMock: async (
       body: File,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'body' is not null or undefined
       assertParamExists("uploadFileMock", "body", body);
@@ -657,7 +657,7 @@ export const FileApiAxiosParamCreator = function (
       localVarRequestOptions.data = serializeDataIfNeeded(
         body,
         localVarRequestOptions,
-        configuration,
+        configuration
       );
 
       return {
@@ -684,13 +684,13 @@ export const FileApiFp = function (configuration?: Configuration) {
      */
     async getUploadUrl(
       fileId?: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UploadUrl>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getUploadUrl(
         fileId,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -702,7 +702,7 @@ export const FileApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -714,13 +714,13 @@ export const FileApiFp = function (configuration?: Configuration) {
      */
     async uploadFileMock(
       body: File,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFileMock(
         body,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -732,7 +732,7 @@ export const FileApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
   };
@@ -745,7 +745,7 @@ export const FileApiFp = function (configuration?: Configuration) {
 export const FileApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance,
+  axios?: AxiosInstance
 ) {
   const localVarFp = FileApiFp(configuration);
   return {
@@ -758,7 +758,7 @@ export const FileApiFactory = function (
      */
     getUploadUrl(
       fileId?: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<UploadUrl> {
       return localVarFp
         .getUploadUrl(fileId, options)
@@ -773,7 +773,7 @@ export const FileApiFactory = function (
      */
     uploadFileMock(
       body: File,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<string> {
       return localVarFp
         .uploadFileMock(body, options)
@@ -798,7 +798,7 @@ export interface FileApiInterface {
    */
   getUploadUrl(
     fileId?: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<UploadUrl>;
 
   /**
@@ -811,7 +811,7 @@ export interface FileApiInterface {
    */
   uploadFileMock(
     body: File,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<string>;
 }
 
@@ -856,7 +856,7 @@ export class FileApi extends BaseAPI implements FileApiInterface {
  * @export
  */
 export const QualificationApiAxiosParamCreator = function (
-  configuration?: Configuration,
+  configuration?: Configuration
 ) {
   return {
     /**
@@ -868,17 +868,17 @@ export const QualificationApiAxiosParamCreator = function (
      */
     deleteQualification: async (
       qualificationId: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'qualificationId' is not null or undefined
       assertParamExists(
         "deleteQualification",
         "qualificationId",
-        qualificationId,
+        qualificationId
       );
       const localVarPath = `/qualification/{qualificationId}`.replace(
         `{${"qualificationId"}}`,
-        encodeURIComponent(String(qualificationId)),
+        encodeURIComponent(String(qualificationId))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -934,7 +934,7 @@ export const QualificationApiAxiosParamCreator = function (
       expirationDateFrom?: string,
       expirationDateTo?: string,
       sortKey?: GetQualificationSortKeyEnum,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/qualification`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1023,17 +1023,17 @@ export const QualificationApiAxiosParamCreator = function (
      */
     getQualificationById: async (
       qualificationId: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'qualificationId' is not null or undefined
       assertParamExists(
         "getQualificationById",
         "qualificationId",
-        qualificationId,
+        qualificationId
       );
       const localVarPath = `/qualification/{qualificationId}`.replace(
         `{${"qualificationId"}}`,
-        encodeURIComponent(String(qualificationId)),
+        encodeURIComponent(String(qualificationId))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1073,7 +1073,7 @@ export const QualificationApiAxiosParamCreator = function (
      */
     putQualification: async (
       qualification?: Qualification,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/qualification`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1104,7 +1104,7 @@ export const QualificationApiAxiosParamCreator = function (
       localVarRequestOptions.data = serializeDataIfNeeded(
         qualification,
         localVarRequestOptions,
-        configuration,
+        configuration
       );
 
       return {
@@ -1132,14 +1132,14 @@ export const QualificationApiFp = function (configuration?: Configuration) {
      */
     async deleteQualification(
       qualificationId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.deleteQualification(
           qualificationId,
-          options,
+          options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -1151,7 +1151,7 @@ export const QualificationApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -1179,11 +1179,11 @@ export const QualificationApiFp = function (configuration?: Configuration) {
       expirationDateFrom?: string,
       expirationDateTo?: string,
       sortKey?: GetQualificationSortKeyEnum,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string,
+        basePath?: string
       ) => AxiosPromise<Array<Qualification>>
     > {
       const localVarAxiosArgs =
@@ -1197,7 +1197,7 @@ export const QualificationApiFp = function (configuration?: Configuration) {
           expirationDateFrom,
           expirationDateTo,
           sortKey,
-          options,
+          options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -1209,7 +1209,7 @@ export const QualificationApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -1221,14 +1221,14 @@ export const QualificationApiFp = function (configuration?: Configuration) {
      */
     async getQualificationById(
       qualificationId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Qualification>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getQualificationById(
           qualificationId,
-          options,
+          options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -1240,7 +1240,7 @@ export const QualificationApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -1252,17 +1252,17 @@ export const QualificationApiFp = function (configuration?: Configuration) {
      */
     async putQualification(
       qualification?: Qualification,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
-        basePath?: string,
+        basePath?: string
       ) => AxiosPromise<QualificationId>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.putQualification(
           qualification,
-          options,
+          options
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -1274,7 +1274,7 @@ export const QualificationApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
   };
@@ -1287,7 +1287,7 @@ export const QualificationApiFp = function (configuration?: Configuration) {
 export const QualificationApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance,
+  axios?: AxiosInstance
 ) {
   const localVarFp = QualificationApiFp(configuration);
   return {
@@ -1300,7 +1300,7 @@ export const QualificationApiFactory = function (
      */
     deleteQualification(
       qualificationId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<void> {
       return localVarFp
         .deleteQualification(qualificationId, options)
@@ -1331,7 +1331,7 @@ export const QualificationApiFactory = function (
       expirationDateFrom?: string,
       expirationDateTo?: string,
       sortKey?: GetQualificationSortKeyEnum,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<Array<Qualification>> {
       return localVarFp
         .getQualification(
@@ -1344,7 +1344,7 @@ export const QualificationApiFactory = function (
           expirationDateFrom,
           expirationDateTo,
           sortKey,
-          options,
+          options
         )
         .then((request) => request(axios, basePath));
     },
@@ -1357,7 +1357,7 @@ export const QualificationApiFactory = function (
      */
     getQualificationById(
       qualificationId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<Qualification> {
       return localVarFp
         .getQualificationById(qualificationId, options)
@@ -1372,7 +1372,7 @@ export const QualificationApiFactory = function (
      */
     putQualification(
       qualification?: Qualification,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<QualificationId> {
       return localVarFp
         .putQualification(qualification, options)
@@ -1397,7 +1397,7 @@ export interface QualificationApiInterface {
    */
   deleteQualification(
     qualificationId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<void>;
 
   /**
@@ -1426,7 +1426,7 @@ export interface QualificationApiInterface {
     expirationDateFrom?: string,
     expirationDateTo?: string,
     sortKey?: GetQualificationSortKeyEnum,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<Array<Qualification>>;
 
   /**
@@ -1439,7 +1439,7 @@ export interface QualificationApiInterface {
    */
   getQualificationById(
     qualificationId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<Qualification>;
 
   /**
@@ -1452,7 +1452,7 @@ export interface QualificationApiInterface {
    */
   putQualification(
     qualification?: Qualification,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<QualificationId>;
 }
 
@@ -1476,7 +1476,7 @@ export class QualificationApi
    */
   public deleteQualification(
     qualificationId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ) {
     return QualificationApiFp(this.configuration)
       .deleteQualification(qualificationId, options)
@@ -1509,7 +1509,7 @@ export class QualificationApi
     expirationDateFrom?: string,
     expirationDateTo?: string,
     sortKey?: GetQualificationSortKeyEnum,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ) {
     return QualificationApiFp(this.configuration)
       .getQualification(
@@ -1522,7 +1522,7 @@ export class QualificationApi
         expirationDateFrom,
         expirationDateTo,
         sortKey,
-        options,
+        options
       )
       .then((request) => request(this.axios, this.basePath));
   }
@@ -1537,7 +1537,7 @@ export class QualificationApi
    */
   public getQualificationById(
     qualificationId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ) {
     return QualificationApiFp(this.configuration)
       .getQualificationById(qualificationId, options)
@@ -1554,7 +1554,7 @@ export class QualificationApi
    */
   public putQualification(
     qualification?: Qualification,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ) {
     return QualificationApiFp(this.configuration)
       .putQualification(qualification, options)
@@ -1601,7 +1601,7 @@ export type GetQualificationSortKeyEnum =
  * @export
  */
 export const ResourceApiAxiosParamCreator = function (
-  configuration?: Configuration,
+  configuration?: Configuration
 ) {
   return {
     /**
@@ -1613,13 +1613,13 @@ export const ResourceApiAxiosParamCreator = function (
      */
     getI18n: async (
       localeCode: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'localeCode' is not null or undefined
       assertParamExists("getI18n", "localeCode", localeCode);
       const localVarPath = `/resource/i18n/{localeCode}`.replace(
         `{${"localeCode"}}`,
-        encodeURIComponent(String(localeCode)),
+        encodeURIComponent(String(localeCode))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1669,13 +1669,13 @@ export const ResourceApiFp = function (configuration?: Configuration) {
      */
     async getI18n(
       localeCode: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<I18n>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getI18n(
         localeCode,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -1687,7 +1687,7 @@ export const ResourceApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
   };
@@ -1700,7 +1700,7 @@ export const ResourceApiFp = function (configuration?: Configuration) {
 export const ResourceApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance,
+  axios?: AxiosInstance
 ) {
   const localVarFp = ResourceApiFp(configuration);
   return {
@@ -1713,7 +1713,7 @@ export const ResourceApiFactory = function (
      */
     getI18n(
       localeCode: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<I18n> {
       return localVarFp
         .getI18n(localeCode, options)
@@ -1738,7 +1738,7 @@ export interface ResourceApiInterface {
    */
   getI18n(
     localeCode: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<I18n>;
 }
 
@@ -1769,7 +1769,7 @@ export class ResourceApi extends BaseAPI implements ResourceApiInterface {
  * @export
  */
 export const SalaryApiAxiosParamCreator = function (
-  configuration?: Configuration,
+  configuration?: Configuration
 ) {
   return {
     /**
@@ -1781,13 +1781,13 @@ export const SalaryApiAxiosParamCreator = function (
      */
     deleteSalary: async (
       salaryId: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'salaryId' is not null or undefined
       assertParamExists("deleteSalary", "salaryId", salaryId);
       const localVarPath = `/salary/{salaryId}`.replace(
         `{${"salaryId"}}`,
-        encodeURIComponent(String(salaryId)),
+        encodeURIComponent(String(salaryId))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1831,7 +1831,7 @@ export const SalaryApiAxiosParamCreator = function (
       targetDate?: string,
       targetDateFrom?: string,
       targetDateTo?: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/salary`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1893,13 +1893,13 @@ export const SalaryApiAxiosParamCreator = function (
      */
     getSalaryById: async (
       salaryId: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'salaryId' is not null or undefined
       assertParamExists("getSalaryById", "salaryId", salaryId);
       const localVarPath = `/salary/{salaryId}`.replace(
         `{${"salaryId"}}`,
-        encodeURIComponent(String(salaryId)),
+        encodeURIComponent(String(salaryId))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1941,7 +1941,7 @@ export const SalaryApiAxiosParamCreator = function (
     getSalaryOcr: async (
       targetDate: string,
       fileId: string,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'targetDate' is not null or undefined
       assertParamExists("getSalaryOcr", "targetDate", targetDate);
@@ -1997,7 +1997,7 @@ export const SalaryApiAxiosParamCreator = function (
      */
     putSalary: async (
       salary?: Salary,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/salary`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2028,7 +2028,7 @@ export const SalaryApiAxiosParamCreator = function (
       localVarRequestOptions.data = serializeDataIfNeeded(
         salary,
         localVarRequestOptions,
-        configuration,
+        configuration
       );
 
       return {
@@ -2055,13 +2055,13 @@ export const SalaryApiFp = function (configuration?: Configuration) {
      */
     async deleteSalary(
       salaryId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSalary(
         salaryId,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2073,7 +2073,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2089,7 +2089,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
       targetDate?: string,
       targetDateFrom?: string,
       targetDateTo?: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Salary>>
     > {
@@ -2097,7 +2097,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
         targetDate,
         targetDateFrom,
         targetDateTo,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2109,7 +2109,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2121,13 +2121,13 @@ export const SalaryApiFp = function (configuration?: Configuration) {
      */
     async getSalaryById(
       salaryId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Salary>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryById(
         salaryId,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2139,7 +2139,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2153,14 +2153,14 @@ export const SalaryApiFp = function (configuration?: Configuration) {
     async getSalaryOcr(
       targetDate: string,
       fileId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryOcr(
         targetDate,
         fileId,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2172,7 +2172,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2184,13 +2184,13 @@ export const SalaryApiFp = function (configuration?: Configuration) {
      */
     async putSalary(
       salary?: Salary,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putSalary(
         salary,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2202,7 +2202,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
   };
@@ -2215,7 +2215,7 @@ export const SalaryApiFp = function (configuration?: Configuration) {
 export const SalaryApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance,
+  axios?: AxiosInstance
 ) {
   const localVarFp = SalaryApiFp(configuration);
   return {
@@ -2228,7 +2228,7 @@ export const SalaryApiFactory = function (
      */
     deleteSalary(
       salaryId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<void> {
       return localVarFp
         .deleteSalary(salaryId, options)
@@ -2247,7 +2247,7 @@ export const SalaryApiFactory = function (
       targetDate?: string,
       targetDateFrom?: string,
       targetDateTo?: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<Array<Salary>> {
       return localVarFp
         .getSalary(targetDate, targetDateFrom, targetDateTo, options)
@@ -2262,7 +2262,7 @@ export const SalaryApiFactory = function (
      */
     getSalaryById(
       salaryId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<Salary> {
       return localVarFp
         .getSalaryById(salaryId, options)
@@ -2279,7 +2279,7 @@ export const SalaryApiFactory = function (
     getSalaryOcr(
       targetDate: string,
       fileId: string,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<SalaryId> {
       return localVarFp
         .getSalaryOcr(targetDate, fileId, options)
@@ -2294,7 +2294,7 @@ export const SalaryApiFactory = function (
      */
     putSalary(
       salary?: Salary,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<SalaryId> {
       return localVarFp
         .putSalary(salary, options)
@@ -2319,7 +2319,7 @@ export interface SalaryApiInterface {
    */
   deleteSalary(
     salaryId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<void>;
 
   /**
@@ -2336,7 +2336,7 @@ export interface SalaryApiInterface {
     targetDate?: string,
     targetDateFrom?: string,
     targetDateTo?: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<Array<Salary>>;
 
   /**
@@ -2349,7 +2349,7 @@ export interface SalaryApiInterface {
    */
   getSalaryById(
     salaryId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<Salary>;
 
   /**
@@ -2364,7 +2364,7 @@ export interface SalaryApiInterface {
   getSalaryOcr(
     targetDate: string,
     fileId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<SalaryId>;
 
   /**
@@ -2377,7 +2377,7 @@ export interface SalaryApiInterface {
    */
   putSalary(
     salary?: Salary,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<SalaryId>;
 }
 
@@ -2416,7 +2416,7 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
     targetDate?: string,
     targetDateFrom?: string,
     targetDateTo?: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ) {
     return SalaryApiFp(this.configuration)
       .getSalary(targetDate, targetDateFrom, targetDateTo, options)
@@ -2449,7 +2449,7 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
   public getSalaryOcr(
     targetDate: string,
     fileId: string,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ) {
     return SalaryApiFp(this.configuration)
       .getSalaryOcr(targetDate, fileId, options)
@@ -2476,7 +2476,7 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
  * @export
  */
 export const SettingApiAxiosParamCreator = function (
-  configuration?: Configuration,
+  configuration?: Configuration
 ) {
   return {
     /**
@@ -2486,7 +2486,7 @@ export const SettingApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getSetting: async (
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/setting`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2527,7 +2527,7 @@ export const SettingApiAxiosParamCreator = function (
      */
     putSetting: async (
       setting?: Setting,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/setting`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2558,7 +2558,7 @@ export const SettingApiAxiosParamCreator = function (
       localVarRequestOptions.data = serializeDataIfNeeded(
         setting,
         localVarRequestOptions,
-        configuration,
+        configuration
       );
 
       return {
@@ -2583,12 +2583,13 @@ export const SettingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getSetting(
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Setting>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getSetting(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getSetting(
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["SettingApi.getSetting"]?.[
@@ -2599,7 +2600,7 @@ export const SettingApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2611,13 +2612,13 @@ export const SettingApiFp = function (configuration?: Configuration) {
      */
     async putSetting(
       setting?: Setting,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putSetting(
         setting,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2629,7 +2630,7 @@ export const SettingApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
   };
@@ -2642,7 +2643,7 @@ export const SettingApiFp = function (configuration?: Configuration) {
 export const SettingApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance,
+  axios?: AxiosInstance
 ) {
   const localVarFp = SettingApiFp(configuration);
   return {
@@ -2666,7 +2667,7 @@ export const SettingApiFactory = function (
      */
     putSetting(
       setting?: Setting,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<void> {
       return localVarFp
         .putSetting(setting, options)
@@ -2700,7 +2701,7 @@ export interface SettingApiInterface {
    */
   putSetting(
     setting?: Setting,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<void>;
 }
 
@@ -2744,7 +2745,7 @@ export class SettingApi extends BaseAPI implements SettingApiInterface {
  * @export
  */
 export const UserApiAxiosParamCreator = function (
-  configuration?: Configuration,
+  configuration?: Configuration
 ) {
   return {
     /**
@@ -2754,7 +2755,7 @@ export const UserApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getUser: async (
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/user`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2795,7 +2796,7 @@ export const UserApiAxiosParamCreator = function (
      */
     postPassword: async (
       password?: Password,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/user/password`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2826,7 +2827,7 @@ export const UserApiAxiosParamCreator = function (
       localVarRequestOptions.data = serializeDataIfNeeded(
         password,
         localVarRequestOptions,
-        configuration,
+        configuration
       );
 
       return {
@@ -2843,7 +2844,7 @@ export const UserApiAxiosParamCreator = function (
      */
     putUser: async (
       user?: User,
-      options: RawAxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/user`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2874,7 +2875,7 @@ export const UserApiAxiosParamCreator = function (
       localVarRequestOptions.data = serializeDataIfNeeded(
         user,
         localVarRequestOptions,
-        configuration,
+        configuration
       );
 
       return {
@@ -2899,12 +2900,13 @@ export const UserApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getUser(
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getUser(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["UserApi.getUser"]?.[localVarOperationServerIndex]
@@ -2914,7 +2916,7 @@ export const UserApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2926,13 +2928,13 @@ export const UserApiFp = function (configuration?: Configuration) {
      */
     async postPassword(
       password?: Password,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.postPassword(
         password,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2944,7 +2946,7 @@ export const UserApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
@@ -2956,13 +2958,13 @@ export const UserApiFp = function (configuration?: Configuration) {
      */
     async putUser(
       user?: User,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putUser(
         user,
-        options,
+        options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
@@ -2973,7 +2975,7 @@ export const UserApiFp = function (configuration?: Configuration) {
           localVarAxiosArgs,
           globalAxios,
           BASE_PATH,
-          configuration,
+          configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
   };
@@ -2986,7 +2988,7 @@ export const UserApiFp = function (configuration?: Configuration) {
 export const UserApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance,
+  axios?: AxiosInstance
 ) {
   const localVarFp = UserApiFp(configuration);
   return {
@@ -3010,7 +3012,7 @@ export const UserApiFactory = function (
      */
     postPassword(
       password?: Password,
-      options?: RawAxiosRequestConfig,
+      options?: RawAxiosRequestConfig
     ): AxiosPromise<void> {
       return localVarFp
         .postPassword(password, options)
@@ -3056,7 +3058,7 @@ export interface UserApiInterface {
    */
   postPassword(
     password?: Password,
-    options?: RawAxiosRequestConfig,
+    options?: RawAxiosRequestConfig
   ): AxiosPromise<void>;
 
   /**
@@ -3119,6 +3121,4 @@ export class UserApi extends BaseAPI implements UserApiInterface {
   }
 }
 
-export type LocaleCode = I18n;
-export type LocaleCode = I18n;
 export type LocaleCode = I18n;
