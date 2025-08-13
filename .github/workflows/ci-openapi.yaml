@@ -70,6 +70,7 @@ jobs:
           cd openapi
           npx openapi-generator-cli generate
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+          cd ../front
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
           npx --yes eslint --fix "api/client/**/*.{ts,tsx,js}"
 
