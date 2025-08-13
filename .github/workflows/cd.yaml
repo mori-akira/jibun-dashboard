@@ -6,6 +6,7 @@ on:
     paths:
       - "infra/**"
       - "front/**"
+      - "back/**"
       - ".github/workflows/cd.yaml"
 
 jobs:
