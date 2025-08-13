@@ -23,7 +23,7 @@ servers:
 
 paths:
   /resource/i18n/{localeCode}:
-    $ref: "paths/resource/i18n/{localeCode}.yaml"
+    $ref: "paths/resource/i18n/localeCode.yaml"
   /user:
     $ref: "paths/user/index.yaml"
   /user/password:
@@ -37,13 +37,13 @@ paths:
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
-    $ref: "paths/salary/{salaryId}.yaml"
+    $ref: "paths/salary/salaryId.yaml"
   /salary/ocr:
     $ref: "paths/salary/ocr.yaml"
   /qualification:
     $ref: "paths/qualification/index.yaml"
   /qualification/{qualificationId}:
-    $ref: "paths/qualification/{qualificationId}.yaml"
+    $ref: "paths/qualification/qualificationId.yaml"
 
 components:
   schemas:
