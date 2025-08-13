@@ -169,7 +169,7 @@ jobs:
         run: |
           ./gradlew \
             :services:${{ matrix.service }}:detekt \
-            :services:${{ matrix.service }}:spotlessCheck \
+            :services:${{ matrix.service }}:spotlessKotlinCheck \
             :services:${{ matrix.service }}:test \
             :services:${{ matrix.service }}:bundleLambda \
             --no-daemon
