@@ -22,7 +22,7 @@ get:
           schema:
             $ref: "../../../openapi.yaml#/components/schemas/I18n"
           example:
-            $ref: "../../../examples/resource/i18n/{localeCode}/get.yaml"
+            $ref: "../../../examples/resource/i18n/localeCode/get.json"
     "400":
       description: パラメータ不正
       content:

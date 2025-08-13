@@ -22,7 +22,7 @@ get:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/Qualification"
           example:
-            $ref: "../../examples/qualification/{qualificationId}/get.yaml"
+            $ref: "../../examples/qualification/qualificationId/get.yaml"
     "400":
       description: パラメータ不正
       content:

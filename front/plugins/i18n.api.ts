@@ -26,8 +26,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const data = (await api.getI18n(locale)).data;
 
     const messages: Record<string, string> = {};
-    for (const [k, v] of Object.entries(data)) {
-      if (k === "localeCode") continue;
+    for (const [k, v] of Object.entries(data.messages || {})) {
       messages[k] = String(v ?? "");
     }
     cache.value[locale] = messages;
