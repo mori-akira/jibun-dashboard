@@ -130,7 +130,7 @@ jobs:
 
       - name: Generate Backend Server Stubs (OpenAPI)
         working-directory: back
-        run: ./gradlew :services:${{ matrix.service }}:build :services:${{ matrix.service }}:formatKotlinGenerated
+        run: ./gradlew :services:${{ matrix.service }}:build :services:${{ matrix.service }}:spotlessKotlinGeneratedApply
 
       - name: Commit And Push
         run: |
