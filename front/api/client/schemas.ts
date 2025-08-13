@@ -165,7 +165,7 @@ const endpoints = makeApi([
   {
     method: "put",
     path: "/file/upload-mock",
-    alias: "putFileuploadMock",
+    alias: "uploadFileMock",
     requestFormat: "json",
     response: z.void(),
   },
