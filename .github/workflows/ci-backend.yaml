@@ -1,11 +1,11 @@
-name: Continuous Integration - Front
+name: Continuous Integration - Back
 on:
   push:
     branches:
       - main
     paths:
-      - "front/**"
-      - ".github/workflows/ci-front.yaml"
+      - "back/**"
+      - ".github/workflows/ci-back.yaml"
 
 jobs:
 
