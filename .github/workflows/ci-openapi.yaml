@@ -69,7 +69,7 @@ jobs:
         run: |
           cd openapi
           npx openapi-generator-cli generate
-          if ! tail -n 1 ../front/api/client/api.ts | grep -Fxq 'export type LocaleCode = I18n;'; then
+          if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/api/client/api.ts; then
             echo 'export type LocaleCode = I18n;' >> ../front/api/client/api.ts
           fi
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
