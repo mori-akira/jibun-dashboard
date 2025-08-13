@@ -72,7 +72,6 @@ jobs:
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
           cd ../front
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
-          npx --yes eslint --fix "api/client/**/*.{ts,tsx,js}"
 
       - name: Add I18n Schema Definition
         run: echo "export type LocaleCode = I18n;" >> front/api/client/api.ts
