@@ -81,10 +81,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: front/package-lock.json
 
       - name: Install Dependencies
         working-directory: front
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Run Lint
         working-directory: front
