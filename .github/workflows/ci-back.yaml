@@ -30,7 +30,7 @@ jobs:
           cache: 'gradle'
 
       - name: Make Gradle Wrapper Executable
-        run: sudo chmod +x back/gradlew
+        run: sudo chmod +x gradlew
 
       - name: Detekt (Linter)
         run: ./gradlew detekt --no-daemon
