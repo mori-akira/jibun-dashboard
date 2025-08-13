@@ -19,7 +19,7 @@ const ErrorInfo = z
           errorMessage: z.string(),
           errorItem: z.array(z.string()).optional(),
         })
-        .passthrough()
+        .passthrough(),
     ),
   })
   .partial()
@@ -55,7 +55,7 @@ const Setting = z
         transitionItemCount: z.number().int().gte(1).lte(10),
         compareDataColors: z
           .array(
-            z.string().regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/)
+            z.string().regex(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})/),
           )
           .min(3)
           .max(3),
@@ -115,10 +115,10 @@ const Salary = z
         .object({
           key: z.string(),
           data: z.array(
-            z.object({ key: z.string(), data: z.number() }).passthrough()
+            z.object({ key: z.string(), data: z.number() }).passthrough(),
           ),
         })
-        .passthrough()
+        .passthrough(),
     ),
   })
   .passthrough();
