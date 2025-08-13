@@ -52,7 +52,7 @@ jobs:
             sudo git push origin
           fi
 
-  generate-module:
+  generate-front-module:
     runs-on: ubuntu-latest
     needs: generate-doc
     permissions:
@@ -94,9 +94,66 @@ jobs:
 
       - name: Commit And Push
         run: |
-          sudo git pull origin main
+          sudo git pull --ff-only origin main || true
           sudo git add front/api
           if ! git diff --cached --quiet; then
             sudo git commit -m "Automatically Generated"
             sudo git push origin
+          fi
+
+  generate-back-module:
+    runs-on: ubuntu-latest
+    needs: generate-front-module
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        service: [resource]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x back/gradlew
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      
+      - name: Generate backend server stubs (OpenAPI)
+        working-directory: back
+        run: |
+          ./gradlew :services:${{ matrix.service }}:openApiGenerate --info
+          ./gradlew :services:${{ matrix.service }}:build -x test
+      
+      - name: Commit And Push
+        run: |
+          sudo git pull --ff-only origin main || true
+          sudo git add -f back/services/${{ matrix.service }}/build/generated
+          sudo git add -f back/services/${{ matrix.service }}/build/openapi-bundled.yaml
+          if ! git diff --cached --quiet; then
+            sudo git commit -m "Automatically Generated (back ${{
+              matrix.service
+            }} server stubs)"
+            sudo git push origin HEAD:main
           fi
