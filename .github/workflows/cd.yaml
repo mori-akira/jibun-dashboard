@@ -165,13 +165,13 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: sudo chmod +x gradlew
 
-      - name: "Build Lambda Zip (Service: ${{ matrix.service }})"
+      - name: "Build Lambda Jar (Service: ${{ matrix.service }})"
         run: |
           ./gradlew \
             :services:${{ matrix.service }}:detekt \
             :services:${{ matrix.service }}:spotlessKotlinCheck \
             :services:${{ matrix.service }}:test \
-            :services:${{ matrix.service }}:bundleLambda \
+            :services:${{ matrix.service }}:bootJar \
             --no-daemon
 
       - name: Configure AWS Credentials
@@ -184,6 +184,7 @@ jobs:
       - name: "Upload to S3 (Service: ${{ matrix.service }})"
         run: |
           JAR_PATH=$(ls services/${{ matrix.service }}/build/libs/${{ matrix.service }}-*.jar | head -n 1)
+          echo "JAR_PATH: $JAR_PATH"
           test -f "$JAR_PATH"
           aws s3 cp "$JAR_PATH" s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar
 
