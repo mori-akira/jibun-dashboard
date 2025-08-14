@@ -25,7 +25,7 @@ resource "aws_lambda_function" "this" {
   role          = aws_iam_role.lambda_exec.arn
 
   s3_bucket = var.artifacts_bucket_name
-  s3_key    = "${var.service_name}.zip"
+  s3_key    = "${var.service_name}.jar"
 
   runtime     = var.runtime
   handler     = "com.github.moriakira.jibundashboard.${var.service_name}.StreamLambdaHandler::handleRequest"

@@ -181,5 +181,16 @@ jobs:
           role-session-name: ${{ env.SESSION_NAME }}
           aws-region: ${{ vars.REGION }}
 
-      - name: Upload to S3
-        run: aws s3 cp services/${{ matrix.service }}/build/distributions/${{ matrix.service }}.zip s3://${{ vars.ARTIFACTS_BUCKET_NAME }}
+      - name: "Upload to S3 (Service: ${{ matrix.service }})"
+        run: |
+          JAR_PATH=$(ls services/${{ matrix.service }}/build/libs/${{ matrix.service }}-*.jar | head -n 1)
+          test -f "$JAR_PATH"
+          aws s3 cp "$JAR_PATH" s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar
+
+      - name: "Update Lambda Code (Service: ${{ matrix.service }})"
+        run: |
+          aws lambda update-function-code \
+            --function-name "${{ vars.APP_NAME }}-resource-${{ job.environment.name }}" \
+            --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
+            --s3-key "${{ matrix.service }}.zip" \
+            --publish
