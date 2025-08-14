@@ -28,12 +28,14 @@ resource "aws_lambda_function" "this" {
   s3_key    = "${var.service_name}.jar"
 
   runtime     = var.runtime
-  handler     = "com.github.moriakira.jibundashboard.${var.service_name}.StreamLambdaHandler::handleRequest"
+  handler     = "com.amazonaws.serverless.proxy.spring.SpringDelegatingLambdaContainerHandler"
   memory_size = var.memory_size
   timeout     = var.timeout
 
   environment {
-    variables = var.environment
+    variables = merge(var.environment, {
+      MAIN_CLASS = "com.github.moriakira.jibundashboard.${var.service_name}.LambdaApplication"
+    })
   }
   lifecycle {
     # コード関連の変更はTerraformで無視
