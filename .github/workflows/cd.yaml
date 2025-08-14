@@ -192,5 +192,5 @@ jobs:
           aws lambda update-function-code \
             --function-name "${{ vars.APP_NAME }}-resource-${{ job.environment.name }}" \
             --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
-            --s3-key "${{ matrix.service }}.zip" \
+            --s3-key "${{ matrix.service }}.jar" \
             --publish
