@@ -191,7 +191,7 @@ jobs:
       - name: "Update Lambda Code (Service: ${{ matrix.service }})"
         run: |
           aws lambda update-function-code \
-            --function-name "${{ vars.APP_NAME }}-resource-${{ job.environment.name }}" \
+            --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
             --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
             --s3-key "${{ matrix.service }}.jar" \
             --publish
