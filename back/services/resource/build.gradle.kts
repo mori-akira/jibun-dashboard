@@ -40,12 +40,15 @@ node {
 }
 
 // OpenAPIバンドルタスク
-val bundledPath: String = layout.buildDirectory.file("openapi-bundled.yaml").get().asFile.absolutePath
+val bundledFile = layout.buildDirectory.file("openapi-bundled.yaml")
 tasks.register<com.github.gradle.node.npm.task.NpxTask>("bundleOpenApi") {
     command.set("@redocly/cli")
     args.set(
         listOf(
-            "bundle", "${rootProject.projectDir.parentFile}/openapi/openapi.yaml", "-o", bundledPath
+            "bundle",
+            "${rootProject.projectDir.parentFile}/openapi/openapi.yaml",
+            "-o",
+            bundledFile.get().asFile.absolutePath
         )
     )
 }
@@ -53,7 +56,7 @@ tasks.register<com.github.gradle.node.npm.task.NpxTask>("bundleOpenApi") {
 // OpenAPIコード生成タスク
 openApiGenerate {
     generatorName.set("kotlin-spring")
-    inputSpec.set(bundledPath)
+    inputSpec.set(bundledFile.get().asFile.absolutePath)
     outputDir.set(layout.buildDirectory.dir("generated").get().asFile.path)
 
     // Resourceタグだけ生成
@@ -96,13 +99,13 @@ spotless {
     kotlin {
         target("src/**/*.kt")
         ktlint("1.3.1").editorConfigOverride(
-                mapOf(
-                    // ワイルドカードimportを許可
-                    "ktlint_standard_no-wildcard-imports" to "disabled",
-                    // 長い行の警告をOFF
-                    "ktlint_standard_max-line-length" to "off"
-                )
+            mapOf(
+                // ワイルドカードimportを許可
+                "ktlint_standard_no-wildcard-imports" to "disabled",
+                // 長い行の警告をOFF
+                "ktlint_standard_max-line-length" to "off"
             )
+        )
         endWithNewline()
         trimTrailingWhitespace()
         lineEndings = LineEnding.UNIX
@@ -127,11 +130,20 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-// コンパイル前にOpenAPIコード生成を実行
-tasks.named("compileKotlin") {
-    dependsOn("openApiGenerate")
-}
-// OpenAPIコード生成前にバンドルを実行
+// OpenAPIバンドル → OpenAPI Generator → 生成コードのフォーマット → ビルドの順でタスクが行われるように
 tasks.named("openApiGenerate") {
     dependsOn("bundleOpenApi")
+}
+tasks.named("spotlessKotlinGenerated") {
+    dependsOn("openApiGenerate")
+}
+val prepareGeneratedSources = tasks.register("prepareGeneratedSources") {
+    dependsOn("openApiGenerate")
+    dependsOn("spotlessKotlinGeneratedApply")
+}
+tasks.named("compileKotlin") {
+    dependsOn(prepareGeneratedSources)
+}
+tasks.named("check") {
+    dependsOn(prepareGeneratedSources)
 }
