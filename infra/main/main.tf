@@ -6,11 +6,6 @@ module "application" {
   source = "./modules/application"
 }
 
-module "dynamodb" {
-  source          = "./modules/dynamodb"
-  application_tag = module.application.application_tag
-}
-
 module "frontend" {
   source               = "./modules/frontend"
   region               = var.region
@@ -32,6 +27,21 @@ module "artifacts" {
   region               = var.region
   application_tag      = module.application.application_tag
   artifact_bucket_name = "${var.app_name}-artifact-bucket"
+}
+
+module "dynamodb" {
+  source          = "./modules/dynamodb"
+  application_tag = module.application.application_tag
+}
+
+module "lambda_resource" {
+  source                = "./modules/lambda"
+  region                = var.region
+  application_tag       = module.application.application_tag
+  function_name         = "${var.app_name}-resource-${var.env_name}"
+  service_name          = "resource"
+  environment           = {}
+  artifacts_bucket_name = module.artifacts.bucket_name
 }
 
 module "api_gateway" {
