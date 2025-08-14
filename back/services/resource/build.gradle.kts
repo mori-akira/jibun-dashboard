@@ -20,7 +20,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
-    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.2")
+    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4")
     implementation("software.amazon.awssdk:dynamodb:2.25.64")
 
     implementation(project(":libs:common"))
@@ -31,15 +31,6 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
     testImplementation("io.mockk:mockk:1.14.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-}
-
-// Lambdaのビルド設定
-tasks.register<Zip>("bundleLambda") {
-    dependsOn(tasks.named("bootJar"))
-    val jar = layout.buildDirectory.file("libs/${project.name}-${project.version}.jar")
-    from(jar)
-    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
-    archiveFileName.set("resource.zip")
 }
 
 // Node.js設定
