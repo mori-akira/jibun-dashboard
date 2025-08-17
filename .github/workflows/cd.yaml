@@ -168,10 +168,7 @@ jobs:
       - name: Build Lambda Jar
         run: |
           ./gradlew \
-            :services:${{ matrix.service }}:detekt \
-            :services:${{ matrix.service }}:spotlessKotlinCheck \
-            :services:${{ matrix.service }}:test \
-            :services:${{ matrix.service }}:shadowJar \
+            :services:${{ matrix.service }}:build \
             --no-daemon
 
       - name: Configure AWS Credentials
