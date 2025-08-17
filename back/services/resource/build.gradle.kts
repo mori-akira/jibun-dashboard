@@ -2,6 +2,7 @@ import com.diffplug.spotless.LineEnding
 
 // サービス名
 val serviceName = "resource"
+val serviceNameTag = "Resource"
 
 plugins {
     kotlin("jvm")
@@ -66,7 +67,7 @@ openApiGenerate {
     // Resourceタグだけ生成
     globalProperties.set(
         mapOf(
-            "apis" to serviceName,
+            "apis" to serviceNameTag,
             "models" to "",
             "apiDocs" to "false",
             "modelDocs" to "false",
