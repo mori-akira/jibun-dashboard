@@ -165,7 +165,7 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: sudo chmod +x gradlew
 
-      - name: "Build Lambda Jar (Service: ${{ matrix.service }})"
+      - name: Build Lambda Jar
         run: |
           ./gradlew \
             :services:${{ matrix.service }}:detekt \
@@ -181,13 +181,13 @@ jobs:
           role-session-name: ${{ env.SESSION_NAME }}
           aws-region: ${{ vars.REGION }}
 
-      - name: "Upload to S3 (Service: ${{ matrix.service }})"
+      - name: Upload to S3
         run: |
           JAR_PATH=$(ls services/${{ matrix.service }}/build/libs/${{ matrix.service }}-*.jar | head -n 1)
           test -f "$JAR_PATH"
           aws s3 cp "$JAR_PATH" s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
 
-      - name: "Update Lambda Code (Service: ${{ matrix.service }})"
+      - name: Update Lambda Code
         run: |
           aws lambda update-function-code \
             --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
