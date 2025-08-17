@@ -182,10 +182,7 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Upload to S3
-        run: |
-          JAR_PATH=$(ls services/${{ matrix.service }}/build/libs/${{ matrix.service }}-*.jar | head -n 1)
-          test -f "$JAR_PATH"
-          aws s3 cp "$JAR_PATH" s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
+        run: aws s3 cp services/${{ matrix.service }}/build/libs/${{ matrix.service }}.jar s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
 
       - name: Update Lambda Code
         run: |
