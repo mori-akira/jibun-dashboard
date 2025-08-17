@@ -9,7 +9,7 @@ plugins {
     id("com.github.node-gradle.node")
     id("com.diffplug.spotless")
     id("io.gitlab.arturbosch.detekt")
-    id("com.github.johnrengelman.shadow")
+    id("com.gradleup.shadow")
 }
 
 kotlin {
