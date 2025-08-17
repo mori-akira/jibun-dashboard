@@ -1,5 +1,8 @@
 import com.diffplug.spotless.LineEnding
 
+// サービス名
+val serviceName = "resource"
+
 plugins {
     kotlin("jvm")
     id("org.jetbrains.kotlin.plugin.spring")
@@ -63,7 +66,7 @@ openApiGenerate {
     // Resourceタグだけ生成
     globalProperties.set(
         mapOf(
-            "apis" to "Resource",
+            "apis" to serviceName,
             "models" to "",
             "apiDocs" to "false",
             "modelDocs" to "false",
@@ -155,7 +158,7 @@ tasks.withType<Jar> {
 }
 
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-    archiveBaseName.set("resource")
+    archiveBaseName.set(serviceName)
     archiveClassifier.set("")
     mergeServiceFiles()
     minimize()
