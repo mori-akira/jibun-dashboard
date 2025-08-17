@@ -158,11 +158,8 @@ tasks.withType<Jar> {
 }
 
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-    archiveBaseName.set(serviceName)
-    archiveClassifier.set("")
+    archiveFileName.set("${serviceName}.jar")
     mergeServiceFiles()
-    minimize()
-    exclude("**/module-info.class")
     exclude("org/apache/tomcat/**")
 }
 
