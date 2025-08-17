@@ -9,6 +9,7 @@ plugins {
     id("com.github.node-gradle.node")
     id("com.diffplug.spotless")
     id("io.gitlab.arturbosch.detekt")
+    id("com.github.johnrengelman.shadow")
 }
 
 kotlin {
@@ -146,4 +147,22 @@ tasks.named("compileKotlin") {
 }
 tasks.named("check") {
     dependsOn(prepareGeneratedSources)
+}
+
+// シャドーJAR関連
+tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    archiveBaseName.set("resource")
+    archiveClassifier.set("")
+    mergeServiceFiles()
+    minimize()
+    exclude("**/module-info.class")
+    exclude("org/apache/tomcat/**")
+}
+
+tasks.named("build") {
+    dependsOn("shadowJar")
 }

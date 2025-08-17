@@ -7,6 +7,7 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.2" apply false
     id("com.diffplug.spotless") version "6.25.0" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.8" apply false
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
 }
 
 allprojects {
