@@ -18,10 +18,11 @@ const tokens = extractTokensFromHash();
 
 if (tokens.id_token && import.meta.client) {
   localStorage.setItem("id_token", tokens.id_token);
-  localStorage.setItem("access_token", tokens.access_token);
+  localStorage.setItem("access_token", tokens.access_token ?? "");
   navigateTo("/");
 } else {
   commonStore.addErrorMessage("Failed to login. Please try again.");
+  console.warn("Login failed:", tokens);
   navigateTo("/");
 }
 </script>

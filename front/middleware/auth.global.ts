@@ -17,6 +17,7 @@ export default defineNuxtRouteMiddleware(() => {
     const domain = config.public.cognitoDomain;
     const redirectUri = window.location.origin + "/callback";
     const loginUrl = `https://${domain}.auth.${region}.amazoncognito.com/login?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}`;
+    console.log("Redirecting to login:", loginUrl);
     window.location.href = loginUrl;
   }
 });
