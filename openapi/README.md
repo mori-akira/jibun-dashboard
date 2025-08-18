@@ -1,4 +1,4 @@
-# APIのI/FをOpenAPIで定義
+# OpenAPI定義
 
 ## VSCode用の拡張機能インストール
 サイドバー > Extensions > `@recommended` > WORKSPACE RECOMMENDATIONSを全てインストール
