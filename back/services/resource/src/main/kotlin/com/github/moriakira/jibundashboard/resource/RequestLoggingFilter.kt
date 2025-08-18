@@ -12,7 +12,9 @@ class RequestLoggingFilter : OncePerRequestFilter() {
     private val log = LoggerFactory.getLogger(this::class.java)
 
     override fun doFilterInternal(
-        request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain,
     ) {
         val start = System.currentTimeMillis()
         var thrown: Throwable? = null
@@ -36,7 +38,7 @@ class RequestLoggingFilter : OncePerRequestFilter() {
                 "elapsed_ms" to elapsed,
                 "user_agent" to ua,
                 "ip" to ip,
-                "amzn_trace" to trace
+                "amzn_trace" to trace,
             )
             if (thrown == null) {
                 log.info("request_summary: {}", map)
