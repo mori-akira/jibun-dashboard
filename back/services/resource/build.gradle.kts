@@ -27,6 +27,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4")
     implementation("software.amazon.awssdk:dynamodb:2.25.64")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     implementation(project(":libs:common"))
 
