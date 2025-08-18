@@ -9,9 +9,41 @@ on:
       - "back/**"
       - ".github/workflows/cd.yaml"
 
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      infra: ${{ steps.filter.outputs.infra }}
+      front: ${{ steps.filter.outputs.front }}
+      back: ${{ steps.filter.outputs.back }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Filter changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            infra:
+              - "infra/**"
+            front:
+              - "openapi/**"
+              - "front/**"
+            back:
+              - "openapi/**"
+              - "back/**"
+
   infra:
     runs-on: ubuntu-latest
+    if: needs.changes.outputs.infra == 'true'
+    needs: changes
     permissions:
       id-token: write
     environment: dev
@@ -57,11 +89,15 @@ jobs:
 
   front:
     runs-on: ubuntu-latest
-    needs: infra
+    if: needs.changes.outputs.front == 'true'
+    needs: [changes, infra]
     permissions:
       id-token: write
       contents: read
     environment: dev
+    defaults:
+      run:
+        working-directory: front
 
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -83,40 +119,32 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: front/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install Dependencies
-        working-directory: front
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Generate API Client Module
         run: |
-          cd openapi
+          cd ../openapi1
           npx openapi-generator-cli generate
           if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/api/client/api.ts; then
             echo 'export type LocaleCode = I18n;' >> ../front/api/client/api.ts
           fi
           npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
           cd ../front
+          sed -i '1s;^;/* eslint-disable */\n;' api/client/schemas.ts
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
 
-      - name: Add ESLint Disable Comment
-        run: |
-          FILE=front/api/client/schemas.ts
-          if [ -f "$FILE" ]; then
-            sed -i '1s;^;/* eslint-disable */\n;' "$FILE"
-          fi
-
       - name: Run Lint
-        working-directory: front
         run: npx eslint .
 
       - name: Run Tests
-        working-directory: front
         run: npx vitest run
 
       - name: Generate Static Site
-        working-directory: front
+        env:
+          NITRO_PRERENDER_CONCURRENCY: 8
         run: npm run generate
 
       - name: Configure AWS Credentials
@@ -131,7 +159,8 @@ jobs:
 
   back:
     runs-on: ubuntu-latest
-    needs: front
+    if: needs.changes.outputs.back == 'true'
+    needs: [changes, infra]
     permissions:
       id-token: write
       contents: read
