@@ -91,8 +91,10 @@ jobs:
 
   front:
     runs-on: ubuntu-latest
-    if: needs.changes.outputs.front == 'true'
     needs: [changes, infra]
+    if: |
+      needs.changes.outputs.front == 'true' &&
+      (needs.infra.result == 'success' || needs.infra.result == 'skipped')
     permissions:
       id-token: write
       contents: read
@@ -162,8 +164,10 @@ jobs:
 
   back:
     runs-on: ubuntu-latest
-    if: needs.changes.outputs.back == 'true'
     needs: [changes, infra]
+    if: |
+      needs.changes.outputs.back == 'true' &&
+      (needs.infra.result == 'success' || needs.infra.result == 'skipped')
     permissions:
       id-token: write
       contents: read
