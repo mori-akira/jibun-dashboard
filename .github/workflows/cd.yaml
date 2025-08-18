@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - "infra/**"
+      - "openapi/**"
       - "front/**"
       - "back/**"
       - ".github/workflows/cd.yaml"
