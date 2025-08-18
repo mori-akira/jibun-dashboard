@@ -96,9 +96,6 @@ jobs:
       id-token: write
       contents: read
     environment: dev
-    defaults:
-      run:
-        working-directory: front
 
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -123,11 +120,12 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install Dependencies
+        working-directory: front
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Generate API Client Module
         run: |
-          cd ../openapi1
+          cd openapi
           npx openapi-generator-cli generate
           if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/api/client/api.ts; then
             echo 'export type LocaleCode = I18n;' >> ../front/api/client/api.ts
@@ -138,12 +136,15 @@ jobs:
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
 
       - name: Run Lint
+        working-directory: front
         run: npx eslint .
 
       - name: Run Tests
+        working-directory: front
         run: npx vitest run
 
       - name: Generate Static Site
+        working-directory: front
         env:
           NITRO_PRERENDER_CONCURRENCY: 8
         run: npm run generate
@@ -181,9 +182,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v3
 
       - name: Setup JDK
         uses: actions/setup-java@v4
