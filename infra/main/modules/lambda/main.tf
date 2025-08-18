@@ -51,12 +51,6 @@ resource "aws_lambda_function" "this" {
   tags = var.application_tag
 }
 
-resource "aws_cloudwatch_log_group" "lambda_log" {
-  name              = "/aws/lambda/${aws_lambda_function.this.function_name}"
-  retention_in_days = 14
-  tags              = var.application_tag
-}
-
 output "function_arn" {
   value = aws_lambda_function.this.arn
 }
