@@ -10,8 +10,3 @@
 ```
 ./gradlew clean bootRun
 ```
-
-### Lambda用ビルド・バンドル手順
-```
-./gradlew clean bundleLambda
-```
