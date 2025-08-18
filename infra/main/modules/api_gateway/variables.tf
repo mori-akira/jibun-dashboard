@@ -27,3 +27,8 @@ variable "user_pool_client_id" {
   description = "CognitoユーザープールクライアントID"
   type        = string
 }
+
+variable "resource_lambda_arn" {
+  description = "Resourceサービス用LambdaのARN"
+  type        = string
+}
