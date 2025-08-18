@@ -15,37 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      infra: ${{ steps.filter.outputs.infra }}
-      front: ${{ steps.filter.outputs.front }}
-      back: ${{ steps.filter.outputs.back }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      
-      - name: Filter changes
-        uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            infra:
-              - "infra/**"
-            front:
-              - "openapi/**"
-              - "front/**"
-            back:
-              - "openapi/**"
-              - "back/**"
 
   infra:
     runs-on: ubuntu-latest
-    if: needs.changes.outputs.infra == 'true'
-    needs: changes
     permissions:
       id-token: write
     environment: dev
@@ -91,10 +63,7 @@ jobs:
 
   front:
     runs-on: ubuntu-latest
-    needs: [changes, infra]
-    if: |
-      needs.changes.outputs.front == 'true' &&
-      (needs.infra.result == 'success' || needs.infra.result == 'skipped')
+    needs: [infra]
     permissions:
       id-token: write
       contents: read
@@ -164,10 +133,7 @@ jobs:
 
   back:
     runs-on: ubuntu-latest
-    needs: [changes, infra]
-    if: |
-      needs.changes.outputs.back == 'true' &&
-      (needs.infra.result == 'success' || needs.infra.result == 'skipped')
+    needs: [infra]
     permissions:
       id-token: write
       contents: read
