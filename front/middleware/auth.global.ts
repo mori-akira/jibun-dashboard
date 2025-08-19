@@ -10,6 +10,8 @@ export default defineNuxtRouteMiddleware(() => {
 
   const { getIdToken, isTokenExpired } = useAuth();
   const idToken = getIdToken();
+  console.log("Checking authentication, ID Token:", idToken);
+  console.log("Is token expired:", isTokenExpired());
   if (!idToken || isTokenExpired()) {
     localStorage.clear();
     const clientId = config.public.cognitoClientId;
