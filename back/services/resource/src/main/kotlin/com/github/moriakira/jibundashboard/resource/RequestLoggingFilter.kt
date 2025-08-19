@@ -11,6 +11,10 @@ import org.springframework.web.filter.OncePerRequestFilter
 class RequestLoggingFilter : OncePerRequestFilter() {
     private val log = LoggerFactory.getLogger(this::class.java)
 
+    init {
+        log.info("RequestLoggingFilter initialized")
+    }
+
     @Suppress("TooGenericExceptionCaught")
     override fun doFilterInternal(
         request: HttpServletRequest,
