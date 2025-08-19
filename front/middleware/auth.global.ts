@@ -13,8 +13,6 @@ export default defineNuxtRouteMiddleware((to) => {
 
   const { getIdToken, isTokenExpired } = useAuth();
   const idToken = getIdToken();
-  console.log("Checking authentication, ID Token:", idToken);
-  console.log("Is token expired:", isTokenExpired());
   if (!idToken || isTokenExpired()) {
     localStorage.removeItem("id_token");
     localStorage.removeItem("access_token");
