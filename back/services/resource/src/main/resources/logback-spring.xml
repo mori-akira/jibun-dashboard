@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
 
-    <!-- 環境変数 LOG_LEVEL があれば使う / なければ INFO -->
     <property name="LOG_LEVEL" value="${LOG_LEVEL:-INFO}"/>
 
-    <!-- Console（= Lambda の stdout）に JSON 出力 -->
+    <!-- ConsoleにJSON 出力 -->
     <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
-                <!-- ISO8601 タイムスタンプ -->
                 <timestamp/>
-                <!-- level / logger / thread / message / stack_trace / mdc など -->
                 <logLevel/>
                 <loggerName/>
                 <threadName/>
                 <message/>
                 <stackTrace/>
                 <mdc/>
-                <!-- 追加の固定フィールド（アプリ名など） -->
-                <globalCustomFields>{"service":"resource","app":"jibun-dashboard"}</globalCustomFields>
+                <globalCustomFields>{"app":"jibun-dashboard", "service":"resource"}</globalCustomFields>
             </providers>
         </encoder>
     </appender>
 
-    <!-- ルートロガー -->
     <root level="${LOG_LEVEL}">
         <appender-ref ref="JSON"/>
     </root>
 
-    <!-- 冗長になりがちなパッケージは下げる/上げるの好みで -->
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.apache.coyote" level="WARN"/>
     <logger name="com.amazonaws.serverless" level="INFO"/>

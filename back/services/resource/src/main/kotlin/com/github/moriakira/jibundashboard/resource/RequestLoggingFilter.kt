@@ -23,7 +23,6 @@ class RequestLoggingFilter : OncePerRequestFilter() {
             filterChain.doFilter(request, response)
         } catch (t: Exception) {
             thrown = t
-            throw t
         } finally {
             val elapsed = System.currentTimeMillis() - start
             val trace = request.getHeader("x-amzn-trace-id") ?: ""
