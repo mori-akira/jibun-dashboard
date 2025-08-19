@@ -33,7 +33,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Filter Changes
+        id: filter_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            infra:
+              - "infra/**"
+
+      - name: No Changes Notification
+        if: steps.filter_changes.outputs.infra != 'true'
+        run: echo "No changes. Skipping this job."
+
       - name: AWS Configure
+        if: steps.filter_changes.outputs.infra == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -41,23 +54,28 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Setup Terraform
+        if: steps.filter_changes.outputs.infra == 'true'
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.11"
 
       - name: Terraform Init
+        if: steps.filter_changes.outputs.infra == 'true'
         run: terraform init
         working-directory: infra/main
 
       - name: Terraform Format
+        if: steps.filter_changes.outputs.infra == 'true'
         run: terraform fmt -check
         working-directory: infra/main
 
       - name: Terraform Plan
+        if: steps.filter_changes.outputs.infra == 'true'
         run: terraform plan -input=false
         working-directory: infra/main
 
       - name: Terraform Apply
+        if: steps.filter_changes.outputs.infra == 'true'
         run: terraform apply -auto-approve -input=false
         working-directory: infra/main
 
@@ -84,16 +102,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Filter Changes
+        id: filter_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            front:
+              - "front/**"
+              - "openapi/**"
+
+      - name: No Changes Notification
+        if: steps.filter_changes.outputs.front != 'true'
+        run: echo "No changes. Skipping this job."
+
       - name: Setup Node.js
+        if: steps.filter_changes.outputs.front == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       - name: Install Dependencies
+        if: steps.filter_changes.outputs.front == 'true'
         working-directory: front
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Generate API Client Module
+        if: steps.filter_changes.outputs.front == 'true'
         run: |
           cd openapi
           npx openapi-generator-cli generate
@@ -106,20 +140,24 @@ jobs:
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
 
       - name: Run Lint
+        if: steps.filter_changes.outputs.front == 'true'
         working-directory: front
         run: npx eslint .
 
       - name: Run Tests
+        if: steps.filter_changes.outputs.front == 'true'
         working-directory: front
         run: npx vitest run
 
       - name: Generate Static Site
+        if: steps.filter_changes.outputs.front == 'true'
         working-directory: front
         env:
           NITRO_PRERENDER_CONCURRENCY: 8
         run: npm run generate
 
       - name: Configure AWS Credentials
+        if: steps.filter_changes.outputs.front == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -127,6 +165,7 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Upload to S3
+        if: steps.filter_changes.outputs.front == 'true'
         run: aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete --quiet
 
   back:
@@ -152,7 +191,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Filter Changes
+        id: filter_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            back:
+              - "back/**"
+              - "openapi/**"
+
+      - name: No Changes Notification
+        if: steps.filter_changes.outputs.back != 'true'
+        run: echo "No changes. Skipping this job."
+
       - name: Setup JDK
+        if: steps.filter_changes.outputs.back == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -160,9 +213,11 @@ jobs:
           cache: 'gradle'
 
       - name: Make Gradle Wrapper Executable
+        if: steps.filter_changes.outputs.back == 'true'
         run: sudo chmod +x gradlew
 
       - name: Build Lambda Jar
+        if: steps.filter_changes.outputs.back == 'true'
         run: |
           ./gradlew \
             :services:${{ matrix.service }}:detekt \
@@ -172,6 +227,7 @@ jobs:
             --no-daemon
 
       - name: Configure AWS Credentials
+        if: steps.filter_changes.outputs.back == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -179,9 +235,11 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Upload to S3
+        if: steps.filter_changes.outputs.back == 'true'
         run: aws s3 cp services/${{ matrix.service }}/build/libs/${{ matrix.service }}.jar s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
 
       - name: Update Lambda Code
+        if: steps.filter_changes.outputs.back == 'true'
         run: |
           aws lambda update-function-code \
             --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
