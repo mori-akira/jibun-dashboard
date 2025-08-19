@@ -13,6 +13,7 @@ import java.io.IOException
 class RequestLoggingFilter : OncePerRequestFilter() {
     private val log = LoggerFactory.getLogger(this::class.java)
 
+    @Suppress("TooGenericExceptionCaught")
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -22,12 +23,9 @@ class RequestLoggingFilter : OncePerRequestFilter() {
         var thrown: Throwable? = null
         try {
             filterChain.doFilter(request, response)
-        } catch (t: ServletException) {
+        } catch (t: Exception) {
             thrown = t
             throw t
-        } catch (e: IOException) {
-            thrown = e
-            throw e
         } finally {
             val elapsed = System.currentTimeMillis() - start
             val trace = request.getHeader("x-amzn-trace-id") ?: ""
