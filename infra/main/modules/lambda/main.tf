@@ -28,7 +28,7 @@ resource "aws_lambda_function" "this" {
   s3_key    = "${var.service_name}.jar"
 
   runtime     = var.runtime
-  handler     = "com.amazonaws.serverless.proxy.spring.SpringDelegatingLambdaContainerHandler"
+  handler     = "com.github.moriakira.jibundashboard.resource.StreamLambdaHandler::handleRequest"
   memory_size = var.memory_size
   timeout     = var.timeout
 
