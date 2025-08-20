@@ -35,12 +35,14 @@ module "dynamodb" {
 }
 
 module "lambda_resource" {
-  source                = "./modules/lambda"
-  region                = var.region
-  application_tag       = module.application.application_tag
-  function_name         = "${var.app_name}-resource-${var.env_name}"
-  service_name          = "resource"
-  environment           = {}
+  source          = "./modules/lambda"
+  region          = var.region
+  application_tag = module.application.application_tag
+  function_name   = "${var.app_name}-resource-${var.env_name}"
+  service_name    = "resource"
+  environment = {
+    SERVER_SERVLET_CONTEXT_PATH = "/api/v1"
+  }
   artifacts_bucket_name = module.artifacts.bucket_name
 }
 
