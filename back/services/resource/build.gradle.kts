@@ -25,7 +25,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
-    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4")
+    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4") {
+        exclude(group = "org.springframework.cloud", module = "spring-cloud-function-serverless-web")
+    }
     implementation("software.amazon.awssdk:dynamodb:2.25.64")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
