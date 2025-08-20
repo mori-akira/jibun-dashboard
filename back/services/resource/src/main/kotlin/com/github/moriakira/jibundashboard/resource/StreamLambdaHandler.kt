@@ -11,6 +11,7 @@ import java.io.OutputStream
 
 class StreamLambdaHandler : RequestStreamHandler {
 
+    @Suppress("TooGenericExceptionCaught")
     companion object {
         val handler: SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> = try {
             SpringBootLambdaContainerHandler.getAwsProxyHandler(LambdaApplication::class.java)
