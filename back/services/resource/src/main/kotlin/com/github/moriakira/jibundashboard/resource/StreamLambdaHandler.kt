@@ -12,12 +12,11 @@ import java.io.OutputStream
 class StreamLambdaHandler : RequestStreamHandler {
 
     companion object {
-        val handler: SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> =
-            try {
-                SpringBootLambdaContainerHandler.getAwsProxyHandler(LambdaApplication::class.java)
-            } catch (e: ContainerInitializationException) {
-                throw RuntimeException("Could not initialize Spring Boot application", e)
-            }
+        val handler: SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> = try {
+            SpringBootLambdaContainerHandler.getAwsProxyHandler(LambdaApplication::class.java)
+        } catch (e: ContainerInitializationException) {
+            throw RuntimeException("Could not initialize Spring Boot application", e)
+        }
     }
 
     override fun handleRequest(input: InputStream, output: OutputStream, context: Context) {
