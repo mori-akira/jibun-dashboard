@@ -19,12 +19,6 @@ resource "aws_apigatewayv2_integration" "resource_lambda_integration" {
   timeout_milliseconds   = 29000
 }
 
-# resource "aws_apigatewayv2_integration" "backend_integration" {
-#   api_id             = aws_apigatewayv2_api.http_api.id
-#   integration_type   = "MOCK"
-#   integration_method = "ANY"
-# }
-
 # resource "aws_apigatewayv2_authorizer" "cognito_auth" {
 #   name             = "CognitoAuth"
 #   api_id           = aws_apigatewayv2_api.http_api.id
@@ -34,14 +28,6 @@ resource "aws_apigatewayv2_integration" "resource_lambda_integration" {
 #     audience = [var.user_pool_client_id]
 #     issuer   = "https://cognito-idp.${var.region}.amazonaws.com/${var.user_pool_id}"
 #   }
-# }
-
-# resource "aws_apigatewayv2_route" "api_proxy" {
-#   api_id             = aws_apigatewayv2_api.http_api.id
-#   route_key          = "ANY /api/{proxy+}"
-#   target             = "integrations/${aws_apigatewayv2_integration.backend_integration.id}"
-#   authorization_type = "JWT"
-#   authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
 # }
 
 resource "aws_apigatewayv2_route" "default_route" {
