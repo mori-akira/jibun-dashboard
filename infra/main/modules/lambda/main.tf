@@ -28,13 +28,14 @@ resource "aws_lambda_function" "this" {
   s3_key    = "${var.service_name}.jar"
 
   runtime     = var.runtime
-  handler     = "com.github.moriakira.jibundashboard.resource.StreamLambdaHandler::handleRequest"
+  handler     = "com.github.moriakira.jibundashboard.${var.service_name}.StreamLambdaHandler::handleRequest"
   memory_size = var.memory_size
   timeout     = var.timeout
 
   environment {
     variables = merge(var.environment, {
-      MAIN_CLASS = "com.github.moriakira.jibundashboard.${var.service_name}.LambdaApplication"
+      MAIN_CLASS        = "com.github.moriakira.jibundashboard.${var.service_name}.LambdaApplication",
+      JAVA_TOOL_OPTIONS = "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
     })
   }
   lifecycle {
