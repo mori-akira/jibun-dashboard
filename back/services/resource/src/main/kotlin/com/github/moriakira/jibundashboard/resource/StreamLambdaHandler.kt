@@ -1,5 +1,6 @@
 package com.github.moriakira.jibundashboard.resource
 
+import com.amazonaws.serverless.proxy.internal.LambdaContainerHandler
 import com.amazonaws.serverless.proxy.model.HttpApiV2ProxyRequest
 import com.amazonaws.serverless.proxy.spring.SpringBootProxyHandlerBuilder
 import com.amazonaws.services.lambda.runtime.Context
@@ -10,6 +11,10 @@ import java.io.OutputStream
 class StreamLambdaHandler : RequestStreamHandler {
 
     companion object {
+        init {
+            LambdaContainerHandler.getContainerConfig().initializationTimeout = 60_000
+        }
+
         private val handler = SpringBootProxyHandlerBuilder<HttpApiV2ProxyRequest>()
             .defaultHttpApiV2Proxy()
             .springBootApplication(LambdaApplication::class.java)
