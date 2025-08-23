@@ -4,7 +4,6 @@ import com.amazonaws.serverless.proxy.model.HttpApiV2ProxyRequest
 import com.amazonaws.serverless.proxy.spring.SpringBootProxyHandlerBuilder
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler
-import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
 import java.io.InputStream
 import java.io.OutputStream
 
