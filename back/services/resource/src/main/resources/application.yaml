@@ -2,6 +2,7 @@ spring:
   main:
     banner-mode: off
     web-application-type: servlet
+    lazy-initialization: true
 logging:
   level:
     org.springframework: INFO

@@ -12,6 +12,7 @@ class StreamLambdaHandler : RequestStreamHandler {
 
     companion object {
         init {
+            System.setProperty("spring.main.web-application-type", "servlet")
             LambdaContainerHandler.getContainerConfig().initializationTimeout = 60_000
         }
 
