@@ -34,8 +34,9 @@ resource "aws_lambda_function" "this" {
 
   environment {
     variables = merge(var.environment, {
-      MAIN_CLASS        = "com.github.moriakira.jibundashboard.${var.service_name}.LambdaApplication",
-      JAVA_TOOL_OPTIONS = "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+      MAIN_CLASS                       = "com.github.moriakira.jibundashboard.${var.service_name}.LambdaApplication",
+      JAVA_TOOL_OPTIONS                = "-XX:+TieredCompilation -XX:TieredStopAtLevel=1",
+      SPRING_MAIN_WEB_APPLICATION_TYPE = "servlet"
     })
   }
   lifecycle {
