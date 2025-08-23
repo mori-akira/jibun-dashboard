@@ -32,3 +32,9 @@ variable "resource_lambda_arn" {
   description = "Resourceサービス用LambdaのARN"
   type        = string
 }
+
+variable "timeout_lambda_call" {
+  description = "Lambda呼び出しのタイムアウト時間 (ミリ秒)"
+  type        = number
+  default     = 60000
+}

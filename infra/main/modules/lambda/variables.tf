@@ -27,13 +27,13 @@ variable "runtime" {
 variable "memory_size" {
   description = "メモリサイズ"
   type        = number
-  default     = 512
+  default     = 2048
 }
 
 variable "timeout" {
   description = "タイムアウト時間 (秒)"
   type        = number
-  default     = 30
+  default     = 60
 }
 
 variable "environment" {

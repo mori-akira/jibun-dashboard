@@ -16,7 +16,7 @@ resource "aws_apigatewayv2_integration" "resource_lambda_integration" {
   integration_type       = "AWS_PROXY"
   integration_uri        = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${var.resource_lambda_arn}/invocations"
   payload_format_version = "2.0"
-  timeout_milliseconds   = 29000
+  timeout_milliseconds   = var.timeout_lambda_call
 }
 
 # resource "aws_apigatewayv2_authorizer" "cognito_auth" {
