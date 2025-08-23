@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component
 class BootDialog {
     @Bean
     fun runner(ctx: ApplicationContext) = ApplicationRunner {
-        println(">> AppContext = ${ctx.javaClass.name}")  // 期待: AnnotationConfigServletWebServerApplicationContext
+        println(">> AppContext = ${ctx.javaClass.name}") // 期待: AnnotationConfigServletWebServerApplicationContext
     }
 }
