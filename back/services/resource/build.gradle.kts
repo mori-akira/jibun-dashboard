@@ -1,4 +1,5 @@
 import com.diffplug.spotless.LineEnding
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 // サービス名
 val serviceName = "resource"
@@ -25,9 +26,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
-    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4") {
-        exclude(group = "org.springframework.cloud", module = "spring-cloud-function-serverless-web")
-    }
+    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4")
+    implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
+    implementation("com.amazonaws:aws-lambda-java-events:3.11.4")
     implementation("software.amazon.awssdk:dynamodb:2.25.64")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
@@ -161,10 +162,8 @@ tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+tasks.named<ShadowJar>("shadowJar") {
     archiveFileName.set("${serviceName}.jar")
-    mergeServiceFiles()
-//    exclude("org/apache/tomcat/**")
 }
 
 tasks.named("build") {
