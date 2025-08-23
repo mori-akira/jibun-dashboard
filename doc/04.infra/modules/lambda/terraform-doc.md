@@ -31,11 +31,11 @@ No modules.
 | <a name="input_artifacts_bucket_name"></a> [artifacts\_bucket\_name](#input\_artifacts\_bucket\_name) | Lambdaアーティファクト用のS3バケット名 | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `map(string)` | `{}` | no |
 | <a name="input_function_name"></a> [function\_name](#input\_function\_name) | Lambda関数名 | `string` | n/a | yes |
-| <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | メモリサイズ | `number` | `512` | no |
+| <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | メモリサイズ | `number` | `2048` | no |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
 | <a name="input_runtime"></a> [runtime](#input\_runtime) | Lambdaランタイム | `string` | `"java21"` | no |
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | サービス名 | `string` | n/a | yes |
-| <a name="input_timeout"></a> [timeout](#input\_timeout) | タイムアウト時間 (秒) | `number` | `30` | no |
+| <a name="input_timeout"></a> [timeout](#input\_timeout) | タイムアウト時間 (秒) | `number` | `60` | no |
 
 ## Outputs
 
