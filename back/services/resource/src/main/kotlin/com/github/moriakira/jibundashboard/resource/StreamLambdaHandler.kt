@@ -11,7 +11,7 @@ class StreamLambdaHandler : RequestStreamHandler {
 
     companion object {
         private val handler = SpringBootProxyHandlerBuilder<AwsProxyRequest>()
-            .defaultProxy()
+            .defaultHttpApiV2Proxy()
             .springBootApplication(LambdaApplication::class.java)
             .buildAndInitialize()
     }
