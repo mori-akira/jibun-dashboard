@@ -66,7 +66,7 @@ resource "aws_lambda_permission" "allow_apigw_invoke_resource" {
   action        = "lambda:InvokeFunction"
   function_name = var.resource_lambda_arn
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*/api/v1/resource*"
+  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*"
 }
 
 output "apigw_url" {
