@@ -35,7 +35,7 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
 | <a name="input_resource_lambda_arn"></a> [resource\_lambda\_arn](#input\_resource\_lambda\_arn) | Resourceサービス用LambdaのARN | `string` | n/a | yes |
 | <a name="input_s3_bucket_arn"></a> [s3\_bucket\_arn](#input\_s3\_bucket\_arn) | フロントエンドのS3 ARN | `string` | n/a | yes |
-| <a name="input_timeout_lambda_call"></a> [timeout\_lambda\_call](#input\_timeout\_lambda\_call) | Lambda呼び出しのタイムアウト時間 (ミリ秒) | `number` | `60000` | no |
+| <a name="input_timeout_lambda_call"></a> [timeout\_lambda\_call](#input\_timeout\_lambda\_call) | Lambda呼び出しのタイムアウト時間 (ミリ秒) | `number` | `30000` | no |
 | <a name="input_user_pool_client_id"></a> [user\_pool\_client\_id](#input\_user\_pool\_client\_id) | CognitoユーザープールクライアントID | `string` | n/a | yes |
 | <a name="input_user_pool_id"></a> [user\_pool\_id](#input\_user\_pool\_id) | CognitoユーザープールID | `string` | n/a | yes |
 
