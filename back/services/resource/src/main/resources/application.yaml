@@ -1,8 +1,6 @@
 spring:
   main:
-    banner-mode: off
-    application-context-class: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
-    web-application-type: servlet
+    banner-mode: "off"
     lazy-initialization: true
 logging:
   level:

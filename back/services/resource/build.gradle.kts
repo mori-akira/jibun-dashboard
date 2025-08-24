@@ -26,13 +26,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
-    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.4") {
-        exclude(group = "org.springframework.cloud", module = "spring-cloud-function-serverless-web")
-        exclude(group = "org.springframework.cloud", module = "spring-cloud-function-context")
-        exclude(group = "org.springframework.cloud", module = "spring-cloud-function-core")
-    }
-    implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
-    implementation("com.amazonaws:aws-lambda-java-events:3.11.4")
     implementation("software.amazon.awssdk:dynamodb:2.25.64")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
@@ -44,12 +37,6 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
     testImplementation("io.mockk:mockk:1.14.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-}
-
-configurations.all {
-    exclude(group = "org.springframework.cloud", module = "spring-cloud-function-serverless-web")
-    exclude(group = "org.springframework.cloud", module = "spring-cloud-function-context")
-    exclude(group = "org.springframework.cloud", module = "spring-cloud-function-core")
 }
 
 // Node.js設定
@@ -174,7 +161,6 @@ tasks.withType<Jar> {
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveFileName.set("${serviceName}.jar")
-    append("META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports")
 }
 
 tasks.named("build") {
