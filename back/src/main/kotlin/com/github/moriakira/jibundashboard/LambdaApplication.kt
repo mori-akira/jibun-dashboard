@@ -1,4 +1,4 @@
-package com.github.moriakira.jibundashboard.resource
+package com.github.moriakira.jibundashboard
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

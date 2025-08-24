@@ -10,4 +10,4 @@
 # Binary files should be left untouched
 *.jar                        binary
 
-services/*/src/generated/**  linguist-generated
+build/generated/**           linguist-generated
