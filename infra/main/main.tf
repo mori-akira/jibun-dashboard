@@ -22,10 +22,9 @@ module "cognito" {
   cognito_logout_url   = var.cognito_logout_url
 }
 
-module "ecr_resource" {
+module "ecr" {
   source          = "./modules/ecr"
   app_name        = var.app_name
-  service_name    = "resource"
   application_tag = module.application.application_tag
 }
 
