@@ -15,7 +15,7 @@ No providers.
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
 | <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
-| <a name="module_ecr_resource"></a> [ecr\_resource](#module\_ecr\_resource) | ./modules/ecr | n/a |
+| <a name="module_ecr"></a> [ecr](#module\_ecr) | ./modules/ecr | n/a |
 | <a name="module_frontend"></a> [frontend](#module\_frontend) | ./modules/frontend | n/a |
 
 ## Resources
