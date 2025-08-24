@@ -13,11 +13,10 @@ No providers.
 |------|--------|---------|
 | <a name="module_api_gateway"></a> [api\_gateway](#module\_api\_gateway) | ./modules/api_gateway | n/a |
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
-| <a name="module_artifacts"></a> [artifacts](#module\_artifacts) | ./modules/artifacts | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
 | <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
+| <a name="module_ecr_resource"></a> [ecr\_resource](#module\_ecr\_resource) | ./modules/ecr | n/a |
 | <a name="module_frontend"></a> [frontend](#module\_frontend) | ./modules/frontend | n/a |
-| <a name="module_lambda_resource"></a> [lambda\_resource](#module\_lambda\_resource) | ./modules/lambda | n/a |
 
 ## Resources
 

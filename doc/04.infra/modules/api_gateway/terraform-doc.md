@@ -19,12 +19,8 @@ No modules.
 |------|------|
 | [aws_apigatewayv2_api.http_api](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_api) | resource |
 | [aws_apigatewayv2_integration.frontend_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_integration) | resource |
-| [aws_apigatewayv2_integration.resource_lambda_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_integration) | resource |
 | [aws_apigatewayv2_route.default_route](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_route) | resource |
-| [aws_apigatewayv2_route.resource_proxy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_route) | resource |
-| [aws_apigatewayv2_route.resource_root](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_route) | resource |
 | [aws_apigatewayv2_stage.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_stage) | resource |
-| [aws_lambda_permission.allow_apigw_invoke_resource](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 
 ## Inputs
 
@@ -33,9 +29,7 @@ No modules.
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
 | <a name="input_frontend_bucket_name"></a> [frontend\_bucket\_name](#input\_frontend\_bucket\_name) | フロントエンドのS3バケット名 | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
-| <a name="input_resource_lambda_arn"></a> [resource\_lambda\_arn](#input\_resource\_lambda\_arn) | Resourceサービス用LambdaのARN | `string` | n/a | yes |
 | <a name="input_s3_bucket_arn"></a> [s3\_bucket\_arn](#input\_s3\_bucket\_arn) | フロントエンドのS3 ARN | `string` | n/a | yes |
-| <a name="input_timeout_lambda_call"></a> [timeout\_lambda\_call](#input\_timeout\_lambda\_call) | Lambda呼び出しのタイムアウト時間 (ミリ秒) | `number` | `30000` | no |
 | <a name="input_user_pool_client_id"></a> [user\_pool\_client\_id](#input\_user\_pool\_client\_id) | CognitoユーザープールクライアントID | `string` | n/a | yes |
 | <a name="input_user_pool_id"></a> [user\_pool\_id](#input\_user\_pool\_id) | CognitoユーザープールID | `string` | n/a | yes |
 
