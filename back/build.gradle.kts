@@ -1,6 +1,6 @@
 import com.diffplug.spotless.LineEnding
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.github.gradle.node.npm.task.NpxTask
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 // サービス名
 val serviceTags = "Resource,User,Setting"
@@ -14,7 +14,6 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.2"
     id("com.diffplug.spotless") version "6.25.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
-    id("com.gradleup.shadow") version "9.0.2"
 }
 
 repositories {
@@ -39,6 +38,11 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
     testImplementation("io.mockk:mockk:1.14.5")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
+}
+
+// Jarファイル名を指定
+tasks.named<BootJar>("bootJar") {
+    archiveFileName.set("app.jar")
 }
 
 // Node.js設定
@@ -154,17 +158,4 @@ tasks.named("compileKotlin") {
 }
 tasks.named("check") {
     dependsOn(prepareGeneratedSources)
-}
-
-// シャドーJAR関連
-tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-tasks.named<ShadowJar>("shadowJar") {
-    archiveFileName.set("app.jar")
-}
-
-tasks.named("build") {
-    dependsOn("shadowJar")
 }
