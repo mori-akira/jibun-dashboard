@@ -63,7 +63,7 @@ resource "aws_apprunner_service" "this" {
     path                = var.health_check_path
     healthy_threshold   = 1
     unhealthy_threshold = 3
-    interval            = 30
+    interval            = 20
     timeout             = 10
   }
 }
