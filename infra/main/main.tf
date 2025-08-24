@@ -33,6 +33,8 @@ module "dynamodb" {
   application_tag = module.application.application_tag
 }
 
+data "aws_caller_identity" "current" {}
+
 module "apprunner" {
   source             = "./modules/apprunner"
   app_name           = var.app_name
