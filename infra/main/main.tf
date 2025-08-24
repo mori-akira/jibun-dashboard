@@ -52,6 +52,7 @@ module "api_gateway" {
   s3_bucket_arn        = module.frontend.bucket_arn
   user_pool_id         = module.cognito.user_pool_id
   user_pool_client_id  = module.cognito.user_pool_client_id
+  apprunner_url        = module.apprunner.apprunner_service_url
 }
 
 output "login_url" {

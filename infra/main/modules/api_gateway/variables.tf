@@ -28,13 +28,7 @@ variable "user_pool_client_id" {
   type        = string
 }
 
-# variable "resource_lambda_arn" {
-#   description = "Resourceサービス用LambdaのARN"
-#   type        = string
-# }
-
-# variable "timeout_lambda_call" {
-#   description = "Lambda呼び出しのタイムアウト時間 (ミリ秒)"
-#   type        = number
-#   default     = 30000
-# }
+variable "apprunner_url" {
+  description = "App RunnerのURL"
+  type        = string
+}
