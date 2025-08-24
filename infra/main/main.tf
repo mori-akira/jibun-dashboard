@@ -33,6 +33,15 @@ module "dynamodb" {
   application_tag = module.application.application_tag
 }
 
+module "apprunner" {
+  source             = "./modules/apprunner"
+  app_name           = var.app_name
+  env_name           = var.env_name
+  application_tag    = module.application.application_tag
+  ecr_repository_url = module.ecr.repository_url
+  ecr_repository_arn = "arn:aws:ecr:${var.region}:${data.aws_caller_identity.current.account_id}:repository/${var.app_name}"
+}
+
 module "api_gateway" {
   source               = "./modules/api_gateway"
   region               = var.region
@@ -49,4 +58,8 @@ output "login_url" {
 
 output "api_gateway_url" {
   value = module.api_gateway.apigw_url
+}
+
+output "apprunner_url" {
+  value = module.apprunner.service_url
 }
