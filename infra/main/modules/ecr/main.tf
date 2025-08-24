@@ -14,7 +14,7 @@ resource "aws_ecr_lifecycle_policy" "keep_latest" {
   policy = jsonencode({
     rules = [{
       rulePriority = 1
-      description  = "Keep latest images"
+      description  = "Keep some images"
       selection = {
         tagStatus   = "any"
         countType   = "imageCountMoreThan"
