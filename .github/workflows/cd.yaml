@@ -221,7 +221,7 @@ jobs:
             detekt \
             spotlessCheck \
             test \
-            shadowJar \
+            bootJar \
             --no-daemon
 
       - name: Configure AWS Credentials

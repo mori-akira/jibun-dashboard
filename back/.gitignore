@@ -3,9 +3,10 @@
 .kotlin
 
 # Ignore Gradle build output directory
-build
-!/build/generated/
+/build/*
 !/build/openapi-bundled.yaml
+!/build/generated/
+!/build/generated/**
 
 # Ignore binary files
 bin
