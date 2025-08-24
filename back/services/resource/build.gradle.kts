@@ -164,6 +164,10 @@ tasks.withType<Jar> {
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveFileName.set("${serviceName}.jar")
+    mergeServiceFiles()
+    mergeServiceFiles("META-INF/spring.handlers")
+    mergeServiceFiles("META-INF/spring.schemas")
+    mergeServiceFiles("META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports")
 }
 
 tasks.named("build") {
