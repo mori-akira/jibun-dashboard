@@ -2,10 +2,13 @@ server:
   port: ${PORT:8080}
   servlet:
     context-path: ${SERVER_SERVLET_CONTEXT_PATH:/api/v1}
+  shutdown: graceful
 spring:
   main:
     banner-mode: "off"
     lazy-initialization: true
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
 logging:
   level:
     org.springframework: INFO
