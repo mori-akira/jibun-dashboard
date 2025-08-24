@@ -11,13 +11,13 @@ resource "aws_apigatewayv2_integration" "frontend_integration" {
   integration_uri    = "http://${var.frontend_bucket_name}.s3-website-${var.region}.amazonaws.com"
 }
 
-resource "aws_apigatewayv2_integration" "resource_lambda_integration" {
-  api_id                 = aws_apigatewayv2_api.http_api.id
-  integration_type       = "AWS_PROXY"
-  integration_uri        = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${var.resource_lambda_arn}/invocations"
-  payload_format_version = "2.0"
-  timeout_milliseconds   = var.timeout_lambda_call
-}
+# resource "aws_apigatewayv2_integration" "resource_lambda_integration" {
+#   api_id                 = aws_apigatewayv2_api.http_api.id
+#   integration_type       = "AWS_PROXY"
+#   integration_uri        = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${var.resource_lambda_arn}/invocations"
+#   payload_format_version = "2.0"
+#   timeout_milliseconds   = var.timeout_lambda_call
+# }
 
 # resource "aws_apigatewayv2_authorizer" "cognito_auth" {
 #   name             = "CognitoAuth"
@@ -37,17 +37,17 @@ resource "aws_apigatewayv2_route" "default_route" {
   authorization_type = "NONE"
 }
 
-resource "aws_apigatewayv2_route" "resource_root" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "ANY /api/v1/resource"
-  target    = "integrations/${aws_apigatewayv2_integration.resource_lambda_integration.id}"
-}
+# resource "aws_apigatewayv2_route" "resource_root" {
+#   api_id    = aws_apigatewayv2_api.http_api.id
+#   route_key = "ANY /api/v1/resource"
+#   target    = "integrations/${aws_apigatewayv2_integration.resource_lambda_integration.id}"
+# }
 
-resource "aws_apigatewayv2_route" "resource_proxy" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "ANY /api/v1/resource/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.resource_lambda_integration.id}"
-}
+# resource "aws_apigatewayv2_route" "resource_proxy" {
+#   api_id    = aws_apigatewayv2_api.http_api.id
+#   route_key = "ANY /api/v1/resource/{proxy+}"
+#   target    = "integrations/${aws_apigatewayv2_integration.resource_lambda_integration.id}"
+# }
 
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.http_api.id
@@ -61,13 +61,13 @@ resource "aws_apigatewayv2_stage" "default" {
   }
 }
 
-resource "aws_lambda_permission" "allow_apigw_invoke_resource" {
-  statement_id  = "AllowAPIGatewayInvokeResource"
-  action        = "lambda:InvokeFunction"
-  function_name = var.resource_lambda_arn
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*"
-}
+# resource "aws_lambda_permission" "allow_apigw_invoke_resource" {
+#   statement_id  = "AllowAPIGatewayInvokeResource"
+#   action        = "lambda:InvokeFunction"
+#   function_name = var.resource_lambda_arn
+#   principal     = "apigateway.amazonaws.com"
+#   source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*"
+# }
 
 output "apigw_url" {
   value = aws_apigatewayv2_api.http_api.api_endpoint
