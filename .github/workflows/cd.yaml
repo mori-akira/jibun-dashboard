@@ -177,10 +177,6 @@ jobs:
     defaults:
       run:
         working-directory: back
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [resource]
 
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -219,10 +215,10 @@ jobs:
         if: steps.filter_changes.outputs.back == 'true'
         run: |
           ./gradlew \
-            :services:${{ matrix.service }}:detekt \
-            :services:${{ matrix.service }}:spotlessCheck \
-            :services:${{ matrix.service }}:test \
-            :services:${{ matrix.service }}:shadowJar \
+            detekt \
+            spotlessCheck \
+            test \
+            shadowJar \
             --no-daemon
 
       - name: Configure AWS Credentials
@@ -233,15 +229,18 @@ jobs:
           role-session-name: ${{ env.SESSION_NAME }}
           aws-region: ${{ vars.REGION }}
 
-      # - name: Upload to S3
-      #   if: steps.filter_changes.outputs.back == 'true'
-      #   run: aws s3 cp services/${{ matrix.service }}/build/libs/${{ matrix.service }}.jar s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
+      - name: Login To Amazon ECR
+        if: steps.filter_changes.outputs.back == 'true'
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      # - name: Update Lambda Code
-      #   if: steps.filter_changes.outputs.back == 'true'
-      #   run: |
-      #     aws lambda update-function-code \
-      #       --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
-      #       --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
-      #       --s3-key "${{ matrix.service }}.jar" \
-      #       --publish
+      - name: Build & Push image (resource)
+        if: steps.filter_changes.outputs.back == 'true'
+        run: |
+          REPO="${{ steps.ecr.outputs.registry }}/${{ vars.APP_NAME }}"
+          docker buildx build \
+            --platform linux/amd64 \
+            -t "$REPO:latest" \
+            -t "$REPO:${{ github.sha }}" \
+            --push \
+            .
