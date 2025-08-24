@@ -22,28 +22,16 @@ module "cognito" {
   cognito_logout_url   = var.cognito_logout_url
 }
 
-module "artifacts" {
-  source               = "./modules/artifacts"
-  region               = var.region
-  application_tag      = module.application.application_tag
-  artifact_bucket_name = "${var.app_name}-artifact-bucket"
+module "ecr_resource" {
+  source          = "./modules/ecr"
+  app_name        = var.app_name
+  service_name    = "resource"
+  application_tag = module.application.application_tag
 }
 
 module "dynamodb" {
   source          = "./modules/dynamodb"
   application_tag = module.application.application_tag
-}
-
-module "lambda_resource" {
-  source          = "./modules/lambda"
-  region          = var.region
-  application_tag = module.application.application_tag
-  function_name   = "${var.app_name}-resource-${var.env_name}"
-  service_name    = "resource"
-  environment = {
-    SERVER_SERVLET_CONTEXT_PATH = "/api/v1"
-  }
-  artifacts_bucket_name = module.artifacts.bucket_name
 }
 
 module "api_gateway" {
