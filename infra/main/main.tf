@@ -63,5 +63,5 @@ output "api_gateway_url" {
 }
 
 output "apprunner_url" {
-  value = module.apprunner.service_url
+  value = module.apprunner.apprunner_service_url
 }
