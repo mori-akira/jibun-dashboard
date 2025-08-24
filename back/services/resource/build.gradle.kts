@@ -42,6 +42,12 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
+configurations.all {
+    exclude(group = "org.springframework.cloud", module = "spring-cloud-function-serverless-web")
+    exclude(group = "org.springframework.cloud", module = "spring-cloud-function-context")
+    exclude(group = "org.springframework.cloud", module = "spring-cloud-function-core")
+}
+
 // Node.js設定
 node {
     download.set(true)
