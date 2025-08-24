@@ -42,7 +42,6 @@ module "api_gateway" {
   s3_bucket_arn        = module.frontend.bucket_arn
   user_pool_id         = module.cognito.user_pool_id
   user_pool_client_id  = module.cognito.user_pool_client_id
-  # resource_lambda_arn  = module.lambda_resource.function_arn
 }
 
 output "login_url" {
