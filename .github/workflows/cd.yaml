@@ -215,7 +215,7 @@ jobs:
         if: steps.filter_changes.outputs.back == 'true'
         run: sudo chmod +x gradlew
 
-      - name: Build Lambda Jar
+      - name: Build Jar
         if: steps.filter_changes.outputs.back == 'true'
         run: |
           ./gradlew \
@@ -233,15 +233,15 @@ jobs:
           role-session-name: ${{ env.SESSION_NAME }}
           aws-region: ${{ vars.REGION }}
 
-      - name: Upload to S3
-        if: steps.filter_changes.outputs.back == 'true'
-        run: aws s3 cp services/${{ matrix.service }}/build/libs/${{ matrix.service }}.jar s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
+      # - name: Upload to S3
+      #   if: steps.filter_changes.outputs.back == 'true'
+      #   run: aws s3 cp services/${{ matrix.service }}/build/libs/${{ matrix.service }}.jar s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
 
-      - name: Update Lambda Code
-        if: steps.filter_changes.outputs.back == 'true'
-        run: |
-          aws lambda update-function-code \
-            --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
-            --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
-            --s3-key "${{ matrix.service }}.jar" \
-            --publish
+      # - name: Update Lambda Code
+      #   if: steps.filter_changes.outputs.back == 'true'
+      #   run: |
+      #     aws lambda update-function-code \
+      #       --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
+      #       --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
+      #       --s3-key "${{ matrix.service }}.jar" \
+      #       --publish
