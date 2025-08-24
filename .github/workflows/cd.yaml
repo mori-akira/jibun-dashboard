@@ -37,15 +37,16 @@ jobs:
         uses: dorny/paths-filter@v2
         with:
           filters: |
-            infra:
+            changes:
+              - ".github/workflows/cd.yaml"
               - "infra/**"
 
       - name: No Changes Notification
-        if: steps.filter_changes.outputs.infra != 'true'
+        if: steps.filter_changes.outputs.changes != 'true'
         run: echo "No changes. Skipping this job."
 
       - name: AWS Configure
-        if: steps.filter_changes.outputs.infra == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -53,28 +54,28 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Setup Terraform
-        if: steps.filter_changes.outputs.infra == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.11"
 
       - name: Terraform Init
-        if: steps.filter_changes.outputs.infra == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: terraform init
         working-directory: infra/main
 
       - name: Terraform Format
-        if: steps.filter_changes.outputs.infra == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: terraform fmt -check
         working-directory: infra/main
 
       - name: Terraform Plan
-        if: steps.filter_changes.outputs.infra == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: terraform plan -input=false
         working-directory: infra/main
 
       - name: Terraform Apply
-        if: steps.filter_changes.outputs.infra == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: terraform apply -auto-approve -input=false
         working-directory: infra/main
 
@@ -106,27 +107,28 @@ jobs:
         uses: dorny/paths-filter@v2
         with:
           filters: |
-            front:
+            changes:
+              - ".github/workflows/cd.yaml"
               - "front/**"
               - "openapi/**"
 
       - name: No Changes Notification
-        if: steps.filter_changes.outputs.front != 'true'
+        if: steps.filter_changes.outputs.changes != 'true'
         run: echo "No changes. Skipping this job."
 
       - name: Setup Node.js
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       - name: Install Dependencies
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         working-directory: front
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Generate API Client Module
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: |
           cd openapi
           npx openapi-generator-cli generate
@@ -139,24 +141,24 @@ jobs:
           npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
 
       - name: Run Lint
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         working-directory: front
         run: npx eslint .
 
       - name: Run Tests
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         working-directory: front
         run: npx vitest run
 
       - name: Generate Static Site
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         working-directory: front
         env:
           NITRO_PRERENDER_CONCURRENCY: 8
         run: npm run generate
 
       - name: Configure AWS Credentials
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
@@ -164,7 +166,7 @@ jobs:
           aws-region: ${{ vars.REGION }}
 
       - name: Upload to S3
-        if: steps.filter_changes.outputs.front == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete --quiet
 
   back:
@@ -177,10 +179,6 @@ jobs:
     defaults:
       run:
         working-directory: back
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [resource]
 
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -195,16 +193,17 @@ jobs:
         uses: dorny/paths-filter@v2
         with:
           filters: |
-            back:
+            changes:
+              - ".github/workflows/cd.yaml"
               - "back/**"
               - "openapi/**"
 
       - name: No Changes Notification
-        if: steps.filter_changes.outputs.back != 'true'
+        if: steps.filter_changes.outputs.changes != 'true'
         run: echo "No changes. Skipping this job."
 
       - name: Setup JDK
-        if: steps.filter_changes.outputs.back == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -212,36 +211,39 @@ jobs:
           cache: 'gradle'
 
       - name: Make Gradle Wrapper Executable
-        if: steps.filter_changes.outputs.back == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: sudo chmod +x gradlew
 
       - name: Build Jar
-        if: steps.filter_changes.outputs.back == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         run: |
           ./gradlew \
-            :services:${{ matrix.service }}:detekt \
-            :services:${{ matrix.service }}:spotlessCheck \
-            :services:${{ matrix.service }}:test \
-            :services:${{ matrix.service }}:shadowJar \
+            detekt \
+            spotlessCheck \
+            test \
+            shadowJar \
             --no-daemon
 
       - name: Configure AWS Credentials
-        if: steps.filter_changes.outputs.back == 'true'
+        if: steps.filter_changes.outputs.changes == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.ROLE_ARN }}
           role-session-name: ${{ env.SESSION_NAME }}
           aws-region: ${{ vars.REGION }}
 
-      # - name: Upload to S3
-      #   if: steps.filter_changes.outputs.back == 'true'
-      #   run: aws s3 cp services/${{ matrix.service }}/build/libs/${{ matrix.service }}.jar s3://${{ vars.ARTIFACTS_BUCKET_NAME }}/${{ matrix.service }}.jar --quiet
+      - name: Login To Amazon ECR
+        if: steps.filter_changes.outputs.changes == 'true'
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      # - name: Update Lambda Code
-      #   if: steps.filter_changes.outputs.back == 'true'
-      #   run: |
-      #     aws lambda update-function-code \
-      #       --function-name "${{ vars.APP_NAME }}-resource-${{ vars.ENV_NAME }}" \
-      #       --s3-bucket "${{ vars.ARTIFACTS_BUCKET_NAME }}" \
-      #       --s3-key "${{ matrix.service }}.jar" \
-      #       --publish
+      - name: Build & Push image (resource)
+        if: steps.filter_changes.outputs.changes == 'true'
+        run: |
+          REPO="${{ steps.ecr.outputs.registry }}/${{ vars.APP_NAME }}"
+          docker buildx build \
+            --platform linux/amd64 \
+            -t "$REPO:latest" \
+            -t "$REPO:${{ github.sha }}" \
+            --push \
+            .
