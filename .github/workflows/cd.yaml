@@ -237,7 +237,7 @@ jobs:
         id: ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build & Push image (resource)
+      - name: Build & Push Image
         if: steps.filter_changes.outputs.changes == 'true'
         run: |
           REPO="${{ steps.ecr.outputs.registry }}/${{ vars.APP_NAME }}"
