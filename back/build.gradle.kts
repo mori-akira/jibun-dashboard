@@ -14,7 +14,6 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.2"
     id("com.diffplug.spotless") version "6.25.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
-    id("org.jetbrains.kotlin.kapt") version "2.0.21"
 }
 
 repositories {
@@ -33,9 +32,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("software.amazon.awssdk:dynamodb:2.25.64")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
-
-    compileOnly("org.springframework:spring-context-indexer")
-    kapt("org.springframework:spring-context-indexer")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
     testImplementation("io.kotest:kotest-assertions-core:5.9.1")
