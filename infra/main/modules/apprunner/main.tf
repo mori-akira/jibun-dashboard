@@ -68,6 +68,76 @@ resource "aws_apprunner_service" "this" {
   }
 }
 
+resource "aws_iam_role" "scheduler_role" {
+  name               = "apprunner-scheduler-role"
+  assume_role_policy = data.aws_iam_policy_document.scheduler_trust.json
+  tags               = var.application_tag
+}
+
+data "aws_iam_policy_document" "scheduler_trust" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["scheduler.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "scheduler_policy_doc" {
+  statement {
+    sid = "AllowPauseResume"
+    actions = [
+      "apprunner:PauseService",
+      "apprunner:ResumeService"
+    ]
+    resources = [aws_apprunner_service.this.arn]
+  }
+}
+
+resource "aws_iam_policy" "scheduler_policy" {
+  name   = "apprunner-scheduler-policy"
+  policy = data.aws_iam_policy_document.scheduler_policy_doc.json
+}
+
+resource "aws_iam_role_policy_attachment" "attach" {
+  role       = aws_iam_role.scheduler_role.name
+  policy_arn = aws_iam_policy.scheduler_policy.arn
+}
+
+resource "aws_scheduler_schedule" "pause_nightly" {
+  name                         = "apprunner-pause-01-00-jst"
+  description                  = "Pause App Runner at 01:00 JST daily"
+  schedule_expression          = "cron(0 1 * * ? *)"
+  schedule_expression_timezone = var.timezone
+  flexible_time_window { mode = "OFF" }
+
+  target {
+    role_arn = aws_iam_role.scheduler_role.arn
+    arn      = "arn:aws:scheduler:::aws-sdk:apprunner:PauseService"
+    input = jsonencode(
+      { ServiceArn = aws_apprunner_service.this.arn }
+    )
+  }
+}
+
+# 06:00 に Resume
+resource "aws_scheduler_schedule" "resume_morning" {
+  name                         = "apprunner-resume-06-00-jst"
+  description                  = "Resume App Runner at 06:00 JST daily"
+  schedule_expression          = "cron(0 6 * * ? *)"
+  schedule_expression_timezone = var.timezone
+  flexible_time_window { mode = "OFF" }
+
+  target {
+    role_arn = aws_iam_role.scheduler_role.arn
+    arn      = "arn:aws:scheduler:::aws-sdk:apprunner:ResumeService"
+    input = jsonencode(
+      { ServiceArn = aws_apprunner_service.this.arn }
+    )
+  }
+}
+
 output "apprunner_service_arn" {
   value = aws_apprunner_service.this.arn
 }

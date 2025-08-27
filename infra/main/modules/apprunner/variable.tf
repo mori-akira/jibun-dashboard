@@ -58,3 +58,9 @@ variable "auto_deploy" {
   type        = bool
   default     = true
 }
+
+variable "timezone" {
+  description = "タイムゾーン"
+  type        = string
+  default     = "Asia/Tokyo"
+}
