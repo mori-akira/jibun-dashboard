@@ -50,13 +50,13 @@ No modules.
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
 | <a name="input_auto_deploy"></a> [auto\_deploy](#input\_auto\_deploy) | 自動デプロイ | `bool` | `true` | no |
 | <a name="input_container_port"></a> [container\_port](#input\_container\_port) | コンテナのポート | `number` | `8080` | no |
-| <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU | `number` | `512` | no |
+| <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU | `number` | `256` | no |
 | <a name="input_ecr_repository_arn"></a> [ecr\_repository\_arn](#input\_ecr\_repository\_arn) | ECRリポジトリのARN | `string` | n/a | yes |
 | <a name="input_ecr_repository_url"></a> [ecr\_repository\_url](#input\_ecr\_repository\_url) | ECRリポジトリのURL | `string` | n/a | yes |
 | <a name="input_env_name"></a> [env\_name](#input\_env\_name) | 環境名 | `string` | n/a | yes |
 | <a name="input_health_check_path"></a> [health\_check\_path](#input\_health\_check\_path) | ヘルスチェックのパス | `string` | `"/api/v1/actuator/health"` | no |
 | <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | ECRイメージのタグ | `string` | `"latest"` | no |
-| <a name="input_memory"></a> [memory](#input\_memory) | メモリ | `number` | `1024` | no |
+| <a name="input_memory"></a> [memory](#input\_memory) | メモリ | `number` | `512` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | タイムゾーン | `string` | `"Asia/Tokyo"` | no |
 
 ## Outputs
