@@ -38,13 +38,13 @@ variable "container_port" {
 variable "cpu" {
   description = "CPU"
   type        = number
-  default     = 512
+  default     = 256
 }
 
 variable "memory" {
   description = "メモリ"
   type        = number
-  default     = 1024
+  default     = 512
 }
 
 variable "health_check_path" {
