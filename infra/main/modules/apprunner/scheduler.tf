@@ -85,22 +85,6 @@ resource "aws_lambda_function" "apprunner_ops" {
   tags = var.application_tag
 }
 
-resource "aws_scheduler_schedule" "pause_nightly" {
-  name                         = "apprunner-pause-01-00-jst"
-  description                  = "Pause App Runner at 01:00 JST daily"
-  schedule_expression          = "cron(0 1 * * ? *)"
-  schedule_expression_timezone = var.timezone
-  flexible_time_window { mode = "OFF" }
-
-  target {
-    arn      = aws_lambda_function.apprunner_ops.arn
-    role_arn = aws_iam_role.scheduler_role.arn
-    input = jsonencode(
-      { action = "pause" }
-    )
-  }
-}
-
 data "aws_iam_policy_document" "scheduler_trust" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -138,12 +122,41 @@ resource "aws_iam_role_policy_attachment" "scheduler_invoke_lambda_attach" {
   policy_arn = aws_iam_policy.scheduler_invoke_lambda.arn
 }
 
+resource "aws_scheduler_schedule_group" "apprunner" {
+  name = "${var.app_name}-${var.env_name}-apprunner-ops"
+  tags = var.application_tag
+}
+
+resource "aws_scheduler_schedule" "pause_nightly" {
+  name                         = "apprunner-pause-01-00-jst"
+  description                  = "Pause App Runner at 01:00 JST daily"
+  schedule_expression          = "cron(0 1 * * ? *)"
+  schedule_expression_timezone = var.timezone
+  group_name                   = aws_scheduler_schedule_group.apprunner.name
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  target {
+    arn      = aws_lambda_function.apprunner_ops.arn
+    role_arn = aws_iam_role.scheduler_role.arn
+    input = jsonencode(
+      { action = "pause" }
+    )
+  }
+}
+
 resource "aws_scheduler_schedule" "resume_morning" {
   name                         = "apprunner-resume-06-00-jst"
   description                  = "Resume App Runner at 06:00 JST daily"
   schedule_expression          = "cron(0 6 * * ? *)"
   schedule_expression_timezone = var.timezone
-  flexible_time_window { mode = "OFF" }
+  group_name                   = aws_scheduler_schedule_group.apprunner.name
+
+  flexible_time_window {
+    mode = "OFF"
+  }
 
   target {
     arn      = aws_lambda_function.apprunner_ops.arn
