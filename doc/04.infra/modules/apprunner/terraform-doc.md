@@ -33,6 +33,7 @@ No modules.
 | [aws_lambda_permission.allow_scheduler_resume](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_scheduler_schedule.pause_nightly](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
 | [aws_scheduler_schedule.resume_morning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
+| [aws_scheduler_schedule_group.apprunner](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule_group) | resource |
 | [local_file.apprunner_lambda_py](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [archive_file.apprunner_lambda_zip](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_iam_policy_document.apprunner_lambda_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
