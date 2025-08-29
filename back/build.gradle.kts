@@ -61,8 +61,8 @@ tasks.register<NpxTask>("bundleOpenApi") {
             "bundle",
             "${rootProject.projectDir.parentFile}/openapi/openapi.yaml",
             "-o",
-            bundledFile.get().asFile.absolutePath
-        )
+            bundledFile.get().asFile.absolutePath,
+        ),
     )
 }
 
@@ -70,7 +70,12 @@ tasks.register<NpxTask>("bundleOpenApi") {
 openApiGenerate {
     generatorName.set("kotlin-spring")
     inputSpec.set(bundledFile.get().asFile.absolutePath)
-    outputDir.set(layout.buildDirectory.dir("generated").get().asFile.path)
+    outputDir.set(
+        layout.buildDirectory
+            .dir("generated")
+            .get()
+            .asFile.path,
+    )
 
     // 共通オプション
     globalProperties.set(
@@ -79,8 +84,8 @@ openApiGenerate {
             "models" to "",
             "apiDocs" to "false",
             "modelDocs" to "false",
-            "supportingFiles" to "false"
-        )
+            "supportingFiles" to "false",
+        ),
     )
 
     // Kotlin/Spring用の主要オプション
@@ -93,8 +98,8 @@ openApiGenerate {
             "packageName" to "com.github.moriakira.jibundashboard.generated",
             "apiPackage" to "com.github.moriakira.jibundashboard.generated.api",
             "modelPackage" to "com.github.moriakira.jibundashboard.generated.model",
-            "hideGenerationTimestamp" to "true"
-        )
+            "hideGenerationTimestamp" to "true",
+        ),
     )
 }
 
@@ -116,8 +121,8 @@ spotless {
                 // ワイルドカードimportを許可
                 "ktlint_standard_no-wildcard-imports" to "disabled",
                 // 長い行の警告をOFF
-                "ktlint_standard_max-line-length" to "off"
-            )
+                "ktlint_standard_max-line-length" to "off",
+            ),
         )
         endWithNewline()
         trimTrailingWhitespace()
@@ -150,10 +155,11 @@ tasks.named("openApiGenerate") {
 tasks.named("spotlessKotlinGenerated") {
     dependsOn("openApiGenerate")
 }
-val prepareGeneratedSources = tasks.register("prepareGeneratedSources") {
-    dependsOn("openApiGenerate")
-    dependsOn("spotlessKotlinGeneratedApply")
-}
+val prepareGeneratedSources =
+    tasks.register("prepareGeneratedSources") {
+        dependsOn("openApiGenerate")
+        dependsOn("spotlessKotlinGeneratedApply")
+    }
 tasks.named("compileKotlin") {
     dependsOn(prepareGeneratedSources)
 }

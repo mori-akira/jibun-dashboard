@@ -34,16 +34,17 @@ class RequestLoggingFilter : OncePerRequestFilter() {
             val ip = request.getHeader("X-Forwarded-For")?.split(",")?.firstOrNull() ?: request.remoteAddr
 
             // 1行サマリ（JSONログに乗る）
-            val map = mapOf(
-                "method" to request.method,
-                "path" to request.requestURI,
-                "query" to (request.queryString ?: ""),
-                "status" to response.status,
-                "elapsed_ms" to elapsed,
-                "user_agent" to ua,
-                "ip" to ip,
-                "amzn_trace" to trace,
-            )
+            val map =
+                mapOf(
+                    "method" to request.method,
+                    "path" to request.requestURI,
+                    "query" to (request.queryString ?: ""),
+                    "status" to response.status,
+                    "elapsed_ms" to elapsed,
+                    "user_agent" to ua,
+                    "ip" to ip,
+                    "amzn_trace" to trace,
+                )
             if (thrown == null) {
                 log.info("request_summary: {}", map)
             } else {
