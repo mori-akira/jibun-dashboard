@@ -38,6 +38,20 @@ module "dynamodb_user" {
   }
 }
 
+module "dynamodb_resource_i18n" {
+  source          = "./modules/dynamodb"
+  application_tag = module.application.application_tag
+  table_name      = "${var.app_name}-${var.env_name}-resource-i18n"
+  hash_key = {
+    name = "localeCode"
+    type = "S"
+  }
+  sort_key = {
+    name = "messageKey"
+    type = "S"
+  }
+}
+
 data "aws_caller_identity" "current" {}
 
 module "apprunner" {
