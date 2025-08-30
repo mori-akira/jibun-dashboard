@@ -62,6 +62,46 @@ module "dynamodb_setting" {
   }
 }
 
+module "dynamodb_salaries" {
+  source          = "./modules/dynamodb"
+  application_tag = module.application.application_tag
+  table_name      = "${var.app_name}-${var.env_name}-salaries"
+  hash_key = {
+    name = "userId",
+    type = "S"
+  }
+  sort_key = {
+    name = "targetDate",
+    type = "S"
+  }
+  global_secondary_indexes = [
+    {
+      name            = "gsi_salary_id"
+      hash_key_name   = "salaryId"
+      range_key_name  = null
+      projection_type = "ALL"
+    }
+  ]
+}
+
+module "dynamodb_qualifications" {
+  source          = "./modules/dynamodb"
+  application_tag = module.application.application_tag
+  table_name      = "${var.app_name}-${var.env_name}-qualifications"
+  hash_key = {
+    name = "userId",
+    type = "S"
+  }
+  global_secondary_indexes = [
+    {
+      name            = "gsi_qualification_id"
+      hash_key_name   = "qualificationId"
+      range_key_name  = null
+      projection_type = "ALL"
+    }
+  ]
+}
+
 data "aws_caller_identity" "current" {}
 
 module "apprunner" {

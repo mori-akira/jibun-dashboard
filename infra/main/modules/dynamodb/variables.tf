@@ -9,7 +9,7 @@ variable "table_name" {
 }
 
 variable "hash_key" {
-  description = "ハッシュキー定義"
+  description = "ハッシュキー"
   type = object({
     name = string
     type = string
@@ -17,12 +17,24 @@ variable "hash_key" {
 }
 
 variable "sort_key" {
-  description = "ソートキー定義"
+  description = "ソートキー"
   type = object({
     name = string
     type = string
   })
   default = null
+}
+
+variable "global_secondary_indexes" {
+  description = "GSI"
+  type = list(object({
+    name               = string
+    hash_key_name      = string
+    range_key_name     = string
+    projection_type    = string
+    non_key_attributes = optional(list(string))
+  }))
+  default = []
 }
 
 variable "billing_mode" {
