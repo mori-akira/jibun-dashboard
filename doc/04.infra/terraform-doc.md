@@ -7,7 +7,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.10.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.11.0 |
 
 ## Modules
 
@@ -17,7 +17,7 @@ No requirements.
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
 | <a name="module_apprunner"></a> [apprunner](#module\_apprunner) | ./modules/apprunner | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
-| <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
+| <a name="module_dynamodb_user"></a> [dynamodb\_user](#module\_dynamodb\_user) | ./modules/dynamodb | n/a |
 | <a name="module_ecr"></a> [ecr](#module\_ecr) | ./modules/ecr | n/a |
 | <a name="module_frontend"></a> [frontend](#module\_frontend) | ./modules/frontend | n/a |
 
