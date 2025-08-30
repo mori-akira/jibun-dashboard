@@ -31,7 +31,7 @@ module "ecr" {
 module "dynamodb_user" {
   source          = "./modules/dynamodb"
   application_tag = module.application.application_tag
-  table_name = "${var.app_name}-${var.env_name}-users"
+  table_name      = "${var.app_name}-${var.env_name}-users"
   hash_key = {
     name = "userId"
     type = "S"
