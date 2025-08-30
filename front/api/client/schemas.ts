@@ -47,7 +47,6 @@ const Password = z
   .passthrough();
 const Setting = z
   .object({
-    settingId: z.string().uuid().optional(),
     userId: z.string().optional(),
     salary: z
       .object({
