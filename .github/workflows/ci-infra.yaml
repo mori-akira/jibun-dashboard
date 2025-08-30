@@ -41,11 +41,6 @@ jobs:
       - name: Setup Graphviz
         uses: ts-graphviz/setup-graphviz@v2
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
       - name: Terraform Init
         run: terraform init
         working-directory: infra/main
@@ -87,6 +82,8 @@ jobs:
 
       - name: Commit And Push
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           sudo git restore --staged  infra/main
           sudo git add doc
           if ! git diff --cached --quiet; then
