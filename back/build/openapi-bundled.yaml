@@ -155,7 +155,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/setting'
               example:
-                settingId: 310f780a-0866-4876-ac63-7bc1232932f9
                 userId: test-user
                 salary:
                   financialYearStartMonth: 4
@@ -7011,10 +7010,6 @@ components:
         - salary
         - qualification
       properties:
-        settingId:
-          description: 設定ID
-          type: string
-          format: uuid
         userId:
           description: ユーザID
           type: string

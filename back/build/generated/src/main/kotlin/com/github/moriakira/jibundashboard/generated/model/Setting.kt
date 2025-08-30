@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.media.Schema
  * 設定情報
  * @param salary
  * @param qualification
- * @param settingId 設定ID
  * @param userId ユーザID
  */
 data class Setting(
@@ -31,9 +30,6 @@ data class Setting(
     @field:Valid
     @Schema(example = "null", required = true, description = "")
     @get:JsonProperty("qualification", required = true) val qualification: SettingQualification,
-
-    @Schema(example = "null", description = "設定ID")
-    @get:JsonProperty("settingId") val settingId: java.util.UUID? = null,
 
     @Schema(example = "null", description = "ユーザID")
     @get:JsonProperty("userId") val userId: kotlin.String? = null
