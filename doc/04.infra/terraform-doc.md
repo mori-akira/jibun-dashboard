@@ -17,7 +17,9 @@ No requirements.
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
 | <a name="module_apprunner"></a> [apprunner](#module\_apprunner) | ./modules/apprunner | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
+| <a name="module_dynamodb_qualifications"></a> [dynamodb\_qualifications](#module\_dynamodb\_qualifications) | ./modules/dynamodb | n/a |
 | <a name="module_dynamodb_resource_i18n"></a> [dynamodb\_resource\_i18n](#module\_dynamodb\_resource\_i18n) | ./modules/dynamodb | n/a |
+| <a name="module_dynamodb_salaries"></a> [dynamodb\_salaries](#module\_dynamodb\_salaries) | ./modules/dynamodb | n/a |
 | <a name="module_dynamodb_setting"></a> [dynamodb\_setting](#module\_dynamodb\_setting) | ./modules/dynamodb | n/a |
 | <a name="module_dynamodb_user"></a> [dynamodb\_user](#module\_dynamodb\_user) | ./modules/dynamodb | n/a |
 | <a name="module_ecr"></a> [ecr](#module\_ecr) | ./modules/ecr | n/a |
