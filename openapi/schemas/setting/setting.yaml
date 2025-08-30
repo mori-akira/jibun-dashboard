@@ -7,11 +7,6 @@ required:
 
 properties:
 
-  settingId:
-    description: 設定ID
-    type: string
-    format: uuid
-
   userId:
     description: ユーザID
     type: string
