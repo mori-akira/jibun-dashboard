@@ -3,6 +3,11 @@ variable "application_tag" {
   type        = map(string)
 }
 
+variable "region" {
+  description = "AWSリージョン"
+  type        = string
+}
+
 variable "app_name" {
   description = "アプリケーション名"
   type        = string
@@ -35,6 +40,13 @@ variable "container_port" {
   default     = 8080
 }
 
+variable "server_servlet_context_path" {
+  description = "サーブレットのコンテキストパス"
+  type        = string
+  default     = "/api/v1"
+
+}
+
 variable "cpu" {
   description = "CPU"
   type        = number
@@ -57,6 +69,12 @@ variable "auto_deploy" {
   description = "自動デプロイ"
   type        = bool
   default     = true
+}
+
+variable "runtime_env" {
+  description = "環境変数"
+  type        = map(string)
+  default     = {}
 }
 
 variable "timezone" {

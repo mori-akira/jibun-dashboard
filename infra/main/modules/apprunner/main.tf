@@ -19,7 +19,11 @@ resource "aws_iam_role_policy" "apprunner_ecr_policy" {
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
-      { Effect = "Allow", Action = ["ecr:GetAuthorizationToken"], Resource = "*" },
+      {
+        Effect   = "Allow",
+        Action   = ["ecr:GetAuthorizationToken"],
+        Resource = "*"
+      },
       {
         Effect = "Allow",
         Action = [
@@ -45,8 +49,14 @@ resource "aws_apprunner_service" "this" {
       image_identifier      = "${var.ecr_repository_url}:${var.image_tag}"
       image_configuration {
         port = tostring(var.container_port)
-        runtime_environment_variables = {
-        }
+        runtime_environment_variables = merge({
+          APP_NAME                    = var.app_name
+          ENV_NAME                    = var.env_name
+          AWS_REGION                  = var.region
+          SPRING_PROFILES_ACTIVE      = var.env_name
+          SERVER_PORT                 = tostring(var.container_port)
+          SERVER_SERVLET_CONTEXT_PATH = var.server_servlet_context_path
+        }, var.runtime_env)
       }
     }
 

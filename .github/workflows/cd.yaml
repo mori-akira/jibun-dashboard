@@ -14,7 +14,6 @@ concurrency:
   group: cd-${{ github.ref }}
 
 jobs:
-
   infra:
     runs-on: ubuntu-latest
     permissions:
@@ -25,6 +24,8 @@ jobs:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
       SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
       TF_VAR_region: ${{ vars.REGION }}
+      TF_VAR_cognito_user_pool_id: ${{ vars.COGNITO_USER_POOL_ID }}
+      TF_VAR_cognito_client_id: ${{ vars.COGNITO_CLIENT_ID }}
       TF_VAR_cognito_callback_url: ${{ vars.COGNITO_CALLBACK_URL }}
       TF_VAR_cognito_logout_url: ${{ vars.COGNITO_LOGOUT_URL }}
 
@@ -120,7 +121,7 @@ jobs:
         if: steps.filter_changes.outputs.changes == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install Dependencies
         if: steps.filter_changes.outputs.changes == 'true'
@@ -207,8 +208,8 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
-          cache: 'gradle'
+          java-version: "21"
+          cache: "gradle"
 
       - name: Make Gradle Wrapper Executable
         if: steps.filter_changes.outputs.changes == 'true'

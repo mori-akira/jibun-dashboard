@@ -14,6 +14,18 @@ variable "env_name" {
 }
 
 # 循環参照を避けるため、直接指定が必要
+variable "cognito_user_pool_id" {
+  description = "CognitoユーザープールID"
+  type        = string
+}
+
+# 循環参照を避けるため、直接指定が必要
+variable "cognito_client_id" {
+  description = "CognitoクライアントID"
+  type        = string
+}
+
+# 循環参照を避けるため、直接指定が必要
 variable "cognito_callback_url" {
   description = "CognitoコールバックURL"
   type        = string
