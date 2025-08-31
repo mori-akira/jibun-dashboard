@@ -3,7 +3,14 @@ import com.github.gradle.node.npm.task.NpxTask
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 // サービス名
-val serviceTags = "Resource,User,Setting"
+val serviceTags = listOf(
+    "Resource",
+    "User",
+    "Setting",
+    "File",
+    "Salary",
+    "Qualification"
+).joinToString(",")
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -71,10 +78,7 @@ openApiGenerate {
     generatorName.set("kotlin-spring")
     inputSpec.set(bundledFile.get().asFile.absolutePath)
     outputDir.set(
-        layout.buildDirectory
-            .dir("generated")
-            .get()
-            .asFile.path,
+        layout.buildDirectory.dir("generated").get().asFile.path,
     )
 
     // 共通オプション
@@ -155,11 +159,10 @@ tasks.named("openApiGenerate") {
 tasks.named("spotlessKotlinGenerated") {
     dependsOn("openApiGenerate")
 }
-val prepareGeneratedSources =
-    tasks.register("prepareGeneratedSources") {
-        dependsOn("openApiGenerate")
-        dependsOn("spotlessKotlinGeneratedApply")
-    }
+val prepareGeneratedSources = tasks.register("prepareGeneratedSources") {
+    dependsOn("openApiGenerate")
+    dependsOn("spotlessKotlinGeneratedApply")
+}
 tasks.named("compileKotlin") {
     dependsOn(prepareGeneratedSources)
 }

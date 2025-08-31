@@ -1,4 +1,7 @@
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/FileApi.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/QualificationApi.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/ResourceApi.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/SalaryApi.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/SettingApi.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/UserApi.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/ErrorDetail.kt

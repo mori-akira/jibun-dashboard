@@ -25,5 +25,6 @@
 
 ### バックエンドの起動
 ```
+SPRING_PROFILES_ACTIVE=local
 ./gradlew clean bootRun
 ```
