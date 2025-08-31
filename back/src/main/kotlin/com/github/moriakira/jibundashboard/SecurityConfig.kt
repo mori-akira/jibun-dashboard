@@ -64,11 +64,9 @@ class JwtDecoderLocalConfig(
     fun jwtDecoder(): JwtDecoder {
         val key = SecretKeySpec(secret.toByteArray(Charsets.UTF_8), "HmacSHA256")
         val decoder = NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build()
-
         val withIssuer = JwtValidators.createDefaultWithIssuer(issuer)
         val audienceValidator = AudienceValidator(setOf(audience))
         val tokenUseValidator = TokenUseValidator(expected = "access")
-
         decoder.setJwtValidator(DelegatingOAuth2TokenValidator(withIssuer, audienceValidator, tokenUseValidator))
         return decoder
     }
