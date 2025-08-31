@@ -11,5 +11,7 @@
 # Ignore binary files
 bin
 
-# Ignore terraform cache directory
+# Ignore terraform files
 .terraform
+*.tfstate
+*.tfstate.backup

@@ -207,5 +207,5 @@ tasks.register("dynamodbUp") {
 
 tasks.register("dynamodbDown") {
     group = "local-dynamodb"
-    dependsOn("dynamodbTfDestroy", "dynamodbDockerDown")
+    dependsOn("dynamodbDockerDown")
 }
