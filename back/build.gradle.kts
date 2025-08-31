@@ -38,7 +38,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-jose")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("software.amazon.awssdk:dynamodb:2.32.33")

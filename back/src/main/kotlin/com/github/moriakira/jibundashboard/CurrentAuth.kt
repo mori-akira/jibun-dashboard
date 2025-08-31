@@ -11,9 +11,9 @@ import org.springframework.web.context.annotation.RequestScope
 class CurrentAuth {
     val jwt: Jwt by lazy {
         val auth = SecurityContextHolder.getContext().authentication
-            ?: throw IllegalStateException("No Authentication in context")
+            ?: error("No Authentication in context")
         val token = auth as? JwtAuthenticationToken
-            ?: throw IllegalStateException("Authentication is not JwtAuthenticationToken")
+            ?: error("No Authentication in context")
         token.token
     }
     val userId: String get() = jwt.subject
