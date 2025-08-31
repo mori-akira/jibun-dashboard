@@ -24,3 +24,13 @@ management:
     health:
       probes:
         enabled: true
+app:
+  dynamodb:
+    endpoint: ${DYNAMODB_ENDPOINT:http://localhost:8000}
+    region: ${AWS_REGION:ap-northeast-1}
+    tables:
+      users: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-users
+      resources-i18n: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-resources-i18n
+      settings: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-settings
+      salaries: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salaries
+      qualifications: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-qualifications

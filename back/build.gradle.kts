@@ -37,7 +37,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
-    implementation("software.amazon.awssdk:dynamodb:2.25.64")
+    implementation("software.amazon.awssdk:dynamodb:2.32.33")
+    implementation("software.amazon.awssdk:dynamodb-enhanced:2.32.33")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.9.1")

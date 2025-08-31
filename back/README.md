@@ -26,5 +26,7 @@
 ### バックエンドの起動
 ```
 SPRING_PROFILES_ACTIVE=local
+AWS_ACCESS_KEY_ID=dymmy
+AWS_SECRET_ACCESS_KEY=dymmy
 ./gradlew clean bootRun
 ```
