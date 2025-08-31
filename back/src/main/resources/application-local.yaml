@@ -1,0 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+dynamodb:
+  endpoint: http://localhost:8000
+  region: ap-northeast-1

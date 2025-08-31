@@ -166,3 +166,46 @@ tasks.named("compileKotlin") {
 tasks.named("check") {
     dependsOn(prepareGeneratedSources)
 }
+
+// ローカル環境用
+val composeFile = File("$rootDir/local/docker-compose.local.yml")
+val tfDir = File("$rootDir/local/terraform")
+
+tasks.register<Exec>("dynamodbDockerUp") {
+    group = "local-dynamodb"
+    commandLine("docker", "compose", "-f", composeFile.absolutePath, "up", "-d")
+}
+
+tasks.register<Exec>("dynamodbDockerDown") {
+    group = "local-dynamodb"
+    commandLine("docker", "compose", "-f", composeFile.absolutePath, "down", "-v")
+}
+
+tasks.register<Exec>("dynamodbTfInit") {
+    group = "local-dynamodb"
+    workingDir(tfDir)
+    commandLine("terraform", "init")
+}
+
+tasks.register<Exec>("dynamodbTfApply") {
+    group = "local-dynamodb"
+    workingDir(tfDir)
+    commandLine("terraform", "apply", "-auto-approve")
+    dependsOn("dynamodbTfInit")
+}
+
+tasks.register<Exec>("dynamodbTfDestroy") {
+    group = "local-dynamodb"
+    workingDir(tfDir)
+    commandLine("terraform", "destroy", "-auto-approve")
+}
+
+tasks.register("dynamodbUp") {
+    group = "local-dynamodb"
+    dependsOn("dynamodbDockerUp", "dynamodbTfApply")
+}
+
+tasks.register("dynamodbDown") {
+    group = "local-dynamodb"
+    dependsOn("dynamodbTfDestroy", "dynamodbDockerDown")
+}

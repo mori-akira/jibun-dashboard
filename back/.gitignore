@@ -10,3 +10,6 @@
 
 # Ignore binary files
 bin
+
+# Ignore terraform cache directory
+.terraform
