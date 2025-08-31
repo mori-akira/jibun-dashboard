@@ -167,7 +167,7 @@ tasks.named("check") {
     dependsOn(prepareGeneratedSources)
 }
 
-// ローカル環境用
+/* === 以下、ローカル環境用 === */
 val composeFile = File("$rootDir/local/docker-compose.local.yml")
 val tfDir = File("$rootDir/local/terraform")
 val seedDir = File("$rootDir/local/seed")
