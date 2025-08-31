@@ -28,7 +28,7 @@ module "ecr" {
   application_tag = module.application.application_tag
 }
 
-module "dynamodb_user" {
+module "dynamodb_users" {
   source          = "./modules/dynamodb"
   application_tag = module.application.application_tag
   table_name      = "${var.app_name}-${var.env_name}-users"
@@ -38,7 +38,7 @@ module "dynamodb_user" {
   }
 }
 
-module "dynamodb_resource_i18n" {
+module "dynamodb_resources_i18n" {
   source          = "./modules/dynamodb"
   application_tag = module.application.application_tag
   table_name      = "${var.app_name}-${var.env_name}-resources-i18n"
@@ -52,7 +52,7 @@ module "dynamodb_resource_i18n" {
   }
 }
 
-module "dynamodb_setting" {
+module "dynamodb_settings" {
   source          = "./modules/dynamodb"
   application_tag = module.application.application_tag
   table_name      = "${var.app_name}-${var.env_name}-settings"
