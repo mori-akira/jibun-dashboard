@@ -10,6 +10,6 @@ spring:
 app:
   security:
     local:
-      hs256-secret: "change-this-dev-secret-at-least-32bytes-long-1234567890"
+      hs256-secret: "piMH6U2uU9_TYC1kx_Mqp4KJDJd0OZK_"
       issuer: "http://localhost/dev-issuer"
       audience: "jibun-dashboard-local"
