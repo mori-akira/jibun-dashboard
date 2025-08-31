@@ -1,0 +1,52 @@
+{
+  "jibun-dashboard-local-settings": [
+    {
+      "PutRequest": {
+        "Item": {
+          "userId": {
+            "S": "test-user1"
+          },
+          "salary": {
+            "M": {
+              "financialYearStartMonth": {
+                "N": "4"
+              },
+              "transitionItemCount": {
+                "N": "5"
+              },
+              "compareDataColors": {
+                "L": [
+                  {
+                    "S": "#EEBB44"
+                  },
+                  {
+                    "S": "#EE88EE"
+                  },
+                  {
+                    "S": "#44DDDD"
+                  }
+                ]
+              }
+            }
+          },
+          "qualification": {
+            "M": {
+              "rankAColor": {
+                "S": "#2B7FFF"
+              },
+              "rankBColor": {
+                "S": "#18CB56"
+              },
+              "rankCColor": {
+                "S": "#FF6900"
+              },
+              "rankDColor": {
+                "S": "#F0B100"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

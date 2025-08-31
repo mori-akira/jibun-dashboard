@@ -1,0 +1,34 @@
+{
+  "jibun-dashboard-local-users": [
+    {
+      "PutRequest": {
+        "Item": {
+          "userId": {
+            "S": "test-user1"
+          },
+          "userName": {
+            "S": "Test User1"
+          },
+          "emailAddress": {
+            "S": "test-user1@example.com"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "userId": {
+            "S": "test-user2"
+          },
+          "userName": {
+            "S": "Test User2"
+          },
+          "emailAddress": {
+            "S": "test-user2@example.com"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -170,6 +170,7 @@ tasks.named("check") {
 // ローカル環境用
 val composeFile = File("$rootDir/local/docker-compose.local.yml")
 val tfDir = File("$rootDir/local/terraform")
+val seedDir = File("$rootDir/local/seed")
 
 tasks.register<Exec>("dynamodbDockerUp") {
     group = "local-dynamodb"
@@ -208,4 +209,33 @@ tasks.register("dynamodbUp") {
 tasks.register("dynamodbDown") {
     group = "local-dynamodb"
     dependsOn("dynamodbDockerDown")
+}
+
+fun registerSeedTaskFor(file: File) = tasks.register<Exec>("seed_" + file.nameWithoutExtension) {
+    group = "local-dynamodb"
+    environment("AWS_ACCESS_KEY_ID", "dummy")
+    environment("AWS_SECRET_ACCESS_KEY", "dummy")
+    environment("AWS_REGION", "ap-northeast-1")
+    commandLine(
+        "aws",
+        "dynamodb",
+        "batch-write-item",
+        "--endpoint-url",
+        "http://localhost:8000",
+        "--request-items",
+        "file://${file.absolutePath}"
+    )
+    isIgnoreExitValue = false
+}
+
+val seedFiles = seedDir.listFiles { f -> f.isFile && f.extension == "json" }?.sortedBy { it.name } ?: emptyList()
+val perTableSeedTasks = seedFiles.map { registerSeedTaskFor(it) }
+
+tasks.register("dynamodbSeedAll") {
+    group = "local-dynamodb"
+    dependsOn(perTableSeedTasks)
+}
+
+tasks.named("dynamodbUp") {
+    finalizedBy("dynamodbSeedAll")
 }

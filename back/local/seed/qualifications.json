@@ -1,0 +1,319 @@
+{
+  "jibun-dashboard-local-qualifications": [
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "2b0c1f3e-4d5a-4c8b-9f6c-7d8e9f0a1b2c"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "IT Passport"
+          },
+          "abbreviation": {
+            "S": "IP"
+          },
+          "status": {
+            "S": "acquired"
+          },
+          "rank": {
+            "S": "D"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "acquiredDate": {
+            "S": "2019-06-14"
+          },
+          "officialUrl": {
+            "S": "https://www3.jitec.ipa.go.jp/JitesCbt/index.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "3c4d5e6f-7a8b-9c0d-e1f2-34567890abcd"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Information Security Management Examination"
+          },
+          "abbreviation": {
+            "S": "SG"
+          },
+          "status": {
+            "S": "acquired"
+          },
+          "rank": {
+            "S": "C"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "acquiredDate": {
+            "S": "2024-02-15"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/sg/index.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "315a98c3-fbdc-4179-a68d-c54ce63d12e8"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Fundamental Information Technology Engineer Examination"
+          },
+          "abbreviation": {
+            "S": "FE"
+          },
+          "status": {
+            "S": "acquired"
+          },
+          "rank": {
+            "S": "C"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "acquiredDate": {
+            "S": "2019-11-20"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/fe.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "d200c9b7-2849-4784-b03d-c8c6c18ae99a"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Applied Information Technology Engineer Examination"
+          },
+          "abbreviation": {
+            "S": "AP"
+          },
+          "status": {
+            "S": "acquired"
+          },
+          "rank": {
+            "S": "B"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "acquiredDate": {
+            "S": "2023-12-21"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/ap.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "26e27604-a876-4ac1-8d05-8ec631e2837a"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "IT Strategist Examination"
+          },
+          "abbreviation": {
+            "S": "ST"
+          },
+          "status": {
+            "S": "dream"
+          },
+          "rank": {
+            "S": "A"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/st.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "7be0f8d9-56fb-4e8e-bc4d-f28a730a1ae1"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "System Architect Examination"
+          },
+          "abbreviation": {
+            "S": "SA"
+          },
+          "status": {
+            "S": "dream"
+          },
+          "rank": {
+            "S": "A"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/sa.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "68257de9-6343-429a-a084-0b84e6da5100"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Project Manager Examination"
+          },
+          "abbreviation": {
+            "S": "PM"
+          },
+          "status": {
+            "S": "dream"
+          },
+          "rank": {
+            "S": "A"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/pm.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "512367c8-7db2-4021-b995-34ec2213b9f3"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Network Specialist Examination"
+          },
+          "abbreviation": {
+            "S": "NW"
+          },
+          "status": {
+            "S": "dream"
+          },
+          "rank": {
+            "S": "A"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/nw.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "6b683684-0ee9-4610-b2a5-853f89c573bd"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Database Specialist Examination"
+          },
+          "abbreviation": {
+            "S": "DB"
+          },
+          "status": {
+            "S": "planning"
+          },
+          "rank": {
+            "S": "A"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/db.html"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "qualificationId": {
+            "S": "ea60ebf7-505b-485f-a9e0-6fdb9106f0ca"
+          },
+          "userId": {
+            "S": "test-user1"
+          },
+          "qualificationName": {
+            "S": "Registered Information Security Specialist Examination"
+          },
+          "abbreviation": {
+            "S": "SC"
+          },
+          "status": {
+            "S": "acquired"
+          },
+          "rank": {
+            "S": "A"
+          },
+          "organization": {
+            "S": "IPA"
+          },
+          "acquiredDate": {
+            "S": "2024-07-04"
+          },
+          "officialUrl": {
+            "S": "https://www.ipa.go.jp/shiken/kubun/sc.html"
+          }
+        }
+      }
+    }
+  ]
+}

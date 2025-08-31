@@ -67,15 +67,7 @@ module "dynamodb_qualifications" {
   application_tag = local.tag
   table_name      = "${local.app_name}-${local.env_name}-qualifications"
   hash_key = { name = "userId", type = "S" }
-  global_secondary_indexes = [
-    {
-      name               = "gsi_qualification_id"
-      hash_key_name      = "qualificationId"
-      range_key_name     = null
-      projection_type    = "ALL"
-      non_key_attributes = null
-    }
-  ]
+  sort_key = { name = "qualificationId", type = "S" }
 }
 
 output "done" { value = "applied to dynamodb-local" }

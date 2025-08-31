@@ -1,0 +1,49 @@
+{
+  "jibun-dashboard-local-resources-i18n": [
+    {
+      "PutRequest": {
+        "Item": {
+          "localeCode": {
+            "S": "en"
+          },
+          "messageKey": {
+            "S": "message.info.completeSuccessfully"
+          },
+          "message": {
+            "S": "Process completed successfully."
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "localeCode": {
+            "S": "en"
+          },
+          "messageKey": {
+            "S": "message.info.inputNewCategory"
+          },
+          "message": {
+            "S": "Input New Category"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "localeCode": {
+            "S": "en"
+          },
+          "messageKey": {
+            "S": "message.info.inputNewPayslip"
+          },
+          "message": {
+            "S": "Input New Payslip"
+          }
+        }
+      }
+    }
+  ]
+}
