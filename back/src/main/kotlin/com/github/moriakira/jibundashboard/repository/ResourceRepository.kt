@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.Key
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
@@ -31,10 +32,13 @@ class ResourceRepository(
 @DynamoDbBean
 class I18nItem {
     @get:DynamoDbPartitionKey
+    @get:DynamoDbAttribute("localeCode")
     var localeCode: String? = null
 
     @get:DynamoDbSortKey
+    @get:DynamoDbAttribute("messageKey")
     var messageKey: String? = null
 
+    @get:DynamoDbAttribute("message")
     var message: String? = null
 }

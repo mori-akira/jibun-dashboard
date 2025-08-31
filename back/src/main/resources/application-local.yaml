@@ -2,3 +2,14 @@ spring:
   config:
     activate:
       on-profile: local
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ""
+app:
+  security:
+    local:
+      hs256-secret: "change-this-dev-secret-at-least-32bytes-long-1234567890"
+      issuer: "http://localhost/dev-issuer"
+      audience: "jibun-dashboard-local"
