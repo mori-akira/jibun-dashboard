@@ -15,6 +15,7 @@ type Claims struct {
 	TokenUse string `json:"token_use"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
+	ClientId string `json:"client_id"`
 	jwt.RegisteredClaims
 }
 
@@ -30,6 +31,7 @@ func main() {
 	secret := flag.String("secret", getEnv("DEV_JWT_SECRET", defaultSecret), "HS256 signing secret (or set DEV_JWT_SECRET)")
 	issuer := flag.String("issuer", "http://localhost/dev-issuer", "iss (issuer)")
 	audience := flag.String("audience", "jibun-dashboard-local", "aud (audience)")
+	clientId := flag.String("clientId", "jibun-dashboard-local", "clientId (client id)")
 	sub := flag.String("sub", "test-user1", "sub (subject; user id)")
 	userName := flag.String("user", "Test User1", "username claim")
 	email := flag.String("email", "test-user1@example.com", "email claim")
@@ -45,6 +47,7 @@ func main() {
 	now := time.Now().UTC()
 	claims := Claims{
 		TokenUse: "access",
+		ClientId: *clientId,
 		Username: *userName,
 		Email:    *email,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -69,6 +72,6 @@ func main() {
 	fmt.Println(signed)
 
 	h := sha256.Sum256([]byte(*secret))
-	fmt.Fprintf(os.Stderr, "info: issued HS256 dev token (iss=%s, sub=%s, aud=%s, exp=%s, secret_sha256=%s)\n",
-		*issuer, *sub, (*audience), claims.ExpiresAt.Time.Format(time.RFC3339), hex.EncodeToString(h[:8]))
+	fmt.Fprintf(os.Stderr, "info: issued HS256 dev token (iss=%s, sub=%s, client-id=%s, exp=%s, secret_sha256=%s)\n",
+		*issuer, *sub, *clientId, claims.ExpiresAt.Time.Format(time.RFC3339), hex.EncodeToString(h[:8]))
 }
