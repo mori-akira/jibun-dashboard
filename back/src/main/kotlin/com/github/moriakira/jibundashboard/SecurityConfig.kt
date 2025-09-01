@@ -82,7 +82,7 @@ class ClientIdValidator(private val expectedClientId: String) : OAuth2TokenValid
             OAuth2TokenValidatorResult.success()
         } else {
             OAuth2TokenValidatorResult.failure(
-                OAuth2Error("invalid_token", "Invalid client_id", null)
+                OAuth2Error("invalid_token", "Invalid client_id", null),
             )
         }
     }
