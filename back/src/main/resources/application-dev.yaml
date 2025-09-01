@@ -1,9 +1,12 @@
 spring:
+  config:
+    activate:
+      on-profile: dev
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: "https://cognito-idp.${AWS_REGION:ap-northeast-1}.amazonaws.com/${COGNITO_USER_POOL_ID:ap-northeast-1_example}"
+          issuer-uri: "https://cognito-idp.${AWS_REGION:ap-northeast-1}.amazonaws.com/${COGNITO_USER_POOL_ID}"
 app:
   security:
     cognito:
