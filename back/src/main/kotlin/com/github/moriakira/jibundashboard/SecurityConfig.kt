@@ -43,9 +43,9 @@ class JwtDecoderConfig(
     fun jwtDecoder(): JwtDecoder {
         val decoder = JwtDecoders.fromIssuerLocation(issuer) as NimbusJwtDecoder
         val withIssuer = JwtValidators.createDefaultWithIssuer(issuer)
-        val audienceValidator = AudienceValidator(setOf(clientId))
+        val clientIdValidator = ClientIdValidator(clientId)
         val tokenUseValidator = TokenUseValidator(expected = "access")
-        decoder.setJwtValidator(DelegatingOAuth2TokenValidator(withIssuer, audienceValidator, tokenUseValidator))
+        decoder.setJwtValidator(DelegatingOAuth2TokenValidator(withIssuer, clientIdValidator, tokenUseValidator))
         return decoder
     }
 
@@ -58,16 +58,16 @@ class JwtDecoderConfig(
 class JwtDecoderLocalConfig(
     @param:Value("\${app.security.local.hs256-secret}") private val secret: String,
     @param:Value("\${app.security.local.issuer}") private val issuer: String,
-    @param:Value("\${app.security.local.audience}") private val audience: String,
+    @param:Value("\${app.security.local.client-id}") private val clientId: String,
 ) {
     @Bean
     fun jwtDecoder(): JwtDecoder {
         val key = SecretKeySpec(secret.toByteArray(Charsets.UTF_8), "HmacSHA256")
         val decoder = NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build()
         val withIssuer = JwtValidators.createDefaultWithIssuer(issuer)
-        val audienceValidator = AudienceValidator(setOf(audience))
+        val clientValidator = ClientIdValidator(clientId)
         val tokenUseValidator = TokenUseValidator(expected = "access")
-        decoder.setJwtValidator(DelegatingOAuth2TokenValidator(withIssuer, audienceValidator, tokenUseValidator))
+        decoder.setJwtValidator(DelegatingOAuth2TokenValidator(withIssuer, clientValidator, tokenUseValidator))
         return decoder
     }
 
@@ -75,14 +75,14 @@ class JwtDecoderLocalConfig(
     fun jwtAuthenticationConverter(): JwtAuthenticationConverter = JwtAuthenticationConverter()
 }
 
-class AudienceValidator(private val allowed: Set<String>) : OAuth2TokenValidator<Jwt> {
+class ClientIdValidator(private val expectedClientId: String) : OAuth2TokenValidator<Jwt> {
     override fun validate(token: Jwt): OAuth2TokenValidatorResult {
-        val aud = token.audience ?: emptyList()
-        return if (aud.any { it in allowed }) {
+        val clientId = token.claims["client_id"] as? String
+        return if (clientId == expectedClientId) {
             OAuth2TokenValidatorResult.success()
         } else {
             OAuth2TokenValidatorResult.failure(
-                OAuth2Error("invalid_token", "Invalid audience", null),
+                OAuth2Error("invalid_token", "Invalid client_id", null)
             )
         }
     }

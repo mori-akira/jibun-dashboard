@@ -12,4 +12,4 @@ app:
     local:
       hs256-secret: "piMH6U2uU9_TYC1kx_Mqp4KJDJd0OZK_"
       issuer: "http://localhost/dev-issuer"
-      audience: "jibun-dashboard-local"
+      client-id: "jibun-dashboard-local"
