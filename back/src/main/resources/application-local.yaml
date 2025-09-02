@@ -13,3 +13,5 @@ app:
       hs256-secret: "piMH6U2uU9_TYC1kx_Mqp4KJDJd0OZK_"
       issuer: "http://localhost/dev-issuer"
       client-id: "jibun-dashboard-local"
+  dynamodb:
+    endpoint: http://localhost:8000

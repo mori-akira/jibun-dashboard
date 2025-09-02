@@ -26,7 +26,6 @@ management:
         enabled: true
 app:
   dynamodb:
-    endpoint: ${DYNAMODB_ENDPOINT:http://localhost:8000}
     region: ${AWS_REGION:ap-northeast-1}
     tables:
       users: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-users
