@@ -18,6 +18,11 @@ variable "env_name" {
   type        = string
 }
 
+variable "instance_role_arn" {
+  description = "App Runner instance role ARN"
+  type        = string
+}
+
 variable "ecr_repository_url" {
   description = "ECRリポジトリのURL"
   type        = string
@@ -44,7 +49,6 @@ variable "server_servlet_context_path" {
   description = "サーブレットのコンテキストパス"
   type        = string
   default     = "/api/v1"
-
 }
 
 variable "cpu" {

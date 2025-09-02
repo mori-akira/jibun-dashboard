@@ -64,8 +64,9 @@ resource "aws_apprunner_service" "this" {
   }
 
   instance_configuration {
-    cpu    = tostring(var.cpu)
-    memory = tostring(var.memory)
+    cpu               = tostring(var.cpu)
+    memory            = tostring(var.memory)
+    instance_role_arn = var.instance_role_arn
   }
 
   health_check_configuration {
