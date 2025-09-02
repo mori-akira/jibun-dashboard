@@ -100,11 +100,66 @@ module "dynamodb_qualifications" {
 
 data "aws_caller_identity" "current" {}
 
+data "aws_iam_policy_document" "apprunner_instance_trust" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["tasks.apprunner.amazonaws.com"] # 実行系
+    }
+  }
+}
+
+resource "aws_iam_role" "apprunner_instance_role" {
+  name               = "${var.app_name}-apprunner-instance-role"
+  assume_role_policy = data.aws_iam_policy_document.apprunner_instance_trust.json
+  tags               = module.application.application_tag
+}
+
+data "aws_iam_policy_document" "apprunner_dynamodb_policy_doc" {
+  statement {
+    sid    = "DynamoDbReadWrite"
+    effect = "Allow"
+    actions = [
+      "dynamodb:BatchWriteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:BatchGetItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:DescribeTable",
+    ]
+    resources = [
+      module.dynamodb_users.table_arn,
+      module.dynamodb_resources_i18n.table_arn,
+      module.dynamodb_settings.table_arn,
+      module.dynamodb_salaries.table_arn,
+      module.dynamodb_qualifications.table_arn,
+
+      // セカンダリインデックス
+      "${module.dynamodb_salaries.table_arn}/index/*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "apprunner_dynamodb_policy" {
+  name   = "${var.app_name}-apprunner-dynamodb-policy"
+  policy = data.aws_iam_policy_document.apprunner_dynamodb_policy_doc.json
+}
+
+resource "aws_iam_role_policy_attachment" "apprunner_instance_attach" {
+  role       = aws_iam_role.apprunner_instance_role.name
+  policy_arn = aws_iam_policy.apprunner_dynamodb_policy.arn
+}
+
 module "apprunner" {
   source             = "./modules/apprunner"
   region             = var.region
   app_name           = var.app_name
   env_name           = var.env_name
+  instance_role_arn  = aws_iam_role.apprunner_instance_role.arn
   application_tag    = module.application.application_tag
   ecr_repository_url = module.ecr.repository_url
   ecr_repository_arn = "arn:aws:ecr:${var.region}:${data.aws_caller_identity.current.account_id}:repository/${var.app_name}"
