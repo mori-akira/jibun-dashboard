@@ -49,7 +49,6 @@ variable "server_servlet_context_path" {
   description = "サーブレットのコンテキストパス"
   type        = string
   default     = "/api/v1"
-
 }
 
 variable "cpu" {

@@ -105,7 +105,7 @@ data "aws_iam_policy_document" "apprunner_instance_trust" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["tasks.apprunner.amazonaws.com"] # 実行系
+      identifiers = ["tasks.apprunner.amazonaws.com"]
     }
   }
 }
