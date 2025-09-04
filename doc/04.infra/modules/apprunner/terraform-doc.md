@@ -56,7 +56,11 @@ No modules.
 | <a name="input_env_name"></a> [env\_name](#input\_env\_name) | 環境名 | `string` | n/a | yes |
 | <a name="input_health_check_path"></a> [health\_check\_path](#input\_health\_check\_path) | ヘルスチェックのパス | `string` | `"/api/v1/actuator/health"` | no |
 | <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | ECRイメージのタグ | `string` | `"latest"` | no |
+| <a name="input_instance_role_arn"></a> [instance\_role\_arn](#input\_instance\_role\_arn) | App Runner instance role ARN | `string` | n/a | yes |
 | <a name="input_memory"></a> [memory](#input\_memory) | メモリ | `number` | `512` | no |
+| <a name="input_region"></a> [region](#input\_region) | AWSリージョン | `string` | n/a | yes |
+| <a name="input_runtime_env"></a> [runtime\_env](#input\_runtime\_env) | 環境変数 | `map(string)` | `{}` | no |
+| <a name="input_server_servlet_context_path"></a> [server\_servlet\_context\_path](#input\_server\_servlet\_context\_path) | サーブレットのコンテキストパス | `string` | `"/api/v1"` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | タイムゾーン | `string` | `"Asia/Tokyo"` | no |
 
 ## Outputs

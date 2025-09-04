@@ -29,7 +29,12 @@ No requirements.
 
 | Name | Type |
 |------|------|
+| [aws_iam_policy.apprunner_dynamodb_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_role.apprunner_instance_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.apprunner_instance_attach](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.apprunner_dynamodb_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.apprunner_instance_trust](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -37,7 +42,9 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | アプリケーション名 | `string` | n/a | yes |
 | <a name="input_cognito_callback_url"></a> [cognito\_callback\_url](#input\_cognito\_callback\_url) | CognitoコールバックURL | `string` | `"http://localhost:3000/callback"` | no |
+| <a name="input_cognito_client_id"></a> [cognito\_client\_id](#input\_cognito\_client\_id) | CognitoクライアントID | `string` | n/a | yes |
 | <a name="input_cognito_logout_url"></a> [cognito\_logout\_url](#input\_cognito\_logout\_url) | CognitoログアウトURL | `string` | `"http://localhost:3000/logout"` | no |
+| <a name="input_cognito_user_pool_id"></a> [cognito\_user\_pool\_id](#input\_cognito\_user\_pool\_id) | CognitoユーザープールID | `string` | n/a | yes |
 | <a name="input_env_name"></a> [env\_name](#input\_env\_name) | 環境名 | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
 
