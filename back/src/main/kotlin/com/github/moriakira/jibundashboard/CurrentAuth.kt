@@ -1,21 +1,26 @@
 package com.github.moriakira.jibundashboard
 
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.oauth2.jwt.Jwt
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import jakarta.servlet.http.HttpServletRequest
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.context.annotation.RequestScope
 
 @Component
 @RequestScope
-class CurrentAuth {
-    val jwt: Jwt by lazy {
-        val auth = SecurityContextHolder.getContext().authentication
-            ?: error("No Authentication in context")
-        val token = auth as? JwtAuthenticationToken
-            ?: error("No Authentication in context")
-        token.token
+class CurrentAuth(
+    private val request: HttpServletRequest,
+) {
+    private val log = LoggerFactory.getLogger(this::class.java)
+
+    val userId: String by lazy {
+        request.getHeader("x-user-sub")?.also {
+            log.info("Authenticated userId (sub) = {}", it)
+        } ?: error("Missing header: x-user-sub")
     }
-    val userId: String get() = jwt.subject
-    val email: String? get() = jwt.claims["email"] as? String
+
+    val email: String? by lazy {
+        request.getHeader("x-user-email")?.also {
+            log.info("Authenticated email = {}", it)
+        }
+    }
 }
