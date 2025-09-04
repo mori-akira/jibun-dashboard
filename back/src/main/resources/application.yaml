@@ -14,7 +14,7 @@ logging:
     org.springframework: INFO
     org.springframework.boot.autoconfigure: WARN
     com.amazonaws.serverless: INFO
-    com.github.moriakira.jibundashboard.resource: INFO
+    com.github.moriakira.jibundashboard: INFO
 management:
   endpoints:
     web:

@@ -23,7 +23,7 @@
                     </throwableConverter>
                 </stackTrace>
                 <mdc/>
-                <globalCustomFields>{"app":"jibun-dashboard", "service":"resource"}</globalCustomFields>
+                <globalCustomFields>{"app":"jibun-dashboard"}</globalCustomFields>
             </providers>
         </encoder>
     </appender>
