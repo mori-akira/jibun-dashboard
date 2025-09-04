@@ -12,7 +12,7 @@ import java.net.URI
 
 @Configuration
 class DynamoDbConfig(
-    @param:Value("\${app.dynamodb.endpoint}") private val endpoint: String?,
+    @param:Value("\${app.dynamodb.endpoint:}") private val endpoint: String?,
     @param:Value("\${app.dynamodb.region}") private val region: String,
 ) {
     @Bean
