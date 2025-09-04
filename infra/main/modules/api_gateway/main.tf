@@ -16,6 +16,11 @@ resource "aws_apigatewayv2_integration" "apprunner_integration" {
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
   integration_uri    = "https://${var.apprunner_url}"
+
+  request_parameters = {
+    "overwrite:header.x-user-sub"   = "$context.authorizer.claims.sub"
+    "overwrite:header.x-user-email" = "$context.authorizer.claims.email"
+  }
 }
 
 resource "aws_apigatewayv2_authorizer" "cognito_auth" {
