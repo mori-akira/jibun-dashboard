@@ -11,7 +11,11 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   generate_secret                      = false
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
-  allowed_oauth_scopes                 = ["openid"]
+  allowed_oauth_scopes                 = ["openid", "email", "profile"]
+
+  read_attributes = [
+    "email", "email_verified"
+  ]
 
   callback_urls = [var.cognito_callback_url]
   logout_urls   = [var.cognito_logout_url]

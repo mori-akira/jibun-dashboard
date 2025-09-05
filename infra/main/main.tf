@@ -139,7 +139,11 @@ data "aws_iam_policy_document" "apprunner_dynamodb_policy_doc" {
       module.dynamodb_qualifications.table_arn,
 
       // セカンダリインデックス
+      "${module.dynamodb_users.table_arn}/index/*",
+      "${module.dynamodb_resources_i18n.table_arn}/index/*",
+      "${module.dynamodb_settings.table_arn}/index/*",
       "${module.dynamodb_salaries.table_arn}/index/*",
+      "${module.dynamodb_qualifications.table_arn}/index/*",
     ]
   }
 }
