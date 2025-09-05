@@ -33,7 +33,6 @@ No modules.
 | <a name="input_apprunner_url"></a> [apprunner\_url](#input\_apprunner\_url) | App RunnerのURL | `string` | n/a | yes |
 | <a name="input_frontend_bucket_name"></a> [frontend\_bucket\_name](#input\_frontend\_bucket\_name) | フロントエンドのS3バケット名 | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
-| <a name="input_s3_bucket_arn"></a> [s3\_bucket\_arn](#input\_s3\_bucket\_arn) | フロントエンドのS3 ARN | `string` | n/a | yes |
 | <a name="input_user_pool_client_id"></a> [user\_pool\_client\_id](#input\_user\_pool\_client\_id) | CognitoユーザープールクライアントID | `string` | n/a | yes |
 | <a name="input_user_pool_id"></a> [user\_pool\_id](#input\_user\_pool\_id) | CognitoユーザープールID | `string` | n/a | yes |
 
