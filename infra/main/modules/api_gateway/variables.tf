@@ -13,11 +13,6 @@ variable "frontend_bucket_name" {
   type        = string
 }
 
-variable "s3_bucket_arn" {
-  description = "フロントエンドのS3 ARN"
-  type        = string
-}
-
 variable "user_pool_id" {
   description = "CognitoユーザープールID"
   type        = string
