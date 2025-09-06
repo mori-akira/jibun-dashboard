@@ -36,7 +36,7 @@ class SettingController(
                         rankCColor = setting.qualification.rankCColor,
                         rankDColor = setting.qualification.rankDColor,
                     ),
-                )
+                ),
             )
         }
 
@@ -58,7 +58,7 @@ class SettingController(
                     rankCColor = setting.qualification.rankCColor,
                     rankDColor = setting.qualification.rankDColor,
                 ),
-            )
+            ),
         )
     }
 
@@ -78,7 +78,7 @@ class SettingController(
                         rankCColor = setting.qualification.rankCColor,
                         rankDColor = setting.qualification.rankDColor,
                     ),
-                )
+                ),
             )
         }
         return ResponseEntity.ok().build()

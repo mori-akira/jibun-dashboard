@@ -18,11 +18,9 @@ class SettingRepository(
     private val schema = TableSchema.fromBean(SettingItem::class.java)
     private fun table() = enhanced.table(settingsTableName, schema)
 
-    fun get(userId: String): SettingItem? {
-        return table().getItem(
-            GetItemEnhancedRequest.builder().key(Key.builder().partitionValue(userId).build()).build()
-        )
-    }
+    fun get(userId: String): SettingItem? = table().getItem(
+        GetItemEnhancedRequest.builder().key(Key.builder().partitionValue(userId).build()).build(),
+    )
 
     fun put(item: SettingItem) {
         table().putItem(item)

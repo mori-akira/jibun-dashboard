@@ -17,9 +17,7 @@ class UserRepository(
     private val schema = TableSchema.fromBean(UserItem::class.java)
     private fun table() = enhanced.table(usersTableName, schema)
 
-    fun get(userId: String): UserItem? {
-        return table().getItem(Key.builder().partitionValue(userId).build())
-    }
+    fun get(userId: String): UserItem? = table().getItem(Key.builder().partitionValue(userId).build())
 
     fun put(item: UserItem) {
         table().putItem(item)
