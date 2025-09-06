@@ -26,6 +26,12 @@ variable "cognito_client_id" {
 }
 
 # 循環参照を避けるため、直接指定が必要
+variable "cognito_domain" {
+  description = "Cognitoドメイン"
+  type        = string
+}
+
+# 循環参照を避けるため、直接指定が必要
 variable "cognito_callback_url" {
   description = "CognitoコールバックURL"
   type        = string

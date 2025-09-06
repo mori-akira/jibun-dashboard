@@ -170,6 +170,7 @@ module "apprunner" {
   runtime_env = {
     COGNITO_USER_POOL_ID = var.cognito_user_pool_id,
     COGNITO_CLIENT_ID    = var.cognito_client_id
+    COGNITO_DOMAIN       = var.cognito_domain
   }
 }
 
