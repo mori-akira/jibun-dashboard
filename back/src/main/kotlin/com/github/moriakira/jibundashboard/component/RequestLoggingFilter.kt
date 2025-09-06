@@ -1,4 +1,4 @@
-package com.github.moriakira.jibundashboard
+package com.github.moriakira.jibundashboard.component
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

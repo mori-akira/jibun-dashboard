@@ -17,10 +17,10 @@ class ResourceRepository(
     @param:Value("\${app.dynamodb.tables.resources-i18n}") private val resourcesI18nTableName: String,
 ) {
     private val schema = TableSchema.fromBean(I18nItem::class.java)
+    private fun table() = enhanced.table(resourcesI18nTableName, schema)
 
     fun findI18nByLocaleCode(localeCode: String): List<I18nItem> {
-        val table = enhanced.table(resourcesI18nTableName, schema)
-        val pages = table.query { req ->
+        val pages = table().query { req ->
             req.queryConditional(
                 QueryConditional.keyEqualTo(Key.builder().partitionValue(localeCode).build()),
             )

@@ -1,4 +1,4 @@
-package com.github.moriakira.jibundashboard
+package com.github.moriakira.jibundashboard.configuration
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

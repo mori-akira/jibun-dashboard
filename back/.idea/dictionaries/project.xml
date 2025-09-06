@@ -15,6 +15,7 @@
       <w>resourceserver</w>
       <w>springboot</w>
       <w>springmockk</w>
+      <w>webflux</w>
     </words>
   </dictionary>
 </component>

@@ -15,15 +15,14 @@ class UserRepository(
     @param:Value("\${app.dynamodb.tables.users}") private val usersTableName: String,
 ) {
     private val schema = TableSchema.fromBean(UserItem::class.java)
+    private fun table() = enhanced.table(usersTableName, schema)
 
     fun get(userId: String): UserItem? {
-        val table = enhanced.table(usersTableName, schema)
-        return table.getItem(Key.builder().partitionValue(userId).build())
+        return table().getItem(Key.builder().partitionValue(userId).build())
     }
 
     fun put(item: UserItem) {
-        val table = enhanced.table(usersTableName, schema)
-        table.putItem(item)
+        table().putItem(item)
     }
 }
 

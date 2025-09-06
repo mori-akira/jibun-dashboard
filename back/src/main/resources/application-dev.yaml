@@ -11,3 +11,4 @@ app:
   security:
     cognito:
       client-id: ${COGNITO_CLIENT_ID}
+      base-uri: "https://${COGNITO_DOMAIN}.auth.${AWS_REGION:ap-northeast-1}.amazoncognito.com"

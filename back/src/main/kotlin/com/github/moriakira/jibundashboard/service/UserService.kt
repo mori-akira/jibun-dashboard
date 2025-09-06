@@ -11,7 +11,7 @@ class UserService(
 ) {
     fun getUser(userId: String): UserModel? = userRepository.get(userId)?.toDomain()
 
-    fun createUser(user: UserModel): UserModel {
+    fun putUser(user: UserModel): UserModel {
         val targetId = user.userId ?: UUID.randomUUID().toString()
         val item = UserItem().apply {
             this.userId = targetId

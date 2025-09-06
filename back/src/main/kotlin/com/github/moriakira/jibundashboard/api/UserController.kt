@@ -1,6 +1,6 @@
 package com.github.moriakira.jibundashboard.api
 
-import com.github.moriakira.jibundashboard.CurrentAuth
+import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.UserApi
 import com.github.moriakira.jibundashboard.generated.model.User
 import com.github.moriakira.jibundashboard.service.UserModel
@@ -15,37 +15,48 @@ class UserController(
 ) : UserApi {
 
     override fun getUser(): ResponseEntity<User> {
-        return ResponseEntity.ok(
-            User(
+        var user = userService.getUser(currentAuth.userId)
+
+        // ユーザが登録済みなら返却
+        if (user != null) {
+            return ResponseEntity.ok(
+                User(
+                    userId = user.userId,
+                    userName = user.userName,
+                    emailAddress = user.emailAddress,
+                ),
+            )
+        }
+
+        // 未登録の場合、初期登録
+        user = userService.putUser(
+            UserModel(
                 userId = currentAuth.userId,
-                userName = "",
-                emailAddress = currentAuth.email ?: "no email",
+                userName = currentAuth.email ?: "",
+                emailAddress = currentAuth.email ?: "",
             ),
         )
-//        val userId = currentAuth.userId
-//        val user = userService.getUser(userId)
-//        return if (user != null) {
-//            ResponseEntity.ok(
-//                User(
-//                    userId = user.userId,
-//                    userName = user.userName,
-//                    emailAddress = user.emailAddress,
-//                ),
-//            )
-//        } else {
-//            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-//        }
+
+        // 登録したユーザ情報を返却
+        return ResponseEntity.ok(
+            User(
+                userId = user.userId,
+                userName = user.userName,
+                emailAddress = user.emailAddress,
+            ),
+        )
     }
 
     override fun putUser(user: User?): ResponseEntity<Unit> {
-        val userId = currentAuth.userId
-        userService.createUser(
-            UserModel(
-                userId = userId,
-                userName = user?.userName ?: "",
-                emailAddress = user?.emailAddress ?: "",
-            ),
-        )
+        if (user != null) {
+            userService.putUser(
+                UserModel(
+                    userId = currentAuth.userId,
+                    userName = user.userName,
+                    emailAddress = user.emailAddress,
+                ),
+            )
+        }
         return ResponseEntity.ok().build()
     }
 }

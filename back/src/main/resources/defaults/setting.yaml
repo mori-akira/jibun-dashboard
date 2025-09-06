@@ -1,0 +1,12 @@
+salary:
+  financialYearStartMonth: 4
+  transitionItemCount: 5
+  compareDataColors:
+    - "#EEBB44"
+    - "#EE88EE"
+    - "#44DDDD"
+qualification:
+  rankAColor: "#2B7FFF"
+  rankBColor: "#18CB56"
+  rankCColor: "#FF6900"
+  rankDColor: "#F0B100"
