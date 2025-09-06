@@ -16,10 +16,27 @@ class UserController(
 
     override fun getUser(): ResponseEntity<User> {
         var user = userService.getUser(currentAuth.userId)
+        return user?.let {
+            // ユーザが登録済みなら返却
+            ResponseEntity.ok(
+                User(
+                    userId = user.userId,
+                    userName = user.userName,
+                    emailAddress = user.emailAddress,
+                ),
+            )
+        } ?: run {
+            // 未登録の場合、初期登録
+            user = userService.putUser(
+                UserModel(
+                    userId = currentAuth.userId,
+                    userName = currentAuth.email,
+                    emailAddress = currentAuth.email,
+                ),
+            )
 
-        // ユーザが登録済みなら返却
-        if (user != null) {
-            return ResponseEntity.ok(
+            // 登録したユーザ情報を返却
+            ResponseEntity.ok(
                 User(
                     userId = user.userId,
                     userName = user.userName,
@@ -27,33 +44,15 @@ class UserController(
                 ),
             )
         }
-
-        // 未登録の場合、初期登録
-        user = userService.putUser(
-            UserModel(
-                userId = currentAuth.userId,
-                userName = currentAuth.email ?: "",
-                emailAddress = currentAuth.email ?: "",
-            ),
-        )
-
-        // 登録したユーザ情報を返却
-        return ResponseEntity.ok(
-            User(
-                userId = user.userId,
-                userName = user.userName,
-                emailAddress = user.emailAddress,
-            ),
-        )
     }
 
     override fun putUser(user: User?): ResponseEntity<Unit> {
-        if (user != null) {
+        user?.let {
             userService.putUser(
                 UserModel(
                     userId = currentAuth.userId,
-                    userName = user.userName,
-                    emailAddress = user.emailAddress,
+                    userName = it.userName,
+                    emailAddress = it.emailAddress,
                 ),
             )
         }

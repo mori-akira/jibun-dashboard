@@ -17,12 +17,33 @@ class SettingController(
     private val currentAuth: CurrentAuth,
     private val settingService: SettingService,
 ) : SettingApi {
+
     override fun getSetting(): ResponseEntity<Setting> {
         var setting = settingService.getSetting(currentAuth.userId)
+        return setting?.let {
+            // 設定が登録済みなら返却
+            ResponseEntity.ok(
+                Setting(
+                    userId = currentAuth.userId,
+                    salary = SettingSalary(
+                        financialYearStartMonth = setting.salary.financialYearStartMonth,
+                        transitionItemCount = setting.salary.transitionItemCount,
+                        compareDataColors = setting.salary.compareDataColors,
+                    ),
+                    qualification = SettingQualification(
+                        rankAColor = setting.qualification.rankAColor,
+                        rankBColor = setting.qualification.rankBColor,
+                        rankCColor = setting.qualification.rankCColor,
+                        rankDColor = setting.qualification.rankDColor,
+                    ),
+                ),
+            )
+        } ?: run {
+            // 未登録の場合、初期登録
+            setting = settingService.putDefault(currentAuth.userId)
 
-        // 設定が登録済みなら返却
-        if (setting != null) {
-            return ResponseEntity.ok(
+            // 登録した設定情報を返却
+            ResponseEntity.ok(
                 Setting(
                     userId = currentAuth.userId,
                     salary = SettingSalary(
@@ -39,44 +60,23 @@ class SettingController(
                 ),
             )
         }
-
-        // 未登録の場合、初期登録
-        setting = settingService.putDefault(currentAuth.userId)
-
-        // 登録した設定情報を返却
-        return ResponseEntity.ok(
-            Setting(
-                userId = currentAuth.userId,
-                salary = SettingSalary(
-                    financialYearStartMonth = setting.salary.financialYearStartMonth,
-                    transitionItemCount = setting.salary.transitionItemCount,
-                    compareDataColors = setting.salary.compareDataColors,
-                ),
-                qualification = SettingQualification(
-                    rankAColor = setting.qualification.rankAColor,
-                    rankBColor = setting.qualification.rankBColor,
-                    rankCColor = setting.qualification.rankCColor,
-                    rankDColor = setting.qualification.rankDColor,
-                ),
-            ),
-        )
     }
 
     override fun putSetting(setting: Setting?): ResponseEntity<Unit> {
-        if (setting != null) {
+        setting?.let {
             settingService.putSetting(
                 SettingModel(
                     userId = currentAuth.userId,
                     salary = SalarySettingModel(
-                        financialYearStartMonth = setting.salary.financialYearStartMonth,
-                        transitionItemCount = setting.salary.transitionItemCount,
-                        compareDataColors = setting.salary.compareDataColors,
+                        financialYearStartMonth = it.salary.financialYearStartMonth,
+                        transitionItemCount = it.salary.transitionItemCount,
+                        compareDataColors = it.salary.compareDataColors,
                     ),
                     qualification = QualificationSettingModel(
-                        rankAColor = setting.qualification.rankAColor,
-                        rankBColor = setting.qualification.rankBColor,
-                        rankCColor = setting.qualification.rankCColor,
-                        rankDColor = setting.qualification.rankDColor,
+                        rankAColor = it.qualification.rankAColor,
+                        rankBColor = it.qualification.rankBColor,
+                        rankCColor = it.qualification.rankCColor,
+                        rankDColor = it.qualification.rankDColor,
                     ),
                 ),
             )

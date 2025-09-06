@@ -15,6 +15,7 @@ class DynamoDbConfig(
     @param:Value("\${app.dynamodb.endpoint:}") private val endpoint: String?,
     @param:Value("\${app.dynamodb.region}") private val region: String,
 ) {
+
     @Bean
     fun dynamoDbClient(): DynamoDbClient {
         val builder: DynamoDbClientBuilder = DynamoDbClient.builder().region(Region.of(region)).credentialsProvider(
