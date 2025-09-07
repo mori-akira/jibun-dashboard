@@ -26,7 +26,7 @@ class SecurityConfig {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }.authorizeHttpRequests {
-            it.requestMatchers("/api/v1/actuator/health").permitAll()
+            it.requestMatchers("/actuator/health").permitAll()
             it.anyRequest().authenticated()
         }.oauth2ResourceServer { it.jwt {} }
         return http.build()
