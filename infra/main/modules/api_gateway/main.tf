@@ -43,6 +43,13 @@ resource "aws_apigatewayv2_route" "api_v1_proxy" {
   authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
 }
 
+resource "aws_apigatewayv2_route" "api_v1_health_noauth" {
+  api_id             = aws_apigatewayv2_api.http_api.id
+  route_key          = "GET /api/v1/actuator/health"
+  target             = "integrations/${aws_apigatewayv2_integration.apprunner_integration.id}"
+  authorization_type = "NONE"
+}
+
 resource "aws_cloudwatch_log_group" "http_api_access" {
   name              = "/aws/apigwv2/${aws_apigatewayv2_api.http_api.id}/access"
   retention_in_days = 7
