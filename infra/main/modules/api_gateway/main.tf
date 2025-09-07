@@ -59,6 +59,36 @@ resource "aws_apigatewayv2_stage" "default" {
     throttling_rate_limit  = 1000
     throttling_burst_limit = 500
   }
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.http_api_access.arn
+
+    # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-logging-variables.html
+    format = jsonencode(
+      {
+        requestId           = "$context.requestId"
+        requestTime         = "$context.requestTime"
+        httpMethod          = "$context.httpMethod"
+        path                = "$context.path"
+        routeKey            = "$context.routeKey"
+        protocol            = "$context.protocol"
+        status              = "$context.status"
+        responseLength      = "$context.responseLength"
+        integrationStatus   = "$context.integration.status"
+        integrationError    = "$context.integration.error"
+        authorizerError     = "$context.authorizer.error"
+        authorizerPrincipal = "$context.authorizer.principalId"
+        jwtSub              = "$context.authorizer.claims.sub"
+        jwtEmail            = "$context.authorizer.claims.email"
+        ip                  = "$context.identity.sourceIp"
+        userAgent           = "$context.identity.userAgent"
+        apiId               = "$context.apiId"
+        domainName          = "$context.domainName"
+      }
+    )
+  }
+
+  tags = var.application_tag
 }
 
 output "apigw_url" {
