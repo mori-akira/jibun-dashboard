@@ -64,6 +64,7 @@ resource "aws_apigatewayv2_stage" "default" {
     destination_arn = aws_cloudwatch_log_group.http_api_access.arn
 
     # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-logging-variables.html
+    # NOTE: デバッグ用にログ出力
     format = jsonencode(
       {
         requestId           = "$context.requestId"
