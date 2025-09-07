@@ -15,7 +15,8 @@ class RequestLoggingFilter : OncePerRequestFilter() {
         log.info("RequestLoggingFilter initialized")
     }
 
-    @Suppress("TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught", "ThrowingExceptionFromFinally")
+    @Throws(Throwable::class)
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -34,21 +35,24 @@ class RequestLoggingFilter : OncePerRequestFilter() {
             val ip = request.getHeader("X-Forwarded-For")?.split(",")?.firstOrNull() ?: request.remoteAddr
 
             // 1行サマリ（JSONログに乗る）
-            val map =
-                mapOf(
-                    "method" to request.method,
-                    "path" to request.requestURI,
-                    "query" to (request.queryString ?: ""),
-                    "status" to response.status,
-                    "elapsed_ms" to elapsed,
-                    "user_agent" to ua,
-                    "ip" to ip,
-                    "amzn_trace" to trace,
-                )
+            val map = mapOf(
+                "method" to request.method,
+                "path" to request.requestURI,
+                "query" to (request.queryString ?: ""),
+                "status" to response.status,
+                "elapsed_ms" to elapsed,
+                "user_agent" to ua,
+                "ip" to ip,
+                "host" to request.getHeader("Host"),
+                "xfp" to request.getHeader("X-Forwarded-Proto"),
+                "xfh" to request.getHeader("X-Forwarded-Host"),
+                "amzn_trace" to trace,
+            )
             if (thrown == null) {
                 log.info("request_summary: {}", map)
             } else {
                 log.error("request_summary_error: {}", map, thrown)
+                throw thrown
             }
         }
     }

@@ -12,8 +12,8 @@ spring:
 logging:
   level:
     org.springframework: INFO
+    org.springframework.security: DEBUG
     org.springframework.boot.autoconfigure: WARN
-    com.amazonaws.serverless: INFO
     com.github.moriakira.jibundashboard: INFO
 management:
   endpoints:
