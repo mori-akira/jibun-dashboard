@@ -16,11 +16,6 @@ resource "aws_apigatewayv2_integration" "apprunner_integration" {
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
   integration_uri    = "https://${var.apprunner_url}"
-
-  request_parameters = {
-    "overwrite:header.x-user-sub"   = "$context.authorizer.claims.sub"
-    "overwrite:header.x-user-email" = "$context.authorizer.claims.email"
-  }
 }
 
 resource "aws_apigatewayv2_authorizer" "cognito_auth" {
@@ -47,6 +42,11 @@ resource "aws_apigatewayv2_route" "api_v1_proxy" {
   target             = "integrations/${aws_apigatewayv2_integration.apprunner_integration.id}"
   authorization_type = "JWT"
   authorizer_id      = aws_apigatewayv2_authorizer.cognito_auth.id
+}
+
+resource "aws_cloudwatch_log_group" "http_api_access" {
+  name              = "/aws/apigwv2/${aws_apigatewayv2_api.http_api.id}/access"
+  retention_in_days = 7
 }
 
 resource "aws_apigatewayv2_stage" "default" {
