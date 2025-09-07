@@ -1,6 +1,7 @@
 package com.github.moriakira.jibundashboard.component
 
 import com.github.moriakira.jibundashboard.service.CognitoUserInfoService
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
@@ -13,8 +14,10 @@ class CurrentAuth(
     private val cognitoUserInfoService: CognitoUserInfoService,
 ) {
     val jwt: Jwt by lazy {
-        val auth = SecurityContextHolder.getContext().authentication ?: error("No Authentication in context")
-        (auth as? JwtAuthenticationToken)?.token ?: error("Authentication is not JwtAuthenticationToken")
+        val auth = SecurityContextHolder.getContext().authentication
+            ?: throw AuthenticationCredentialsNotFoundException("No Authentication in context")
+        (auth as? JwtAuthenticationToken)?.token
+            ?: throw AuthenticationCredentialsNotFoundException("Authentication is not JwtAuthenticationToken")
     }
 
     val userId: String get() = jwt.subject
