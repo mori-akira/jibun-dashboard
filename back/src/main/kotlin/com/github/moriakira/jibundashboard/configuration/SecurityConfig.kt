@@ -25,8 +25,8 @@ import javax.crypto.spec.SecretKeySpec
 class SecurityConfig {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.csrf { it.disable() }.authorizeHttpRequests {
-            it.requestMatchers("/actuator/health").permitAll()
+        http.securityMatcher("/api/v1/**").csrf { it.disable() }.authorizeHttpRequests {
+            it.requestMatchers("/api/v1/actuator/health").permitAll()
             it.anyRequest().authenticated()
         }.oauth2ResourceServer { it.jwt {} }
         return http.build()
