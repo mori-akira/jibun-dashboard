@@ -19,5 +19,10 @@
         "UMTP",
         "vitest"
     ],
-    "markdown-preview-enhanced.enableExtendedTableSyntax": true
+    "markdown-preview-enhanced.enableExtendedTableSyntax": true,
+    "VSCodeCounter.include": [
+        "**/*",
+        "**/*.kt",
+        "**/*.kts"
+    ]
 }
