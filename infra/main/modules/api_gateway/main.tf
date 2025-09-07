@@ -15,7 +15,7 @@ resource "aws_apigatewayv2_integration" "apprunner_integration" {
   api_id             = aws_apigatewayv2_api.http_api.id
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
-  integration_uri    = "https://${var.apprunner_url}"
+  integration_uri    = "https://${var.apprunner_url}/api/v1/{proxy}"
 }
 
 resource "aws_apigatewayv2_authorizer" "cognito_auth" {
@@ -32,13 +32,6 @@ resource "aws_apigatewayv2_route" "default_route" {
   api_id             = aws_apigatewayv2_api.http_api.id
   route_key          = "$default"
   target             = "integrations/${aws_apigatewayv2_integration.frontend_integration.id}"
-  authorization_type = "NONE"
-}
-
-resource "aws_apigatewayv2_route" "api_v1_health_noauth" {
-  api_id             = aws_apigatewayv2_api.http_api.id
-  route_key          = "GET /api/v1/actuator/health"
-  target             = "integrations/${aws_apigatewayv2_integration.apprunner_integration.id}"
   authorization_type = "NONE"
 }
 
