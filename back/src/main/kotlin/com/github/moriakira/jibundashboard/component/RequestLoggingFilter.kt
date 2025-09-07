@@ -15,6 +15,9 @@ class RequestLoggingFilter : OncePerRequestFilter() {
         log.info("RequestLoggingFilter initialized")
     }
 
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean =
+        request.requestURI?.startsWith("/api/v1/actuator") ?: true
+
     @Suppress("TooGenericExceptionCaught", "ThrowingExceptionFromFinally")
     @Throws(Throwable::class)
     override fun doFilterInternal(
