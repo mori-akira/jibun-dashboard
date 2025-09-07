@@ -1,4 +1,4 @@
-package com.github.moriakira.jibundashboard.api
+package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.generated.api.ResourceApi
 import com.github.moriakira.jibundashboard.generated.model.I18n

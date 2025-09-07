@@ -21,5 +21,4 @@ class CognitoUserInfoService(
 data class CognitoUserInfo(
     val sub: String? = null,
     val email: String? = null,
-    val username: String? = null,
 )
