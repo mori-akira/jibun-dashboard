@@ -63,7 +63,8 @@ class SettingController(
     }
 
     override fun putSetting(setting: Setting?): ResponseEntity<Unit> {
-        setting?.let {
+        requireNotNull(setting) { "Request body is required." }
+        setting.let {
             settingService.putSetting(
                 SettingModel(
                     userId = currentAuth.userId,

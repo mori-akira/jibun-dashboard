@@ -47,7 +47,8 @@ class UserController(
     }
 
     override fun putUser(user: User?): ResponseEntity<Unit> {
-        user?.let {
+        requireNotNull(user) { "Request body is required." }
+        user.let {
             userService.putUser(
                 UserModel(
                     userId = currentAuth.userId,

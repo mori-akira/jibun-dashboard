@@ -9,6 +9,7 @@ import java.util.UUID
 class UserService(
     private val userRepository: UserRepository,
 ) {
+
     fun getUser(userId: String): UserModel? = userRepository.get(userId)?.toDomain()
 
     fun putUser(user: UserModel): UserModel {
