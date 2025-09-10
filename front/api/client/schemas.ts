@@ -237,19 +237,6 @@ const endpoints = makeApi([
         type: "Query",
         schema: z.string().optional(),
       },
-      {
-        name: "sortKey",
-        type: "Query",
-        schema: z
-          .enum([
-            "qualificationName",
-            "rank",
-            "organization",
-            "acquiredDate",
-            "expirationDate",
-          ])
-          .optional(),
-      },
     ],
     response: z.array(Qualification),
     errors: [
