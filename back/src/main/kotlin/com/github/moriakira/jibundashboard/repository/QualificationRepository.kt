@@ -33,7 +33,7 @@ class QualificationRepository(
         return index.query(req).flatMap { it.items().toList() }.firstOrNull()
     }
 
-    @Suppress("ComplexMethod", "LongParameterList", "ReturnCount")
+    @Suppress("ComplexMethod", "LongParameterList", "ReturnCount", "LongMethod")
     fun query(
         userId: String,
         qualificationName: String? = null,
