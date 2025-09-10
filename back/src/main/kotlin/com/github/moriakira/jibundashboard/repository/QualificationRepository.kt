@@ -8,6 +8,7 @@ import software.amazon.awssdk.enhanced.dynamodb.Expression
 import software.amazon.awssdk.enhanced.dynamodb.Key
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo
@@ -146,45 +147,46 @@ class QualificationRepository(
     }
 }
 
+@DynamoDbBean
 class QualificationItem {
     @get:DynamoDbSortKey
     @get:DynamoDbAttribute("qualificationId")
-    val qualificationId: String? = null
+    var qualificationId: String? = null
 
     @get:DynamoDbPartitionKey
     @get:DynamoDbAttribute("userId")
-    val userId: String? = null
+    var userId: String? = null
 
     @get:DynamoDbAttribute("qualificationName")
-    val qualificationName: String? = null
+    var qualificationName: String? = null
 
     @get:DynamoDbAttribute("abbreviation")
-    val abbreviation: String? = null
+    var abbreviation: String? = null
 
     @get:DynamoDbAttribute("version")
-    val version: String? = null
+    var version: String? = null
 
     @get:DynamoDbAttribute("status")
-    val status: String? = null
+    var status: String? = null
 
     @get:DynamoDbAttribute("rank")
-    val rank: String? = null
+    var rank: String? = null
 
     @get:DynamoDbAttribute("organization")
-    val organization: String? = null
+    var organization: String? = null
 
     @get:DynamoDbAttribute("acquiredDate")
-    val acquiredDate: String? = null
+    var acquiredDate: String? = null
 
     @get:DynamoDbAttribute("expirationDate")
-    val expirationDate: String? = null
+    var expirationDate: String? = null
 
     @get:DynamoDbAttribute("officialUrl")
-    val officialUrl: String? = null
+    var officialUrl: String? = null
 
     @get:DynamoDbAttribute("certificationUrl")
-    val certificationUrl: String? = null
+    var certificationUrl: String? = null
 
     @get:DynamoDbAttribute("badgeUrl")
-    val badgeUrl: String? = null
+    var badgeUrl: String? = null
 }
