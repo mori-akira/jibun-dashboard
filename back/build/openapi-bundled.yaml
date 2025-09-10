@@ -6319,18 +6319,6 @@ paths:
           schema:
             type: string
             format: date
-        - in: query
-          name: sortKey
-          description: ソートキー
-          required: false
-          schema:
-            type: string
-            enum:
-              - qualificationName
-              - rank
-              - organization
-              - acquiredDate
-              - expirationDate
       responses:
         '200':
           description: 正常時
