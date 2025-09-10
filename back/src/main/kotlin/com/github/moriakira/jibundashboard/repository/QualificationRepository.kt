@@ -44,22 +44,21 @@ class QualificationRepository(
         acquiredDateTo: String? = null,
         expirationDateFrom: String? = null,
         expirationDateTo: String? = null,
-        limit: Int? = null, // 必要なら上限を指定（nullなら全件）
     ): List<QualificationItem> {
         val names = mutableMapOf<String, String>()
         val values = mutableMapOf<String, AttributeValue>()
-        val conds = mutableListOf<String>()
+        val conditions = mutableListOf<String>()
 
         qualificationName?.let {
             names["#qualificationName"] = "qualificationName"
             values[":qualificationName"] = AttributeValue.builder().s(it).build()
-            conds += "contains(#qualificationName, :qualificationName)"
+            conditions += "contains(#qualificationName, :qualificationName)"
         }
 
         organization?.let {
             names["#organization"] = "organization"
             values[":organization"] = AttributeValue.builder().s(it).build()
-            conds += "contains(#organization, :organization)"
+            conditions += "contains(#organization, :organization)"
         }
 
         if (!statuses.isNullOrEmpty()) {
@@ -69,7 +68,7 @@ class QualificationRepository(
                 values[k] = AttributeValue.builder().s(s).build()
                 k
             }
-            conds += "#status IN (${placeholders.joinToString(",")})"
+            conditions += "#status IN (${placeholders.joinToString(",")})"
         }
 
         if (!ranks.isNullOrEmpty()) {
@@ -79,7 +78,7 @@ class QualificationRepository(
                 values[k] = AttributeValue.builder().s(r).build()
                 k
             }
-            conds += "#rank IN (${placeholders.joinToString(",")})"
+            conditions += "#rank IN (${placeholders.joinToString(",")})"
         }
 
         if (acquiredDateFrom != null || acquiredDateTo != null) {
@@ -88,17 +87,17 @@ class QualificationRepository(
                 acquiredDateFrom != null && acquiredDateTo != null -> {
                     values[":acqFrom"] = AttributeValue.builder().s(acquiredDateFrom).build()
                     values[":acqTo"] = AttributeValue.builder().s(acquiredDateTo).build()
-                    conds += "#acquiredDate BETWEEN :acqFrom AND :acqTo"
+                    conditions += "#acquiredDate BETWEEN :acqFrom AND :acqTo"
                 }
 
                 acquiredDateFrom != null -> {
                     values[":acqFrom"] = AttributeValue.builder().s(acquiredDateFrom).build()
-                    conds += "#acquiredDate >= :acqFrom"
+                    conditions += "#acquiredDate >= :acqFrom"
                 }
 
                 else -> {
                     values[":acqTo"] = AttributeValue.builder().s(acquiredDateTo).build()
-                    conds += "#acquiredDate <= :acqTo"
+                    conditions += "#acquiredDate <= :acqTo"
                 }
             }
         }
@@ -109,30 +108,30 @@ class QualificationRepository(
                 expirationDateFrom != null && expirationDateTo != null -> {
                     values[":expFrom"] = AttributeValue.builder().s(expirationDateFrom).build()
                     values[":expTo"] = AttributeValue.builder().s(expirationDateTo).build()
-                    conds += "#expirationDate BETWEEN :expFrom AND :expTo"
+                    conditions += "#expirationDate BETWEEN :expFrom AND :expTo"
                 }
 
                 expirationDateFrom != null -> {
                     values[":expFrom"] = AttributeValue.builder().s(expirationDateFrom).build()
-                    conds += "#expirationDate >= :expFrom"
+                    conditions += "#expirationDate >= :expFrom"
                 }
 
                 else -> {
                     values[":expTo"] = AttributeValue.builder().s(expirationDateTo).build()
-                    conds += "#expirationDate <= :expTo"
+                    conditions += "#expirationDate <= :expTo"
                 }
             }
         }
 
-        val filterExpr = if (conds.isEmpty()) {
+        val filterExpr = if (conditions.isEmpty()) {
             null
         } else {
-            Expression.builder().expression(conds.joinToString(" AND ")).expressionNames(names.ifEmpty { null })
+            Expression.builder().expression(conditions.joinToString(" AND ")).expressionNames(names.ifEmpty { null })
                 .expressionValues(values.ifEmpty { null }).build()
         }
 
         val base = QueryEnhancedRequest.builder().queryConditional(keyEqualTo { it.partitionValue(userId) })
-            .also { b -> filterExpr?.let { b.filterExpression(it) } }.also { b -> limit?.let { b.limit(it) } }.build()
+            .also { b -> filterExpr?.let { b.filterExpression(it) } }.build()
 
         val pages = table().query(base)
         return pages.flatMap { it.items().toList() }.toList()
