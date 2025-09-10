@@ -9,13 +9,13 @@ class SalaryService(
     private val salaryRepository: SalaryRepository,
 ) {
 
-    fun listAll(userId: String): List<SalaryModel> = salaryRepository.queryByUser(userId).map { it.toDomain() }
+    fun listAll(userId: String): List<SalaryModel> = salaryRepository.findByUser(userId).map { it.toDomain() }
 
     fun listByExactDate(userId: String, date: String): List<SalaryModel> =
-        salaryRepository.queryByUserAndDate(userId, date).map { it.toDomain() }
+        salaryRepository.findByUserAndDate(userId, date).map { it.toDomain() }
 
     fun listByDateRange(userId: String, from: String?, to: String?): List<SalaryModel> =
-        salaryRepository.queryByUserAndDateRange(userId, from, to).map { it.toDomain() }
+        salaryRepository.findByUserAndDateRange(userId, from, to).map { it.toDomain() }
 
     fun getBySalaryId(salaryId: String): SalaryModel? = salaryRepository.getBySalaryId(salaryId)?.toDomain()
 

@@ -25,14 +25,22 @@ class SalaryRepository(
     fun get(userId: String, targetDate: String): SalaryItem? =
         table().getItem(Key.builder().partitionValue(userId).sortValue(targetDate).build())
 
-    fun queryByUser(userId: String): List<SalaryItem> {
+    fun getBySalaryId(salaryId: String): SalaryItem? {
+        val index = table().index("gsi_salary_id")
+        val req =
+            QueryEnhancedRequest.builder().queryConditional(QueryConditional.keyEqualTo { it.partitionValue(salaryId) })
+                .limit(1).build()
+        return index.query(req).flatMap { it.items().toList() }.firstOrNull()
+    }
+
+    fun findByUser(userId: String): List<SalaryItem> {
         val req =
             QueryEnhancedRequest.builder().queryConditional(QueryConditional.keyEqualTo { it.partitionValue(userId) })
                 .build()
         return table().query(req).flatMap { it.items().toList() }
     }
 
-    fun queryByUserAndDate(userId: String, targetDate: String): List<SalaryItem> {
+    fun findByUserAndDate(userId: String, targetDate: String): List<SalaryItem> {
         val req = QueryEnhancedRequest.builder().queryConditional(
             QueryConditional.keyEqualTo(
                 Key.builder().partitionValue(userId).sortValue(targetDate).build(),
@@ -41,7 +49,7 @@ class SalaryRepository(
         return table().query(req).flatMap { it.items().toList() }
     }
 
-    fun queryByUserAndDateRange(userId: String, from: String?, to: String?): List<SalaryItem> {
+    fun findByUserAndDateRange(userId: String, from: String?, to: String?): List<SalaryItem> {
         val cond = when {
             from != null && to != null -> QueryConditional.sortBetween(
                 Key.builder().partitionValue(userId).sortValue(from).build(),
@@ -60,14 +68,6 @@ class SalaryRepository(
         }
         val req = QueryEnhancedRequest.builder().queryConditional(cond).build()
         return table().query(req).flatMap { it.items().toList() }
-    }
-
-    fun getBySalaryId(salaryId: String): SalaryItem? {
-        val index = table().index("gsi_salary_id")
-        val req =
-            QueryEnhancedRequest.builder().queryConditional(QueryConditional.keyEqualTo { it.partitionValue(salaryId) })
-                .limit(1).build()
-        return index.query(req).flatMap { it.items().toList() }.firstOrNull()
     }
 
     fun put(item: SalaryItem) {

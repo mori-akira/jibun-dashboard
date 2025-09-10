@@ -57,7 +57,6 @@ module "dynamodb_salaries" {
       hash_key_name      = "salaryId"
       range_key_name     = null
       projection_type    = "ALL"
-      non_key_attributes = null
     }
   ]
 }
@@ -68,6 +67,14 @@ module "dynamodb_qualifications" {
   table_name      = "${local.app_name}-${local.env_name}-qualifications"
   hash_key = { name = "userId", type = "S" }
   sort_key = { name = "qualificationId", type = "S" }
+  global_secondary_indexes = [
+    {
+      name            = "gsi_qualification_id"
+      hash_key_name   = "qualificationId"
+      range_key_name  = null
+      projection_type = "ALL"
+    }
+  ]
 }
 
 output "done" { value = "applied to dynamodb-local" }
