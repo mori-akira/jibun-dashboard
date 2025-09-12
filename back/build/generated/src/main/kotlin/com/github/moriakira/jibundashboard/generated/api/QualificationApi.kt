@@ -102,7 +102,8 @@ interface QualificationApi {
         operationId = "putQualification",
         description = """資格報を登録(登録済みの場合は情報を置き換え)する""",
         responses = [
-            ApiResponse(responseCode = "201", description = "正常時", content = [Content(schema = Schema(implementation = QualificationId::class))]),
+            ApiResponse(responseCode = "200", description = "正常時(置き換え)", content = [Content(schema = Schema(implementation = QualificationId::class))]),
+            ApiResponse(responseCode = "201", description = "正常時(新規登録)", content = [Content(schema = Schema(implementation = QualificationId::class))]),
             ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
         ]
     )
