@@ -94,7 +94,7 @@ jobs:
       SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
       NUXT_PUBLIC_BASE_URL: /
       NUXT_PUBLIC_API_BASE_URL: /
-      NUXT_PUBLIC_API_MODE: mock
+      # NUXT_PUBLIC_API_MODE: mock
       NUXT_PUBLIC_REQUIRE_AUTH: on
       NUXT_PUBLIC_REGION: ${{ vars.REGION }}
       NUXT_PUBLIC_COGNITO_CLIENT_ID: ${{ vars.COGNITO_CLIENT_ID }}
