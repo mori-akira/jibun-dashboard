@@ -53,8 +53,8 @@ class SalaryController(
             if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
         }
         val salaryId = salaryService.put(salary.toModel())
-        val http = if (salary.salaryId == null) HttpStatus.CREATED else HttpStatus.OK
-        return ResponseEntity.status(http).body(SalaryId(salaryId = UUID.fromString(salaryId)))
+        val status = if (salary.salaryId == null) HttpStatus.CREATED else HttpStatus.OK
+        return ResponseEntity.status(status).body(SalaryId(salaryId = UUID.fromString(salaryId)))
     }
 
     @Suppress("ReturnCount")
