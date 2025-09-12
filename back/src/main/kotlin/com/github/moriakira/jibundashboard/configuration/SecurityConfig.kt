@@ -52,8 +52,8 @@ class JwtDecoderConfig(
                 withIssuer,
                 clientIdValidator,
                 tokenUseValidator,
-                timestampValidator
-            )
+                timestampValidator,
+            ),
         )
         return decoder
     }
