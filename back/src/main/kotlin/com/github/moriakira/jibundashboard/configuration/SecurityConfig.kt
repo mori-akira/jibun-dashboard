@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.jose.jws.MacAlgorithm
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtDecoders
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator
 import org.springframework.security.oauth2.jwt.JwtValidators
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
@@ -45,7 +46,15 @@ class JwtDecoderConfig(
         val withIssuer = JwtValidators.createDefaultWithIssuer(issuer)
         val clientIdValidator = ClientIdValidator(clientId)
         val tokenUseValidator = TokenUseValidator(expected = "access")
-        decoder.setJwtValidator(DelegatingOAuth2TokenValidator(withIssuer, clientIdValidator, tokenUseValidator))
+        val timestampValidator = JwtTimestampValidator()
+        decoder.setJwtValidator(
+            DelegatingOAuth2TokenValidator(
+                withIssuer,
+                clientIdValidator,
+                tokenUseValidator,
+                timestampValidator
+            )
+        )
         return decoder
     }
 

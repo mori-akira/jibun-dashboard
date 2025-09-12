@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
+import java.time.Duration
 
 @Service
 class CognitoUserInfoService(
@@ -15,7 +16,8 @@ class CognitoUserInfoService(
         .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
         .retrieve()
         .bodyToMono(CognitoUserInfo::class.java)
-        .block()!!
+        .timeout(Duration.ofSeconds(5))
+        .block() ?: CognitoUserInfo()
 }
 
 data class CognitoUserInfo(

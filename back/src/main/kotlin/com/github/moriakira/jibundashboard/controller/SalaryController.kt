@@ -35,8 +35,8 @@ class SalaryController(
             targetDate != null -> salaryService.listByExactDate(currentAuth.userId, targetDate.toString())
             targetDateFrom != null || targetDateTo != null -> salaryService.listByDateRange(
                 currentAuth.userId,
-                targetDateFrom.toString(),
-                targetDateTo.toString(),
+                targetDateFrom?.toString(),
+                targetDateTo?.toString(),
             )
 
             else -> salaryService.listAll(currentAuth.userId)

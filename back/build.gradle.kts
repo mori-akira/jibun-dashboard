@@ -14,7 +14,7 @@ val serviceTags = listOf(
 
 plugins {
     kotlin("jvm") version "2.0.21"
-    id("org.jetbrains.kotlin.plugin.spring") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.spring") version "2.0.21"
     id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
     id("org.openapi.generator") version "7.14.0"
@@ -37,12 +37,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.2")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("software.amazon.awssdk:dynamodb:2.32.33")
     implementation("software.amazon.awssdk:dynamodb-enhanced:2.32.33")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")

@@ -9,7 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
 class RequestLoggingFilter : OncePerRequestFilter() {
-    private val log = LoggerFactory.getLogger(this::class.java)
+    private val log = LoggerFactory.getLogger(RequestLoggingFilter::class.java)
 
     init {
         log.info("RequestLoggingFilter initialized")
@@ -41,7 +41,7 @@ class RequestLoggingFilter : OncePerRequestFilter() {
             val map = mapOf(
                 "method" to request.method,
                 "path" to request.requestURI,
-                "query" to (request.queryString ?: ""),
+                "query" to maskQuery(request.queryString),
                 "status" to response.status,
                 "elapsed_ms" to elapsed,
                 "user_agent" to ua,
@@ -59,4 +59,7 @@ class RequestLoggingFilter : OncePerRequestFilter() {
             }
         }
     }
+
+    private fun maskQuery(q: String?): String =
+        q?.replace(Regex("(code|token|access_token|id_token)=([^&]+)"), "$1=***") ?: ""
 }
