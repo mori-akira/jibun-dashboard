@@ -8,10 +8,12 @@ import com.github.moriakira.jibundashboard.service.QualificationModel
 import com.github.moriakira.jibundashboard.service.QualificationService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 import java.time.LocalDate
 import java.util.UUID
 
+@RestController
 class QualificationController(
     private val currentAuth: CurrentAuth,
     private val qualificationService: QualificationService,
