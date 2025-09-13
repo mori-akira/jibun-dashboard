@@ -14,6 +14,9 @@ export type FieldValidationMetaInfo = {
   };
 };
 
+const isEmptyInput = (v: unknown) =>
+  v === undefined || v === null || (typeof v === "string" && v.trim() === "");
+
 export type GenericValidateFunction<TValue = unknown> = (
   value: TValue,
   ctx: FieldValidationMetaInfo
@@ -28,9 +31,8 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
 
   if (!schema.isOptional()) {
     rules.push((value) =>
-      value === undefined ? true : t("message.validation.required")
+      isEmptyInput(value) ? t("message.validation.required") : true
     );
-    return rules;
   }
 
   if (schema instanceof ZodString) {

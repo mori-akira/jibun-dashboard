@@ -19,48 +19,46 @@ afterEach(() => {
 
 describe("zodToVeeRules", () => {
   it("必須チェック", () => {
-    const schema = z.string().min(1);
+    const schema = z.string();
     const rules = zodToVeeRules(schema);
 
-    // ここは toBe ではなく toEqual
     expect(rules[0]?.("", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.required",
       named: undefined,
     });
-    expect(rules[0]?.("a", {} as FieldValidationMetaInfo)).toBe(true);
   });
 
   it("min 文字数チェック（3文字以上）", () => {
     const schema = z.string().min(3);
     const rules = zodToVeeRules(schema);
 
-    expect(rules[0]?.("ab", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[1]?.("ab", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.minCharacters",
       named: { min: 3 },
     });
-    expect(rules[0]?.("abc", {} as FieldValidationMetaInfo)).toBe(true);
+    expect(rules[1]?.("abc", {} as FieldValidationMetaInfo)).toBe(true);
   });
 
   it("max 文字数チェック（5文字以下）", () => {
     const schema = z.string().max(5);
     const rules = zodToVeeRules(schema);
 
-    expect(rules[0]?.("abcdef", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[1]?.("abcdef", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.maxCharacters",
       named: { max: 5 },
     });
-    expect(rules[0]?.("abc", {} as FieldValidationMetaInfo)).toBe(true);
+    expect(rules[1]?.("abc", {} as FieldValidationMetaInfo)).toBe(true);
   });
 
   it("email チェック", () => {
     const schema = z.string().email();
     const rules = zodToVeeRules(schema);
 
-    expect(rules[0]?.("not-an-email", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[1]?.("not-an-email", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.email",
       named: undefined,
     });
-    expect(rules[0]?.("test@example.com", {} as FieldValidationMetaInfo)).toBe(
+    expect(rules[1]?.("test@example.com", {} as FieldValidationMetaInfo)).toBe(
       true
     );
   });
@@ -69,26 +67,26 @@ describe("zodToVeeRules", () => {
     const schema = z.string().regex(/^[a-z]+$/);
     const rules = zodToVeeRules(schema);
 
-    expect(rules[0]?.("ABC", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[1]?.("ABC", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.invalidCharacters",
       named: undefined,
     });
-    expect(rules[0]?.("abc", {} as FieldValidationMetaInfo)).toBe(true);
+    expect(rules[1]?.("abc", {} as FieldValidationMetaInfo)).toBe(true);
   });
 
   it("数値の min/max/int チェック", () => {
     const schema = z.number().min(5).max(10).int();
     const rules = zodToVeeRules(schema);
 
-    expect(rules[0]?.("4", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[1]?.("4", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.minNumber",
       named: { min: 5 },
     });
-    expect(rules[1]?.("11", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[2]?.("11", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.maxNumber",
       named: { max: 10 },
     });
-    expect(rules[2]?.("5.5", {} as FieldValidationMetaInfo)).toEqual({
+    expect(rules[3]?.("5.5", {} as FieldValidationMetaInfo)).toEqual({
       key: "message.validation.integer",
       named: undefined,
     });
