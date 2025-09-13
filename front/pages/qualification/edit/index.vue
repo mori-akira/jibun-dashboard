@@ -476,6 +476,7 @@ const editFieldDefs: {
   },
   { key: "badgeUrl", label: "Badge Url", type: "textbox", required: false },
 ];
+
 const onAddNewOne = () =>
   (editTargetQualification.value = {
     qualificationName: "",
@@ -506,6 +507,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
     commonStore.setHasUnsavedChange(false);
     editTargetQualification.value = undefined;
     await openInfoDialog(t("message.info.completeSuccessfully"));
+    await fetchQualificationApi();
   }
 };
 const onCloseModal = async () => {
@@ -538,7 +540,6 @@ const onDeleteAll = async () => {
     commonStore.deleteLoadingQueue(id);
     checkedId.value = [];
     await openInfoDialog(t("message.info.completeSuccessfully"));
-    await fetchQualificationApi();
   } catch (err) {
     console.error(err);
     commonStore.deleteLoadingQueue(id);
@@ -546,5 +547,6 @@ const onDeleteAll = async () => {
   } finally {
     commonStore.deleteLoadingQueue(id);
   }
+  await fetchQualificationApi();
 };
 </script>
