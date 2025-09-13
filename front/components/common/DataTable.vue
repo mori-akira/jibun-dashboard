@@ -140,6 +140,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-show="rows.length === 0" class="w-full text-center p-4 border-b">
+      <span>No Item</span>
+    </div>
   </div>
 </template>
 
@@ -244,6 +247,8 @@ watch(
 <style lang="css" scoped>
 .wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 table {
