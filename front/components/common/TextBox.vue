@@ -17,7 +17,7 @@
           { error: errorMessage },
           { 'ml-4': label },
         ]"
-        :value="value"
+        :value="value != null ? String(value) : ''"
         :aria-invalid="!!errorMessage"
         @change="onChangeValue($event)"
         @blur="onBlurValue($event)"
@@ -37,7 +37,7 @@ import Label from "~/components/common/Label.vue";
 defineProps<{
   label?: string;
   required?: boolean;
-  value?: string;
+  value?: string | number | null;
   type?: string;
   noDrawBorder?: boolean;
   errorMessage?: string;

@@ -262,14 +262,14 @@ const {
 const validationRules = {
   overview: {
     grossIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),
-    netIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),
+    netIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.netIncome),
     operatingTime: zodToVeeRules(
-      schemas.Salary.shape.overview.shape.grossIncome
+      schemas.Salary.shape.overview.shape.operatingTime
     ),
-    overtime: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),
-    bonus: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),
+    overtime: zodToVeeRules(schemas.Salary.shape.overview.shape.overtime),
+    bonus: zodToVeeRules(schemas.Salary.shape.overview.shape.bonus),
     bonusTakeHome: zodToVeeRules(
-      schemas.Salary.shape.overview.shape.grossIncome
+      schemas.Salary.shape.overview.shape.bonusTakeHome
     ),
   },
   structure: {

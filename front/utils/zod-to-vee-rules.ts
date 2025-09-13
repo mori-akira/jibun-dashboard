@@ -26,6 +26,13 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
     schema = schema._def.schema;
   }
 
+  if (!schema.isOptional()) {
+    rules.push((value) =>
+      value === undefined ? true : t("message.validation.required")
+    );
+    return rules;
+  }
+
   if (schema instanceof ZodString) {
     const checks = schema._def.checks;
     for (const check of checks) {
@@ -33,8 +40,6 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
         rules.push((value) =>
           (value as string)?.length >= check.value
             ? true
-            : check.value === 1
-            ? t("message.validation.required")
             : t("message.validation.minCharacters", { min: check.value })
         );
       } else if (check.kind === "max") {
