@@ -137,9 +137,9 @@ const Qualification = z
     organization: z.string().min(1).max(128),
     acquiredDate: z.string().optional(),
     expirationDate: z.string().optional(),
-    officialUrl: z.string().min(1).max(512).url(),
-    certificationUrl: z.string().max(512).url().optional(),
-    badgeUrl: z.string().max(512).url().optional(),
+    officialUrl: z.string().url(),
+    certificationUrl: z.string().url().optional(),
+    badgeUrl: z.string().url().optional(),
   })
   .passthrough();
 const QualificationId = z
