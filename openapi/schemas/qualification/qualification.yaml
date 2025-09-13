@@ -72,17 +72,13 @@ properties:
     description: 公式URL
     type: string
     format: uri
-    minLength: 1
-    maxLength: 512
 
   certificationUrl:
     description: 証明書URL
     type: string
     format: uri
-    maxLength: 512
 
   badgeUrl:
     description: バッジURL
     type: string
     format: uri
-    maxLength: 512
