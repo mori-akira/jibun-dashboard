@@ -4,7 +4,7 @@
       v-for="(data, index) in summaryData"
       :key="index"
       class="w-full flex justify-center"
-      :style="{ color: compareDataColors.toReversed()[index] }"
+      :style="{ color: compareDataColors[index] }"
     >
       <span class="font-cursive">{{ data.label }}</span>
       <span class="font-bold ml-4">
@@ -17,13 +17,15 @@
 <script setup lang="ts">
 import { useSettingStore } from "~/stores/setting";
 
-defineProps<{
+const props = defineProps<{
   summaryData: { label: string; value: number }[];
 }>();
 
 const settingStore = useSettingStore();
 const compareDataColors = computed(() => {
   const colors = settingStore.setting?.salary.compareDataColors ?? [];
-  return [colors?.[0] ?? "#ddd", colors?.[1] ?? "#ddd", colors?.[2] ?? "#ddd"];
+  return [colors?.[0] ?? "#ddd", colors?.[1] ?? "#ddd", colors?.[2] ?? "#ddd"]
+    .slice(0, props.summaryData.length)
+    .toReversed();
 });
 </script>
