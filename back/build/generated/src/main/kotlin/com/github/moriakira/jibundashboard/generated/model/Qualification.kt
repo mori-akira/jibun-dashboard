@@ -48,7 +48,6 @@ data class Qualification(
     @get:JsonProperty("organization", required = true) val organization: kotlin.String,
 
     @field:Valid
-    @get:Size(min=1,max=512)
     @Schema(example = "null", required = true, description = "公式URL")
     @get:JsonProperty("officialUrl", required = true) val officialUrl: java.net.URI,
 
@@ -75,12 +74,10 @@ data class Qualification(
     @get:JsonProperty("expirationDate") val expirationDate: java.time.LocalDate? = null,
 
     @field:Valid
-    @get:Size(max=512)
     @Schema(example = "null", description = "証明書URL")
     @get:JsonProperty("certificationUrl") val certificationUrl: java.net.URI? = null,
 
     @field:Valid
-    @get:Size(max=512)
     @Schema(example = "null", description = "バッジURL")
     @get:JsonProperty("badgeUrl") val badgeUrl: java.net.URI? = null
     ) {
