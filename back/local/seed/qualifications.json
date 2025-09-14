@@ -9,6 +9,9 @@
           "userId": {
             "S": "test-user1"
           },
+          "order": {
+            "N": "1"
+          },
           "qualificationName": {
             "S": "IT Passport"
           },
@@ -41,6 +44,9 @@
           },
           "userId": {
             "S": "test-user1"
+          },
+          "order": {
+            "N": "2"
           },
           "qualificationName": {
             "S": "Information Security Management Examination"
@@ -75,6 +81,9 @@
           "userId": {
             "S": "test-user1"
           },
+          "order": {
+            "N": "3"
+          },
           "qualificationName": {
             "S": "Fundamental Information Technology Engineer Examination"
           },
@@ -107,6 +116,9 @@
           },
           "userId": {
             "S": "test-user1"
+          },
+          "order": {
+            "N": "4"
           },
           "qualificationName": {
             "S": "Applied Information Technology Engineer Examination"
@@ -141,6 +153,9 @@
           "userId": {
             "S": "test-user1"
           },
+          "order": {
+            "N": "5"
+          },
           "qualificationName": {
             "S": "IT Strategist Examination"
           },
@@ -170,6 +185,9 @@
           },
           "userId": {
             "S": "test-user1"
+          },
+          "order": {
+            "N": "6"
           },
           "qualificationName": {
             "S": "System Architect Examination"
@@ -201,6 +219,9 @@
           "userId": {
             "S": "test-user1"
           },
+          "order": {
+            "N": "7"
+          },
           "qualificationName": {
             "S": "Project Manager Examination"
           },
@@ -230,6 +251,9 @@
           },
           "userId": {
             "S": "test-user1"
+          },
+          "order": {
+            "N": "8"
           },
           "qualificationName": {
             "S": "Network Specialist Examination"
@@ -261,6 +285,9 @@
           "userId": {
             "S": "test-user1"
           },
+          "order": {
+            "N": "9"
+          },
           "qualificationName": {
             "S": "Database Specialist Examination"
           },
@@ -290,6 +317,9 @@
           },
           "userId": {
             "S": "test-user1"
+          },
+          "order": {
+            "N": "10"
           },
           "qualificationName": {
             "S": "Registered Information Security Specialist Examination"

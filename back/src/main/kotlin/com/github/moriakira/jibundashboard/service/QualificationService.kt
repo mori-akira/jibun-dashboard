@@ -48,6 +48,7 @@ class QualificationService(
     private fun QualificationItem.toDomain(): QualificationModel = QualificationModel(
         qualificationId = this.qualificationId!!,
         userId = this.userId!!,
+        order = this.order!!,
         qualificationName = this.qualificationName!!,
         abbreviation = this.abbreviation,
         version = this.version,
@@ -64,6 +65,7 @@ class QualificationService(
     private fun QualificationModel.toItem(): QualificationItem = QualificationItem().also { item ->
         item.qualificationId = this.qualificationId
         item.userId = this.userId
+        item.order = this.order
         item.qualificationName = this.qualificationName
         item.abbreviation = this.abbreviation
         item.version = this.version
@@ -81,6 +83,7 @@ class QualificationService(
 data class QualificationModel(
     val qualificationId: String,
     val userId: String,
+    val order: Int,
     val qualificationName: String,
     val abbreviation: String?,
     val version: String?,

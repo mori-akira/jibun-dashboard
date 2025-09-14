@@ -11,6 +11,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttri
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondarySortKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
@@ -23,9 +24,6 @@ class QualificationRepository(
 ) {
     private val schema: TableSchema<QualificationItem> = TableSchema.fromBean(QualificationItem::class.java)
     private fun table(): DynamoDbTable<QualificationItem> = enhanced.table(tableName, schema)
-
-    fun get(userId: String, qualificationId: String): QualificationItem? =
-        table().getItem(Key.builder().partitionValue(userId).sortValue(qualificationId).build())
 
     fun getByQualificationId(qualificationId: String): QualificationItem? {
         val index = table().index("gsi_qualification_id")
@@ -132,10 +130,13 @@ class QualificationRepository(
                 .expressionValues(values.ifEmpty { null }).build()
         }
 
-        val base = QueryEnhancedRequest.builder().queryConditional(keyEqualTo { it.partitionValue(userId) })
-            .also { b -> filterExpr?.let { b.filterExpression(it) } }.build()
+        val base = QueryEnhancedRequest.builder()
+            .queryConditional(keyEqualTo { it.partitionValue(userId) })
+            .scanIndexForward(true)
+            .also { b -> filterExpr?.let { b.filterExpression(it) } }
+            .build()
 
-        val pages = table().query(base)
+        val pages = table().index("lsi_order").query(base)
         return pages.flatMap { it.items().toList() }.toList()
     }
 
@@ -158,6 +159,10 @@ class QualificationItem {
     @get:DynamoDbPartitionKey
     @get:DynamoDbAttribute("userId")
     var userId: String? = null
+
+    @get:DynamoDbSecondarySortKey(indexNames = ["lsi_order"])
+    @get:DynamoDbAttribute("order")
+    var order: Int? = null
 
     @get:DynamoDbAttribute("qualificationName")
     var qualificationName: String? = null

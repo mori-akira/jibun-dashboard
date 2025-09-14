@@ -77,6 +77,8 @@ class QualificationController(
 
     private fun QualificationModel.toApi(): Qualification = Qualification(
         qualificationId = UUID.fromString(this.qualificationId),
+        userId = this.userId,
+        order = this.order,
         qualificationName = this.qualificationName,
         abbreviation = this.abbreviation,
         version = this.version,
@@ -93,6 +95,7 @@ class QualificationController(
     private fun Qualification.toModel(): QualificationModel = QualificationModel(
         qualificationId = this.qualificationId?.toString() ?: UUID.randomUUID().toString(),
         userId = currentAuth.userId,
+        order = this.order,
         qualificationName = this.qualificationName,
         abbreviation = this.abbreviation,
         version = this.version,

@@ -50,13 +50,13 @@ module "dynamodb_salaries" {
   application_tag = local.tag
   table_name      = "${local.app_name}-${local.env_name}-salaries"
   hash_key = { name = "userId", type = "S" }
-  sort_key = { name = "order", type = "N" }
+  sort_key = { name = "targetDate", type = "S" }
   global_secondary_indexes = [
     {
-      name               = "gsi_salary_id"
-      hash_key_name      = "salaryId"
-      range_key_name     = null
-      projection_type    = "ALL"
+      name            = "gsi_salary_id"
+      hash_key_name   = "salaryId"
+      hash_key_type   = "S"
+      projection_type = "ALL"
     }
   ]
 }
@@ -71,7 +71,15 @@ module "dynamodb_qualifications" {
     {
       name            = "gsi_qualification_id"
       hash_key_name   = "qualificationId"
-      range_key_name  = null
+      hash_key_type   = "S"
+      projection_type = "ALL"
+    }
+  ]
+  local_secondary_indexes = [
+    {
+      name            = "lsi_order"
+      range_key_name  = "order"
+      range_key_type  = "N"
       projection_type = "ALL"
     }
   ]
