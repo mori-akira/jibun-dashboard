@@ -129,6 +129,7 @@ const Qualification = z
   .object({
     qualificationId: z.string().uuid().optional(),
     userId: z.string().optional(),
+    order: z.number().int().gte(1),
     qualificationName: z.string().min(1).max(128),
     abbreviation: z.string().max(128).optional(),
     version: z.string().max(128).optional(),
