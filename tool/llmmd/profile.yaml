@@ -1,0 +1,67 @@
+openapi:
+  - openapi/openapi.yaml
+  - openapi/paths/resource/i18n/localeCode.yaml
+  - openapi/paths/user/index.yaml
+  - openapi/paths/user/password.yaml
+  - openapi/paths/setting/index.yaml
+  - openapi/paths/salary/index.yaml
+  - openapi/paths/salary/salaryId.yaml
+  - openapi/paths/salary/ocr.yaml
+  - openapi/paths/qualification/index.yaml
+  - openapi/paths/qualification/qualificationId.yaml
+  - openapi/paths/file/upload-url.yaml
+  - openapi/paths/file/upload-mock.yaml
+  - openapi/schemas/error/errorInfo.yaml
+  - openapi/schemas/error/errorDetail.yaml
+  - openapi/schemas/resource/i18n.yaml
+  - openapi/schemas/user/user.yaml
+  - openapi/schemas/user/password.yaml
+  - openapi/schemas/setting/setting.yaml
+  - openapi/schemas/salary/salary.yaml
+  - openapi/schemas/salary/overview.yaml
+  - openapi/schemas/salary/structure.yaml
+  - openapi/schemas/salary/payslipData.yaml
+  - openapi/schemas/salary/salaryId.yaml
+  - openapi/schemas/qualification/qualification.yaml
+  - openapi/schemas/qualification/qualificationId.yaml
+  - openapi/schemas/file/uploadUrl.yaml
+
+infra.bootstrap:
+  - infra/bootstrap/main.tf
+  - infra/bootstrap/variables.tf
+
+infra.main:
+  - infra/main/main.tf
+  - infra/main/backend.tf
+  - infra/main/variables.tf
+  - infra/main/terraform.tfvars
+  - infra/main/modules/api_gateway/main.tf
+  - infra/main/modules/api_gateway/variables.tf
+  - infra/main/modules/application/main.tf
+  - infra/main/modules/apprunner/main.tf
+  - infra/main/modules/apprunner/scheduler.tf
+  - infra/main/modules/apprunner/variable.tf
+  - infra/main/modules/cognito/main.tf
+  - infra/main/modules/cognito/variables.tf
+  - infra/main/modules/dynamodb/main.tf
+  - infra/main/modules/dynamodb/variables.tf
+  - infra/main/modules/ecr/main.tf
+  - infra/main/modules/ecr/variables.tf
+  - infra/main/modules/frontend/main.tf
+  - infra/main/modules/frontend/variables.tf
+
+function.qualification:
+  - openapi/paths/qualification/index.yaml
+  - openapi/paths/qualification/qualificationId.yaml
+  - openapi/schemas/qualification/qualification.yaml
+  - openapi/schemas/qualification/qualificationId.yaml
+  - infra/main/main.tf
+  - infra/main/modules/dynamodb/main.tf
+  - infra/main/modules/dynamodb/variables.tf
+  - front/stores/qualification.ts
+  - front/pages/qualification/index.vue
+  - front/pages/qualification/edit/index.vue
+  - back/src/main/resources/application.yaml
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/QualificationController.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/QualificationService.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/QualificationRepository.kt

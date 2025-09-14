@@ -13,3 +13,9 @@ go run .
 cd dev-jwt
 go run .
 ```
+
+### LLM用のソース集約
+```
+cd llmmd
+go run . -profile [プロフィール名]
+```
