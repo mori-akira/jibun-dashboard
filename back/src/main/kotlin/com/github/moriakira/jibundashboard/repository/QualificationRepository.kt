@@ -10,6 +10,7 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
@@ -150,6 +151,7 @@ class QualificationRepository(
 @DynamoDbBean
 class QualificationItem {
     @get:DynamoDbSortKey
+    @get:DynamoDbSecondaryPartitionKey(indexNames = ["gsi_qualification_id"])
     @get:DynamoDbAttribute("qualificationId")
     var qualificationId: String? = null
 
