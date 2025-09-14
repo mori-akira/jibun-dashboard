@@ -108,10 +108,10 @@
               label-class="w-40 ml-4 font-cursive"
               select-wrapper-class="w-1/2"
               select-class="text-center"
-              @change:event="
-                (e) => {
+              @change:value="
+                (value) => {
                   commonStore.setHasUnsavedChange(true);
-                  field.onBlur(e);
+                  field?.['onUpdate:modelValue']?.(value);
                 }
               "
             />
