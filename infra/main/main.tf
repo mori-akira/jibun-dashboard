@@ -93,8 +93,8 @@ module "dynamodb_qualifications" {
     type = "S"
   }
   sort_key = {
-    name = "qualificationId",
-    type = "S"
+    name = "order",
+    type = "N"
   }
   global_secondary_indexes = [
     {
