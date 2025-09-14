@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import java.time.Duration
 
 @Service
-class CognitoUserInfoService(
+class CognitoUserService(
     private val webClient: WebClient,
     @param:Value("\${app.security.cognito.base-uri:}") private val baseUri: String?,
 ) {

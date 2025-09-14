@@ -2,9 +2,11 @@ package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.UserApi
+import com.github.moriakira.jibundashboard.generated.model.Password
 import com.github.moriakira.jibundashboard.generated.model.User
 import com.github.moriakira.jibundashboard.service.UserModel
 import com.github.moriakira.jibundashboard.service.UserService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
@@ -58,5 +60,9 @@ class UserController(
             )
         }
         return ResponseEntity.ok().build()
+    }
+
+    override fun postPassword(password: Password?): ResponseEntity<Unit> {
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build()
     }
 }

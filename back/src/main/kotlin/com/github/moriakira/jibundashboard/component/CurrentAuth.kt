@@ -1,6 +1,6 @@
 package com.github.moriakira.jibundashboard.component
 
-import com.github.moriakira.jibundashboard.service.CognitoUserInfoService
+import com.github.moriakira.jibundashboard.service.CognitoUserService
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
@@ -11,7 +11,7 @@ import org.springframework.web.context.annotation.RequestScope
 @Component
 @RequestScope
 class CurrentAuth(
-    private val cognitoUserInfoService: CognitoUserInfoService,
+    private val cognitoUserInfoService: CognitoUserService,
 ) {
     val jwt: Jwt by lazy {
         val auth = SecurityContextHolder.getContext().authentication
