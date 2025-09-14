@@ -362,6 +362,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
       editTargetQualification.value = target
         ? {
             qualificationId: target.qualificationId,
+            order: target.order,
             qualificationName: target.qualificationName,
             abbreviation: target.abbreviation,
             version: target.version,
@@ -480,6 +481,7 @@ const editFieldDefs: {
 const onAddNewOne = () =>
   (editTargetQualification.value = {
     qualificationName: "",
+    order: 1,
     status: "dream",
     rank: "D",
     organization: "",
@@ -490,6 +492,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
   const result = await withErrorHandling(async () => {
     qualificationStore.putQualification({
       qualificationId: editTargetQualification?.value?.qualificationId,
+      order: 1,
       qualificationName: valueTyped.qualificationName,
       abbreviation: valueTyped.abbreviation || undefined,
       version: valueTyped.version || undefined,

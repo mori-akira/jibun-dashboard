@@ -6,7 +6,6 @@ import type {
   Qualification,
   GetQualificationStatusEnum,
   GetQualificationRankEnum,
-  GetQualificationSortKeyEnum,
 } from "~/api/client/api";
 import { QualificationApi } from "~/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
@@ -32,8 +31,7 @@ export const useQualificationStore = defineStore("qualification", () => {
     acquiredDateFrom?: string,
     acquiredDateTo?: string,
     expirationDateFrom?: string,
-    expirationDateTo?: string,
-    sortKey?: GetQualificationSortKeyEnum
+    expirationDateTo?: string
   ) {
     const res = await getQualificationApi().getQualification(
       qualificationName || undefined,
@@ -43,8 +41,7 @@ export const useQualificationStore = defineStore("qualification", () => {
       acquiredDateFrom || undefined,
       acquiredDateTo || undefined,
       expirationDateFrom || undefined,
-      expirationDateTo || undefined,
-      sortKey || undefined
+      expirationDateTo || undefined
     );
     qualifications.value = res.data;
   }
