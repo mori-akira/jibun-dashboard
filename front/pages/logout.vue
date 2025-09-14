@@ -33,6 +33,7 @@ const buildCognitoLogoutUrl = (): string | null => {
   );
   url.searchParams.set("client_id", String(clientId));
   url.searchParams.set("logout_uri", postLogoutRedirect);
+  url.searchParams.set("redirect_uri", postLogoutRedirect);
   return url.toString();
 };
 
