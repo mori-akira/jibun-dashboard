@@ -45,14 +45,19 @@
             :key="`chunk-${year}-${i}`"
           >
             <div class="h-128 flex justify-between items-center px-4 py-2">
-              <template v-for="salary in chunk" :key="salary.salaryId">
+              <template
+                v-for="(salary, j) in padArray(chunk, 3, undefined)"
+                :key="salary?.salaryId ?? `empty-${year}-${j}`"
+              >
                 <Payslip
+                  v-if="salary"
                   :salary="salary"
                   wrapper-class="w-full h-full"
                   title-class="font-cursive font-bold"
                   headline-class="font-cursive"
                   label-class="font-cursive"
                 />
+                <div v-if="!salary" class="min-w-82"></div>
               </template>
             </div>
           </template>

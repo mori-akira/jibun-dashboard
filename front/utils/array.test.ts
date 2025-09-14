@@ -1,6 +1,6 @@
 // trimArray.test.ts
 import { describe, it, expect } from "vitest";
-import { trimArray, chunkArray } from "./array";
+import { trimArray, chunkArray, padArray } from "./array";
 
 describe("trimArray", () => {
   it("should return the same array when size is under the maxSize", () => {
@@ -62,5 +62,26 @@ describe("chunkArray", () => {
   it("throws error or behaves as expected when size is 0 or negative", () => {
     expect(chunkArray([1, 2, 3], 0)).toEqual([]); // 無限ループ回避のために拡張検討余地あり
     expect(chunkArray([1, 2, 3], -1)).toEqual([]); // 境界条件に応じて処理調整可能
+  });
+});
+
+describe("padArray", () => {
+  it("should return the same array if already at target length", () => {
+    expect(padArray([1, 2, 3], 3, 0)).toEqual([1, 2, 3]);
+  });
+
+  it("should return the same array if longer than target length", () => {
+    expect(padArray([1, 2, 3, 4], 2, 0)).toEqual([1, 2, 3, 4]);
+  });
+
+  it("should pad array with given value until target length", () => {
+    const arr = [1, 2];
+    const result = padArray(arr, 4, 9);
+    expect(arr).toEqual([1, 2]);
+    expect(result).toEqual([1, 2, 9, 9]);
+  });
+
+  it("should handle empty array input", () => {
+    expect(padArray([], 3, "x")).toEqual(["x", "x", "x"]);
   });
 });

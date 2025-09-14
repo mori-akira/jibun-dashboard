@@ -196,23 +196,29 @@
         </h3>
         <div class="h-128 flex justify-between items-center px-4 py-2">
           <template
-            v-for="salary in trimArray(
-              filterSalaryByFinancialYears(
-                salaryStore.salaries ?? [],
-                targetFinancialYears,
-                financialYearStartMonth
-              ).toReversed(),
-              3
+            v-for="(salary, i) in padArray(
+              trimArray(
+                filterSalaryByFinancialYears(
+                  salaryStore.salaries ?? [],
+                  targetFinancialYears,
+                  financialYearStartMonth
+                ).toReversed(),
+                3
+              ),
+              3,
+              undefined
             )"
-            :key="salary.salaryId"
+            :key="salary?.salaryId ?? `empty-${i}`"
           >
             <Payslip
+              v-if="salary"
               :salary="salary"
               wrapper-class="w-full h-full"
               title-class="font-cursive font-bold"
               headline-class="font-cursive"
               label-class="font-cursive"
             />
+            <div v-if="!salary" class="min-w-82"></div>
           </template>
         </div>
         <div class="h-10 flex justify-end items-end px-4">

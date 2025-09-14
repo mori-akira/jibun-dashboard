@@ -24,3 +24,18 @@ export function chunkArray<T>(array: T[], size: number): T[][] {
   }
   return result;
 }
+
+export function padArray<T>(
+  array: T[],
+  targetLength: number,
+  padValue: T
+): T[] {
+  if (array.length >= targetLength) {
+    return array.slice();
+  }
+  const paddedArray = array.slice();
+  while (paddedArray.length < targetLength) {
+    paddedArray.push(padValue);
+  }
+  return paddedArray;
+}
