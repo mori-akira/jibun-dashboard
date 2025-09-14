@@ -228,6 +228,7 @@ const putSalary = async () => {
   if (result) {
     commonStore.setHasUnsavedChange(false);
     await openInfoDialog(t("message.info.completeSuccessfully"));
+    await fetchSalary();
   }
 };
 
