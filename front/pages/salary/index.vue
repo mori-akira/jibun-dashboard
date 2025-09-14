@@ -60,7 +60,7 @@
         </h3>
         <div class="h-36 flex items-center">
           <AnnualComparer
-            :selector="(salary: Salary) => salary.overview.grossIncome"
+            :selector="(salary: Salary) => salary.overview.grossIncome + salary.overview.bonus"
             :value-format="(value: number) => `￥${value.toLocaleString()}`"
             :base-financial-year="baseFinancialYear"
             wrapper-class="w-full"
@@ -286,7 +286,11 @@ const aggregateOverviewAnnually = (key: keyof Overview) =>
       financialYearStartMonth.value
     );
   });
-const annualIncomes = computed(() => aggregateOverviewAnnually("grossIncome"));
+const annualIncomes = computed(() => {
+  const grossIncomes = aggregateOverviewAnnually("grossIncome");
+  const bonuses = aggregateOverviewAnnually("bonus");
+  return grossIncomes.map((val, index) => val + (bonuses?.[index] ?? 0));
+});
 const annualOvertime = computed(() => aggregateOverviewAnnually("overtime"));
 
 type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
