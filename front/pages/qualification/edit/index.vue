@@ -489,7 +489,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
   const valueTyped = value as Qualification;
   const result = await withErrorHandling(async () => {
     qualificationStore.putQualification({
-      qualificationId: valueTyped.qualificationId,
+      qualificationId: editTargetQualification?.value?.qualificationId,
       qualificationName: valueTyped.qualificationName,
       abbreviation: valueTyped.abbreviation || undefined,
       version: valueTyped.version || undefined,
