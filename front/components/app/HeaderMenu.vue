@@ -37,10 +37,14 @@
         </NuxtLink>
       </li>
       <li>
-        <span class="menu-item font-cursive">
+        <NuxtLink
+          to="/logout"
+          class="menu-item font-cursive"
+          active-class="active"
+        >
           <Icon name="tabler:logout" class="menu-icon" />
           Logout
-        </span>
+        </NuxtLink>
       </li>
     </ul>
   </div>
