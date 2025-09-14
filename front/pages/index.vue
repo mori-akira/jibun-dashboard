@@ -10,7 +10,7 @@
         </h3>
         <div class="h-36 flex items-center">
           <AnnualComparer
-            :selector="(salary: Salary) => salary.overview.grossIncome"
+            :selector="(salary: Salary) => salary.overview.grossIncome + salary.overview.bonus"
             :value-format="(value: number) => `￥${value.toLocaleString()}`"
             wrapper-class="w-full"
           />
