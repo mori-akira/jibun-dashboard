@@ -144,6 +144,7 @@
             { label: 'Net Income', slot: 'netIncome' },
             { label: 'Operating Time', slot: 'operatingTime' },
             { label: 'Overtime', slot: 'overtime' },
+            { label: 'Bonus', slot: 'bonus' },
           ]"
           :init-tab="selectedTab"
           button-class="font-cursive"
@@ -173,6 +174,11 @@
           <template #overtime>
             <div class="mt-4">
               <OverviewCompareGraph :datasets="compareData.overtime" />
+            </div>
+          </template>
+          <template #bonus>
+            <div class="mt-4">
+              <OverviewCompareGraph :datasets="compareData.bonus" />
             </div>
           </template>
         </Tabs>
@@ -293,7 +299,12 @@ const annualIncomes = computed(() => {
 });
 const annualOvertime = computed(() => aggregateOverviewAnnually("overtime"));
 
-type TabSlot = "grossIncome" | "netIncome" | "operatingTime" | "overtime";
+type TabSlot =
+  | "grossIncome"
+  | "netIncome"
+  | "operatingTime"
+  | "overtime"
+  | "bonus";
 const aggregateCompareDataWrapper = (key: TabSlot) =>
   aggregateCompareData(
     salaryStore.salaries ?? [],
@@ -308,6 +319,7 @@ const compareData = computed(() => {
     netIncome: aggregateCompareDataWrapper("netIncome"),
     operatingTime: aggregateCompareDataWrapper("operatingTime"),
     overtime: aggregateCompareDataWrapper("overtime"),
+    bonus: aggregateCompareDataWrapper("bonus"),
   };
 });
 const incomeMaxRange = computed(() => {

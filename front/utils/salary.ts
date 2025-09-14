@@ -27,7 +27,7 @@ export function getFinancialYear(
   financialYearStartMonth: number
 ): string {
   const [year, month] = getYearMonthAsNumber(salary.targetDate);
-  if (year === null || month === null) {
+  if (year == null || month == null) {
     return "";
   }
   if (month < financialYearStartMonth) {
@@ -110,7 +110,7 @@ export function aggregateCompareData(
   return targetYears.map((year, index) => {
     return {
       label: `FY${year}`,
-      backgroundColor: backgroundColors[index],
+      backgroundColor: backgroundColors[index] ?? "#ddd",
       data: getMonthsInFinancialYear(year, financialYearStartMonth, true).map(
         (date) => {
           const salary = filterSalaryByFinancialYearMonth(salaries ?? [], date);
