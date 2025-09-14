@@ -93,17 +93,23 @@ module "dynamodb_qualifications" {
     type = "S"
   }
   sort_key = {
-    name = "order",
-    type = "N"
+    name = "qualificationId",
+    type = "S"
   }
   global_secondary_indexes = [
     {
       name            = "gsi_qualification_id"
       hash_key_name   = "qualificationId"
-      range_key_name  = null
+      hash_key_type   = "S"
       projection_type = "ALL"
     }
   ]
+  local_secondary_indexes = [{
+    name            = "lsi_order"
+    range_key_name  = "order"
+    range_key_type  = "N"
+    projection_type = "ALL"
+  }]
 }
 
 data "aws_caller_identity" "current" {}

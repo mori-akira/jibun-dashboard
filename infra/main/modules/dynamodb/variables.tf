@@ -30,7 +30,21 @@ variable "global_secondary_indexes" {
   type = list(object({
     name               = string
     hash_key_name      = string
+    hash_key_type      = string
+    range_key_name     = optional(string)
+    range_key_type     = optional(string)
+    projection_type    = string
+    non_key_attributes = optional(list(string))
+  }))
+  default = []
+}
+
+variable "local_secondary_indexes" {
+  description = "LSI"
+  type = list(object({
+    name               = string
     range_key_name     = string
+    range_key_type     = string
     projection_type    = string
     non_key_attributes = optional(list(string))
   }))
