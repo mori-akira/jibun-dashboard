@@ -104,7 +104,7 @@ func main() {
 				bonusTakeHome = int(float64(bonus) * (1.0 - (socialInsuranceRate + healthInsuranceRate + incomeTaxRate + residentTaxRate)))
 			}
 
-			gross := salary + overtimePay + housingAllowance + otherFixed + bonus
+			gross := salary + overtimePay + housingAllowance + otherFixed
 			deductions := int(float64(gross) * (socialInsuranceRate + healthInsuranceRate + incomeTaxRate + residentTaxRate))
 			net := gross - deductions
 
@@ -165,6 +165,6 @@ func main() {
 	os.WriteFile("../../front/public/mock-api/salary.json", out1, 0644)
 
 	out2, _ := json.MarshalIndent(results[len(results)-1], "", "  ")
-	os.WriteFile("../../openapi/examples/salary/{salaryId}/get.json", out2, 0644)
+	os.WriteFile("../../openapi/examples/salary/salaryId/get.json", out2, 0644)
 	os.WriteFile(fmt.Sprintf("../../front/public/mock-api/salary/%s.json", results[len(results)-1].SalaryId), out2, 0644)
 }
