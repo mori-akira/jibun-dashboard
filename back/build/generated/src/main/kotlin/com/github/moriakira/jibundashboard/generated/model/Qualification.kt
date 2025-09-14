@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 資格情報
+ * @param order 並び順
  * @param qualificationName 資格名
  * @param status ステータス
  * @param rank ランク
@@ -32,6 +33,10 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param badgeUrl バッジURL
  */
 data class Qualification(
+
+    @get:Min(1)
+    @Schema(example = "null", required = true, description = "並び順")
+    @get:JsonProperty("order", required = true) val order: kotlin.Int,
 
     @get:Size(min=1,max=128)
     @Schema(example = "null", required = true, description = "資格名")
