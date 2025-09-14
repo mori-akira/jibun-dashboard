@@ -7,28 +7,31 @@ import { UserApi } from "~/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
 export const useUserStore = defineStore("user", () => {
-  const { getAccessToken } = useAuth();
-  const configuration = new Configuration({
-    baseOptions: {
-      headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-    },
-  });
-  const userApi = new UserApi(configuration);
   const user = ref<User | null>(null);
   const password = ref<Password | null>(null);
 
+  const { getAccessToken } = useAuth();
+  const getUserApi = () => {
+    const configuration = new Configuration({
+      baseOptions: {
+        headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
+      },
+    });
+    return new UserApi(configuration);
+  };
+
   async function fetchUser() {
-    const res = await userApi.getUser();
+    const res = await getUserApi().getUser();
     user.value = res.data;
   }
 
   async function putUser(newUser: User) {
-    await userApi.putUser(newUser);
+    await getUserApi().putUser(newUser);
     await fetchUser();
   }
 
   async function postPassword(newPassword: Password) {
-    await userApi.postPassword(newPassword);
+    await getUserApi().postPassword(newPassword);
   }
 
   return {

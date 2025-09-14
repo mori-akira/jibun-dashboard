@@ -27,13 +27,11 @@ const buildCognitoLogoutUrl = (): string | null => {
     return null;
   }
 
-  const postLogoutRedirect = window.location.origin;
   const url = new URL(
     `https://${domain}.auth.${region}.amazoncognito.com/logout`
   );
   url.searchParams.set("response_type", "token");
   url.searchParams.set("client_id", String(clientId));
-  url.searchParams.set("logout_uri", postLogoutRedirect);
   url.searchParams.set("redirect_uri", window.location.origin + "/callback");
   return url.toString();
 };

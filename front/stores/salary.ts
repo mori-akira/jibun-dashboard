@@ -7,21 +7,24 @@ import { SalaryApi } from "~/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
 export const useSalaryStore = defineStore("salary", () => {
-  const { getAccessToken } = useAuth();
-  const configuration = new Configuration({
-    baseOptions: {
-      headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-    },
-  });
-  const salaryApi = new SalaryApi(configuration);
   const salaries = ref<Salary[] | null>(null);
+
+  const { getAccessToken } = useAuth();
+  const getSalaryApi = () => {
+    const configuration = new Configuration({
+      baseOptions: {
+        headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
+      },
+    });
+    return new SalaryApi(configuration);
+  };
 
   async function fetchSalary(
     targetDate?: string,
     targetDateFrom?: string,
     targetDateTo?: string
   ) {
-    const res = await salaryApi.getSalary(
+    const res = await getSalaryApi().getSalary(
       targetDate,
       targetDateFrom,
       targetDateTo
@@ -30,7 +33,7 @@ export const useSalaryStore = defineStore("salary", () => {
   }
 
   async function putSalary(salary: Salary) {
-    await salaryApi.putSalary(salary);
+    await getSalaryApi().putSalary(salary);
     await fetchSalary();
   }
 

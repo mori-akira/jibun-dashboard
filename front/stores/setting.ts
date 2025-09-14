@@ -7,22 +7,25 @@ import { SettingApi } from "~/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
 export const useSettingStore = defineStore("setting", () => {
-  const { getAccessToken } = useAuth();
-  const configuration = new Configuration({
-    baseOptions: {
-      headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-    },
-  });
-  const settingApi = new SettingApi(configuration);
   const setting = ref<Setting | null>(null);
 
+  const { getAccessToken } = useAuth();
+  const getSettingApi = () => {
+    const configuration = new Configuration({
+      baseOptions: {
+        headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
+      },
+    });
+    return new SettingApi(configuration);
+  };
+
   async function fetchSetting() {
-    const res = await settingApi.getSetting();
+    const res = await getSettingApi().getSetting();
     setting.value = res.data;
   }
 
   async function putSetting(newSetting: Setting) {
-    await settingApi.putSetting(newSetting);
+    await getSettingApi().putSetting(newSetting);
     await fetchSetting();
   }
 
