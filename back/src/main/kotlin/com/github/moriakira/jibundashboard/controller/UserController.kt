@@ -62,7 +62,5 @@ class UserController(
         return ResponseEntity.ok().build()
     }
 
-    override fun postPassword(password: Password?): ResponseEntity<Unit> {
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build()
-    }
+    override fun postPassword(password: Password?): ResponseEntity<Unit> = ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build()
 }
