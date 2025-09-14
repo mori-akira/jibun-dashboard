@@ -152,6 +152,11 @@ jobs:
         working-directory: front
         run: npx vitest run
 
+      - name: Delete Mock Asset
+        if: steps.filter_changes.outputs.changes == 'true'
+        working-directory: front
+        run: rm -rf public/mock-api
+
       - name: Generate Static Site
         if: steps.filter_changes.outputs.changes == 'true'
         working-directory: front
