@@ -50,7 +50,7 @@ module "dynamodb_salaries" {
   application_tag = local.tag
   table_name      = "${local.app_name}-${local.env_name}-salaries"
   hash_key = { name = "userId", type = "S" }
-  sort_key = { name = "targetDate", type = "S" }
+  sort_key = { name = "order", type = "N" }
   global_secondary_indexes = [
     {
       name               = "gsi_salary_id"
