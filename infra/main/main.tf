@@ -78,7 +78,7 @@ module "dynamodb_salaries" {
     {
       name            = "gsi_salary_id"
       hash_key_name   = "salaryId"
-      range_key_name  = null
+      hash_key_type   = "S"
       projection_type = "ALL"
     }
   ]
@@ -104,12 +104,14 @@ module "dynamodb_qualifications" {
       projection_type = "ALL"
     }
   ]
-  local_secondary_indexes = [{
-    name            = "lsi_order"
-    range_key_name  = "order"
-    range_key_type  = "N"
-    projection_type = "ALL"
-  }]
+  local_secondary_indexes = [
+    {
+      name            = "lsi_order"
+      range_key_name  = "order"
+      range_key_type  = "N"
+      projection_type = "ALL"
+    }
+  ]
 }
 
 data "aws_caller_identity" "current" {}
