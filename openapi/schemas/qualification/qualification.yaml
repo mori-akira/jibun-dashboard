@@ -2,6 +2,7 @@ type: object
 description: 資格情報
 
 required:
+  - order
   - qualificationName
   - status
   - rank
@@ -18,6 +19,12 @@ properties:
   userId:
     description: ユーザID
     type: string
+
+  order:
+    description: 並び順
+    type: integer
+    format: int32
+    minimum: 1
 
   qualificationName:
     description: 資格名
