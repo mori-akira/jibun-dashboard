@@ -26,7 +26,6 @@ export const useSettingStore = defineStore("setting", () => {
 
   async function putSetting(newSetting: Setting) {
     await getSettingApi().putSetting(newSetting);
-    await fetchSetting();
   }
 
   return {

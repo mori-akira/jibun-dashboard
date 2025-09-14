@@ -51,7 +51,6 @@ export const useQualificationStore = defineStore("qualification", () => {
 
   async function putQualification(qualification: Qualification) {
     await getQualificationApi().putQualification(qualification);
-    await fetchQualification();
   }
 
   async function deleteQualification(qualificationId: string) {

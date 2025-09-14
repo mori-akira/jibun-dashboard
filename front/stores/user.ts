@@ -27,7 +27,6 @@ export const useUserStore = defineStore("user", () => {
 
   async function putUser(newUser: User) {
     await getUserApi().putUser(newUser);
-    await fetchUser();
   }
 
   async function postPassword(newPassword: Password) {

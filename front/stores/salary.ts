@@ -34,7 +34,6 @@ export const useSalaryStore = defineStore("salary", () => {
 
   async function putSalary(salary: Salary) {
     await getSalaryApi().putSalary(salary);
-    await fetchSalary();
   }
 
   return {
