@@ -9,13 +9,21 @@
     <div :class="['content-area', { closed: !commonStore.isNavOpen }]">
       <ul>
         <li>
-          <NuxtLink class="text-gray-900" to="/" active-class="active">
+          <NuxtLink
+            class="text-gray-900"
+            :class="{ active: isActive('/') }"
+            to="/"
+          >
             <Icon name="tabler:home" class="nav-icon" />
             <span class="font-cursive ml-2">Home</span>
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink class="text-gray-900" to="/salary" active-class="active">
+          <NuxtLink
+            class="text-gray-900"
+            :class="{ active: isActive('/salary') }"
+            to="/salary"
+          >
             <Icon name="tabler:report-money" class="nav-icon" />
             <span class="font-cursive ml-2">Salary</span>
           </NuxtLink>
@@ -23,8 +31,8 @@
         <li>
           <NuxtLink
             class="text-gray-900"
+            :class="{ active: isActive('/qualification') }"
             to="/qualification"
-            active-class="active"
           >
             <Icon name="tabler:certificate" class="nav-icon" />
             <span class="font-cursive ml-2">Qualification</span>
@@ -33,8 +41,8 @@
         <li>
           <NuxtLink
             class="text-gray-900"
+            :class="{ active: isActive('/vocabulary') }"
             to="/vocabulary"
-            active-class="active"
           >
             <Icon name="tabler:book" class="nav-icon" />
             <span class="font-cursive ml-2">Vocabulary</span>
@@ -43,8 +51,8 @@
         <li>
           <NuxtLink
             class="text-gray-900"
+            :class="{ active: isActive('/financial-asset') }"
             to="/financial-asset"
-            active-class="active"
           >
             <Icon name="tabler:report-money" class="nav-icon" />
             <span class="font-cursive ml-2">Financial Asset</span>
@@ -53,8 +61,8 @@
         <li>
           <NuxtLink
             class="text-gray-900"
+            :class="{ active: isActive('/study-plan') }"
             to="/study-plan"
-            active-class="active"
           >
             <Icon name="tabler:file-pencil" class="nav-icon" />
             <span class="font-cursive ml-2">Study Plan</span>
@@ -66,9 +74,15 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from "#app";
 import { useCommonStore } from "~/stores/common";
 
+const route = useRoute();
 const commonStore = useCommonStore();
+const isActive = (base: string) =>
+  base === "/"
+    ? route.path === base || route.path === ""
+    : route.path.startsWith(base);
 </script>
 
 <style lang="css" scoped>
