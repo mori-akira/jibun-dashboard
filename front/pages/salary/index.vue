@@ -218,7 +218,7 @@
               headline-class="font-cursive"
               label-class="font-cursive"
             />
-            <div v-if="!salary" class="min-w-82"></div>
+            <div v-if="!salary" class="min-w-82 h-full m-4"></div>
           </template>
         </div>
         <div class="h-10 flex justify-end items-end px-4">
