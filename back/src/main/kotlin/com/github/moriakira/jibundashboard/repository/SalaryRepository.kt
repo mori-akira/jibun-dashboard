@@ -66,7 +66,10 @@ class SalaryRepository(
 
             else -> QueryConditional.keyEqualTo { it.partitionValue(userId) }
         }
-        val req = QueryEnhancedRequest.builder().queryConditional(cond).build()
+        val req = QueryEnhancedRequest.builder()
+            .queryConditional(cond)
+            .scanIndexForward(true)
+            .build()
         return table().query(req).flatMap { it.items().toList() }
     }
 
