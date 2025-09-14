@@ -64,10 +64,6 @@
         <div class="h-36 flex justify-center items-center"></div>
       </Panel>
     </div>
-
-    <div>
-      <Button wrapper-class="mt-4" @click="onAddError">Add Error</Button>
-    </div>
   </div>
 </template>
 
@@ -82,7 +78,6 @@ import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
-import Button from "~/components/common/Button.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
 import { withErrorHandling } from "~/utils/api-call";
@@ -105,8 +100,4 @@ onMounted(async () => {
     commonStore
   );
 });
-
-const onAddError = () => {
-  commonStore.addErrorMessage("This is a test error message.");
-};
 </script>
