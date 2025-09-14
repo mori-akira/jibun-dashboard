@@ -27,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 
@@ -39,15 +38,10 @@ import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useConfirmDialog } from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
-import { useUserStore } from "~/stores/user";
-import { useSettingStore } from "~/stores/setting";
-import { withErrorHandling } from "~/utils/api-call";
 
 const router = useRouter();
 const { t } = useI18n();
 const commonStore = useCommonStore();
-const userStore = useUserStore();
-const settingStore = useSettingStore();
 
 const {
   showConfirmDialog,
@@ -73,14 +67,6 @@ router.beforeEach(async (to, _, next) => {
 router.afterEach(() => {
   commonStore.setHeaderMenuOpen(false);
   commonStore.clearErrorMessages();
-});
-
-onMounted(async () => {
-  await withErrorHandling(
-    async () =>
-      await Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]),
-    commonStore
-  );
 });
 
 watchEffect(() => {

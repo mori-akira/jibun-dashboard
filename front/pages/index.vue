@@ -76,6 +76,8 @@ import { onMounted } from "vue";
 
 import type { Salary } from "~/api/client";
 import { useCommonStore } from "~/stores/common";
+import { useUserStore } from "~/stores/user";
+import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
@@ -86,6 +88,8 @@ import RankSummary from "~/components/qualification/RankSummary.vue";
 import { withErrorHandling } from "~/utils/api-call";
 
 const commonStore = useCommonStore();
+const userStore = useUserStore();
+const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 const qualificationStore = useQualificationStore();
 
@@ -93,6 +97,8 @@ onMounted(async () => {
   await withErrorHandling(
     () =>
       Promise.all([
+        userStore.fetchUser(),
+        settingStore.fetchSetting(),
         qualificationStore.fetchQualification(),
         salaryStore.fetchSalary(),
       ]),
