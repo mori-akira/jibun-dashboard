@@ -16,6 +16,8 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["openid", "email", "profile"]
+  id_token_validity                    = var.id_token_validity
+  access_token_validity                = var.access_token_validity
 
   read_attributes = [
     "email", "email_verified"
