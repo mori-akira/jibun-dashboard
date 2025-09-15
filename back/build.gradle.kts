@@ -21,6 +21,7 @@ plugins {
     id("com.github.node-gradle.node") version "7.0.2"
     id("com.diffplug.spotless") version "6.25.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
+    id("jacoco")
 }
 
 repositories {
@@ -154,8 +155,32 @@ detekt {
     parallel = true
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+// Jacoco 設定とレポート
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+// 生成コードや自動生成パッケージを除外
+val jacocoExcludes = listOf(
+    "com/github/moriakira/jibundashboard/generated/**",
+)
+
+// jacocoTestReport は jacoco プラグインが提供する既存タスクを設定する
+tasks.named<JacocoReport>("jacocoTestReport") {
+    reports {
+        html.required.set(true)
+        xml.required.set(false)
+        csv.required.set(false)
+    }
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map { dir ->
+                fileTree(dir) { exclude(jacocoExcludes) }
+            },
+        ),
+    )
+    sourceDirectories.setFrom(files("src/main/kotlin"))
+    executionData.setFrom(files(layout.buildDirectory.file("jacoco/test.exec")))
 }
 
 // OpenAPIバンドル → OpenAPI Generator → 生成コードのフォーマット → ビルドの順でタスクが行われるように

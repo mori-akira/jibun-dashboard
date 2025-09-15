@@ -8,7 +8,6 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
-import software.amazon.awssdk.enhanced.dynamodb.model.GetItemEnhancedRequest
 
 @Repository
 class SettingRepository(
@@ -19,7 +18,7 @@ class SettingRepository(
     private fun table() = enhanced.table(settingsTableName, schema)
 
     fun get(userId: String): SettingItem? = table().getItem(
-        GetItemEnhancedRequest.builder().key(Key.builder().partitionValue(userId).build()).build(),
+        Key.builder().partitionValue(userId).build(),
     )
 
     fun put(item: SettingItem) {
