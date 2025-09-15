@@ -300,7 +300,7 @@ const validationRules = {
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   const result = await withErrorHandling(async () => {
-    settingStore.putSetting({
+    await settingStore.putSetting({
       ...setting.value,
       salary: {
         ...setting.value.salary,

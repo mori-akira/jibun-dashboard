@@ -147,7 +147,7 @@ type PasswordForm = {
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   const valuesTyped = values as PasswordForm;
   const result = await withErrorHandling(async () => {
-    userStore.postPassword({
+    await userStore.postPassword({
       newPassword: valuesTyped.newPassword,
       oldPassword: valuesTyped.oldPassword,
     });

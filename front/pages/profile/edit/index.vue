@@ -97,7 +97,7 @@ const validationRules = {
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   const result = await withErrorHandling(async () => {
-    userStore.putUser({
+    await userStore.putUser({
       ...userStore.user,
       ...(values as User),
     });

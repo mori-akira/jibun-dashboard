@@ -126,7 +126,7 @@ onMounted(async () => {
 
 const fetchSalary = async () => {
   const result = await withErrorHandling(
-    async () => salaryStore.fetchSalary(targetDate.value),
+    async () => await salaryStore.fetchSalary(targetDate.value),
     commonStore
   );
   if (result) {

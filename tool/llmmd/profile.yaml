@@ -50,6 +50,19 @@ infra.main:
   - infra/main/modules/frontend/main.tf
   - infra/main/modules/frontend/variables.tf
 
+function.profile.password:
+  - .github/workflows/cd.yaml
+  - openapi/openapi.yaml
+  - openapi/paths/user/password.yaml
+  - openapi/schemas/user/password.yaml
+  - front/stores/user.ts
+  - front/pages/profile/change-password/index.vue
+  - back/build.gradle.kts
+  - back/src/main/resources/application.yaml
+  - back/src/main/resources/application-dev.yaml
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/UserController.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/CognitoUserService.kt
+
 function.qualification:
   - openapi/paths/qualification/index.yaml
   - openapi/paths/qualification/qualificationId.yaml
