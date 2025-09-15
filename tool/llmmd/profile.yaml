@@ -52,6 +52,9 @@ infra.main:
 
 function.profile.password:
   - .github/workflows/cd.yaml
+  - infra/main/main.tf
+  - infra/main/modules/cognito/main.tf
+  - infra/main/modules/cognito/variables.tf
   - openapi/openapi.yaml
   - openapi/paths/user/password.yaml
   - openapi/schemas/user/password.yaml

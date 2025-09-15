@@ -28,6 +28,10 @@ export default defineNuxtRouteMiddleware((to) => {
       "redirect_uri",
       window.location.origin + "/callback"
     );
+    loginUrl.searchParams.set(
+      "scope",
+      "openid email profile aws.cognito.signin.user.admin"
+    );
     window.location.href = loginUrl.toString();
   }
 });
