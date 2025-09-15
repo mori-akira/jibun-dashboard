@@ -44,15 +44,26 @@
           <Icon name="tabler:trash" class="text-base translate-y-0.5" />
           <span class="font-bold ml-2">Delete All</span>
         </Button>
-        <Button
-          type="add"
-          size="small"
-          wrapper-class="mx-8"
-          @click="onAddNewOne"
-        >
-          <Icon name="tabler:plus" class="text-base translate-y-0.5" />
-          <span class="font-bold ml-2">Add New One</span>
-        </Button>
+        <div class="flex">
+          <Button
+            type="action"
+            size="small"
+            wrapper-class="mr-4"
+            @click="onReorderItems"
+          >
+            <Icon name="tabler:menu-order" class="text-base translate-y-0.5" />
+            <span class="font-bold ml-2">Reorder Items</span>
+          </Button>
+          <Button
+            type="add"
+            size="small"
+            wrapper-class="mr-8"
+            @click="onAddNewOne"
+          >
+            <Icon name="tabler:plus" class="text-base translate-y-0.5" />
+            <span class="font-bold ml-2">Add New One</span>
+          </Button>
+        </div>
       </div>
       <DataTable
         :rows="rows"
@@ -67,83 +78,25 @@
     <ModalWindow
       :show-modal="editTargetQualification !== undefined"
       modal-box-class="w-1/2 h-80vh flex-col items-center overflow-y-auto"
-      @close="onCloseModal"
+      @close="onCloseEditModal"
     >
-      <Form v-slot="{ meta, handleSubmit }">
-        <div class="flex justify-end">
-          <IconButton
-            type="cancel"
-            icon-class="w-6 h-6"
-            @click="onCloseModal"
-          />
-        </div>
-        <template v-for="def in editFieldDefs" :key="`filed-${def.key}`">
-          <Field
-            v-slot="{ field, errorMessage }"
-            :name="def.key"
-            :rules="validationRules[def.key]"
-            :value="editTargetQualification?.[def.key] ?? ''"
-          >
-            <TextBox
-              v-if="def.type === 'textbox'"
-              :label="def.label"
-              v-bind="field"
-              :error-message="errorMessage"
-              :required="def.required"
-              wrapper-class="mt-4 w-full justify-center"
-              label-class="w-40 ml-4 font-cursive"
-              input-wrapper-class="w-1/2"
-              @blur:event="field.onBlur"
-              @input:value="() => commonStore.setHasUnsavedChange(true)"
-            />
-            <SelectBox
-              v-if="def.type === 'select'"
-              :label="def.label"
-              :value="field.value"
-              :options="
-                def?.options?.map((e) => ({ label: e, value: e })) ?? []
-              "
-              :required="def.required"
-              wrapper-class="mt-4 w-full justify-center"
-              label-class="w-40 ml-4 font-cursive"
-              select-wrapper-class="w-1/2"
-              select-class="text-center"
-              @change:value="
-                (value) => {
-                  commonStore.setHasUnsavedChange(true);
-                  field?.['onUpdate:modelValue']?.(value);
-                }
-              "
-            />
-            <DatePicker
-              v-if="def.type === 'datepicker'"
-              :label="def.label"
-              :date="field.value"
-              :required="def.required"
-              wrapper-class="mt-4 w-full justify-center"
-              label-class="w-40 ml-4 font-cursive"
-              pickers-wrapper-class="w-1/2 px-12"
-              @change="
-                (value) => {
-                  commonStore.setHasUnsavedChange(true);
-                  field?.['onUpdate:modelValue']?.(value);
-                }
-              "
-            />
-          </Field>
-        </template>
-        <div class="m-4">
-          <Button
-            :disabled="!meta.valid"
-            type="action"
-            wrapper-class="flex justify-center mt-8"
-            @click="handleSubmit(onSubmit)"
-          >
-            <Icon name="tabler:database-share" class="adjust-icon-4" />
-            <span class="ml-2">Execute</span>
-          </Button>
-        </div>
-      </Form>
+      <FormEditor
+        :target-qualification="editTargetQualification"
+        @submit="onSubmitEdit"
+        @close-modal="onCloseEditModal"
+      />
+    </ModalWindow>
+
+    <ModalWindow
+      :show-modal="reorderTargetQualification !== undefined"
+      modal-box-class="w-1/2 h-80vh flex-col items-center overflow-y-auto"
+      @close="onCloseReorderModal"
+    >
+      <ReorderEditor
+        :target-qualifications="reorderTargetQualification"
+        @submit="onSubmitReorder"
+        @close-modal="onCloseReorderModal"
+      />
     </ModalWindow>
 
     <Dialog
@@ -177,8 +130,6 @@
 </template>
 
 <script setup lang="ts">
-import type { GenericObject, SubmissionHandler } from "vee-validate";
-import { Form, Field } from "vee-validate";
 import { useI18n } from "vue-i18n";
 
 import type {
@@ -187,19 +138,16 @@ import type {
   Qualification,
   SettingQualification,
 } from "~/api/client";
-import { schemas } from "~/api/client/schemas";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
-import TextBox from "~/components/common/TextBox.vue";
-import SelectBox from "~/components/common/SelectBox.vue";
-import DatePicker from "~/components/common/DatePicker.vue";
 import Button from "~/components/common/Button.vue";
-import IconButton from "~/components/common/IconButton.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import SearchConditionForm from "~/components/qualification/SearchConditionForm.vue";
+import FormEditor from "~/components/qualification/edit/FormEditor.vue";
+import ReorderEditor from "~/components/qualification/edit/ReorderEditor.vue";
 import {
   useInfoDialog,
   useConfirmDialog,
@@ -208,8 +156,9 @@ import {
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
-import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import { generateRandomString } from "~/utils/rand";
+import { getErrorMessage } from "~/utils/error";
+import { withErrorHandling } from "~/utils/api-call";
 
 const { t } = useI18n();
 const commonStore = useCommonStore();
@@ -249,10 +198,6 @@ const fetchQualificationApi = async () => {
     loadingQueue.value = loadingQueue.value.filter((e) => e !== id);
   }
 };
-
-onMounted(async () => {
-  await fetchQualificationApi();
-});
 
 const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
 const selectedRank = ref<GetQualificationRankEnum[]>([]);
@@ -394,116 +339,31 @@ const initSortState: SortDef<QualificationWithIndex> = {
 };
 
 const editTargetQualification = ref<Qualification | undefined>(undefined);
-const validationRules: {
-  [K in keyof Qualification]?: GenericValidateFunction[];
-} = {
-  qualificationName: zodToVeeRules(
-    schemas.Qualification.shape.qualificationName
-  ),
-  abbreviation: zodToVeeRules(schemas.Qualification.shape.abbreviation),
-  version: zodToVeeRules(schemas.Qualification.shape.version),
-  status: zodToVeeRules(schemas.Qualification.shape.status),
-  rank: zodToVeeRules(schemas.Qualification.shape.rank),
-  organization: zodToVeeRules(schemas.Qualification.shape.organization),
-  acquiredDate: zodToVeeRules(schemas.Qualification.shape.acquiredDate),
-  expirationDate: zodToVeeRules(schemas.Qualification.shape.expirationDate),
-  officialUrl: zodToVeeRules(schemas.Qualification.shape.officialUrl),
-  certificationUrl: zodToVeeRules(schemas.Qualification.shape.certificationUrl),
-  badgeUrl: zodToVeeRules(schemas.Qualification.shape.badgeUrl),
-};
-const editFieldDefs: {
-  key: keyof Qualification;
-  label: string;
-  type: "textbox" | "select" | "datepicker";
-  options?: string[];
-  required: boolean;
-}[] = [
-  {
-    key: "qualificationName",
-    label: "Qualification Name",
-    type: "textbox",
-    required: true,
-  },
-  {
-    key: "abbreviation",
-    label: "Abbreviation",
-    type: "textbox",
-    required: false,
-  },
-  { key: "version", label: "Version", type: "textbox", required: false },
-  {
-    key: "status",
-    label: "Status",
-    type: "select",
-    options: ["dream", "planning", "acquired"],
-    required: true,
-  },
-  {
-    key: "rank",
-    label: "Rank",
-    type: "select",
-    options: ["A", "B", "C", "D"],
-    required: true,
-  },
-  {
-    key: "organization",
-    label: "Organization",
-    type: "textbox",
-    required: true,
-  },
-  {
-    key: "acquiredDate",
-    label: "Acquired Date",
-    type: "datepicker",
-    required: false,
-  },
-  {
-    key: "expirationDate",
-    label: "Expiration Date",
-    type: "datepicker",
-    required: false,
-  },
-  {
-    key: "officialUrl",
-    label: "Official Url",
-    type: "textbox",
-    required: true,
-  },
-  {
-    key: "certificationUrl",
-    label: "Certification Url",
-    type: "textbox",
-    required: false,
-  },
-  { key: "badgeUrl", label: "Badge Url", type: "textbox", required: false },
-];
-
 const onAddNewOne = () =>
   (editTargetQualification.value = {
     qualificationName: "",
-    order: 1,
+    order: (qualificationStore.qualifications?.length ?? 0) + 1,
     status: "dream",
     rank: "D",
     organization: "",
     officialUrl: "",
   });
-const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
-  const valueTyped = value as Qualification;
+const onSubmitEdit = async (value: Qualification) => {
   const result = await withErrorHandling(async () => {
-    qualificationStore.putQualification({
+    await qualificationStore.putQualification({
       qualificationId: editTargetQualification?.value?.qualificationId,
-      order: 1,
-      qualificationName: valueTyped.qualificationName,
-      abbreviation: valueTyped.abbreviation || undefined,
-      version: valueTyped.version || undefined,
-      status: valueTyped.status,
-      rank: valueTyped.rank,
-      organization: valueTyped.organization,
-      acquiredDate: valueTyped.acquiredDate || undefined,
-      expirationDate: valueTyped.expirationDate || undefined,
-      officialUrl: valueTyped.officialUrl,
-      certificationUrl: valueTyped.certificationUrl || undefined,
-      badgeUrl: valueTyped.badgeUrl || undefined,
+      order: editTargetQualification.value?.order ?? 1,
+      qualificationName: value.qualificationName,
+      abbreviation: value.abbreviation || undefined,
+      version: value.version || undefined,
+      status: value.status,
+      rank: value.rank,
+      organization: value.organization,
+      acquiredDate: value.acquiredDate || undefined,
+      expirationDate: value.expirationDate || undefined,
+      officialUrl: value.officialUrl,
+      certificationUrl: value.certificationUrl || undefined,
+      badgeUrl: value.badgeUrl || undefined,
     });
   }, commonStore);
   if (result) {
@@ -513,7 +373,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
     await fetchQualificationApi();
   }
 };
-const onCloseModal = async () => {
+const onCloseEditModal = async () => {
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
       t("message.confirm.checkUnsavedChanges")
@@ -523,6 +383,52 @@ const onCloseModal = async () => {
     }
   }
   editTargetQualification.value = undefined;
+  commonStore.setHasUnsavedChange(false);
+};
+
+const reorderTargetQualification = ref<Qualification[] | undefined>(undefined);
+const onReorderItems = () =>
+  (reorderTargetQualification.value = (
+    qualificationStore.qualifications ?? []
+  ).map((e) => ({ ...e })));
+const onSubmitReorder = async (targetQualifications: Qualification[]) => {
+  const original = new Map(
+    (qualificationStore.qualifications ?? []).map((q) => [q.qualificationId, q])
+  );
+  const changed = targetQualifications.filter(
+    (target) => original.get(target.qualificationId)?.order !== target.order
+  );
+  const result = await withErrorHandling(async () => {
+    await Promise.all(
+      changed.map(async (e) => {
+        const target = original.get(e.qualificationId);
+        if (!target) {
+          return;
+        }
+        await qualificationStore.putQualification({
+          ...target,
+          order: e.order,
+        });
+      })
+    );
+  }, commonStore);
+  if (result) {
+    commonStore.setHasUnsavedChange(false);
+    reorderTargetQualification.value = undefined;
+    await openInfoDialog(t("message.info.completeSuccessfully"));
+    await fetchQualificationApi();
+  }
+};
+const onCloseReorderModal = async () => {
+  if (commonStore.hasUnsavedChange) {
+    const confirmed = await openConfirmDialog(
+      t("message.confirm.checkUnsavedChanges")
+    );
+    if (!confirmed) {
+      return;
+    }
+  }
+  reorderTargetQualification.value = undefined;
   commonStore.setHasUnsavedChange(false);
 };
 
@@ -540,12 +446,10 @@ const onDeleteAll = async () => {
         qualificationStore.deleteQualification(e)
       )
     );
-    commonStore.deleteLoadingQueue(id);
     checkedId.value = [];
     await openInfoDialog(t("message.info.completeSuccessfully"));
   } catch (err) {
     console.error(err);
-    commonStore.deleteLoadingQueue(id);
     await openErrorDialog(t("message.error.somethingCloudNotDeleted"));
   } finally {
     commonStore.deleteLoadingQueue(id);
