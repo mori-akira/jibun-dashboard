@@ -2,6 +2,7 @@
   {
     "qualificationId": "d0d9f70f-975d-4e95-b063-b7cf84fbdb72",
     "userId": "test-user",
+    "order": 1,
     "qualificationName": "TOIEC (700)",
     "status": "planning",
     "rank": "C",
@@ -11,6 +12,7 @@
   {
     "qualificationId": "9076e391-4774-4fe8-9b6f-4e080b1de957",
     "userId": "test-user",
+    "order": 2,
     "qualificationName": "貸金業務取扱主任者",
     "status": "dream",
     "rank": "C",
@@ -20,6 +22,7 @@
   {
     "qualificationId": "2b0c1f3e-4d5a-4c8b-9f6c-7d8e9f0a1b2c",
     "userId": "test-user",
+    "order": 3,
     "qualificationName": "ITパスポート",
     "abbreviation": "IP",
     "status": "acquired",
@@ -31,6 +34,7 @@
   {
     "qualificationId": "3c4d5e6f-7a8b-9c0d-e1f2-34567890abcd",
     "userId": "test-user",
+    "order": 4,
     "qualificationName": "情報セキュリティマネジメント試験",
     "abbreviation": "SG",
     "status": "acquired",
@@ -42,6 +46,7 @@
   {
     "qualificationId": "315a98c3-fbdc-4179-a68d-c54ce63d12e8",
     "userId": "test-user",
+    "order": 5,
     "qualificationName": "基本情報技術者試験",
     "abbreviation": "FE",
     "status": "acquired",
@@ -53,6 +58,7 @@
   {
     "qualificationId": "d200c9b7-2849-4784-b03d-c8c6c18ae99a",
     "userId": "test-user",
+    "order": 6,
     "qualificationName": "応用情報技術者試験",
     "abbreviation": "AP",
     "status": "acquired",
@@ -64,6 +70,7 @@
   {
     "qualificationId": "26e27604-a876-4ac1-8d05-8ec631e2837a",
     "userId": "test-user",
+    "order": 7,
     "qualificationName": "ITストラテジスト試験",
     "abbreviation": "ST",
     "status": "dream",
@@ -74,6 +81,7 @@
   {
     "qualificationId": "7be0f8d9-56fb-4e8e-bc4d-f28a730a1ae1",
     "userId": "test-user",
+    "order": 8,
     "qualificationName": "システムアーキテクト試験",
     "abbreviation": "SA",
     "status": "dream",
@@ -84,6 +92,7 @@
   {
     "qualificationId": "68257de9-6343-429a-a084-0b84e6da5100",
     "userId": "test-user",
+    "order": 9,
     "qualificationName": "プロジェクトマネージャ試験",
     "abbreviation": "PM",
     "status": "dream",
@@ -94,6 +103,7 @@
   {
     "qualificationId": "512367c8-7db2-4021-b995-34ec2213b9f3",
     "userId": "test-user",
+    "order": 10,
     "qualificationName": "ネットワークスペシャリスト試験",
     "abbreviation": "NW",
     "status": "dream",
@@ -104,6 +114,7 @@
   {
     "qualificationId": "6b683684-0ee9-4610-b2a5-853f89c573bd",
     "userId": "test-user",
+    "order": 11,
     "qualificationName": "データベーススペシャリスト試験",
     "abbreviation": "DB",
     "status": "planning",
@@ -114,6 +125,7 @@
   {
     "qualificationId": "ea60ebf7-505b-485f-a9e0-6fdb9106f0ca",
     "userId": "test-user",
+    "order": 12,
     "qualificationName": "情報処理安全確保支援士試験",
     "abbreviation": "SC",
     "status": "acquired",
@@ -125,6 +137,7 @@
   {
     "qualificationId": "67e3fbbd-18f4-4245-9daf-a91bef289533",
     "userId": "test-user",
+    "order": 13,
     "qualificationName": "G検定",
     "status": "acquired",
     "rank": "D",
@@ -135,6 +148,7 @@
   {
     "qualificationId": "4f9729df-6e4e-4940-9dd0-1ff3257733a7",
     "userId": "test-user",
+    "order": 14,
     "qualificationName": "E資格",
     "status": "dream",
     "rank": "A",
@@ -144,6 +158,7 @@
   {
     "qualificationId": "493c8161-c7eb-41d4-8d2a-02840147a689",
     "userId": "test-user",
+    "order": 15,
     "qualificationName": "UMTP UMLモデリング技能認定試験 L1",
     "version": "UML2.0ベース",
     "status": "planning",
@@ -154,6 +169,7 @@
   {
     "qualificationId": "741cdabe-2cf4-430f-b681-4dfe4e131e90",
     "userId": "test-user",
+    "order": 16,
     "qualificationName": "UMTP UMLモデリング技能認定試験 L2",
     "version": "UML2.0ベース",
     "status": "planning",
@@ -164,6 +180,7 @@
   {
     "qualificationId": "7af6cdcd-82f7-4d6d-b152-72edde4d9ef1",
     "userId": "test-user",
+    "order": 17,
     "qualificationName": "UMTP UMLモデリング技能認定試験 L3",
     "version": "UML2.0ベース",
     "status": "planning",
@@ -174,6 +191,7 @@
   {
     "qualificationId": "4ff61829-4b6b-4aca-82b6-ceb8c61c2b08",
     "userId": "test-user",
+    "order": 18,
     "qualificationName": "JSTQB認定テスト技術者資格試験 Foundation Level",
     "status": "acquired",
     "rank": "C",
@@ -184,6 +202,7 @@
   {
     "qualificationId": "7ca1a72b-586c-40d5-847c-8be04366f773",
     "userId": "test-user",
+    "order": 19,
     "qualificationName": "JSTQB認定テスト技術者資格試験 Advanced Level（テストアナリスト）",
     "status": "planning",
     "rank": "B",
@@ -193,6 +212,7 @@
   {
     "qualificationId": "e0a784bc-2af9-4631-abc8-fe9f9ef72f3b",
     "userId": "test-user",
+    "order": 20,
     "qualificationName": "JSTQB認定テスト技術者資格試験 Advanced Level（テストマネージャ）",
     "status": "planning",
     "rank": "B",
@@ -202,6 +222,7 @@
   {
     "qualificationId": "5ba5acc1-0700-4383-827e-e812c8f6e413",
     "userId": "test-user",
+    "order": 21,
     "qualificationName": "ORACLE MASTER Bronze Oracle Database 12c",
     "status": "acquired",
     "rank": "D",
@@ -213,6 +234,7 @@
   {
     "qualificationId": "6b2ef804-c02e-4ac1-a5c9-6c457d845d34",
     "userId": "test-user",
+    "order": 22,
     "qualificationName": "Oracle Certified Java Programmer, Silver SE 8",
     "status": "acquired",
     "rank": "C",
@@ -224,6 +246,7 @@
   {
     "qualificationId": "80745e73-29dd-4239-844f-517ea74eb11b",
     "userId": "test-user",
+    "order": 23,
     "qualificationName": "Oracle Certified Java Programmer, Gold SE 8",
     "status": "acquired",
     "rank": "B",
@@ -235,6 +258,7 @@
   {
     "qualificationId": "dca8c825-807a-4e65-938d-1041814e3386",
     "userId": "test-user",
+    "order": 24,
     "qualificationName": "LinuCレベル1",
     "version": "10.0",
     "status": "acquired",
@@ -248,6 +272,7 @@
   {
     "qualificationId": "ca02c35f-491d-4a7c-8a74-78407eafe1bd",
     "userId": "test-user",
+    "order": 25,
     "qualificationName": "LinuCレベル2",
     "version": "10.0",
     "status": "acquired",
@@ -261,6 +286,7 @@
   {
     "qualificationId": "09b20d1e-f906-4c4d-aef0-ef083b12078b",
     "userId": "test-user",
+    "order": 26,
     "qualificationName": "LinuCレベル3 304 Virtualization & High Availability",
     "status": "acquired",
     "rank": "B",
@@ -273,6 +299,7 @@
   {
     "qualificationId": "7584abdb-1425-4418-af34-f70de9b8b186",
     "userId": "test-user",
+    "order": 27,
     "qualificationName": "HTML5プロフェッショナル認定 レベル1",
     "abbreviation": "HTML5(CSS3) レベル1",
     "status": "acquired",
@@ -286,6 +313,7 @@
   {
     "qualificationId": "e07d3ffa-1975-4ae5-bbfa-715096e80372",
     "userId": "test-user",
+    "order": 28,
     "qualificationName": "HTML5プロフェッショナル認定 レベル2",
     "abbreviation": "HTML5(JavaScript) レベル2",
     "status": "acquired",
@@ -299,6 +327,7 @@
   {
     "qualificationId": "ecf269cf-39b7-43a0-85df-ac9e75f28e70",
     "userId": "test-user",
+    "order": 29,
     "qualificationName": "OSS-DB Silver",
     "version": "2.0",
     "status": "acquired",
@@ -312,6 +341,7 @@
   {
     "qualificationId": "ccd0dd26-9d4c-46d6-825c-20ca206ab370",
     "userId": "test-user",
+    "order": 30,
     "qualificationName": "OSS-DB Gold",
     "version": "3.0",
     "status": "acquired",
@@ -325,6 +355,7 @@
   {
     "qualificationId": "3653a4fa-5ec5-47e8-ac8c-36350952d059",
     "userId": "test-user",
+    "order": 31,
     "qualificationName": "Python 3 エンジニア認定基礎試験",
     "status": "acquired",
     "rank": "D",
@@ -335,6 +366,7 @@
   {
     "qualificationId": "3ab9b6b1-1b39-47d7-9a43-a44ec02da9f3",
     "userId": "test-user",
+    "order": 32,
     "qualificationName": "Python 3 エンジニア認定データ分析試験",
     "status": "acquired",
     "rank": "D",
@@ -345,6 +377,7 @@
   {
     "qualificationId": "763a9911-2361-4833-9c5c-8d64bdcb254b",
     "userId": "test-user",
+    "order": 33,
     "qualificationName": "Python 3 エンジニア認定実践試験",
     "status": "acquired",
     "rank": "C",
@@ -355,6 +388,7 @@
   {
     "qualificationId": "8b55c2c0-420e-4720-9ef8-b5ae9cd98c8c",
     "userId": "test-user",
+    "order": 34,
     "qualificationName": "Python 3 エンジニア認定データ分析実践試験",
     "status": "acquired",
     "rank": "C",
@@ -365,6 +399,7 @@
   {
     "qualificationId": "4ce6a0cd-694b-45e2-8054-2704a919ea6c",
     "userId": "test-user",
+    "order": 35,
     "qualificationName": "PHP8技術者認定初級試験",
     "status": "acquired",
     "rank": "D",
@@ -375,6 +410,7 @@
   {
     "qualificationId": "e1162ac7-5b05-41f6-9d51-5444828cb078",
     "userId": "test-user",
+    "order": 36,
     "qualificationName": "Certified ScrumMaster",
     "status": "acquired",
     "rank": "B",
@@ -387,6 +423,7 @@
   {
     "qualificationId": "0a78733a-ace8-4929-9b9c-37e9f26b8b34",
     "userId": "test-user",
+    "order": 37,
     "qualificationName": "AWS Certified Cloud Practitioner",
     "status": "acquired",
     "rank": "D",
@@ -399,6 +436,7 @@
   {
     "qualificationId": "b5f3d176-fbeb-44bc-98dc-1a51636366ec",
     "userId": "test-user",
+    "order": 38,
     "qualificationName": "AWS Certified AI Practitioner",
     "status": "acquired",
     "rank": "D",
@@ -411,6 +449,7 @@
   {
     "qualificationId": "7eb452c4-24cd-48e9-ae48-ee087f7e4556",
     "userId": "test-user",
+    "order": 39,
     "qualificationName": "AWS Certified SysOps Administrator - Associate",
     "status": "acquired",
     "rank": "C",
@@ -423,6 +462,7 @@
   {
     "qualificationId": "7aa141b9-c4b3-43fd-857a-bdd16a38b00d",
     "userId": "test-user",
+    "order": 40,
     "qualificationName": "AWS Certified Developer - Associate",
     "status": "acquired",
     "rank": "C",
@@ -435,6 +475,7 @@
   {
     "qualificationId": "e7ee83a7-0c85-40a8-a0ad-6e6681719d40",
     "userId": "test-user",
+    "order": 41,
     "qualificationName": "AWS Certified Solutions Architect - Associate",
     "status": "acquired",
     "rank": "C",
@@ -447,6 +488,7 @@
   {
     "qualificationId": "49f8c1cf-137b-44d5-af2c-c3e2273f5896",
     "userId": "test-user",
+    "order": 42,
     "qualificationName": "AWS Certified Data Engineer - Associate",
     "status": "planning",
     "rank": "C",
@@ -456,6 +498,7 @@
   {
     "qualificationId": "0d1c93d8-ce7c-48e1-ae80-9b3d9390d296",
     "userId": "test-user",
+    "order": 43,
     "qualificationName": "AWS Certified Machine Learning Engineer - Associate",
     "status": "planning",
     "rank": "C",
@@ -465,6 +508,7 @@
   {
     "qualificationId": "dbc0cf10-8104-4f55-ae86-c0b382c2584a",
     "userId": "test-user",
+    "order": 44,
     "qualificationName": "AWS Certified Solutions Architect - Professional",
     "status": "planning",
     "rank": "B",
@@ -474,6 +518,7 @@
   {
     "qualificationId": "cac2fd49-3c81-4d0c-a254-591136e2d749",
     "userId": "test-user",
+    "order": 45,
     "qualificationName": "AWS Certified DevOps Engineer - Professional",
     "status": "planning",
     "rank": "B",
@@ -483,6 +528,7 @@
   {
     "qualificationId": "983a0769-2880-4d92-af34-d6fa0440d12c",
     "userId": "test-user",
+    "order": 46,
     "qualificationName": "AWS Certified Advanced Networking - Specialty",
     "status": "planning",
     "rank": "B",
@@ -492,6 +538,7 @@
   {
     "qualificationId": "6b69ec63-80bc-4956-af52-5a9a5abab9a9",
     "userId": "test-user",
+    "order": 47,
     "qualificationName": "AWS Certified Machine Learning - Specialty",
     "status": "planning",
     "rank": "B",
@@ -501,6 +548,7 @@
   {
     "qualificationId": "60561070-65f9-48dd-9327-83c10889b370",
     "userId": "test-user",
+    "order": 48,
     "qualificationName": "AWS Certified Security - Specialty",
     "status": "planning",
     "rank": "B",
@@ -510,6 +558,7 @@
   {
     "qualificationId": "b7f7b9f2-58a7-4e24-8598-d2bff14d6a5b",
     "userId": "test-user",
+    "order": 49,
     "qualificationName": "Google Cloud Certified Cloud Digital Leader",
     "status": "acquired",
     "rank": "D",
@@ -522,6 +571,7 @@
   {
     "qualificationId": "94185081-e7f5-4abe-884e-65e37a36b7e4",
     "userId": "test-user",
+    "order": 50,
     "qualificationName": "Google Cloud Certified Associate Cloud Engineer",
     "status": "acquired",
     "rank": "C",
@@ -534,6 +584,7 @@
   {
     "qualificationId": "75114ef1-8c7f-4409-9230-1bed0a47d1a6",
     "userId": "test-user",
+    "order": 51,
     "qualificationName": "Google Cloud Certified Professional Cloud Architect",
     "status": "acquired",
     "rank": "B",
@@ -546,6 +597,7 @@
   {
     "qualificationId": "566f1459-4a4b-4cad-9177-c9e6c30a9af3",
     "userId": "test-user",
+    "order": 52,
     "qualificationName": "Google Cloud Certified Professional Cloud Developer",
     "status": "acquired",
     "rank": "B",
@@ -558,6 +610,7 @@
   {
     "qualificationId": "1bcda0e7-e8dd-4498-9604-1111ead672c7",
     "userId": "test-user",
+    "order": 53,
     "qualificationName": "Google Cloud Certified Professional Data Engineer",
     "status": "acquired",
     "rank": "B",
