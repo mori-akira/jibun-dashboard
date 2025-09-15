@@ -2,6 +2,7 @@
   <div
     v-if="showModal"
     class="modal-overlay"
+    :class="modalOverlayClass"
     role="dialog"
     aria-modal="true"
     @click="onClose"
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 defineProps<{
   showModal: boolean;
+  modalOverlayClass?: string;
   modalBoxClass?: string;
 }>();
 
