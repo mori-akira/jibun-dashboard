@@ -4,6 +4,7 @@
     "message.info.completeSuccessfully": "Process completed successfully.",
     "message.info.inputNewCategory": "Input New Category",
     "message.info.inputNewPayslip": "Input New Payslip",
+    "message.confirm.signBackWithNewPassword": "Sign out now and sign back in with your new password?",
     "message.confirm.checkUnsavedChanges": "You have unsaved changes. Continue?",
     "message.confirm.deleteCategory": "Confirm deletion of the category?",
     "message.confirm.deleteAllQualifications": "Confirm deletion of all checked qualifications?",

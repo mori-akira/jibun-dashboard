@@ -75,12 +75,13 @@
     </Form>
 
     <Dialog
-      :show-dialog="showInfoDialog"
-      type="info"
-      :message="infoDialogMessage"
-      button-type="ok"
-      @click:ok="onInfoOk"
-      @close="onInfoOk"
+      :show-dialog="showConfirmDialog"
+      type="confirm"
+      :message="confirmDialogMessage"
+      button-type="yesNo"
+      @click:yes="onConfirmYes"
+      @click:no="onConfirmNo"
+      @close="onConfirmNo"
     />
   </div>
 </template>
@@ -97,7 +98,7 @@ import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import { useInfoDialog } from "~/composables/common/useDialog";
+import { useConfirmDialog } from "~/composables/common/useDialog";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { withErrorHandling } from "~/utils/api-call";
@@ -111,8 +112,13 @@ import { matchCharacterTypeRule } from "~/utils/password";
 const { t } = useI18n();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
-const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
-  useInfoDialog();
+const {
+  showConfirmDialog,
+  confirmDialogMessage,
+  openConfirmDialog,
+  onConfirmYes,
+  onConfirmNo,
+} = useConfirmDialog();
 const validationRules = {
   oldPassword: zodToVeeRules(schemas.Password.shape.oldPassword),
   newPassword: [
@@ -154,8 +160,14 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
-    await openInfoDialog(t("message.info.completeSuccessfully"));
-    navigateTo("/");
+    const confirmed = await openConfirmDialog(
+      t("message.confirm.signBackWithNewPassword")
+    );
+    if (confirmed) {
+      navigateTo("/logout");
+    } else {
+      navigateTo("/");
+    }
   }
 };
 </script>
