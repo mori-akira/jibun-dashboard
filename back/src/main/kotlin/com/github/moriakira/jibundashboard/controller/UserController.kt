@@ -4,9 +4,9 @@ import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.UserApi
 import com.github.moriakira.jibundashboard.generated.model.Password
 import com.github.moriakira.jibundashboard.generated.model.User
+import com.github.moriakira.jibundashboard.service.CognitoUserService
 import com.github.moriakira.jibundashboard.service.UserModel
 import com.github.moriakira.jibundashboard.service.UserService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(
     private val currentAuth: CurrentAuth,
     private val userService: UserService,
+    private val cognitoUserService: CognitoUserService,
 ) : UserApi {
 
     override fun getUser(): ResponseEntity<User> {
@@ -62,6 +63,13 @@ class UserController(
         return ResponseEntity.ok().build()
     }
 
-    override fun postPassword(password: Password?): ResponseEntity<Unit> =
-        ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build()
+    override fun postPassword(password: Password?): ResponseEntity<Unit> {
+        requireNotNull(password) { "Request body is required." }
+        cognitoUserService.changePassword(
+            accessToken = currentAuth.jwt.tokenValue,
+            oldPassword = password.oldPassword,
+            newPassword = password.newPassword,
+        )
+        return ResponseEntity.noContent().build()
+    }
 }

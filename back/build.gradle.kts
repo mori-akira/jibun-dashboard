@@ -41,6 +41,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.2")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
+    implementation("software.amazon.awssdk:cognitoidentityprovider:2.32.33")
     implementation("software.amazon.awssdk:dynamodb:2.32.33")
     implementation("software.amazon.awssdk:dynamodb-enhanced:2.32.33")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")

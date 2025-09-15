@@ -34,3 +34,6 @@ app:
       settings: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-settings
       salaries: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salaries
       qualifications: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-qualifications
+  security:
+    cognito:
+      region: ${AWS_REGION:ap-northeast-1}
