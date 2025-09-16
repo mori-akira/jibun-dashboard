@@ -1,0 +1,13 @@
+{
+    "name": "jibun-dashboard-e2e",
+    "build": {
+        "context": "..",
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspace/e2e",
+    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+    "features": {
+        "ghcr.io/devcontainers/features/aws-cli:1": {}
+    },
+    "postCreateCommand": "npx playwright install --with-deps"
+}
