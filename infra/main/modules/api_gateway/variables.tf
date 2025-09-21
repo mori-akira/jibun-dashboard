@@ -31,3 +31,13 @@ variable "apprunner_url" {
     error_message = "Protocol must be http or https."
   }
 }
+
+variable "apprunner_context_path" {
+  description = "App Runnerのコンテキストパス"
+  type        = string
+  default     = "/api/v1"
+  validation {
+    condition     = can(regex("^/", var.apprunner_context_path))
+    error_message = "apprunner_context_path must start with '/'."
+  }
+}

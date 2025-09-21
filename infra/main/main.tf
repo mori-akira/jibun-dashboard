@@ -187,11 +187,12 @@ module "apprunner" {
 }
 
 module "api_gateway" {
-  source               = "./modules/api_gateway"
-  region               = var.region
-  application_tag      = module.application.application_tag
-  frontend_bucket_name = module.frontend.bucket_name
-  user_pool_id         = module.cognito.user_pool_id
-  user_pool_client_id  = module.cognito.user_pool_client_id
-  apprunner_url        = module.apprunner.apprunner_service_url
+  source                 = "./modules/api_gateway"
+  region                 = var.region
+  application_tag        = module.application.application_tag
+  frontend_bucket_name   = module.frontend.bucket_name
+  user_pool_id           = module.cognito.user_pool_id
+  user_pool_client_id    = module.cognito.user_pool_client_id
+  apprunner_url          = "https://${module.apprunner.apprunner_service_url}"
+  apprunner_context_path = "/api/v1"
 }

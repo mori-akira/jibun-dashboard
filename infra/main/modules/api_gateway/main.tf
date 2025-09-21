@@ -15,7 +15,7 @@ resource "aws_apigatewayv2_integration" "apprunner_integration" {
   api_id             = aws_apigatewayv2_api.http_api.id
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
-  integration_uri    = "https://${var.apprunner_url}/api/v1/{proxy}"
+  integration_uri    = "${var.apprunner_url}${var.apprunner_context_path}/{proxy}"
 }
 
 resource "aws_apigatewayv2_authorizer" "cognito_auth" {
