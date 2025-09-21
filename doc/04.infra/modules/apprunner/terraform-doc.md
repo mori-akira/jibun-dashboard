@@ -9,7 +9,6 @@ No requirements.
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | n/a |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
-| <a name="provider_local"></a> [local](#provider\_local) | n/a |
 
 ## Modules
 
@@ -36,7 +35,6 @@ No modules.
 | [aws_scheduler_schedule.pause_nightly](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
 | [aws_scheduler_schedule.resume_morning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
 | [aws_scheduler_schedule_group.apprunner](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule_group) | resource |
-| [local_file.apprunner_lambda_py](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [archive_file.apprunner_lambda_zip](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_iam_policy_document.apprunner_dynamodb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.apprunner_lambda_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
