@@ -167,9 +167,10 @@ val jacocoExcludes = listOf(
 
 // jacocoTestReport は jacoco プラグインが提供する既存タスクを設定する
 tasks.named<JacocoReport>("jacocoTestReport") {
+    dependsOn("test")
     reports {
         html.required.set(true)
-        xml.required.set(false)
+        xml.required.set(true)
         csv.required.set(false)
     }
     classDirectories.setFrom(
