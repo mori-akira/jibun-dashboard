@@ -20,11 +20,7 @@
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
 | <a name="module_apprunner"></a> [apprunner](#module\_apprunner) | ./modules/apprunner | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
-| <a name="module_dynamodb_qualifications"></a> [dynamodb\_qualifications](#module\_dynamodb\_qualifications) | ./modules/dynamodb | n/a |
-| <a name="module_dynamodb_resources_i18n"></a> [dynamodb\_resources\_i18n](#module\_dynamodb\_resources\_i18n) | ./modules/dynamodb | n/a |
-| <a name="module_dynamodb_salaries"></a> [dynamodb\_salaries](#module\_dynamodb\_salaries) | ./modules/dynamodb | n/a |
-| <a name="module_dynamodb_settings"></a> [dynamodb\_settings](#module\_dynamodb\_settings) | ./modules/dynamodb | n/a |
-| <a name="module_dynamodb_users"></a> [dynamodb\_users](#module\_dynamodb\_users) | ./modules/dynamodb | n/a |
+| <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
 | <a name="module_ecr"></a> [ecr](#module\_ecr) | ./modules/ecr | n/a |
 | <a name="module_frontend"></a> [frontend](#module\_frontend) | ./modules/frontend | n/a |
 
@@ -32,12 +28,7 @@
 
 | Name | Type |
 |------|------|
-| [aws_iam_policy.apprunner_dynamodb_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
-| [aws_iam_role.apprunner_instance_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.apprunner_instance_attach](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
-| [aws_iam_policy_document.apprunner_dynamodb_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.apprunner_instance_trust](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
