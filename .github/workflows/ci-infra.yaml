@@ -50,11 +50,7 @@ jobs:
         working-directory: infra/main
 
       - name: Terraform Plan
-        run: terraform plan -input=false -out=plan.out
-        working-directory: infra/main
-
-      - name: Convert Plan To Json
-        run: terraform show -json plan.out > plan.json
+        run: terraform plan -input=false -out=plan.out -lock-timeout=10m
         working-directory: infra/main
 
       - name: Generate Terraform Docs
