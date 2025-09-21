@@ -31,6 +31,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
+| <a name="input_apprunner_context_path"></a> [apprunner\_context\_path](#input\_apprunner\_context\_path) | App Runnerのコンテキストパス | `string` | `"/api/v1"` | no |
 | <a name="input_apprunner_url"></a> [apprunner\_url](#input\_apprunner\_url) | App RunnerのURL | `string` | n/a | yes |
 | <a name="input_frontend_bucket_name"></a> [frontend\_bucket\_name](#input\_frontend\_bucket\_name) | フロントエンドのS3バケット名 | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
