@@ -24,7 +24,8 @@ resource "aws_apigatewayv2_authorizer" "cognito_auth" {
   authorizer_type  = "JWT"
   identity_sources = ["$request.header.Authorization"]
   jwt_configuration {
-    issuer = "https://cognito-idp.${var.region}.amazonaws.com/${var.user_pool_id}"
+    issuer   = "https://cognito-idp.${var.region}.amazonaws.com/${var.user_pool_id}"
+    audience = [var.user_pool_client_id]
   }
 }
 
@@ -54,7 +55,7 @@ resource "aws_apigatewayv2_stage" "default" {
   auto_deploy = true
 
   default_route_settings {
-    logging_level          = "OFF"
+    logging_level          = var.apigateway_logging_enabled ? "INFO" : "OFF"
     throttling_rate_limit  = 1000
     throttling_burst_limit = 500
   }

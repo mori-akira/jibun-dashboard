@@ -8,6 +8,11 @@ variable "application_tag" {
   type        = map(string)
 }
 
+variable "apigateway_logging_enabled" {
+  type    = bool
+  default = false
+}
+
 variable "frontend_bucket_name" {
   description = "フロントエンドのS3バケット名"
   type        = string

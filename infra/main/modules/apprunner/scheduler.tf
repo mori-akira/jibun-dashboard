@@ -39,33 +39,9 @@ resource "aws_iam_role_policy_attachment" "apprunner_lambda_attach" {
   policy_arn = aws_iam_policy.apprunner_lambda_policy.arn
 }
 
-locals {
-  apprunner_lambda_code = <<PY
-import os, json, boto3
-client = boto3.client("apprunner")
-
-def handler(event, context):
-    service_arn = os.environ["SERVICE_ARN"]
-    action = event.get("action") or os.environ.get("ACTION")
-    if action == "pause":
-        client.pause_service(ServiceArn=service_arn)
-        return {"status":"paused"}
-    elif action == "resume":
-        client.resume_service(ServiceArn=service_arn)
-        return {"status":"resumed"}
-    else:
-        return {"status":"noop","reason":"unknown action"}
-PY
-}
-
-resource "local_file" "apprunner_lambda_py" {
-  filename = "${path.module}/apprunner_ops.py"
-  content  = local.apprunner_lambda_code
-}
-
 data "archive_file" "apprunner_lambda_zip" {
   type        = "zip"
-  source_file = local_file.apprunner_lambda_py.filename
+  source_file = "${path.module}/apprunner_ops.py"
   output_path = "${path.module}/apprunner_ops.zip"
 }
 
