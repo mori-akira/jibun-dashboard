@@ -27,7 +27,7 @@ variable "apprunner_url" {
   description = "App RunnerのURL"
   type        = string
   validation {
-    condition     = can(regex("^https?://", var.cognito_callback_url))
+    condition     = can(regex("^https?://", var.apprunner_url))
     error_message = "Protocol must be http or https."
   }
 }

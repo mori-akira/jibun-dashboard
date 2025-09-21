@@ -50,7 +50,7 @@ variable "cognito_logout_url" {
   type        = string
   default     = "http://localhost:3000/logout"
   validation {
-    condition     = can(regex("^https?://", var.cognito_callback_url))
+    condition     = can(regex("^https?://", var.cognito_logout_url))
     error_message = "Protocol must be http or https."
   }
 }
