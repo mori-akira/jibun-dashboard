@@ -26,4 +26,8 @@ variable "user_pool_client_id" {
 variable "apprunner_url" {
   description = "App RunnerのURL"
   type        = string
+  validation {
+    condition     = can(regex("^https?://", var.cognito_callback_url))
+    error_message = "Protocol must be http or https."
+  }
 }
