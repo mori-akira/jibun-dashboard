@@ -8,14 +8,14 @@ data "aws_iam_policy_document" "apprunner_trust" {
   }
 }
 
-resource "aws_iam_role" "apprunner_ecr_access" {
-  name               = "${var.app_name}-apprunner-ecr-role"
+resource "aws_iam_role" "instance" {
+  name               = "${var.app_name}-apprunner-instance-role"
   assume_role_policy = data.aws_iam_policy_document.apprunner_trust.json
   tags               = var.application_tag
 }
 
 resource "aws_iam_role_policy" "apprunner_ecr_policy" {
-  role = aws_iam_role.apprunner_ecr_access.id
+  role = aws_iam_role.instance.id
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -27,12 +27,45 @@ resource "aws_iam_role_policy" "apprunner_ecr_policy" {
       {
         Effect = "Allow",
         Action = [
-          "ecr:BatchGetImage", "ecr:GetDownloadUrlForLayer", "ecr:DescribeImages"
+          "ecr:BatchGetImage",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:DescribeImages",
         ],
         Resource = var.ecr_repository_arn
       }
     ]
   })
+}
+
+data "aws_iam_policy_document" "apprunner_dynamodb" {
+  statement {
+    actions = [
+      "dynamodb:BatchWriteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:BatchGetItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:DescribeTable",
+    ]
+    resources = concat(
+      var.dynamodb_table_arns,
+      [for arn in var.dynamodb_table_arns : "${arn}/index/*"]
+    )
+  }
+}
+
+resource "aws_iam_policy" "dynamodb" {
+  name   = "${var.app_name}-apprunner-dynamodb-policy"
+  policy = data.aws_iam_policy_document.apprunner_dynamodb.json
+}
+
+resource "aws_iam_role_policy_attachment" "attach_dynamodb" {
+  role       = aws_iam_role.instance.name
+  policy_arn = aws_iam_policy.dynamodb.arn
 }
 
 resource "aws_apprunner_service" "this" {
@@ -41,7 +74,7 @@ resource "aws_apprunner_service" "this" {
 
   source_configuration {
     authentication_configuration {
-      access_role_arn = aws_iam_role.apprunner_ecr_access.arn
+      access_role_arn = aws_iam_role.instance.arn
     }
 
     image_repository {
@@ -66,7 +99,7 @@ resource "aws_apprunner_service" "this" {
   instance_configuration {
     cpu               = tostring(var.cpu)
     memory            = tostring(var.memory)
-    instance_role_arn = var.instance_role_arn
+    instance_role_arn = aws_iam_role.instance.arn
   }
 
   health_check_configuration {

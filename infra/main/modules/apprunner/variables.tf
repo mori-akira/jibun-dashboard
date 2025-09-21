@@ -22,11 +22,6 @@ variable "env_name" {
   }
 }
 
-variable "instance_role_arn" {
-  description = "App Runner instance role ARN"
-  type        = string
-}
-
 variable "ecr_repository_url" {
   description = "ECRリポジトリのURL"
   type        = string
@@ -101,4 +96,10 @@ variable "timezone" {
   description = "タイムゾーン"
   type        = string
   default     = "Asia/Tokyo"
+}
+
+variable "dynamodb_table_arns" {
+  type        = list(string)
+  description = "DynamoDBテーブルARNのリスト"
+  default     = []
 }
