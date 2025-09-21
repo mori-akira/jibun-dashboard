@@ -24,7 +24,3 @@ resource "aws_ecr_lifecycle_policy" "keep_latest" {
     }]
   })
 }
-
-output "repository_url" {
-  value = aws_ecr_repository.this.repository_url
-}

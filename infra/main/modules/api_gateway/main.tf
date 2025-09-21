@@ -61,7 +61,3 @@ resource "aws_apigatewayv2_stage" "default" {
 
   tags = var.application_tag
 }
-
-output "apigw_url" {
-  value = aws_apigatewayv2_api.http_api.api_endpoint
-}

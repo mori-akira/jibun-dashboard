@@ -47,11 +47,3 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
   ignore_public_acls      = false
   restrict_public_buckets = false
 }
-
-output "bucket_name" {
-  value = aws_s3_bucket.frontend.id
-}
-
-output "bucket_arn" {
-  value = aws_s3_bucket.frontend.arn
-}
