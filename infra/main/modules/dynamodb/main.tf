@@ -1,6 +1,7 @@
 resource "aws_dynamodb_table" "this" {
-  name         = var.table_name
-  billing_mode = var.billing_mode
+  name                        = var.table_name
+  billing_mode                = var.billing_mode
+  deletion_protection_enabled = true
 
   hash_key  = var.hash_key.name
   range_key = var.sort_key == null ? null : var.sort_key.name
