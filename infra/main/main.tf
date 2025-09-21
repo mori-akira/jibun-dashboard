@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
 module "application" {
   source = "./modules/application"
 }
@@ -198,16 +194,4 @@ module "api_gateway" {
   user_pool_id         = module.cognito.user_pool_id
   user_pool_client_id  = module.cognito.user_pool_client_id
   apprunner_url        = module.apprunner.apprunner_service_url
-}
-
-output "login_url" {
-  value = module.cognito.cognito_login_url
-}
-
-output "api_gateway_url" {
-  value = module.api_gateway.apigw_url
-}
-
-output "apprunner_url" {
-  value = module.apprunner.apprunner_service_url
 }
