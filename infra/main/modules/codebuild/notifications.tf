@@ -2,9 +2,6 @@ locals {
   enable_alert = var.alert_email != null && trim(var.alert_email) != ""
 }
 
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
 resource "aws_sns_topic" "codebuild_failed" {
   count = local.enable_alert ? 1 : 0
   name  = "${var.project_name}-codebuild-failed"
