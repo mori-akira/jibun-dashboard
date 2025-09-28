@@ -9,7 +9,10 @@
       <span class="line bg-gray-900" />
     </div>
     <div class="title-area">
-      <NuxtLink to="/" class="font-sacramento text-3xl text-gray-900 font-bold"
+      <NuxtLink
+        to="/"
+        class="font-sacramento text-3xl text-gray-900 font-bold"
+        data-test-id="app-header-title"
         >Jibun Dashboard</NuxtLink
       >
     </div>
