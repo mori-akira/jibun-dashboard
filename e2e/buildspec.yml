@@ -11,7 +11,7 @@ phases:
     commands:
       - cd e2e
       - npm ci --loglevel=error --no-progress --no-audit --no-fund --prefer-offline
-      - npx playwright install --yes --with-deps 1>/dev/null
+      - npx playwright install --with-deps 1>/dev/null
   build:
     commands:
       - echo "Run E2E on $E2E_APP_URL"
