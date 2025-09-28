@@ -14,7 +14,6 @@ phases:
       - npx playwright install --with-deps
   build:
     commands:
-      - cd e2e
       - echo "Run E2E on $E2E_APP_URL"
       - npm run test
   post_build:
