@@ -1,6 +1,9 @@
 {
   "name": "jibun-dashboard-front",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Nuxt.js Front for Jibun Dashboard",
+  "author": "mori-akira",
+  "license": "MIT",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev --port 3333",
