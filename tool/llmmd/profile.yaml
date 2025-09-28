@@ -102,3 +102,10 @@ e2e.env:
   - e2e/.env.example
   - e2e/.env.local
   - e2e/playwright.config.ts
+
+e2e.tests:
+  - e2e/package.json
+  - e2e/playwright.config.ts
+  - e2e/tests/no-auth/login-redirect.spec.ts
+  - e2e/tests/setup/login.spec.ts
+  - e2e/tests/auth/common-layout.spec.ts
