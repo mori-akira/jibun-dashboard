@@ -130,4 +130,5 @@ module "codebuild" {
   cognito_domain  = var.cognito_domain
   username        = var.e2e_username
   password        = var.e2e_password
+  alert_email     = var.e2e_alert_email
 }

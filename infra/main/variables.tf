@@ -76,3 +76,13 @@ variable "e2e_password" {
   type        = string
   sensitive   = true
 }
+
+variable "e2e_alert_email" {
+  description = "E2Eテスト エラー通知先メールアドレス"
+  type        = string
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.e2e_alert_email))
+    error_message = "Invalid email address format."
+  }
+  default = null
+}

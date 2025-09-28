@@ -53,3 +53,13 @@ variable "password" {
   type        = string
   sensitive   = true
 }
+
+variable "alert_email" {
+  description = "アラート通知先メールアドレス"
+  type        = string
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.alert_email))
+    error_message = "Invalid email address format."
+  }
+  default = null
+}

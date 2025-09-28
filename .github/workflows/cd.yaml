@@ -32,6 +32,7 @@ jobs:
       TF_VAR_cognito_logout_url: ${{ vars.COGNITO_LOGOUT_URL }}
       TF_VAR_e2e_username: ${{ vars.E2E_USERNAME }}
       TF_VAR_e2e_password: ${{ secrets.E2E_PASSWORD }}
+      TF_VAR_e2e_alert_email: ${{ vars.E2E_ALERT_EMAIL }}
 
     steps:
       - name: Checkout
