@@ -8,8 +8,8 @@
   ├ openapi   - API仕様定義 (OpenAPI)
   ├ front     - フロントエンドモジュール定義
   ├ back      - バックエンドモジュール定義
-  ├ tool      - 開発用ツール
-  └ e2e       - E2Eテストコード
+  ├ e2e       - E2Eテストコード
+  └ tool      - 開発用ツール
 ```
 
 ## 画面Mock
