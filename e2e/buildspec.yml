@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    E2E_CI: "true"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - npm ci
+      - npx playwright install --with-deps
+  build:
+    commands:
+      - echo "Run E2E on $E2E_APP_URL"
+      - npm run test
+  post_build:
+    commands:
+      - echo "E2E done. Collect report."
+
+cache:
+  paths:
+    - 'node_modules/**/*'
+    - '~/.cache/ms-playwright/**/*'
+
+artifacts:
+  files:
+    - .playwright/playwright-report/**/*
+  base-directory: e2e
