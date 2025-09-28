@@ -1,5 +1,5 @@
 locals {
-  enable_alert = var.alert_email != null && trim(var.alert_email) != ""
+  enable_alert = var.alert_email != null && trimspace(var.alert_email) != ""
 }
 
 resource "aws_sns_topic" "codebuild_failed" {

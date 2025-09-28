@@ -122,6 +122,7 @@ module "apigateway" {
 }
 
 module "codebuild" {
+  region          = var.region
   source          = "./modules/codebuild"
   project_name    = var.app_name
   application_tag = module.application.application_tag

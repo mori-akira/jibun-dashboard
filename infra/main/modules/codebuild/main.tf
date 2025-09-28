@@ -15,7 +15,6 @@ resource "aws_iam_role" "codebuild" {
 }
 
 data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
 
 data "aws_iam_policy_document" "codebuild_policy" {
   statement {
@@ -50,7 +49,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "ssm:GetParameters",
       "ssm:GetParameter",
     ]
-    resources = ["arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/${var.project_name}/e2e/*"]
+    resources = ["arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.project_name}/e2e/*"]
   }
 
   statement {
@@ -89,6 +88,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "artifacts" {
   rule {
     id     = "expire-old-artifacts"
     status = "Enabled"
+    filter {}
     expiration {
       days = 7
     }
