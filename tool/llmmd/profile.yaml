@@ -32,23 +32,34 @@ infra.bootstrap:
 
 infra.main:
   - infra/main/main.tf
+  - infra/main/versions.tf
+  - infra/main/providers.tf
   - infra/main/backend.tf
   - infra/main/variables.tf
+  - infra/main/outputs.tf
   - infra/main/terraform.tfvars
   - infra/main/modules/api_gateway/main.tf
   - infra/main/modules/api_gateway/variables.tf
+  - infra/main/modules/api_gateway/outputs.tf
   - infra/main/modules/application/main.tf
+  - infra/main/modules/application/outputs.tf
   - infra/main/modules/apprunner/main.tf
   - infra/main/modules/apprunner/scheduler.tf
   - infra/main/modules/apprunner/variable.tf
+  - infra/main/modules/apprunner/outputs.tf
+  - infra/main/modules/apprunner/apprunner_ops.py
   - infra/main/modules/cognito/main.tf
   - infra/main/modules/cognito/variables.tf
+  - infra/main/modules/cognito/outputs.tf
   - infra/main/modules/dynamodb/main.tf
   - infra/main/modules/dynamodb/variables.tf
+  - infra/main/modules/dynamodb/outputs.tf
   - infra/main/modules/ecr/main.tf
   - infra/main/modules/ecr/variables.tf
+  - infra/main/modules/ecr/outputs.tf
   - infra/main/modules/frontend/main.tf
   - infra/main/modules/frontend/variables.tf
+  - infra/main/modules/frontend/outputs.tf
 
 function.profile.password:
   - .github/workflows/cd.yaml
@@ -81,3 +92,10 @@ function.qualification:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/QualificationController.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/QualificationService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/QualificationRepository.kt
+
+e2e.env:
+  - e2e/.devcontainer/devcontainer.json
+  - e2e/.devcontainer/Dockerfile
+  - e2e/package.json
+  - e2e/playwright.config.ts
+  - e2e/.env.local
