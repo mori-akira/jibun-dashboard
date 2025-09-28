@@ -5,6 +5,7 @@
   "author": "mori-akira",
   "license": "MIT",
   "scripts": {
+    "test": "playwright test --project=no-auth && playwright test --project=auth",
     "test-no-auth": "playwright test --project=no-auth",
     "test-setup": "playwright test --project=setup",
     "test-auth": "playwright test --project=auth",

@@ -96,6 +96,9 @@ function.qualification:
 e2e.env:
   - e2e/.devcontainer/devcontainer.json
   - e2e/.devcontainer/Dockerfile
+  - e2e/.vscode/extensions.json
+  - e2e/.vscode/settings.json
   - e2e/package.json
-  - e2e/playwright.config.ts
+  - e2e/.env.example
   - e2e/.env.local
+  - e2e/playwright.config.ts
