@@ -17,6 +17,15 @@ variable "env_name" {
   }
 }
 
+variable "github_url" {
+  description = "GitHubリポジトリURL"
+  type        = string
+  validation {
+    condition     = can(regex("^https://github.com/.+/.+\\.git$", var.github_url))
+    error_message = "Invalid GitHub URL format."
+  }
+}
+
 # 循環参照を避けるため、直接指定が必要
 variable "cognito_user_pool_id" {
   description = "CognitoユーザープールID"
@@ -55,4 +64,15 @@ variable "cognito_logout_url" {
     condition     = can(regex("^https?://", var.cognito_logout_url))
     error_message = "Protocol must be http or https."
   }
+}
+
+variable "e2e_username" {
+  description = "E2Eテスト用のユーザ名"
+  type        = string
+}
+
+variable "e2e_password" {
+  description = "E2Eテスト用のパスワード"
+  type        = string
+  sensitive   = true
 }

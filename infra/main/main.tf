@@ -110,8 +110,8 @@ module "apprunner" {
   ]
 }
 
-module "api_gateway" {
-  source                 = "./modules/api_gateway"
+module "apigateway" {
+  source                 = "./modules/apigateway"
   region                 = var.region
   application_tag        = module.application.application_tag
   frontend_bucket_name   = module.frontend.bucket_name
@@ -119,4 +119,15 @@ module "api_gateway" {
   user_pool_client_id    = module.cognito.user_pool_client_id
   apprunner_url          = "https://${module.apprunner.apprunner_service_url}"
   apprunner_context_path = "/api/v1"
+}
+
+module "codebuild" {
+  source          = "./modules/codebuild"
+  project_name    = var.app_name
+  application_tag = module.application.application_tag
+  github_url      = var.github_url
+  app_url         = module.apigateway.apigw_url
+  cognito_domain  = var.cognito_domain
+  username        = var.e2e_username
+  password        = var.e2e_password
 }
