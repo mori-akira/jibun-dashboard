@@ -12,7 +12,7 @@
       <NuxtLink
         to="/"
         class="font-sacramento text-3xl text-gray-900 font-bold"
-        data-test-id="app-header-title"
+        data-testid="app-header-title"
         >Jibun Dashboard</NuxtLink
       >
     </div>
