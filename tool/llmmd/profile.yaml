@@ -48,6 +48,11 @@ infra.main:
   - infra/main/modules/apprunner/variable.tf
   - infra/main/modules/apprunner/outputs.tf
   - infra/main/modules/apprunner/apprunner_ops.py
+  - infra/main/modules/codebuild/main.tf
+  - infra/main/modules/codebuild/ssm.tf
+  - infra/main/modules/codebuild/notifications.tf
+  - infra/main/modules/codebuild/variables.tf
+  - infra/main/modules/codebuild/outputs.tf
   - infra/main/modules/cognito/main.tf
   - infra/main/modules/cognito/variables.tf
   - infra/main/modules/cognito/outputs.tf
@@ -60,6 +65,20 @@ infra.main:
   - infra/main/modules/frontend/main.tf
   - infra/main/modules/frontend/variables.tf
   - infra/main/modules/frontend/outputs.tf
+
+infra.e2e:
+  - infra/main/main.tf
+  - infra/main/versions.tf
+  - infra/main/providers.tf
+  - infra/main/backend.tf
+  - infra/main/variables.tf
+  - infra/main/outputs.tf
+  - infra/main/terraform.tfvars
+  - infra/main/modules/codebuild/main.tf
+  - infra/main/modules/codebuild/ssm.tf
+  - infra/main/modules/codebuild/notifications.tf
+  - infra/main/modules/codebuild/variables.tf
+  - infra/main/modules/codebuild/outputs.tf
 
 function.profile.password:
   - .github/workflows/cd.yaml
