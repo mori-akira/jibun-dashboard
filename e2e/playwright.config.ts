@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import path from "path";
 import { defineConfig, devices } from "@playwright/test";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 const baseURL = process.env.E2E_APP_URL ?? "http://localhost:3000";
 const headless = process.env.E2E_CI === "true" ? true : false;
 const STORAGE_STATE = path.resolve(__dirname, ".playwright/auth/user.json");
