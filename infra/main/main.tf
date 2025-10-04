@@ -122,14 +122,16 @@ module "apigateway" {
 }
 
 module "codebuild" {
-  region          = var.region
-  source          = "./modules/codebuild"
-  project_name    = var.app_name
-  application_tag = module.application.application_tag
-  github_url      = var.github_url
-  app_url         = module.apigateway.apigw_url
-  cognito_domain  = var.cognito_domain
-  username        = var.e2e_username
-  password        = var.e2e_password
-  alert_email     = var.e2e_alert_email
+  region                = var.region
+  source                = "./modules/codebuild"
+  project_name          = var.app_name
+  application_tag       = module.application.application_tag
+  github_url            = var.github_url
+  app_url               = module.apigateway.apigw_url
+  cognito_domain        = var.cognito_domain
+  username              = var.e2e_username
+  password              = var.e2e_password
+  s3_bucket_name        = module.frontend.bucket_name
+  apprunner_service_arn = module.apprunner.apprunner_service_arn
+  alert_email           = var.e2e_alert_email
 }

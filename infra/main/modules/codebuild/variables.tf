@@ -59,6 +59,28 @@ variable "password" {
   sensitive   = true
 }
 
+variable "enable_trigger_s3" {
+  description = "S3更新→E2E起動の有効/無効"
+  type        = bool
+  default     = true
+}
+
+variable "enable_trigger_apprunner" {
+  description = "App Runnerデプロイ成功→E2E起動の有効/無効"
+  type        = bool
+  default     = true
+}
+
+variable "s3_bucket_name" {
+  description = "フロントエンドのS3バケット名"
+  type        = string
+}
+
+variable "apprunner_service_arn" {
+  description = "バックエンドのAppRunner Service ARN"
+  type        = string
+}
+
 variable "alert_email" {
   description = "アラート通知先メールアドレス"
   type        = string

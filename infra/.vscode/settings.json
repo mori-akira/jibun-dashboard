@@ -25,6 +25,7 @@
         "apigatewayv2",
         "apigwv",
         "apprunner",
+        "eventbridge",
         "jibun",
         "jibundashboard",
         "moriakira",

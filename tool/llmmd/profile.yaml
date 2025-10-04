@@ -79,6 +79,7 @@ infra.e2e:
   - infra/main/modules/codebuild/notifications.tf
   - infra/main/modules/codebuild/variables.tf
   - infra/main/modules/codebuild/outputs.tf
+  - e2e/buildspec.yml
 
 function.profile.password:
   - .github/workflows/cd.yaml
