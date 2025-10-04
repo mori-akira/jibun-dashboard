@@ -37,6 +37,13 @@ resource "aws_cloudwatch_event_rule" "s3_front_updated" {
     "detail-type" : ["Object Created"],
     "detail" : {
       "bucket" : { "name" : [var.s3_bucket_name] },
+      "eventName" : ["PutObject"],
+      "object" : {
+        "key" : [
+          { "prefix" : "deploy/" },
+          { "suffix" : ".json" }
+        ]
+      }
     }
   })
   tags = var.application_tag

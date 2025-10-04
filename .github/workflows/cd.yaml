@@ -177,7 +177,10 @@ jobs:
 
       - name: Upload to S3
         if: steps.filter_changes.outputs.changes == 'true'
-        run: aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete --quiet
+        run: |
+          aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete --quiet
+          echo '{"deployTime":"'"$(date +%Y%m%d%H%M%S)"'"}' > marker.json
+          aws s3 cp marker.json s3://$FRONT_BUCKET/deploy/marker.json
 
   back:
     runs-on: ubuntu-latest
