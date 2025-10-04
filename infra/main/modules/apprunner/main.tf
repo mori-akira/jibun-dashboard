@@ -111,3 +111,21 @@ resource "aws_apprunner_service" "this" {
     timeout             = 10
   }
 }
+
+locals {
+  apprunner_arn_parts    = split("/", aws_apprunner_service.this.arn)
+  apprunner_service_name = local.apprunner_arn_parts[length(local.apprunner_arn_parts) - 2]
+  apprunner_service_id   = local.apprunner_arn_parts[length(local.apprunner_arn_parts) - 1]
+}
+
+resource "aws_cloudwatch_log_group" "apprunner_service_log" {
+  name              = "/aws/apprunner/${local.apprunner_service_name}/${local.apprunner_service_id}/service"
+  retention_in_days = 7
+  tags              = var.application_tag
+}
+
+resource "aws_cloudwatch_log_group" "apprunner_application_log" {
+  name              = "/aws/apprunner/${local.apprunner_service_name}/${local.apprunner_service_id}/application"
+  retention_in_days = 7
+  tags              = var.application_tag
+}

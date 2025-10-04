@@ -67,7 +67,7 @@ jobs:
 
       - name: Terraform Init
         if: steps.filter_changes.outputs.changes == 'true'
-        run: terraform init
+        run: terraform init -input=false -lockfile=readonly
         working-directory: infra/main
 
       - name: Terraform Format
