@@ -97,7 +97,7 @@ module "apprunner" {
   env_name           = var.env_name
   application_tag    = module.application.application_tag
   ecr_repository_url = module.ecr.repository_url
-  ecr_repository_arn = "arn:aws:ecr:${var.region}:${data.aws_caller_identity.current.account_id}:repository/${var.app_name}"
+  ecr_repository_arn = module.ecr.repository_arn
 
   runtime_env = {
     COGNITO_USER_POOL_ID = var.cognito_user_pool_id,

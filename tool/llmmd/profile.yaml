@@ -38,9 +38,9 @@ infra.main:
   - infra/main/variables.tf
   - infra/main/outputs.tf
   - infra/main/terraform.tfvars
-  - infra/main/modules/api_gateway/main.tf
-  - infra/main/modules/api_gateway/variables.tf
-  - infra/main/modules/api_gateway/outputs.tf
+  - infra/main/modules/apigateway/main.tf
+  - infra/main/modules/apigateway/variables.tf
+  - infra/main/modules/apigateway/outputs.tf
   - infra/main/modules/application/main.tf
   - infra/main/modules/application/outputs.tf
   - infra/main/modules/apprunner/main.tf
