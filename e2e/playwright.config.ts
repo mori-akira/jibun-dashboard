@@ -34,6 +34,12 @@ export default defineConfig({
       testMatch: /\/auth\/.+\.spec\.ts$/,
       use: { ...devices["Desktop Chrome"], storageState: STORAGE_STATE },
     },
+    {
+      name: "teardown",
+      dependencies: ["setup"],
+      testMatch: /\/teardown\/.+\.spec\.ts$/,
+      use: { ...devices["Desktop Chrome"], storageState: STORAGE_STATE },
+    },
   ],
   reporter: [
     ["list"],

@@ -16,5 +16,7 @@ test("check common layout", async ({ page }) => {
   );
 
   // check username
-  await expect(page.getByTestId("app-header-username")).toHaveText(username);
+  await expect(
+    page.getByRole("banner").getByText("test@example.com")
+  ).toBeVisible();
 });

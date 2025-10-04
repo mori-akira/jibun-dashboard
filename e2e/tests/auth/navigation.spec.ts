@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 test("check navigation", async ({ page }) => {
+  const username = process.env.E2E_USERNAME;
+  if (!username) {
+    throw new Error("E2E_USERNAME is not set");
+  }
+
   // top
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
@@ -52,10 +57,58 @@ test("check navigation", async ({ page }) => {
 
   // home
   await Promise.all([
-    page.waitForURL("**/"),
+    page.waitForURL(""),
     page.getByRole("link", { name: "Home" }).click(),
   ]);
   await expect(
     page.getByRole("main").getByText("Home", { exact: true })
   ).toBeVisible();
+
+  // edit profile
+  await openSubMenu(page);
+  await Promise.all([
+    page.waitForURL("**/profile/edit"),
+    page.getByRole("link", { name: "Edit Profile" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Edit Profile", { exact: true })
+  ).toBeVisible();
+
+  // change password
+  await openSubMenu(page);
+  await Promise.all([
+    page.waitForURL("**/profile/change-password"),
+    page.getByRole("link", { name: "Change Password" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Change Password", { exact: true })
+  ).toBeVisible();
+
+  // setting
+  await openSubMenu(page);
+  await Promise.all([
+    page.waitForURL("**/setting"),
+    page.getByRole("link", { name: "Setting" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Setting", { exact: true })
+  ).toBeVisible();
+
+  // top
+  await Promise.all([
+    page.waitForURL(""),
+    page.getByTestId("app-header-title").click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Home", { exact: true })
+  ).toBeVisible();
 });
+
+const openSubMenu = async (page: any) => {
+  await page
+    .getByRole("banner")
+    .locator("div")
+    .filter({ hasText: "test@example.com" })
+    .locator("div")
+    .click();
+};
