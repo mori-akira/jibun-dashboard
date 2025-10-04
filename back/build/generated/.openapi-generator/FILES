@@ -19,6 +19,7 @@ src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Setting.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SettingQualification.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SettingSalary.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Structure.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Tag.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/UploadUrl.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/User.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Vocabulary.kt

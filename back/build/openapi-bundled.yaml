@@ -7339,6 +7339,21 @@ components:
           description: 資格ID
           type: string
           format: uuid
+    tag:
+      type: object
+      description: ボキャブラリータグ
+      required:
+        - tag
+      properties:
+        tagId:
+          description: タグID
+          type: string
+          format: uuid
+        tag:
+          description: タグ
+          type: string
+          minLength: 1
+          maxLength: 64
     vocabulary:
       type: object
       description: ボキャブラリー
@@ -7355,19 +7370,18 @@ components:
         name:
           description: 名前
           type: string
-          maxLength: 100
+          maxLength: 128
         description:
           description: 説明
           type: string
-          maxLength: 2000
+          maxLength: 2048
         tags:
           description: タグ
           type: array
-          maxItems: 50
+          maxItems: 64
           uniqueItems: true
           items:
-            type: string
-            maxLength: 50
+            $ref: '#/components/schemas/tag'
     vocabularyId:
       type: object
       description: 資格ID
