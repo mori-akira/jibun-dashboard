@@ -1,0 +1,8 @@
+type: object
+description: 資格ID
+
+properties:
+  vocabularyId:
+    description: ボキャブラリーID
+    type: string
+    format: uuid

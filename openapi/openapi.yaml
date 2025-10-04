@@ -65,5 +65,9 @@ components:
       $ref: "schemas/qualification/qualification.yaml"
     QualificationId:
       $ref: "schemas/qualification/qualificationId.yaml"
+    Vocabulary:
+      $ref: "schemas/vocabulary/vocabulary.yaml"
+    VocabularyId:
+      $ref: "schemas/vocabulary/vocabularyId.yaml"
     ErrorInfo:
       $ref: "schemas/error/errorInfo.yaml"
