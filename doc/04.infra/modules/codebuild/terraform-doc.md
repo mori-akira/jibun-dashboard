@@ -17,15 +17,22 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_event_rule.apprunner_deploy_succeeded](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
 | [aws_cloudwatch_event_rule.codebuild_failed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_rule.s3_front_updated](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_target.apprunner_to_codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
+| [aws_cloudwatch_event_target.s3_to_codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_event_target.to_sns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_log_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_codebuild_project.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
 | [aws_iam_policy.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.events_to_codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.events_to_codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachment.codebuild](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_s3_bucket.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_lifecycle_configuration.artifacts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_notification.frontend_eventbridge](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_notification) | resource |
 | [aws_sns_topic.codebuild_failed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_sns_topic_policy.allow_events](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
 | [aws_sns_topic_subscription.email](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
@@ -42,13 +49,17 @@ No modules.
 | <a name="input_alert_email"></a> [alert\_email](#input\_alert\_email) | アラート通知先メールアドレス | `string` | `null` | no |
 | <a name="input_app_url"></a> [app\_url](#input\_app\_url) | アプリのURL | `string` | n/a | yes |
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
+| <a name="input_apprunner_service_arn"></a> [apprunner\_service\_arn](#input\_apprunner\_service\_arn) | バックエンドのAppRunner Service ARN | `string` | n/a | yes |
 | <a name="input_build_timeout"></a> [build\_timeout](#input\_build\_timeout) | ビルドタイムアウト | `number` | `30` | no |
 | <a name="input_cognito_domain"></a> [cognito\_domain](#input\_cognito\_domain) | Cognitoドメイン | `string` | n/a | yes |
+| <a name="input_enable_trigger_apprunner"></a> [enable\_trigger\_apprunner](#input\_enable\_trigger\_apprunner) | App Runnerデプロイ成功→E2E起動の有効/無効 | `bool` | `true` | no |
+| <a name="input_enable_trigger_s3"></a> [enable\_trigger\_s3](#input\_enable\_trigger\_s3) | S3更新→E2E起動の有効/無効 | `bool` | `true` | no |
 | <a name="input_github_url"></a> [github\_url](#input\_github\_url) | GitHubリポジトリURL | `string` | n/a | yes |
 | <a name="input_password"></a> [password](#input\_password) | E2Eテスト用のパスワード | `string` | n/a | yes |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | プロジェクト名 | `string` | n/a | yes |
 | <a name="input_queued_timeout"></a> [queued\_timeout](#input\_queued\_timeout) | キューイングタイムアウト | `number` | `30` | no |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
+| <a name="input_s3_bucket_name"></a> [s3\_bucket\_name](#input\_s3\_bucket\_name) | フロントエンドのS3バケット名 | `string` | n/a | yes |
 | <a name="input_username"></a> [username](#input\_username) | E2Eテスト用のユーザ名 | `string` | n/a | yes |
 
 ## Outputs
