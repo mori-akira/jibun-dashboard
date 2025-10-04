@@ -180,7 +180,7 @@ jobs:
         run: |
           aws s3 sync front/dist s3://${{ vars.FRONT_BUCKET_NAME }} --delete --quiet
           echo '{"deployTime":"'"$(date +%Y%m%d%H%M%S)"'"}' > marker.json
-          aws s3 cp marker.json s3://$FRONT_BUCKET/deploy/marker.json
+          aws s3 cp marker.json s3://${{ vars.FRONT_BUCKET_NAME }}/deploy/marker.json
 
   back:
     runs-on: ubuntu-latest
