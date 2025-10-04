@@ -147,6 +147,19 @@ const QualificationId = z
   .object({ qualificationId: z.string().uuid() })
   .partial()
   .passthrough();
+const Vocabulary = z
+  .object({
+    vocabularyId: z.string().uuid().optional(),
+    userId: z.string().optional(),
+    name: z.string().max(100),
+    description: z.string().max(2000).optional(),
+    tags: z.array(z.string().max(50)).max(50).optional(),
+  })
+  .passthrough();
+const VocabularyId = z
+  .object({ vocabularyId: z.string().uuid() })
+  .partial()
+  .passthrough();
 
 export const schemas = {
   I18n,
@@ -159,6 +172,8 @@ export const schemas = {
   SalaryId,
   Qualification,
   QualificationId,
+  Vocabulary,
+  VocabularyId,
 };
 
 const endpoints = makeApi([
