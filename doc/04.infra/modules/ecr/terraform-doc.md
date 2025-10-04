@@ -32,5 +32,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_repository_arn"></a> [repository\_arn](#output\_repository\_arn) | n/a |
 | <a name="output_repository_url"></a> [repository\_url](#output\_repository\_url) | n/a |
 <!-- END_TF_DOCS -->
