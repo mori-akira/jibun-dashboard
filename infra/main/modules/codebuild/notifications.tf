@@ -59,7 +59,7 @@ data "aws_iam_policy_document" "sns_events_publish" {
     resources = [aws_sns_topic.codebuild_failed[0].arn]
     condition {
       test     = "ArnEquals"
-      variable = "AWS:SourceArn"
+      variable = "aws:SourceArn"
       values   = [aws_cloudwatch_event_rule.codebuild_failed[0].arn]
     }
   }
