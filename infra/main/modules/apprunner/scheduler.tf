@@ -158,3 +158,9 @@ resource "aws_lambda_permission" "allow_scheduler_resume" {
   principal     = "scheduler.amazonaws.com"
   source_arn    = aws_scheduler_schedule.resume_morning.arn
 }
+
+resource "aws_cloudwatch_log_group" "apprunner_ops" {
+  name              = "/aws/lambda/${aws_lambda_function.apprunner_ops.function_name}"
+  retention_in_days = 7
+  tags              = var.application_tag
+}
