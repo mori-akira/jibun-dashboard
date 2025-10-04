@@ -17,14 +17,11 @@
       >
     </div>
     <div class="user-area">
-      <span class="user-name" data-testid="app-header-username">{{
-        userName
-      }}</span>
+      <span class="user-name">{{ userName }}</span>
       <div class="toggle-menu-wrapper" @click="commonStore.toggleHeaderMenu">
         <Icon
           name="tabler:caret-left-filled"
           :class="['toggle-menu-icon', { open: commonStore.isHeaderMenuOpen }]"
-          data-testid="app-header-menu-icon"
         />
       </div>
     </div>
