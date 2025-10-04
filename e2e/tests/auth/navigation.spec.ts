@@ -56,6 +56,6 @@ test("check navigation", async ({ page }) => {
     page.getByRole("link", { name: "Home" }).click(),
   ]);
   await expect(
-    page.getByRole("main").getByText("Homeee", { exact: true })
+    page.getByRole("main").getByText("Home", { exact: true })
   ).toBeVisible();
 });
