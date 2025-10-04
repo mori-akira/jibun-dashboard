@@ -6945,6 +6945,10 @@ components:
       $ref: '#/components/schemas/qualification'
     QualificationId:
       $ref: '#/components/schemas/qualificationId'
+    Vocabulary:
+      $ref: '#/components/schemas/vocabulary'
+    VocabularyId:
+      $ref: '#/components/schemas/vocabularyId'
     ErrorInfo:
       $ref: '#/components/schemas/errorInfo'
     i18n:
@@ -7333,5 +7337,42 @@ components:
       properties:
         qualificationId:
           description: 資格ID
+          type: string
+          format: uuid
+    vocabulary:
+      type: object
+      description: ボキャブラリー
+      required:
+        - name
+      properties:
+        vocabularyId:
+          description: ボキャブラリーID
+          type: string
+          format: uuid
+        userId:
+          description: ユーザID
+          type: string
+        name:
+          description: 名前
+          type: string
+          maxLength: 100
+        description:
+          description: 説明
+          type: string
+          maxLength: 2000
+        tags:
+          description: タグ
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 50
+    vocabularyId:
+      type: object
+      description: 資格ID
+      properties:
+        vocabularyId:
+          description: ボキャブラリーID
           type: string
           format: uuid

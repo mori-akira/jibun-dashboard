@@ -21,3 +21,5 @@ src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SettingSalar
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Structure.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/UploadUrl.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/User.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Vocabulary.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/VocabularyId.kt
