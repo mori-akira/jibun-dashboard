@@ -17,18 +17,17 @@ properties:
   name:
     description: 名前
     type: string
-    maxLength: 100
+    maxLength: 128
 
   description:
     description: 説明
     type: string
-    maxLength: 2000
+    maxLength: 2048
   
   tags:
     description: タグ
     type: array
-    maxItems: 50
+    maxItems: 64
     uniqueItems: true
     items:
-      type: string
-      maxLength: 50
+      $ref: tag.yaml

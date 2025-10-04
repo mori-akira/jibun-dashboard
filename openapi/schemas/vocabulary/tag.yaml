@@ -1,0 +1,17 @@
+type: object
+description: ボキャブラリータグ
+
+required:
+  - tag
+
+properties:
+  tagId:
+    description: タグID
+    type: string
+    format: uuid
+
+  tag:
+    description: タグ
+    type: string
+    minLength: 1
+    maxLength: 64
