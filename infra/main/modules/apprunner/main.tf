@@ -118,12 +118,14 @@ locals {
   apprunner_service_id   = local.apprunner_arn_parts[length(local.apprunner_arn_parts) - 1]
 }
 
+# 要import
 resource "aws_cloudwatch_log_group" "apprunner_service_log" {
   name              = "/aws/apprunner/${local.apprunner_service_name}/${local.apprunner_service_id}/service"
   retention_in_days = 7
   tags              = var.application_tag
 }
 
+# 要import
 resource "aws_cloudwatch_log_group" "apprunner_application_log" {
   name              = "/aws/apprunner/${local.apprunner_service_name}/${local.apprunner_service_id}/application"
   retention_in_days = 7

@@ -159,6 +159,7 @@ resource "aws_lambda_permission" "allow_scheduler_resume" {
   source_arn    = aws_scheduler_schedule.resume_morning.arn
 }
 
+# 要import
 resource "aws_cloudwatch_log_group" "apprunner_ops" {
   name              = "/aws/lambda/${aws_lambda_function.apprunner_ops.function_name}"
   retention_in_days = 7
