@@ -68,7 +68,7 @@ flowchart LR
 
   subgraph OPS["（Pause / Resume）"]
     SCH["EventBridge Scheduler<br>cron: 01:00 / 06:00 JST"]
-    LAMBDA["Lambda: apprunner-ops<br>Python 3.12"]
+    LAMBDA["Lambda: apprunner-ops"]
     ARS["App Runner Service"]
   end
 
