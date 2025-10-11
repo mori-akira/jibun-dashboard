@@ -76,6 +76,7 @@ infra.e2e:
   - infra/main/terraform.tfvars
   - infra/main/modules/codebuild/main.tf
   - infra/main/modules/codebuild/ssm.tf
+  - infra/main/modules/codebuild/trigger.tf
   - infra/main/modules/codebuild/notifications.tf
   - infra/main/modules/codebuild/variables.tf
   - infra/main/modules/codebuild/outputs.tf
