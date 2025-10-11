@@ -164,6 +164,8 @@ const Vocabulary = z
       )
       .max(64)
       .optional(),
+    createdDateTime: z.string().datetime({ offset: true }).optional(),
+    updatedDateTime: z.string().datetime({ offset: true }).optional(),
   })
   .passthrough();
 const VocabularyId = z
