@@ -585,6 +585,28 @@ const endpoints = makeApi([
       },
     ],
   },
+  {
+    method: "get",
+    path: "/vocabulary",
+    alias: "getVocabulary",
+    description: `検索条件を指定してボキャブラリーを取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "vocabularyName",
+        type: "Query",
+        schema: z.string().optional(),
+      },
+    ],
+    response: z.array(Vocabulary),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
 ]);
 
 export const api = new Zodios(endpoints);
