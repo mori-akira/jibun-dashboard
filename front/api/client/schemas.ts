@@ -597,6 +597,11 @@ const endpoints = makeApi([
         type: "Query",
         schema: z.string().optional(),
       },
+      {
+        name: "tags",
+        type: "Query",
+        schema: z.array(z.string()).optional(),
+      },
     ],
     response: z.array(Vocabulary),
     errors: [
