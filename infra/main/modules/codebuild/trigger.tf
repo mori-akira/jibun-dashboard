@@ -45,6 +45,7 @@ resource "aws_cloudwatch_event_rule" "s3_front_updated" {
       }
     }
   })
+
   tags = var.application_tag
 }
 
@@ -53,12 +54,13 @@ resource "aws_cloudwatch_event_rule" "apprunner_deploy_succeeded" {
   name  = "${var.project_name}-e2e-apprunner-deploy-succeeded"
   event_pattern = jsonencode({
     "source" : ["aws.apprunner"],
-    "detail-type" : ["AppRunner Deployment State Change"],
+    "detail-type" : ["AppRunner Service Operation Status Change"],
+    "resources" : [var.apprunner_service_arn],
     "detail" : {
-      "ServiceArn" : [var.apprunner_service_arn],
-      "Status" : ["SUCCEEDED"]
+      "operationStatus" : ["DeploymentCompletedSuccessfully"],
     }
   })
+
   tags = var.application_tag
 }
 
