@@ -12,6 +12,16 @@ get:
       required: false
       schema:
         type: string
+    - in: query
+      name: tags
+      description: タグ
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
 
   responses:
     "200":
