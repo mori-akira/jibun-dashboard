@@ -40,8 +40,7 @@ resource "aws_cloudwatch_event_rule" "s3_front_updated" {
       "eventName" : ["PutObject"],
       "object" : {
         "key" : [
-          { "prefix" : "deploy/" },
-          { "suffix" : ".json" }
+          { "prefix" : "deploy/" }
         ]
       }
     }
