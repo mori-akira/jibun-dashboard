@@ -17,6 +17,8 @@ tags:
     description: 給与情報API
   - name: Qualification
     description: 資格情報API
+  - name: Vocabulary
+    description: ボキャブラリーAPI
 paths:
   /resource/i18n/{localeCode}:
     get:
@@ -6920,6 +6922,35 @@ paths:
       responses:
         '204':
           description: 正常時
+        '400':
+          description: パラメータ不正
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorInfo'
+  /vocabulary:
+    get:
+      operationId: getVocabulary
+      summary: ボキャブラリー取得
+      description: 検索条件を指定してボキャブラリーを取得する
+      tags:
+        - Vocabulary
+      parameters:
+        - in: query
+          name: vocabularyName
+          description: ボキャブラリー名
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 正常終了
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/vocabulary'
         '400':
           description: パラメータ不正
           content:
