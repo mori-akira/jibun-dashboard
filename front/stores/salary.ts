@@ -36,9 +36,14 @@ export const useSalaryStore = defineStore("salary", () => {
     await getSalaryApi().putSalary(salary);
   }
 
+  async function deleteSalary(salaryId: string) {
+    await getSalaryApi().deleteSalary(salaryId);
+  }
+
   return {
     salaries,
     fetchSalary,
     putSalary,
+    deleteSalary,
   };
 });

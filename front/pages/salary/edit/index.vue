@@ -7,16 +7,28 @@
       ]"
     />
 
-    <div class="flex justify-center">
+    <div class="flex justify-center items-center">
       <Panel panel-class="w-2/3">
-        <MonthPicker
-          label="Target"
-          month-picker
-          :date="tempDate"
-          label-class="w-20 font-cursive"
-          pickers-wrapper-class="min-w-40 w-1/5"
-          @change="onChangeDate"
-        />
+        <div class="flex justify-between">
+          <MonthPicker
+            label="Target"
+            month-picker
+            :date="tempDate"
+            label-class="w-20 font-cursive"
+            pickers-wrapper-class="min-w-40 w-1/5"
+            @change="onChangeDate"
+          />
+          <Button
+            type="delete"
+            size="small"
+            wrapper-class="mx-8 min-w-24"
+            :disabled="target === undefined"
+            @click="onDeleteSalary"
+          >
+            <Icon name="tabler:trash" class="text-base translate-y-0.5" />
+            <span class="font-bold ml-2">Delete</span>
+          </Button>
+        </div>
       </Panel>
     </div>
 
@@ -34,19 +46,19 @@
           <template #editAsForm>
             <FormEditor
               v-model:target-salary="targetSalary"
-              @execute="putSalary"
+              @execute="onPutSalary"
             />
           </template>
 
           <template #editAsJson>
             <JsonEditor
               v-model:target-salary="targetSalary"
-              @execute="putSalary"
+              @execute="onPutSalary"
             />
           </template>
 
           <template #uploadAndOcr>
-            <PayslipUploader @upload="executeOcr" />
+            <PayslipUploader @upload="onExecuteOcr" />
           </template>
         </Tabs>
       </Panel>
@@ -82,6 +94,7 @@ import { FileApi, SalaryApi } from "~/api/client";
 import type { Overview, PayslipData, Structure } from "~/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
+import Button from "~/components/common/Button.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import MonthPicker from "~/components/common/MonthPicker.vue";
 import Dialog from "~/components/common/Dialog.vue";
@@ -211,7 +224,7 @@ watch(
   { immediate: true }
 );
 
-const putSalary = async () => {
+const onPutSalary = async () => {
   const result = await withErrorHandling(async () => {
     await salaryStore.putSalary({
       ...target.value,
@@ -232,7 +245,7 @@ const putSalary = async () => {
   }
 };
 
-const executeOcr = async (file: File) => {
+const onExecuteOcr = async (file: File) => {
   const result = await withErrorHandling(async () => {
     const res = await fileApi.getUploadUrl();
     const { fileId, uploadUrl } = res.data;
@@ -247,6 +260,24 @@ const executeOcr = async (file: File) => {
     await salaryApi.getSalaryOcr(targetDate.value, fileId);
   }, commonStore);
   if (result) {
+    await openInfoDialog(t("message.info.completeSuccessfully"));
+    await fetchSalary();
+  }
+};
+
+const onDeleteSalary = async () => {
+  const confirmed = await openConfirmDialog(t("message.confirm.deleteSalary"));
+  if (!confirmed) {
+    return;
+  }
+  if (!target.value || !target.value?.salaryId) {
+    return;
+  }
+  const result = await withErrorHandling(async () => {
+    await salaryStore.deleteSalary(target.value?.salaryId ?? "");
+  }, commonStore);
+  if (result) {
+    commonStore.setHasUnsavedChange(false);
     await openInfoDialog(t("message.info.completeSuccessfully"));
     await fetchSalary();
   }
