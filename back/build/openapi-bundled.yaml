@@ -7424,6 +7424,14 @@ components:
           uniqueItems: true
           items:
             $ref: '#/components/schemas/tag'
+        createdDateTime:
+          description: 作成日時
+          type: string
+          format: date-time
+        updatedDateTime:
+          description: 更新日時
+          type: string
+          format: date-time
     vocabularyId:
       type: object
       description: 資格ID

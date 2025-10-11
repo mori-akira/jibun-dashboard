@@ -21,6 +21,8 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param userId ユーザID
  * @param description 説明
  * @param tags タグ
+ * @param createdDateTime 作成日時
+ * @param updatedDateTime 更新日時
  */
 data class Vocabulary(
 
@@ -41,7 +43,13 @@ data class Vocabulary(
     @field:Valid
     @get:Size(max=64)
     @Schema(example = "null", description = "タグ")
-    @get:JsonProperty("tags") val tags: kotlin.collections.Set<Tag>? = null
+    @get:JsonProperty("tags") val tags: kotlin.collections.Set<Tag>? = null,
+
+    @Schema(example = "null", description = "作成日時")
+    @get:JsonProperty("createdDateTime") val createdDateTime: java.time.OffsetDateTime? = null,
+
+    @Schema(example = "null", description = "更新日時")
+    @get:JsonProperty("updatedDateTime") val updatedDateTime: java.time.OffsetDateTime? = null
     ) {
 
 }
