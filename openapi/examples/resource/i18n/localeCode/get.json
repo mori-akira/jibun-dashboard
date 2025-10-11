@@ -7,6 +7,7 @@
     "message.confirm.signBackWithNewPassword": "Sign out now and sign back in with your new password?",
     "message.confirm.checkUnsavedChanges": "You have unsaved changes. Continue?",
     "message.confirm.deleteCategory": "Confirm deletion of the category?",
+    "message.confirm.deleteSalary": "Confirm deletion of the salary?",
     "message.confirm.deleteAllQualifications": "Confirm deletion of all checked qualifications?",
     "message.warning.onlyPDFAccepted": "Only PDF files are accepted.",
     "message.warning.fileSizeLimitExceeded": "File size exceeds the limit of {maxSize} MB.",
