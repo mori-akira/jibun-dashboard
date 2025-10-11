@@ -17,6 +17,8 @@ tags:
     description: 給与情報API
   - name: Qualification
     description: 資格情報API
+  - name: Vocabulary
+    description: ボキャブラリーAPI
 
 servers:
   - url: http://localhost:4011/
@@ -44,6 +46,8 @@ paths:
     $ref: "paths/qualification/index.yaml"
   /qualification/{qualificationId}:
     $ref: "paths/qualification/qualificationId.yaml"
+  /vocabulary:
+    $ref: "paths/vocabulary/index.yaml"
 
 components:
   schemas:
