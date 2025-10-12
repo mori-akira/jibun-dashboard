@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-test("check navigation", async ({ page }) => {
-  const username = process.env.E2E_USERNAME;
-  if (!username) {
+test("test navigation", async ({ page }) => {
+  const userName = process.env.E2E_USERNAME;
+  if (!userName) {
     throw new Error("E2E_USERNAME is not set");
   }
 
@@ -65,7 +65,7 @@ test("check navigation", async ({ page }) => {
   ).toBeVisible();
 
   // edit profile
-  await openSubMenu(page);
+  await openSubMenu(page, userName);
   await Promise.all([
     page.waitForURL("**/profile/edit"),
     page.getByRole("link", { name: "Edit Profile" }).click(),
@@ -75,7 +75,7 @@ test("check navigation", async ({ page }) => {
   ).toBeVisible();
 
   // change password
-  await openSubMenu(page);
+  await openSubMenu(page, userName);
   await Promise.all([
     page.waitForURL("**/profile/change-password"),
     page.getByRole("link", { name: "Change Password" }).click(),
@@ -85,7 +85,7 @@ test("check navigation", async ({ page }) => {
   ).toBeVisible();
 
   // setting
-  await openSubMenu(page);
+  await openSubMenu(page, userName);
   await Promise.all([
     page.waitForURL("**/setting"),
     page.getByRole("link", { name: "Setting" }).click(),
@@ -104,11 +104,11 @@ test("check navigation", async ({ page }) => {
   ).toBeVisible();
 });
 
-const openSubMenu = async (page: any) => {
+const openSubMenu = async (page: any, userName: string) => {
   await page
     .getByRole("banner")
     .locator("div")
-    .filter({ hasText: "test@example.com" })
+    .filter({ hasText: userName })
     .locator("div")
     .click();
 };

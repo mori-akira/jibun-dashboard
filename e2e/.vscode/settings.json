@@ -17,6 +17,7 @@
         "networkidle",
         "noninteractive",
         "spinbutton",
+        "tabler",
         "tzdata"
     ],
     "[javascript]": {

@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-test("check common layout", async ({ page }) => {
-  const username = process.env.E2E_USERNAME;
-  if (!username) {
+test("test common layout", async ({ page }) => {
+  const userName = process.env.E2E_USERNAME;
+  if (!userName) {
     throw new Error("E2E_USERNAME is not set");
   }
 
@@ -16,7 +16,18 @@ test("check common layout", async ({ page }) => {
   );
 
   // check username
-  await expect(
-    page.getByRole("banner").getByText("test@example.com")
-  ).toBeVisible();
+  await expect(page.getByRole("banner").getByText(userName)).toBeVisible();
+
+  // check email
+  await openSubMenu(page, userName);
+  await expect(page.getByText(userName).nth(1)).toBeVisible();
 });
+
+const openSubMenu = async (page: any, userName: string) => {
+  await page
+    .getByRole("banner")
+    .locator("div")
+    .filter({ hasText: userName })
+    .locator("div")
+    .click();
+};
