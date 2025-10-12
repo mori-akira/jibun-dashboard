@@ -9,12 +9,14 @@
         "codegen",
         "devcontainers",
         "domcontentloaded",
+        "iconify",
         "Jibun",
         "jibun-dashboard",
         "loglevel",
         "mori-akira",
         "networkidle",
         "noninteractive",
+        "spinbutton",
         "tzdata"
     ],
     "[javascript]": {

@@ -12,6 +12,8 @@ export default defineConfig({
   outputDir: path.resolve(__dirname, ".playwright/test-results"),
   timeout: 30000,
   expect: { timeout: 10000 },
+  workers: headless ? undefined : 1,
+  fullyParallel: headless ? true : false,
   use: {
     baseURL,
     trace: "on-first-retry",
