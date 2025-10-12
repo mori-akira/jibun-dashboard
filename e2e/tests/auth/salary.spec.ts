@@ -128,8 +128,10 @@ test("test salary function", async ({ page }) => {
     testData[5]
   );
 
-  // check salary dashboard
+  // === salary dashboard ===
   await page.getByRole("main").getByRole("link", { name: "Salary" }).click();
+
+  // check year summary
   await expect(
     page.locator('span:has-text("This Year") + span').nth(0)
   ).toHaveText("￥614,000");
@@ -142,6 +144,209 @@ test("test salary function", async ({ page }) => {
   await expect(
     page.locator('span:has-text("Last Year") + span').nth(1)
   ).toHaveText("133 H");
+
+  // check fiscal year summary
+  await expect(
+    page.locator(`span:has-text("FY${currentYear}") + span`)
+  ).toHaveText("614,000");
+  await expect(
+    page.locator(`span:has-text("FY${currentYear - 1}") + span`)
+  ).toHaveText("736,000");
+  await expect(
+    page.locator(`span:has-text("FY${currentYear - 2}") + span`)
+  ).toHaveText("546,000");
+
+  // check payslip
+  // May of this year
+  await expect(page.locator("h4").nth(0)).toHaveText("May");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
+  ).toHaveText("235,000");
+  await expect(
+    page.locator(`div.label:has-text("Net Income") + div`).nth(0)
+  ).toHaveText("166,850");
+  await expect(
+    page.locator(`div.label:has-text("Operating Time") + div`).nth(0)
+  ).toHaveText("144");
+  await expect(
+    page.locator(`div.label:has-text("Basic Salary") + div`).nth(0)
+  ).toHaveText("200,000");
+  await expect(
+    page.locator(`div.label:has-text("Housing Allowance") + div`).nth(0)
+  ).toHaveText("30,000");
+  await expect(
+    page.locator(`div.label:has-text("Other") + div`).nth(0)
+  ).toHaveText("5,000");
+  await expect(
+    page.locator(`div.label:has-text("稼働時間") + div`).nth(0)
+  ).toHaveText("144");
+  await expect(
+    page.locator(`div.label:has-text("残業時間") + div`).nth(0)
+  ).toHaveText("0");
+  await expect(
+    page.locator(`div.label:has-text("有給取得") + div`).nth(0)
+  ).toHaveText("3");
+  await expect(
+    page.locator(`div.label:has-text("基本給") + div`).nth(0)
+  ).toHaveText("200,000");
+  await expect(
+    page.locator(`div.label:has-text("残業代") + div`).nth(0)
+  ).toHaveText("0");
+  await expect(
+    page.locator(`div.label:has-text("住宅手当") + div`).nth(0)
+  ).toHaveText("30,000");
+  await expect(
+    page.locator(`div.label:has-text("その他") + div`).nth(0)
+  ).toHaveText("5,000");
+  await expect(
+    page.locator(`div.label:has-text("ボーナス") + div`).nth(0)
+  ).toHaveText("0");
+  await expect(
+    page.locator(`div.label:has-text("社会保険料") + div`).nth(0)
+  ).toHaveText("35,250");
+  await expect(
+    page.locator(`div.label:has-text("健康保険料") + div`).nth(0)
+  ).toHaveText("11,750");
+  await expect(
+    page.locator(`div.label:has-text("所得税") + div`).nth(0)
+  ).toHaveText("14,100");
+  await expect(
+    page.locator(`div.label:has-text("住民税") + div`).nth(0)
+  ).toHaveText("7,050");
+
+  // April of this year
+  await expect(page.locator("h4").nth(1)).toHaveText("Apr");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
+  ).toHaveText("379,000");
+  await expect(
+    page.locator(`div.label:has-text("Net Income") + div`).nth(1)
+  ).toHaveText("269,091");
+  await expect(
+    page.locator(`div.label:has-text("Operating Time") + div`).nth(1)
+  ).toHaveText("216");
+  await expect(
+    page
+      .locator("div.label")
+      .filter({ hasText: /^Overtime$/ })
+      .locator("xpath=following-sibling::div")
+      .nth(0)
+  ).toHaveText("72");
+  await expect(
+    page.locator(`div.label:has-text("Basic Salary") + div`).nth(1)
+  ).toHaveText("200,000");
+  await expect(
+    page.locator(`div.label:has-text("Overtime Pay") + div`).nth(0)
+  ).toHaveText("144,000");
+  await expect(
+    page.locator(`div.label:has-text("Housing Allowance") + div`).nth(1)
+  ).toHaveText("30,000");
+  await expect(
+    page.locator(`div.label:has-text("Other") + div`).nth(1)
+  ).toHaveText("5,000");
+  await expect(
+    page.locator(`div.label:has-text("稼働時間") + div`).nth(1)
+  ).toHaveText("144");
+  await expect(
+    page.locator(`div.label:has-text("残業時間") + div`).nth(1)
+  ).toHaveText("72");
+  await expect(
+    page.locator(`div.label:has-text("有給取得") + div`).nth(1)
+  ).toHaveText("0");
+  await expect(
+    page.locator(`div.label:has-text("基本給") + div`).nth(1)
+  ).toHaveText("200,000");
+  await expect(
+    page.locator(`div.label:has-text("残業代") + div`).nth(1)
+  ).toHaveText("144,000");
+  await expect(
+    page.locator(`div.label:has-text("住宅手当") + div`).nth(1)
+  ).toHaveText("30,000");
+  await expect(
+    page.locator(`div.label:has-text("その他") + div`).nth(1)
+  ).toHaveText("5,000");
+  await expect(
+    page.locator(`div.label:has-text("ボーナス") + div`).nth(1)
+  ).toHaveText("0");
+  await expect(
+    page.locator(`div.label:has-text("社会保険料") + div`).nth(1)
+  ).toHaveText("56,850");
+  await expect(
+    page.locator(`div.label:has-text("健康保険料") + div`).nth(1)
+  ).toHaveText("18,950");
+  await expect(
+    page.locator(`div.label:has-text("所得税") + div`).nth(1)
+  ).toHaveText("22,740");
+  await expect(
+    page.locator(`div.label:has-text("住民税") + div`).nth(1)
+  ).toHaveText("11,370");
+
+  // February of last year
+  await expect(page.locator("h4").nth(2)).toHaveText("Feb");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(2)
+  ).toHaveText("375,000");
+  await expect(
+    page.locator(`div.label:has-text("Net Income") + div`).nth(2)
+  ).toHaveText("266,251");
+  await expect(
+    page.locator(`div.label:has-text("Operating Time") + div`).nth(2)
+  ).toHaveText("230");
+  await expect(
+    page
+      .locator("div.label")
+      .filter({ hasText: /^Overtime$/ })
+      .locator("xpath=following-sibling::div")
+      .nth(1)
+  ).toHaveText("70");
+  await expect(
+    page.locator(`div.label:has-text("Basic Salary") + div`).nth(2)
+  ).toHaveText("200,000");
+  await expect(
+    page.locator(`div.label:has-text("Overtime Pay") + div`).nth(1)
+  ).toHaveText("140,000");
+  await expect(
+    page.locator(`div.label:has-text("Housing Allowance") + div`).nth(2)
+  ).toHaveText("30,000");
+  await expect(
+    page.locator(`div.label:has-text("Other") + div`).nth(2)
+  ).toHaveText("5,000");
+  await expect(
+    page.locator(`div.label:has-text("稼働時間") + div`).nth(2)
+  ).toHaveText("160");
+  await expect(
+    page.locator(`div.label:has-text("残業時間") + div`).nth(2)
+  ).toHaveText("70");
+  await expect(
+    page.locator(`div.label:has-text("有給取得") + div`).nth(2)
+  ).toHaveText("3");
+  await expect(
+    page.locator(`div.label:has-text("基本給") + div`).nth(2)
+  ).toHaveText("200,000");
+  await expect(
+    page.locator(`div.label:has-text("残業代") + div`).nth(2)
+  ).toHaveText("140,000");
+  await expect(
+    page.locator(`div.label:has-text("住宅手当") + div`).nth(2)
+  ).toHaveText("30,000");
+  await expect(
+    page.locator(`div.label:has-text("その他") + div`).nth(2)
+  ).toHaveText("5,000");
+  await expect(
+    page.locator(`div.label:has-text("ボーナス") + div`).nth(2)
+  ).toHaveText("0");
+  await expect(
+    page.locator(`div.label:has-text("社会保険料") + div`).nth(2)
+  ).toHaveText("56,250");
+  await expect(
+    page.locator(`div.label:has-text("健康保険料") + div`).nth(2)
+  ).toHaveText("18,750");
+  await expect(
+    page.locator(`div.label:has-text("所得税") + div`).nth(2)
+  ).toHaveText("22,500");
+  await expect(
+    page.locator(`div.label:has-text("住民税") + div`).nth(2)
+  ).toHaveText("11,250");
 
   // delete salary data
   await page.goto("/salary/edit", { waitUntil: "domcontentloaded" });
