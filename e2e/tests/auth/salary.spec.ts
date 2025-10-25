@@ -387,6 +387,17 @@ test("test salary function", async ({ page }) => {
     page.locator(`div.label:has-text("Gross Income") + div`).nth(5)
   ).toHaveText("311,000");
 
+  // === home ===
+  await page.getByTestId("app-header-title").click();
+
+  // check year summary
+  await expect(
+    page.locator('span:has-text("This Year") + span').nth(0)
+  ).toHaveText("￥614,000");
+  await expect(
+    page.locator('span:has-text("Last Year") + span').nth(0)
+  ).toHaveText("￥736,000");
+
   // delete salary data
   await page.goto("/salary/edit", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
