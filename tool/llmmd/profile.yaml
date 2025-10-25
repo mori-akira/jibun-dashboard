@@ -131,6 +131,7 @@ e2e.tests:
   - e2e/tests/setup/login.spec.ts
   - e2e/tests/auth/common-layout.spec.ts
   - e2e/tests/auth/navigation.spec.ts
+  - e2e/tests/auth/profile.spec.ts
   - e2e/tests/auth/salary.spec.ts
   - e2e/tests/auth/salary.spec.data.json
   - e2e/tests/teardown/logout.spec.ts

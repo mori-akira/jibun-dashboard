@@ -348,6 +348,45 @@ test("test salary function", async ({ page }) => {
     page.locator(`div.label:has-text("住民税") + div`).nth(2)
   ).toHaveText("11,250");
 
+  // === salary payslip ===
+  await page.getByRole("button", { name: "Payslip" }).click();
+
+  // May of this year
+  await expect(page.locator("h4").nth(0)).toHaveText("May");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
+  ).toHaveText("235,000");
+
+  // Apr of this year
+  await expect(page.locator("h4").nth(1)).toHaveText("Apr");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
+  ).toHaveText("379,000");
+
+  // Feb of last year
+  await expect(page.locator("h4").nth(2)).toHaveText("Feb");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(2)
+  ).toHaveText("375,000");
+
+  // Jan of last year
+  await expect(page.locator("h4").nth(3)).toHaveText("Jan");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(3)
+  ).toHaveText("361,000");
+
+  // Feb of year before last
+  await expect(page.locator("h4").nth(4)).toHaveText("Feb");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(4)
+  ).toHaveText("235,000");
+
+  // Jan of year before last
+  await expect(page.locator("h4").nth(5)).toHaveText("Jan");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(5)
+  ).toHaveText("311,000");
+
   // delete salary data
   await page.goto("/salary/edit", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
