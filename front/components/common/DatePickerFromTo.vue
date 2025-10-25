@@ -9,6 +9,15 @@
         :teleport="true"
         position="center"
         :auto-position="autoPosition"
+        :text-input="
+          textInput && {
+            format: 'yyyy-MM-dd',
+            enterSubmit: true,
+            selectOnFocus: true,
+            openMenu: 'toggle',
+            escClose: true,
+          }
+        "
         @update:model-value="onChangeFrom"
       />
       <span class="mx-2">~</span>
@@ -19,6 +28,15 @@
         :teleport="true"
         position="center"
         :auto-position="autoPosition"
+        :text-input="
+          textInput && {
+            format: 'yyyy-MM-dd',
+            enterSubmit: true,
+            selectOnFocus: true,
+            openMenu: 'toggle',
+            escClose: true,
+          }
+        "
         @update:model-value="onChangeTo"
       />
     </div>
@@ -36,6 +54,7 @@ const props = defineProps<{
   label?: string;
   required?: boolean;
   autoPosition?: "top" | "bottom";
+  textInput?: boolean;
   dateFrom?: string;
   dateTo?: string;
   wrapperClass?: string;

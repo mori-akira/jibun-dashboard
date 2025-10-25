@@ -44,6 +44,7 @@
           :label="def.label"
           :date="field.value"
           :required="def.required"
+          text-input
           wrapper-class="mt-4 w-full justify-center"
           label-class="w-40 ml-4 font-cursive"
           pickers-wrapper-class="w-1/2 px-12"

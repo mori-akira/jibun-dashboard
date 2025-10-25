@@ -38,6 +38,7 @@
       />
       <DatePickerFromTo
         label="Acquired Date"
+        text-input
         :date-from="acquiredDateFrom"
         :date-to="acquiredDateTo"
         wrapper-class="m-4"
@@ -48,6 +49,7 @@
       />
       <DatePickerFromTo
         label="Expiration Date"
+        text-input
         :date-from="expirationDateFrom"
         :date-to="expirationDateTo"
         wrapper-class="m-4"

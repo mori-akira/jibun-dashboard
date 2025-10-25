@@ -9,6 +9,15 @@
         :teleport="true"
         position="center"
         :auto-position="autoPosition"
+        :text-input="
+          textInput && {
+            format: 'yyyy-MM-dd',
+            enterSubmit: true,
+            selectOnFocus: true,
+            openMenu: 'toggle',
+            escClose: true,
+          }
+        "
         @update:model-value="onChange"
       />
     </div>
@@ -26,6 +35,7 @@ const props = defineProps<{
   label?: string;
   required?: boolean;
   autoPosition?: "top" | "bottom";
+  textInput?: boolean;
   date?: string;
   wrapperClass?: string;
   labelClass?: string;
