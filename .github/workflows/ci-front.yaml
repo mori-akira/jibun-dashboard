@@ -40,16 +40,16 @@ jobs:
         run: |
           cd openapi
           npx openapi-generator-cli generate
-          if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/api/client/api.ts; then
-            echo 'export type LocaleCode = I18n;' >> ../front/api/client/api.ts
+          if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/generated/api/client/api.ts; then
+            echo 'export type LocaleCode = I18n;' >> ../front/generated/api/client/api.ts
           fi
-          npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+          npx openapi-zod-client  openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas
           cd ../front
-          npx --yes prettier@3 --write "api/client/**/*.{ts,tsx,js,json}"
+          npx --yes prettier@3 --write "generated/api/client/**/*.{ts,tsx,js,json}"
 
       - name: Add ESLint Disable Comment
         run: |
-          FILE=front/api/client/schemas.ts
+          FILE=front/generated/api/client/schemas.ts
           if [ -f "$FILE" ]; then
             sed -i '1s;^;/* eslint-disable */\n;' "$FILE"
           fi
