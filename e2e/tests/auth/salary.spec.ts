@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import testData from "./salary.spec.data.json";
 
 const currentDate = new Date();
@@ -436,7 +436,7 @@ type PayslipData = {
   data: Payslip[];
 };
 
-const fillOverview = async (page: any, overview: Overview) => {
+const fillOverview = async (page: Page, overview: Overview) => {
   await page
     .getByRole("spinbutton", { name: "Gross Income", exact: true })
     .fill(overview.grossIncome.toString());
@@ -457,7 +457,7 @@ const fillOverview = async (page: any, overview: Overview) => {
     .fill(overview.bonusTakeHome.toString());
 };
 
-const fillStructure = async (page: any, structure: Structure) => {
+const fillStructure = async (page: Page, structure: Structure) => {
   await page
     .getByRole("spinbutton", { name: "Basic Salary", exact: true })
     .fill(structure.basicSalary.toString());
@@ -475,7 +475,7 @@ const fillStructure = async (page: any, structure: Structure) => {
     .fill(structure.other.toString());
 };
 
-const addPayslipData = async (page: any, payslipData: PayslipData[]) => {
+const addPayslipData = async (page: Page, payslipData: PayslipData[]) => {
   for (const category of payslipData) {
     await page.getByRole("button", { name: "Add Category" }).click();
     await page.getByRole("textbox", { name: "*" }).fill(category.key);
@@ -497,7 +497,7 @@ const addPayslipData = async (page: any, payslipData: PayslipData[]) => {
 };
 
 const addSalarySimply = async (
-  page: any,
+  page: Page,
   month: string,
   expectedDate: string,
   previousYear: boolean = false,
@@ -534,7 +534,7 @@ const addSalarySimply = async (
 };
 
 const deleteSalary = async (
-  page: any,
+  page: Page,
   month: string,
   previousYear: boolean = false
 ) => {

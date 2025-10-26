@@ -1,0 +1,45 @@
+[
+  {
+    "qualificationName": "ITパスポート",
+    "abbreviation": "IP",
+    "version": "1.0",
+    "status": "acquired",
+    "rank": "D",
+    "organization": "IPA",
+    "officialUrl": "https://www3.jitec.ipa.go.jp/JitesCbt/index.html",
+    "certificationUrl": "https://example.certification.com",
+    "badgeUrl": "https://example.badge.com"
+  },
+  {
+    "qualificationName": "情報セキュリティマネジメント試験",
+    "abbreviation": "SG",
+    "status": "acquired",
+    "rank": "C",
+    "organization": "IPA",
+    "officialUrl": "https://www.ipa.go.jp/shiken/kubun/sg/index.html"
+  },
+  {
+    "qualificationName": "基本情報技術者試験",
+    "abbreviation": "FE",
+    "status": "acquired",
+    "rank": "C",
+    "organization": "IPA",
+    "officialUrl": "https://www.ipa.go.jp/shiken/kubun/fe.html"
+  },
+  {
+    "qualificationName": "応用情報技術者試験",
+    "abbreviation": "AP",
+    "status": "planning",
+    "rank": "B",
+    "organization": "IPA",
+    "officialUrl": "https://www.ipa.go.jp/shiken/kubun/ap.html"
+  },
+  {
+    "qualificationName": "ITストラテジスト試験",
+    "abbreviation": "ST",
+    "status": "dream",
+    "rank": "A",
+    "organization": "IPA",
+    "officialUrl": "https://www.ipa.go.jp/shiken/kubun/st.html"
+  }
+]
