@@ -447,6 +447,7 @@ const onDeleteAll = async () => {
       )
     );
     checkedId.value = [];
+    commonStore.deleteLoadingQueue(id);
     await openInfoDialog(t("message.info.completeSuccessfully"));
   } catch (err) {
     console.error(err);
