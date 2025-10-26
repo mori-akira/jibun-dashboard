@@ -1,6 +1,6 @@
 import type { Composer } from "vue-i18n";
-import { Configuration } from "~/api/client/configuration";
-import { ResourceApi } from "~/api/client";
+import { Configuration } from "~/generated/api/client/configuration";
+import { ResourceApi } from "~/generated/api/client";
 import { useAuth } from "~/composables/common/useAuth";
 
 export default defineNuxtPlugin((nuxtApp) => {

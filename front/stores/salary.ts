@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Configuration } from "~/api/client/configuration";
-import type { Salary } from "~/api/client/api";
-import { SalaryApi } from "~/api/client/api";
+import { Configuration } from "~/generated/api/client/configuration";
+import type { Salary } from "~/generated/api/client/api";
+import { SalaryApi } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
 export const useSalaryStore = defineStore("salary", () => {

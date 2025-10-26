@@ -21,7 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Qualification, SettingQualification } from "~/api/client";
+import type {
+  Qualification,
+  SettingQualification,
+} from "~/generated/api/client";
 import { useSettingStore } from "~/stores/setting";
 import { getRankColorHexCode } from "~/utils/qualification";
 

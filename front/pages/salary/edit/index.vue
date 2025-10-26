@@ -89,9 +89,9 @@
 import axios from "axios";
 import { useI18n } from "vue-i18n";
 
-import { Configuration } from "~/api/client/configuration";
-import { FileApi, SalaryApi } from "~/api/client";
-import type { Overview, PayslipData, Structure } from "~/api/client";
+import { Configuration } from "~/generated/api/client/configuration";
+import { FileApi, SalaryApi } from "~/generated/api/client";
+import type { Overview, PayslipData, Structure } from "~/generated/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";

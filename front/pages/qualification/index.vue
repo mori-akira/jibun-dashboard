@@ -86,7 +86,7 @@ import type {
   GetQualificationStatusEnum,
   Qualification,
   SettingQualification,
-} from "~/api/client/api";
+} from "~/generated/api/client/api";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";

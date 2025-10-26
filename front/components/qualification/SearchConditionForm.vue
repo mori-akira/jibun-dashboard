@@ -66,7 +66,7 @@
 import type {
   GetQualificationStatusEnum,
   GetQualificationRankEnum,
-} from "~/api/client/api";
+} from "~/generated/api/client/api";
 import Accordion from "~/components/common/Accordion.vue";
 import MultiOptionSelector from "~/components/common/MultiOptionSelector.vue";
 import TextBox from "~/components/common/TextBox.vue";

@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
-import type { Salary } from "~/api/client";
+import type { Salary } from "~/generated/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useUserStore } from "~/stores/user";
 import { useSettingStore } from "~/stores/setting";

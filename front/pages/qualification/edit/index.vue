@@ -137,7 +137,7 @@ import type {
   GetQualificationStatusEnum,
   Qualification,
   SettingQualification,
-} from "~/api/client";
+} from "~/generated/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";

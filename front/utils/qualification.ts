@@ -1,4 +1,4 @@
-import type { SettingQualification } from "~/api/client";
+import type { SettingQualification } from "~/generated/api/client";
 
 export type Rank = "A" | "B" | "C" | "D";
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Salary } from "~/api/client";
+import type { Salary } from "~/generated/api/client";
 import {
   getYearMonthAsNumber,
   getMonthsInFinancialYear,
@@ -248,11 +248,11 @@ describe("aggregateCompareData", () => {
       4
     );
     expect(result).toHaveLength(1);
-    expect(result[0].label).toBe("FY2024");
-    expect(result[0].backgroundColor).toBe("#ff0000");
-    expect(result[0].data.length).toBe(12);
-    expect(result[0].data[0]).toBe(100000);
-    expect(result[0].data[1]).toBe(110000);
+    expect(result[0]!.label).toBe("FY2024");
+    expect(result[0]!.backgroundColor).toBe("#ff0000");
+    expect(result[0]!.data.length).toBe(12);
+    expect(result[0]!.data[0]).toBe(100000);
+    expect(result[0]!.data[1]).toBe(110000);
   });
 
   it("対象データが存在しない場合は0で埋まる", () => {
@@ -263,6 +263,6 @@ describe("aggregateCompareData", () => {
       ["#00ff00"],
       4
     );
-    expect(result[0].data.every((val) => val === 0)).toBe(true);
+    expect(result[0]!.data.every((val) => val === 0)).toBe(true);
   });
 });

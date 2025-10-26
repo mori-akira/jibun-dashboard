@@ -31,8 +31,8 @@ import { linter, lintGutter } from "@codemirror/lint";
 import { json, jsonParseLinter } from "@codemirror/lang-json";
 import { useI18n } from "vue-i18n";
 
-import type { Overview, PayslipData, Structure } from "~/api/client";
-import { schemas } from "~/api/client/schemas";
+import type { Overview, PayslipData, Structure } from "~/generated/api/client";
+import { schemas } from "~/generated/api/client/schemas";
 import Button from "~/components/common/Button.vue";
 import { useCommonStore } from "~/stores/common";
 import { generateRandomString } from "~/utils/rand";

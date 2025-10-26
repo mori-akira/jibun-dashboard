@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Salary } from "~/api/client";
+import type { Salary } from "~/generated/api/client";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import CompareBar from "~/components/common/CompareBar.vue";

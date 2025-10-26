@@ -208,8 +208,8 @@
 import { Form, Field } from "vee-validate";
 import { useI18n } from "vue-i18n";
 
-import type { Overview, PayslipData, Structure } from "~/api/client";
-import { schemas } from "~/api/client/schemas";
+import type { Overview, PayslipData, Structure } from "~/generated/api/client";
+import { schemas } from "~/generated/api/client/schemas";
 import Accordion from "~/components/common/Accordion.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import Button from "~/components/common/Button.vue";

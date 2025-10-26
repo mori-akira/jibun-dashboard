@@ -235,7 +235,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Overview, Salary } from "~/api/client";
+import type { Overview, Salary } from "~/generated/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";

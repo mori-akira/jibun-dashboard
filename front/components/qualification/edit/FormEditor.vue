@@ -75,8 +75,8 @@
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
 
-import type { Qualification } from "~/api/client";
-import { schemas } from "~/api/client/schemas";
+import type { Qualification } from "~/generated/api/client";
+import { schemas } from "~/generated/api/client/schemas";
 import Button from "~/components/common/Button.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import SelectBox from "~/components/common/SelectBox.vue";

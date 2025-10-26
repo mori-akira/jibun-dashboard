@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Configuration } from "~/api/client/configuration";
+import { Configuration } from "~/generated/api/client/configuration";
 import type {
   Qualification,
   GetQualificationStatusEnum,
   GetQualificationRankEnum,
-} from "~/api/client/api";
-import { QualificationApi } from "~/api/client/api";
+} from "~/generated/api/client/api";
+import { QualificationApi } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
 export const useQualificationStore = defineStore("qualification", () => {

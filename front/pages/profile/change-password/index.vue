@@ -92,7 +92,7 @@ import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
 import { useI18n } from "vue-i18n";
 
-import { schemas } from "~/api/client/schemas";
+import { schemas } from "~/generated/api/client/schemas";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import TextBox from "~/components/common/TextBox.vue";

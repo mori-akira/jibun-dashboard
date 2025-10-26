@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Configuration } from "~/api/client/configuration";
-import type { Setting } from "~/api/client/api";
-import { SettingApi } from "~/api/client/api";
+import { Configuration } from "~/generated/api/client/configuration";
+import type { Setting } from "~/generated/api/client/api";
+import { SettingApi } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
 export const useSettingStore = defineStore("setting", () => {

@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Salary, Overview, Structure } from "~/api/client";
+import type { Salary, Overview, Structure } from "~/generated/api/client";
 import { getYearMonthAsNumber } from "~/utils/salary";
 
 const props = defineProps<{

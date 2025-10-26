@@ -52,7 +52,7 @@
 <script lang="ts" setup>
 import Draggable from "vuedraggable";
 
-import type { Qualification } from "~/api/client";
+import type { Qualification } from "~/generated/api/client";
 import Button from "~/components/common/Button.vue";
 import IconButton from "~/components/common/IconButton.vue";
 import { useCommonStore } from "~/stores/common";

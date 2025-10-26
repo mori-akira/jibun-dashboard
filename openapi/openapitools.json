@@ -7,7 +7,7 @@
       "v3.0": {
         "inputSpec": "openapi.yaml",
         "generatorName": "typescript-axios",
-        "output": "../front/api/client",
+        "output": "../front/generated/api/client",
         "additionalProperties": {
           "supportsES6": true,
           "withInterfaces": true
