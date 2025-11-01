@@ -82,6 +82,9 @@ jobs:
             sed -i '1s;^;/* eslint-disable */\n;' "$FILE"
           fi
 
+      - name: Copy API Client Module to E2E
+        run: cp -r front/generated/api e2e/generated/api/
+
       - name: Commit And Push
         run: |
           sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"

@@ -31,8 +31,14 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: "auth",
+      name: "seed",
       dependencies: ["setup"],
+      testMatch: /\/seed\/.+\.spec\.ts$/,
+      use: { ...devices["Desktop Chrome"], storageState: STORAGE_STATE },
+    },
+    {
+      name: "auth",
+      dependencies: ["seed"],
       testMatch: /\/auth\/.+\.spec\.ts$/,
       use: { ...devices["Desktop Chrome"], storageState: STORAGE_STATE },
     },
