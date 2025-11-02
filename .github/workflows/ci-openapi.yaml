@@ -85,7 +85,7 @@ jobs:
       - name: Copy API Client Module to E2E
         run: |
           mkdir -p e2e/generated/api
-          cp -r front/generated/api e2e/generated/api/
+          cp -r front/generated/api e2e/generated/
 
       - name: Commit And Push
         run: |
