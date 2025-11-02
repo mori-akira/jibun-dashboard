@@ -1,5 +1,10 @@
 <template>
-  <nav :class="[{ closed: !commonStore.isNavOpen }]">
+  <nav
+    :class="[
+      'w-64 bg-gray-100 pt-16 px-4 border-r-4 border-[#666] min-h-screen',
+      { closed: !commonStore.isNavOpen },
+    ]"
+  >
     <div
       :class="['toggle-area', { closed: !commonStore.isNavOpen }]"
       @click="commonStore.toggleNav"
@@ -87,11 +92,6 @@ const isActive = (base: string) =>
 
 <style lang="css" scoped>
 nav {
-  width: 16rem;
-  background-color: #eee;
-  border-right: #666 4px solid;
-  padding: 4rem 1rem 0;
-  min-height: 100vh;
   transition: 0.5s;
 }
 
