@@ -3,6 +3,7 @@ resource "aws_s3_bucket" "uploads" {
   tags   = var.application_tag
 }
 
+# バケットの公開ブロック
 resource "aws_s3_bucket_public_access_block" "uploads" {
   bucket                  = aws_s3_bucket.uploads.id
   block_public_acls       = true
@@ -11,6 +12,7 @@ resource "aws_s3_bucket_public_access_block" "uploads" {
   restrict_public_buckets = true
 }
 
+# 暗号化
 resource "aws_s3_bucket_server_side_encryption_configuration" "uploads" {
   bucket = aws_s3_bucket.uploads.id
   rule {
@@ -20,6 +22,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "uploads" {
   }
 }
 
+# TLS以外のアクセス拒否
 resource "aws_s3_bucket_policy" "force_tls" {
   bucket = aws_s3_bucket.uploads.id
   policy = jsonencode({
@@ -42,6 +45,7 @@ resource "aws_s3_bucket_policy" "force_tls" {
   })
 }
 
+# 自動削除
 resource "aws_s3_bucket_lifecycle_configuration" "uploads" {
   bucket = aws_s3_bucket.uploads.id
   rule {
@@ -54,6 +58,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "uploads" {
   }
 }
 
+# CORS設定
 resource "aws_s3_bucket_cors_configuration" "uploads" {
   bucket = aws_s3_bucket.uploads.id
   cors_rule {
