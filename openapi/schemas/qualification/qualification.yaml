@@ -36,12 +36,12 @@ properties:
     description: 略称
     type: string
     maxLength: 128
-  
+
   version:
     description: バージョン
     type: string
     maxLength: 128
-  
+
   status:
     description: ステータス
     type: string

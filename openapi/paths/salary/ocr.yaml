@@ -4,7 +4,7 @@ get:
   description: 給与情報登録のOCR処理を実行する
   tags:
     - Salary
-  
+
   parameters:
     - in: query
       name: targetDate

@@ -26,6 +26,12 @@ openapi:
   - openapi/schemas/qualification/qualificationId.yaml
   - openapi/schemas/file/uploadUrl.yaml
 
+openapi.file:
+  - openapi/openapi.yaml
+  - openapi/paths/file/upload-url.yaml
+  - openapi/paths/file/upload-mock.yaml
+  - openapi/schemas/file/uploadUrl.yaml
+
 infra.bootstrap:
   - infra/bootstrap/main.tf
   - infra/bootstrap/variables.tf
@@ -51,6 +57,7 @@ infra.main:
   - infra/main/modules/codebuild/main.tf
   - infra/main/modules/codebuild/ssm.tf
   - infra/main/modules/codebuild/notifications.tf
+  - infra/main/modules/codebuild/trigger.tf
   - infra/main/modules/codebuild/variables.tf
   - infra/main/modules/codebuild/outputs.tf
   - infra/main/modules/cognito/main.tf

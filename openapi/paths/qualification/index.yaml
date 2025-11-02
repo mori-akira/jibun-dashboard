@@ -4,7 +4,7 @@ get:
   description: 検索条件を指定して資格情報を取得する
   tags:
     - Qualification
-  
+
   parameters:
     - in: query
       name: qualificationName

@@ -16,7 +16,7 @@ properties:
     description: アップロードURL
     type: string
     format: uri
-  
+
   expireDateTime:
     description: 期限切れ日時
     type: string

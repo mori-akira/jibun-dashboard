@@ -27,13 +27,13 @@ put:
   description: アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
   tags:
     - Setting
-  
+
   requestBody:
     content:
       application/json:
         schema:
           $ref: "../../openapi.yaml#/components/schemas/Setting"
-  
+
   responses:
     "204":
       description: 正常時

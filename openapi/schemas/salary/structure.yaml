@@ -21,19 +21,19 @@ properties:
     type: integer
     format: int32
     minimum: 0
-  
+
   housingAllowance:
     description: 家賃手当
     type: integer
     format: int32
     minimum: 0
-  
+
   positionAllowance:
     description: 役職手当
     type: integer
     format: int32
     minimum: 0
-  
+
   other:
     description: その他
     type: integer

@@ -4,7 +4,7 @@ get:
   description: 国際化リソースを取得する
   tags:
     - Resource
-  
+
   parameters:
     - in: path
       name: localeCode

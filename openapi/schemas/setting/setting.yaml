@@ -28,14 +28,14 @@ properties:
         exclusiveMinimum: false
         maximum: 12
         exclusiveMaximum: false
-      
+
       transitionItemCount:
         type: integer
         minimum: 1
         exclusiveMinimum: false
         maximum: 10
         exclusiveMaximum: false
-      
+
       compareDataColors:
         type: array
         items:

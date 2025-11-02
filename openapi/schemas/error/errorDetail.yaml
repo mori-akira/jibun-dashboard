@@ -11,7 +11,7 @@ properties:
   errorCode:
     description: エラーコード
     type: string
-  
+
   errorLevel:
     description: エラーレベル
     type: string
@@ -21,7 +21,7 @@ properties:
       - WARN
       - ERROR
       - CRITICAL
-  
+
   errorMessage:
     description: エラーメッセージ
     type: string

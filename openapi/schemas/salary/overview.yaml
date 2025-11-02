@@ -15,7 +15,7 @@ properties:
     type: integer
     format: int32
     minimum: 0
-  
+
   netIncome:
     description: 手取り
     type: integer

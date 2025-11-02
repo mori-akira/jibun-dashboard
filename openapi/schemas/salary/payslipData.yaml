@@ -10,7 +10,7 @@ properties:
   key:
     description: 明細カテゴリキー
     type: string
-  
+
   data:
     description: 明細カテゴリ
     type: array
@@ -21,7 +21,7 @@ properties:
       required:
         - key
         - data
-      
+
       properties:
 
         key:

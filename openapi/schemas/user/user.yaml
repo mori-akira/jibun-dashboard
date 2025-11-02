@@ -16,7 +16,7 @@ properties:
     type: string
     minLength: 1
     maxLength: 64
-  
+
   emailAddress:
     description: eメールアドレス
     type: string

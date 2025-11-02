@@ -4,7 +4,7 @@ get:
   description: ファイルアップロード用の署名付きURLを発行し、取得する
   tags:
     - File
-  
+
   parameters:
     - in: query
       name: fileId
@@ -13,6 +13,14 @@ get:
       schema:
         type: string
         format: uuid
+    - in: query
+      name: expiresIn
+      description: URLの有効期限（秒）
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 604800
 
   responses:
     "200":
