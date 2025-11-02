@@ -68,6 +68,30 @@ resource "aws_iam_role_policy_attachment" "attach_dynamodb" {
   policy_arn = aws_iam_policy.dynamodb.arn
 }
 
+data "aws_iam_policy_document" "apprunner_s3_upload" {
+  statement {
+    sid = "AllowPutObjectToUploads"
+    actions = [
+      "s3:PutObject",
+      "s3:AbortMultipartUpload",
+      "s3:ListBucketMultipartUploads"
+    ]
+    resources = [
+      "${var.upload_bucket_arn}/*"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "apprunner_s3_upload" {
+  name   = "${var.app_name}-apprunner-s3-uploads-policy"
+  policy = data.aws_iam_policy_document.apprunner_s3_upload.json
+}
+
+resource "aws_iam_role_policy_attachment" "attach_s3_upload" {
+  role       = aws_iam_role.instance.name
+  policy_arn = aws_iam_policy.apprunner_s3_upload.arn
+}
+
 resource "aws_apprunner_service" "this" {
   service_name = "${var.app_name}-${var.env_name}"
   tags         = var.application_tag
@@ -89,6 +113,10 @@ resource "aws_apprunner_service" "this" {
           SPRING_PROFILES_ACTIVE      = var.env_name
           SERVER_PORT                 = tostring(var.container_port)
           SERVER_SERVLET_CONTEXT_PATH = var.server_servlet_context_path
+          COGNITO_USER_POOL_ID        = var.cognito_user_pool_id
+          COGNITO_CLIENT_ID           = var.cognito_client_id
+          COGNITO_DOMAIN              = var.cognito_domain
+          UPLOAD_BUCKET_NAME          = var.upload_bucket_name
         }, var.runtime_env)
       }
     }

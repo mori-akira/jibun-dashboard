@@ -11,6 +11,16 @@ module "frontend" {
   frontend_bucket_name = "${var.app_name}-frontend-bucket"
 }
 
+module "uploads" {
+  source          = "./modules/uploads"
+  bucket_name     = "${var.app_name}-${var.env_name}-uploads-bucket"
+  application_tag = module.application.application_tag
+  allowed_origins = [
+    "http://localhost:8080",
+    var.api_gateway_origin,
+  ]
+}
+
 module "cognito" {
   source               = "./modules/cognito"
   region               = var.region
@@ -99,15 +109,16 @@ module "apprunner" {
   ecr_repository_url = module.ecr.repository_url
   ecr_repository_arn = module.ecr.repository_arn
 
-  runtime_env = {
-    COGNITO_USER_POOL_ID = var.cognito_user_pool_id,
-    COGNITO_CLIENT_ID    = var.cognito_client_id
-    COGNITO_DOMAIN       = var.cognito_domain
-  }
-
   dynamodb_table_arns = [
     for k, m in module.dynamodb : m.table_arn
   ]
+
+  cognito_user_pool_id = var.cognito_user_pool_id
+  cognito_client_id    = var.cognito_client_id
+  cognito_domain       = var.cognito_domain
+
+  upload_bucket_name = module.uploads.bucket_name
+  upload_bucket_arn  = module.uploads.bucket_arn
 }
 
 module "apigateway" {

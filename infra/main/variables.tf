@@ -66,6 +66,15 @@ variable "cognito_logout_url" {
   }
 }
 
+variable "api_gateway_origin" {
+  description = "API GatewayのオリジンURL"
+  type        = string
+  validation {
+    condition     = can(regex("^https://", var.api_gateway_origin))
+    error_message = "Protocol must be https."
+  }
+}
+
 variable "e2e_username" {
   description = "E2Eテスト用のユーザ名"
   type        = string

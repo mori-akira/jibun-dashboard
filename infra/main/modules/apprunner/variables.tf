@@ -103,3 +103,28 @@ variable "dynamodb_table_arns" {
   description = "DynamoDBテーブルARNのリスト"
   default     = []
 }
+
+variable "cognito_user_pool_id" {
+  description = "CognitoユーザープールID"
+  type        = string
+}
+
+variable "cognito_client_id" {
+  description = "CognitoクライアントID"
+  type        = string
+}
+
+variable "cognito_domain" {
+  description = "Cognitoドメイン"
+  type        = string
+}
+
+variable "upload_bucket_name" {
+  description = "アップロード用S3バケット名"
+  type        = string
+}
+
+variable "upload_bucket_arn" {
+  description = "アップロード用S3バケットARN"
+  type        = string
+}
