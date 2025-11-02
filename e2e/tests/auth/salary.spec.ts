@@ -61,11 +61,7 @@ test("test salary function", async ({ page }) => {
   ]);
 
   // delete payslip: dummy2
-  await page
-    .locator(
-      "div:nth-child(6) > .body-wrapper > .body > div:nth-child(2) > .w-10 > .iconify"
-    )
-    .click();
+  await page.locator("div:nth-child(6) .iconify.i-tabler\\:x").nth(1).click();
   await expect(page.getByText("dummy1", { exact: true })).toBeVisible();
   await expect(page.getByText("dummy2", { exact: true })).not.toBeVisible();
 
