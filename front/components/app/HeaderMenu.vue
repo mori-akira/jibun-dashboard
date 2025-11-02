@@ -5,7 +5,7 @@
       { '-translate-y-[17rem]': !commonStore.isHeaderMenuOpen },
     ]"
   >
-    <div class="w-full px-4">
+    <div class="w-full px-4 whitespace-nowrap">
       <Icon name="tabler:mail" class="adjust-icon-4" />
       <span class="inline-block ml-2">{{ userStore?.user?.emailAddress }}</span>
     </div>
