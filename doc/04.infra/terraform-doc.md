@@ -24,6 +24,7 @@
 | <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
 | <a name="module_ecr"></a> [ecr](#module\_ecr) | ./modules/ecr | n/a |
 | <a name="module_frontend"></a> [frontend](#module\_frontend) | ./modules/frontend | n/a |
+| <a name="module_uploads"></a> [uploads](#module\_uploads) | ./modules/uploads | n/a |
 
 ## Resources
 
@@ -35,6 +36,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_api_gateway_origin"></a> [api\_gateway\_origin](#input\_api\_gateway\_origin) | API GatewayのオリジンURL | `string` | n/a | yes |
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | アプリケーション名 | `string` | n/a | yes |
 | <a name="input_cognito_callback_url"></a> [cognito\_callback\_url](#input\_cognito\_callback\_url) | CognitoコールバックURL | `string` | `"http://localhost:3000/callback"` | no |
 | <a name="input_cognito_client_id"></a> [cognito\_client\_id](#input\_cognito\_client\_id) | CognitoクライアントID | `string` | n/a | yes |
