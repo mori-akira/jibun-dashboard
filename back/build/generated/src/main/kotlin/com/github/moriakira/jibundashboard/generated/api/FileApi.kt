@@ -53,7 +53,7 @@ interface FileApi {
             value = ["/file/upload-url"],
             produces = ["application/json"]
     )
-    fun getUploadUrl(@Parameter(description = "ファイルID") @Valid @RequestParam(value = "fileId", required = false) fileId: java.util.UUID?): ResponseEntity<UploadUrl> {
+    fun getUploadUrl(@Parameter(description = "ファイルID") @Valid @RequestParam(value = "fileId", required = false) fileId: java.util.UUID?,@Min(1) @Max(604800) @Parameter(description = "URLの有効期限（秒）") @Valid @RequestParam(value = "expiresIn", required = false) expiresIn: kotlin.Int?): ResponseEntity<UploadUrl> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
