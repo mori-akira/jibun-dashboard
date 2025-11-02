@@ -8,6 +8,7 @@
     "test": "playwright test --project=no-auth && playwright test --project=auth && playwright test --project=teardown",
     "test-no-auth": "playwright test --project=no-auth",
     "test-setup": "playwright test --project=setup",
+    "test-seed": "playwright test --project=seed",
     "test-auth": "playwright test --project=auth",
     "test-teardown": "playwright test --project=teardown",
     "report": "playwright show-report",
@@ -18,5 +19,8 @@
     "@types/node": "^24.5.2",
     "dotenv": "^16.4.5",
     "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "axios": "^1.13.1"
   }
 }

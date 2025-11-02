@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+import { openSubMenu } from "../helpers/ui";
+
 test("check logout", async ({ page }) => {
   const cognitoDomain = process.env.E2E_COGNITO_DOMAIN;
   if (!cognitoDomain) {
@@ -26,12 +28,3 @@ test("check logout", async ({ page }) => {
   const current = new URL(page.url());
   expect(current.host).toBe(cognitoDomain);
 });
-
-const openSubMenu = async (page: any, userName: string) => {
-  await page
-    .getByRole("banner")
-    .locator("div")
-    .filter({ hasText: userName })
-    .locator("div")
-    .click();
-};

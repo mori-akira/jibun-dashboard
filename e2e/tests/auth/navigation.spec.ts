@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+import { openSubMenu } from "../helpers/ui";
+
 test("test navigation", async ({ page }) => {
   const userName = process.env.E2E_USERNAME;
   if (!userName) {
@@ -103,12 +105,3 @@ test("test navigation", async ({ page }) => {
     page.getByRole("main").getByText("Home", { exact: true })
   ).toBeVisible();
 });
-
-const openSubMenu = async (page: any, userName: string) => {
-  await page
-    .getByRole("banner")
-    .locator("div")
-    .filter({ hasText: userName })
-    .locator("div")
-    .click();
-};

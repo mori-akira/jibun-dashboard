@@ -129,6 +129,7 @@ e2e.tests:
   - e2e/playwright.config.ts
   - e2e/tests/no-auth/login-redirect.spec.ts
   - e2e/tests/setup/login.spec.ts
+  - e2e/tests/seed/seed.spec.ts
   - e2e/tests/auth/common-layout.spec.ts
   - e2e/tests/auth/navigation.spec.ts
   - e2e/tests/auth/profile.spec.ts
