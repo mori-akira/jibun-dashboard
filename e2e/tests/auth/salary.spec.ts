@@ -397,16 +397,6 @@ test("test salary function", async ({ page }) => {
   await expect(
     page.locator('span:has-text("Last Year") + span').nth(0)
   ).toHaveText("￥736,000");
-
-  // delete salary data
-  await page.goto("/salary/edit", { waitUntil: "domcontentloaded" });
-  await page.waitForLoadState("networkidle");
-  await deleteSalary(page, "Jan");
-  await deleteSalary(page, "Feb");
-  await deleteSalary(page, "Apr");
-  await deleteSalary(page, "May");
-  await deleteSalary(page, "Jan", true);
-  await deleteSalary(page, "Feb");
 });
 
 type Overview = {
