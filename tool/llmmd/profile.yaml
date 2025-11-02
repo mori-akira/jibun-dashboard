@@ -121,6 +121,28 @@ function.qualification:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/QualificationService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/QualificationRepository.kt
 
+backend.base:
+  - back/Dockerfile
+  - back/build.gradle.kts
+  - back/settings.gradle.kts
+  - back/detekt.yml
+  - back/src/main/resources/application.yaml
+  - back/src/main/resources/application-local.yaml
+  - back/src/main/resources/application-dev.yaml
+  - back/src/main/resources/logback.xml
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/LambdaApplication.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/DynamoDbConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/SecurityConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/WebClientConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/component/CurrentAuth.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/component/RequestLoggingFilter.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/CognitoUserService.kt
+
+backend.function.user:
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/UserController.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/UserService.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/UserRepository.kt
+
 e2e.env:
   - e2e/.devcontainer/devcontainer.json
   - e2e/.devcontainer/Dockerfile
