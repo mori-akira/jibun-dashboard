@@ -208,6 +208,11 @@ const endpoints = makeApi([
         type: "Query",
         schema: z.string().uuid().optional(),
       },
+      {
+        name: "expiresIn",
+        type: "Query",
+        schema: z.number().int().gte(1).lte(604800).optional(),
+      },
     ],
     response: UploadUrl,
     errors: [
