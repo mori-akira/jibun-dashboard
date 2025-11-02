@@ -92,7 +92,7 @@ jobs:
           sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
           sudo git config --global user.name "github-actions[bot]"
           sudo git pull --ff-only origin main || true
-          sudo git add front/generated/api
+          sudo git add front/generated/api e2e/generated/api
           if ! git diff --cached --quiet; then
             sudo git commit -m "Automatically Generated"
             sudo git push origin
