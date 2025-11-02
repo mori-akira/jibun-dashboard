@@ -1,13 +1,15 @@
 <template>
   <div
     v-if="showModal"
-    class="modal-overlay"
-    :class="modalOverlayClass"
+    :class="[
+      'fixed inset-0 bg-black/80 flex justify-center items-center z-[1001]',
+      modalOverlayClass,
+    ]"
     role="dialog"
     aria-modal="true"
     @click="onClose"
   >
-    <div :class="['modal-box', modalBoxClass]" @click.stop>
+    <div :class="['p-4 bg-white', modalBoxClass]" @click.stop>
       <slot />
     </div>
   </div>
@@ -28,23 +30,3 @@ const onClose = (): void => {
   emit("close");
 };
 </script>
-
-<style lang="css" scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1001;
-}
-
-.modal-box {
-  padding: 1rem;
-  background-color: #fff;
-}
-</style>

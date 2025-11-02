@@ -1,14 +1,35 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
-    <div :class="['header', headerClass]" @click="onClickHeader">
+  <div :class="[wrapperClass]">
+    <div
+      :class="[
+        'inline-block py-[0.2rem] px-[0.5rem] rounded-lg hover:bg-[#eee] cursor-pointer',
+        headerClass,
+      ]"
+      @click="onClickHeader"
+    >
       <Icon
         name="tabler:triangle-inverted-filled"
-        :class="['toggle-icon', { opened: isOpened }]"
+        :class="[
+          'text-[0.7rem] text-[#333] -rotate-90 transition duration-500',
+          { 'rotate-0': isOpened },
+        ]"
       />
-      <span :class="['title', titleClass]">{{ title }}</span>
+      <span :class="['ml-2', titleClass]">{{ title }}</span>
     </div>
-    <div :class="['body-wrapper', bodyWrapperClass, { opened: isOpened }]">
-      <div :class="['body', bodyClass, { opened: isOpened }]">
+    <div
+      :class="[
+        'overflow-hidden transition-[max-height] duration-500',
+        isOpened ? 'max-h-[1000px]' : 'max-h-0',
+        bodyWrapperClass,
+      ]"
+    >
+      <div
+        :class="[
+          'transition duration-500',
+          isOpened ? 'opacity-100' : 'opacity-0',
+          bodyClass,
+        ]"
+      >
         <slot />
       </div>
     </div>
@@ -29,51 +50,3 @@ const props = defineProps<{
 const isOpened = ref<boolean>(props.initOpened || false);
 const onClickHeader = () => (isOpened.value = !isOpened.value);
 </script>
-
-<style lang="css" scoped>
-.header {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.5rem;
-}
-
-.header:hover {
-  cursor: pointer;
-  background-color: #eee;
-}
-
-.toggle-icon {
-  font-size: 0.7rem;
-  color: #333;
-  transform: rotate(-90deg);
-  transition: 0.5s;
-}
-
-.toggle-icon.opened {
-  transform: rotate(0);
-}
-
-.title {
-  margin-left: 0.5rem;
-}
-
-.body-wrapper {
-  overflow: hidden;
-  height: 0;
-}
-
-.body-wrapper.opened {
-  height: auto;
-}
-
-.body {
-  transition: 0.5s;
-  height: 0;
-  opacity: 0;
-}
-
-.body.opened {
-  height: auto;
-  opacity: 1;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div :class="['flex', wrapperClass]">
     <Label
       :label="label"
       :for-id="id"
@@ -13,8 +13,9 @@
         :type="type || 'text'"
         :class="[
           Array.isArray(inputClass) ? inputClass.join(' ') : inputClass,
-          { 'no-border': noDrawBorder },
-          { error: errorMessage },
+          'w-full outline-none border-b-2 box-content transition duration-200',
+          errorMessage ? 'border-[#f33]' : 'border-[#aaa] focus:border-[#333]',
+          { 'border-0': noDrawBorder },
           { 'ml-4': label },
         ]"
         :value="value != null ? String(value) : ''"
@@ -25,7 +26,11 @@
         @keydown.enter="onKeydownEnter"
         @keydown.escape="onKeydownEscape"
       />
-      <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
+      <span
+        v-if="errorMessage"
+        class="inline-block ml-4 text-[#f33] text-[0.8rem]"
+        >{{ errorMessage }}</span
+      >
     </div>
   </div>
 </template>
@@ -88,40 +93,3 @@ const onKeydownEscape = (): void => {
 
 const id = computed(() => `input-${generateRandomString()}`);
 </script>
-
-<style lang="css" scoped>
-input {
-  width: stretch;
-  outline: none;
-  border-bottom: solid 2px transparent;
-  box-sizing: content-box;
-  transition: 0.2s;
-}
-
-input:not(:focus) {
-  border-color: #aaa;
-}
-
-input:focus {
-  border-color: #333;
-}
-
-input.no-border {
-  border: none !important;
-}
-
-input.error {
-  border-color: #f33;
-}
-
-.wrapper {
-  display: flex;
-}
-
-.error-message {
-  display: inline-block;
-  margin-left: 1rem;
-  color: #f33;
-  font-size: 0.8rem;
-}
-</style>

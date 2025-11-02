@@ -1,6 +1,11 @@
 <template>
   <div
-    :class="['dialog-box', { show: errorMessages?.length }]"
+    :class="[
+      'fixed top-4 left-[10%] w-[80%] p-4 bg-[#f33] z-[1000] transition duration-500 flex justify-between',
+      errorMessages?.length
+        ? 'opacity-100 translate-y-0'
+        : 'opacity-0 -translate-y-24 pointer-events-none',
+    ]"
     aria-live="assertive"
   >
     <div class="flex items-center justify-start">
@@ -18,7 +23,11 @@
       </div>
     </div>
     <div class="flex justify-center items-center w-6">
-      <Icon name="tabler:x" class="close-icon text-4xl" @click="onClose"></Icon>
+      <Icon
+        name="tabler:x"
+        class="text-white hover:text-[#ccc] cursor-pointer text-4xl"
+        @click="onClose"
+      ></Icon>
     </div>
   </div>
 </template>
@@ -36,32 +45,3 @@ const onClose = (): void => {
   emit("close");
 };
 </script>
-
-<style lang="css" scoped>
-.dialog-box {
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  top: 1rem;
-  left: 10%;
-  width: 80%;
-  padding: 1rem;
-  background-color: #f33;
-  transition: 0.5s;
-  z-index: 1000;
-}
-
-.dialog-box:not(.show) {
-  opacity: 0;
-  transform: translateY(-6rem);
-}
-
-.close-icon {
-  color: white;
-}
-
-.close-icon:hover {
-  cursor: pointer;
-  color: #ccc;
-}
-</style>

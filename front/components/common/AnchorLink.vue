@@ -2,14 +2,14 @@
   <a
     v-if="target === '_blank'"
     :href="link"
-    :class="[anchorClass]"
+    :class="['text-[#33f] underline', anchorClass]"
     :target="target"
   >
     <span>{{ text }}</span>
     <Icon
       v-if="!noIcon"
       :name="iconName ?? 'tabler:external-link'"
-      :class="iconClass ?? 'link-icon'"
+      :class="iconClass ?? 'translate-x-[2px] translate-y-[3px]'"
     />
   </a>
   <NuxtLink
@@ -22,7 +22,7 @@
     <Icon
       v-if="!noIcon"
       :name="iconName ?? 'tabler:math-greater'"
-      :class="iconClass ?? 'link-icon'"
+      :class="iconClass ?? 'translate-x-[2px] translate-y-[3px]'"
     />
     <span class="font-cursive ml-2">{{ text }}</span>
   </NuxtLink>
@@ -39,14 +39,3 @@ defineProps<{
   iconClass?: string;
 }>();
 </script>
-
-<style lang="css" scoped>
-a {
-  color: #33f;
-  text-decoration: underline;
-}
-
-.link-icon {
-  transform: translate(2px, 3px);
-}
-</style>

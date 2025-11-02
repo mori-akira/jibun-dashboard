@@ -2,8 +2,9 @@
   <div :class="['wrapper', wrapperClass]">
     <button
       :class="[
+        'py-[0.2rem] px-4 rounded-lg shadow-[1px_1px_2px_#000]',
+        { 'text-[0.9rem] py-[0.1rem] px-2': size === 'small' },
         buttonClass,
-        size,
         { 'action-button': type === 'action' || type === 'marked' },
         { 'add-button': type === 'add' },
         { 'delete-button': type === 'delete' },
@@ -42,14 +43,6 @@ button {
   border: 3px solid #ddd;
   background-color: #666;
   color: #fff;
-  padding: 0.2rem 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 1px 1px 2px #000;
-}
-
-button.small {
-  font-size: 0.9rem;
-  padding: 0.1rem 0.5rem;
 }
 
 button[disabled] {

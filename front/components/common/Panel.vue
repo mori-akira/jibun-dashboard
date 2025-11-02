@@ -1,5 +1,11 @@
 <template>
-  <div :class="['panel', panelClass, { center: centered }]">
+  <div
+    :class="[
+      'm-4 p-4 rounded-lg bg-white shadow-[2px_2px_4px_#000]',
+      { 'mx-auto': centered },
+      panelClass,
+    ]"
+  >
     <slot />
   </div>
 </template>
@@ -10,17 +16,3 @@ defineProps<{
   panelClass?: string;
 }>();
 </script>
-
-<style lang="css" scoped>
-.panel {
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 2px 2px 4px #000;
-}
-
-.center {
-  margin: 1rem auto;
-}
-</style>

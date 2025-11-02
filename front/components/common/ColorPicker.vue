@@ -39,9 +39,9 @@ const hexToRgba = (hex: string): string => {
     g = 0,
     b = 0;
   if (hex.length === 4) {
-    r = parseInt(hex[1] + hex[1], 16);
-    g = parseInt(hex[2] + hex[2], 16);
-    b = parseInt(hex[3] + hex[3], 16);
+    r = parseInt(hex.charAt(1) + hex.charAt(1), 16);
+    g = parseInt(hex.charAt(2) + hex.charAt(2), 16);
+    b = parseInt(hex.charAt(3) + hex.charAt(3), 16);
   } else if (hex.length === 7) {
     r = parseInt(hex.slice(1, 3), 16);
     g = parseInt(hex.slice(3, 5), 16);

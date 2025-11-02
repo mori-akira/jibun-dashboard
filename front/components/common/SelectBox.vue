@@ -1,5 +1,5 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div :class="['flex', wrapperClass]">
     <Label
       :label="label"
       :for-id="id"
@@ -11,8 +11,11 @@
         :id="id"
         :class="[
           selectClass,
-          { 'no-border': noDrawBorder },
-          { error: errorMessage },
+          'w-full outline-none border-b-2 box-content transition duration-200 bg-white py-[0.2rem] px-2',
+          errorMessage ? 'border-[#f33]' : 'border-[#aaa] focus:border-[#333]',
+          { 'border-0': noDrawBorder },
+          { 'ml-4': label },
+          'hover:cursor-pointer',
         ]"
         :value="value"
         :aria-invalid="!!errorMessage"
@@ -27,7 +30,11 @@
           {{ option.label }}
         </option>
       </select>
-      <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
+      <span
+        v-if="errorMessage"
+        class="inline-block ml-4 text-[#f33] text-[0.8rem]"
+        >{{ errorMessage }}</span
+      >
     </div>
   </div>
 </template>
@@ -65,47 +72,3 @@ const onChangeValue = (e: Event): void => {
 
 const id = computed(() => `select-${generateRandomString()}`);
 </script>
-
-<style lang="css" scoped>
-select {
-  width: stretch;
-  outline: none;
-  border-bottom: solid 2px transparent;
-  box-sizing: content-box;
-  margin-left: 1rem;
-  transition: 0.2s;
-  background-color: white;
-  padding: 0.2rem 0.5rem;
-}
-
-select:not(:focus) {
-  border-color: #aaa;
-}
-
-select:focus {
-  border-color: #333;
-}
-
-select:hover {
-  cursor: pointer;
-}
-
-select.no-border {
-  border: none !important;
-}
-
-select.error {
-  border-color: #f33;
-}
-
-.wrapper {
-  display: flex;
-}
-
-.error-message {
-  display: inline-block;
-  margin-left: 1rem;
-  color: #f33;
-  font-size: 0.8rem;
-}
-</style>

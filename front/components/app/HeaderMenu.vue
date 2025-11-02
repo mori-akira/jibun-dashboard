@@ -1,6 +1,11 @@
 <template>
-  <div :class="['container', { closed: !commonStore.isHeaderMenuOpen }]">
-    <div class="mail-area">
+  <div
+    :class="[
+      'fixed top-16 right-4 z-[998] w-64 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
+      { '-translate-y-[17rem]': !commonStore.isHeaderMenuOpen },
+    ]"
+  >
+    <div class="w-full px-4">
       <Icon name="tabler:mail" class="adjust-icon-4" />
       <span class="inline-block ml-2">{{ userStore?.user?.emailAddress }}</span>
     </div>
@@ -59,27 +64,6 @@ const userStore = useUserStore();
 </script>
 
 <style lang="css" scoped>
-.container {
-  position: fixed;
-  top: 4rem;
-  right: 1rem;
-  z-index: 998;
-  width: 16rem;
-  background-color: #eee;
-  box-shadow: 2px 2px 4px #000;
-  padding: 1rem;
-  transition: 0.5s;
-}
-
-.container.closed {
-  transform: translateY(-17rem);
-}
-
-.container .mail-area {
-  width: stretch;
-  padding: 0 1rem;
-}
-
 ul {
   list-style-type: none;
   padding: 0;

@@ -1,7 +1,12 @@
 <template>
   <label v-show="label" :class="labelClass" :for="forId"
     ><span>{{ label }}</span
-    ><span v-show="required" class="required" aria-hidden="true">*</span></label
+    ><span
+      v-show="required"
+      class="ml-[0.2rem] text-[#f33] text-[0.8rem]"
+      aria-hidden="true"
+      >*</span
+    ></label
   >
 </template>
 
@@ -13,11 +18,3 @@ defineProps<{
   labelClass?: string;
 }>();
 </script>
-
-<style lang="css" scoped>
-.required {
-  margin-left: 0.2rem;
-  color: #f33;
-  font-size: 0.8rem;
-}
-</style>

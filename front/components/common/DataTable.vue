@@ -1,15 +1,25 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
-    <div v-show="isLoading" class="loading-overlay">
-      <Icon name="tabler:loader" class="loading-spinner" />
+  <div :class="['relative flex flex-col', wrapperClass]">
+    <div
+      v-show="isLoading"
+      class="absolute inset-0 bg-white/90 flex justify-center z-[900]"
+    >
+      <Icon
+        name="tabler:loader"
+        class="w-8 h-8 mt-8 animate-spin [animation-duration:3s]"
+      />
     </div>
-    <table :class="[tableClass]">
+    <table :class="['w-full table-fixed', tableClass]">
       <thead>
         <tr>
           <th
             v-for="(column, index) in columnDefs"
             :key="`header-${index}`"
-            :class="[headerClass, column.headerClass]"
+            :class="[
+              'py-[0.2rem] px-4 border-r border-white',
+              headerClass,
+              column.headerClass,
+            ]"
             :aria-selected="sortState?.column === column.field"
             :aria-sort="
               sortState?.column === column.field
@@ -19,7 +29,7 @@
                 : undefined
             "
           >
-            <div class="header-inner">
+            <div class="flex justify-center items-center">
               <div>
                 <CheckBox
                   v-if="column.headerCheckable"
@@ -40,17 +50,15 @@
                 />
                 <span>{{ column?.header ?? "" }}</span>
               </div>
-              <div v-show="column.sortable" class="sort-button-group">
+              <div v-show="column.sortable" class="w-[0.6rem] mx-2">
                 <Icon
                   name="tabler:triangle-filled"
                   :class="[
-                    'sort-button',
-                    'asc',
-                    {
-                      selected:
-                        sortState?.column === column.field &&
-                        sortState?.direction === 'asc',
-                    },
+                    'text-[0.6rem] translate-y-[6px]',
+                    sortState?.column === column.field &&
+                    sortState?.direction === 'asc'
+                      ? 'cursor-default text-[#bbb]'
+                      : 'hover:cursor-pointer hover:text-[#bbb]',
                   ]"
                   @click="
                     onChangeSortState({
@@ -62,13 +70,11 @@
                 <Icon
                   name="tabler:triangle-inverted-filled"
                   :class="[
-                    'sort-button',
-                    'desc',
-                    {
-                      selected:
-                        sortState?.column === column.field &&
-                        sortState?.direction === 'desc',
-                    },
+                    'text-[0.6rem] -translate-y-[6px]',
+                    sortState?.column === column.field &&
+                    sortState?.direction === 'desc'
+                      ? 'cursor-default text-[#bbb]'
+                      : 'hover:cursor-pointer hover:text-[#bbb]',
                   ]"
                   @click="
                     onChangeSortState({
@@ -86,13 +92,17 @@
         <tr
           v-for="(row, index) in (displayRows as T[])"
           :key="index"
-          :class="[bodyClass, { clickable: rowClickable }]"
+          :class="[
+            bodyClass,
+            rowClickable ? 'hover:cursor-pointer hover:bg-[#efe]' : '',
+          ]"
           @click="onClickRow(row)"
         >
           <td
             v-for="(def, index2) in columnDefs"
             :key="`body-${index}-${index2}`"
             :class="[
+              'py-[0.2rem] px-2 border-b border-[#333]',
               bodyClass,
               def.bodyClass,
               def?.field && def.bodyClassFunction?.(row[def.field], row),
@@ -243,92 +253,3 @@ watch(
   { immediate: true }
 );
 </script>
-
-<style lang="css" scoped>
-.wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-table {
-  width: 100%;
-  table-layout: fixed;
-}
-
-th {
-  padding: 0.2rem 1rem;
-  border-right: 1px solid #fff;
-}
-
-th > .header-inner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-th > .header-inner > .sort-button-group {
-  width: 0.6rem;
-  margin: 0 0.5rem;
-}
-
-th > .header-inner > .sort-button-group > .sort-button {
-  font-size: 0.6rem;
-}
-
-th > .header-inner > .sort-button-group > .sort-button:hover {
-  cursor: pointer;
-  color: #bbb;
-}
-
-th > .header-inner > .sort-button-group > .sort-button.selected {
-  cursor: unset;
-  color: #bbb;
-}
-
-th > .header-inner > .sort-button-group > .sort-button.asc {
-  transform: translateY(6px);
-}
-
-th > .header-inner > .sort-button-group > .sort-button.desc {
-  transform: translateY(-6px);
-}
-
-tbody > tr.clickable:hover {
-  cursor: pointer;
-  background-color: #efe;
-}
-
-td {
-  padding: 0.2rem 0.5rem;
-  border-bottom: 1px solid #333;
-}
-
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffffdd;
-  display: flex;
-  justify-content: center;
-  z-index: 900;
-}
-
-.loading-spinner {
-  width: 2rem;
-  height: 2rem;
-  margin-top: 2rem;
-  animation: rotation 3s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>

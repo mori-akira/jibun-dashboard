@@ -1,6 +1,14 @@
 <template>
-  <div v-if="isLoading" class="loading-overlay" role="status" aria-busy="true">
-    <Icon name="tabler:loader" class="loading-icon" />
+  <div
+    v-if="isLoading"
+    class="fixed inset-0 bg-black/80 flex justify-center items-center z-[1002]"
+    role="status"
+    aria-busy="true"
+  >
+    <Icon
+      name="tabler:loader"
+      class="w-16 h-16 text-white animate-spin [animation-duration:3s]"
+    />
   </div>
 </template>
 
@@ -9,34 +17,3 @@ defineProps<{
   isLoading: boolean;
 }>();
 </script>
-
-<style lang="css" scoped>
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1002;
-}
-
-.loading-icon {
-  width: 4rem;
-  height: 4rem;
-  color: #fff;
-  animation: rotation 3s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
