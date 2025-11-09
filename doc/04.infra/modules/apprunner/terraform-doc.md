@@ -72,8 +72,8 @@ No modules.
 | <a name="input_runtime_env"></a> [runtime\_env](#input\_runtime\_env) | 環境変数 | `map(string)` | `{}` | no |
 | <a name="input_server_servlet_context_path"></a> [server\_servlet\_context\_path](#input\_server\_servlet\_context\_path) | サーブレットのコンテキストパス | `string` | `"/api/v1"` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | タイムゾーン | `string` | `"Asia/Tokyo"` | no |
-| <a name="input_upload_bucket_arn"></a> [upload\_bucket\_arn](#input\_upload\_bucket\_arn) | アップロード用S3バケットARN | `string` | n/a | yes |
-| <a name="input_upload_bucket_name"></a> [upload\_bucket\_name](#input\_upload\_bucket\_name) | アップロード用S3バケット名 | `string` | n/a | yes |
+| <a name="input_uploads_bucket_arn"></a> [uploads\_bucket\_arn](#input\_uploads\_bucket\_arn) | アップロード用S3バケットARN | `string` | n/a | yes |
+| <a name="input_uploads_bucket_name"></a> [uploads\_bucket\_name](#input\_uploads\_bucket\_name) | アップロード用S3バケット名 | `string` | n/a | yes |
 
 ## Outputs
 
