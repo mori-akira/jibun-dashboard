@@ -48,6 +48,7 @@ resource "aws_s3_bucket_policy" "force_tls" {
 
 # 自動削除
 resource "aws_s3_bucket_lifecycle_configuration" "uploads" {
+  count  = var.enable_lifecycle ? 1 : 0
   bucket = aws_s3_bucket.uploads.id
   rule {
     id     = "expire-temporary-objects"

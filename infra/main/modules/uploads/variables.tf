@@ -28,3 +28,9 @@ variable "enable_force_tls_policy" {
   type        = bool
   default     = true
 }
+
+variable "enable_lifecycle" {
+  description = "S3ライフサイクルフラグ"
+  type        = bool
+  default     = true
+}
