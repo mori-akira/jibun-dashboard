@@ -22,3 +22,9 @@ variable "allowed_origins" {
   description = "CORS許可オリジン"
   type        = list(string)
 }
+
+variable "enable_force_tls_policy" {
+  description = "TLS強制ポリシーフラグ"
+  type        = bool
+  default     = true
+}

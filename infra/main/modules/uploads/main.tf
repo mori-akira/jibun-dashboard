@@ -24,6 +24,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "uploads" {
 
 # TLS以外のアクセス拒否
 resource "aws_s3_bucket_policy" "force_tls" {
+  count  = var.enable_force_tls_policy ? 1 : 0
   bucket = aws_s3_bucket.uploads.id
   policy = jsonencode({
     Version = "2012-10-17",

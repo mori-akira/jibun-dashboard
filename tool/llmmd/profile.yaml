@@ -121,6 +121,16 @@ function.qualification:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/QualificationService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/QualificationRepository.kt
 
+backend.env.local:
+  - back/build.gradle.kts
+  - back/local/docker-compose.local.yml
+  - back/local/terraform/main.tf
+  - back/local/seed/resources-i18n.json
+  - back/local/seed/users.json
+  - back/local/seed/settings.json
+  - back/local/seed/salaries.json
+  - back/local/seed/qualifications.json
+
 backend.base:
   - back/Dockerfile
   - back/build.gradle.kts
