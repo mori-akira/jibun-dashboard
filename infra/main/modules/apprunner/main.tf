@@ -99,7 +99,7 @@ data "aws_iam_policy_document" "apprunner_ssm_read" {
       "ssm:GetParameter",
       "ssm:GetParameters"
     ]
-    resources = [data.aws_ssm_parameter.openai_api_key.arn]
+    resources = [aws_ssm_parameter.openai_api_key.arn]
   }
   statement {
     actions   = ["kms:Decrypt"]
