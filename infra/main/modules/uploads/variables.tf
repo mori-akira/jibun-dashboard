@@ -13,8 +13,8 @@ variable "expire_after_days" {
   type        = number
   default     = 7
   validation {
-    condition     = var.expire_after_days >= 1 && floor(var.expire_after_days) == var.expire_after_days
-    error_message = "expire_after_days must be an integer >= 1."
+    condition     = var.expire_after_days >= 0 && floor(var.expire_after_days) == var.expire_after_days
+    error_message = "expire_after_days must be an integer >= 0."
   }
 }
 
