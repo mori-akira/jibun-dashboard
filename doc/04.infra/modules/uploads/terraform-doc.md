@@ -32,7 +32,6 @@ No modules.
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | 一時アップロード用バケット名 | `string` | n/a | yes |
 | <a name="input_enable_force_tls_policy"></a> [enable\_force\_tls\_policy](#input\_enable\_force\_tls\_policy) | TLS強制ポリシーフラグ | `bool` | `true` | no |
-| <a name="input_enable_lifecycle"></a> [enable\_lifecycle](#input\_enable\_lifecycle) | S3ライフサイクルフラグ | `bool` | `true` | no |
 | <a name="input_expire_after_days"></a> [expire\_after\_days](#input\_expire\_after\_days) | 一時ファイルの保持日数 | `number` | `7` | no |
 
 ## Outputs
