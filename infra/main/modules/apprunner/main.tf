@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "apprunner_s3_upload" {
       "s3:ListBucketMultipartUploads"
     ]
     resources = [
-      "${var.upload_bucket_arn}/*"
+      "${var.uploads_bucket_arn}/*"
     ]
   }
 }
@@ -116,7 +116,7 @@ resource "aws_apprunner_service" "this" {
           COGNITO_USER_POOL_ID        = var.cognito_user_pool_id
           COGNITO_CLIENT_ID           = var.cognito_client_id
           COGNITO_DOMAIN              = var.cognito_domain
-          UPLOAD_BUCKET_NAME          = var.upload_bucket_name
+          UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
         }, var.runtime_env)
       }
     }

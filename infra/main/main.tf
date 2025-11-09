@@ -117,8 +117,8 @@ module "apprunner" {
   cognito_client_id    = var.cognito_client_id
   cognito_domain       = var.cognito_domain
 
-  upload_bucket_name = module.uploads.bucket_name
-  upload_bucket_arn  = module.uploads.bucket_arn
+  uploads_bucket_name = module.uploads.bucket_name
+  uploads_bucket_arn  = module.uploads.bucket_arn
 }
 
 module "apigateway" {

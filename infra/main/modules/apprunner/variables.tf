@@ -119,12 +119,12 @@ variable "cognito_domain" {
   type        = string
 }
 
-variable "upload_bucket_name" {
+variable "uploads_bucket_name" {
   description = "アップロード用S3バケット名"
   type        = string
 }
 
-variable "upload_bucket_arn" {
+variable "uploads_bucket_arn" {
   description = "アップロード用S3バケットARN"
   type        = string
 }
