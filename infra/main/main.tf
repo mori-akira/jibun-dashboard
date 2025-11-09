@@ -108,6 +108,7 @@ module "apprunner" {
   application_tag    = module.application.application_tag
   ecr_repository_url = module.ecr.repository_url
   ecr_repository_arn = module.ecr.repository_arn
+  openai_api_key     = var.openai_api_key
 
   dynamodb_table_arns = [
     for k, m in module.dynamodb : m.table_arn

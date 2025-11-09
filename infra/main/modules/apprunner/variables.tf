@@ -128,3 +128,15 @@ variable "uploads_bucket_arn" {
   description = "アップロード用S3バケットARN"
   type        = string
 }
+
+variable "openai_api_key" {
+  description = "OpenAIのAPIキー"
+  type        = string
+  sensitive   = true
+}
+
+variable "openai_model" {
+  description = "使用するOpenAIモデル"
+  type        = string
+  default     = "gpt-5"
+}

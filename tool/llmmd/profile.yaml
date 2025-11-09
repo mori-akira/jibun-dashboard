@@ -73,6 +73,17 @@ infra.main:
   - infra/main/modules/frontend/variables.tf
   - infra/main/modules/frontend/outputs.tf
 
+infra.main.apprunner:
+  - infra/main/main.tf
+  - infra/main/variables.tf
+  - infra/main/terraform.tfvars
+  - infra/main/modules/apprunner/main.tf
+  - infra/main/modules/apprunner/ssm.tf
+  - infra/main/modules/apprunner/scheduler.tf
+  - infra/main/modules/apprunner/variable.tf
+  - infra/main/modules/apprunner/outputs.tf
+  - infra/main/modules/apprunner/apprunner_ops.py
+
 infra.e2e:
   - infra/main/main.tf
   - infra/main/versions.tf
@@ -152,6 +163,24 @@ backend.function.user:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/UserController.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/UserService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/UserRepository.kt
+
+backend.function.file:
+  - back/build.gradle.kts
+  - back/src/main/resources/application.yaml
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/LambdaApplication.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/S3Config.kt
+  - back/build/generated/src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/FileApi.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/FileController.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/FileUploadService.kt
+
+backend.function.salary:
+  - back/build.gradle.kts
+  - back/src/main/resources/application.yaml
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/LambdaApplication.kt
+  - back/build/generated/src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/SalaryApi.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/SalaryController.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/SalaryService.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/SalaryRepository.kt
 
 e2e.env:
   - e2e/.devcontainer/devcontainer.json

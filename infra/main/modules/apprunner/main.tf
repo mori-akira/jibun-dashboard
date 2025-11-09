@@ -68,10 +68,11 @@ resource "aws_iam_role_policy_attachment" "attach_dynamodb" {
   policy_arn = aws_iam_policy.dynamodb.arn
 }
 
-data "aws_iam_policy_document" "apprunner_s3_upload" {
+data "aws_iam_policy_document" "apprunner_s3_uploads_bucket" {
   statement {
     sid = "AllowPutObjectToUploads"
     actions = [
+      "s3:GetObject",
       "s3:PutObject",
       "s3:AbortMultipartUpload",
       "s3:ListBucketMultipartUploads"
@@ -82,14 +83,38 @@ data "aws_iam_policy_document" "apprunner_s3_upload" {
   }
 }
 
-resource "aws_iam_policy" "apprunner_s3_upload" {
+resource "aws_iam_policy" "apprunner_s3_uploads_bucket" {
   name   = "${var.app_name}-apprunner-s3-uploads-policy"
-  policy = data.aws_iam_policy_document.apprunner_s3_upload.json
+  policy = data.aws_iam_policy_document.apprunner_s3_uploads_bucket.json
 }
 
-resource "aws_iam_role_policy_attachment" "attach_s3_upload" {
+resource "aws_iam_role_policy_attachment" "attach_s3_uploads_bucket" {
   role       = aws_iam_role.instance.name
-  policy_arn = aws_iam_policy.apprunner_s3_upload.arn
+  policy_arn = aws_iam_policy.apprunner_s3_uploads_bucket.arn
+}
+
+data "aws_iam_policy_document" "apprunner_ssm_read" {
+  statement {
+    actions = [
+      "ssm:GetParameter",
+      "ssm:GetParameters"
+    ]
+    resources = [data.aws_ssm_parameter.openai_api_key.arn]
+  }
+  statement {
+    actions   = ["kms:Decrypt"]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "apprunner_ssm_read" {
+  name   = "${var.app_name}-apprunner-ssm-read"
+  policy = data.aws_iam_policy_document.apprunner_ssm_read.json
+}
+
+resource "aws_iam_role_policy_attachment" "apprunner_ssm_read_attach" {
+  role       = aws_iam_role.instance.name
+  policy_arn = aws_iam_policy.apprunner_ssm_read.arn
 }
 
 resource "aws_apprunner_service" "this" {
@@ -106,6 +131,7 @@ resource "aws_apprunner_service" "this" {
       image_identifier      = "${var.ecr_repository_url}:${var.image_tag}"
       image_configuration {
         port = tostring(var.container_port)
+
         runtime_environment_variables = merge({
           APP_NAME                    = var.app_name
           ENV_NAME                    = var.env_name
@@ -117,7 +143,12 @@ resource "aws_apprunner_service" "this" {
           COGNITO_CLIENT_ID           = var.cognito_client_id
           COGNITO_DOMAIN              = var.cognito_domain
           UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
+          OPENAI_MODEL                = var.openai_model
         }, var.runtime_env)
+
+        runtime_environment_secrets = {
+          OPENAI_API_KEY = aws_ssm_parameter.openai_api_key.arn
+        }
       }
     }
 
