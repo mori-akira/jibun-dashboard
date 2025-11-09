@@ -11,7 +11,12 @@ provider "aws" {
   secret_key                  = "dummy"
   skip_credentials_validation = true
   skip_requesting_account_id  = true
-  endpoints { dynamodb = "http://localhost:8000" }
+  skip_metadata_api_check     = true
+  s3_use_path_style           = true
+  endpoints {
+    dynamodb = "http://localhost:8000"
+    s3       = "http://localhost:4566"
+  }
 }
 
 locals {
@@ -85,4 +90,18 @@ module "dynamodb_qualifications" {
   ]
 }
 
-output "done" { value = "applied to dynamodb-local" }
+module "uploads_local" {
+  source                  = "../../../infra/main/modules/uploads"
+  bucket_name             = "${local.app_name}-${local.env_name}-uploads-bucket"
+  application_tag         = local.tag
+  expire_after_days       = 0
+  enable_force_tls_policy = false
+
+  allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+    "*",
+  ]
+}
+
+output "done" { value = "completed to set up local" }

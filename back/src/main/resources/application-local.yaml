@@ -15,3 +15,6 @@ app:
       client-id: "jibun-dashboard-local"
   dynamodb:
     endpoint: http://localhost:8000
+  s3:
+    endpoint: http://localhost:4566
+    enable-path-style-access: true

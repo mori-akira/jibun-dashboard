@@ -45,6 +45,7 @@ dependencies {
     implementation("software.amazon.awssdk:cognitoidentityprovider:2.32.33")
     implementation("software.amazon.awssdk:dynamodb:2.32.33")
     implementation("software.amazon.awssdk:dynamodb-enhanced:2.32.33")
+    implementation("software.amazon.awssdk:s3:2.32.33")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
@@ -207,47 +208,47 @@ val composeFile = File("$rootDir/local/docker-compose.local.yml")
 val tfDir = File("$rootDir/local/terraform")
 val seedDir = File("$rootDir/local/seed")
 
-tasks.register<Exec>("dynamodbDockerUp") {
-    group = "local-dynamodb"
+tasks.register<Exec>("localDockerUp") {
+    group = "local-env"
     commandLine("docker", "compose", "-f", composeFile.absolutePath, "up", "-d")
 }
 
-tasks.register<Exec>("dynamodbDockerDown") {
-    group = "local-dynamodb"
+tasks.register<Exec>("localDockerDown") {
+    group = "local-env"
     commandLine("docker", "compose", "-f", composeFile.absolutePath, "down", "-v")
 }
 
-tasks.register<Exec>("dynamodbTfInit") {
-    group = "local-dynamodb"
+tasks.register<Exec>("localTfInit") {
+    group = "local-env"
     workingDir(tfDir)
     commandLine("terraform", "init")
 }
 
-tasks.register<Exec>("dynamodbTfApply") {
-    group = "local-dynamodb"
+tasks.register<Exec>("localTfApply") {
+    group = "local-env"
     workingDir(tfDir)
     commandLine("terraform", "apply", "-auto-approve")
-    dependsOn("dynamodbTfInit")
+    dependsOn("localTfInit")
 }
 
-tasks.register<Exec>("dynamodbTfDestroy") {
-    group = "local-dynamodb"
+tasks.register<Exec>("localTfDestroy") {
+    group = "local-env"
     workingDir(tfDir)
     commandLine("terraform", "destroy", "-auto-approve")
 }
 
-tasks.register("dynamodbUp") {
-    group = "local-dynamodb"
-    dependsOn("dynamodbDockerUp", "dynamodbTfApply")
+tasks.register("localEnvUp") {
+    group = "local-env"
+    dependsOn("localDockerUp", "localTfApply")
 }
 
-tasks.register("dynamodbDown") {
-    group = "local-dynamodb"
-    dependsOn("dynamodbDockerDown")
+tasks.register("localEnvDown") {
+    group = "local-env"
+    dependsOn("localDockerDown")
 }
 
 fun registerSeedTaskFor(file: File) = tasks.register<Exec>("seed_" + file.nameWithoutExtension) {
-    group = "local-dynamodb"
+    group = "local-env"
     environment("AWS_ACCESS_KEY_ID", "dummy")
     environment("AWS_SECRET_ACCESS_KEY", "dummy")
     environment("AWS_REGION", "ap-northeast-1")
@@ -267,10 +268,10 @@ val seedFiles = seedDir.listFiles { f -> f.isFile && f.extension == "json" }?.so
 val perTableSeedTasks = seedFiles.map { registerSeedTaskFor(it) }
 
 tasks.register("dynamodbSeedAll") {
-    group = "local-dynamodb"
+    group = "local-env"
     dependsOn(perTableSeedTasks)
 }
 
-tasks.named("dynamodbUp") {
+tasks.named("localEnvUp") {
     finalizedBy("dynamodbSeedAll")
 }
