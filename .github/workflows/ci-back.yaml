@@ -30,4 +30,4 @@ jobs:
         run: sudo chmod +x gradlew
 
       - name: Check Code
-        run: ./gradlew detekt spotlessCheck test  --no-daemon
+        run: ./gradlew detekt spotlessCheck test --no-daemon

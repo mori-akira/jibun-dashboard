@@ -141,7 +141,7 @@ jobs:
           if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/generated/api/client/api.ts; then
             echo 'export type LocaleCode = I18n;' >> ../front/generated/api/client/api.ts
           fi
-          npx openapi-zod-client  openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas
+          npx openapi-zod-client openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas
           cd ../front
           sed -i '1s;^;/* eslint-disable */\n;' generated/api/client/schemas.ts
           npx --yes prettier@3 --write "generated/api/client/**/*.{ts,tsx,js,json}"
