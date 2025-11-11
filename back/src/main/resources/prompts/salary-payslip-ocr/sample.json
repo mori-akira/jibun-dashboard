@@ -1,0 +1,94 @@
+{
+  "overview": {
+    "grossIncome": 400000,
+    "netIncome": 300000,
+    "operatingTime": 157.25,
+    "overtime": 25.8,
+    "bonus": 0,
+    "bonusTakeHome": 0
+  },
+  "structure": {
+    "basicSalary": 300000,
+    "overtimePay": 80000,
+    "housingAllowance": 0,
+    "positionAllowance": 0,
+    "other": 20000
+  },
+  "payslipData": [
+    {
+      "key": "支給項目",
+      "data": [
+        {
+          "key": "基礎給与",
+          "data": 300000
+        },
+        {
+          "key": "時間外勤務手当",
+          "data": 70000
+        },
+        {
+          "key": "休日勤務手当",
+          "data": 10000
+        },
+        {
+          "key": "通勤手当",
+          "data": 4000
+        },
+        {
+          "key": "前月前払退職金",
+          "data": 16000
+        }
+      ]
+    },
+    {
+      "key": "控除項目",
+      "data": [
+        {
+          "key": "健康保険料",
+          "data": 25000
+        },
+        {
+          "key": "厚生年金保険料",
+          "data": 50000
+        },
+        {
+          "key": "雇用保険料",
+          "data": 5000
+        },
+        {
+          "key": "所得税",
+          "data": 20000
+        }
+      ]
+    },
+    {
+      "key": "勤怠情報",
+      "data": [
+        {
+          "key": "所定勤務日数",
+          "data": 20
+        },
+        {
+          "key": "所定勤務時間数",
+          "data": 155
+        },
+        {
+          "key": "年休取得日数",
+          "data": 3
+        },
+        {
+          "key": "所定内勤務時間数",
+          "data": 131.45
+        },
+        {
+          "key": "所定外勤務時間数",
+          "data": 25
+        },
+        {
+          "key": "休日勤務時間数",
+          "data": 0.8
+        }
+      ]
+    }
+  ]
+}

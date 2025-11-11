@@ -72,8 +72,14 @@ class SalaryController(
         return ResponseEntity.noContent().build()
     }
 
-    override fun getSalaryOcr(targetDate: LocalDate, fileId: UUID): ResponseEntity<SalaryId> =
-        ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build()
+    override fun getSalaryOcr(targetDate: LocalDate, fileId: UUID): ResponseEntity<SalaryId> {
+        val model = salaryService.get(currentAuth.userId, targetDate.toString())
+        val salaryId = model?.salaryId ?: UUID.randomUUID().toString()
+        val ocrResult = salaryService.runOcr(salaryId, currentAuth.userId, fileId, targetDate.toString())
+        val savedSalaryId = salaryService.put(ocrResult)
+        val status = if (model == null) HttpStatus.CREATED else HttpStatus.OK
+        return ResponseEntity.status(status).body(SalaryId(salaryId = UUID.fromString(savedSalaryId)))
+    }
 
     private fun SalaryModel.toApi(): Salary = Salary(
         salaryId = UUID.fromString(this.salaryId),

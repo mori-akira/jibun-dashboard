@@ -42,3 +42,21 @@ app:
   security:
     cognito:
       region: ${AWS_REGION:ap-northeast-1}
+  openai:
+    model: ${OPENAI_MODEL:gpt-5}
+    prompts:
+      salary-payslip-ocr:
+        system: classpath:prompts/salary-payslip-ocr/system.md
+        user: classpath:prompts/salary-payslip-ocr/user.md
+        sample: classpath:prompts/salary-payslip-ocr/sample.json
+resilience4j:
+  retry:
+    instances:
+      openaiClient:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2.0
+        retryExceptions:
+          - java.lang.RuntimeException
+        failAfterMaxAttempts: true

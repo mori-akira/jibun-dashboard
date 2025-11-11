@@ -25,7 +25,7 @@ class FileUploadService(
     ): PresignedUrlResult {
         val appliedFileId = fileId ?: UUID.randomUUID()
         val appliedExpires = expires ?: defaultUrlExpirationSeconds
-        val key = "uploads/$userId/$appliedFileId"
+        val key = uploadKey(userId, appliedFileId)
         val putObj: PutObjectRequest = PutObjectRequest.builder().bucket(uploadsBucketName).key(key).build()
         val presignReq: PutObjectPresignRequest =
             PutObjectPresignRequest.builder().signatureDuration(Duration.ofSeconds(appliedExpires.toLong()))
@@ -37,6 +37,8 @@ class FileUploadService(
             expireDateTime = OffsetDateTime.now().plusSeconds(appliedExpires.toLong()),
         )
     }
+
+    fun uploadKey(userId: String, fileId: UUID): String = "uploads/$userId/$fileId"
 }
 
 data class PresignedUrlResult(
