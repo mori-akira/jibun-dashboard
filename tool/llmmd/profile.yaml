@@ -177,10 +177,18 @@ backend.function.salary:
   - back/build.gradle.kts
   - back/src/main/resources/application.yaml
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/LambdaApplication.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/OpenAIConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/S3Config.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/DynamoDbConfig.kt
   - back/build/generated/src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/SalaryApi.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/SalaryController.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/SalaryService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/SalaryRepository.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/prompts/SalaryPayslipOcrPromptsProperties.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/prompts/SalaryPayslipOcrPromptsProvider.kt
+  - back/src/main/resources/prompts/salary-payslip-ocr/system.md
+  - back/src/main/resources/prompts/salary-payslip-ocr/user.md
+  - back/src/main/resources/prompts/salary-payslip-ocr/sample.json
 
 e2e.env:
   - e2e/.devcontainer/devcontainer.json
