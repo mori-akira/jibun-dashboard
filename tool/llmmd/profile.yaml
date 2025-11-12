@@ -72,10 +72,29 @@ infra.main:
   - infra/main/modules/frontend/main.tf
   - infra/main/modules/frontend/variables.tf
   - infra/main/modules/frontend/outputs.tf
+  - infra/main/modules/uploads/main.tf
+  - infra/main/modules/uploads/variables.tf
+  - infra/main/modules/uploads/outputs.tf
+
+infra.main.apigateway:
+  - infra/main/main.tf
+  - infra/main/versions.tf
+  - infra/main/providers.tf
+  - infra/main/backend.tf
+  - infra/main/variables.tf
+  - infra/main/outputs.tf
+  - infra/main/terraform.tfvars
+  - infra/main/modules/apigateway/main.tf
+  - infra/main/modules/apigateway/variables.tf
+  - infra/main/modules/apigateway/outputs.tf
 
 infra.main.apprunner:
   - infra/main/main.tf
+  - infra/main/versions.tf
+  - infra/main/providers.tf
+  - infra/main/backend.tf
   - infra/main/variables.tf
+  - infra/main/outputs.tf
   - infra/main/terraform.tfvars
   - infra/main/modules/apprunner/main.tf
   - infra/main/modules/apprunner/ssm.tf
@@ -84,7 +103,19 @@ infra.main.apprunner:
   - infra/main/modules/apprunner/outputs.tf
   - infra/main/modules/apprunner/apprunner_ops.py
 
-infra.e2e:
+infra.main.uploads:
+  - infra/main/main.tf
+  - infra/main/versions.tf
+  - infra/main/providers.tf
+  - infra/main/backend.tf
+  - infra/main/variables.tf
+  - infra/main/outputs.tf
+  - infra/main/terraform.tfvars
+  - infra/main/modules/uploads/main.tf
+  - infra/main/modules/uploads/variables.tf
+  - infra/main/modules/uploads/outputs.tf
+
+infra.main.e2e:
   - infra/main/main.tf
   - infra/main/versions.tf
   - infra/main/providers.tf

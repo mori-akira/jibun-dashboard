@@ -68,6 +68,6 @@ resource "aws_s3_bucket_cors_configuration" "uploads" {
     allowed_origins = var.allowed_origins
     allowed_headers = ["*"]
     expose_headers  = []
-    max_age_seconds = 300
+    max_age_seconds = 3000
   }
 }
