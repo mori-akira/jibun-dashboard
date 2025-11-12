@@ -15,13 +15,14 @@ import com.openai.models.responses.ResponseInputItem.Message
 import com.openai.models.responses.StructuredResponse
 import io.github.resilience4j.retry.annotation.Retry
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.sync.ResponseTransformer
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.UUID
+import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -34,6 +35,7 @@ class SalaryService(
     private val fileUploadService: FileUploadService,
     @param:Value("\${app.s3.uploads-bucket.name}") private val uploadsBucketName: String,
     @param:Value("\${app.openai.model}") private val openAIModel: String,
+    @param:Lazy private val self: SalaryService?,
 ) {
 
     fun get(userId: String, targetDate: String): SalaryModel? = salaryRepository.get(userId, targetDate)?.toDomain()
@@ -57,37 +59,54 @@ class SalaryService(
         return model.salaryId
     }
 
-    @Suppress("TooGenericExceptionCaught", "SwallowedException")
+    @Suppress("TooGenericExceptionCaught", "SwallowedException", "NestedBlockDepth")
     fun runOcr(salaryId: String, userId: String, fileId: UUID, date: String): SalaryModel {
-        // S3からダウンロード
         val s3Key = fileUploadService.uploadKey(userId, fileId)
-        val tempDir = Files.createTempDirectory("payslip-")
-        val tmpPdf = tempDir.resolve("payslip-$fileId.pdf")
+        val tmpDir = Files.createTempDirectory("payslip-")
+        val tmpPdf = tmpDir.resolve("payslip-$fileId.pdf")
         try {
-            s3Client.getObject(
-                GetObjectRequest.builder().bucket(uploadsBucketName).key(s3Key).build(),
-                ResponseTransformer.toFile(tmpPdf),
+            try {
+                // S3からダウンロード
+                s3Client.getObject(
+                    GetObjectRequest.builder().bucket(uploadsBucketName).key(s3Key).build(),
+                    ResponseTransformer.toFile(tmpPdf),
+                )
+            } catch (_: Exception) {
+                try {
+                    Files.deleteIfExists(tmpPdf)
+                } catch (_: Exception) {
+                }
+                error("Failed to download from S3: s3://$uploadsBucketName/$s3Key")
+            }
+
+            // OCR実行
+            val ocrResult = self?.queryOpenAI(tmpPdf) ?: error("Self reference of SalaryService is not initialized.")
+
+            return SalaryModel(
+                salaryId = salaryId,
+                userId = userId,
+                targetDate = date,
+                overview = ocrResult.overview,
+                structure = ocrResult.structure,
+                payslipData = ocrResult.payslipData,
             )
-        } catch (_: Exception) {
-            Files.deleteIfExists(tmpPdf)
-            error("Failed to download from S3: s3://$uploadsBucketName/$s3Key")
+        } finally {
+            try {
+                Files.walk(tmpDir)
+                    .sorted(Comparator.reverseOrder())
+                    .forEach { path ->
+                        try {
+                            Files.deleteIfExists(path)
+                        } catch (_: Exception) {
+                        }
+                    }
+            } catch (_: Exception) {
+            }
         }
-
-        // OCR実行
-        val ocrResult = queryOpenAI(tmpPdf)
-
-        return SalaryModel(
-            salaryId = salaryId,
-            userId = userId,
-            targetDate = date,
-            overview = ocrResult.overview,
-            structure = ocrResult.structure,
-            payslipData = ocrResult.payslipData,
-        )
     }
 
     @Retry(name = "openaiClient")
-    private fun queryOpenAI(attachment: Path): OcrResult {
+    fun queryOpenAI(attachment: Path): OcrResult {
         // ファイルアップロード
         val uploaded: FileObject = openAIClient.files().create(
             FileCreateParams.builder().file(attachment).purpose(FilePurpose.ASSISTANTS).build(),
@@ -98,7 +117,6 @@ class SalaryService(
         val params = ResponseCreateParams.builder()
             .model(ChatModel.of(openAIModel))
             .text(OcrResult::class.java)
-            .temperature(0.0)
             .inputOfResponse(
                 listOf(
                     // システムプロンプト
@@ -114,7 +132,7 @@ class SalaryService(
                             .role(Message.Role.USER)
                             .addInputTextContent(userPrompt)
                             .addContent(
-                                ResponseInputFile.builder().fileId(uploaded.id()).filename("payslip.pdf").build(),
+                                ResponseInputFile.builder().fileId(uploaded.id()).build(),
                             )
                             .build(),
                     ),

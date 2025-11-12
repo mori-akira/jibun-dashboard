@@ -24,6 +24,7 @@ class SalaryServiceTest :
         val fileUploadService = mockk<FileUploadService>(relaxed = true)
         val uploadsBucketName = "uploads-bucket"
         val openAIModel = "test-model"
+        val self = mockk<SalaryService>(relaxed = true)
 
         val service = SalaryService(
             repository,
@@ -33,6 +34,7 @@ class SalaryServiceTest :
             fileUploadService,
             uploadsBucketName,
             openAIModel,
+            self,
         )
 
         beforeTest {
@@ -42,6 +44,7 @@ class SalaryServiceTest :
                 s3Client,
                 openAIClient,
                 fileUploadService,
+                self,
                 answers = false,
                 recordedCalls = true,
                 childMocks = true,
@@ -245,10 +248,9 @@ class SalaryServiceTest :
                 ),
             )
 
-            val spy = io.mockk.spyk(service)
-            every { spy["queryOpenAI"](any<java.nio.file.Path>()) } returns ocrResult
+            every { self.queryOpenAI(any<java.nio.file.Path>()) } returns ocrResult
 
-            val res = spy.runOcr(salaryId, userId, fileId, date)
+            val res = service.runOcr(salaryId, userId, fileId, date)
 
             res.salaryId shouldBe salaryId
             res.userId shouldBe userId
