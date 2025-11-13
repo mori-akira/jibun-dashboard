@@ -93,30 +93,6 @@ resource "aws_iam_role_policy_attachment" "attach_s3_uploads_bucket" {
   policy_arn = aws_iam_policy.apprunner_s3_uploads_bucket.arn
 }
 
-data "aws_iam_policy_document" "apprunner_ssm_read" {
-  statement {
-    actions = [
-      "ssm:GetParameter",
-      "ssm:GetParameters"
-    ]
-    resources = [aws_ssm_parameter.openai_api_key.arn]
-  }
-  statement {
-    actions   = ["kms:Decrypt"]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_policy" "apprunner_ssm_read" {
-  name   = "${var.app_name}-apprunner-ssm-read"
-  policy = data.aws_iam_policy_document.apprunner_ssm_read.json
-}
-
-resource "aws_iam_role_policy_attachment" "apprunner_ssm_read_attach" {
-  role       = aws_iam_role.instance.name
-  policy_arn = aws_iam_policy.apprunner_ssm_read.arn
-}
-
 resource "aws_apprunner_service" "this" {
   service_name = "${var.app_name}-${var.env_name}"
   tags         = var.application_tag
@@ -143,12 +119,7 @@ resource "aws_apprunner_service" "this" {
           COGNITO_CLIENT_ID           = var.cognito_client_id
           COGNITO_DOMAIN              = var.cognito_domain
           UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
-          OPENAI_MODEL                = var.openai_model
         }, var.runtime_env)
-
-        runtime_environment_secrets = {
-          OPENAI_API_KEY = aws_ssm_parameter.openai_api_key.arn
-        }
       }
     }
 
