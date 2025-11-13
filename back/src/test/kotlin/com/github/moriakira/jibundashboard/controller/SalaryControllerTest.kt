@@ -239,43 +239,4 @@ class SalaryControllerTest :
             res.statusCode shouldBe HttpStatus.NO_CONTENT
             verify(exactly = 1) { salaryService.deleteBySalaryId("u1", "2025-08-15") }
         }
-
-        "getSalaryOcr: 既存のSalaryが存在しない場合は新規作成して201を返す" {
-            val targetDate = LocalDate.parse("2025-09-01")
-            val fileId = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-            val newSalaryId = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
-            val ocrResult = sampleModel(id = newSalaryId)
-
-            every { salaryService.get("u1", "2025-09-01") } returns null
-            every { salaryService.runOcr(any(), "u1", fileId, "2025-09-01") } returns ocrResult
-            every { salaryService.put(ocrResult) } returns newSalaryId
-
-            val res = controller.getSalaryOcr(targetDate, fileId)
-
-            res.statusCode shouldBe HttpStatus.CREATED
-            res.body!!.salaryId.toString() shouldBe newSalaryId
-            verify(exactly = 1) { salaryService.get("u1", "2025-09-01") }
-            verify(exactly = 1) { salaryService.runOcr(match { it.length == 36 }, "u1", fileId, "2025-09-01") }
-            verify(exactly = 1) { salaryService.put(ocrResult) }
-        }
-
-        "getSalaryOcr: 既存のSalaryが存在する場合は更新して200を返す" {
-            val targetDate = LocalDate.parse("2025-09-01")
-            val fileId = UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc")
-            val existingSalaryId = "dddddddd-dddd-dddd-dddd-dddddddddddd"
-            val existingModel = sampleModel(id = existingSalaryId)
-            val ocrResult = sampleModel(id = existingSalaryId)
-
-            every { salaryService.get("u1", "2025-09-01") } returns existingModel
-            every { salaryService.runOcr(existingSalaryId, "u1", fileId, "2025-09-01") } returns ocrResult
-            every { salaryService.put(ocrResult) } returns existingSalaryId
-
-            val res = controller.getSalaryOcr(targetDate, fileId)
-
-            res.statusCode shouldBe HttpStatus.OK
-            res.body!!.salaryId.toString() shouldBe existingSalaryId
-            verify(exactly = 1) { salaryService.get("u1", "2025-09-01") }
-            verify(exactly = 1) { salaryService.runOcr(existingSalaryId, "u1", fileId, "2025-09-01") }
-            verify(exactly = 1) { salaryService.put(ocrResult) }
-        }
     })

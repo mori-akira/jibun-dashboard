@@ -1,9 +1,7 @@
 package com.github.moriakira.jibundashboard.service
 
-import com.github.moriakira.jibundashboard.prompts.SalaryPayslipOcrPromptsProvider
 import com.github.moriakira.jibundashboard.repository.SalaryItem
 import com.github.moriakira.jibundashboard.repository.SalaryRepository
-import com.openai.client.OpenAIClient
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -12,43 +10,15 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import software.amazon.awssdk.services.s3.S3Client
 
 class SalaryServiceTest :
     StringSpec({
 
         val repository = mockk<SalaryRepository>(relaxed = true)
-        val promptsProvider = mockk<SalaryPayslipOcrPromptsProvider>(relaxed = true)
-        val s3Client = mockk<S3Client>(relaxed = true)
-        val openAIClient = mockk<OpenAIClient>(relaxed = true)
-        val fileUploadService = mockk<FileUploadService>(relaxed = true)
-        val uploadsBucketName = "uploads-bucket"
-        val openAIModel = "test-model"
-        val self = mockk<SalaryService>(relaxed = true)
-
-        val service = SalaryService(
-            repository,
-            promptsProvider,
-            s3Client,
-            openAIClient,
-            fileUploadService,
-            uploadsBucketName,
-            openAIModel,
-            self,
-        )
+        val service = SalaryService(repository)
 
         beforeTest {
-            clearMocks(
-                repository,
-                promptsProvider,
-                s3Client,
-                openAIClient,
-                fileUploadService,
-                self,
-                answers = false,
-                recordedCalls = true,
-                childMocks = true,
-            )
+            clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun item(
@@ -222,52 +192,5 @@ class SalaryServiceTest :
             res.structure.positionAllowance shouldBe 0
             res.structure.other shouldBe 0
             res.payslipData.isEmpty() shouldBe true
-        }
-
-        "runOcr: S3 からダウンロードして OCR を実行し結果を返す" {
-            val salaryId = "s-ocr-1"
-            val userId = "u-ocr-1"
-            val date = "2025-09-01"
-            val fileId = java.util.UUID.randomUUID()
-            val s3Key = "uploads/u-ocr-1/$fileId.pdf"
-
-            every { fileUploadService.uploadKey(userId, fileId) } returns s3Key
-            every {
-                s3Client.getObject(
-                    any<software.amazon.awssdk.services.s3.model.GetObjectRequest>(),
-                    @Suppress("MaxLineLength")
-                    any<software.amazon.awssdk.core.sync.ResponseTransformer<software.amazon.awssdk.services.s3.model.GetObjectResponse, *>>(),
-                )
-            } returns mockk()
-
-            val ocrResult = OcrResult(
-                overview = OverviewModel(200, 180, 168.0, 8.0, 0, 0),
-                structure = StructureModel(120, 30, 10, 5, 35),
-                payslipData = listOf(
-                    PayslipCategoryModel("earnings", listOf(PayslipEntryModel("base", 120.0))),
-                ),
-            )
-
-            every { self.queryOpenAI(any<java.nio.file.Path>()) } returns ocrResult
-
-            val res = service.runOcr(salaryId, userId, fileId, date)
-
-            res.salaryId shouldBe salaryId
-            res.userId shouldBe userId
-            res.targetDate shouldBe date
-            res.overview.grossIncome shouldBe 200
-            res.structure.basicSalary shouldBe 120
-            res.payslipData.shouldHaveSize(1)
-            res.payslipData[0].key shouldBe "earnings"
-            res.payslipData[0].data[0].key shouldBe "base"
-
-            verify(exactly = 1) { fileUploadService.uploadKey(userId, fileId) }
-            verify(atLeast = 1) {
-                s3Client.getObject(
-                    any<software.amazon.awssdk.services.s3.model.GetObjectRequest>(),
-                    @Suppress("MaxLineLength")
-                    any<software.amazon.awssdk.core.sync.ResponseTransformer<software.amazon.awssdk.services.s3.model.GetObjectResponse, *>>(),
-                )
-            }
         }
     })
