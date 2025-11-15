@@ -36,3 +36,14 @@ terraform plan
 terraform apply -auto-approve
 terraform destroy -auto-approve # 削除
 ```
+
+## AppRunnerのデフォルトロググループのimport
+
+```sh
+terraform import \
+  'module.apprunner.aws_cloudwatch_log_group.apprunner_service_log' \
+  '/aws/apprunner/jibun-dashboard-dev/[サービスID]/service'
+terraform import \
+  'module.apprunner.aws_cloudwatch_log_group.apprunner_application_log' \
+  '/aws/apprunner/jibun-dashboard-dev/[サービスID]/application'
+```
