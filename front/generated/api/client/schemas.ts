@@ -24,13 +24,14 @@ const ErrorInfo = z
   })
   .partial()
   .passthrough();
-const User = z
+const UserId = z.object({ userId: z.string() }).partial().passthrough();
+const UserBase = z
   .object({
-    userId: z.string().optional(),
     userName: z.string().min(1).max(64),
     emailAddress: z.string().min(1).max(256).email(),
   })
   .passthrough();
+const User = UserId.and(UserBase);
 const Password = z
   .object({
     oldPassword: z
@@ -85,10 +86,12 @@ const UploadUrl = z
     expireDateTime: z.string().datetime({ offset: true }).optional(),
   })
   .passthrough();
-const Salary = z
+const SalaryId = z
+  .object({ salaryId: z.string().uuid() })
+  .partial()
+  .passthrough();
+const SalaryBase = z
   .object({
-    salaryId: z.string().uuid().optional(),
-    userId: z.string().optional(),
     targetDate: z.string(),
     overview: z
       .object({
@@ -121,14 +124,13 @@ const Salary = z
     ),
   })
   .passthrough();
-const SalaryId = z
-  .object({ salaryId: z.string().uuid() })
+const Salary = SalaryId.and(SalaryBase);
+const QualificationId = z
+  .object({ qualificationId: z.string().uuid() })
   .partial()
   .passthrough();
-const Qualification = z
+const QualificationBase = z
   .object({
-    qualificationId: z.string().uuid().optional(),
-    userId: z.string().optional(),
     order: z.number().int().gte(1),
     qualificationName: z.string().min(1).max(128),
     abbreviation: z.string().max(128).optional(),
@@ -143,14 +145,13 @@ const Qualification = z
     badgeUrl: z.string().url().optional(),
   })
   .passthrough();
-const QualificationId = z
-  .object({ qualificationId: z.string().uuid() })
+const Qualification = QualificationId.and(QualificationBase);
+const VocabularyId = z
+  .object({ vocabularyId: z.string().uuid() })
   .partial()
   .passthrough();
-const Vocabulary = z
+const VocabularyBase = z
   .object({
-    vocabularyId: z.string().uuid().optional(),
-    userId: z.string().optional(),
     name: z.string().max(128),
     description: z.string().max(2048).optional(),
     tags: z
@@ -168,24 +169,26 @@ const Vocabulary = z
     updatedDateTime: z.string().datetime({ offset: true }).optional(),
   })
   .passthrough();
-const VocabularyId = z
-  .object({ vocabularyId: z.string().uuid() })
-  .partial()
-  .passthrough();
+const Vocabulary = VocabularyId.and(VocabularyBase);
 
 export const schemas = {
   I18n,
   ErrorInfo,
+  UserId,
+  UserBase,
   User,
   Password,
   Setting,
   UploadUrl,
-  Salary,
   SalaryId,
-  Qualification,
+  SalaryBase,
+  Salary,
   QualificationId,
-  Vocabulary,
+  QualificationBase,
+  Qualification,
   VocabularyId,
+  VocabularyBase,
+  Vocabulary,
 };
 
 const endpoints = makeApi([
@@ -224,8 +227,107 @@ const endpoints = makeApi([
     ],
   },
   {
-    method: "get",
+    method: "post",
     path: "/qualification",
+    alias: "postQualification",
+    description: `資格情報を登録する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: QualificationBase,
+      },
+    ],
+    response: z
+      .object({ qualificationId: z.string().uuid() })
+      .partial()
+      .passthrough(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/qualification/:qualificationId",
+    alias: "getQualificationById",
+    description: `IDを指定して資格情報を取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "qualificationId",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: Qualification,
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "put",
+    path: "/qualification/:qualificationId",
+    alias: "putQualification",
+    description: `資格情報を更新する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: QualificationBase,
+      },
+      {
+        name: "qualificationId",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: z
+      .object({ qualificationId: z.string().uuid() })
+      .partial()
+      .passthrough(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "delete",
+    path: "/qualification/:qualificationId",
+    alias: "deleteQualification",
+    description: `IDを指定して資格情報を削除する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "qualificationId",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/qualifications",
     alias: "getQualification",
     description: `検索条件を指定して資格情報を取得する`,
     requestFormat: "json",
@@ -281,77 +383,8 @@ const endpoints = makeApi([
     ],
   },
   {
-    method: "put",
-    path: "/qualification",
-    alias: "putQualification",
-    description: `資格報を登録(登録済みの場合は情報を置き換え)する`,
-    requestFormat: "json",
-    parameters: [
-      {
-        name: "body",
-        type: "Body",
-        schema: Qualification,
-      },
-    ],
-    response: z
-      .object({ qualificationId: z.string().uuid() })
-      .partial()
-      .passthrough(),
-    errors: [
-      {
-        status: 400,
-        description: `パラメータ不正`,
-        schema: ErrorInfo,
-      },
-    ],
-  },
-  {
     method: "get",
-    path: "/qualification/:qualificationId",
-    alias: "getQualificationById",
-    description: `IDを指定して資格情報を取得する`,
-    requestFormat: "json",
-    parameters: [
-      {
-        name: "qualificationId",
-        type: "Path",
-        schema: z.string().uuid(),
-      },
-    ],
-    response: Qualification,
-    errors: [
-      {
-        status: 400,
-        description: `パラメータ不正`,
-        schema: ErrorInfo,
-      },
-    ],
-  },
-  {
-    method: "delete",
-    path: "/qualification/:qualificationId",
-    alias: "deleteQualification",
-    description: `IDを指定して資格情報を削除する`,
-    requestFormat: "json",
-    parameters: [
-      {
-        name: "qualificationId",
-        type: "Path",
-        schema: z.string().uuid(),
-      },
-    ],
-    response: z.void(),
-    errors: [
-      {
-        status: 400,
-        description: `パラメータ不正`,
-        schema: ErrorInfo,
-      },
-    ],
-  },
-  {
-    method: "get",
-    path: "/resource/i18n/:localeCode",
+    path: "/resources/i18n/:localeCode",
     alias: "getI18n",
     description: `国際化リソースを取得する`,
     requestFormat: "json",
@@ -373,7 +406,7 @@ const endpoints = makeApi([
   },
   {
     method: "get",
-    path: "/salary",
+    path: "/salaries",
     alias: "getSalary",
     description: `検索条件を指定して給与情報を取得する`,
     requestFormat: "json",
@@ -404,16 +437,16 @@ const endpoints = makeApi([
     ],
   },
   {
-    method: "put",
+    method: "post",
     path: "/salary",
-    alias: "putSalary",
-    description: `給与情報を登録(登録済みの場合は情報を置き換え)する`,
+    alias: "postSalary",
+    description: `給与情報を登録する`,
     requestFormat: "json",
     parameters: [
       {
         name: "body",
         type: "Body",
-        schema: Salary,
+        schema: SalaryBase,
       },
     ],
     response: z.object({ salaryId: z.string().uuid() }).partial().passthrough(),
@@ -439,6 +472,33 @@ const endpoints = makeApi([
       },
     ],
     response: Salary,
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "put",
+    path: "/salary/:salaryId",
+    alias: "putSalary",
+    description: `給与情報を更新する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: SalaryBase,
+      },
+      {
+        name: "salaryId",
+        type: "Path",
+        schema: z.string().uuid(),
+      },
+    ],
+    response: z.object({ salaryId: z.string().uuid() }).partial().passthrough(),
     errors: [
       {
         status: 400,
@@ -552,13 +612,13 @@ const endpoints = makeApi([
     method: "put",
     path: "/user",
     alias: "putUser",
-    description: `アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する`,
+    description: `アクセストークンを用いて、現在ログイン中のユーザ情報を更新する`,
     requestFormat: "json",
     parameters: [
       {
         name: "body",
         type: "Body",
-        schema: User,
+        schema: UserBase,
       },
     ],
     response: z.void(),
