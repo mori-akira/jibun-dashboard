@@ -16,14 +16,13 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- * 資格情報
+ * 資格基本情報
  * @param order 並び順
  * @param qualificationName 資格名
  * @param status ステータス
  * @param rank ランク
  * @param organization 発行組織
  * @param officialUrl 公式URL
- * @param qualificationId 資格ID
  * @param abbreviation 略称
  * @param version バージョン
  * @param acquiredDate 取得年月日
@@ -31,7 +30,7 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param certificationUrl 証明書URL
  * @param badgeUrl バッジURL
  */
-data class Qualification(
+data class QualificationBase(
 
     @get:Min(1)
     @Schema(example = "null", required = true, description = "並び順")
@@ -42,10 +41,10 @@ data class Qualification(
     @get:JsonProperty("qualificationName", required = true) val qualificationName: kotlin.String,
 
     @Schema(example = "null", required = true, description = "ステータス")
-    @get:JsonProperty("status", required = true) val status: Qualification.Status,
+    @get:JsonProperty("status", required = true) val status: QualificationBase.Status,
 
     @Schema(example = "null", required = true, description = "ランク")
-    @get:JsonProperty("rank", required = true) val rank: Qualification.Rank,
+    @get:JsonProperty("rank", required = true) val rank: QualificationBase.Rank,
 
     @get:Size(min=1,max=128)
     @Schema(example = "null", required = true, description = "発行組織")
@@ -54,9 +53,6 @@ data class Qualification(
     @field:Valid
     @Schema(example = "null", required = true, description = "公式URL")
     @get:JsonProperty("officialUrl", required = true) val officialUrl: java.net.URI,
-
-    @Schema(example = "null", description = "資格ID")
-    @get:JsonProperty("qualificationId") val qualificationId: java.util.UUID? = null,
 
     @get:Size(max=128)
     @Schema(example = "null", description = "略称")

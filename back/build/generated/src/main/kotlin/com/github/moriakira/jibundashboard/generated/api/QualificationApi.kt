@@ -7,6 +7,7 @@ package com.github.moriakira.jibundashboard.generated.api
 
 import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
 import com.github.moriakira.jibundashboard.generated.model.Qualification
+import com.github.moriakira.jibundashboard.generated.model.QualificationBase
 import com.github.moriakira.jibundashboard.generated.model.QualificationId
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
@@ -70,7 +71,7 @@ interface QualificationApi {
     )
     @RequestMapping(
             method = [RequestMethod.GET],
-            value = ["/qualification"],
+            value = ["/qualifications"],
             produces = ["application/json"]
     )
     fun getQualification(@Parameter(description = "資格名") @Valid @RequestParam(value = "qualificationName", required = false) qualificationName: kotlin.String?,@Parameter(description = "ステータス", schema = Schema(allowableValues = ["dream", "planning", "acquired"])) @Valid @RequestParam(value = "status", required = false) status: kotlin.collections.List<kotlin.String>?,@Parameter(description = "ランク", schema = Schema(allowableValues = ["D", "C", "B", "A"])) @Valid @RequestParam(value = "rank", required = false) rank: kotlin.collections.List<kotlin.String>?,@Parameter(description = "発行組織") @Valid @RequestParam(value = "organization", required = false) organization: kotlin.String?,@Parameter(description = "取得年月日From") @Valid @RequestParam(value = "acquiredDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) acquiredDateFrom: java.time.LocalDate?,@Parameter(description = "取得年月日To") @Valid @RequestParam(value = "acquiredDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) acquiredDateTo: java.time.LocalDate?,@Parameter(description = "有効期限From") @Valid @RequestParam(value = "expirationDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) expirationDateFrom: java.time.LocalDate?,@Parameter(description = "有効期限To") @Valid @RequestParam(value = "expirationDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) expirationDateTo: java.time.LocalDate?): ResponseEntity<List<Qualification>> {
@@ -99,21 +100,40 @@ interface QualificationApi {
     @Operation(
         tags = ["Qualification",],
         summary = "資格情報登録",
-        operationId = "putQualification",
-        description = """資格報を登録(登録済みの場合は情報を置き換え)する""",
+        operationId = "postQualification",
+        description = """資格情報を登録する""",
         responses = [
-            ApiResponse(responseCode = "200", description = "正常時(置き換え)", content = [Content(schema = Schema(implementation = QualificationId::class))]),
-            ApiResponse(responseCode = "201", description = "正常時(新規登録)", content = [Content(schema = Schema(implementation = QualificationId::class))]),
+            ApiResponse(responseCode = "201", description = "正常時", content = [Content(schema = Schema(implementation = QualificationId::class))]),
+            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
+        ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.POST],
+            value = ["/qualification"],
+            produces = ["application/json"],
+            consumes = ["application/json"]
+    )
+    fun postQualification(@Parameter(description = "") @Valid @RequestBody(required = false) qualificationBase: QualificationBase?): ResponseEntity<QualificationId> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        tags = ["Qualification",],
+        summary = "資格情報更新(ID)",
+        operationId = "putQualification",
+        description = """資格情報を更新する""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "正常時", content = [Content(schema = Schema(implementation = QualificationId::class))]),
             ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
         ]
     )
     @RequestMapping(
             method = [RequestMethod.PUT],
-            value = ["/qualification"],
+            value = ["/qualification/{qualificationId}"],
             produces = ["application/json"],
             consumes = ["application/json"]
     )
-    fun putQualification(@Parameter(description = "") @Valid @RequestBody(required = false) qualification: Qualification?): ResponseEntity<QualificationId> {
+    fun putQualification(@Parameter(description = "資格ID", required = true) @PathVariable("qualificationId") qualificationId: java.util.UUID,@Parameter(description = "") @Valid @RequestBody(required = false) qualificationBase: QualificationBase?): ResponseEntity<QualificationId> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

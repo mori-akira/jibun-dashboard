@@ -14,13 +14,20 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- * ボキャブラリーID
- * @param vocabularyId ボキャブラリーID
+ * ユーザ基本情報
+ * @param userName ユーザ名
+ * @param emailAddress eメールアドレス
  */
-data class VocabularyId(
+data class UserBase(
 
-    @Schema(example = "null", description = "ボキャブラリーID")
-    @get:JsonProperty("vocabularyId") val vocabularyId: java.util.UUID? = null
+    @get:Size(min=1,max=64)
+    @Schema(example = "null", required = true, description = "ユーザ名")
+    @get:JsonProperty("userName", required = true) val userName: kotlin.String,
+
+    @get:Email
+    @get:Size(min=1,max=256)
+    @Schema(example = "null", required = true, description = "eメールアドレス")
+    @get:JsonProperty("emailAddress", required = true) val emailAddress: kotlin.String
     ) {
 
 }

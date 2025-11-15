@@ -8,6 +8,7 @@ package com.github.moriakira.jibundashboard.generated.api
 import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
 import com.github.moriakira.jibundashboard.generated.model.Password
 import com.github.moriakira.jibundashboard.generated.model.User
+import com.github.moriakira.jibundashboard.generated.model.UserBase
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -80,9 +81,9 @@ interface UserApi {
 
     @Operation(
         tags = ["User",],
-        summary = "ユーザ情報登録",
+        summary = "ユーザ情報更新",
         operationId = "putUser",
-        description = """アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する""",
+        description = """アクセストークンを用いて、現在ログイン中のユーザ情報を更新する""",
         responses = [
             ApiResponse(responseCode = "204", description = "正常時"),
             ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
@@ -94,7 +95,7 @@ interface UserApi {
             produces = ["application/json"],
             consumes = ["application/json"]
     )
-    fun putUser(@Parameter(description = "") @Valid @RequestBody(required = false) user: User?): ResponseEntity<Unit> {
+    fun putUser(@Parameter(description = "") @Valid @RequestBody(required = false) userBase: UserBase?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

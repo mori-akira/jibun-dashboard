@@ -15,22 +15,18 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- * ボキャブラリー情報
+ * ボキャブラリー基本情報
  * @param name 名前
- * @param vocabularyId ボキャブラリーID
  * @param description 説明
  * @param tags タグ
  * @param createdDateTime 作成日時
  * @param updatedDateTime 更新日時
  */
-data class Vocabulary(
+data class VocabularyBase(
 
     @get:Size(max=128)
     @Schema(example = "null", required = true, description = "名前")
     @get:JsonProperty("name", required = true) val name: kotlin.String,
-
-    @Schema(example = "null", description = "ボキャブラリーID")
-    @get:JsonProperty("vocabularyId") val vocabularyId: java.util.UUID? = null,
 
     @get:Size(max=2048)
     @Schema(example = "null", description = "説明")

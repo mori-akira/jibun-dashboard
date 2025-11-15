@@ -12,8 +12,10 @@ src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Password.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/PayslipData.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/PayslipDataDataInner.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Qualification.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/QualificationBase.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/QualificationId.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Salary.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryBase.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryId.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Setting.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SettingQualification.kt
@@ -22,5 +24,8 @@ src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Structure.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Tag.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/UploadUrl.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/User.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/UserBase.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/UserId.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Vocabulary.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/VocabularyBase.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/VocabularyId.kt

@@ -7,6 +7,7 @@ package com.github.moriakira.jibundashboard.generated.api
 
 import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
 import com.github.moriakira.jibundashboard.generated.model.Salary
+import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.generated.model.SalaryId
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
@@ -70,7 +71,7 @@ interface SalaryApi {
     )
     @RequestMapping(
             method = [RequestMethod.GET],
-            value = ["/salary"],
+            value = ["/salaries"],
             produces = ["application/json"]
     )
     fun getSalary(@Parameter(description = "対象年月日") @Valid @RequestParam(value = "targetDate", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate?,@Parameter(description = "対象年月日From") @Valid @RequestParam(value = "targetDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDateFrom: java.time.LocalDate?,@Parameter(description = "対象年月日To") @Valid @RequestParam(value = "targetDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDateTo: java.time.LocalDate?): ResponseEntity<List<Salary>> {
@@ -119,21 +120,40 @@ interface SalaryApi {
     @Operation(
         tags = ["Salary",],
         summary = "給与情報登録",
-        operationId = "putSalary",
-        description = """給与情報を登録(登録済みの場合は情報を置き換え)する""",
+        operationId = "postSalary",
+        description = """給与情報を登録する""",
         responses = [
-            ApiResponse(responseCode = "200", description = "正常時(置き換え)", content = [Content(schema = Schema(implementation = SalaryId::class))]),
-            ApiResponse(responseCode = "201", description = "正常時(新規登録)", content = [Content(schema = Schema(implementation = SalaryId::class))]),
+            ApiResponse(responseCode = "201", description = "正常時", content = [Content(schema = Schema(implementation = SalaryId::class))]),
+            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
+        ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.POST],
+            value = ["/salary"],
+            produces = ["application/json"],
+            consumes = ["application/json"]
+    )
+    fun postSalary(@Parameter(description = "") @Valid @RequestBody(required = false) salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        tags = ["Salary",],
+        summary = "給与情報更新(ID)",
+        operationId = "putSalary",
+        description = """給与情報を更新する""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "正常時", content = [Content(schema = Schema(implementation = SalaryId::class))]),
             ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
         ]
     )
     @RequestMapping(
             method = [RequestMethod.PUT],
-            value = ["/salary"],
+            value = ["/salary/{salaryId}"],
             produces = ["application/json"],
             consumes = ["application/json"]
     )
-    fun putSalary(@Parameter(description = "") @Valid @RequestBody(required = false) salary: Salary?): ResponseEntity<SalaryId> {
+    fun putSalary(@Parameter(description = "給与ID", required = true) @PathVariable("salaryId") salaryId: java.util.UUID,@Parameter(description = "") @Valid @RequestBody(required = false) salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

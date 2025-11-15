@@ -50,7 +50,7 @@ interface ResourceApi {
     )
     @RequestMapping(
             method = [RequestMethod.GET],
-            value = ["/resource/i18n/{localeCode}"],
+            value = ["/resources/i18n/{localeCode}"],
             produces = ["application/json"]
     )
     fun getI18n(@Pattern(regexp="^[a-z]{2}$") @Parameter(description = "ロケールコード", required = true) @PathVariable("localeCode") localeCode: kotlin.String): ResponseEntity<I18n> {

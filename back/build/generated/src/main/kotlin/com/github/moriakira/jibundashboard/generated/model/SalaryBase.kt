@@ -17,14 +17,13 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- * 給与情報
+ * 給与基本情報
  * @param targetDate 対象年月日
  * @param overview
  * @param structure
  * @param payslipData
- * @param salaryId 給与ID
  */
-data class Salary(
+data class SalaryBase(
 
     @field:Valid
     @Schema(example = "null", required = true, description = "対象年月日")
@@ -40,10 +39,7 @@ data class Salary(
 
     @field:Valid
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("payslipData", required = true) val payslipData: kotlin.collections.List<PayslipData>,
-
-    @Schema(example = "null", description = "給与ID")
-    @get:JsonProperty("salaryId") val salaryId: java.util.UUID? = null
+    @get:JsonProperty("payslipData", required = true) val payslipData: kotlin.collections.List<PayslipData>
     ) {
 
 }
