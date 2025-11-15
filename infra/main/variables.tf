@@ -26,12 +26,6 @@ variable "github_url" {
   }
 }
 
-variable "openai_api_key" {
-  description = "OpenAIのAPIキー"
-  type        = string
-  sensitive   = true
-}
-
 # 循環参照を避けるため、直接指定が必要
 variable "cognito_user_pool_id" {
   description = "CognitoユーザープールID"
