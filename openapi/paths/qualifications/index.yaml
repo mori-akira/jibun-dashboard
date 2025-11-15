@@ -1,0 +1,91 @@
+get:
+  operationId: getQualification
+  summary: 資格情報取得
+  description: 検索条件を指定して資格情報を取得する
+  tags:
+    - Qualification
+
+  parameters:
+    - in: query
+      name: qualificationName
+      description: 資格名
+      required: false
+      schema:
+        type: string
+    - in: query
+      name: status
+      description: ステータス
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - dream
+            - planning
+            - acquired
+    - in: query
+      name: rank
+      description: ランク
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - D
+            - C
+            - B
+            - A
+    - in: query
+      name: organization
+      description: 発行組織
+      required: false
+      schema:
+        type: string
+    - in: query
+      name: acquiredDateFrom
+      description: 取得年月日From
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: acquiredDateTo
+      description: 取得年月日To
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: expirationDateFrom
+      description: 有効期限From
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: expirationDateTo
+      description: 有効期限To
+      required: false
+      schema:
+        type: string
+        format: date
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/Qualification"
+          example:
+            $ref: "../../examples/qualification/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

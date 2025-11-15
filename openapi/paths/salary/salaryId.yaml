@@ -24,11 +24,39 @@ get:
           example:
             $ref: "../../examples/salary/salaryId/get.json"
     "400":
-      description: パラメータ不正
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+put:
+  operationId: putSalary
+  summary: 給与情報更新(ID)
+  description: 給与情報を更新する
+  tags:
+    - Salary
+
+  parameters:
+    - in: path
+      name: salaryId
+      description: 給与ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/SalaryBase"
+
+  responses:
+    "200":
+      description: 正常時
       content:
         application/json:
           schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+            $ref: "../../openapi.yaml#/components/schemas/SalaryId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 delete:
   operationId: deleteSalary
@@ -50,8 +78,4 @@ delete:
     "204":
       description: 正常時
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

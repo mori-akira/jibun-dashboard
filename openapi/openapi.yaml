@@ -18,14 +18,14 @@ tags:
   - name: Qualification
     description: 資格情報API
   - name: Vocabulary
-    description: ボキャブラリーAPI
+    description: ボキャブラリー情報API
 
 servers:
   - url: http://localhost:4011/
 
 paths:
-  /resource/i18n/{localeCode}:
-    $ref: "paths/resource/i18n/localeCode.yaml"
+  /resources/i18n/{localeCode}:
+    $ref: "paths/resources/i18n/localeCode.yaml"
   /user:
     $ref: "paths/user/index.yaml"
   /user/password:
@@ -36,12 +36,16 @@ paths:
     $ref: "paths/file/upload-url.yaml"
   /file/upload-mock:
     $ref: "paths/file/upload-mock.yaml"
+  /salaries:
+    $ref: "paths/salaries/index.yaml"
   /salary:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
     $ref: "paths/salary/salaryId.yaml"
   /salary/ocr:
     $ref: "paths/salary/ocr.yaml"
+  /qualifications:
+    $ref: "paths/qualifications/index.yaml"
   /qualification:
     $ref: "paths/qualification/index.yaml"
   /qualification/{qualificationId}:
@@ -55,6 +59,10 @@ components:
       $ref: "schemas/resource/i18n.yaml"
     User:
       $ref: "schemas/user/user.yaml"
+    UserId:
+      $ref: "schemas/user/userId.yaml"
+    UserBase:
+      $ref: "schemas/user/userBase.yaml"
     Password:
       $ref: "schemas/user/password.yaml"
     Setting:
@@ -65,13 +73,26 @@ components:
       $ref: "schemas/salary/salary.yaml"
     SalaryId:
       $ref: "schemas/salary/salaryId.yaml"
+    SalaryBase:
+      $ref: "schemas/salary/salaryBase.yaml"
     Qualification:
       $ref: "schemas/qualification/qualification.yaml"
     QualificationId:
       $ref: "schemas/qualification/qualificationId.yaml"
+    QualificationBase:
+      $ref: "schemas/qualification/qualificationBase.yaml"
     Vocabulary:
       $ref: "schemas/vocabulary/vocabulary.yaml"
     VocabularyId:
       $ref: "schemas/vocabulary/vocabularyId.yaml"
+    VocabularyBase:
+      $ref: "schemas/vocabulary/vocabularyBase.yaml"
     ErrorInfo:
       $ref: "schemas/error/errorInfo.yaml"
+  responses:
+    BadRequest:
+      description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorInfo"

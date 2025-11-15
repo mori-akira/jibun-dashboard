@@ -1,0 +1,34 @@
+type: object
+description: ボキャブラリー基本情報
+
+required:
+  - name
+
+properties:
+  name:
+    description: 名前
+    type: string
+    maxLength: 128
+
+  description:
+    description: 説明
+    type: string
+    maxLength: 2048
+
+  tags:
+    description: タグ
+    type: array
+    maxItems: 64
+    uniqueItems: true
+    items:
+      $ref: tag.yaml
+
+  createdDateTime:
+    description: 作成日時
+    type: string
+    format: date-time
+
+  updatedDateTime:
+    description: 更新日時
+    type: string
+    format: date-time

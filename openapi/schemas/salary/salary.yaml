@@ -1,35 +1,5 @@
 type: object
 description: 給与情報
-
-required:
-  - targetDate
-  - overview
-  - structure
-  - payslipData
-
-properties:
-
-  salaryId:
-    description: 給与ID
-    type: string
-    format: uuid
-
-  userId:
-    description: ユーザID
-    type: string
-
-  targetDate:
-    description: 対象年月日
-    type: string
-    format: date
-
-  overview:
-    $ref: overview.yaml
-
-  structure:
-    $ref: structure.yaml
-
-  payslipData:
-    type: array
-    items:
-      $ref: payslipData.yaml
+allOf:
+  - $ref: "./salaryId.yaml"
+  - $ref: "./salaryBase.yaml"

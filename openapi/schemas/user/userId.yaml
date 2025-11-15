@@ -1,0 +1,7 @@
+type: object
+description: ユーザID
+
+properties:
+  userId:
+    description: ユーザID
+    type: string

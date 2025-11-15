@@ -24,11 +24,39 @@ get:
           example:
             $ref: "../../examples/qualification/qualificationId/get.yaml"
     "400":
-      description: パラメータ不正
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+put:
+  operationId: putQualification
+  summary: 資格情報更新(ID)
+  description: 資格情報を更新する
+  tags:
+    - Qualification
+
+  parameters:
+    - in: path
+      name: qualificationId
+      description: 資格ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/QualificationBase"
+
+  responses:
+    "200":
+      description: 正常時
       content:
         application/json:
           schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+            $ref: "../../openapi.yaml#/components/schemas/QualificationId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 delete:
   operationId: deleteQualification
@@ -50,8 +78,4 @@ delete:
     "204":
       description: 正常時
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

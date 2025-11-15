@@ -15,16 +15,12 @@ get:
           example:
             $ref: "../../examples/user/get.yaml"
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 put:
   operationId: putUser
-  summary: ユーザ情報登録
-  description: アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
+  summary: ユーザ情報更新
+  description: アクセストークンを用いて、現在ログイン中のユーザ情報を更新する
   tags:
     - User
 
@@ -32,14 +28,10 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../../openapi.yaml#/components/schemas/User"
+          $ref: "../../openapi.yaml#/components/schemas/UserBase"
 
   responses:
     "204":
       description: 正常時
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

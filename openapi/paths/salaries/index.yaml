@@ -1,0 +1,43 @@
+get:
+  operationId: getSalary
+  summary: 給与情報取得
+  description: 検索条件を指定して給与情報を取得する
+  tags:
+    - Salary
+
+  parameters:
+    - in: query
+      name: targetDate
+      description: 対象年月日
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: targetDateFrom
+      description: 対象年月日From
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: targetDateTo
+      description: 対象年月日To
+      required: false
+      schema:
+        type: string
+        format: date
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/Salary"
+          example:
+            $ref: "../../examples/salary/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

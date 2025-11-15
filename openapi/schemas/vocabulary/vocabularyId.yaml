@@ -1,5 +1,5 @@
 type: object
-description: 資格ID
+description: ボキャブラリーID
 
 properties:
   vocabularyId:

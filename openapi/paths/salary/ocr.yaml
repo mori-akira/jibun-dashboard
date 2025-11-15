@@ -35,8 +35,4 @@ get:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/SalaryId"
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

@@ -15,11 +15,7 @@ get:
           example:
             $ref: "../../examples/setting/get.yaml"
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 put:
   operationId: putSetting
@@ -38,8 +34,4 @@ put:
     "204":
       description: 正常時
     "400":
-      description: パラメータ不正
-      content:
-        application/json:
-          schema:
-            $ref: "../../openapi.yaml#/components/schemas/ErrorInfo"
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
