@@ -1,9 +1,9 @@
-output "queue_url" {
+output "sqs_queue_url" {
   description = "給与OCRバッチ SQS URL"
   value       = aws_sqs_queue.salary_ocr_queue.id
 }
 
-output "queue_arn" {
+output "sqs_queue_arn" {
   description = "給与OCRバッチ SQS ARN"
   value       = aws_sqs_queue.salary_ocr_queue.arn
 }
