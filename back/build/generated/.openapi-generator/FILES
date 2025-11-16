@@ -11,12 +11,16 @@ src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Overview.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Password.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/PayslipData.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/PayslipDataDataInner.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/PostSalaryOcrTaskStartRequest.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Qualification.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/QualificationBase.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/QualificationId.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Salary.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryBase.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryId.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryOcrTask.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryOcrTaskBase.kt
+src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SalaryOcrTaskId.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/Setting.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SettingQualification.kt
 src/main/kotlin/com/github/moriakira/jibundashboard/generated/model/SettingSalary.kt

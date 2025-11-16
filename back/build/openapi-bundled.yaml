@@ -6192,14 +6192,20 @@ paths:
           description: 正常時
         '400':
           $ref: '#/components/responses/BadRequest'
-  /salary/ocr:
+  /salary/ocr-task:
     get:
-      operationId: getSalaryOcr
-      summary: 給与情報登録OCR実行
-      description: 給与情報登録のOCR処理を実行する
+      operationId: getSalaryOcrTask
+      summary: 給与OCRタスク取得
+      description: 給与OCRタスクを取得する
       tags:
         - Salary
       parameters:
+        - in: query
+          name: userId
+          description: ユーザーID
+          required: true
+          schema:
+            type: string
         - in: query
           name: targetDate
           description: 対象年月日
@@ -6207,26 +6213,72 @@ paths:
           schema:
             type: string
             format: date
-        - in: query
-          name: fileId
-          description: ファイルID
+      responses:
+        '200':
+          description: 正常時
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/salaryOcrTask'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /salary/ocr-task/{ocrTaskId}:
+    get:
+      operationId: getSalaryOcrTaskById
+      summary: 給与OCRタスク取得(ID)
+      description: IDを指定して給与OCRタスクを取得する
+      tags:
+        - Salary
+      parameters:
+        - in: path
+          name: ocrTaskId
+          description: OCRタスクID
           required: true
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: 正常時(置き換え)
+          description: 正常時
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/salaryId'
-        '201':
-          description: 正常時(新規登録)
+                $ref: '#/components/schemas/salaryOcrTask'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /salary/ocr-task/start:
+    post:
+      operationId: postSalaryOcrTaskStart
+      summary: 給与OCRタスク開始
+      description: 給与OCRタスクを開始する
+      tags:
+        - Salary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - targetDate
+                - fileId
+              properties:
+                targetDate:
+                  type: string
+                  description: 対象年月日
+                  format: date
+                fileId:
+                  type: string
+                  description: ファイルID
+                  format: uuid
+      responses:
+        '202':
+          description: 正常時(タスク受付)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/salaryId'
+                $ref: '#/components/schemas/salaryOcrTaskId'
         '400':
           $ref: '#/components/responses/BadRequest'
   /qualifications:
@@ -6975,6 +7027,12 @@ components:
       $ref: '#/components/schemas/salaryId'
     SalaryBase:
       $ref: '#/components/schemas/salaryBase'
+    SalaryOcrTask:
+      $ref: '#/components/schemas/salaryOcrTask'
+    SalaryOcrTaskId:
+      $ref: '#/components/schemas/salaryOcrTaskId'
+    SalaryOcrTaskBase:
+      $ref: '#/components/schemas/salaryOcrTaskBase'
     Qualification:
       $ref: '#/components/schemas/qualification'
     QualificationId:
@@ -7302,6 +7360,49 @@ components:
       allOf:
         - $ref: '#/components/schemas/salaryId'
         - $ref: '#/components/schemas/salaryBase'
+    salaryOcrTaskId:
+      type: object
+      description: 給与OCRタスクID
+      properties:
+        ocrTaskId:
+          description: 給与OCRタスクID
+          type: string
+          format: uuid
+    salaryOcrTaskBase:
+      type: object
+      description: 給与OCRタスク基本情報
+      required:
+        - status
+        - targetDate
+        - createdAt
+        - updatedAt
+      properties:
+        status:
+          type: string
+          description: タスクステータス
+          enum:
+            - PENDING
+            - RUNNING
+            - COMPLETED
+            - FAILED
+        targetDate:
+          type: string
+          description: 対象年月日
+          format: date
+        createdAt:
+          type: string
+          description: 作成日時
+          format: date-time
+        updatedAt:
+          type: string
+          description: 更新日時
+          format: date-time
+    salaryOcrTask:
+      type: object
+      description: 給与OCRタスク
+      allOf:
+        - $ref: '#/components/schemas/salaryOcrTaskId'
+        - $ref: '#/components/schemas/salaryOcrTaskBase'
     qualificationId:
       type: object
       description: 資格ID

@@ -6,9 +6,12 @@
 package com.github.moriakira.jibundashboard.generated.api
 
 import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
+import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTaskStartRequest
 import com.github.moriakira.jibundashboard.generated.model.Salary
 import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.generated.model.SalaryId
+import com.github.moriakira.jibundashboard.generated.model.SalaryOcrTask
+import com.github.moriakira.jibundashboard.generated.model.SalaryOcrTaskId
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -99,21 +102,39 @@ interface SalaryApi {
 
     @Operation(
         tags = ["Salary",],
-        summary = "給与情報登録OCR実行",
-        operationId = "getSalaryOcr",
-        description = """給与情報登録のOCR処理を実行する""",
+        summary = "給与OCRタスク取得",
+        operationId = "getSalaryOcrTask",
+        description = """給与OCRタスクを取得する""",
         responses = [
-            ApiResponse(responseCode = "200", description = "正常時(置き換え)", content = [Content(schema = Schema(implementation = SalaryId::class))]),
-            ApiResponse(responseCode = "201", description = "正常時(新規登録)", content = [Content(schema = Schema(implementation = SalaryId::class))]),
+            ApiResponse(responseCode = "200", description = "正常時", content = [Content(array = ArraySchema(schema = Schema(implementation = SalaryOcrTask::class)))]),
             ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
         ]
     )
     @RequestMapping(
             method = [RequestMethod.GET],
-            value = ["/salary/ocr"],
+            value = ["/salary/ocr-task"],
             produces = ["application/json"]
     )
-    fun getSalaryOcr(@NotNull @Parameter(description = "対象年月日", required = true) @Valid @RequestParam(value = "targetDate", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate,@NotNull @Parameter(description = "ファイルID", required = true) @Valid @RequestParam(value = "fileId", required = true) fileId: java.util.UUID): ResponseEntity<SalaryId> {
+    fun getSalaryOcrTask(@NotNull @Parameter(description = "ユーザーID", required = true) @Valid @RequestParam(value = "userId", required = true) userId: kotlin.String,@NotNull @Parameter(description = "対象年月日", required = true) @Valid @RequestParam(value = "targetDate", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate): ResponseEntity<List<SalaryOcrTask>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        tags = ["Salary",],
+        summary = "給与OCRタスク取得(ID)",
+        operationId = "getSalaryOcrTaskById",
+        description = """IDを指定して給与OCRタスクを取得する""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "正常時", content = [Content(schema = Schema(implementation = SalaryOcrTask::class))]),
+            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
+        ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.GET],
+            value = ["/salary/ocr-task/{ocrTaskId}"],
+            produces = ["application/json"]
+    )
+    fun getSalaryOcrTaskById(@Parameter(description = "OCRタスクID", required = true) @PathVariable("ocrTaskId") ocrTaskId: java.util.UUID): ResponseEntity<SalaryOcrTask> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -134,6 +155,26 @@ interface SalaryApi {
             consumes = ["application/json"]
     )
     fun postSalary(@Parameter(description = "") @Valid @RequestBody(required = false) salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        tags = ["Salary",],
+        summary = "給与OCRタスク開始",
+        operationId = "postSalaryOcrTaskStart",
+        description = """給与OCRタスクを開始する""",
+        responses = [
+            ApiResponse(responseCode = "202", description = "正常時(タスク受付)", content = [Content(schema = Schema(implementation = SalaryOcrTaskId::class))]),
+            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
+        ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.POST],
+            value = ["/salary/ocr-task/start"],
+            produces = ["application/json"],
+            consumes = ["application/json"]
+    )
+    fun postSalaryOcrTaskStart(@Parameter(description = "") @Valid @RequestBody(required = false) postSalaryOcrTaskStartRequest: PostSalaryOcrTaskStartRequest?): ResponseEntity<SalaryOcrTaskId> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
