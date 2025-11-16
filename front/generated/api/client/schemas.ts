@@ -125,6 +125,22 @@ const SalaryBase = z
   })
   .passthrough();
 const Salary = SalaryId.and(SalaryBase);
+const SalaryOcrTaskId = z
+  .object({ ocrTaskId: z.string().uuid() })
+  .partial()
+  .passthrough();
+const SalaryOcrTaskBase = z
+  .object({
+    status: z.enum(["PENDING", "RUNNING", "COMPLETED", "FAILED"]),
+    targetDate: z.string(),
+    createdAt: z.string().datetime({ offset: true }),
+    updatedAt: z.string().datetime({ offset: true }),
+  })
+  .passthrough();
+const SalaryOcrTask = SalaryOcrTaskId.and(SalaryOcrTaskBase);
+const postSalaryOcrTaskStart_Body = z
+  .object({ targetDate: z.string(), fileId: z.string().uuid() })
+  .passthrough();
 const QualificationId = z
   .object({ qualificationId: z.string().uuid() })
   .partial()
@@ -183,6 +199,10 @@ export const schemas = {
   SalaryId,
   SalaryBase,
   Salary,
+  SalaryOcrTaskId,
+  SalaryOcrTaskBase,
+  SalaryOcrTask,
+  postSalaryOcrTaskStart_Body,
   QualificationId,
   QualificationBase,
   Qualification,
@@ -531,23 +551,70 @@ const endpoints = makeApi([
   },
   {
     method: "get",
-    path: "/salary/ocr",
-    alias: "getSalaryOcr",
-    description: `給与情報登録のOCR処理を実行する`,
+    path: "/salary/ocr-task",
+    alias: "getSalaryOcrTask",
+    description: `給与OCRタスクを取得する`,
     requestFormat: "json",
     parameters: [
+      {
+        name: "userId",
+        type: "Query",
+        schema: z.string(),
+      },
       {
         name: "targetDate",
         type: "Query",
         schema: z.string(),
       },
+    ],
+    response: z.array(SalaryOcrTask),
+    errors: [
       {
-        name: "fileId",
-        type: "Query",
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/salary/ocr-task/:ocrTaskId",
+    alias: "getSalaryOcrTaskById",
+    description: `IDを指定して給与OCRタスクを取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "ocrTaskId",
+        type: "Path",
         schema: z.string().uuid(),
       },
     ],
-    response: z.object({ salaryId: z.string().uuid() }).partial().passthrough(),
+    response: SalaryOcrTask,
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "post",
+    path: "/salary/ocr-task/start",
+    alias: "postSalaryOcrTaskStart",
+    description: `給与OCRタスクを開始する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "body",
+        type: "Body",
+        schema: postSalaryOcrTaskStart_Body,
+      },
+    ],
+    response: z
+      .object({ ocrTaskId: z.string().uuid() })
+      .partial()
+      .passthrough(),
     errors: [
       {
         status: 400,
