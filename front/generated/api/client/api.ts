@@ -215,6 +215,25 @@ export interface PayslipDataDataInner {
   data: number;
 }
 /**
+ *
+ * @export
+ * @interface PostSalaryOcrTaskStartRequest
+ */
+export interface PostSalaryOcrTaskStartRequest {
+  /**
+   * 対象年月日
+   * @type {string}
+   * @memberof PostSalaryOcrTaskStartRequest
+   */
+  targetDate: string;
+  /**
+   * ファイルID
+   * @type {string}
+   * @memberof PostSalaryOcrTaskStartRequest
+   */
+  fileId: string;
+}
+/**
  * 資格情報
  * @export
  * @interface Qualification
@@ -509,6 +528,109 @@ export interface SalaryId {
    * @memberof SalaryId
    */
   salaryId?: string;
+}
+/**
+ * 給与OCRタスク
+ * @export
+ * @interface SalaryOcrTask
+ */
+export interface SalaryOcrTask {
+  /**
+   * 給与OCRタスクID
+   * @type {string}
+   * @memberof SalaryOcrTask
+   */
+  ocrTaskId?: string;
+  /**
+   * タスクステータス
+   * @type {string}
+   * @memberof SalaryOcrTask
+   */
+  status: SalaryOcrTaskStatusEnum;
+  /**
+   * 対象年月日
+   * @type {string}
+   * @memberof SalaryOcrTask
+   */
+  targetDate: string;
+  /**
+   * 作成日時
+   * @type {string}
+   * @memberof SalaryOcrTask
+   */
+  createdAt: string;
+  /**
+   * 更新日時
+   * @type {string}
+   * @memberof SalaryOcrTask
+   */
+  updatedAt: string;
+}
+
+export const SalaryOcrTaskStatusEnum = {
+  Pending: "PENDING",
+  Running: "RUNNING",
+  Completed: "COMPLETED",
+  Failed: "FAILED",
+} as const;
+
+export type SalaryOcrTaskStatusEnum =
+  (typeof SalaryOcrTaskStatusEnum)[keyof typeof SalaryOcrTaskStatusEnum];
+
+/**
+ * 給与OCRタスク基本情報
+ * @export
+ * @interface SalaryOcrTaskBase
+ */
+export interface SalaryOcrTaskBase {
+  /**
+   * タスクステータス
+   * @type {string}
+   * @memberof SalaryOcrTaskBase
+   */
+  status: SalaryOcrTaskBaseStatusEnum;
+  /**
+   * 対象年月日
+   * @type {string}
+   * @memberof SalaryOcrTaskBase
+   */
+  targetDate: string;
+  /**
+   * 作成日時
+   * @type {string}
+   * @memberof SalaryOcrTaskBase
+   */
+  createdAt: string;
+  /**
+   * 更新日時
+   * @type {string}
+   * @memberof SalaryOcrTaskBase
+   */
+  updatedAt: string;
+}
+
+export const SalaryOcrTaskBaseStatusEnum = {
+  Pending: "PENDING",
+  Running: "RUNNING",
+  Completed: "COMPLETED",
+  Failed: "FAILED",
+} as const;
+
+export type SalaryOcrTaskBaseStatusEnum =
+  (typeof SalaryOcrTaskBaseStatusEnum)[keyof typeof SalaryOcrTaskBaseStatusEnum];
+
+/**
+ * 給与OCRタスクID
+ * @export
+ * @interface SalaryOcrTaskId
+ */
+export interface SalaryOcrTaskId {
+  /**
+   * 給与OCRタスクID
+   * @type {string}
+   * @memberof SalaryOcrTaskId
+   */
+  ocrTaskId?: string;
 }
 /**
  * 設定情報
@@ -2324,23 +2446,23 @@ export const SalaryApiAxiosParamCreator = function (
       };
     },
     /**
-     * 給与情報登録のOCR処理を実行する
-     * @summary 給与情報登録OCR実行
+     * 給与OCRタスクを取得する
+     * @summary 給与OCRタスク取得
+     * @param {string} userId ユーザーID
      * @param {string} targetDate 対象年月日
-     * @param {string} fileId ファイルID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSalaryOcr: async (
+    getSalaryOcrTask: async (
+      userId: string,
       targetDate: string,
-      fileId: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'userId' is not null or undefined
+      assertParamExists("getSalaryOcrTask", "userId", userId);
       // verify required parameter 'targetDate' is not null or undefined
-      assertParamExists("getSalaryOcr", "targetDate", targetDate);
-      // verify required parameter 'fileId' is not null or undefined
-      assertParamExists("getSalaryOcr", "fileId", fileId);
-      const localVarPath = `/salary/ocr`;
+      assertParamExists("getSalaryOcrTask", "targetDate", targetDate);
+      const localVarPath = `/salary/ocr-task`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -2356,6 +2478,10 @@ export const SalaryApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      if (userId !== undefined) {
+        localVarQueryParameter["userId"] = userId;
+      }
+
       if (targetDate !== undefined) {
         localVarQueryParameter["targetDate"] =
           (targetDate as any) instanceof Date
@@ -2363,9 +2489,51 @@ export const SalaryApiAxiosParamCreator = function (
             : targetDate;
       }
 
-      if (fileId !== undefined) {
-        localVarQueryParameter["fileId"] = fileId;
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * IDを指定して給与OCRタスクを取得する
+     * @summary 給与OCRタスク取得(ID)
+     * @param {string} ocrTaskId OCRタスクID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSalaryOcrTaskById: async (
+      ocrTaskId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'ocrTaskId' is not null or undefined
+      assertParamExists("getSalaryOcrTaskById", "ocrTaskId", ocrTaskId);
+      const localVarPath = `/salary/ocr-task/{ocrTaskId}`.replace(
+        `{${"ocrTaskId"}}`,
+        encodeURIComponent(String(ocrTaskId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
       }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -2420,6 +2588,54 @@ export const SalaryApiAxiosParamCreator = function (
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
         salaryBase,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * 給与OCRタスクを開始する
+     * @summary 給与OCRタスク開始
+     * @param {PostSalaryOcrTaskStartRequest} [postSalaryOcrTaskStartRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postSalaryOcrTaskStart: async (
+      postSalaryOcrTaskStartRequest?: PostSalaryOcrTaskStartRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/salary/ocr-task/start`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        postSalaryOcrTaskStartRequest,
         localVarRequestOptions,
         configuration,
       );
@@ -2591,28 +2807,63 @@ export const SalaryApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * 給与情報登録のOCR処理を実行する
-     * @summary 給与情報登録OCR実行
+     * 給与OCRタスクを取得する
+     * @summary 給与OCRタスク取得
+     * @param {string} userId ユーザーID
      * @param {string} targetDate 対象年月日
-     * @param {string} fileId ファイルID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getSalaryOcr(
+    async getSalaryOcrTask(
+      userId: string,
       targetDate: string,
-      fileId: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<SalaryOcrTask>>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getSalaryOcr(
-        targetDate,
-        fileId,
-        options,
-      );
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getSalaryOcrTask(
+          userId,
+          targetDate,
+          options,
+        );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap["SalaryApi.getSalaryOcr"]?.[
+        operationServerMap["SalaryApi.getSalaryOcrTask"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * IDを指定して給与OCRタスクを取得する
+     * @summary 給与OCRタスク取得(ID)
+     * @param {string} ocrTaskId OCRタスクID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSalaryOcrTaskById(
+      ocrTaskId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryOcrTask>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getSalaryOcrTaskById(
+          ocrTaskId,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["SalaryApi.getSalaryOcrTaskById"]?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -2643,6 +2894,40 @@ export const SalaryApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["SalaryApi.postSalary"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * 給与OCRタスクを開始する
+     * @summary 給与OCRタスク開始
+     * @param {PostSalaryOcrTaskStartRequest} [postSalaryOcrTaskStartRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postSalaryOcrTaskStart(
+      postSalaryOcrTaskStartRequest?: PostSalaryOcrTaskStartRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<SalaryOcrTaskId>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.postSalaryOcrTaskStart(
+          postSalaryOcrTaskStartRequest,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["SalaryApi.postSalaryOcrTaskStart"]?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -2750,20 +3035,35 @@ export const SalaryApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * 給与情報登録のOCR処理を実行する
-     * @summary 給与情報登録OCR実行
+     * 給与OCRタスクを取得する
+     * @summary 給与OCRタスク取得
+     * @param {string} userId ユーザーID
      * @param {string} targetDate 対象年月日
-     * @param {string} fileId ファイルID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSalaryOcr(
+    getSalaryOcrTask(
+      userId: string,
       targetDate: string,
-      fileId: string,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<SalaryId> {
+    ): AxiosPromise<Array<SalaryOcrTask>> {
       return localVarFp
-        .getSalaryOcr(targetDate, fileId, options)
+        .getSalaryOcrTask(userId, targetDate, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * IDを指定して給与OCRタスクを取得する
+     * @summary 給与OCRタスク取得(ID)
+     * @param {string} ocrTaskId OCRタスクID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSalaryOcrTaskById(
+      ocrTaskId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SalaryOcrTask> {
+      return localVarFp
+        .getSalaryOcrTaskById(ocrTaskId, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -2779,6 +3079,21 @@ export const SalaryApiFactory = function (
     ): AxiosPromise<SalaryId> {
       return localVarFp
         .postSalary(salaryBase, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * 給与OCRタスクを開始する
+     * @summary 給与OCRタスク開始
+     * @param {PostSalaryOcrTaskStartRequest} [postSalaryOcrTaskStartRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postSalaryOcrTaskStart(
+      postSalaryOcrTaskStartRequest?: PostSalaryOcrTaskStartRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SalaryOcrTaskId> {
+      return localVarFp
+        .postSalaryOcrTaskStart(postSalaryOcrTaskStartRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -2851,19 +3166,32 @@ export interface SalaryApiInterface {
   ): AxiosPromise<Salary>;
 
   /**
-   * 給与情報登録のOCR処理を実行する
-   * @summary 給与情報登録OCR実行
+   * 給与OCRタスクを取得する
+   * @summary 給与OCRタスク取得
+   * @param {string} userId ユーザーID
    * @param {string} targetDate 対象年月日
-   * @param {string} fileId ファイルID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SalaryApiInterface
    */
-  getSalaryOcr(
+  getSalaryOcrTask(
+    userId: string,
     targetDate: string,
-    fileId: string,
     options?: RawAxiosRequestConfig,
-  ): AxiosPromise<SalaryId>;
+  ): AxiosPromise<Array<SalaryOcrTask>>;
+
+  /**
+   * IDを指定して給与OCRタスクを取得する
+   * @summary 給与OCRタスク取得(ID)
+   * @param {string} ocrTaskId OCRタスクID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SalaryApiInterface
+   */
+  getSalaryOcrTaskById(
+    ocrTaskId: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<SalaryOcrTask>;
 
   /**
    * 給与情報を登録する
@@ -2877,6 +3205,19 @@ export interface SalaryApiInterface {
     salaryBase?: SalaryBase,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<SalaryId>;
+
+  /**
+   * 給与OCRタスクを開始する
+   * @summary 給与OCRタスク開始
+   * @param {PostSalaryOcrTaskStartRequest} [postSalaryOcrTaskStartRequest]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SalaryApiInterface
+   */
+  postSalaryOcrTaskStart(
+    postSalaryOcrTaskStartRequest?: PostSalaryOcrTaskStartRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<SalaryOcrTaskId>;
 
   /**
    * 給与情報を更新する
@@ -2951,21 +3292,38 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
   }
 
   /**
-   * 給与情報登録のOCR処理を実行する
-   * @summary 給与情報登録OCR実行
+   * 給与OCRタスクを取得する
+   * @summary 給与OCRタスク取得
+   * @param {string} userId ユーザーID
    * @param {string} targetDate 対象年月日
-   * @param {string} fileId ファイルID
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SalaryApi
    */
-  public getSalaryOcr(
+  public getSalaryOcrTask(
+    userId: string,
     targetDate: string,
-    fileId: string,
     options?: RawAxiosRequestConfig,
   ) {
     return SalaryApiFp(this.configuration)
-      .getSalaryOcr(targetDate, fileId, options)
+      .getSalaryOcrTask(userId, targetDate, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * IDを指定して給与OCRタスクを取得する
+   * @summary 給与OCRタスク取得(ID)
+   * @param {string} ocrTaskId OCRタスクID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SalaryApi
+   */
+  public getSalaryOcrTaskById(
+    ocrTaskId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return SalaryApiFp(this.configuration)
+      .getSalaryOcrTaskById(ocrTaskId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -2980,6 +3338,23 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
   public postSalary(salaryBase?: SalaryBase, options?: RawAxiosRequestConfig) {
     return SalaryApiFp(this.configuration)
       .postSalary(salaryBase, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * 給与OCRタスクを開始する
+   * @summary 給与OCRタスク開始
+   * @param {PostSalaryOcrTaskStartRequest} [postSalaryOcrTaskStartRequest]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SalaryApi
+   */
+  public postSalaryOcrTaskStart(
+    postSalaryOcrTaskStartRequest?: PostSalaryOcrTaskStartRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return SalaryApiFp(this.configuration)
+      .postSalaryOcrTaskStart(postSalaryOcrTaskStartRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
