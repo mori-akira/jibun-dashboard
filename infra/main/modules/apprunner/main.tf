@@ -14,31 +14,31 @@ resource "aws_iam_role" "instance" {
   tags               = var.application_tag
 }
 
-resource "aws_iam_role_policy" "apprunner_ecr_policy" {
-  role = aws_iam_role.instance.id
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect   = "Allow",
-        Action   = ["ecr:GetAuthorizationToken"],
-        Resource = "*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "ecr:BatchGetImage",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:DescribeImages",
-        ],
-        Resource = var.ecr_repository_arn
-      }
+data "aws_iam_policy_document" "apprunner_instance" {
+  # ECR: 認証トークン
+  statement {
+    sid    = "EcrGetAuthorizationToken"
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
     ]
-  })
-}
+    resources = ["*"]
+  }
 
-data "aws_iam_policy_document" "apprunner_dynamodb" {
+  # ECR: イメージ取得
+  statement {
+    sid    = "EcrPullImage"
+    effect = "Allow"
+    actions = [
+      "ecr:BatchGetImage",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:DescribeImages",
+    ]
+    resources = [var.ecr_repository_arn]
+  }
+
+  # DynamoDB
   statement {
     actions = [
       "dynamodb:BatchWriteItem",
@@ -56,41 +56,53 @@ data "aws_iam_policy_document" "apprunner_dynamodb" {
       [for arn in var.dynamodb_table_arns : "${arn}/index/*"]
     )
   }
-}
 
-resource "aws_iam_policy" "dynamodb" {
-  name   = "${var.app_name}-apprunner-dynamodb-policy"
-  policy = data.aws_iam_policy_document.apprunner_dynamodb.json
-}
-
-resource "aws_iam_role_policy_attachment" "attach_dynamodb" {
-  role       = aws_iam_role.instance.name
-  policy_arn = aws_iam_policy.dynamodb.arn
-}
-
-data "aws_iam_policy_document" "apprunner_s3_uploads_bucket" {
+  # アップロードS3バケット: オブジェクト操作
   statement {
-    sid = "AllowPutObjectToUploads"
+    sid    = "AllowObjectAccessToUploads"
+    effect = "Allow"
     actions = [
       "s3:GetObject",
       "s3:PutObject",
       "s3:AbortMultipartUpload",
-      "s3:ListBucketMultipartUploads"
     ]
     resources = [
       "${var.uploads_bucket_arn}/*"
     ]
   }
+
+  # アップロードS3バケット: マルチパート一覧
+  statement {
+    sid    = "AllowListMultipartUploads"
+    effect = "Allow"
+    actions = [
+      "s3:ListBucketMultipartUploads",
+    ]
+    resources = [
+      var.uploads_bucket_arn
+    ]
+  }
+
+  # SQS
+  dynamic "statement" {
+    for_each = length(var.sqs_queue_arns) == 0 ? [] : [1]
+    content {
+      sid    = "AllowSendMessageToSqs"
+      effect = "Allow"
+      actions = [
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl"
+      ]
+      resources = var.sqs_queue_arns
+    }
+  }
 }
 
-resource "aws_iam_policy" "apprunner_s3_uploads_bucket" {
-  name   = "${var.app_name}-apprunner-s3-uploads-policy"
-  policy = data.aws_iam_policy_document.apprunner_s3_uploads_bucket.json
-}
-
-resource "aws_iam_role_policy_attachment" "attach_s3_uploads_bucket" {
-  role       = aws_iam_role.instance.name
-  policy_arn = aws_iam_policy.apprunner_s3_uploads_bucket.arn
+resource "aws_iam_role_policy" "apprunner_instance_policy" {
+  name   = "${var.app_name}-${var.env_name}-apprunner-instance-policy"
+  role   = aws_iam_role.instance.id
+  policy = data.aws_iam_policy_document.apprunner_instance.json
 }
 
 resource "aws_apprunner_service" "this" {

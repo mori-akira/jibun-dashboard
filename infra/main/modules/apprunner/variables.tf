@@ -128,3 +128,9 @@ variable "uploads_bucket_arn" {
   description = "アップロード用S3バケットARN"
   type        = string
 }
+
+variable "sqs_queue_arns" {
+  description = "メッセージキューイングを行うSQSのARN一覧"
+  type        = list(string)
+  default     = []
+}
