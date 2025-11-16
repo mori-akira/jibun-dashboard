@@ -4,11 +4,15 @@ import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.model.Overview
 import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
+import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTaskStartRequest
 import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.service.OverviewModel
 import com.github.moriakira.jibundashboard.service.PayslipCategoryModel
 import com.github.moriakira.jibundashboard.service.PayslipEntryModel
 import com.github.moriakira.jibundashboard.service.SalaryModel
+import com.github.moriakira.jibundashboard.service.SalaryOcrTaskModel
+import com.github.moriakira.jibundashboard.service.SalaryOcrTaskService
+import com.github.moriakira.jibundashboard.service.SalaryOcrTaskStatus
 import com.github.moriakira.jibundashboard.service.SalaryService
 import com.github.moriakira.jibundashboard.service.StructureModel
 import io.kotest.assertions.throwables.shouldThrow
@@ -22,6 +26,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.springframework.http.HttpStatus
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.*
 
 class SalaryControllerTest :
@@ -29,12 +34,13 @@ class SalaryControllerTest :
 
         val currentAuth = mockk<CurrentAuth>(relaxed = true)
         val salaryService = mockk<SalaryService>(relaxed = true)
-        val controller = SalaryController(currentAuth, salaryService)
+        val salaryOcrTaskService = mockk<SalaryOcrTaskService>(relaxed = true)
+        val controller = SalaryController(currentAuth, salaryService, salaryOcrTaskService)
 
         beforeTest {
             every { currentAuth.userId } returns "u1"
             // 直前のテストでの呼び出し履歴をクリア
-            clearMocks(salaryService, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(salaryService, salaryOcrTaskService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun sampleModel(id: String = "11111111-1111-1111-1111-111111111111", userId: String = "u1"): SalaryModel =
@@ -50,6 +56,24 @@ class SalaryControllerTest :
                         data = listOf(PayslipEntryModel("base", 100.0)),
                     ),
                 ),
+            )
+
+        @Suppress("LongParameterList")
+        fun sampleOcrModel(
+            id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            userId: String = "u1",
+            status: SalaryOcrTaskStatus = SalaryOcrTaskStatus.PENDING,
+            targetDate: String = "2025-11-01",
+            createdAt: String = "2025-11-01T00:00:00Z",
+            updatedAt: String = "2025-11-01T00:00:00Z",
+        ): SalaryOcrTaskModel =
+            SalaryOcrTaskModel(
+                ocrTaskId = id,
+                userId = userId,
+                targetDate = targetDate,
+                status = status,
+                createdAt = createdAt,
+                updatedAt = updatedAt,
             )
 
         "getSalary: パラメータなしなら listAll を返す" {
@@ -325,5 +349,126 @@ class SalaryControllerTest :
 
             res.statusCode shouldBe HttpStatus.NO_CONTENT
             verify(exactly = 1) { salaryService.delete("u1", "2025-08-15") }
+        }
+
+        // ===== OCR タスク関連 =====
+        "getSalaryOcrTask: 指定日の自分のタスク一覧を返す" {
+            every { salaryOcrTaskService.listByUserAndDate("u1", "2025-11-01") } returns listOf(
+                sampleOcrModel(
+                    id = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    status = SalaryOcrTaskStatus.PENDING,
+                    targetDate = "2025-11-01",
+                    createdAt = "2025-11-01T00:00:00Z",
+                    updatedAt = "2025-11-01T00:00:01Z",
+                ),
+                sampleOcrModel(
+                    id = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+                    status = SalaryOcrTaskStatus.COMPLETED,
+                    targetDate = "2025-11-01",
+                    createdAt = "2025-11-02T00:00:00Z",
+                    updatedAt = "2025-11-02T00:00:01Z",
+                ),
+            )
+
+            val res = controller.getSalaryOcrTask(LocalDate.parse("2025-11-01"))
+
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.shouldHaveSize(2)
+            res.body!![0].ocrTaskId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+            res.body!![0].status.name shouldBe "PENDING"
+            res.body!![0].targetDate shouldBe LocalDate.parse("2025-11-01")
+            res.body!![0].createdAt shouldBe OffsetDateTime.parse("2025-11-01T00:00:00Z")
+            res.body!![0].updatedAt shouldBe OffsetDateTime.parse("2025-11-01T00:00:01Z")
+
+            res.body!![1].ocrTaskId.toString() shouldBe "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+            res.body!![1].status.name shouldBe "COMPLETED"
+            verify(exactly = 1) { salaryOcrTaskService.listByUserAndDate("u1", "2025-11-01") }
+        }
+
+        "getSalaryOcrTaskById: 見つからなければ 404" {
+            val id = "cccccccc-cccc-cccc-cccc-cccccccccccc"
+            every { salaryOcrTaskService.getByTaskId(id) } returns null
+
+            val res = controller.getSalaryOcrTaskById(UUID.fromString(id))
+
+            res.statusCode shouldBe HttpStatus.NOT_FOUND
+        }
+
+        "getSalaryOcrTaskById: 他ユーザなら 404" {
+            val id = "dddddddd-dddd-dddd-dddd-dddddddddddd"
+            every { salaryOcrTaskService.getByTaskId(id) } returns sampleOcrModel(id = id, userId = "other")
+
+            val res = controller.getSalaryOcrTaskById(UUID.fromString(id))
+
+            res.statusCode shouldBe HttpStatus.NOT_FOUND
+        }
+
+        "getSalaryOcrTaskById: 所有者なら 200 で返す" {
+            val id = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
+            every { salaryOcrTaskService.getByTaskId(id) } returns sampleOcrModel(
+                id = id,
+                userId = "u1",
+                status = SalaryOcrTaskStatus.RUNNING,
+                targetDate = "2025-11-01",
+                createdAt = "2025-11-03T00:00:00Z",
+                updatedAt = "2025-11-03T00:00:01Z",
+            )
+
+            val res = controller.getSalaryOcrTaskById(UUID.fromString(id))
+
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.ocrTaskId.toString() shouldBe id
+            res.body!!.status.name shouldBe "RUNNING"
+            res.body!!.targetDate shouldBe LocalDate.parse("2025-11-01")
+        }
+
+        "postSalaryOcrTaskStart: null ボディなら IllegalArgumentException" {
+            shouldThrow<IllegalArgumentException> { controller.postSalaryOcrTaskStart(null) }
+        }
+
+        "postSalaryOcrTaskStart: 進行中/待機中タスクがあれば 409" {
+            every { salaryOcrTaskService.listByUserAndDate("u1", "2025-11-01") } returns listOf(
+                sampleOcrModel(status = SalaryOcrTaskStatus.PENDING, targetDate = "2025-11-01"),
+            )
+
+            val req = PostSalaryOcrTaskStartRequest(
+                targetDate = LocalDate.parse("2025-11-01"),
+                fileId = UUID.fromString("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+            )
+
+            val res = controller.postSalaryOcrTaskStart(req)
+
+            res.statusCode shouldBe HttpStatus.CONFLICT
+            verify(exactly = 0) { salaryOcrTaskService.startTask(any(), any(), any()) }
+        }
+
+        "postSalaryOcrTaskStart: 実行可能ならキュー投入して 202 + ID 返す" {
+            every { salaryOcrTaskService.listByUserAndDate("u1", "2025-11-01") } returns listOf(
+                sampleOcrModel(status = SalaryOcrTaskStatus.COMPLETED, targetDate = "2025-11-01"),
+            )
+            every {
+                salaryOcrTaskService.startTask(
+                    userId = "u1",
+                    targetDate = "2025-11-01",
+                    fileId = "11111111-1111-1111-1111-111111111111",
+                )
+            } returns "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+
+            val req = PostSalaryOcrTaskStartRequest(
+                targetDate = LocalDate.parse("2025-11-01"),
+                fileId = UUID.fromString("11111111-1111-1111-1111-111111111111"),
+            )
+
+            val res = controller.postSalaryOcrTaskStart(req)
+
+            res.statusCode shouldBe HttpStatus.ACCEPTED
+            res.body!!.ocrTaskId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+            verify(exactly = 1) {
+                salaryOcrTaskService.startTask(
+                    userId = "u1",
+                    targetDate = "2025-11-01",
+                    fileId = "11111111-1111-1111-1111-111111111111",
+                )
+            }
         }
     })

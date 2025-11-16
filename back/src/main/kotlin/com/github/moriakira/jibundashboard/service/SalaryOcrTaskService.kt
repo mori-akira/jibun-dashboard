@@ -32,7 +32,6 @@ class SalaryOcrTaskService(
     ): String {
         val now = OffsetDateTime.now(ZoneOffset.UTC).toString()
         val taskId = UUID.randomUUID().toString()
-
         val model = SalaryOcrTaskModel(
             ocrTaskId = taskId,
             userId = userId,
