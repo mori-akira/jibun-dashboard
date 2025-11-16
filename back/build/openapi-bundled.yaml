@@ -6201,12 +6201,6 @@ paths:
         - Salary
       parameters:
         - in: query
-          name: userId
-          description: ユーザーID
-          required: true
-          schema:
-            type: string
-        - in: query
           name: targetDate
           description: 対象年月日
           required: true

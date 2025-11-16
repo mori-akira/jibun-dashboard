@@ -115,7 +115,7 @@ interface SalaryApi {
             value = ["/salary/ocr-task"],
             produces = ["application/json"]
     )
-    fun getSalaryOcrTask(@NotNull @Parameter(description = "ユーザーID", required = true) @Valid @RequestParam(value = "userId", required = true) userId: kotlin.String,@NotNull @Parameter(description = "対象年月日", required = true) @Valid @RequestParam(value = "targetDate", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate): ResponseEntity<List<SalaryOcrTask>> {
+    fun getSalaryOcrTask(@NotNull @Parameter(description = "対象年月日", required = true) @Valid @RequestParam(value = "targetDate", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate): ResponseEntity<List<SalaryOcrTask>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
