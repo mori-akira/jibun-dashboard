@@ -6,6 +6,7 @@ import type {
   Qualification,
   GetQualificationStatusEnum,
   GetQualificationRankEnum,
+  QualificationBase,
 } from "~/generated/api/client/api";
 import { QualificationApi } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
@@ -46,8 +47,22 @@ export const useQualificationStore = defineStore("qualification", () => {
     qualifications.value = res.data;
   }
 
-  async function putQualification(qualification: Qualification) {
-    await getQualificationApi().putQualification(qualification);
+  async function postQualification(qualification: QualificationBase) {
+    await getQualificationApi().postQualification(qualification);
+  }
+
+  async function putQualification(
+    qualificationId: string | undefined,
+    qualification: QualificationBase
+  ) {
+    if (qualificationId) {
+      await getQualificationApi().putQualification(
+        qualificationId,
+        qualification
+      );
+    } else {
+      await postQualification(qualification);
+    }
   }
 
   async function deleteQualification(qualificationId: string) {
@@ -57,6 +72,7 @@ export const useQualificationStore = defineStore("qualification", () => {
   return {
     qualifications,
     fetchQualification,
+    postQualification,
     putQualification,
     deleteQualification,
   };

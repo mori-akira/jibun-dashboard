@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { Configuration } from "~/generated/api/client/configuration";
-import type { User, Password } from "~/generated/api/client/api";
+import type { User, Password, UserBase } from "~/generated/api/client/api";
 import { UserApi } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
@@ -25,7 +25,7 @@ export const useUserStore = defineStore("user", () => {
     user.value = res.data;
   }
 
-  async function putUser(newUser: User) {
+  async function putUser(newUser: UserBase) {
     await getUserApi().putUser(newUser);
   }
 

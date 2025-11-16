@@ -226,7 +226,7 @@ watch(
 
 const onPutSalary = async () => {
   const result = await withErrorHandling(async () => {
-    await salaryStore.putSalary({
+    await salaryStore.putSalary(target.value?.salaryId, {
       ...target.value,
       targetDate: targetDate.value,
       overview: { ...targetSalary.value.overview },

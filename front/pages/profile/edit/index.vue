@@ -91,8 +91,8 @@ const userStore = useUserStore();
 const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
   useInfoDialog();
 const validationRules = {
-  userName: zodToVeeRules(schemas.User.shape.userName),
-  emailAddress: zodToVeeRules(schemas.User.shape.emailAddress),
+  userName: zodToVeeRules(schemas.UserBase.shape.userName),
+  emailAddress: zodToVeeRules(schemas.UserBase.shape.emailAddress),
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {

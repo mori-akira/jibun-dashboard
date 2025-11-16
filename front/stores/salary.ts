@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { Configuration } from "~/generated/api/client/configuration";
-import type { Salary } from "~/generated/api/client/api";
+import type { Salary, SalaryBase } from "~/generated/api/client/api";
 import { SalaryApi } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
@@ -32,8 +32,16 @@ export const useSalaryStore = defineStore("salary", () => {
     salaries.value = res.data;
   }
 
-  async function putSalary(salary: Salary) {
-    await getSalaryApi().putSalary(salary);
+  async function postSalary(salary: SalaryBase) {
+    await getSalaryApi().postSalary(salary);
+  }
+
+  async function putSalary(salaryId: string | undefined, salary: SalaryBase) {
+    if (salaryId) {
+      await getSalaryApi().putSalary(salaryId, salary);
+    } else {
+      await postSalary(salary);
+    }
   }
 
   async function deleteSalary(salaryId: string) {
@@ -43,6 +51,7 @@ export const useSalaryStore = defineStore("salary", () => {
   return {
     salaries,
     fetchSalary,
+    postSalary,
     putSalary,
     deleteSalary,
   };

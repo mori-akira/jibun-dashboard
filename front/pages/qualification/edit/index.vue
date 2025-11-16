@@ -350,21 +350,23 @@ const onAddNewOne = () =>
   });
 const onSubmitEdit = async (value: Qualification) => {
   const result = await withErrorHandling(async () => {
-    await qualificationStore.putQualification({
-      qualificationId: editTargetQualification?.value?.qualificationId,
-      order: editTargetQualification.value?.order ?? 1,
-      qualificationName: value.qualificationName,
-      abbreviation: value.abbreviation || undefined,
-      version: value.version || undefined,
-      status: value.status,
-      rank: value.rank,
-      organization: value.organization,
-      acquiredDate: value.acquiredDate || undefined,
-      expirationDate: value.expirationDate || undefined,
-      officialUrl: value.officialUrl,
-      certificationUrl: value.certificationUrl || undefined,
-      badgeUrl: value.badgeUrl || undefined,
-    });
+    await qualificationStore.putQualification(
+      editTargetQualification?.value?.qualificationId,
+      {
+        order: editTargetQualification.value?.order ?? 1,
+        qualificationName: value.qualificationName,
+        abbreviation: value.abbreviation || undefined,
+        version: value.version || undefined,
+        status: value.status,
+        rank: value.rank,
+        organization: value.organization,
+        acquiredDate: value.acquiredDate || undefined,
+        expirationDate: value.expirationDate || undefined,
+        officialUrl: value.officialUrl,
+        certificationUrl: value.certificationUrl || undefined,
+        badgeUrl: value.badgeUrl || undefined,
+      }
+    );
   }, commonStore);
   if (result) {
     commonStore.setHasUnsavedChange(false);
@@ -405,7 +407,7 @@ const onSubmitReorder = async (targetQualifications: Qualification[]) => {
         if (!target) {
           return;
         }
-        await qualificationStore.putQualification({
+        await qualificationStore.putQualification(e.qualificationId, {
           ...target,
           order: e.order,
         });
