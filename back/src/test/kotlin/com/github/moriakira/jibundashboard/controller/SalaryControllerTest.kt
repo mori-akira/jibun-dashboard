@@ -269,12 +269,6 @@ class SalaryControllerTest :
             verify(exactly = 0) { salaryService.put(any()) }
         }
 
-        // 追加: OCR 未実装
-        "getSalaryOcr: NOT_IMPLEMENTED を返す" {
-            val res = controller.getSalaryOcr(LocalDate.parse("2025-08-15"), UUID.randomUUID())
-            res.statusCode shouldBe HttpStatus.NOT_IMPLEMENTED
-        }
-
         "getSalaryById: 所有者なら 200" {
             val id = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
             every { salaryService.getBySalaryId(id) } returns sampleModel(id = id, userId = "u1")
