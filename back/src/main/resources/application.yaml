@@ -26,6 +26,9 @@ management:
       probes:
         enabled: true
 app:
+  security:
+    cognito:
+      region: ${AWS_REGION:ap-northeast-1}
   dynamodb:
     region: ${AWS_REGION:ap-northeast-1}
     tables:
@@ -34,11 +37,12 @@ app:
       settings: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-settings
       salaries: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salaries
       qualifications: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-qualifications
+      salary-ocr-tasks: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salary-ocr-tasks
   s3:
     region: ${AWS_REGION:ap-northeast-1}
     uploads-bucket:
       name: ${UPLOADS_BUCKET_NAME}
       default-expires-in-seconds: ${UPLOADS_BUCKET_DEFAULT_EXPIRES_IN:3600}
-  security:
-    cognito:
-      region: ${AWS_REGION:ap-northeast-1}
+  sqs:
+    region: ${AWS_REGION:ap-northeast-1}
+    salary-ocr-queue-url: ${SALARY_OCR_QUEUE_URL:}

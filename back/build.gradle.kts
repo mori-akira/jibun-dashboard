@@ -48,6 +48,7 @@ dependencies {
     implementation("software.amazon.awssdk:dynamodb:2.32.33")
     implementation("software.amazon.awssdk:dynamodb-enhanced:2.32.33")
     implementation("software.amazon.awssdk:s3:2.32.33")
+    implementation("software.amazon.awssdk:sqs:2.32.33")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
