@@ -84,9 +84,6 @@ class SalaryController(
         return ResponseEntity.noContent().build()
     }
 
-    override fun getSalaryOcr(targetDate: LocalDate, fileId: UUID): ResponseEntity<SalaryId> =
-        ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build()
-
     private fun SalaryModel.toApi(): Salary = Salary(
         salaryId = UUID.fromString(this.salaryId),
         targetDate = LocalDate.parse(this.targetDate),
