@@ -557,11 +557,6 @@ const endpoints = makeApi([
     requestFormat: "json",
     parameters: [
       {
-        name: "userId",
-        type: "Query",
-        schema: z.string(),
-      },
-      {
         name: "targetDate",
         type: "Query",
         schema: z.string(),
