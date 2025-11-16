@@ -261,34 +261,37 @@ const {
 } = useInputDialog();
 const validationRules = {
   overview: {
-    grossIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.grossIncome),
-    netIncome: zodToVeeRules(schemas.Salary.shape.overview.shape.netIncome),
-    operatingTime: zodToVeeRules(
-      schemas.Salary.shape.overview.shape.operatingTime
+    grossIncome: zodToVeeRules(
+      schemas.SalaryBase.shape.overview.shape.grossIncome
     ),
-    overtime: zodToVeeRules(schemas.Salary.shape.overview.shape.overtime),
-    bonus: zodToVeeRules(schemas.Salary.shape.overview.shape.bonus),
+    netIncome: zodToVeeRules(schemas.SalaryBase.shape.overview.shape.netIncome),
+    operatingTime: zodToVeeRules(
+      schemas.SalaryBase.shape.overview.shape.operatingTime
+    ),
+    overtime: zodToVeeRules(schemas.SalaryBase.shape.overview.shape.overtime),
+    bonus: zodToVeeRules(schemas.SalaryBase.shape.overview.shape.bonus),
     bonusTakeHome: zodToVeeRules(
-      schemas.Salary.shape.overview.shape.bonusTakeHome
+      schemas.SalaryBase.shape.overview.shape.bonusTakeHome
     ),
   },
   structure: {
     basicSalary: zodToVeeRules(
-      schemas.Salary.shape.structure.shape.basicSalary
+      schemas.SalaryBase.shape.structure.shape.basicSalary
     ),
     overtimePay: zodToVeeRules(
-      schemas.Salary.shape.structure.shape.overtimePay
+      schemas.SalaryBase.shape.structure.shape.overtimePay
     ),
     housingAllowance: zodToVeeRules(
-      schemas.Salary.shape.structure.shape.housingAllowance
+      schemas.SalaryBase.shape.structure.shape.housingAllowance
     ),
     positionAllowance: zodToVeeRules(
-      schemas.Salary.shape.structure.shape.positionAllowance
+      schemas.SalaryBase.shape.structure.shape.positionAllowance
     ),
-    other: zodToVeeRules(schemas.Salary.shape.structure.shape.other),
+    other: zodToVeeRules(schemas.SalaryBase.shape.structure.shape.other),
   },
   payslipData: zodToVeeRules(
-    schemas.Salary.shape.payslipData._def.type.shape.data._def.type.shape.data
+    schemas.SalaryBase.shape.payslipData._def.type.shape.data._def.type.shape
+      .data
   ),
 };
 

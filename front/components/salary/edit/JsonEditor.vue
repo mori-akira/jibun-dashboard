@@ -108,13 +108,13 @@ const isValidJson = computed(() => validateJson());
 const validateSchema = () => {
   try {
     const parsed = JSON.parse(text.value);
-    const checkOverview = schemas.Salary.shape.overview.safeParse(
+    const checkOverview = schemas.SalaryBase.shape.overview.safeParse(
       parsed.overview
     );
-    const checkStructure = schemas.Salary.shape.structure.safeParse(
+    const checkStructure = schemas.SalaryBase.shape.structure.safeParse(
       parsed.structure
     );
-    const checkPayslipData = schemas.Salary.shape.payslipData.safeParse(
+    const checkPayslipData = schemas.SalaryBase.shape.payslipData.safeParse(
       parsed.payslipData
     );
     return (

@@ -136,6 +136,7 @@ import type {
   GetQualificationRankEnum,
   GetQualificationStatusEnum,
   Qualification,
+  QualificationBase,
   SettingQualification,
 } from "~/generated/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
@@ -348,7 +349,7 @@ const onAddNewOne = () =>
     organization: "",
     officialUrl: "",
   });
-const onSubmitEdit = async (value: Qualification) => {
+const onSubmitEdit = async (value: QualificationBase) => {
   const result = await withErrorHandling(async () => {
     await qualificationStore.putQualification(
       editTargetQualification?.value?.qualificationId,

@@ -75,7 +75,7 @@
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
 
-import type { Qualification } from "~/generated/api/client";
+import type { Qualification, QualificationBase } from "~/generated/api/client";
 import { schemas } from "~/generated/api/client/schemas";
 import Button from "~/components/common/Button.vue";
 import TextBox from "~/components/common/TextBox.vue";
@@ -90,13 +90,13 @@ defineProps<{
 }>();
 const emit = defineEmits<{
   (e: "closeModal"): void;
-  (e: "submit", values: Qualification): void;
+  (e: "submit", values: QualificationBase): void;
 }>();
 
 const commonStore = useCommonStore();
 
 const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
-  const valueTyped = value as Qualification;
+  const valueTyped = value as QualificationBase;
   emit("submit", valueTyped);
 };
 const onCloseModal = () => {
@@ -104,24 +104,26 @@ const onCloseModal = () => {
 };
 
 const validationRules: {
-  [K in keyof Qualification]?: GenericValidateFunction[];
+  [K in keyof QualificationBase]?: GenericValidateFunction[];
 } = {
   qualificationName: zodToVeeRules(
-    schemas.Qualification.shape.qualificationName
+    schemas.QualificationBase.shape.qualificationName
   ),
-  abbreviation: zodToVeeRules(schemas.Qualification.shape.abbreviation),
-  version: zodToVeeRules(schemas.Qualification.shape.version),
-  status: zodToVeeRules(schemas.Qualification.shape.status),
-  rank: zodToVeeRules(schemas.Qualification.shape.rank),
-  organization: zodToVeeRules(schemas.Qualification.shape.organization),
-  acquiredDate: zodToVeeRules(schemas.Qualification.shape.acquiredDate),
-  expirationDate: zodToVeeRules(schemas.Qualification.shape.expirationDate),
-  officialUrl: zodToVeeRules(schemas.Qualification.shape.officialUrl),
-  certificationUrl: zodToVeeRules(schemas.Qualification.shape.certificationUrl),
-  badgeUrl: zodToVeeRules(schemas.Qualification.shape.badgeUrl),
+  abbreviation: zodToVeeRules(schemas.QualificationBase.shape.abbreviation),
+  version: zodToVeeRules(schemas.QualificationBase.shape.version),
+  status: zodToVeeRules(schemas.QualificationBase.shape.status),
+  rank: zodToVeeRules(schemas.QualificationBase.shape.rank),
+  organization: zodToVeeRules(schemas.QualificationBase.shape.organization),
+  acquiredDate: zodToVeeRules(schemas.QualificationBase.shape.acquiredDate),
+  expirationDate: zodToVeeRules(schemas.QualificationBase.shape.expirationDate),
+  officialUrl: zodToVeeRules(schemas.QualificationBase.shape.officialUrl),
+  certificationUrl: zodToVeeRules(
+    schemas.QualificationBase.shape.certificationUrl
+  ),
+  badgeUrl: zodToVeeRules(schemas.QualificationBase.shape.badgeUrl),
 };
 const editFieldDefs: {
-  key: keyof Qualification;
+  key: keyof QualificationBase;
   label: string;
   type: "textbox" | "select" | "datepicker";
   options?: string[];
