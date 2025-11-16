@@ -6,6 +6,7 @@ import com.github.moriakira.jibundashboard.generated.model.Overview
 import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
 import com.github.moriakira.jibundashboard.generated.model.Salary
+import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.generated.model.SalaryId
 import com.github.moriakira.jibundashboard.generated.model.Structure
 import com.github.moriakira.jibundashboard.service.OverviewModel
@@ -44,17 +45,13 @@ class SalaryController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    @Suppress("ReturnCount")
-    override fun putSalary(salary: Salary?): ResponseEntity<SalaryId> {
-        requireNotNull(salary) { "Request body is required." }
-        if (salary.salaryId != null) {
-            val model =
-                salaryService.getBySalaryId(salary.salaryId.toString()) ?: return ResponseEntity.notFound().build()
-            if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
-        }
-        val salaryId = salaryService.put(salary.toModel())
-        val status = if (salary.salaryId == null) HttpStatus.CREATED else HttpStatus.OK
-        return ResponseEntity.status(status).body(SalaryId(salaryId = UUID.fromString(salaryId)))
+    override fun postSalary(salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+        // check
+        requireNotNull(salaryBase) { "Request body is required." }
+
+        // execute
+        val salaryId = salaryService.put(salaryBase.toModel(UUID.randomUUID().toString()))
+        return ResponseEntity.status(HttpStatus.CREATED).body(SalaryId(salaryId = UUID.fromString(salaryId)))
     }
 
     @Suppress("ReturnCount")
@@ -65,10 +62,25 @@ class SalaryController(
     }
 
     @Suppress("ReturnCount")
+    override fun putSalary(salaryId: UUID, salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+        // check
+        requireNotNull(salaryBase) { "Request body is required." }
+        val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
+        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
+
+        // execute
+        salaryService.put(salaryBase.toModel(salaryId.toString()))
+        return ResponseEntity.ok().body(SalaryId(salaryId))
+    }
+
+    @Suppress("ReturnCount")
     override fun deleteSalary(salaryId: UUID): ResponseEntity<Unit> {
-        val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.noContent().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.noContent().build()
-        salaryService.deleteBySalaryId(currentAuth.userId, model.targetDate)
+        // check
+        val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
+        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
+
+        // execute
+        salaryService.delete(currentAuth.userId, model.targetDate)
         return ResponseEntity.noContent().build()
     }
 
@@ -77,7 +89,6 @@ class SalaryController(
 
     private fun SalaryModel.toApi(): Salary = Salary(
         salaryId = UUID.fromString(this.salaryId),
-        userId = this.userId,
         targetDate = LocalDate.parse(this.targetDate),
         overview = this.overview.let {
             Overview(
@@ -111,8 +122,8 @@ class SalaryController(
         },
     )
 
-    private fun Salary.toModel(): SalaryModel = SalaryModel(
-        salaryId = this.salaryId?.toString() ?: UUID.randomUUID().toString(),
+    private fun SalaryBase.toModel(salaryId: String): SalaryModel = SalaryModel(
+        salaryId = salaryId,
         userId = currentAuth.userId,
         targetDate = this.targetDate.toString(),
         overview = this.overview.let {

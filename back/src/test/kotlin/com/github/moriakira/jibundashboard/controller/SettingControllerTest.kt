@@ -43,7 +43,7 @@ class SettingControllerTest :
                     rankDColor = "#DDDDDD",
                 ),
             )
-            every { settingService.getSetting("u1") } returns existing
+            every { settingService.get("u1") } returns existing
 
             val res = controller.getSetting()
 
@@ -60,7 +60,7 @@ class SettingControllerTest :
         }
 
         "getSetting: 未登録なら初期登録して返す" {
-            every { settingService.getSetting("u1") } returns null
+            every { settingService.get("u1") } returns null
             val created = SettingModel(
                 userId = "u1",
                 salary = SalarySettingModel(
@@ -108,7 +108,7 @@ class SettingControllerTest :
             )
 
             every {
-                settingService.putSetting(
+                settingService.put(
                     SettingModel(
                         userId = "u1",
                         salary = SalarySettingModel(3, 24, listOf("#000000", "#FFFFFF")),
@@ -125,7 +125,7 @@ class SettingControllerTest :
 
             res.statusCode shouldBe HttpStatus.OK
             verify(exactly = 1) {
-                settingService.putSetting(
+                settingService.put(
                     SettingModel(
                         userId = "u1",
                         salary = SalarySettingModel(3, 24, listOf("#000000", "#FFFFFF")),

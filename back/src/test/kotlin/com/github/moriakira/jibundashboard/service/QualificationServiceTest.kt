@@ -146,7 +146,7 @@ class QualificationServiceTest :
         }
 
         "deleteByQualificationId: 削除を委譲" {
-            service.deleteByQualificationId("u1", "qid-1")
+            service.delete("u1", "qid-1")
             verify(exactly = 1) { repository.delete("u1", "qid-1") }
         }
     })

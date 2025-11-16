@@ -23,9 +23,9 @@ class SettingService(
         res.inputStream.use { yamlMapper.readValue(it, SettingModel::class.java) }
     }
 
-    fun getSetting(userId: String): SettingModel? = settingRepository.get(userId)?.toDomain()
+    fun get(userId: String): SettingModel? = settingRepository.get(userId)?.toDomain()
 
-    fun putSetting(model: SettingModel): SettingModel {
+    fun put(model: SettingModel): SettingModel {
         val item = model.toItem()
         settingRepository.put(item)
         return item.toDomain()

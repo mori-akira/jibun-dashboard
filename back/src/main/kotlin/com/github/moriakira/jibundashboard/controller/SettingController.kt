@@ -19,7 +19,7 @@ class SettingController(
 ) : SettingApi {
 
     override fun getSetting(): ResponseEntity<Setting> {
-        var setting = settingService.getSetting(currentAuth.userId)
+        var setting = settingService.get(currentAuth.userId)
         return setting?.let {
             // 設定が登録済みなら返却
             ResponseEntity.ok(
@@ -65,7 +65,7 @@ class SettingController(
     override fun putSetting(setting: Setting?): ResponseEntity<Unit> {
         requireNotNull(setting) { "Request body is required." }
         setting.let {
-            settingService.putSetting(
+            settingService.put(
                 SettingModel(
                     userId = currentAuth.userId,
                     salary = SalarySettingModel(

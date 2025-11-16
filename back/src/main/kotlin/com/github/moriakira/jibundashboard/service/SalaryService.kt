@@ -21,13 +21,13 @@ class SalaryService(
 
     fun getBySalaryId(salaryId: String): SalaryModel? = salaryRepository.getBySalaryId(salaryId)?.toDomain()
 
-    fun deleteBySalaryId(userId: String, targetDate: String) {
-        salaryRepository.delete(userId, targetDate)
-    }
-
     fun put(model: SalaryModel): String {
         salaryRepository.put(model.toItem())
         return model.salaryId
+    }
+
+    fun delete(userId: String, targetDate: String) {
+        salaryRepository.delete(userId, targetDate)
     }
 
     @Suppress("CyclomaticComplexMethod")

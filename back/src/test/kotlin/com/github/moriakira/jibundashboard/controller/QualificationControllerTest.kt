@@ -2,14 +2,17 @@ package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.model.Qualification
+import com.github.moriakira.jibundashboard.generated.model.QualificationBase
 import com.github.moriakira.jibundashboard.service.QualificationModel
 import com.github.moriakira.jibundashboard.service.QualificationService
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.verify
 import org.springframework.http.HttpStatus
 import java.net.URI
@@ -94,41 +97,56 @@ class QualificationControllerTest :
             }
         }
 
-        "putQualification: 新規作成で 201" {
-            val req = Qualification(
+        // 新規作成は POST に変更: ランダムID生成の整合性を検証
+        "postQualification: 新規作成で 200 & put 呼び出し" {
+            val slotModel = slot<QualificationModel>()
+            every { qualificationService.put(capture(slotModel)) } returns "ignored-service-id"
+
+            val req = QualificationBase(
                 order = 1,
                 qualificationName = "AWS SAA",
-                status = Qualification.Status.acquired,
-                rank = Qualification.Rank.A,
+                status = QualificationBase.Status.acquired,
+                rank = QualificationBase.Rank.A,
                 organization = "AWS",
                 officialUrl = URI.create("https://example.com/off"),
-                qualificationId = null,
+                abbreviation = null,
+                version = null,
+                acquiredDate = null,
+                expirationDate = null,
+                certificationUrl = null,
+                badgeUrl = null,
             )
-            val id = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-            every { qualificationService.put(any()) } returns id
 
-            val res = controller.putQualification(req)
+            val res = controller.postQualification(req)
 
-            res.statusCode shouldBe HttpStatus.CREATED
-            res.body!!.qualificationId.toString() shouldBe id
+            res.statusCode shouldBe HttpStatus.OK
+            // Controller が生成した UUID が put に渡された model の qualificationId と一致すること
+            res.body!!.qualificationId.toString() shouldBe slotModel.captured.qualificationId
+            verify(exactly = 1) { qualificationService.put(any()) }
         }
 
+        // PUT 更新: Path パラメータ ID を使用
         "putQualification: 更新で 200 (所有者OK)" {
             val id = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "u1")
             every { qualificationService.put(any()) } returns id
 
-            val req = Qualification(
+            val req = QualificationBase(
                 order = 1,
                 qualificationName = "AWS SAA",
-                status = Qualification.Status.acquired,
-                rank = Qualification.Rank.A,
+                status = QualificationBase.Status.acquired,
+                rank = QualificationBase.Rank.A,
                 organization = "AWS",
                 officialUrl = URI.create("https://example.com/off"),
-                qualificationId = UUID.fromString(id),
+                abbreviation = null,
+                version = null,
+                acquiredDate = null,
+                expirationDate = null,
+                certificationUrl = null,
+                badgeUrl = null,
             )
 
-            val res = controller.putQualification(req)
+            val res = controller.putQualification(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.qualificationId.toString() shouldBe id
@@ -140,17 +158,22 @@ class QualificationControllerTest :
             val id = "cccccccc-cccc-cccc-cccc-cccccccccccc"
             every { qualificationService.getByQualificationId(id) } returns null
 
-            val req = Qualification(
+            val req = QualificationBase(
                 order = 1,
                 qualificationName = "AWS SAA",
-                status = Qualification.Status.acquired,
-                rank = Qualification.Rank.A,
+                status = QualificationBase.Status.acquired,
+                rank = QualificationBase.Rank.A,
                 organization = "AWS",
                 officialUrl = URI.create("https://example.com/off"),
-                qualificationId = UUID.fromString(id),
+                abbreviation = null,
+                version = null,
+                acquiredDate = null,
+                expirationDate = null,
+                certificationUrl = null,
+                badgeUrl = null,
             )
 
-            val res = controller.putQualification(req)
+            val res = controller.putQualification(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { qualificationService.put(any()) }
@@ -160,19 +183,37 @@ class QualificationControllerTest :
             val id = "dddddddd-dddd-dddd-dddd-dddddddddddd"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "other")
 
-            val req = Qualification(
+            val req = QualificationBase(
                 order = 1,
                 qualificationName = "AWS SAA",
-                status = Qualification.Status.acquired,
-                rank = Qualification.Rank.A,
+                status = QualificationBase.Status.acquired,
+                rank = QualificationBase.Rank.A,
                 organization = "AWS",
                 officialUrl = URI.create("https://example.com/off"),
-                qualificationId = UUID.fromString(id),
+                abbreviation = null,
+                version = null,
+                acquiredDate = null,
+                expirationDate = null,
+                certificationUrl = null,
+                badgeUrl = null,
             )
 
-            val res = controller.putQualification(req)
+            val res = controller.putQualification(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
+            verify(exactly = 0) { qualificationService.put(any()) }
+        }
+
+        // 追加: POST / PUT の null body バリデーション
+        "postQualification: body が null なら IllegalArgumentException" {
+            shouldThrow<IllegalArgumentException> { controller.postQualification(null) }
+            verify(exactly = 0) { qualificationService.put(any()) }
+        }
+
+        "putQualification: body が null なら IllegalArgumentException (存在チェック前)" {
+            val id = UUID.fromString("aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb")
+            shouldThrow<IllegalArgumentException> { controller.putQualification(id, null) }
+            verify(exactly = 0) { qualificationService.getByQualificationId(any()) }
             verify(exactly = 0) { qualificationService.put(any()) }
         }
 
@@ -204,24 +245,25 @@ class QualificationControllerTest :
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
 
-        "deleteQualification: 見つからなければ 204 (no-op)" {
+        // delete の仕様変更: 見つからない/他ユーザは 404
+        "deleteQualification: 見つからなければ 404" {
             val id = "12121212-1212-1212-1212-121212121212"
             every { qualificationService.getByQualificationId(id) } returns null
 
             val res = controller.deleteQualification(UUID.fromString(id))
 
-            res.statusCode shouldBe HttpStatus.NO_CONTENT
-            verify(exactly = 0) { qualificationService.deleteByQualificationId(any(), any()) }
+            res.statusCode shouldBe HttpStatus.NOT_FOUND
+            verify(exactly = 0) { qualificationService.delete(any(), any()) }
         }
 
-        "deleteQualification: 他ユーザなら 204 (no-op)" {
+        "deleteQualification: 他ユーザなら 404" {
             val id = "13131313-1313-1313-1313-131313131313"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "other")
 
             val res = controller.deleteQualification(UUID.fromString(id))
 
-            res.statusCode shouldBe HttpStatus.NO_CONTENT
-            verify(exactly = 0) { qualificationService.deleteByQualificationId(any(), any()) }
+            res.statusCode shouldBe HttpStatus.NOT_FOUND
+            verify(exactly = 0) { qualificationService.delete(any(), any()) }
         }
 
         "deleteQualification: 所有者なら削除して 204" {
@@ -231,6 +273,6 @@ class QualificationControllerTest :
             val res = controller.deleteQualification(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NO_CONTENT
-            verify(exactly = 1) { qualificationService.deleteByQualificationId("u1", id) }
+            verify(exactly = 1) { qualificationService.delete("u1", id) }
         }
     })

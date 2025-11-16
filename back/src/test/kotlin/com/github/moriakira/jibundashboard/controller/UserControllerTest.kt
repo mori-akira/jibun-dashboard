@@ -2,7 +2,7 @@ package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.model.Password
-import com.github.moriakira.jibundashboard.generated.model.User
+import com.github.moriakira.jibundashboard.generated.model.UserBase
 import com.github.moriakira.jibundashboard.service.CognitoUserService
 import com.github.moriakira.jibundashboard.service.UserModel
 import com.github.moriakira.jibundashboard.service.UserService
@@ -32,7 +32,7 @@ class UserControllerTest :
         }
 
         "getUser: 登録済みユーザを返す" {
-            every { userService.getUser("u1") } returns UserModel(
+            every { userService.get("u1") } returns UserModel(
                 userId = "u1",
                 userName = "Alice",
                 emailAddress = "alice@example.com",
@@ -44,13 +44,13 @@ class UserControllerTest :
             res.body!!.userId shouldBe "u1"
             res.body!!.userName shouldBe "Alice"
             res.body!!.emailAddress shouldBe "alice@example.com"
-            verify(exactly = 0) { userService.putUser(any()) }
+            verify(exactly = 0) { userService.put(any()) }
         }
 
         "getUser: 未登録なら初期登録して返す" {
-            every { userService.getUser("u1") } returns null
+            every { userService.get("u1") } returns null
             every {
-                userService.putUser(
+                userService.put(
                     UserModel(
                         userId = "u1",
                         userName = "u1@example.com",
@@ -70,7 +70,7 @@ class UserControllerTest :
             res.body!!.userName shouldBe "u1@example.com"
             res.body!!.emailAddress shouldBe "u1@example.com"
             verify(exactly = 1) {
-                userService.putUser(
+                userService.put(
                     UserModel(
                         userId = "u1",
                         userName = "u1@example.com",
@@ -82,7 +82,7 @@ class UserControllerTest :
 
         "putUser: ユーザ情報を更新して200を返す" {
             every {
-                userService.putUser(
+                userService.put(
                     UserModel(
                         userId = "u1",
                         userName = "Bob",
@@ -91,11 +91,11 @@ class UserControllerTest :
                 )
             } returns UserModel("u1", "Bob", "bob@example.com")
 
-            val res = controller.putUser(User("Bob", "bob@example.com", null))
+            val res = controller.putUser(UserBase("Bob", "bob@example.com"))
 
             res.statusCode shouldBe HttpStatus.OK
             verify(exactly = 1) {
-                userService.putUser(
+                userService.put(
                     UserModel(
                         userId = "u1",
                         userName = "Bob",

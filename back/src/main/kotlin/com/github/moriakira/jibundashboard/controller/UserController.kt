@@ -4,6 +4,7 @@ import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.UserApi
 import com.github.moriakira.jibundashboard.generated.model.Password
 import com.github.moriakira.jibundashboard.generated.model.User
+import com.github.moriakira.jibundashboard.generated.model.UserBase
 import com.github.moriakira.jibundashboard.service.CognitoUserService
 import com.github.moriakira.jibundashboard.service.UserModel
 import com.github.moriakira.jibundashboard.service.UserService
@@ -18,7 +19,7 @@ class UserController(
 ) : UserApi {
 
     override fun getUser(): ResponseEntity<User> {
-        var user = userService.getUser(currentAuth.userId)
+        var user = userService.get(currentAuth.userId)
         return user?.let {
             // ユーザが登録済みなら返却
             ResponseEntity.ok(
@@ -30,7 +31,7 @@ class UserController(
             )
         } ?: run {
             // 未登録の場合、初期登録
-            user = userService.putUser(
+            user = userService.put(
                 UserModel(
                     userId = currentAuth.userId,
                     userName = currentAuth.email,
@@ -49,10 +50,10 @@ class UserController(
         }
     }
 
-    override fun putUser(user: User?): ResponseEntity<Unit> {
-        requireNotNull(user) { "Request body is required." }
-        user.let {
-            userService.putUser(
+    override fun putUser(userBase: UserBase?): ResponseEntity<Unit> {
+        requireNotNull(userBase) { "Request body is required." }
+        userBase.let {
+            userService.put(
                 UserModel(
                     userId = currentAuth.userId,
                     userName = it.userName,

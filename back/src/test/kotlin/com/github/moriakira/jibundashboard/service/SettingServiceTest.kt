@@ -66,7 +66,7 @@ class SettingServiceTest :
             }
             every { repository.get("u1") } returns item
 
-            val result = service.getSetting("u1")!!
+            val result = service.get("u1")!!
 
             result.userId shouldBe "u1"
             result.salary.financialYearStartMonth shouldBe 4
@@ -83,7 +83,7 @@ class SettingServiceTest :
             val service = SettingService(repository, resourceLoader)
             every { repository.get("uX") } returns null
 
-            service.getSetting("uX") shouldBe null
+            service.get("uX") shouldBe null
         }
 
         "putSetting: モデルを保存して往復変換" {
@@ -98,7 +98,7 @@ class SettingServiceTest :
                 qualification = QualificationSettingModel("#FF0000", "#00FF00", "#0000FF", "#888888"),
             )
 
-            val returned = service.putSetting(model)
+            val returned = service.put(model)
 
             returned.userId shouldBe "u9"
             returned.salary.financialYearStartMonth shouldBe 3

@@ -36,13 +36,13 @@ class QualificationService(
     fun getByQualificationId(qualificationId: String): QualificationModel? =
         qualificationRepository.getByQualificationId(qualificationId)?.toDomain()
 
-    fun deleteByQualificationId(userId: String, qualificationId: String) {
-        qualificationRepository.delete(userId, qualificationId)
-    }
-
     fun put(model: QualificationModel): String {
         qualificationRepository.put(model.toItem())
         return model.qualificationId
+    }
+
+    fun delete(userId: String, qualificationId: String) {
+        qualificationRepository.delete(userId, qualificationId)
     }
 
     private fun QualificationItem.toDomain(): QualificationModel = QualificationModel(

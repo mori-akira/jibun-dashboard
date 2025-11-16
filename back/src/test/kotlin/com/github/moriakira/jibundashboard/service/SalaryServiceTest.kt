@@ -172,7 +172,7 @@ class SalaryServiceTest :
         }
 
         "deleteBySalaryId: 指定キーで削除を委譲" {
-            service.deleteBySalaryId("u1", "2025-08-15")
+            service.delete("u1", "2025-08-15")
             verify(exactly = 1) { repository.delete("u1", "2025-08-15") }
         }
 

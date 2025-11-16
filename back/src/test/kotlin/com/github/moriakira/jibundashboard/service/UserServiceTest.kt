@@ -31,7 +31,7 @@ class UserServiceTest :
             }
             every { repository.get("u1") } returns item
 
-            val result = service.getUser("u1")
+            val result = service.get("u1")
 
             result shouldBe UserModel(
                 userId = "u1",
@@ -44,7 +44,7 @@ class UserServiceTest :
         "getUser: 見つからない場合は null" {
             every { repository.get("nope") } returns null
 
-            val result = service.getUser("nope")
+            val result = service.get("nope")
 
             result shouldBe null
             verify(exactly = 1) { repository.get("nope") }
@@ -60,7 +60,7 @@ class UserServiceTest :
                 emailAddress = "bob@example.com",
             )
 
-            val result = service.putUser(input)
+            val result = service.put(input)
 
             result shouldBe UserModel(
                 userId = "u2",
@@ -86,7 +86,7 @@ class UserServiceTest :
                 emailAddress = "carol@example.com",
             )
 
-            val result = service.putUser(input)
+            val result = service.put(input)
 
             result shouldBe UserModel(
                 userId = fixed.toString(),
