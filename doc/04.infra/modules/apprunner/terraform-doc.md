@@ -65,6 +65,7 @@ No modules.
 | <a name="input_memory"></a> [memory](#input\_memory) | メモリ | `number` | `512` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWSリージョン | `string` | n/a | yes |
 | <a name="input_runtime_env"></a> [runtime\_env](#input\_runtime\_env) | 環境変数 | `map(string)` | `{}` | no |
+| <a name="input_salary_ocr_queue_url"></a> [salary\_ocr\_queue\_url](#input\_salary\_ocr\_queue\_url) | 給与明細OCR用キューURL | `string` | n/a | yes |
 | <a name="input_server_servlet_context_path"></a> [server\_servlet\_context\_path](#input\_server\_servlet\_context\_path) | サーブレットのコンテキストパス | `string` | `"/api/v1"` | no |
 | <a name="input_sqs_queue_arns"></a> [sqs\_queue\_arns](#input\_sqs\_queue\_arns) | メッセージキューイングを行うSQSのARN一覧 | `list(string)` | `[]` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | タイムゾーン | `string` | `"Asia/Tokyo"` | no |
