@@ -1,0 +1,33 @@
+type: object
+description: 給与OCRタスク基本情報
+
+required:
+  - status
+  - targetDate
+  - createdAt
+  - updatedAt
+
+properties:
+  status:
+    type: string
+    description: タスクステータス
+    enum:
+      - PENDING
+      - RUNNING
+      - COMPLETED
+      - FAILED
+
+  targetDate:
+    type: string
+    description: 対象年月日
+    format: date
+  
+  createdAt:
+    type: string
+    description: 作成日時
+    format: date-time
+
+  updatedAt:
+    type: string
+    description: 更新日時
+    format: date-time

@@ -42,8 +42,12 @@ paths:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
     $ref: "paths/salary/salaryId.yaml"
-  /salary/ocr:
-    $ref: "paths/salary/ocr.yaml"
+  /salary/ocr-task:
+    $ref: "paths/salary/ocr-task/index.yaml"
+  /salary/ocr-task/{ocrTaskId}:
+    $ref: "paths/salary/ocr-task/ocrTaskId.yaml"
+  /salary/ocr-task/start:
+    $ref: "paths/salary/ocr-task/start.yaml"
   /qualifications:
     $ref: "paths/qualifications/index.yaml"
   /qualification:
@@ -75,6 +79,12 @@ components:
       $ref: "schemas/salary/salaryId.yaml"
     SalaryBase:
       $ref: "schemas/salary/salaryBase.yaml"
+    SalaryOcrTask:
+      $ref: "schemas/salary/ocrTask/salaryOcrTask.yaml"
+    SalaryOcrTaskId:
+      $ref: "schemas/salary/ocrTask/salaryOcrTaskId.yaml"
+    SalaryOcrTaskBase:
+      $ref: "schemas/salary/ocrTask/salaryOcrTaskBase.yaml"
     Qualification:
       $ref: "schemas/qualification/qualification.yaml"
     QualificationId:

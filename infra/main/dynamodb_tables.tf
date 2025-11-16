@@ -26,6 +26,20 @@ locals {
         }
       ]
     }
+    salary_ocr_tasks = {
+      table_name = "${var.app_name}-${var.env_name}-salary-ocr-tasks"
+      hash_key   = { name = "taskId", type = "S" }
+      gsi = [
+        {
+          name            = "gsi_user_target_date"
+          hash_key_name   = "userId"
+          hash_key_type   = "S"
+          range_key_name  = "targetDate"
+          range_key_type  = "S"
+          projection_type = "ALL"
+        }
+      ]
+    }
     qualifications = {
       table_name = "${var.app_name}-${var.env_name}-qualifications"
       hash_key   = { name = "userId", type = "S" }

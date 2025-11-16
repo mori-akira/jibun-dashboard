@@ -1,0 +1,33 @@
+get:
+  operationId: getSalaryOcrTask
+  summary: 給与OCRタスク取得
+  description: 給与OCRタスクを取得する
+  tags:
+    - Salary
+
+  parameters:
+    - in: query
+      name: userId
+      description: ユーザーID
+      required: true
+      schema:
+        type: string
+    - in: query
+      name: targetDate
+      description: 対象年月日
+      required: true
+      schema:
+        type: string
+        format: date
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../openapi.yaml#/components/schemas/SalaryOcrTask"
+    "400":
+      $ref: "../../../openapi.yaml#/components/responses/BadRequest"

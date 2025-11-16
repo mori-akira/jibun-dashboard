@@ -1,0 +1,8 @@
+type: object
+description: 給与OCRタスクID
+
+properties:
+  ocrTaskId:
+    description: 給与OCRタスクID
+    type: string
+    format: uuid

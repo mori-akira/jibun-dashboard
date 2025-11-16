@@ -1,0 +1,5 @@
+type: object
+description: 給与OCRタスク
+allOf:
+  - $ref: "./salaryOcrTaskId.yaml"
+  - $ref: "./salaryOcrTaskBase.yaml"
