@@ -227,12 +227,6 @@ export interface Qualification {
    */
   qualificationId?: string;
   /**
-   * ユーザID
-   * @type {string}
-   * @memberof Qualification
-   */
-  userId?: string;
-  /**
    * 並び順
    * @type {number}
    * @memberof Qualification
@@ -325,6 +319,104 @@ export type QualificationRankEnum =
   (typeof QualificationRankEnum)[keyof typeof QualificationRankEnum];
 
 /**
+ * 資格基本情報
+ * @export
+ * @interface QualificationBase
+ */
+export interface QualificationBase {
+  /**
+   * 並び順
+   * @type {number}
+   * @memberof QualificationBase
+   */
+  order: number;
+  /**
+   * 資格名
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  qualificationName: string;
+  /**
+   * 略称
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  abbreviation?: string;
+  /**
+   * バージョン
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  version?: string;
+  /**
+   * ステータス
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  status: QualificationBaseStatusEnum;
+  /**
+   * ランク
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  rank: QualificationBaseRankEnum;
+  /**
+   * 発行組織
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  organization: string;
+  /**
+   * 取得年月日
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  acquiredDate?: string;
+  /**
+   * 有効期限
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  expirationDate?: string;
+  /**
+   * 公式URL
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  officialUrl: string;
+  /**
+   * 証明書URL
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  certificationUrl?: string;
+  /**
+   * バッジURL
+   * @type {string}
+   * @memberof QualificationBase
+   */
+  badgeUrl?: string;
+}
+
+export const QualificationBaseStatusEnum = {
+  Dream: "dream",
+  Planning: "planning",
+  Acquired: "acquired",
+} as const;
+
+export type QualificationBaseStatusEnum =
+  (typeof QualificationBaseStatusEnum)[keyof typeof QualificationBaseStatusEnum];
+export const QualificationBaseRankEnum = {
+  D: "D",
+  C: "C",
+  B: "B",
+  A: "A",
+} as const;
+
+export type QualificationBaseRankEnum =
+  (typeof QualificationBaseRankEnum)[keyof typeof QualificationBaseRankEnum];
+
+/**
  * 資格ID
  * @export
  * @interface QualificationId
@@ -350,12 +442,6 @@ export interface Salary {
    */
   salaryId?: string;
   /**
-   * ユーザID
-   * @type {string}
-   * @memberof Salary
-   */
-  userId?: string;
-  /**
    * 対象年月日
    * @type {string}
    * @memberof Salary
@@ -377,6 +463,37 @@ export interface Salary {
    *
    * @type {Array<PayslipData>}
    * @memberof Salary
+   */
+  payslipData: Array<PayslipData>;
+}
+/**
+ * 給与基本情報
+ * @export
+ * @interface SalaryBase
+ */
+export interface SalaryBase {
+  /**
+   * 対象年月日
+   * @type {string}
+   * @memberof SalaryBase
+   */
+  targetDate: string;
+  /**
+   *
+   * @type {Overview}
+   * @memberof SalaryBase
+   */
+  overview: Overview;
+  /**
+   *
+   * @type {Structure}
+   * @memberof SalaryBase
+   */
+  structure: Structure;
+  /**
+   *
+   * @type {Array<PayslipData>}
+   * @memberof SalaryBase
    */
   payslipData: Array<PayslipData>;
 }
@@ -512,6 +629,25 @@ export interface Structure {
   other: number;
 }
 /**
+ * ボキャブラリータグ
+ * @export
+ * @interface Tag
+ */
+export interface Tag {
+  /**
+   * タグID
+   * @type {string}
+   * @memberof Tag
+   */
+  tagId?: string;
+  /**
+   * タグ
+   * @type {string}
+   * @memberof Tag
+   */
+  tag: string;
+}
+/**
  * アップロードURL情報
  * @export
  * @interface UploadUrl
@@ -561,6 +697,131 @@ export interface User {
    */
   emailAddress: string;
 }
+/**
+ * ユーザ基本情報
+ * @export
+ * @interface UserBase
+ */
+export interface UserBase {
+  /**
+   * ユーザ名
+   * @type {string}
+   * @memberof UserBase
+   */
+  userName: string;
+  /**
+   * eメールアドレス
+   * @type {string}
+   * @memberof UserBase
+   */
+  emailAddress: string;
+}
+/**
+ * ユーザID
+ * @export
+ * @interface UserId
+ */
+export interface UserId {
+  /**
+   * ユーザID
+   * @type {string}
+   * @memberof UserId
+   */
+  userId?: string;
+}
+/**
+ * ボキャブラリー情報
+ * @export
+ * @interface Vocabulary
+ */
+export interface Vocabulary {
+  /**
+   * ボキャブラリーID
+   * @type {string}
+   * @memberof Vocabulary
+   */
+  vocabularyId?: string;
+  /**
+   * 名前
+   * @type {string}
+   * @memberof Vocabulary
+   */
+  name: string;
+  /**
+   * 説明
+   * @type {string}
+   * @memberof Vocabulary
+   */
+  description?: string;
+  /**
+   * タグ
+   * @type {Set<Tag>}
+   * @memberof Vocabulary
+   */
+  tags?: Set<Tag>;
+  /**
+   * 作成日時
+   * @type {string}
+   * @memberof Vocabulary
+   */
+  createdDateTime?: string;
+  /**
+   * 更新日時
+   * @type {string}
+   * @memberof Vocabulary
+   */
+  updatedDateTime?: string;
+}
+/**
+ * ボキャブラリー基本情報
+ * @export
+ * @interface VocabularyBase
+ */
+export interface VocabularyBase {
+  /**
+   * 名前
+   * @type {string}
+   * @memberof VocabularyBase
+   */
+  name: string;
+  /**
+   * 説明
+   * @type {string}
+   * @memberof VocabularyBase
+   */
+  description?: string;
+  /**
+   * タグ
+   * @type {Set<Tag>}
+   * @memberof VocabularyBase
+   */
+  tags?: Set<Tag>;
+  /**
+   * 作成日時
+   * @type {string}
+   * @memberof VocabularyBase
+   */
+  createdDateTime?: string;
+  /**
+   * 更新日時
+   * @type {string}
+   * @memberof VocabularyBase
+   */
+  updatedDateTime?: string;
+}
+/**
+ * ボキャブラリーID
+ * @export
+ * @interface VocabularyId
+ */
+export interface VocabularyId {
+  /**
+   * ボキャブラリーID
+   * @type {string}
+   * @memberof VocabularyId
+   */
+  vocabularyId?: string;
+}
 
 /**
  * FileApi - axios parameter creator
@@ -574,11 +835,13 @@ export const FileApiAxiosParamCreator = function (
      * ファイルアップロード用の署名付きURLを発行し、取得する
      * @summary アップロードURL取得
      * @param {string} [fileId] ファイルID
+     * @param {number} [expiresIn] URLの有効期限（秒）
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getUploadUrl: async (
       fileId?: string,
+      expiresIn?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/file/upload-url`;
@@ -599,6 +862,10 @@ export const FileApiAxiosParamCreator = function (
 
       if (fileId !== undefined) {
         localVarQueryParameter["fileId"] = fileId;
+      }
+
+      if (expiresIn !== undefined) {
+        localVarQueryParameter["expiresIn"] = expiresIn;
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -679,17 +946,20 @@ export const FileApiFp = function (configuration?: Configuration) {
      * ファイルアップロード用の署名付きURLを発行し、取得する
      * @summary アップロードURL取得
      * @param {string} [fileId] ファイルID
+     * @param {number} [expiresIn] URLの有効期限（秒）
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getUploadUrl(
       fileId?: string,
+      expiresIn?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UploadUrl>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getUploadUrl(
         fileId,
+        expiresIn,
         options,
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -753,15 +1023,17 @@ export const FileApiFactory = function (
      * ファイルアップロード用の署名付きURLを発行し、取得する
      * @summary アップロードURL取得
      * @param {string} [fileId] ファイルID
+     * @param {number} [expiresIn] URLの有効期限（秒）
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getUploadUrl(
       fileId?: string,
+      expiresIn?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<UploadUrl> {
       return localVarFp
-        .getUploadUrl(fileId, options)
+        .getUploadUrl(fileId, expiresIn, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -792,12 +1064,14 @@ export interface FileApiInterface {
    * ファイルアップロード用の署名付きURLを発行し、取得する
    * @summary アップロードURL取得
    * @param {string} [fileId] ファイルID
+   * @param {number} [expiresIn] URLの有効期限（秒）
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof FileApiInterface
    */
   getUploadUrl(
     fileId?: string,
+    expiresIn?: number,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<UploadUrl>;
 
@@ -826,13 +1100,18 @@ export class FileApi extends BaseAPI implements FileApiInterface {
    * ファイルアップロード用の署名付きURLを発行し、取得する
    * @summary アップロードURL取得
    * @param {string} [fileId] ファイルID
+   * @param {number} [expiresIn] URLの有効期限（秒）
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof FileApi
    */
-  public getUploadUrl(fileId?: string, options?: RawAxiosRequestConfig) {
+  public getUploadUrl(
+    fileId?: string,
+    expiresIn?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
     return FileApiFp(this.configuration)
-      .getUploadUrl(fileId, options)
+      .getUploadUrl(fileId, expiresIn, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -934,7 +1213,7 @@ export const QualificationApiAxiosParamCreator = function (
       expirationDateTo?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/qualification`;
+      const localVarPath = `/qualifications`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1059,17 +1338,72 @@ export const QualificationApiAxiosParamCreator = function (
       };
     },
     /**
-     * 資格報を登録(登録済みの場合は情報を置き換え)する
+     * 資格情報を登録する
      * @summary 資格情報登録
-     * @param {Qualification} [qualification]
+     * @param {QualificationBase} [qualificationBase]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postQualification: async (
+      qualificationBase?: QualificationBase,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/qualification`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        qualificationBase,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * 資格情報を更新する
+     * @summary 資格情報更新(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {QualificationBase} [qualificationBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putQualification: async (
-      qualification?: Qualification,
+      qualificationId: string,
+      qualificationBase?: QualificationBase,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/qualification`;
+      // verify required parameter 'qualificationId' is not null or undefined
+      assertParamExists("putQualification", "qualificationId", qualificationId);
+      const localVarPath = `/qualification/{qualificationId}`.replace(
+        `{${"qualificationId"}}`,
+        encodeURIComponent(String(qualificationId)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1096,7 +1430,7 @@ export const QualificationApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        qualification,
+        qualificationBase,
         localVarRequestOptions,
         configuration,
       );
@@ -1235,14 +1569,50 @@ export const QualificationApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * 資格報を登録(登録済みの場合は情報を置き換え)する
+     * 資格情報を登録する
      * @summary 資格情報登録
-     * @param {Qualification} [qualification]
+     * @param {QualificationBase} [qualificationBase]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postQualification(
+      qualificationBase?: QualificationBase,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<QualificationId>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.postQualification(
+          qualificationBase,
+          options,
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["QualificationApi.postQualification"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * 資格情報を更新する
+     * @summary 資格情報更新(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {QualificationBase} [qualificationBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putQualification(
-      qualification?: Qualification,
+      qualificationId: string,
+      qualificationBase?: QualificationBase,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -1252,7 +1622,8 @@ export const QualificationApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.putQualification(
-          qualification,
+          qualificationId,
+          qualificationBase,
           options,
         );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -1352,18 +1723,35 @@ export const QualificationApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * 資格報を登録(登録済みの場合は情報を置き換え)する
+     * 資格情報を登録する
      * @summary 資格情報登録
-     * @param {Qualification} [qualification]
+     * @param {QualificationBase} [qualificationBase]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postQualification(
+      qualificationBase?: QualificationBase,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<QualificationId> {
+      return localVarFp
+        .postQualification(qualificationBase, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * 資格情報を更新する
+     * @summary 資格情報更新(ID)
+     * @param {string} qualificationId 資格ID
+     * @param {QualificationBase} [qualificationBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putQualification(
-      qualification?: Qualification,
+      qualificationId: string,
+      qualificationBase?: QualificationBase,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<QualificationId> {
       return localVarFp
-        .putQualification(qualification, options)
+        .putQualification(qualificationId, qualificationBase, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -1429,15 +1817,30 @@ export interface QualificationApiInterface {
   ): AxiosPromise<Qualification>;
 
   /**
-   * 資格報を登録(登録済みの場合は情報を置き換え)する
+   * 資格情報を登録する
    * @summary 資格情報登録
-   * @param {Qualification} [qualification]
+   * @param {QualificationBase} [qualificationBase]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof QualificationApiInterface
+   */
+  postQualification(
+    qualificationBase?: QualificationBase,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<QualificationId>;
+
+  /**
+   * 資格情報を更新する
+   * @summary 資格情報更新(ID)
+   * @param {string} qualificationId 資格ID
+   * @param {QualificationBase} [qualificationBase]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof QualificationApiInterface
    */
   putQualification(
-    qualification?: Qualification,
+    qualificationId: string,
+    qualificationBase?: QualificationBase,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<QualificationId>;
 }
@@ -1528,19 +1931,38 @@ export class QualificationApi
   }
 
   /**
-   * 資格報を登録(登録済みの場合は情報を置き換え)する
+   * 資格情報を登録する
    * @summary 資格情報登録
-   * @param {Qualification} [qualification]
+   * @param {QualificationBase} [qualificationBase]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof QualificationApi
+   */
+  public postQualification(
+    qualificationBase?: QualificationBase,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return QualificationApiFp(this.configuration)
+      .postQualification(qualificationBase, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * 資格情報を更新する
+   * @summary 資格情報更新(ID)
+   * @param {string} qualificationId 資格ID
+   * @param {QualificationBase} [qualificationBase]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof QualificationApi
    */
   public putQualification(
-    qualification?: Qualification,
+    qualificationId: string,
+    qualificationBase?: QualificationBase,
     options?: RawAxiosRequestConfig,
   ) {
     return QualificationApiFp(this.configuration)
-      .putQualification(qualification, options)
+      .putQualification(qualificationId, qualificationBase, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -1588,7 +2010,7 @@ export const ResourceApiAxiosParamCreator = function (
     ): Promise<RequestArgs> => {
       // verify required parameter 'localeCode' is not null or undefined
       assertParamExists("getI18n", "localeCode", localeCode);
-      const localVarPath = `/resource/i18n/{localeCode}`.replace(
+      const localVarPath = `/resources/i18n/{localeCode}`.replace(
         `{${"localeCode"}}`,
         encodeURIComponent(String(localeCode)),
       );
@@ -1804,7 +2226,7 @@ export const SalaryApiAxiosParamCreator = function (
       targetDateTo?: string,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/salary`;
+      const localVarPath = `/salaries`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1960,17 +2382,72 @@ export const SalaryApiAxiosParamCreator = function (
       };
     },
     /**
-     * 給与情報を登録(登録済みの場合は情報を置き換え)する
+     * 給与情報を登録する
      * @summary 給与情報登録
-     * @param {Salary} [salary]
+     * @param {SalaryBase} [salaryBase]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postSalary: async (
+      salaryBase?: SalaryBase,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/salary`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        salaryBase,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * 給与情報を更新する
+     * @summary 給与情報更新(ID)
+     * @param {string} salaryId 給与ID
+     * @param {SalaryBase} [salaryBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putSalary: async (
-      salary?: Salary,
+      salaryId: string,
+      salaryBase?: SalaryBase,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/salary`;
+      // verify required parameter 'salaryId' is not null or undefined
+      assertParamExists("putSalary", "salaryId", salaryId);
+      const localVarPath = `/salary/{salaryId}`.replace(
+        `{${"salaryId"}}`,
+        encodeURIComponent(String(salaryId)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1997,7 +2474,7 @@ export const SalaryApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        salary,
+        salaryBase,
         localVarRequestOptions,
         configuration,
       );
@@ -2147,20 +2624,53 @@ export const SalaryApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * 給与情報を登録(登録済みの場合は情報を置き換え)する
+     * 給与情報を登録する
      * @summary 給与情報登録
-     * @param {Salary} [salary]
+     * @param {SalaryBase} [salaryBase]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postSalary(
+      salaryBase?: SalaryBase,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.postSalary(
+        salaryBase,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["SalaryApi.postSalary"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * 給与情報を更新する
+     * @summary 給与情報更新(ID)
+     * @param {string} salaryId 給与ID
+     * @param {SalaryBase} [salaryBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putSalary(
-      salary?: Salary,
+      salaryId: string,
+      salaryBase?: SalaryBase,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalaryId>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putSalary(
-        salary,
+        salaryId,
+        salaryBase,
         options,
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2257,18 +2767,35 @@ export const SalaryApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * 給与情報を登録(登録済みの場合は情報を置き換え)する
+     * 給与情報を登録する
      * @summary 給与情報登録
-     * @param {Salary} [salary]
+     * @param {SalaryBase} [salaryBase]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postSalary(
+      salaryBase?: SalaryBase,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SalaryId> {
+      return localVarFp
+        .postSalary(salaryBase, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * 給与情報を更新する
+     * @summary 給与情報更新(ID)
+     * @param {string} salaryId 給与ID
+     * @param {SalaryBase} [salaryBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putSalary(
-      salary?: Salary,
+      salaryId: string,
+      salaryBase?: SalaryBase,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<SalaryId> {
       return localVarFp
-        .putSalary(salary, options)
+        .putSalary(salaryId, salaryBase, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -2339,15 +2866,30 @@ export interface SalaryApiInterface {
   ): AxiosPromise<SalaryId>;
 
   /**
-   * 給与情報を登録(登録済みの場合は情報を置き換え)する
+   * 給与情報を登録する
    * @summary 給与情報登録
-   * @param {Salary} [salary]
+   * @param {SalaryBase} [salaryBase]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SalaryApiInterface
+   */
+  postSalary(
+    salaryBase?: SalaryBase,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<SalaryId>;
+
+  /**
+   * 給与情報を更新する
+   * @summary 給与情報更新(ID)
+   * @param {string} salaryId 給与ID
+   * @param {SalaryBase} [salaryBase]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SalaryApiInterface
    */
   putSalary(
-    salary?: Salary,
+    salaryId: string,
+    salaryBase?: SalaryBase,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<SalaryId>;
 }
@@ -2428,16 +2970,35 @@ export class SalaryApi extends BaseAPI implements SalaryApiInterface {
   }
 
   /**
-   * 給与情報を登録(登録済みの場合は情報を置き換え)する
+   * 給与情報を登録する
    * @summary 給与情報登録
-   * @param {Salary} [salary]
+   * @param {SalaryBase} [salaryBase]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SalaryApi
    */
-  public putSalary(salary?: Salary, options?: RawAxiosRequestConfig) {
+  public postSalary(salaryBase?: SalaryBase, options?: RawAxiosRequestConfig) {
     return SalaryApiFp(this.configuration)
-      .putSalary(salary, options)
+      .postSalary(salaryBase, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * 給与情報を更新する
+   * @summary 給与情報更新(ID)
+   * @param {string} salaryId 給与ID
+   * @param {SalaryBase} [salaryBase]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SalaryApi
+   */
+  public putSalary(
+    salaryId: string,
+    salaryBase?: SalaryBase,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return SalaryApiFp(this.configuration)
+      .putSalary(salaryId, salaryBase, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -2806,14 +3367,14 @@ export const UserApiAxiosParamCreator = function (
       };
     },
     /**
-     * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
-     * @summary ユーザ情報登録
-     * @param {User} [user]
+     * アクセストークンを用いて、現在ログイン中のユーザ情報を更新する
+     * @summary ユーザ情報更新
+     * @param {UserBase} [userBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putUser: async (
-      user?: User,
+      userBase?: UserBase,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/user`;
@@ -2843,7 +3404,7 @@ export const UserApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        user,
+        userBase,
         localVarRequestOptions,
         configuration,
       );
@@ -2919,20 +3480,20 @@ export const UserApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
-     * @summary ユーザ情報登録
-     * @param {User} [user]
+     * アクセストークンを用いて、現在ログイン中のユーザ情報を更新する
+     * @summary ユーザ情報更新
+     * @param {UserBase} [userBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putUser(
-      user?: User,
+      userBase?: UserBase,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putUser(
-        user,
+        userBase,
         options,
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2988,15 +3549,18 @@ export const UserApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
-     * @summary ユーザ情報登録
-     * @param {User} [user]
+     * アクセストークンを用いて、現在ログイン中のユーザ情報を更新する
+     * @summary ユーザ情報更新
+     * @param {UserBase} [userBase]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    putUser(user?: User, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+    putUser(
+      userBase?: UserBase,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
       return localVarFp
-        .putUser(user, options)
+        .putUser(userBase, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -3031,14 +3595,17 @@ export interface UserApiInterface {
   ): AxiosPromise<void>;
 
   /**
-   * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
-   * @summary ユーザ情報登録
-   * @param {User} [user]
+   * アクセストークンを用いて、現在ログイン中のユーザ情報を更新する
+   * @summary ユーザ情報更新
+   * @param {UserBase} [userBase]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserApiInterface
    */
-  putUser(user?: User, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+  putUser(
+    userBase?: UserBase,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<void>;
 }
 
 /**
@@ -3076,16 +3643,205 @@ export class UserApi extends BaseAPI implements UserApiInterface {
   }
 
   /**
-   * アクセストークンを用いて、現在ログイン中のユーザ情報を登録(登録済みの場合は情報を置き換え)する
-   * @summary ユーザ情報登録
-   * @param {User} [user]
+   * アクセストークンを用いて、現在ログイン中のユーザ情報を更新する
+   * @summary ユーザ情報更新
+   * @param {UserBase} [userBase]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserApi
    */
-  public putUser(user?: User, options?: RawAxiosRequestConfig) {
+  public putUser(userBase?: UserBase, options?: RawAxiosRequestConfig) {
     return UserApiFp(this.configuration)
-      .putUser(user, options)
+      .putUser(userBase, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * VocabularyApi - axios parameter creator
+ * @export
+ */
+export const VocabularyApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * 検索条件を指定してボキャブラリーを取得する
+     * @summary ボキャブラリー取得
+     * @param {string} [vocabularyName] ボキャブラリー名
+     * @param {Array<string>} [tags] タグ
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getVocabulary: async (
+      vocabularyName?: string,
+      tags?: Array<string>,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/vocabulary`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (vocabularyName !== undefined) {
+        localVarQueryParameter["vocabularyName"] = vocabularyName;
+      }
+
+      if (tags) {
+        localVarQueryParameter["tags"] = tags;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * VocabularyApi - functional programming interface
+ * @export
+ */
+export const VocabularyApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    VocabularyApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * 検索条件を指定してボキャブラリーを取得する
+     * @summary ボキャブラリー取得
+     * @param {string} [vocabularyName] ボキャブラリー名
+     * @param {Array<string>} [tags] タグ
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getVocabulary(
+      vocabularyName?: string,
+      tags?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<Vocabulary>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getVocabulary(
+        vocabularyName,
+        tags,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap["VocabularyApi.getVocabulary"]?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * VocabularyApi - factory interface
+ * @export
+ */
+export const VocabularyApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = VocabularyApiFp(configuration);
+  return {
+    /**
+     * 検索条件を指定してボキャブラリーを取得する
+     * @summary ボキャブラリー取得
+     * @param {string} [vocabularyName] ボキャブラリー名
+     * @param {Array<string>} [tags] タグ
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getVocabulary(
+      vocabularyName?: string,
+      tags?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<Vocabulary>> {
+      return localVarFp
+        .getVocabulary(vocabularyName, tags, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * VocabularyApi - interface
+ * @export
+ * @interface VocabularyApi
+ */
+export interface VocabularyApiInterface {
+  /**
+   * 検索条件を指定してボキャブラリーを取得する
+   * @summary ボキャブラリー取得
+   * @param {string} [vocabularyName] ボキャブラリー名
+   * @param {Array<string>} [tags] タグ
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VocabularyApiInterface
+   */
+  getVocabulary(
+    vocabularyName?: string,
+    tags?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<Array<Vocabulary>>;
+}
+
+/**
+ * VocabularyApi - object-oriented interface
+ * @export
+ * @class VocabularyApi
+ * @extends {BaseAPI}
+ */
+export class VocabularyApi extends BaseAPI implements VocabularyApiInterface {
+  /**
+   * 検索条件を指定してボキャブラリーを取得する
+   * @summary ボキャブラリー取得
+   * @param {string} [vocabularyName] ボキャブラリー名
+   * @param {Array<string>} [tags] タグ
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VocabularyApi
+   */
+  public getVocabulary(
+    vocabularyName?: string,
+    tags?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return VocabularyApiFp(this.configuration)
+      .getVocabulary(vocabularyName, tags, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
