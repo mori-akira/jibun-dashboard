@@ -82,7 +82,8 @@ module "apprunner" {
   uploads_bucket_name = module.uploads.bucket_name
   uploads_bucket_arn  = module.uploads.bucket_arn
 
-  sqs_queue_arns = [module.batch_salary_ocr.sqs_queue_arn]
+  sqs_queue_arns       = [module.batch_salary_ocr.sqs_queue_arn]
+  salary_ocr_queue_url = module.batch_salary_ocr.sqs_queue_url
 }
 
 module "apigateway" {

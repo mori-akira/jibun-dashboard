@@ -104,6 +104,12 @@ variable "dynamodb_table_arns" {
   default     = []
 }
 
+variable "sqs_queue_arns" {
+  description = "メッセージキューイングを行うSQSのARN一覧"
+  type        = list(string)
+  default     = []
+}
+
 variable "cognito_user_pool_id" {
   description = "CognitoユーザープールID"
   type        = string
@@ -129,8 +135,7 @@ variable "uploads_bucket_arn" {
   type        = string
 }
 
-variable "sqs_queue_arns" {
-  description = "メッセージキューイングを行うSQSのARN一覧"
-  type        = list(string)
-  default     = []
+variable "salary_ocr_queue_url" {
+  description = "給与明細OCR用キューURL"
+  type        = string
 }

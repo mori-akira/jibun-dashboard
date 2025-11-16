@@ -131,6 +131,7 @@ resource "aws_apprunner_service" "this" {
           COGNITO_CLIENT_ID           = var.cognito_client_id
           COGNITO_DOMAIN              = var.cognito_domain
           UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
+          SALARY_OCR_QUEUE_URL        = var.salary_ocr_queue_url
         }, var.runtime_env)
       }
     }
