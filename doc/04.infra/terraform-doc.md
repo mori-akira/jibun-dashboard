@@ -19,6 +19,7 @@
 | <a name="module_apigateway"></a> [apigateway](#module\_apigateway) | ./modules/apigateway | n/a |
 | <a name="module_application"></a> [application](#module\_application) | ./modules/application | n/a |
 | <a name="module_apprunner"></a> [apprunner](#module\_apprunner) | ./modules/apprunner | n/a |
+| <a name="module_batch_salary_ocr"></a> [batch\_salary\_ocr](#module\_batch\_salary\_ocr) | ./modules/batch/salary-ocr | n/a |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ./modules/codebuild | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
 | <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
@@ -48,6 +49,7 @@
 | <a name="input_e2e_username"></a> [e2e\_username](#input\_e2e\_username) | E2Eテスト用のユーザ名 | `string` | n/a | yes |
 | <a name="input_env_name"></a> [env\_name](#input\_env\_name) | 環境名 | `string` | n/a | yes |
 | <a name="input_github_url"></a> [github\_url](#input\_github\_url) | GitHubリポジトリURL | `string` | n/a | yes |
+| <a name="input_openai_api_key"></a> [openai\_api\_key](#input\_openai\_api\_key) | OpenAIのAPIキー | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
 
 ## Outputs
