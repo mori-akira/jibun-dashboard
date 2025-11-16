@@ -48,6 +48,20 @@ module "dynamodb" {
   local_secondary_indexes  = try(each.value.lsi, [])
 }
 
+module "batch_salary_ocr" {
+  source              = "./modules/batch/salary-ocr"
+  application_tag     = module.application.application_tag
+  app_name            = var.app_name
+  env_name            = var.env_name
+  uploads_bucket_name = module.uploads.bucket_name
+  uploads_bucket_arn  = module.uploads.bucket_arn
+  salary_table_name   = module.dynamodb["salaries"].table_name
+  salary_table_arn    = module.dynamodb["salaries"].table_arn
+  ocr_task_table_name = module.dynamodb["salary_ocr_tasks"].table_name
+  ocr_task_table_arn  = module.dynamodb["salary_ocr_tasks"].table_arn
+  openai_api_key      = var.openai_api_key
+}
+
 module "apprunner" {
   source             = "./modules/apprunner"
   region             = var.region
