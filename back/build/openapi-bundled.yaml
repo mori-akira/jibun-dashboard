@@ -232,7 +232,7 @@ paths:
                 type: string
   /salaries:
     get:
-      operationId: getSalary
+      operationId: getSalaries
       summary: 給与情報取得
       description: 検索条件を指定して給与情報を取得する
       tags:
@@ -6192,9 +6192,9 @@ paths:
           description: 正常時
         '400':
           $ref: '#/components/responses/BadRequest'
-  /salary/ocr-task:
+  /salary/ocr-tasks:
     get:
-      operationId: getSalaryOcrTask
+      operationId: getSalaryOcrTasks
       summary: 給与OCRタスク取得
       description: 給与OCRタスクを取得する
       tags:
@@ -6277,7 +6277,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
   /qualifications:
     get:
-      operationId: getQualification
+      operationId: getQualifications
       summary: 資格情報取得
       description: 検索条件を指定して資格情報を取得する
       tags:

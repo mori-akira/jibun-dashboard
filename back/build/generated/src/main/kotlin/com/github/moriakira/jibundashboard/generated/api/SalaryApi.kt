@@ -65,7 +65,7 @@ interface SalaryApi {
     @Operation(
         tags = ["Salary",],
         summary = "給与情報取得",
-        operationId = "getSalary",
+        operationId = "getSalaries",
         description = """検索条件を指定して給与情報を取得する""",
         responses = [
             ApiResponse(responseCode = "200", description = "正常時", content = [Content(array = ArraySchema(schema = Schema(implementation = Salary::class)))]),
@@ -77,7 +77,7 @@ interface SalaryApi {
             value = ["/salaries"],
             produces = ["application/json"]
     )
-    fun getSalary(@Parameter(description = "対象年月日") @Valid @RequestParam(value = "targetDate", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate?,@Parameter(description = "対象年月日From") @Valid @RequestParam(value = "targetDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDateFrom: java.time.LocalDate?,@Parameter(description = "対象年月日To") @Valid @RequestParam(value = "targetDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDateTo: java.time.LocalDate?): ResponseEntity<List<Salary>> {
+    fun getSalaries(@Parameter(description = "対象年月日") @Valid @RequestParam(value = "targetDate", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate?,@Parameter(description = "対象年月日From") @Valid @RequestParam(value = "targetDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDateFrom: java.time.LocalDate?,@Parameter(description = "対象年月日To") @Valid @RequestParam(value = "targetDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDateTo: java.time.LocalDate?): ResponseEntity<List<Salary>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -102,25 +102,6 @@ interface SalaryApi {
 
     @Operation(
         tags = ["Salary",],
-        summary = "給与OCRタスク取得",
-        operationId = "getSalaryOcrTask",
-        description = """給与OCRタスクを取得する""",
-        responses = [
-            ApiResponse(responseCode = "200", description = "正常時", content = [Content(array = ArraySchema(schema = Schema(implementation = SalaryOcrTask::class)))]),
-            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
-        ]
-    )
-    @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/salary/ocr-task"],
-            produces = ["application/json"]
-    )
-    fun getSalaryOcrTask(@NotNull @Parameter(description = "対象年月日", required = true) @Valid @RequestParam(value = "targetDate", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate): ResponseEntity<List<SalaryOcrTask>> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
-
-    @Operation(
-        tags = ["Salary",],
         summary = "給与OCRタスク取得(ID)",
         operationId = "getSalaryOcrTaskById",
         description = """IDを指定して給与OCRタスクを取得する""",
@@ -135,6 +116,25 @@ interface SalaryApi {
             produces = ["application/json"]
     )
     fun getSalaryOcrTaskById(@Parameter(description = "OCRタスクID", required = true) @PathVariable("ocrTaskId") ocrTaskId: java.util.UUID): ResponseEntity<SalaryOcrTask> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        tags = ["Salary",],
+        summary = "給与OCRタスク取得",
+        operationId = "getSalaryOcrTasks",
+        description = """給与OCRタスクを取得する""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "正常時", content = [Content(array = ArraySchema(schema = Schema(implementation = SalaryOcrTask::class)))]),
+            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
+        ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.GET],
+            value = ["/salary/ocr-tasks"],
+            produces = ["application/json"]
+    )
+    fun getSalaryOcrTasks(@NotNull @Parameter(description = "対象年月日", required = true) @Valid @RequestParam(value = "targetDate", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) targetDate: java.time.LocalDate): ResponseEntity<List<SalaryOcrTask>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

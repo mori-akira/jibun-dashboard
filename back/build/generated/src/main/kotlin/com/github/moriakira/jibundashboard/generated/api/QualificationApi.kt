@@ -61,25 +61,6 @@ interface QualificationApi {
 
     @Operation(
         tags = ["Qualification",],
-        summary = "資格情報取得",
-        operationId = "getQualification",
-        description = """検索条件を指定して資格情報を取得する""",
-        responses = [
-            ApiResponse(responseCode = "200", description = "正常時", content = [Content(array = ArraySchema(schema = Schema(implementation = Qualification::class)))]),
-            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
-        ]
-    )
-    @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/qualifications"],
-            produces = ["application/json"]
-    )
-    fun getQualification(@Parameter(description = "資格名") @Valid @RequestParam(value = "qualificationName", required = false) qualificationName: kotlin.String?,@Parameter(description = "ステータス", schema = Schema(allowableValues = ["dream", "planning", "acquired"])) @Valid @RequestParam(value = "status", required = false) status: kotlin.collections.List<kotlin.String>?,@Parameter(description = "ランク", schema = Schema(allowableValues = ["D", "C", "B", "A"])) @Valid @RequestParam(value = "rank", required = false) rank: kotlin.collections.List<kotlin.String>?,@Parameter(description = "発行組織") @Valid @RequestParam(value = "organization", required = false) organization: kotlin.String?,@Parameter(description = "取得年月日From") @Valid @RequestParam(value = "acquiredDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) acquiredDateFrom: java.time.LocalDate?,@Parameter(description = "取得年月日To") @Valid @RequestParam(value = "acquiredDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) acquiredDateTo: java.time.LocalDate?,@Parameter(description = "有効期限From") @Valid @RequestParam(value = "expirationDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) expirationDateFrom: java.time.LocalDate?,@Parameter(description = "有効期限To") @Valid @RequestParam(value = "expirationDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) expirationDateTo: java.time.LocalDate?): ResponseEntity<List<Qualification>> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
-
-    @Operation(
-        tags = ["Qualification",],
         summary = "資格情報取得(ID)",
         operationId = "getQualificationById",
         description = """IDを指定して資格情報を取得する""",
@@ -94,6 +75,25 @@ interface QualificationApi {
             produces = ["application/json"]
     )
     fun getQualificationById(@Parameter(description = "資格ID", required = true) @PathVariable("qualificationId") qualificationId: java.util.UUID): ResponseEntity<Qualification> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        tags = ["Qualification",],
+        summary = "資格情報取得",
+        operationId = "getQualifications",
+        description = """検索条件を指定して資格情報を取得する""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "正常時", content = [Content(array = ArraySchema(schema = Schema(implementation = Qualification::class)))]),
+            ApiResponse(responseCode = "400", description = "パラメータ不正", content = [Content(schema = Schema(implementation = ErrorInfo::class))])
+        ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.GET],
+            value = ["/qualifications"],
+            produces = ["application/json"]
+    )
+    fun getQualifications(@Parameter(description = "資格名") @Valid @RequestParam(value = "qualificationName", required = false) qualificationName: kotlin.String?,@Parameter(description = "ステータス", schema = Schema(allowableValues = ["dream", "planning", "acquired"])) @Valid @RequestParam(value = "status", required = false) status: kotlin.collections.List<kotlin.String>?,@Parameter(description = "ランク", schema = Schema(allowableValues = ["D", "C", "B", "A"])) @Valid @RequestParam(value = "rank", required = false) rank: kotlin.collections.List<kotlin.String>?,@Parameter(description = "発行組織") @Valid @RequestParam(value = "organization", required = false) organization: kotlin.String?,@Parameter(description = "取得年月日From") @Valid @RequestParam(value = "acquiredDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) acquiredDateFrom: java.time.LocalDate?,@Parameter(description = "取得年月日To") @Valid @RequestParam(value = "acquiredDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) acquiredDateTo: java.time.LocalDate?,@Parameter(description = "有効期限From") @Valid @RequestParam(value = "expirationDateFrom", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) expirationDateFrom: java.time.LocalDate?,@Parameter(description = "有効期限To") @Valid @RequestParam(value = "expirationDateTo", required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) expirationDateTo: java.time.LocalDate?): ResponseEntity<List<Qualification>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
