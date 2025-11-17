@@ -66,7 +66,7 @@ class QualificationControllerTest :
                 )
             } returns listOf(model())
 
-            val res = controller.getQualification(
+            val res = controller.getQualifications(
                 qualificationName = "AWS SAA",
                 status = listOf("acquired"),
                 rank = listOf("A"),

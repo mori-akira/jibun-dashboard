@@ -18,3 +18,5 @@ app:
   s3:
     endpoint: http://localhost:4566
     enable-path-style-access: true
+  sqs:
+    endpoint: http://localhost:4566

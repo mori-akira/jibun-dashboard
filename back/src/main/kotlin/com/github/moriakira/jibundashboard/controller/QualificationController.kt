@@ -19,7 +19,7 @@ class QualificationController(
     private val qualificationService: QualificationService,
 ) : QualificationApi {
 
-    override fun getQualification(
+    override fun getQualifications(
         qualificationName: String?,
         status: List<String>?,
         rank: List<String>?,

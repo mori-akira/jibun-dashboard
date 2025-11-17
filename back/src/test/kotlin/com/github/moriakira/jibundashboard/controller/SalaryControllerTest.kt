@@ -79,7 +79,7 @@ class SalaryControllerTest :
         "getSalary: パラメータなしなら listAll を返す" {
             every { salaryService.listAll("u1") } returns listOf(sampleModel())
 
-            val res = controller.getSalary(null, null, null)
+            val res = controller.getSalaries(null, null, null)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(1)
@@ -93,7 +93,7 @@ class SalaryControllerTest :
         // 追加: getSalary 空リスト
         "getSalary: データが空なら空配列を返す" {
             every { salaryService.listAll("u1") } returns emptyList()
-            val res = controller.getSalary(null, null, null)
+            val res = controller.getSalaries(null, null, null)
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(0)
         }
@@ -106,7 +106,7 @@ class SalaryControllerTest :
                 )
             } returns listOf(sampleModel(id = "22222222-2222-2222-2222-222222222222"))
 
-            val res = controller.getSalary(LocalDate.parse("2025-01-01"), null, null)
+            val res = controller.getSalaries(LocalDate.parse("2025-01-01"), null, null)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!![0].salaryId.toString() shouldBe "22222222-2222-2222-2222-222222222222"
@@ -122,7 +122,7 @@ class SalaryControllerTest :
                 )
             } returns listOf(sampleModel(id = "33333333-3333-3333-3333-333333333333"))
 
-            val res = controller.getSalary(null, LocalDate.parse("2025-01-01"), LocalDate.parse("2025-12-31"))
+            val res = controller.getSalaries(null, LocalDate.parse("2025-01-01"), LocalDate.parse("2025-12-31"))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!![0].salaryId.toString() shouldBe "33333333-3333-3333-3333-333333333333"
@@ -141,7 +141,7 @@ class SalaryControllerTest :
                 sampleModel(id = "44444444-4444-4444-4444-444444444444"),
             )
 
-            val res = controller.getSalary(
+            val res = controller.getSalaries(
                 null,
                 LocalDate.parse("2025-01-01"),
                 null,
@@ -164,7 +164,7 @@ class SalaryControllerTest :
                 sampleModel(id = "55555555-5555-5555-5555-555555555555"),
             )
 
-            val res = controller.getSalary(
+            val res = controller.getSalaries(
                 null,
                 null,
                 LocalDate.parse("2025-12-31"),
@@ -195,7 +195,7 @@ class SalaryControllerTest :
                 sampleModel(id = "should-not-be-used"),
             )
 
-            val res = controller.getSalary(
+            val res = controller.getSalaries(
                 LocalDate.parse("2025-06-01"),
                 LocalDate.parse("2025-01-01"),
                 LocalDate.parse("2025-12-31"),
@@ -370,7 +370,7 @@ class SalaryControllerTest :
                 ),
             )
 
-            val res = controller.getSalaryOcrTask(LocalDate.parse("2025-11-01"))
+            val res = controller.getSalaryOcrTasks(LocalDate.parse("2025-11-01"))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(2)

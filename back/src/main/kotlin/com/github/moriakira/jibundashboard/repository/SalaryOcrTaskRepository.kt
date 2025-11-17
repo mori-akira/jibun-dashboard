@@ -39,7 +39,7 @@ class SalaryOcrTaskRepository(
             )
             .scanIndexForward(false)
             .build()
-        return index.query(req).flatMap { it.items().toList() }
+        return index.query(req).flatMap { it.items().toList() }.sortedBy { it.updatedAt }
     }
 
     fun put(item: SalaryOcrTaskItem) {
