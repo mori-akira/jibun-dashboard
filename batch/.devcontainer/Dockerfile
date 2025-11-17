@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/playwright:v1.50.0-jammy
+FROM python:3.12
 
-ENV TZ=Asia/Tokyo
-
-RUN apt-get update -y
-RUN apt-get install -y --no-install-recommends less git
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends apt-utils curl
+RUN pip install -U pip
+RUN pip install --no-cache-dir autopep8 flake8 pytest
 
 # ls系のエイリアスを予め使えるように
 RUN echo "alias ll='ls -alF'" >> /etc/bash.bashrc && \

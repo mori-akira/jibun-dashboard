@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    "PKief.material-icon-theme",
+    "oderwat.indent-rainbow",
+    "Gruntfuggly.todo-tree",
+    "mosapride.zenkaku",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "donjayamanne.githistory",
+    "mhutchie.git-graph",
+    "uctakeoff.vscode-counter",
+    "shd101wyy.markdown-preview-enhanced",
+    "ms-vscode.live-server",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "ms-python.autopep8",
+    "ms-python.flake8"
+  ]
+}
