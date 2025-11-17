@@ -251,6 +251,12 @@ backend.function.salary:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/SalaryRepository.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/SalaryOcrTaskRepository.kt
 
+batch.env.local:
+  - batch/.devcontainer/devcontainer.json
+  - batch/.devcontainer/Dockerfile
+  - batch/.vscode/extensions.json
+  - batch/.vscode/settings.json
+
 e2e.env:
   - e2e/.devcontainer/devcontainer.json
   - e2e/.devcontainer/Dockerfile
