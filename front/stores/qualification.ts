@@ -4,8 +4,8 @@ import { ref } from "vue";
 import { Configuration } from "~/generated/api/client/configuration";
 import type {
   Qualification,
-  GetQualificationStatusEnum,
-  GetQualificationRankEnum,
+  GetQualificationsStatusEnum,
+  GetQualificationsRankEnum,
   QualificationBase,
 } from "~/generated/api/client/api";
 import { QualificationApi } from "~/generated/api/client/api";
@@ -26,15 +26,15 @@ export const useQualificationStore = defineStore("qualification", () => {
 
   async function fetchQualification(
     qualificationName?: string,
-    status?: Array<GetQualificationStatusEnum>,
-    rank?: Array<GetQualificationRankEnum>,
+    status?: Array<GetQualificationsStatusEnum>,
+    rank?: Array<GetQualificationsRankEnum>,
     organization?: string,
     acquiredDateFrom?: string,
     acquiredDateTo?: string,
     expirationDateFrom?: string,
     expirationDateTo?: string
   ) {
-    const res = await getQualificationApi().getQualification(
+    const res = await getQualificationApi().getQualifications(
       qualificationName || undefined,
       status || undefined,
       rank || undefined,

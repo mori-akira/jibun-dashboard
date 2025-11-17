@@ -24,7 +24,7 @@ export const useSalaryStore = defineStore("salary", () => {
     targetDateFrom?: string,
     targetDateTo?: string
   ) {
-    const res = await getSalaryApi().getSalary(
+    const res = await getSalaryApi().getSalaries(
       targetDate,
       targetDateFrom,
       targetDateTo

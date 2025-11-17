@@ -64,8 +64,8 @@
 
 <script setup lang="ts">
 import type {
-  GetQualificationStatusEnum,
-  GetQualificationRankEnum,
+  GetQualificationsStatusEnum,
+  GetQualificationsRankEnum,
 } from "~/generated/api/client/api";
 import Accordion from "~/components/common/Accordion.vue";
 import MultiOptionSelector from "~/components/common/MultiOptionSelector.vue";
@@ -101,19 +101,19 @@ const emits = defineEmits<{
 
 const onClickStatusOption = async (value: string) => {
   let selectedStatus = [...props.selectedStatus];
-  if (props.selectedStatus.includes(value as GetQualificationStatusEnum)) {
+  if (props.selectedStatus.includes(value as GetQualificationsStatusEnum)) {
     selectedStatus = props.selectedStatus.filter((e) => e !== value);
   } else {
-    selectedStatus.push(value as GetQualificationStatusEnum);
+    selectedStatus.push(value as GetQualificationsStatusEnum);
   }
   emits("update:selectedStatus", selectedStatus);
 };
 const onClickRankOption = async (value: string) => {
   let selectedRank = [...props.selectedRank];
-  if (props.selectedRank.includes(value as GetQualificationRankEnum)) {
+  if (props.selectedRank.includes(value as GetQualificationsRankEnum)) {
     selectedRank = props.selectedRank.filter((e) => e !== value);
   } else {
-    selectedRank.push(value as GetQualificationRankEnum);
+    selectedRank.push(value as GetQualificationsRankEnum);
   }
   emits("update:selectedRank", selectedRank);
 };

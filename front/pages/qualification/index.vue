@@ -82,8 +82,8 @@
 
 <script setup lang="ts">
 import type {
-  GetQualificationRankEnum,
-  GetQualificationStatusEnum,
+  GetQualificationsRankEnum,
+  GetQualificationsStatusEnum,
   Qualification,
   SettingQualification,
 } from "~/generated/api/client/api";
@@ -108,7 +108,7 @@ const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
 const router = useRoute();
-const rank = router.query?.rank as GetQualificationRankEnum;
+const rank = router.query?.rank as GetQualificationsRankEnum;
 
 const loadingQueue = ref<string[]>([]);
 const fetchQualificationApi = async () => {
@@ -137,8 +137,8 @@ onMounted(async () => {
   await fetchQualificationApi();
 });
 
-const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
-const selectedRank = ref<GetQualificationRankEnum[]>(rank ? [rank] : []);
+const selectedStatus = ref<GetQualificationsStatusEnum[]>([]);
+const selectedRank = ref<GetQualificationsRankEnum[]>(rank ? [rank] : []);
 const qualificationName = ref<string>("");
 const organization = ref<string>("");
 const acquiredDateFrom = ref<string>("");
