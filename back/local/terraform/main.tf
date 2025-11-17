@@ -16,6 +16,7 @@ provider "aws" {
   endpoints {
     dynamodb = "http://localhost:8000"
     s3       = "http://localhost:4566"
+    sqs      = "http://localhost:4566"
   }
 }
 
@@ -48,6 +49,23 @@ module "dynamodb_settings" {
   application_tag = local.tag
   table_name      = "${local.app_name}-${local.env_name}-settings"
   hash_key = { name = "userId", type = "S" }
+}
+
+module "dynamodb_salary_ocr_tasks" {
+  source          = "../../../infra/main/modules/dynamodb"
+  application_tag = local.tag
+  table_name      = "${local.app_name}-${local.env_name}-salary-ocr-tasks"
+  hash_key = { name = "taskId", type = "S" }
+  global_secondary_indexes = [
+    {
+      name            = "gsi_user_target_date"
+      hash_key_name   = "userId"
+      hash_key_type   = "S"
+      range_key_name  = "targetDate"
+      range_key_type  = "S"
+      projection_type = "ALL"
+    }
+  ]
 }
 
 module "dynamodb_salaries" {
@@ -102,6 +120,29 @@ module "uploads_local" {
     "http://localhost:8080",
     "*",
   ]
+}
+
+resource "aws_sqs_queue" "salary_ocr_dlq" {
+  name                       = "${local.app_name}-${local.env_name}-salary-ocr-dlq"
+  message_retention_seconds  = 1209600 # 14日
+  visibility_timeout_seconds = 60
+  tags                       = local.tag
+}
+
+resource "aws_sqs_queue" "salary_ocr_queue" {
+  name                       = "${local.app_name}-${local.env_name}-salary-ocr-queue"
+  visibility_timeout_seconds = 300
+  tags                       = local.tag
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.salary_ocr_dlq.arn
+    maxReceiveCount     = 3
+  })
+}
+
+output "salary_ocr_queue_url" {
+  value       = aws_sqs_queue.salary_ocr_queue.id
+  description = "Local salary OCR SQS queue URL"
 }
 
 output "done" { value = "completed to set up local" }

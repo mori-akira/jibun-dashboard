@@ -14,7 +14,7 @@ import java.util.UUID
 class SalaryOcrTaskService(
     private val salaryOcrTaskRepository: SalaryOcrTaskRepository,
     private val sqsClient: SqsClient,
-    @param:Value("\${app.sqs.salary-ocr-queue-url}") private val salaryOcrQueueUrl: String,
+    @param:Value("\${app.sqs.salary-ocr-queue.url}") private val salaryOcrQueueUrl: String,
 ) {
 
     private val objectMapper = jacksonObjectMapper()
