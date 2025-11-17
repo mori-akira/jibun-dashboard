@@ -348,7 +348,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/qualifications",
-    alias: "getQualification",
+    alias: "getQualifications",
     description: `検索条件を指定して資格情報を取得する`,
     requestFormat: "json",
     parameters: [
@@ -427,7 +427,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/salaries",
-    alias: "getSalary",
+    alias: "getSalaries",
     description: `検索条件を指定して給与情報を取得する`,
     requestFormat: "json",
     parameters: [
@@ -551,28 +551,6 @@ const endpoints = makeApi([
   },
   {
     method: "get",
-    path: "/salary/ocr-task",
-    alias: "getSalaryOcrTask",
-    description: `給与OCRタスクを取得する`,
-    requestFormat: "json",
-    parameters: [
-      {
-        name: "targetDate",
-        type: "Query",
-        schema: z.string(),
-      },
-    ],
-    response: z.array(SalaryOcrTask),
-    errors: [
-      {
-        status: 400,
-        description: `パラメータ不正`,
-        schema: ErrorInfo,
-      },
-    ],
-  },
-  {
-    method: "get",
     path: "/salary/ocr-task/:ocrTaskId",
     alias: "getSalaryOcrTaskById",
     description: `IDを指定して給与OCRタスクを取得する`,
@@ -610,6 +588,28 @@ const endpoints = makeApi([
       .object({ ocrTaskId: z.string().uuid() })
       .partial()
       .passthrough(),
+    errors: [
+      {
+        status: 400,
+        description: `パラメータ不正`,
+        schema: ErrorInfo,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/salary/ocr-tasks",
+    alias: "getSalaryOcrTasks",
+    description: `給与OCRタスクを取得する`,
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "targetDate",
+        type: "Query",
+        schema: z.string(),
+      },
+    ],
+    response: z.array(SalaryOcrTask),
     errors: [
       {
         status: 400,
