@@ -42,8 +42,8 @@ paths:
     $ref: "paths/salary/index.yaml"
   /salary/{salaryId}:
     $ref: "paths/salary/salaryId.yaml"
-  /salary/ocr-task:
-    $ref: "paths/salary/ocr-task/index.yaml"
+  /salary/ocr-tasks:
+    $ref: "paths/salary/ocr-tasks/index.yaml"
   /salary/ocr-task/{ocrTaskId}:
     $ref: "paths/salary/ocr-task/ocrTaskId.yaml"
   /salary/ocr-task/start:

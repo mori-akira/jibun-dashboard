@@ -1,5 +1,5 @@
 get:
-  operationId: getSalary
+  operationId: getSalaries
   summary: 給与情報取得
   description: 検索条件を指定して給与情報を取得する
   tags:

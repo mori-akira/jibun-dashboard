@@ -243,10 +243,13 @@ backend.function.salary:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/LambdaApplication.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/S3Config.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/DynamoDbConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/SqsConfig.kt
   - back/build/generated/src/main/kotlin/com/github/moriakira/jibundashboard/generated/api/SalaryApi.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/SalaryController.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/SalaryService.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/SalaryOcrTaskService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/SalaryRepository.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/SalaryOcrTaskRepository.kt
 
 e2e.env:
   - e2e/.devcontainer/devcontainer.json

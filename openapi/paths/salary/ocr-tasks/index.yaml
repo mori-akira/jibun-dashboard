@@ -1,5 +1,5 @@
 get:
-  operationId: getSalaryOcrTask
+  operationId: getSalaryOcrTasks
   summary: 給与OCRタスク取得
   description: 給与OCRタスクを取得する
   tags:
