@@ -133,8 +133,8 @@
 import { useI18n } from "vue-i18n";
 
 import type {
-  GetQualificationRankEnum,
-  GetQualificationStatusEnum,
+  GetQualificationsRankEnum,
+  GetQualificationsStatusEnum,
   Qualification,
   QualificationBase,
   SettingQualification,
@@ -200,8 +200,8 @@ const fetchQualificationApi = async () => {
   }
 };
 
-const selectedStatus = ref<GetQualificationStatusEnum[]>([]);
-const selectedRank = ref<GetQualificationRankEnum[]>([]);
+const selectedStatus = ref<GetQualificationsStatusEnum[]>([]);
+const selectedRank = ref<GetQualificationsRankEnum[]>([]);
 const qualificationName = ref<string>("");
 const organization = ref<string>("");
 const acquiredDateFrom = ref<string>("");

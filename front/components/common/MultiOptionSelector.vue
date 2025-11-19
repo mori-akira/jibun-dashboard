@@ -7,13 +7,13 @@
       :class="[
         'option',
         optionClass,
-        { selected: selectedOptions.includes(values[index]) },
+        { selected: selectedOptions.includes(values[index] ?? '') },
       ]"
       :value="values[index]"
       role="button"
       tabindex="0"
-      @click="onClickOption(values[index])"
-      @keydown.enter="onClickOption(values[index])"
+      @click="onClickOption(values[index] ?? '')"
+      @keydown.enter="onClickOption(values[index] ?? '')"
     >
       {{ option }}
     </div>

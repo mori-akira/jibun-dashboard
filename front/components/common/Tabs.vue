@@ -39,6 +39,6 @@ const initialIndex = computed(() =>
 const activeIndex = ref(initialIndex.value);
 const setActiveIndex = (index: number) => {
   activeIndex.value = index;
-  emits("change:tab", props.tabs[index].slot);
+  emits("change:tab", props.tabs[index]?.slot ?? "");
 };
 </script>

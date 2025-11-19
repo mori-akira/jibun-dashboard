@@ -257,7 +257,10 @@ const onExecuteOcr = async (file: File) => {
         "Content-Type": "application/pdf",
       },
     });
-    await salaryApi.getSalaryOcr(targetDate.value, fileId);
+    await salaryApi.postSalaryOcrTaskStart({
+      targetDate: targetDate.value,
+      fileId,
+    });
   }, commonStore);
   if (result) {
     await openInfoDialog(t("message.info.completeSuccessfully"));
