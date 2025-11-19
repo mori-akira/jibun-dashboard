@@ -15,6 +15,7 @@ import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClientBuilder
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ChangePasswordRequest
+import software.amazon.awssdk.services.cognitoidentityprovider.model.UpdateUserAttributesRequest
 
 class CognitoUserServiceTest :
     StringSpec({
@@ -63,6 +64,27 @@ class CognitoUserServiceTest :
 
             result.sub shouldBe null
             result.email shouldBe null
+        }
+
+        "updateEmail: AWS SDK へ正しい引数で委譲する" {
+            // builder() の static をモック
+            mockkStatic(CognitoIdentityProviderClient::class)
+            val builder = mockk<CognitoIdentityProviderClientBuilder>(relaxed = true)
+            val client = mockk<CognitoIdentityProviderClient>(relaxed = true)
+            val reqSlot = slot<UpdateUserAttributesRequest>()
+
+            every { CognitoIdentityProviderClient.builder() } returns builder
+            every { builder.region(Region.of("ap-northeast-1")) } returns builder
+            every { builder.build() } returns client
+            every { client.updateUserAttributes(capture(reqSlot)) } returns mockk(relaxed = true)
+
+            service.updateEmail("at-123", "new-email@example.com")
+
+            verify(exactly = 1) { client.updateUserAttributes(reqSlot.captured) }
+            reqSlot.captured.accessToken() shouldBe "at-123"
+            reqSlot.captured.userAttributes().size shouldBe 1
+            reqSlot.captured.userAttributes()[0].name() shouldBe "email"
+            reqSlot.captured.userAttributes()[0].value() shouldBe "new-email@example.com"
         }
 
         "changePassword: AWS SDK へ正しい引数で委譲する" {

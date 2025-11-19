@@ -60,6 +60,10 @@ class UserController(
                     emailAddress = it.emailAddress,
                 ),
             )
+            cognitoUserService.updateEmail(
+                accessToken = currentAuth.jwt.tokenValue,
+                email = userBase.emailAddress,
+            )
         }
         return ResponseEntity.ok().build()
     }

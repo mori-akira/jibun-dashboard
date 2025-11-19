@@ -103,6 +103,12 @@ class UserControllerTest :
                     ),
                 )
             }
+            verify(exactly = 1) {
+                cognitoUserService.updateEmail(
+                    accessToken = "token-123",
+                    email = "bob@example.com",
+                )
+            }
         }
 
         "putUser: null は例外" {

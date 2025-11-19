@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ChangePasswordRequest
+import software.amazon.awssdk.services.cognitoidentityprovider.model.UpdateUserAttributesRequest
 import java.time.Duration
 
 @Service
@@ -22,6 +24,23 @@ class CognitoUserService(
         .bodyToMono(CognitoUserInfo::class.java)
         .timeout(Duration.ofSeconds(5))
         .block() ?: CognitoUserInfo()
+
+    fun updateEmail(accessToken: String, email: String) {
+        CognitoIdentityProviderClient.builder()
+            .region(Region.of(cognitoRegion))
+            .build()
+            .use { client ->
+                val emailAttr = AttributeType.builder()
+                    .name("email")
+                    .value(email)
+                    .build()
+                val request = UpdateUserAttributesRequest.builder()
+                    .accessToken(accessToken)
+                    .userAttributes(emailAttr)
+                    .build()
+                client.updateUserAttributes(request)
+            }
+    }
 
     fun changePassword(accessToken: String, oldPassword: String, newPassword: String) {
         CognitoIdentityProviderClient.builder()
