@@ -230,8 +230,14 @@ backend.base:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/CognitoUserService.kt
 
 backend.function.user:
+  - back/build.gradle.kts
+  - back/src/main/resources/application.yaml
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/DynamoDbConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/configuration/WebClientConfig.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/component/CurrentAuth.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/controller/UserController.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/UserService.kt
+  - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/CognitoUserService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/UserRepository.kt
 
 backend.function.file:
