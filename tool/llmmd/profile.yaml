@@ -74,6 +74,12 @@ infra.main:
   - infra/main/modules/apprunner/variable.tf
   - infra/main/modules/apprunner/outputs.tf
   - infra/main/modules/apprunner/apprunner_ops.py
+  - infra/main/modules/batch/salary-ocr/lambda.tf
+  - infra/main/modules/batch/salary-ocr/sqs.tf
+  - infra/main/modules/batch/salary-ocr/sqs.tf
+  - infra/main/modules/batch/salary-ocr/variables.tf
+  - infra/main/modules/batch/salary-ocr/outputs.tf
+  - infra/main/modules/batch/salary-ocr/providers.tf
   - infra/main/modules/codebuild/main.tf
   - infra/main/modules/codebuild/ssm.tf
   - infra/main/modules/codebuild/notifications.tf
