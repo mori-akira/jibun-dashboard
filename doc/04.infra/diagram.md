@@ -24,17 +24,17 @@ flowchart LR
   ECR["ECR Repository<br>jibun-dashboard"]
 
   subgraph DDB["DynamoDB"]
-    DUsers["*-users<br>PK: userId"]
-    DR18n["*-resources-i18n<br>PK: localeCode, SK: messageKey"]
-    DSettings["*-settings<br>PK: userId"]
-    DSalaries["*-salaries<br>PK: userId, SK: targetDate<br>GSI: gsi_salary_id (salaryId)"]
-    DOcrTasks["*-salary-ocr-tasks<br>PK: taskId<br>GSI: gsi_user_target_date<br>(userId, targetDate)"]
-    DQuals["*-qualifications<br>PK: userId, SK: qualificationId<br>GSI: gsi_qualification_id<br>LSI: lsi_order (order)"]
+    DUsers["users<br>PK: userId"]
+    DR18n["resources-i18n<br>PK: localeCode, SK: messageKey"]
+    DSettings["settings<br>PK: userId"]
+    DSalaries["salaries<br>PK: userId, SK: targetDate<br>GSI: gsi_salary_id (salaryId)"]
+    DOcrTasks["salary-ocr-tasks<br>PK: taskId<br>GSI: gsi_user_target_date<br>(userId, targetDate)"]
+    DQuals["qualifications<br>PK: userId, SK: qualificationId<br>GSI: gsi_qualification_id<br>LSI: lsi_order (order)"]
   end
 
   subgraph BATCH["Batch Processing<br>(給与OCR)"]
-    Q_DLQ["SQS DLQ<br>*-salary-ocr-dlq"]
-    Q_MAIN["SQS Queue<br>*-salary-ocr-queue"]
+    Q_DLQ["SQS DLQ<br>salary-ocr-dlq"]
+    Q_MAIN["SQS Queue<br>salary-ocr-queue"]
     L_SAL["Lambda: salary-ocr"]
   end
 
@@ -44,10 +44,10 @@ flowchart LR
   AGW --> ARS
 
   %% 認証フロー（概略）
-  U --- CDomain
+  U --> CDomain
   CDomain --- CClient
   CClient --- CPool
-  AGW --- CPool
+  AGW --> CPool
 
   %% バックエンド依存
   ARS --> ECR
@@ -67,15 +67,6 @@ flowchart LR
   L_SAL --> S3_UP
   L_SAL --> DSalaries
   L_SAL --> DOcrTasks
-
-  %% 凡例（テキストノード）
-  subgraph LEGEND["Legend / Notes"]
-    L1["API Gateway:<br>- $default -> S3 Frontend (HTTP proxy)<br>- /api/v1/* -> App Runner (HTTP proxy + JWT)"]
-    L2["JWT Authorizer on /api/v1/*:<br>issuer: cognito-idp/{region}/{userPoolId}<br>audience: userPoolClientId"]
-  end
-
-  AGW -.-> L1
-  AGW -.-> L2
 ```
 
 ## 運用オートメーション
