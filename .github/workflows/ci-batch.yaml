@@ -1,0 +1,55 @@
+name: Continuous Integration - Batch
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "batch/**"
+      - ".github/workflows/ci-batch.yaml"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        batch:
+          - name: salary-ocr
+            filter: salary-ocr
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Filter Changes
+        id: filter_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            salary-ocr:
+              - ".github/workflows/cd.yaml"
+              - "batch/salary-ocr/**"
+
+      - name: No Changes Notification
+        if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'
+        run: echo "No changes for batch/${{ matrix.batch.name }}. Skipping."
+
+      - name: Setup Python
+        if: steps.filter_changes.outputs[matrix.batch.filter] == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        if: steps.filter_changes.outputs[matrix.batch.filter] == 'true'
+        working-directory: batch/${{ matrix.batch.name }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -t .
+
+      - name: Run Tests
+        if: steps.filter_changes.outputs[matrix.batch.filter] == 'true'
+        working-directory: batch/${{ matrix.batch.name }}
+        run: |
+          python -m pip install pytest
+          pytest

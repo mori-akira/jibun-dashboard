@@ -315,12 +315,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt -t .
 
-      # - name: Run Tests
-      #   if: steps.filter_changes.outputs[matrix.batch.filter] == 'true'
-      #   working-directory: batch/${{ matrix.batch.name }}
-      #   run: |
-      #     python -m pip install pytest
-      #     pytest
+      - name: Run Tests
+        if: steps.filter_changes.outputs[matrix.batch.filter] == 'true'
+        working-directory: batch/${{ matrix.batch.name }}
+        run: |
+          python -m pip install pytest
+          pytest
 
       - name: Create Deployment Package
         if: steps.filter_changes.outputs[matrix.batch.filter] == 'true'
