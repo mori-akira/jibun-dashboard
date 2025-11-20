@@ -99,7 +99,6 @@ resource "aws_lambda_function" "salary_ocr_lambda" {
 
   environment {
     variables = {
-      AWS_REGION                 = var.region
       SALARY_OCR_QUEUE_URL       = aws_sqs_queue.salary_ocr_queue.id
       UPLOADS_BUCKET_NAME        = var.uploads_bucket_name
       SALARY_TABLE_NAME          = var.salaries_table_name

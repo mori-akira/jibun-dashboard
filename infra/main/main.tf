@@ -50,7 +50,6 @@ module "dynamodb" {
 
 module "batch_salary_ocr" {
   source                      = "./modules/batch/salary-ocr"
-  region                      = var.region
   application_tag             = module.application.application_tag
   app_name                    = var.app_name
   env_name                    = var.env_name
