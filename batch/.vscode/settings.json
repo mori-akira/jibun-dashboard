@@ -4,9 +4,14 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "terminal.integrated.defaultProfile.linux": "bash",
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": [],
   "python.analysis.completeFunctionParens": true,
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.diagnosticMode": "workspace",
+  "autopep8.args": [
+    "--max-line-length=120"
+  ],
   "[python]": {
     "editor.tabSize": 4,
     "editor.formatOnSave": true,
