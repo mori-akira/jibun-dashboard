@@ -90,7 +90,7 @@ resource "aws_lambda_function" "salary_ocr_lambda" {
 
   role             = aws_iam_role.salary_ocr_lambda_role.arn
   runtime          = "python3.12"
-  handler          = "handler.main"
+  handler          = "main.main"
   filename         = data.archive_file.salary_ocr_lambda_mock.output_path
   source_code_hash = data.archive_file.salary_ocr_lambda_mock.output_base64sha256
   timeout          = var.lambda_timeout_seconds
