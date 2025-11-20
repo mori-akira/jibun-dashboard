@@ -51,6 +51,7 @@ flowchart LR
 
   %% バックエンド依存
   ARS --> ECR
+  ARS --> CPool
   ARS --> DUsers
   ARS --> DR18n
   ARS --> DSettings
