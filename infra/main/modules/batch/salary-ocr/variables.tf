@@ -1,3 +1,8 @@
+variable "region" {
+  description = "AWSリージョン"
+  type        = string
+}
+
 variable "application_tag" {
   description = "自分ダッシュボード用のアプリケーションタグ"
   type        = map(string)
@@ -23,22 +28,22 @@ variable "uploads_bucket_arn" {
   type        = string
 }
 
-variable "salary_table_name" {
+variable "salaries_table_name" {
   description = "給与テーブル名"
   type        = string
 }
 
-variable "salary_table_arn" {
+variable "salaries_table_arn" {
   description = "給与テーブルARN"
   type        = string
 }
 
-variable "ocr_task_table_name" {
+variable "salary_ocr_tasks_table_name" {
   description = "給与OCRタスクテーブル名"
   type        = string
 }
 
-variable "ocr_task_table_arn" {
+variable "salary_ocr_tasks_table_arn" {
   description = "給与OCRタスクテーブルARN"
   type        = string
 }
@@ -64,5 +69,17 @@ variable "openai_api_key" {
 variable "openai_model" {
   description = "使用するOpenAIモデル"
   type        = string
-  default     = "gpt-5"
+  default     = "gpt-5.1"
+}
+
+variable "openai_ocr_max_attempts" {
+  description = "OpenAI OCRの最大試行回数"
+  type        = number
+  default     = 3
+}
+
+variable "sqs_wait_time_seconds" {
+  description = "SQSの待機時間(秒)"
+  type        = number
+  default     = 10
 }

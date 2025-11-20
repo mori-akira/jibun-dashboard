@@ -55,8 +55,8 @@ data "aws_iam_policy_document" "salary_ocr_lambda_policy" {
       "dynamodb:UpdateItem"
     ]
     resources = [
-      var.salary_table_arn,
-      var.ocr_task_table_arn
+      var.salaries_table_arn,
+      var.salary_ocr_tasks_table_arn
     ]
   }
 
@@ -99,11 +99,16 @@ resource "aws_lambda_function" "salary_ocr_lambda" {
 
   environment {
     variables = {
-      UPLOADS_BUCKET_NAME     = var.uploads_bucket_name
-      SALARY_TABLE_NAME       = var.salary_table_name
-      OCR_TASK_TABLE_NAME     = var.ocr_task_table_name
-      OPENAI_API_KEY_SSM_NAME = aws_ssm_parameter.openai_api_key.name
-      OPENAI_MODEL            = var.openai_model
+      AWS_REGION                 = var.region
+      SALARY_OCR_QUEUE_URL       = aws_sqs_queue.salary_ocr_queue.id
+      UPLOADS_BUCKET_NAME        = var.uploads_bucket_name
+      SALARY_TABLE_NAME          = var.salaries_table_name
+      SALARY_OCR_TASK_TABLE_NAME = var.salary_ocr_tasks_table_name
+      OPENAI_API_KEY_SSM_NAME    = aws_ssm_parameter.openai_api_key.name
+      OPENAI_MODEL               = var.openai_model
+      OPENAI_OCR_MAX_ATTEMPTS    = var.openai_ocr_max_attempts
+      SQS_WAIT_TIME_SECONDS      = var.sqs_wait_time_seconds
+      SQS_VISIBILITY_TIMEOUT     = var.lambda_timeout_seconds + 60
     }
   }
 
