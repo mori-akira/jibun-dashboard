@@ -81,7 +81,7 @@ resource "aws_iam_role_policy" "salary_ocr_lambda_inline" {
 
 data "archive_file" "salary_ocr_lambda_mock" {
   type        = "zip"
-  source_file = "${path.module}/handler.py"
+  source_file = "${path.module}/index.py"
   output_path = "${path.module}/salary_ocr_lambda.zip"
 }
 
