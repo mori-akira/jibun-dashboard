@@ -246,7 +246,13 @@ class TestCallOpenaiOcr:
 
         assert result == {"overview": {"grossIncome": 400000}}
         mock_client.files.create.assert_called_once()
+
+        # responses.createの呼び出しを詳細に検証
         mock_client.responses.create.assert_called_once()
+        call_args = mock_client.responses.create.call_args
+        assert call_args[1]["model"] == "gpt-5.1"
+        assert "text" in call_args[1]
+        assert call_args[1]["text"] == {"format": {"type": "json_object"}}
 
 
 class TestSaveSalary:

@@ -147,7 +147,7 @@ def call_openai_ocr(
     model: str = "gpt-5.1",
 ) -> Dict[str, Any]:
     """OpenAI API に対してOCRを呼び出し、構造化JSONを取得"""
-    logger.info("Calling OpenAI OCR (dummy implementation)")
+    logger.info("Calling OpenAI OCR")
 
     system_prompt, user_prompt = load_prompts()
     max_attempts = int(get_env_or_raise("OPENAI_OCR_MAX_ATTEMPTS"))
@@ -186,6 +186,11 @@ def call_openai_ocr(
                 ],
             },
         ],
+        text={
+            "format": {
+                "type": "json_object",
+            }
+        },
     )
 
     # 結果からJSON抽出
