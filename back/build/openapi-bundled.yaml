@@ -46,6 +46,7 @@ paths:
                 localeCode: en
                 messages:
                   message.info.completeSuccessfully: Process completed successfully.
+                  message.info.acceptSuccessfully: Task accepted successfully.
                   message.info.inputNewCategory: Input New Category
                   message.info.inputNewPayslip: Input New Payslip
                   message.confirm.signBackWithNewPassword: Sign out now and sign back in with your new password?
@@ -6216,6 +6217,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/salaryOcrTask'
+              example:
+                - ocrTaskId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                  status: COMPLETED
+                  targetDate: '2025-01-01'
+                  createdAt: '2025-01-01T00:00:00.000Z'
+                  updatedAt: '2025-01-01T00:00:00.000Z'
+                - ocrTaskId: 31e17aea-0de3-4334-8cd3-6241ffb70082
+                  status: FAILED
+                  targetDate: '2025-01-02'
+                  createdAt: '2025-01-02T00:00:00.000Z'
+                  updatedAt: '2025-01-02T00:00:00.000Z'
         '400':
           $ref: '#/components/responses/BadRequest'
   /salary/ocr-task/{ocrTaskId}:
