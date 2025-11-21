@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+from decimal import Decimal
 
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
@@ -196,7 +197,7 @@ def call_openai_ocr(
     # 結果からJSON抽出
     raw_json = response.output_text
     logger.debug("Raw OCR JSON: %s", raw_json)
-    result: Dict[str, Any] = json.loads(raw_json)
+    result: Dict[str, Any] = json.loads(raw_json, parse_float=Decimal)
     return result
 
 
@@ -218,8 +219,7 @@ def save_salary(
         "structure": ocr_result.get("structure", {}),
         "payslipData": ocr_result.get("payslipData", []),
     }
-    logger.info("Saving salary: salaryId=%s userId=%s targetDate=%s",
-                salary_id, user_id, target_date)
+    logger.info("Saving salary: salaryId=%s userId=%s targetDate=%s", salary_id, user_id, target_date)
     table.put_item(Item=item)
     return salary_id
 
