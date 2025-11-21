@@ -4200,3 +4200,4 @@ export class VocabularyApi extends BaseAPI implements VocabularyApiInterface {
       .then((request) => request(this.axios, this.basePath));
   }
 }
+export type LocaleCode = I18n;
