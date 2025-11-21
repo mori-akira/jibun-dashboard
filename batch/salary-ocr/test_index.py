@@ -82,7 +82,7 @@ class TestBuildS3Key:
 
     def test_builds_correct_key(self):
         result = build_s3_key("user-123", "file-456")
-        assert result == "user-123/file-456.pdf"
+        assert result == "uploads/user-123/file-456"
 
 
 class TestGetEnvOrRaise:

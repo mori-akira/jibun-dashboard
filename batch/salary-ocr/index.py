@@ -49,7 +49,7 @@ def parse_sqs_message(body: str) -> OcrTaskMessage:
 
 def build_s3_key(user_id: str, file_id: str) -> str:
     """S3オブジェクトキーを生成"""
-    return f"{user_id}/{file_id}.pdf"
+    return f"uploads/{user_id}/{file_id}"
 
 
 def get_boto3_clients() -> Dict[str, Any]:
