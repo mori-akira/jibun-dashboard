@@ -144,9 +144,6 @@ const {
 
 onMounted(async () => {
   await fetchSalary();
-  isRunningSalaryOcrTask.value = await salaryStore.isRunningSalaryOcrTask(
-    targetDate.value
-  );
 });
 
 const fetchSalary = async () => {
@@ -233,6 +230,15 @@ watch(
       },
       payslipData: structuredClone(toRaw(target.value?.payslipData ?? [])),
     };
+  },
+  { immediate: true }
+);
+watch(
+  targetDate,
+  async () => {
+    isRunningSalaryOcrTask.value = await salaryStore.isRunningSalaryOcrTask(
+      targetDate.value
+    );
   },
   { immediate: true }
 );
