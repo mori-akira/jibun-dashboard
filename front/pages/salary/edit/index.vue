@@ -33,35 +33,43 @@
     </div>
 
     <div class="flex justify-center">
-      <Panel panel-class="w-2/3">
-        <Tabs
-          :tabs="[
-            { label: 'Edit As Form', slot: 'editAsForm' },
-            { label: 'Edit As JSON', slot: 'editAsJson' },
-            { label: 'Upload And OCR', slot: 'uploadAndOcr' },
-          ]"
-          init-tab="editAsForm"
-          button-class="font-cursive"
-        >
-          <template #editAsForm>
-            <FormEditor
-              v-model:target-salary="targetSalary"
-              @execute="onPutSalary"
-            />
-          </template>
+      <div class="relative w-2/3">
+        <Panel panel-class="w-full !m-0">
+          <Tabs
+            :tabs="[
+              { label: 'Edit As Form', slot: 'editAsForm' },
+              { label: 'Edit As JSON', slot: 'editAsJson' },
+              { label: 'Upload And OCR', slot: 'uploadAndOcr' },
+            ]"
+            init-tab="editAsForm"
+            button-class="font-cursive"
+          >
+            <template #editAsForm>
+              <FormEditor
+                v-model:target-salary="targetSalary"
+                @execute="onPutSalary"
+              />
+            </template>
 
-          <template #editAsJson>
-            <JsonEditor
-              v-model:target-salary="targetSalary"
-              @execute="onPutSalary"
-            />
-          </template>
+            <template #editAsJson>
+              <JsonEditor
+                v-model:target-salary="targetSalary"
+                @execute="onPutSalary"
+              />
+            </template>
 
-          <template #uploadAndOcr>
-            <PayslipUploader @upload="onExecuteOcr" />
-          </template>
-        </Tabs>
-      </Panel>
+            <template #uploadAndOcr>
+              <PayslipUploader @upload="onExecuteOcr" />
+            </template>
+          </Tabs>
+        </Panel>
+        <LoadingOverlay
+          :is-loading="isRunningSalaryOcrTask"
+          :fullscreen="false"
+          message="Processing OCR..."
+          wrapper-class="rounded-lg !bg-black/50"
+        />
+      </div>
     </div>
 
     <Dialog
@@ -98,6 +106,7 @@ import Button from "~/components/common/Button.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import MonthPicker from "~/components/common/MonthPicker.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import FormEditor from "~/components/salary/edit/FormEditor.vue";
 import JsonEditor from "~/components/salary/edit/JsonEditor.vue";
 import PayslipUploader from "~/components/salary/edit/PayslipUploader.vue";
@@ -135,6 +144,9 @@ const {
 
 onMounted(async () => {
   await fetchSalary();
+  isRunningSalaryOcrTask.value = await salaryStore.isRunningSalaryOcrTask(
+    targetDate.value
+  );
 });
 
 const fetchSalary = async () => {
@@ -149,6 +161,7 @@ const fetchSalary = async () => {
 
 const targetDate = ref<string>(getCurrentMonthFirstDateString());
 const tempDate = ref<string>(targetDate.value);
+const isRunningSalaryOcrTask = ref<boolean>(false);
 const onChangeDate = async (value: string | undefined) => {
   if (!value) {
     return;
@@ -263,9 +276,12 @@ const onExecuteOcr = async (file: File) => {
     });
   }, commonStore);
   if (result) {
-    await openInfoDialog(t("message.info.completeSuccessfully"));
+    await openInfoDialog(t("message.info.acceptSuccessfully"));
     await fetchSalary();
   }
+  isRunningSalaryOcrTask.value = await salaryStore.isRunningSalaryOcrTask(
+    targetDate.value
+  );
 };
 
 const onDeleteSalary = async () => {

@@ -1,0 +1,16 @@
+[
+  {
+    "ocrTaskId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "status": "COMPLETED",
+    "targetDate": "2025-01-01",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "ocrTaskId": "31e17aea-0de3-4334-8cd3-6241ffb70082",
+    "status": "FAILED",
+    "targetDate": "2025-01-02",
+    "createdAt": "2025-01-02T00:00:00.000Z",
+    "updatedAt": "2025-01-02T00:00:00.000Z"
+  }
+]

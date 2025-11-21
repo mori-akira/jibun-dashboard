@@ -23,5 +23,7 @@ get:
             type: array
             items:
               $ref: "../../../openapi.yaml#/components/schemas/SalaryOcrTask"
+          example:
+            $ref: "../../../examples/salary/ocr-tasks/get.json"
     "400":
       $ref: "../../../openapi.yaml#/components/responses/BadRequest"

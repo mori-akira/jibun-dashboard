@@ -2,6 +2,7 @@
   "localeCode": "en",
   "messages": {
     "message.info.completeSuccessfully": "Process completed successfully.",
+    "message.info.acceptSuccessfully": "Task accepted successfully.",
     "message.info.inputNewCategory": "Input New Category",
     "message.info.inputNewPayslip": "Input New Payslip",
     "message.confirm.signBackWithNewPassword": "Sign out now and sign back in with your new password?",

@@ -38,6 +38,6 @@ get:
             items:
               $ref: "../../openapi.yaml#/components/schemas/Salary"
           example:
-            $ref: "../../examples/salary/get.json"
+            $ref: "../../examples/salaries/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"

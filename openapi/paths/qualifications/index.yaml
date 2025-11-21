@@ -86,6 +86,6 @@ get:
             items:
               $ref: "../../openapi.yaml#/components/schemas/Qualification"
           example:
-            $ref: "../../examples/qualification/get.json"
+            $ref: "../../examples/qualifications/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
