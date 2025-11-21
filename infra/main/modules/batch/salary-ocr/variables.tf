@@ -72,9 +72,3 @@ variable "openai_ocr_max_attempts" {
   type        = number
   default     = 3
 }
-
-variable "sqs_wait_time_seconds" {
-  description = "SQSの待機時間(秒)"
-  type        = number
-  default     = 10
-}
