@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch
 import pytest
 from botocore.exceptions import ClientError
 
-from main import (
+from index import (
     OcrTaskMessage,
     build_s3_key,
     call_openai_ocr,
@@ -15,10 +15,10 @@ from main import (
     get_boto3_clients,
     get_env_or_raise,
     get_openai_api_key_from_ssm,
+    lambda_handler,
     load_prompts,
     now_iso,
     parse_sqs_message,
-    poll_and_process_one_message,
     process_ocr_task,
     save_salary,
     update_task_status,
@@ -107,7 +107,7 @@ class TestGetEnvOrRaise:
 class TestGetBoto3Clients:
     """get_boto3_clients関数のテスト"""
 
-    @patch("main.boto3.Session")
+    @patch("index.boto3.Session")
     def test_returns_all_clients(self, mock_session):
         with patch.dict(os.environ, {"AWS_REGION": "us-east-1"}):
             mock_session_instance = Mock()
@@ -207,7 +207,7 @@ class TestLoadPrompts:
         sample_file = prompts_dir / "sample.json"
         sample_file.write_text('{"test": "value"}', encoding="utf-8")
 
-        with patch("main.PROMPTS_DIR", prompts_dir):
+        with patch("index.PROMPTS_DIR", prompts_dir):
             system_prompt, user_prompt = load_prompts()
 
         assert system_prompt == "System prompt content"
@@ -217,7 +217,7 @@ class TestLoadPrompts:
         prompts_dir = tmp_path / "prompts"
         prompts_dir.mkdir()
 
-        with patch("main.PROMPTS_DIR", prompts_dir):
+        with patch("index.PROMPTS_DIR", prompts_dir):
             with pytest.raises(RuntimeError, match="Failed to load prompt files"):
                 load_prompts()
 
@@ -225,8 +225,8 @@ class TestLoadPrompts:
 class TestCallOpenaiOcr:
     """call_openai_ocr関数のテスト"""
 
-    @patch("main.load_prompts")
-    @patch("main.OpenAI")
+    @patch("index.load_prompts")
+    @patch("index.OpenAI")
     def test_calls_openai_api(self, mock_openai_class, mock_load_prompts):
         mock_load_prompts.return_value = ("system prompt", "user prompt")
 
@@ -252,7 +252,7 @@ class TestCallOpenaiOcr:
 class TestSaveSalary:
     """save_salary関数のテスト"""
 
-    @patch("main.uuid.uuid4")
+    @patch("index.uuid.uuid4")
     def test_saves_salary_successfully(self, mock_uuid):
         mock_uuid.return_value = uuid.UUID("12345678-1234-5678-1234-567812345678")
 
@@ -286,13 +286,13 @@ class TestSaveSalary:
 class TestProcessOcrTask:
     """process_ocr_task関数のテスト"""
 
-    @patch("main.get_boto3_clients")
-    @patch("main.get_env_or_raise")
-    @patch("main.update_task_status")
-    @patch("main.download_pdf_from_s3")
-    @patch("main.get_openai_api_key_from_ssm")
-    @patch("main.call_openai_ocr")
-    @patch("main.save_salary")
+    @patch("index.get_boto3_clients")
+    @patch("index.get_env_or_raise")
+    @patch("index.update_task_status")
+    @patch("index.download_pdf_from_s3")
+    @patch("index.get_openai_api_key_from_ssm")
+    @patch("index.call_openai_ocr")
+    @patch("index.save_salary")
     def test_processes_task_successfully(
         self,
         mock_save_salary,
@@ -334,10 +334,10 @@ class TestProcessOcrTask:
         # RUNNINGとCOMPLETEDの2回呼ばれることを確認
         assert mock_update_status.call_count == 2
 
-    @patch("main.get_boto3_clients")
-    @patch("main.get_env_or_raise")
-    @patch("main.update_task_status")
-    @patch("main.download_pdf_from_s3")
+    @patch("index.get_boto3_clients")
+    @patch("index.get_env_or_raise")
+    @patch("index.update_task_status")
+    @patch("index.download_pdf_from_s3")
     def test_updates_to_failed_on_error(
         self,
         mock_download_pdf,
@@ -378,106 +378,116 @@ class TestProcessOcrTask:
         assert failed_call[0][3] == "FAILED"
 
 
-class TestPollAndProcessOneMessage:
-    """poll_and_process_one_message関数のテスト"""
+class TestLambdaHandler:
+    """lambda_handler関数のテスト"""
 
-    @patch("main.get_boto3_clients")
-    @patch("main.get_env_or_raise")
-    @patch("main.process_ocr_task")
-    def test_processes_message_successfully(
-        self,
-        mock_process_task,
-        mock_get_env,
-        mock_get_clients,
-    ):
-        mock_sqs = Mock()
-        mock_get_clients.return_value = {"sqs": mock_sqs}
-
-        mock_get_env.side_effect = lambda name: {
-            "AWS_REGION": "us-east-1",
-            "SALARY_OCR_QUEUE_URL": "https://sqs.us-east-1.amazonaws.com/queue",
-            "SQS_WAIT_TIME_SECONDS": "20",
-            "SQS_VISIBILITY_TIMEOUT": "300",
-        }[name]
-
-        message_body = json.dumps({
-            "ocrTaskId": "task-123",
-            "userId": "user-456",
-            "targetDate": "2025-11-20",
-            "fileId": "file-789",
-        })
-
-        mock_sqs.receive_message.return_value = {
-            "Messages": [
+    @patch("index.process_ocr_task")
+    def test_processes_single_record_successfully(self, mock_process_task):
+        event = {
+            "Records": [
                 {
-                    "ReceiptHandle": "receipt-123",
-                    "Body": message_body,
+                    "messageId": "msg-123",
+                    "body": json.dumps({
+                        "ocrTaskId": "task-123",
+                        "userId": "user-456",
+                        "targetDate": "2025-11-20",
+                        "fileId": "file-789",
+                    }),
                 }
             ]
         }
 
-        poll_and_process_one_message()
+        result = lambda_handler(event, None)
 
         mock_process_task.assert_called_once()
-        mock_sqs.delete_message.assert_called_once()
+        assert result == {"batchItemFailures": []}
 
-    @patch("main.get_boto3_clients")
-    @patch("main.get_env_or_raise")
-    def test_returns_when_no_messages(self, mock_get_env, mock_get_clients):
-        mock_sqs = Mock()
-        mock_get_clients.return_value = {"sqs": mock_sqs}
-
-        mock_get_env.side_effect = lambda name: {
-            "AWS_REGION": "us-east-1",
-            "SALARY_OCR_QUEUE_URL": "https://sqs.us-east-1.amazonaws.com/queue",
-            "SQS_WAIT_TIME_SECONDS": "20",
-            "SQS_VISIBILITY_TIMEOUT": "300",
-        }[name]
-
-        mock_sqs.receive_message.return_value = {}
-
-        poll_and_process_one_message()
-
-        mock_sqs.delete_message.assert_not_called()
-
-    @patch("main.get_boto3_clients")
-    @patch("main.get_env_or_raise")
-    @patch("main.process_ocr_task")
-    def test_continues_on_processing_error(
-        self,
-        mock_process_task,
-        mock_get_env,
-        mock_get_clients,
-    ):
-        mock_sqs = Mock()
-        mock_get_clients.return_value = {"sqs": mock_sqs}
-
-        mock_get_env.side_effect = lambda name: {
-            "AWS_REGION": "us-east-1",
-            "SALARY_OCR_QUEUE_URL": "https://sqs.us-east-1.amazonaws.com/queue",
-            "SQS_WAIT_TIME_SECONDS": "20",
-            "SQS_VISIBILITY_TIMEOUT": "300",
-        }[name]
-
-        message_body = json.dumps({
-            "ocrTaskId": "task-123",
-            "userId": "user-456",
-            "targetDate": "2025-11-20",
-            "fileId": "file-789",
-        })
-
-        mock_sqs.receive_message.return_value = {
-            "Messages": [
+    @patch("index.process_ocr_task")
+    def test_processes_multiple_records(self, mock_process_task):
+        event = {
+            "Records": [
                 {
-                    "ReceiptHandle": "receipt-123",
-                    "Body": message_body,
+                    "messageId": "msg-123",
+                    "body": json.dumps({
+                        "ocrTaskId": "task-123",
+                        "userId": "user-456",
+                        "targetDate": "2025-11-20",
+                        "fileId": "file-789",
+                    }),
+                },
+                {
+                    "messageId": "msg-456",
+                    "body": json.dumps({
+                        "ocrTaskId": "task-456",
+                        "userId": "user-789",
+                        "targetDate": "2025-11-21",
+                        "fileId": "file-012",
+                    }),
+                },
+            ]
+        }
+
+        result = lambda_handler(event, None)
+
+        assert mock_process_task.call_count == 2
+        assert result == {"batchItemFailures": []}
+
+    def test_returns_empty_failures_when_no_records(self):
+        event = {}
+        result = lambda_handler(event, None)
+        assert result == {"batchItemFailures": []}
+
+    @patch("index.process_ocr_task")
+    def test_returns_failed_message_on_error(self, mock_process_task):
+        mock_process_task.side_effect = RuntimeError("Processing error")
+
+        event = {
+            "Records": [
+                {
+                    "messageId": "msg-123",
+                    "body": json.dumps({
+                        "ocrTaskId": "task-123",
+                        "userId": "user-456",
+                        "targetDate": "2025-11-20",
+                        "fileId": "file-789",
+                    }),
                 }
             ]
         }
 
-        mock_process_task.side_effect = RuntimeError("Processing error")
+        result = lambda_handler(event, None)
 
-        poll_and_process_one_message()
+        assert result == {"batchItemFailures": [{"itemIdentifier": "msg-123"}]}
 
-        # エラーが発生してもメッセージは削除されない
-        mock_sqs.delete_message.assert_not_called()
+    @patch("index.process_ocr_task")
+    def test_returns_only_failed_messages(self, mock_process_task):
+        # 1つ目は成功、2つ目は失敗
+        mock_process_task.side_effect = [None, RuntimeError("Processing error")]
+
+        event = {
+            "Records": [
+                {
+                    "messageId": "msg-success",
+                    "body": json.dumps({
+                        "ocrTaskId": "task-123",
+                        "userId": "user-456",
+                        "targetDate": "2025-11-20",
+                        "fileId": "file-789",
+                    }),
+                },
+                {
+                    "messageId": "msg-fail",
+                    "body": json.dumps({
+                        "ocrTaskId": "task-456",
+                        "userId": "user-789",
+                        "targetDate": "2025-11-21",
+                        "fileId": "file-012",
+                    }),
+                },
+            ]
+        }
+
+        result = lambda_handler(event, None)
+
+        assert result == {"batchItemFailures": [{"itemIdentifier": "msg-fail"}]}
+        assert mock_process_task.call_count == 2

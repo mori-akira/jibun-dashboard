@@ -5,7 +5,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, List, Tuple
 
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
@@ -165,25 +165,25 @@ def call_openai_ocr(
         input=[
             {
                 "role": "system",
-                        "content": [
-                            {
-                                "type": "input_text",
-                                "text": system_prompt,
-                            },
-                        ],
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": system_prompt,
+                    },
+                ],
             },
             {
                 "role": "user",
-                        "content": [
-                            {
-                                "type": "input_text",
-                                "text": user_prompt,
-                            },
-                            {
-                                "type": "input_file",
-                                "file_id": file_obj.id,
-                            },
-                        ],
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": user_prompt,
+                    },
+                    {
+                        "type": "input_file",
+                        "file_id": file_obj.id,
+                    },
+                ],
             },
         ],
     )
@@ -271,48 +271,27 @@ def process_ocr_task(msg: OcrTaskMessage) -> None:
         raise e
 
 
-def poll_and_process_one_message() -> None:
-    """SQSから1件メッセージを受信して処理するポーラ"""
-    clients = get_boto3_clients()
-    sqs = clients["sqs"]
+def lambda_handler(event, _):
+    records: List[Dict[str, Any]] = event.get("Records", [])
+    if not records:
+        logger.info("No Records in event.")
+        return {"batchItemFailures": []}
 
-    queue_url = get_env_or_raise("SALARY_OCR_QUEUE_URL")
-    wait_time = int(get_env_or_raise("SQS_WAIT_TIME_SECONDS"))
-    visibility_timeout = int(get_env_or_raise("SQS_VISIBILITY_TIMEOUT"))
+    failures: List[Dict[str, str]] = []
 
-    logger.info("Polling SQS queue: %s", queue_url)
-    resp = sqs.receive_message(
-        QueueUrl=queue_url,
-        MaxNumberOfMessages=1,
-        WaitTimeSeconds=wait_time,
-        VisibilityTimeout=visibility_timeout,
-    )
+    for record in records:
+        message_id = record.get("messageId")
+        body = record.get("body", "")
+        logger.info("Received SQS messageId=%s body=%s", message_id, body)
 
-    messages = resp.get("Messages", [])
-    if not messages:
-        logger.info("No messages received. Exiting.")
-        return
-
-    for message in messages:
-        receipt_handle = message["ReceiptHandle"]
-        body = message["Body"]
-        logger.info("Received message: %s", body)
-
-        msg = parse_sqs_message(body)
         try:
+            msg: OcrTaskMessage = parse_sqs_message(body)
             process_ocr_task(msg)
         except Exception:
-            logger.error("Processing failed for message: %s", msg)
-            continue
+            logger.exception("Failed to process messageId=%s", message_id)
+            if message_id:
+                # 失敗したメッセージだけ再実行対象にする
+                failures.append({"itemIdentifier": message_id})
 
-        # 成功したらメッセージ削除
-        logger.info("Deleting message from SQS: receiptHandle=%s", receipt_handle)
-        sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
-
-
-def main() -> None:
-    poll_and_process_one_message()
-
-
-if __name__ == "__main__":
-    main()
+    # ReportBatchItemFailures形式のレスポンス
+    return {"batchItemFailures": failures}
