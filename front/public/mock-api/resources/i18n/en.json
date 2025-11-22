@@ -18,6 +18,7 @@
     "message.error.unexpectedError": "An unexpected error occurred.",
     "message.error.unexpectedErrorWithStatusCode": "An unexpected error occurred (status code: {statusCode}).",
     "message.error.somethingCloudNotDeleted": "Something could not be deleted, try again.",
+    "message.error.timeout": "The request timed out.",
     "message.validation.required": "This field is required.",
     "message.validation.minCharacters": "Please enter at least {min} characters.",
     "message.validation.maxCharacters": "Please enter no more than {max} characters.",

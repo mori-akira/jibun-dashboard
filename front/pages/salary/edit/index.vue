@@ -115,6 +115,7 @@ import {
   useConfirmDialog,
 } from "~/composables/common/useDialog";
 import { useAuth } from "~/composables/common/useAuth";
+import { usePolling } from "~/composables/common/usePolling";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { getCurrentMonthFirstDateString } from "~/utils/date";
@@ -141,9 +142,36 @@ const {
   onConfirmYes,
   onConfirmNo,
 } = useConfirmDialog();
+const {
+  isActive: isOcrPollingActive,
+  lastResult: lastOcrRunning,
+  start: startOcrPolling,
+  stop: stopOcrPolling,
+} = usePolling<boolean>({
+  intervalMs: 3000,
+  timeoutMs: 3 * 60 * 1000,
+  immediate: true,
+  async onPoll() {
+    const running = await withErrorHandling(
+      async () => await salaryStore.isRunningSalaryOcrTask(targetDate.value),
+      commonStore
+    );
+    if (running === undefined) {
+      throw new Error("Failed to check salary OCR task status");
+    }
+    return running;
+  },
+  shouldStop: ({ result }) => !result,
+  onTimeout: () => {
+    commonStore.addErrorMessage(t("message.error.timeout"));
+  },
+});
 
 onMounted(async () => {
   await fetchSalary();
+});
+onUnmounted(() => {
+  void stopOcrPolling();
 });
 
 const fetchSalary = async () => {
@@ -158,7 +186,6 @@ const fetchSalary = async () => {
 
 const targetDate = ref<string>(getCurrentMonthFirstDateString());
 const tempDate = ref<string>(targetDate.value);
-const isRunningSalaryOcrTask = ref<boolean>(false);
 const onChangeDate = async (value: string | undefined) => {
   if (!value) {
     return;
@@ -233,14 +260,18 @@ watch(
   },
   { immediate: true }
 );
+
+const isRunningSalaryOcrTask = computed(
+  () => isOcrPollingActive.value && lastOcrRunning.value !== false
+);
+watch(targetDate, async () => await startOcrPolling(), { immediate: true });
 watch(
-  targetDate,
-  async () => {
-    isRunningSalaryOcrTask.value = await salaryStore.isRunningSalaryOcrTask(
-      targetDate.value
-    );
-  },
-  { immediate: true }
+  () => lastOcrRunning.value,
+  async (running, prev) => {
+    if (prev === true && running === false) {
+      await fetchSalary();
+    }
+  }
 );
 
 const onPutSalary = async () => {
@@ -283,11 +314,8 @@ const onExecuteOcr = async (file: File) => {
   }, commonStore);
   if (result) {
     await openInfoDialog(t("message.info.acceptSuccessfully"));
-    await fetchSalary();
+    await startOcrPolling();
   }
-  isRunningSalaryOcrTask.value = await salaryStore.isRunningSalaryOcrTask(
-    targetDate.value
-  );
 };
 
 const onDeleteSalary = async () => {
