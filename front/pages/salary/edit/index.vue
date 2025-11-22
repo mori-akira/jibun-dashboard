@@ -152,14 +152,14 @@ const {
   timeoutMs: 3 * 60 * 1000,
   immediate: true,
   async onPoll() {
-    const running = await withErrorHandling(
-      async () => await salaryStore.isRunningSalaryOcrTask(targetDate.value),
-      commonStore
-    );
-    if (running === undefined) {
-      throw new Error("Failed to check salary OCR task status");
+    try {
+      const running = salaryStore.isRunningSalaryOcrTask(targetDate.value);
+      return running;
+    } catch (err) {
+      console.error(err);
+      commonStore.addErrorMessage(getErrorMessage(err));
+      throw err;
     }
-    return running;
   },
   shouldStop: ({ result }) => !result,
   onTimeout: () => {
