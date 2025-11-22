@@ -29,7 +29,7 @@ import { computed } from "vue";
 
 const props = defineProps<{
   isLoading: boolean;
-  fullscreen?: boolean;
+  fullscreen: boolean;
   message?: string;
   wrapperClass?: string;
 }>();
