@@ -59,6 +59,32 @@
             </template>
 
             <template #uploadAndOcr>
+              <MessageBox
+                v-show="lastOcrTaskResult?.status === 'COMPLETED'"
+                type="confirm"
+                wrapper-class="mt-4 p-2"
+              >
+                <Icon
+                  name="tabler:circle-check-filled"
+                  class="text-2xl text-green-800"
+                />
+                <span class="pl-2 font-bold font-cursive text-green-800"
+                  >Task Completed Successfully</span
+                >
+              </MessageBox>
+              <MessageBox
+                v-show="lastOcrTaskResult?.status === 'FAILED'"
+                type="error"
+                wrapper-class="mt-4 p-2"
+              >
+                <Icon
+                  name="tabler:exclamation-circle-filled"
+                  class="text-2xl text-red-800"
+                />
+                <span class="pl-2 font-bold font-cursive text-red-800"
+                  >Task Failed</span
+                >
+              </MessageBox>
               <PayslipUploader @upload="onExecuteOcr" />
             </template>
           </Tabs>
@@ -66,7 +92,7 @@
         <LoadingOverlay
           :is-loading="isRunningSalaryOcrTask"
           :fullscreen="false"
-          message="Processing OCR..."
+          message="Loading Payslip..."
           wrapper-class="rounded-lg !bg-black/50"
         />
       </div>
@@ -106,6 +132,7 @@ import Button from "~/components/common/Button.vue";
 import Tabs from "~/components/common/Tabs.vue";
 import MonthPicker from "~/components/common/MonthPicker.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import MessageBox from "~/components/common/MessageBox.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import FormEditor from "~/components/salary/edit/FormEditor.vue";
 import JsonEditor from "~/components/salary/edit/JsonEditor.vue";
@@ -146,7 +173,6 @@ const {
   isActive: isOcrPollingActive,
   lastResult: lastOcrRunning,
   start: startOcrPolling,
-  stop: stopOcrPolling,
 } = usePolling<boolean>({
   intervalMs: 3000,
   timeoutMs: 3 * 60 * 1000,
@@ -169,9 +195,6 @@ const {
 
 onMounted(async () => {
   await fetchSalary();
-});
-onUnmounted(() => {
-  void stopOcrPolling();
 });
 
 const fetchSalary = async () => {
@@ -273,6 +296,16 @@ watch(
     }
   }
 );
+const lastOcrTaskResult = computed(() => {
+  const tasks = salaryStore.salaryOcrTasks ?? [];
+  if (tasks.length === 0) return undefined;
+  return tasks.reduce((latest, t) => {
+    const lt = new Date(latest.updatedAt).getTime();
+    const tt = new Date(t.updatedAt).getTime();
+    if (tt > lt) return t;
+    return latest;
+  });
+});
 
 const onPutSalary = async () => {
   const result = await withErrorHandling(async () => {

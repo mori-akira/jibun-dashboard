@@ -1,6 +1,9 @@
 <template>
   <div
-    :class="['wrapper', wrapperClass]"
+    :class="[
+      'wrapper w-full rounded-2xl flex justify-center items-center cursor-pointer bg-gray-100 border-4 border-dashed border-gray-400',
+      wrapperClass,
+    ]"
     @dragover.prevent
     @drop.prevent="handleDrop"
     @click="triggerFileInput"
@@ -46,16 +49,3 @@ const uploadFile = async (file: File) => {
   emit("upload", file);
 };
 </script>
-
-<style lang="css" scoped>
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  border: 4px dashed #aaa;
-  border-radius: 1rem;
-  background-color: #eee;
-  cursor: pointer;
-}
-</style>

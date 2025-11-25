@@ -16,7 +16,7 @@
       />
       <p
         v-if="message"
-        class="mt-4 text-white text-sm text-center px-4 whitespace-pre-line font-cursive"
+        class="mt-4 text-white text-sm text-center px-4 whitespace-pre-line font-cursive font-bold"
       >
         {{ message }}
       </p>
