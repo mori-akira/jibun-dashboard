@@ -86,13 +86,13 @@ module "apprunner" {
   salary_ocr_queue_url = module.batch_salary_ocr.sqs_queue_url
 }
 
-module "batch_apprunner_ops" {
-  source                = "./modules/batch/apprunner-ops"
-  application_tag       = module.application.application_tag
-  app_name              = var.app_name
-  env_name              = var.env_name
-  apprunner_service_arn = module.apprunner.apprunner_service_arn
-}
+# module "batch_apprunner_ops" {
+#   source                = "./modules/batch/apprunner-ops"
+#   application_tag       = module.application.application_tag
+#   app_name              = var.app_name
+#   env_name              = var.env_name
+#   apprunner_service_arn = module.apprunner.apprunner_service_arn
+# }
 
 module "apigateway" {
   source                 = "./modules/apigateway"
