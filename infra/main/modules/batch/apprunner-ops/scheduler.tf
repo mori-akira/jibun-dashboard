@@ -48,7 +48,7 @@ resource "aws_scheduler_schedule" "pause_nightly" {
   }
 
   target {
-    arn      = aws_lambda_function.apprunner_ops.arn
+    arn      = aws_lambda_function.apprunner_ops_lambda.arn
     role_arn = aws_iam_role.scheduler_role.arn
     input = jsonencode(
       { action = "pause" }
@@ -68,7 +68,7 @@ resource "aws_scheduler_schedule" "resume_morning" {
   }
 
   target {
-    arn      = aws_lambda_function.apprunner_ops.arn
+    arn      = aws_lambda_function.apprunner_ops_lambda.arn
     role_arn = aws_iam_role.scheduler_role.arn
     input = jsonencode(
       { action = "resume" }
@@ -79,7 +79,7 @@ resource "aws_scheduler_schedule" "resume_morning" {
 resource "aws_lambda_permission" "allow_scheduler_pause" {
   statement_id  = "AllowSchedulerPause"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.apprunner_ops.function_name
+  function_name = aws_lambda_function.apprunner_ops_lambda.function_name
   principal     = "scheduler.amazonaws.com"
   source_arn    = aws_scheduler_schedule.pause_nightly.arn
 }
@@ -87,7 +87,7 @@ resource "aws_lambda_permission" "allow_scheduler_pause" {
 resource "aws_lambda_permission" "allow_scheduler_resume" {
   statement_id  = "AllowSchedulerResume"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.apprunner_ops.function_name
+  function_name = aws_lambda_function.apprunner_ops_lambda.function_name
   principal     = "scheduler.amazonaws.com"
   source_arn    = aws_scheduler_schedule.resume_morning.arn
 }
