@@ -277,6 +277,8 @@ jobs:
         batch:
           - name: salary-ocr
             filter: salary-ocr
+          - name: apprunner-ops
+            filter: apprunner-ops
     
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -297,6 +299,9 @@ jobs:
             salary-ocr:
               - ".github/workflows/cd.yaml"
               - "batch/salary-ocr/**"
+            apprunner-ops:
+              - ".github/workflows/cd.yaml"
+              - "batch/apprunner-ops/**"
 
       - name: No Changes Notification
         if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'

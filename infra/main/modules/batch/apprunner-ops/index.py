@@ -1,18 +1,11 @@
-import os
 import json
-import boto3
-
-client = boto3.client("apprunner")
+from typing import Any, Dict
 
 
-def handler(event, context):
-    service_arn = os.environ["SERVICE_ARN"]
-    action = event.get("action") or os.environ.get("ACTION")
-    if action == "pause":
-        client.pause_service(ServiceArn=service_arn)
-        return {"status": "paused"}
-    elif action == "resume":
-        client.resume_service(ServiceArn=service_arn)
-        return {"status": "resumed"}
-    else:
-        return {"status": "noop", "reason": "unknown action"}
+def lambda_handler(event: Dict[str, Any], _: Any) -> Dict[str, Any]:
+    print("Mock AppRunner Ops Lambda invoked.")
+    print("Event:", json.dumps(event))
+    return {
+        "statusCode": 200,
+        "body": json.dumps({"message": "Mock AppRunner Ops Lambda executed."}),
+    }
