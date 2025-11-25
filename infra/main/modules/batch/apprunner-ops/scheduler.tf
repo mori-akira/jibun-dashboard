@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "scheduler_invoke_lambda" {
   policy = data.aws_iam_policy_document.scheduler_invoke_lambda_doc.json
 }
 
-resource "aws_scheduler_schedule_group" "apprunner" {
+resource "aws_scheduler_schedule_group" "apprunner_ops" {
   name = "${var.app_name}-${var.env_name}-apprunner-ops"
   tags = var.application_tag
 }
@@ -41,7 +41,7 @@ resource "aws_scheduler_schedule" "pause_nightly" {
   description                  = "Pause App Runner at 01:00 JST daily"
   schedule_expression          = "cron(0 1 * * ? *)"
   schedule_expression_timezone = var.timezone
-  group_name                   = aws_scheduler_schedule_group.apprunner.name
+  group_name                   = aws_scheduler_schedule_group.apprunner_ops.name
 
   flexible_time_window {
     mode = "OFF"
@@ -61,7 +61,7 @@ resource "aws_scheduler_schedule" "resume_morning" {
   description                  = "Resume App Runner at 06:00 JST daily"
   schedule_expression          = "cron(0 6 * * ? *)"
   schedule_expression_timezone = var.timezone
-  group_name                   = aws_scheduler_schedule_group.apprunner.name
+  group_name                   = aws_scheduler_schedule_group.apprunner_ops.name
 
   flexible_time_window {
     mode = "OFF"
@@ -90,11 +90,4 @@ resource "aws_lambda_permission" "allow_scheduler_resume" {
   function_name = aws_lambda_function.apprunner_ops_lambda.function_name
   principal     = "scheduler.amazonaws.com"
   source_arn    = aws_scheduler_schedule.resume_morning.arn
-}
-
-# 要import
-resource "aws_cloudwatch_log_group" "apprunner_ops" {
-  name              = "/aws/lambda/${aws_lambda_function.apprunner_ops_lambda.function_name}"
-  retention_in_days = 7
-  tags              = var.application_tag
 }
