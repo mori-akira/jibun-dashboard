@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "apprunner_lambda_policy_doc" {
   statement {
     sid       = "PauseResume"
     actions   = ["apprunner:PauseService", "apprunner:ResumeService"]
-    resources = [aws_apprunner_service.this.arn]
+    resources = [var.apprunner_service_arn]
   }
 }
 
