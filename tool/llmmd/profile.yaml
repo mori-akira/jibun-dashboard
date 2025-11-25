@@ -154,6 +154,22 @@ infra.main.uploads:
   - infra/main/modules/uploads/variables.tf
   - infra/main/modules/uploads/outputs.tf
 
+infra.main.batch.salary-ocr:
+  - infra/main/main.tf
+  - infra/main/versions.tf
+  - infra/main/providers.tf
+  - infra/main/backend.tf
+  - infra/main/variables.tf
+  - infra/main/outputs.tf
+  - infra/main/terraform.tfvars
+  - infra/main/modules/batch/salary-ocr/lambda.tf
+  - infra/main/modules/batch/salary-ocr/sqs.tf
+  - infra/main/modules/batch/salary-ocr/ssm.tf
+  - infra/main/modules/batch/salary-ocr/variables.tf
+  - infra/main/modules/batch/salary-ocr/outputs.tf
+  - infra/main/modules/batch/salary-ocr/providers.tf
+  - infra/main/modules/batch/salary-ocr/index.py
+
 infra.main.e2e:
   - infra/main/main.tf
   - infra/main/versions.tf
@@ -268,6 +284,14 @@ batch.env.local:
   - batch/.devcontainer/Dockerfile
   - batch/.vscode/extensions.json
   - batch/.vscode/settings.json
+
+batch.ocr-task:
+  - batch/salary-ocr/index.py
+  - batch/salary-ocr/requirements.txt
+  - batch/salary-ocr/test_index.py
+  - batch/salary-ocr/prompts/sample.json
+  - batch/salary-ocr/prompts/system.md
+  - batch/salary-ocr/prompts/user.md
 
 e2e.env:
   - e2e/.devcontainer/devcontainer.json
