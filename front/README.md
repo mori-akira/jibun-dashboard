@@ -20,9 +20,7 @@ aws sts get-caller-identity # 確認
 ## OpenAPI 定義から API クライアント、スキーマを自動生成
 
 ```sh
-cd ../openapi
-openapi-generator-cli generate
-npx openapi-zod-client  openapi.yaml -o ../front/api/client/schemas.ts --export-schemas
+npm run generate:api
 ```
 
 ## 開発用にサーバーを起動

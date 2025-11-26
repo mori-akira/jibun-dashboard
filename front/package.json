@@ -46,11 +46,9 @@
     "@iconify-json/tabler": "^1.2.19",
     "@nuxt/icon": "^1.13.0",
     "@nuxt/test-utils": "^3.19.2",
-    "@openapitools/openapi-generator-cli": "^2.21.0",
     "@stoplight/prism-cli": "^5.14.2",
     "@vue/test-utils": "^2.4.6",
     "eslint-plugin-pinia": "^0.4.1",
-    "openapi-zod-client": "^1.18.3",
     "vitest": "^3.2.4"
   }
 }

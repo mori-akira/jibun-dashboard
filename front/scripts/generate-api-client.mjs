@@ -15,7 +15,9 @@ function run(cmd, options = {}) {
 }
 
 // OpenAPI GeneratorでTSクライアント生成
-run("npx openapi-generator-cli generate", { cwd: openapiDir });
+run("npx @openapitools/openapi-generator-cli@2.21.0 generate", {
+  cwd: openapiDir,
+});
 
 // LocaleCodeのaliasをapi.tsに追記
 const apiTsPath = resolve(frontDir, "generated/api/client/api.ts");
