@@ -37,16 +37,8 @@ jobs:
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Generate API Client Module
-        if: steps.filter_changes.outputs.changes == 'true'
         working-directory: front
         run: npm run generate:api
-
-      - name: Add ESLint Disable Comment
-        run: |
-          FILE=front/generated/api/client/schemas.ts
-          if [ -f "$FILE" ]; then
-            sed -i '1s;^;/* eslint-disable */\n;' "$FILE"
-          fi
 
       - name: Run Lint
         working-directory: front
