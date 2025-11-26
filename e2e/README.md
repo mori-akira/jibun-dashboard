@@ -14,6 +14,12 @@ npx playwright install --with-deps
 npm install
 ```
 
+## OpenAPI 定義から API クライアント、スキーマを自動生成
+
+```sh
+npm run generate:api
+```
+
 ## 設定ファイル
 
 ローカルで動作確認する場合、 `.env.example` をコピーし、 `.env` にローカルの設定を記述する。

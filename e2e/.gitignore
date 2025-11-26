@@ -25,3 +25,6 @@ logs
 
 # Playwright
 .playwright
+
+# Generated module
+generated

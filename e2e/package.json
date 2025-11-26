@@ -12,7 +12,8 @@
     "test-auth": "playwright test --project=auth",
     "test-teardown": "playwright test --project=teardown",
     "report": "playwright show-report",
-    "codegen": "playwright codegen"
+    "codegen": "playwright codegen",
+    "generate:api": "node ./scripts/generate-api-client.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.47.0",
