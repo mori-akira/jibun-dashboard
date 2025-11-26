@@ -10,7 +10,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "mock": "prism mock ../openapi/openapi.yaml --port 4011"
+    "mock": "prism mock ../openapi/openapi.yaml --port 4011",
+    "generate:api": "node ./scripts/generate-api-client.mjs"
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.2",

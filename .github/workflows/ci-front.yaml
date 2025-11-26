@@ -37,15 +37,9 @@ jobs:
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Generate API Client Module
-        run: |
-          cd openapi
-          npx openapi-generator-cli generate
-          if ! grep -Fxq 'export type LocaleCode = I18n;' ../front/generated/api/client/api.ts; then
-            echo 'export type LocaleCode = I18n;' >> ../front/generated/api/client/api.ts
-          fi
-          npx openapi-zod-client  openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas
-          cd ../front
-          npx --yes prettier@3 --write "generated/api/client/**/*.{ts,tsx,js,json}"
+        if: steps.filter_changes.outputs.changes == 'true'
+        working-directory: front
+        run: npm run generate:api
 
       - name: Add ESLint Disable Comment
         run: |
