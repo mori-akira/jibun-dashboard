@@ -234,6 +234,8 @@ jobs:
         if: steps.filter_changes.outputs.changes == 'true'
         run: |
           ./gradlew \
+            openApiGenerate \
+            spotlessKotlinGeneratedApply \
             detekt \
             spotlessCheck \
             test \

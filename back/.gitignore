@@ -4,9 +4,6 @@
 
 # Ignore Gradle build output directory
 /build/*
-!/build/openapi-bundled.yaml
-!/build/generated/
-!/build/generated/**
 
 # Ignore binary files
 bin
