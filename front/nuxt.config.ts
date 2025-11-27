@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       },
     ],
     "nuxt-codemirror",
+    "@vite-pwa/nuxt",
   ],
   i18n: {
     strategy: "prefix_except_default",
@@ -73,6 +74,67 @@ export default defineNuxtConfig({
   },
   nuxtCodemirror: {
     basicSetup: true,
+  },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Jibun Dashboard",
+      short_name: "Jibun",
+      description:
+        "Personal dashboard for managing salary, qualifications, and more",
+      theme_color: "#eeffff",
+      background_color: "#eeffff",
+      display: "standalone",
+      orientation: "portrait",
+      scope: "/",
+      start_url: "/",
+      icons: [
+        {
+          src: "pwa-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable",
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: "/",
+      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "google-fonts-cache",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+      ],
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 3600, // Check for updates every hour
+    },
+    devOptions: {
+      enabled: true,
+      type: "module",
+    },
   },
   vite: {
     plugins: [
