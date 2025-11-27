@@ -106,8 +106,9 @@ resource "aws_codebuild_project" "this" {
   service_role = aws_iam_role.codebuild.arn
   tags         = var.application_tag
 
-  build_timeout  = var.build_timeout
-  queued_timeout = var.queued_timeout
+  build_timeout          = var.build_timeout
+  queued_timeout         = var.queued_timeout
+  concurrent_build_limit = 1
 
   artifacts {
     type                   = "S3"
