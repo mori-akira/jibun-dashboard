@@ -107,6 +107,7 @@ export default defineNuxtConfig({
       name: "Jibun Dashboard",
       short_name: "Jibun",
       start_url: (process.env.NUXT_PUBLIC_BASE_URL || "/") + "",
+      scope: (process.env.NUXT_PUBLIC_BASE_URL || "/") + "",
       display: "standalone",
       theme_color: "#111827",
       background_color: "#eeffff",
