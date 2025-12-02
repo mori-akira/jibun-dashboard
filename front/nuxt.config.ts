@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       },
     ],
     "nuxt-codemirror",
+    "@vite-pwa/nuxt",
   ],
   i18n: {
     strategy: "prefix_except_default",
@@ -98,6 +99,38 @@ export default defineNuxtConfig({
       watch: {
         usePolling: true,
       },
+    },
+  },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Jibun Dashboard",
+      short_name: "Jibun",
+      start_url: (process.env.NUXT_PUBLIC_BASE_URL || "/") + "",
+      display: "standalone",
+      theme_color: "#111827",
+      background_color: "#eeffff",
+      icons: [
+        {
+          src: urlJoin(
+            process.env.NUXT_PUBLIC_BASE_URL || "/",
+            "icons/icon-192.png"
+          ),
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: urlJoin(
+            process.env.NUXT_PUBLIC_BASE_URL || "/",
+            "icons/icon-512.png"
+          ),
+          sizes: "512x512",
+          type: "image/png",
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: process.env.NUXT_PUBLIC_BASE_URL || "/",
     },
   },
 });

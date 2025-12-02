@@ -29,5 +29,6 @@
         "**/*",
         "**/*.kt",
         "**/*.kts"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }
