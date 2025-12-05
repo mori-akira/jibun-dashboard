@@ -5,6 +5,7 @@
       errorMessages?.length
         ? 'opacity-100 translate-y-0'
         : 'opacity-0 -translate-y-24 pointer-events-none',
+      wrapperClass,
     ]"
     aria-live="assertive"
   >
@@ -35,6 +36,7 @@
 <script setup lang="ts">
 defineProps<{
   errorMessages?: string[];
+  wrapperClass?: string;
 }>();
 
 const emit = defineEmits<{

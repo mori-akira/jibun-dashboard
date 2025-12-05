@@ -1,8 +1,11 @@
 <template>
-  <div class="layout">
+  <div class="flex min-h-screen">
     <Header />
     <HeaderMenu />
-    <div class="content" @click="commonStore.setHeaderMenuOpen(false)">
+    <div
+      class="w-screen flex bg-white"
+      @click="commonStore.setHeaderMenuOpen(false)"
+    >
       <Navigation />
       <main>
         <NuxtPage />
@@ -36,7 +39,7 @@ import { useI18n } from "vue-i18n";
 
 import Header from "~/components/app/AppHeader.vue";
 import Navigation from "~/components/app/AppNavigation.vue";
-import HeaderMenu from "~/components/app/HeaderMenu.vue";
+import HeaderMenu from "~/components/app/AppHeaderMenu.vue";
 import LoadingOverlay from "~/components/common/LoadingOverlay.vue";
 import ErrorMessageDialog from "~/components/common/ErrorMessageDialog.vue";
 import Dialog from "~/components/common/Dialog.vue";
@@ -99,17 +102,6 @@ watchEffect(() => {
 </script>
 
 <style lang="css" scoped>
-.layout {
-  display: flex;
-  min-height: 100vh;
-}
-
-.content {
-  width: 100vw;
-  display: flex;
-  background-color: #fff;
-}
-
 main {
   flex: 1;
   height: calc(100vh - 4rem);
