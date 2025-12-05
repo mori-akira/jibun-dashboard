@@ -64,7 +64,17 @@ const {
   onConfirmYes,
   onConfirmNo,
 } = useConfirmDialog();
+
 router.beforeEach(async (to, _, next) => {
+  // モバイルの場合はモバイル用のトップへ
+  if (import.meta.client) {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile && !to.path.startsWith("/m")) {
+      return next("/m");
+    }
+  }
+
+  // 画面遷移時の未保存変更確認
   if (commonStore.hasUnsavedChange) {
     next(false);
     const confirmed = await openConfirmDialog(
@@ -91,6 +101,7 @@ onMounted(async () => {
   );
 });
 
+// タイトルに未保存変更を反映
 watchEffect(() => {
   const baseTitle = "Jibun Dashboard";
   if (document?.title) {
