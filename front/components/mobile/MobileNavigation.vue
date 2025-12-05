@@ -1,8 +1,8 @@
 <template>
   <div
     :class="[
-      'fixed top-16 left-2 z-[1001] w-54 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
-      { '-translate-y-[12rem]': !commonStore.isNavOpen },
+      'fixed top-[-8rem] left-2 z-[1001] w-54 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
+      { '-translate-y-[-12rem]': commonStore.isNavOpen },
     ]"
   >
     <ul class="list-none p-0">
@@ -12,7 +12,7 @@
           Home
         </NuxtLink>
       </li>
-      <li>
+      <li class="mt-2">
         <NuxtLink
           to="/m/salary"
           class="menu-item font-cursive"
@@ -22,7 +22,7 @@
           Salary
         </NuxtLink>
       </li>
-      <li>
+      <li class="mt-2">
         <NuxtLink
           to="/m/qualification"
           class="menu-item font-cursive"
