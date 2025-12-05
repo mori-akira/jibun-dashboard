@@ -7,7 +7,9 @@
       @click="commonStore.setHeaderMenuOpen(false)"
     >
       <Navigation />
-      <main>
+      <main
+        class="flex-1 h-[calc(100vh-4rem)] mt-12 p-4 pr-8 overflow-y-scroll"
+      >
         <NuxtPage />
       </main>
     </div>
@@ -100,14 +102,3 @@ watchEffect(() => {
   }
 });
 </script>
-
-<style lang="css" scoped>
-main {
-  flex: 1;
-  height: calc(100vh - 4rem);
-  margin-top: 3rem;
-  padding: 1rem;
-  padding-right: 2rem;
-  overflow-y: scroll;
-}
-</style>

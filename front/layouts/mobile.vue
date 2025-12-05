@@ -3,7 +3,7 @@
     <Header />
     <HeaderMenu />
     <Navigation />
-    <main class="flex-1 overflow-y-auto px-3 pt-12 pb-14">
+    <main class="flex-1 h-[calc(100vh-4rem)] mt-12 p-4 pr-8 overflow-y-scroll">
       <NuxtPage />
     </main>
 
