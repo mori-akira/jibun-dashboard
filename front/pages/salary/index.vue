@@ -290,7 +290,11 @@ const targetFinancialYears = computed(() =>
   filterFinancialYears(financialYears.value, baseFinancialYear.value)
 );
 const aggregateOverviewAnnually = (key: keyof Overview) =>
-  trimArray(targetFinancialYears.value, 7, { from: "end" }).map((year) => {
+  trimArray(
+    targetFinancialYears.value,
+    settingStore.setting?.salary.transitionItemCount ?? 1,
+    { from: "end" }
+  ).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview?.[key],
