@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Breadcrumb :items="[{ text: 'Home', iconName: 'tabler:home' }]" />
     <div class="flex justify-between mt-4">
       <Panel panel-class="w-full">
         <h3>
@@ -37,6 +38,7 @@ import type { Salary } from "~/generated/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";

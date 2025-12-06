@@ -1,8 +1,8 @@
 <template>
   <div
     :class="[
-      'fixed top-[-8rem] left-2 z-[1001] w-54 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
-      { '-translate-y-[-12rem]': commonStore.isNavOpen },
+      'fixed top-[4rem] left-2 z-[1001] w-54 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
+      { '-translate-y-[12rem]': !commonStore.isNavOpen },
     ]"
   >
     <ul class="list-none p-0">

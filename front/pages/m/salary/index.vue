@@ -1,10 +1,28 @@
 <template>
   <div>
+    <div class="flex justify-between">
+      <Breadcrumb
+        :items="[{ text: 'Salary', iconName: 'tabler:report-money' }]"
+      />
+      <Button
+        type="navigation"
+        size="small"
+        html-type="button"
+        button-class="w-32"
+        @click="() => navigateTo('/m/salary/payslip')"
+      >
+        <Icon
+          name="tabler:align-box-left-top"
+          class="text-base translate-y-0.5"
+        />
+        <span class="font-cursive ml-2">Payslip</span>
+      </Button>
+    </div>
     <div class="flex-1 w-full">
       <Panel panel-class="w-full ml-2">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
-          <span class="font-cursive font-bold ml-2">Salary</span>
+          <span class="font-cursive font-bold ml-2">Annual Income</span>
         </h3>
         <div class="h-36 flex items-center">
           <AnnualComparer
@@ -90,7 +108,9 @@ import type { Overview, Salary } from "~/generated/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
+import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
+import Button from "~/components/common/Button.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
 import { withErrorHandling } from "~/utils/api-call";

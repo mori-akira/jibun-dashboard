@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'fixed top-16 right-4 z-[1001] w-40 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
+      'fixed top-16 right-4 z-[1001] w-40 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-200',
       { '-translate-y-[8rem]': !commonStore.isHeaderMenuOpen },
     ]"
   >
@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { useCommonStore } from "~/stores/common";
-
 const commonStore = useCommonStore();
 </script>
 

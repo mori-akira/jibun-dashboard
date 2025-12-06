@@ -3,7 +3,7 @@
     <Header />
     <HeaderMenu />
     <Navigation />
-    <main class="flex-1 h-[calc(100vh-4rem)] mt-12 p-4 pr-8 overflow-y-scroll">
+    <main class="flex-1 mt-12 p-4 pr-8 overflow-y-scroll">
       <NuxtPage />
     </main>
 
@@ -50,7 +50,6 @@ onMounted(async () => {
     commonStore
   );
   commonStore.setNavOpen(false);
-  commonStore.setHeaderMenuOpen(false);
 });
 
 watchEffect(() => {

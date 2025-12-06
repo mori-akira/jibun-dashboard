@@ -5,8 +5,9 @@
       :options="['acquired', 'planning', 'dream']"
       :values="['acquired', 'planning', 'dream']"
       :selected-options="selectedStatus"
-      wrapper-class="m-4 flex justify-start items-center"
-      label-class="w-25 font-cursive"
+      :wrapper-class="`m-4 flex justify-start items-center ${statusWrapperClass}`"
+      :label-class="`'w-25 font-cursive' ${statusLabelClass}`"
+      :option-class="statusOptionsClass"
       @click:value="onClickStatusOption"
     ></MultiOptionSelector>
     <MultiOptionSelector
@@ -19,7 +20,11 @@
       @click:value="onClickRankOption"
     ></MultiOptionSelector>
 
-    <Accordion title="More Detail" title-class="font-cursive">
+    <Accordion
+      v-if="!hideAccordion"
+      title="More Detail"
+      title-class="font-cursive"
+    >
       <TextBox
         label="Qualification Name"
         :value="qualificationName"
@@ -73,14 +78,18 @@ import TextBox from "~/components/common/TextBox.vue";
 import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
 
 const props = defineProps<{
+  hideAccordion?: boolean;
   selectedStatus: string[];
   selectedRank: string[];
-  qualificationName: string;
-  organization: string;
-  acquiredDateFrom: string;
-  acquiredDateTo: string;
-  expirationDateFrom: string;
-  expirationDateTo: string;
+  qualificationName?: string;
+  organization?: string;
+  acquiredDateFrom?: string;
+  acquiredDateTo?: string;
+  expirationDateFrom?: string;
+  expirationDateTo?: string;
+  statusWrapperClass?: string;
+  statusLabelClass?: string;
+  statusOptionsClass?: string;
 }>();
 const emits = defineEmits<{
   (
