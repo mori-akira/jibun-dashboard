@@ -34,7 +34,7 @@
             salaryStore.salaries ?? [],
             targetFinancialYear,
             financialYearStartMonth
-          ).toReversed()"
+          )"
           :key="salary.salaryId"
           :salary="salary"
           wrapper-class="!min-w-72 h-[calc(100vh-16rem)] overflow-y-auto"
