@@ -3,7 +3,7 @@
     <Breadcrumb :items="[{ text: 'Home', iconName: 'tabler:home' }]" />
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full">
+      <Panel panel-class="w-full ml-2">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Salary</span>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full items-center">
+      <Panel panel-class="w-full items-center ml-2">
         <h3>
           <Icon name="tabler:certificate" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Qualification</span>
