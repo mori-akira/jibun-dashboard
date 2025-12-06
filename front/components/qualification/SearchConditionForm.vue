@@ -6,7 +6,7 @@
       :values="['acquired', 'planning', 'dream']"
       :selected-options="selectedStatus"
       :wrapper-class="`m-4 flex justify-start items-center ${statusWrapperClass}`"
-      :label-class="`'w-25 font-cursive' ${statusLabelClass}`"
+      :label-class="`w-25 font-cursive ${statusLabelClass}`"
       :option-class="statusOptionsClass"
       @click:value="onClickStatusOption"
     ></MultiOptionSelector>
