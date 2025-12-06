@@ -1,7 +1,8 @@
 <template>
   <div>
     <Breadcrumb :items="[{ text: 'Home', iconName: 'tabler:home' }]" />
-    <div class="flex justify-between mt-4">
+
+    <div class="flex-1 w-full mt-4">
       <Panel panel-class="w-full">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
@@ -16,7 +17,8 @@
         </div>
       </Panel>
     </div>
-    <div class="flex justify-between">
+
+    <div class="flex-1 w-full mt-4">
       <Panel panel-class="w-full items-center">
         <h3>
           <Icon name="tabler:certificate" class="adjust-icon-4" />

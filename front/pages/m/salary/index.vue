@@ -18,7 +18,8 @@
         <span class="font-cursive ml-2">Payslip</span>
       </Button>
     </div>
-    <div class="flex-1 w-full">
+
+    <div class="flex-1 w-full mt-4">
       <Panel panel-class="w-full ml-2">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
@@ -34,6 +35,7 @@
         </div>
       </Panel>
     </div>
+
     <div class="flex-1 w-full mt-4">
       <Panel panel-class="w-full ml-2">
         <h3>
@@ -57,6 +59,7 @@
         </div>
       </Panel>
     </div>
+
     <div class="flex-1 w-full mt-4">
       <Panel panel-class="w-full ml-2">
         <h3>
@@ -77,6 +80,7 @@
         </div>
       </Panel>
     </div>
+
     <div class="flex-1 w-full mt-4">
       <Panel panel-class="w-full ml-2">
         <h3>
