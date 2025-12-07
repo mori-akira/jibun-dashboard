@@ -49,7 +49,7 @@
           row-clickable
           :init-sort-state="initSortState"
           wrapper-class="flex justify-center mt-4 mx-1"
-          header-class="font-cursive h-8 bg-gray-800 text-white"
+          header-class="font-cursive h-8 bg-gray-800 text-white text-[0.9rem]"
           @click:row="onClickRow"
         ></DataTable>
       </Panel>
@@ -145,14 +145,14 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     field: "status",
     header: "Status",
     sortable: true,
-    headerClass: "w-26",
+    headerClass: "w-24",
     bodyClass: "text-center h-12 text-[0.9rem]",
   },
   {
     field: "rank",
     header: "Rank",
     sortable: true,
-    headerClass: "w-26",
+    headerClass: "w-20",
     bodyClass: "text-center h-12 font-bold",
     bodyStyleFunction: (value) => ({
       color: getRankColorHexCode(
@@ -165,14 +165,14 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     field: "acquiredDate",
     header: "Acquired",
     sortable: true,
-    headerClass: "w-30",
+    headerClass: "w-26",
     bodyClass: "text-center h-12 text-[0.9rem]",
   },
   {
     field: "expirationDate",
     header: "Expiration",
     sortable: true,
-    headerClass: "w-30",
+    headerClass: "w-26",
     bodyClass: "text-center h-12 text-[0.9rem]",
   },
 ];
