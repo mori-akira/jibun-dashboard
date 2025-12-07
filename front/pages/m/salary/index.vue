@@ -23,7 +23,7 @@
       <Panel panel-class="w-full ml-2">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
-          <span class="font-cursive font-bold ml-2">Annual Income</span>
+          <span class="font-cursive font-bold ml-2">Annual Gross Income</span>
         </h3>
         <div class="h-36 flex items-center">
           <AnnualComparer
@@ -50,7 +50,52 @@
               })
             "
             :values="
-              trimArray(annualIncomes, transitionItemCount, { from: 'end' })
+              trimArray(annualGrossIncomes, transitionItemCount, {
+                from: 'end',
+              })
+            "
+            :y-axis-min="0"
+            :show-y-grid="true"
+            wrapper-class="w-full h-36 mt-4"
+          />
+        </div>
+      </Panel>
+    </div>
+
+    <div class="flex-1 w-full mt-4">
+      <Panel panel-class="w-full ml-2">
+        <h3>
+          <Icon name="tabler:report-money" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Annual Net Income</span>
+        </h3>
+        <div class="h-36 flex items-center">
+          <AnnualComparer
+            :selector="(salary: Salary) => salary.overview.netIncome + salary.overview.bonusTakeHome"
+            :value-format="(value: number) => `￥${value.toLocaleString()}`"
+            :base-financial-year="baseFinancialYear"
+            wrapper-class="w-full"
+          />
+        </div>
+      </Panel>
+    </div>
+
+    <div class="flex-1 w-full mt-4">
+      <Panel panel-class="w-full ml-2">
+        <h3>
+          <Icon name="tabler:graph" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Transition</span>
+        </h3>
+        <div class="h-36 flex items-center">
+          <TransitionGraph
+            :labels="
+              trimArray(targetFinancialYears, transitionItemCount, {
+                from: 'end',
+              })
+            "
+            :values="
+              trimArray(annualNetIncomes, transitionItemCount, {
+                from: 'end',
+              })
             "
             :y-axis-min="0"
             :show-y-grid="true"
@@ -164,10 +209,15 @@ const aggregateOverviewAnnually = (key: keyof Overview) =>
       financialYearStartMonth.value
     );
   });
-const annualIncomes = computed(() => {
+const annualGrossIncomes = computed(() => {
   const grossIncomes = aggregateOverviewAnnually("grossIncome");
   const bonuses = aggregateOverviewAnnually("bonus");
   return grossIncomes.map((val, index) => val + (bonuses?.[index] ?? 0));
+});
+const annualNetIncomes = computed(() => {
+  const netIncomes = aggregateOverviewAnnually("netIncome");
+  const bonusTakeHomes = aggregateOverviewAnnually("bonusTakeHome");
+  return netIncomes.map((val, index) => val + (bonusTakeHomes?.[index] ?? 0));
 });
 const annualOvertime = computed(() => aggregateOverviewAnnually("overtime"));
 </script>
