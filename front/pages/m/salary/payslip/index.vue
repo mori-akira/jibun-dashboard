@@ -83,5 +83,10 @@ const fetchSalary = async () => {
 const financialYears = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
-const targetFinancialYear = computed(() => financialYears.value.at(-1) ?? "");
+const targetFinancialYear = ref("");
+watch(
+  () => financialYears.value,
+  () => (targetFinancialYear.value = financialYears.value.at(-1) ?? ""),
+  { immediate: true }
+);
 </script>
