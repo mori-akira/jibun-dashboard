@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { openSubMenu } from "../helpers/ui";
+import { openSubMenu, openMobileMenu } from "../helpers/ui";
 
 test("test navigation", async ({ page }) => {
   const userName = process.env.E2E_USERNAME;
@@ -100,6 +100,40 @@ test("test navigation", async ({ page }) => {
   await Promise.all([
     page.waitForURL(""),
     page.getByTestId("app-header-title").click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Home", { exact: true })
+  ).toBeVisible();
+
+  // mobile top
+  await page.goto("/m", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // salary
+  await openMobileMenu(page);
+  await Promise.all([
+    page.waitForURL("**/salary"),
+    page.getByRole("link", { name: "Salary" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Salary", { exact: true })
+  ).toBeVisible();
+
+  // qualification
+  await openMobileMenu(page);
+  await Promise.all([
+    page.waitForURL("**/qualification"),
+    page.getByRole("link", { name: "Qualification" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Qualification", { exact: true })
+  ).toBeVisible();
+
+  // home
+  await openMobileMenu(page);
+  await Promise.all([
+    page.waitForURL(""),
+    page.getByRole("link", { name: "Home" }).click(),
   ]);
   await expect(
     page.getByRole("main").getByText("Home", { exact: true })

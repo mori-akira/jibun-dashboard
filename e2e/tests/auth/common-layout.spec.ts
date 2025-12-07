@@ -23,4 +23,13 @@ test("test common layout", async ({ page }) => {
   // check email
   await openSubMenu(page, userName);
   await expect(page.getByText(userName).nth(1)).toBeVisible();
+
+  // access to mobile top
+  await page.goto("/m", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // check title
+  await expect(page.getByTestId("app-header-title")).toHaveText(
+    "Jibun Dashboard"
+  );
 });

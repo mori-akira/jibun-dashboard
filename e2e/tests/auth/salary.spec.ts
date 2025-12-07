@@ -393,6 +393,84 @@ test("test salary function", async ({ page }) => {
   await expect(
     page.locator('span:has-text("Last Year") + span').nth(0)
   ).toHaveText("￥736,000");
+
+  // === mobile home ===
+  await page.goto("/m", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // check year summary
+  await expect(
+    page.locator('span:has-text("This Year") + span').nth(0)
+  ).toHaveText("￥614,000");
+  await expect(
+    page.locator('span:has-text("Last Year") + span').nth(0)
+  ).toHaveText("￥736,000");
+
+  // === mobile salary dashboard ===
+  await page.goto("/m/salary", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // check year summary
+  await expect(
+    page.locator('span:has-text("This Year") + span').nth(0)
+  ).toHaveText("￥614,000");
+  await expect(
+    page.locator('span:has-text("Last Year") + span').nth(0)
+  ).toHaveText("￥736,000");
+  await expect(
+    page.locator('span:has-text("This Year") + span').nth(1)
+  ).toHaveText("￥435,941");
+  await expect(
+    page.locator('span:has-text("Last Year") + span').nth(1)
+  ).toHaveText("￥522,561");
+  await expect(
+    page.locator('span:has-text("This Year") + span').nth(2)
+  ).toHaveText("72 H");
+  await expect(
+    page.locator('span:has-text("Last Year") + span').nth(2)
+  ).toHaveText("133 H");
+
+  // === mobile salary payslip ===
+  await page.goto("/m/salary/payslip", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // Apr of this year
+  await expect(page.locator("h4").nth(0)).toHaveText("Apr");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
+  ).toHaveText("379,000");
+
+  // Apr of this year
+  await expect(page.locator("h4").nth(1)).toHaveText("May");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
+  ).toHaveText("235,000");
+
+  // Jan of 2024
+  await page.getByLabel('Financial Year*').selectOption('2024');
+  await expect(page.locator("h4").nth(0)).toHaveText("Jan");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
+  ).toHaveText("361,000");
+
+  // Feb of 2024
+  await expect(page.locator("h4").nth(1)).toHaveText("Feb");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
+  ).toHaveText("375,000");
+
+  // Jan of 2023
+  await page.getByLabel('Financial Year*').selectOption('2023');
+  await expect(page.locator("h4").nth(0)).toHaveText("Jan");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
+  ).toHaveText("311,000");
+
+  // Feb of 2023
+  await expect(page.locator("h4").nth(1)).toHaveText("Feb");
+  await expect(
+    page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
+  ).toHaveText("235,000");
 });
 
 type Overview = {
@@ -517,20 +595,4 @@ const addSalarySimply = async (
   // execute
   await page.getByRole("button", { name: "Execute", exact: true }).click();
   await page.getByRole("button", { name: "OK" }).click();
-};
-
-const deleteSalary = async (
-  page: Page,
-  month: string,
-  previousYear: boolean = false
-) => {
-  await page.locator('[data-test-id="dp-input"]').click();
-  if (previousYear) {
-    await page.getByRole("button", { name: "Previous year" }).click();
-  }
-  await page.getByText(month).click();
-  await page.locator('[data-test-id="select-button"]').click();
-  await page.getByRole("button", { name: "Delete", exact: true }).click();
-  await page.getByRole("button", { name: "Yes", exact: true }).click();
-  await page.getByRole("button", { name: "OK", exact: true }).click();
 };

@@ -69,6 +69,26 @@ test("test qualification function", async ({ page }) => {
   // check summary
   await checkSummaryDisplay(page, 1, 1, 2, 1);
 
+  // === mobile home ===
+  await page.goto("/m", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // check summary
+  await checkSummaryDisplay(page, 1, 1, 2, 1);
+
+  // === mobile qualification list ===
+  await page.goto("/m/qualification", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // check summary
+  await checkSummaryDisplay(page, 1, 1, 2, 1);
+
+  // check listed qualifications
+  for (const index in testData) {
+    const qualification: Qualification = testData[index] as Qualification;
+    await checkQualificationDisplay(page, qualification, Number(index) + 1, 0);
+  }
+
   // === delete all qualifications ===
   // access to edit
   await page.goto("/qualification/edit", { waitUntil: "domcontentloaded" });

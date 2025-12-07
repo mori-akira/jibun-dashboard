@@ -6,11 +6,11 @@
   "license": "MIT",
   "scripts": {
     "test": "playwright test --project=no-auth && playwright test --project=auth && playwright test --project=teardown",
-    "test-no-auth": "playwright test --project=no-auth",
-    "test-setup": "playwright test --project=setup",
-    "test-seed": "playwright test --project=seed",
-    "test-auth": "playwright test --project=auth",
-    "test-teardown": "playwright test --project=teardown",
+    "test:no-auth": "playwright test --project=no-auth",
+    "test:setup": "playwright test --project=setup",
+    "test:seed": "playwright test --project=seed",
+    "test:auth": "playwright test --project=auth",
+    "test:teardown": "playwright test --project=teardown",
     "report": "playwright show-report",
     "codegen": "playwright codegen",
     "generate:api": "node ./scripts/generate-api-client.mjs"

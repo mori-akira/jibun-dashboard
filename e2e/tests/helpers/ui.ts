@@ -6,3 +6,11 @@ export async function openSubMenu(page: any, userName: string) {
     .locator("div")
     .click();
 }
+
+export async function openMobileMenu(page: any) {
+  await page
+    .getByRole('banner')
+    .locator('div')
+    .first()
+    .click();
+}
