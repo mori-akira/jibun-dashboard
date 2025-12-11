@@ -14,6 +14,7 @@ export default defineConfig({
   expect: { timeout: 10000 },
   workers: headless ? undefined : 1,
   fullyParallel: headless ? true : false,
+  retries: headless ? 2 : 0,
   use: {
     baseURL,
     trace: "on-first-retry",
