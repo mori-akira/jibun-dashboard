@@ -48,16 +48,14 @@ test("seed data", async ({ baseURL }) => {
   // salary
   const resSalary = await salaryApi.getSalaries();
   const salaries = resSalary.data;
-  await Promise.all(
-    salaries.map((salary) => salaryApi.deleteSalaries(salary.salaryId!))
-  );
+  for (let salary of salaries) {
+    await salaryApi.deleteSalaries(salary.salaryId!);
+  }
 
   // qualification
   const resQualification = await qualificationApi.getQualifications();
   const qualifications = resQualification.data;
-  await Promise.all(
-    qualifications.map((qualification) =>
-      qualificationApi.deleteQualifications(qualification.qualificationId!)
-    )
-  );
+  for (let qualification of qualifications) {
+    await qualificationApi.deleteQualifications(qualification.qualificationId!);
+  }
 });
