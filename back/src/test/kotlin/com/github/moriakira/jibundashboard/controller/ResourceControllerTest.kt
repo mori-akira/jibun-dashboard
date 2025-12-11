@@ -23,7 +23,7 @@ class ResourceControllerTest :
             )
             every { resourceService.getI18nMessages(locale) } returns messages
 
-            val res = controller.getI18n(locale)
+            val res = controller.getResourcesI18n(locale)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.localeCode shouldBe locale
@@ -35,7 +35,7 @@ class ResourceControllerTest :
             val locale = "en"
             every { resourceService.getI18nMessages(locale) } returns emptyMap()
 
-            val res = controller.getI18n(locale)
+            val res = controller.getResourcesI18n(locale)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.localeCode shouldBe locale

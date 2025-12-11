@@ -38,7 +38,7 @@ class UserControllerTest :
                 emailAddress = "alice@example.com",
             )
 
-            val res = controller.getUser()
+            val res = controller.getUsers()
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.userId shouldBe "u1"
@@ -63,7 +63,7 @@ class UserControllerTest :
                 emailAddress = "u1@example.com",
             )
 
-            val res = controller.getUser()
+            val res = controller.getUsers()
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.userId shouldBe "u1"
@@ -91,7 +91,7 @@ class UserControllerTest :
                 )
             } returns UserModel("u1", "Bob", "bob@example.com")
 
-            val res = controller.putUser(UserBase("Bob", "bob@example.com"))
+            val res = controller.putUsers(UserBase("Bob", "bob@example.com"))
 
             res.statusCode shouldBe HttpStatus.OK
             verify(exactly = 1) {
@@ -113,7 +113,7 @@ class UserControllerTest :
 
         "putUser: null は例外" {
             shouldThrow<IllegalArgumentException> {
-                controller.putUser(null)
+                controller.putUsers(null)
             }
         }
 

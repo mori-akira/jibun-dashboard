@@ -45,7 +45,7 @@ class SettingControllerTest :
             )
             every { settingService.get("u1") } returns existing
 
-            val res = controller.getSetting()
+            val res = controller.getSettings()
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.userId shouldBe "u1"
@@ -77,7 +77,7 @@ class SettingControllerTest :
             )
             every { settingService.putDefault("u1") } returns created
 
-            val res = controller.getSetting()
+            val res = controller.getSettings()
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.userId shouldBe "u1"
@@ -121,7 +121,7 @@ class SettingControllerTest :
                 qualification = QualificationSettingModel("#FF0000", "#00FF00", "#0000FF", "#888888"),
             )
 
-            val res = controller.putSetting(req)
+            val res = controller.putSettings(req)
 
             res.statusCode shouldBe HttpStatus.OK
             verify(exactly = 1) {
@@ -137,7 +137,7 @@ class SettingControllerTest :
 
         "putSetting: null は例外" {
             shouldThrow<IllegalArgumentException> {
-                controller.putSetting(null)
+                controller.putSettings(null)
             }
         }
     })

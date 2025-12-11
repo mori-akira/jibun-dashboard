@@ -4,7 +4,7 @@ import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.model.Overview
 import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
-import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTaskStartRequest
+import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTasksStartRequest
 import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.service.OverviewModel
 import com.github.moriakira.jibundashboard.service.PayslipCategoryModel
@@ -223,7 +223,7 @@ class SalaryControllerTest :
             val captured = slot<SalaryModel>()
             every { salaryService.put(capture(captured)) } returns returnedId
 
-            val res = controller.postSalary(req)
+            val res = controller.postSalaries(req)
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.salaryId.toString() shouldBe returnedId
@@ -240,7 +240,7 @@ class SalaryControllerTest :
 
         // 追加: postSalary null ボディ
         "postSalary: null ボディなら IllegalArgumentException" {
-            shouldThrow<IllegalArgumentException> { controller.postSalary(null) }
+            shouldThrow<IllegalArgumentException> { controller.postSalaries(null) }
         }
 
         "putSalary: 既存更新なら 200、所有者チェックOK" {
@@ -255,7 +255,7 @@ class SalaryControllerTest :
                 payslipData = emptyList(),
             )
 
-            val res = controller.putSalary(UUID.fromString(id), req)
+            val res = controller.putSalaries(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.salaryId.toString() shouldBe id
@@ -273,7 +273,7 @@ class SalaryControllerTest :
                 structure = com.github.moriakira.jibundashboard.generated.model.Structure(0, 0, 0, 0, 0),
                 payslipData = emptyList(),
             )
-            val res = controller.putSalary(UUID.fromString(id), req)
+            val res = controller.putSalaries(UUID.fromString(id), req)
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { salaryService.put(any()) }
         }
@@ -288,7 +288,7 @@ class SalaryControllerTest :
                 structure = com.github.moriakira.jibundashboard.generated.model.Structure(0, 0, 0, 0, 0),
                 payslipData = emptyList(),
             )
-            val res = controller.putSalary(UUID.fromString(id), req)
+            val res = controller.putSalaries(UUID.fromString(id), req)
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { salaryService.put(any()) }
         }
@@ -297,7 +297,7 @@ class SalaryControllerTest :
             val id = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
             every { salaryService.getBySalaryId(id) } returns sampleModel(id = id, userId = "u1")
 
-            val res = controller.getSalaryById(UUID.fromString(id))
+            val res = controller.getSalariesById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.salaryId.toString() shouldBe id
@@ -307,7 +307,7 @@ class SalaryControllerTest :
             val id = "ffffffff-ffff-ffff-ffff-ffffffffffff"
             every { salaryService.getBySalaryId(id) } returns null
 
-            val res = controller.getSalaryById(UUID.fromString(id))
+            val res = controller.getSalariesById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
@@ -316,7 +316,7 @@ class SalaryControllerTest :
             val id = "99999999-9999-9999-9999-999999999999"
             every { salaryService.getBySalaryId(id) } returns sampleModel(id = id, userId = "other")
 
-            val res = controller.getSalaryById(UUID.fromString(id))
+            val res = controller.getSalariesById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
@@ -325,7 +325,7 @@ class SalaryControllerTest :
             val id = "12121212-1212-1212-1212-121212121212"
             every { salaryService.getBySalaryId(id) } returns null
 
-            val res = controller.deleteSalary(UUID.fromString(id))
+            val res = controller.deleteSalaries(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { salaryService.delete(any(), any()) }
@@ -335,7 +335,7 @@ class SalaryControllerTest :
             val id = "13131313-1313-1313-1313-131313131313"
             every { salaryService.getBySalaryId(id) } returns sampleModel(id = id, userId = "other")
 
-            val res = controller.deleteSalary(UUID.fromString(id))
+            val res = controller.deleteSalaries(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { salaryService.delete(any(), any()) }
@@ -345,7 +345,7 @@ class SalaryControllerTest :
             val id = "14141414-1414-1414-1414-141414141414"
             every { salaryService.getBySalaryId(id) } returns sampleModel(id = id, userId = "u1")
 
-            val res = controller.deleteSalary(UUID.fromString(id))
+            val res = controller.deleteSalaries(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NO_CONTENT
             verify(exactly = 1) { salaryService.delete("u1", "2025-08-15") }
@@ -389,7 +389,7 @@ class SalaryControllerTest :
             val id = "cccccccc-cccc-cccc-cccc-cccccccccccc"
             every { salaryOcrTaskService.getByTaskId(id) } returns null
 
-            val res = controller.getSalaryOcrTaskById(UUID.fromString(id))
+            val res = controller.getSalaryOcrTasksById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
@@ -398,7 +398,7 @@ class SalaryControllerTest :
             val id = "dddddddd-dddd-dddd-dddd-dddddddddddd"
             every { salaryOcrTaskService.getByTaskId(id) } returns sampleOcrModel(id = id, userId = "other")
 
-            val res = controller.getSalaryOcrTaskById(UUID.fromString(id))
+            val res = controller.getSalaryOcrTasksById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
@@ -414,7 +414,7 @@ class SalaryControllerTest :
                 updatedAt = "2025-11-03T00:00:01Z",
             )
 
-            val res = controller.getSalaryOcrTaskById(UUID.fromString(id))
+            val res = controller.getSalaryOcrTasksById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.ocrTaskId.toString() shouldBe id
@@ -423,7 +423,7 @@ class SalaryControllerTest :
         }
 
         "postSalaryOcrTaskStart: null ボディなら IllegalArgumentException" {
-            shouldThrow<IllegalArgumentException> { controller.postSalaryOcrTaskStart(null) }
+            shouldThrow<IllegalArgumentException> { controller.postSalaryOcrTasksStart(null) }
         }
 
         "postSalaryOcrTaskStart: 進行中/待機中タスクがあれば 409" {
@@ -431,12 +431,12 @@ class SalaryControllerTest :
                 sampleOcrModel(status = SalaryOcrTaskStatus.PENDING, targetDate = "2025-11-01"),
             )
 
-            val req = PostSalaryOcrTaskStartRequest(
+            val req = PostSalaryOcrTasksStartRequest(
                 targetDate = LocalDate.parse("2025-11-01"),
                 fileId = UUID.fromString("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
             )
 
-            val res = controller.postSalaryOcrTaskStart(req)
+            val res = controller.postSalaryOcrTasksStart(req)
 
             res.statusCode shouldBe HttpStatus.CONFLICT
             verify(exactly = 0) { salaryOcrTaskService.startTask(any(), any(), any()) }
@@ -454,12 +454,12 @@ class SalaryControllerTest :
                 )
             } returns "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
 
-            val req = PostSalaryOcrTaskStartRequest(
+            val req = PostSalaryOcrTasksStartRequest(
                 targetDate = LocalDate.parse("2025-11-01"),
                 fileId = UUID.fromString("11111111-1111-1111-1111-111111111111"),
             )
 
-            val res = controller.postSalaryOcrTaskStart(req)
+            val res = controller.postSalaryOcrTasksStart(req)
 
             res.statusCode shouldBe HttpStatus.ACCEPTED
             res.body!!.ocrTaskId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"

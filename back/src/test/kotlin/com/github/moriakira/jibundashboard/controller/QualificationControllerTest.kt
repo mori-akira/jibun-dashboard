@@ -117,7 +117,7 @@ class QualificationControllerTest :
                 badgeUrl = null,
             )
 
-            val res = controller.postQualification(req)
+            val res = controller.postQualifications(req)
 
             res.statusCode shouldBe HttpStatus.OK
             // Controller が生成した UUID が put に渡された model の qualificationId と一致すること
@@ -146,7 +146,7 @@ class QualificationControllerTest :
                 badgeUrl = null,
             )
 
-            val res = controller.putQualification(UUID.fromString(id), req)
+            val res = controller.putQualifications(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.qualificationId.toString() shouldBe id
@@ -173,7 +173,7 @@ class QualificationControllerTest :
                 badgeUrl = null,
             )
 
-            val res = controller.putQualification(UUID.fromString(id), req)
+            val res = controller.putQualifications(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { qualificationService.put(any()) }
@@ -198,7 +198,7 @@ class QualificationControllerTest :
                 badgeUrl = null,
             )
 
-            val res = controller.putQualification(UUID.fromString(id), req)
+            val res = controller.putQualifications(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { qualificationService.put(any()) }
@@ -206,13 +206,13 @@ class QualificationControllerTest :
 
         // 追加: POST / PUT の null body バリデーション
         "postQualification: body が null なら IllegalArgumentException" {
-            shouldThrow<IllegalArgumentException> { controller.postQualification(null) }
+            shouldThrow<IllegalArgumentException> { controller.postQualifications(null) }
             verify(exactly = 0) { qualificationService.put(any()) }
         }
 
         "putQualification: body が null なら IllegalArgumentException (存在チェック前)" {
             val id = UUID.fromString("aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb")
-            shouldThrow<IllegalArgumentException> { controller.putQualification(id, null) }
+            shouldThrow<IllegalArgumentException> { controller.putQualifications(id, null) }
             verify(exactly = 0) { qualificationService.getByQualificationId(any()) }
             verify(exactly = 0) { qualificationService.put(any()) }
         }
@@ -221,7 +221,7 @@ class QualificationControllerTest :
             val id = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "u1")
 
-            val res = controller.getQualificationById(UUID.fromString(id))
+            val res = controller.getQualificationsById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.qualificationId.toString() shouldBe id
@@ -231,7 +231,7 @@ class QualificationControllerTest :
             val id = "ffffffff-ffff-ffff-ffff-ffffffffffff"
             every { qualificationService.getByQualificationId(id) } returns null
 
-            val res = controller.getQualificationById(UUID.fromString(id))
+            val res = controller.getQualificationsById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
@@ -240,7 +240,7 @@ class QualificationControllerTest :
             val id = "99999999-9999-9999-9999-999999999999"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "other")
 
-            val res = controller.getQualificationById(UUID.fromString(id))
+            val res = controller.getQualificationsById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
@@ -250,7 +250,7 @@ class QualificationControllerTest :
             val id = "12121212-1212-1212-1212-121212121212"
             every { qualificationService.getByQualificationId(id) } returns null
 
-            val res = controller.deleteQualification(UUID.fromString(id))
+            val res = controller.deleteQualifications(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { qualificationService.delete(any(), any()) }
@@ -260,7 +260,7 @@ class QualificationControllerTest :
             val id = "13131313-1313-1313-1313-131313131313"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "other")
 
-            val res = controller.deleteQualification(UUID.fromString(id))
+            val res = controller.deleteQualifications(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { qualificationService.delete(any(), any()) }
@@ -270,7 +270,7 @@ class QualificationControllerTest :
             val id = "14141414-1414-1414-1414-141414141414"
             every { qualificationService.getByQualificationId(id) } returns model(id = id, userId = "u1")
 
-            val res = controller.deleteQualification(UUID.fromString(id))
+            val res = controller.deleteQualifications(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NO_CONTENT
             verify(exactly = 1) { qualificationService.delete("u1", id) }
