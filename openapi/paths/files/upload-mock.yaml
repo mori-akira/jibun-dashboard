@@ -1,5 +1,5 @@
 put:
-  operationId: uploadFileMock
+  operationId: uploadFilesMock
   summary: ローカル環境用Mock API
   tags:
     - File

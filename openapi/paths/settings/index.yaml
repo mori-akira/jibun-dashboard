@@ -1,0 +1,37 @@
+get:
+  operationId: getSettings
+  summary: 設定情報取得
+  description: アクセストークンを用いて、現在ログイン中のユーザの設定を取得する
+  tags:
+    - Setting
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/Setting"
+          example:
+            $ref: "../../examples/setting/get.yaml"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+put:
+  operationId: putSettings
+  summary: 設定情報登録
+  description: アクセストークンを用いて、現在ログイン中のユーザの設定を登録(登録済みの場合は情報を置き換え)する
+  tags:
+    - Setting
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/Setting"
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

@@ -13,10 +13,10 @@
 
 <script setup lang="ts">
 import CompareBarGraph from "~/components/common/graph/CompareBar.vue";
-import type { DataSet as CompareBarGraphDataSet } from "~/components/common/graph/CompareBar.vue";
+import type { DataSet } from "~/components/common/graph/CompareBar.vue";
 
 defineProps<{
-  datasets: CompareBarGraphDataSet[];
+  datasets: DataSet[];
   yAxisMax?: number;
 }>();
 

@@ -1,20 +1,25 @@
 openapi:
   - openapi/openapi.yaml
-  - openapi/paths/resource/i18n/localeCode.yaml
-  - openapi/paths/user/index.yaml
-  - openapi/paths/user/password.yaml
-  - openapi/paths/setting/index.yaml
-  - openapi/paths/salary/index.yaml
-  - openapi/paths/salary/salaryId.yaml
-  - openapi/paths/salary/ocr.yaml
-  - openapi/paths/qualification/index.yaml
-  - openapi/paths/qualification/qualificationId.yaml
-  - openapi/paths/file/upload-url.yaml
-  - openapi/paths/file/upload-mock.yaml
+  - openapi/paths/resources/i18n/localeCode.yaml
+  - openapi/paths/users/index.yaml
+  - openapi/paths/users/password.yaml
+  - openapi/paths/settings/index.yaml
+  - openapi/paths/salaries/index.yaml
+  - openapi/paths/salaries/salaryId.yaml
+  - openapi/paths/salaries/ocr-tasks/index.yaml
+  - openapi/paths/salaries/ocr-tasks/ocrTaskId.yaml
+  - openapi/paths/salaries/ocr-tasks/start.yaml
+  - openapi/paths/qualifications/index.yaml
+  - openapi/paths/qualifications/qualificationId.yaml
+  - openapi/paths/vocabulary/index.yaml
+  - openapi/paths/files/upload-url.yaml
+  - openapi/paths/files/upload-mock.yaml
   - openapi/schemas/error/errorInfo.yaml
   - openapi/schemas/error/errorDetail.yaml
   - openapi/schemas/resource/i18n.yaml
   - openapi/schemas/user/user.yaml
+  - openapi/schemas/user/userId.yaml
+  - openapi/schemas/user/userBase.yaml
   - openapi/schemas/user/password.yaml
   - openapi/schemas/setting/setting.yaml
   - openapi/schemas/salary/salary.yaml
@@ -23,24 +28,31 @@ openapi:
   - openapi/schemas/salary/overview.yaml
   - openapi/schemas/salary/structure.yaml
   - openapi/schemas/salary/payslipData.yaml
+  - openapi/schemas/salary/ocrTask/salaryOcrTask.yaml
+  - openapi/schemas/salary/ocrTask/salaryOcrTaskId.yaml
+  - openapi/schemas/salary/ocrTask/salaryOcrTaskBase.yaml
   - openapi/schemas/qualification/qualification.yaml
   - openapi/schemas/qualification/qualificationId.yaml
   - openapi/schemas/qualification/qualificationBase.yaml
+  - openapi/schemas/vocabulary/vocabulary.yaml
+  - openapi/schemas/vocabulary/vocabularyId.yaml
+  - openapi/schemas/vocabulary/vocabularyBase.yaml
+  - openapi/schemas/vocabulary/tag.yaml
   - openapi/schemas/file/uploadUrl.yaml
 
 openapi.file:
   - openapi/openapi.yaml
-  - openapi/paths/file/upload-url.yaml
-  - openapi/paths/file/upload-mock.yaml
+  - openapi/paths/files/upload-url.yaml
+  - openapi/paths/files/upload-mock.yaml
   - openapi/schemas/file/uploadUrl.yaml
 
 openapi.salary:
   - openapi/openapi.yaml
-  - openapi/paths/salary/index.yaml
-  - openapi/paths/salary/salaryId.yaml
-  - openapi/paths/salary/ocr-task/index.yaml
-  - openapi/paths/salary/ocr-task/ocrTaskId.yaml
-  - openapi/paths/salary/ocr-task/start.yaml
+  - openapi/paths/salaries/index.yaml
+  - openapi/paths/salaries/salaryId.yaml
+  - openapi/paths/salaries/ocr-tasks/index.yaml
+  - openapi/paths/salaries/ocr-tasks/ocrTaskId.yaml
+  - openapi/paths/salaries/ocr-tasks/start.yaml
   - openapi/schemas/salary/salary.yaml
   - openapi/schemas/salary/salaryId.yaml
   - openapi/schemas/salary/salaryBase.yaml

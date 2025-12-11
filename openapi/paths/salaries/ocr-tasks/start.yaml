@@ -1,5 +1,5 @@
 post:
-  operationId: postSalaryOcrTaskStart
+  operationId: postSalaryOcrTasksStart
   summary:  給与OCRタスク開始
   description:  給与OCRタスクを開始する
   tags:

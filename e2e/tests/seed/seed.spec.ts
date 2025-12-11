@@ -36,10 +36,10 @@ test("seed data", async ({ baseURL }) => {
   const qualificationApi = new QualificationApi(config);
 
   // user
-  const resUser = await userApi.getUser();
+  const resUser = await userApi.getUsers();
   const user = resUser.data;
   if (user.userName !== userName || user.emailAddress !== userName) {
-    await userApi.putUser({
+    await userApi.putUsers({
       userName,
       emailAddress: userName,
     });
@@ -49,7 +49,7 @@ test("seed data", async ({ baseURL }) => {
   const resSalary = await salaryApi.getSalaries();
   const salaries = resSalary.data;
   await Promise.all(
-    salaries.map((salary) => salaryApi.deleteSalary(salary.salaryId!))
+    salaries.map((salary) => salaryApi.deleteSalaries(salary.salaryId!))
   );
 
   // qualification
@@ -57,7 +57,7 @@ test("seed data", async ({ baseURL }) => {
   const qualifications = resQualification.data;
   await Promise.all(
     qualifications.map((qualification) =>
-      qualificationApi.deleteQualification(qualification.qualificationId!)
+      qualificationApi.deleteQualifications(qualification.qualificationId!)
     )
   );
 });

@@ -1,0 +1,81 @@
+get:
+  operationId: getSalariesById
+  summary: 給与情報取得(ID)
+  description: IDを指定して給与情報を取得する
+  tags:
+    - Salary
+
+  parameters:
+    - in: path
+      name: salaryId
+      description: 給与ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/Salary"
+          example:
+            $ref: "../../examples/salary/salaryId/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+put:
+  operationId: putSalaries
+  summary: 給与情報更新(ID)
+  description: 給与情報を更新する
+  tags:
+    - Salary
+
+  parameters:
+    - in: path
+      name: salaryId
+      description: 給与ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/SalaryBase"
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/SalaryId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+delete:
+  operationId: deleteSalaries
+  summary: 給与情報削除(ID)
+  description: IDを指定して給与情報を削除する
+  tags:
+    - Salary
+
+  parameters:
+    - in: path
+      name: salaryId
+      description: 給与ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

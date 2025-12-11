@@ -340,7 +340,7 @@ const onExecuteOcr = async (file: File) => {
         "Content-Type": "application/pdf",
       },
     });
-    await salaryApi.postSalaryOcrTaskStart({
+    await salaryApi.postSalaryOcrTasksStart({
       targetDate: targetDate.value,
       fileId,
     });

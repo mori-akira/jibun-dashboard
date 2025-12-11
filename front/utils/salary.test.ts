@@ -263,6 +263,6 @@ describe("aggregateCompareData", () => {
       ["#00ff00"],
       4
     );
-    expect(result[0]!.data.every((val) => val === 0)).toBe(true);
+    expect(result[0]!.data.every((val: number) => val === 0)).toBe(true);
   });
 });

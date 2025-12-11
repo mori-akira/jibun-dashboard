@@ -21,12 +21,12 @@ export const useUserStore = defineStore("user", () => {
   };
 
   async function fetchUser() {
-    const res = await getUserApi().getUser();
+    const res = await getUserApi().getUsers();
     user.value = res.data;
   }
 
   async function putUser(newUser: UserBase) {
-    await getUserApi().putUser(newUser);
+    await getUserApi().putUsers(newUser);
   }
 
   async function postPassword(newPassword: Password) {

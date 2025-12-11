@@ -23,7 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
     });
     const api = new ResourceApi(configuration);
-    const data = (await api.getI18n(locale)).data;
+    const data = (await api.getResourcesI18n(locale)).data;
 
     const messages: Record<string, string> = {};
     for (const [k, v] of Object.entries(data.messages || {})) {

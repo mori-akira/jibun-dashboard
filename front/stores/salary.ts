@@ -38,19 +38,19 @@ export const useSalaryStore = defineStore("salary", () => {
   }
 
   async function postSalary(salary: SalaryBase) {
-    await getSalaryApi().postSalary(salary);
+    await getSalaryApi().postSalaries(salary);
   }
 
   async function putSalary(salaryId: string | undefined, salary: SalaryBase) {
     if (salaryId) {
-      await getSalaryApi().putSalary(salaryId, salary);
+      await getSalaryApi().putSalaries(salaryId, salary);
     } else {
       await postSalary(salary);
     }
   }
 
   async function deleteSalary(salaryId: string) {
-    await getSalaryApi().deleteSalary(salaryId);
+    await getSalaryApi().deleteSalaries(salaryId);
   }
 
   async function fetchSalaryOcrTasks(targetDate: string) {

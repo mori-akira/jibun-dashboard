@@ -20,44 +20,48 @@ tags:
   - name: Vocabulary
     description: ボキャブラリー情報API
 
+security:
+  - CognitoJwtAuth: []
+
 servers:
   - url: http://localhost:4011/
 
 paths:
   /resources/i18n/{localeCode}:
     $ref: "paths/resources/i18n/localeCode.yaml"
-  /user:
-    $ref: "paths/user/index.yaml"
-  /user/password:
-    $ref: "paths/user/password.yaml"
-  /setting:
-    $ref: "paths/setting/index.yaml"
-  /file/upload-url:
-    $ref: "paths/file/upload-url.yaml"
-  /file/upload-mock:
-    $ref: "paths/file/upload-mock.yaml"
+  /users:
+    $ref: "paths/users/index.yaml"
+  /users/password:
+    $ref: "paths/users/password.yaml"
+  /settings:
+    $ref: "paths/settings/index.yaml"
+  /files/upload-url:
+    $ref: "paths/files/upload-url.yaml"
+  /files/upload-mock:
+    $ref: "paths/files/upload-mock.yaml"
   /salaries:
     $ref: "paths/salaries/index.yaml"
-  /salary:
-    $ref: "paths/salary/index.yaml"
-  /salary/{salaryId}:
-    $ref: "paths/salary/salaryId.yaml"
-  /salary/ocr-tasks:
-    $ref: "paths/salary/ocr-tasks/index.yaml"
-  /salary/ocr-task/{ocrTaskId}:
-    $ref: "paths/salary/ocr-task/ocrTaskId.yaml"
-  /salary/ocr-task/start:
-    $ref: "paths/salary/ocr-task/start.yaml"
+  /salaries/{salaryId}:
+    $ref: "paths/salaries/salaryId.yaml"
+  /salaries/ocr-tasks:
+    $ref: "paths/salaries/ocr-tasks/index.yaml"
+  /salaries/ocr-tasks/{ocrTaskId}:
+    $ref: "paths/salaries/ocr-tasks/ocrTaskId.yaml"
+  /salaries/ocr-tasks/start:
+    $ref: "paths/salaries/ocr-tasks/start.yaml"
   /qualifications:
     $ref: "paths/qualifications/index.yaml"
-  /qualification:
-    $ref: "paths/qualification/index.yaml"
-  /qualification/{qualificationId}:
-    $ref: "paths/qualification/qualificationId.yaml"
+  /qualifications/{qualificationId}:
+    $ref: "paths/qualifications/qualificationId.yaml"
   /vocabulary:
     $ref: "paths/vocabulary/index.yaml"
 
 components:
+  securitySchemes:
+    CognitoJwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     I18n:
       $ref: "schemas/resource/i18n.yaml"

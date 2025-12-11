@@ -9,6 +9,9 @@ export function getCurrentMonthFirstDateString(
     day: "2-digit",
   });
   const [datePart] = localeString.split(" ");
+  if (!datePart) {
+    return "";
+  }
   const [year, month] = datePart.split("-");
   return `${year}-${month}-01`;
 }

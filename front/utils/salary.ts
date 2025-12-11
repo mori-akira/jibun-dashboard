@@ -1,5 +1,5 @@
 import type { Overview, Salary } from "~/generated/api/client";
-import type { DataSet as CompareBarGraphDataSet } from "~/components/common/graph/CompareBar.vue";
+import type { DataSet } from "~/components/common/graph/CompareBar.vue";
 
 export function getYearMonthAsNumber(date: string): (number | null)[] {
   const [year, month] = date.split("-");
@@ -106,7 +106,7 @@ export function aggregateCompareData(
   label: keyof Overview,
   backgroundColors: string[],
   financialYearStartMonth: number
-): CompareBarGraphDataSet[] {
+): DataSet[] {
   return targetYears.map((year, index) => {
     return {
       label: `FY${year}`,

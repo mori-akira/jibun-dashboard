@@ -1,5 +1,5 @@
 get:
-  operationId: getI18n
+  operationId: getResourcesI18n
   summary: 国際化リソース取得
   description: 国際化リソースを取得する
   tags:

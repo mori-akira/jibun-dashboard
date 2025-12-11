@@ -89,3 +89,26 @@ get:
             $ref: "../../examples/qualifications/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+post:
+  operationId: postQualifications
+  summary: 資格情報登録
+  description: 資格情報を登録する
+  tags:
+    - Qualification
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/QualificationBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/QualificationId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
