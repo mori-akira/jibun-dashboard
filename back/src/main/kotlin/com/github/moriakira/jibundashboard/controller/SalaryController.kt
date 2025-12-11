@@ -5,7 +5,7 @@ import com.github.moriakira.jibundashboard.generated.api.SalaryApi
 import com.github.moriakira.jibundashboard.generated.model.Overview
 import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
-import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTaskStartRequest
+import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTasksStartRequest
 import com.github.moriakira.jibundashboard.generated.model.Salary
 import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.generated.model.SalaryId
@@ -54,7 +54,7 @@ class SalaryController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    override fun postSalary(salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+    override fun postSalaries(salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
         // check
         requireNotNull(salaryBase) { "Request body is required." }
 
@@ -64,14 +64,14 @@ class SalaryController(
     }
 
     @Suppress("ReturnCount")
-    override fun getSalaryById(salaryId: UUID): ResponseEntity<Salary> {
+    override fun getSalariesById(salaryId: UUID): ResponseEntity<Salary> {
         val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
         if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
         return ResponseEntity.ok(model.toApi())
     }
 
     @Suppress("ReturnCount")
-    override fun putSalary(salaryId: UUID, salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+    override fun putSalaries(salaryId: UUID, salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
         // check
         requireNotNull(salaryBase) { "Request body is required." }
         val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
@@ -83,7 +83,7 @@ class SalaryController(
     }
 
     @Suppress("ReturnCount")
-    override fun deleteSalary(salaryId: UUID): ResponseEntity<Unit> {
+    override fun deleteSalaries(salaryId: UUID): ResponseEntity<Unit> {
         // check
         val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
         if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
@@ -104,20 +104,20 @@ class SalaryController(
     }
 
     @Suppress("ReturnCount")
-    override fun getSalaryOcrTaskById(ocrTaskId: UUID): ResponseEntity<SalaryOcrTask> {
+    override fun getSalaryOcrTasksById(ocrTaskId: UUID): ResponseEntity<SalaryOcrTask> {
         val model = salaryOcrTaskService.getByTaskId(ocrTaskId.toString()) ?: return ResponseEntity.notFound().build()
         if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
         return ResponseEntity.ok(model.toApi())
     }
 
-    override fun postSalaryOcrTaskStart(
-        postSalaryOcrTaskStartRequest: PostSalaryOcrTaskStartRequest?,
+    override fun postSalaryOcrTasksStart(
+        postSalaryOcrTasksStartRequest: PostSalaryOcrTasksStartRequest?,
     ): ResponseEntity<SalaryOcrTaskId> {
         // check
-        requireNotNull(postSalaryOcrTaskStartRequest) { "Request body is required." }
+        requireNotNull(postSalaryOcrTasksStartRequest) { "Request body is required." }
         val ocrTasks = salaryOcrTaskService.listByUserAndDate(
             userId = currentAuth.userId,
-            targetDate = postSalaryOcrTaskStartRequest.targetDate.toString(),
+            targetDate = postSalaryOcrTasksStartRequest.targetDate.toString(),
         )
         if (
             ocrTasks.any { (it.status == SalaryOcrTaskStatus.PENDING) || (it.status == SalaryOcrTaskStatus.RUNNING) }
@@ -128,8 +128,8 @@ class SalaryController(
         // execute
         val taskId = salaryOcrTaskService.startTask(
             userId = currentAuth.userId,
-            targetDate = postSalaryOcrTaskStartRequest.targetDate.toString(),
-            fileId = postSalaryOcrTaskStartRequest.fileId.toString(),
+            targetDate = postSalaryOcrTasksStartRequest.targetDate.toString(),
+            fileId = postSalaryOcrTasksStartRequest.fileId.toString(),
         )
         return ResponseEntity
             .status(HttpStatus.ACCEPTED)

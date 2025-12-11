@@ -18,7 +18,7 @@ class UserController(
     private val cognitoUserService: CognitoUserService,
 ) : UserApi {
 
-    override fun getUser(): ResponseEntity<User> {
+    override fun getUsers(): ResponseEntity<User> {
         var user = userService.get(currentAuth.userId)
         return user?.let {
             // ユーザが登録済みなら返却
@@ -50,7 +50,7 @@ class UserController(
         }
     }
 
-    override fun putUser(userBase: UserBase?): ResponseEntity<Unit> {
+    override fun putUsers(userBase: UserBase?): ResponseEntity<Unit> {
         requireNotNull(userBase) { "Request body is required." }
         userBase.let {
             userService.put(

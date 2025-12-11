@@ -44,7 +44,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun postQualification(
+    override fun postQualifications(
         qualificationBase: QualificationBase?,
     ): ResponseEntity<QualificationId> {
         // check
@@ -56,7 +56,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun getQualificationById(qualificationId: UUID): ResponseEntity<Qualification> {
+    override fun getQualificationsById(qualificationId: UUID): ResponseEntity<Qualification> {
         val model = qualificationService.getByQualificationId(qualificationId.toString())
             ?: return ResponseEntity.notFound().build()
         if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
@@ -64,7 +64,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun putQualification(
+    override fun putQualifications(
         qualificationId: UUID,
         qualificationBase: QualificationBase?,
     ): ResponseEntity<QualificationId> {
@@ -80,7 +80,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun deleteQualification(qualificationId: UUID): ResponseEntity<Unit> {
+    override fun deleteQualifications(qualificationId: UUID): ResponseEntity<Unit> {
         // check
         val model = qualificationService.getByQualificationId(qualificationId.toString())
             ?: return ResponseEntity.notFound().build()
