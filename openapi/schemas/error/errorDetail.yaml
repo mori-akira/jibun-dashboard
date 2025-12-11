@@ -11,6 +11,13 @@ properties:
   errorCode:
     description: エラーコード
     type: string
+    enum:
+      - VALIDATION_ERROR
+      - MISSING_PARAMETER
+      - TYPE_MISMATCH
+      - INVALID_REQUEST_BODY
+      - INVALID_ARGUMENT
+      - UNEXPECTED_ERROR
 
   errorLevel:
     description: エラーレベル
