@@ -230,6 +230,14 @@ function.qualification:
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/service/QualificationService.kt
   - back/src/main/kotlin/com/github/moriakira/jibundashboard/repository/QualificationRepository.kt
 
+frontend.auth:
+  - front/package.json
+  - front/nuxt.config.ts
+  - front/app.vue
+  - front/middleware/auth.global.ts
+  - front/pages/callback.vue
+  - front/composables/common/useAuth.ts
+
 backend.env.local:
   - back/build.gradle.kts
   - back/local/docker-compose.local.yml

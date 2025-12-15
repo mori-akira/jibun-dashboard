@@ -21,4 +21,11 @@ export default defineNuxtPlugin(() => {
       return res;
     });
   }
+
+  if (!config.public.requireAuth) {
+    axios.interceptors.request.use((req) => {
+      req.headers["Authorization"] = "Bearer mock-token";
+      return req;
+    });
+  }
 });
