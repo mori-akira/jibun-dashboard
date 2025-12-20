@@ -1,28 +1,17 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Configuration } from "~/generated/api/client/configuration";
 import type {
   Qualification,
   GetQualificationsStatusEnum,
   GetQualificationsRankEnum,
   QualificationBase,
 } from "~/generated/api/client/api";
-import { QualificationApi } from "~/generated/api/client/api";
-import { useAuth } from "~/composables/common/useAuth";
+import { useApiClient } from "~/composables/common/useApiClient";
 
 export const useQualificationStore = defineStore("qualification", () => {
   const qualifications = ref<Qualification[] | null>(null);
-
-  const { getAccessToken } = useAuth();
-  const getQualificationApi = () => {
-    const configuration = new Configuration({
-      baseOptions: {
-        headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-      },
-    });
-    return new QualificationApi(configuration);
-  };
+  const { getQualificationApi } = useApiClient();
 
   async function fetchQualification(
     qualificationName?: string,

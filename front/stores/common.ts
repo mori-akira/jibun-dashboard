@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+import { generateRandomString } from "~/utils/rand";
+
 export const useCommonStore = defineStore("common", () => {
   const isNavOpen = ref<boolean>(true);
   const isHeaderMenuOpen = ref<boolean>(false);

@@ -1,28 +1,17 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Configuration } from "~/generated/api/client/configuration";
 import type {
   Salary,
   SalaryBase,
   SalaryOcrTask,
 } from "~/generated/api/client/api";
-import { SalaryApi } from "~/generated/api/client/api";
-import { useAuth } from "~/composables/common/useAuth";
+import { useApiClient } from "~/composables/common/useApiClient";
 
 export const useSalaryStore = defineStore("salary", () => {
   const salaries = ref<Salary[] | null>(null);
   const salaryOcrTasks = ref<SalaryOcrTask[] | null>(null);
-
-  const { getAccessToken } = useAuth();
-  const getSalaryApi = () => {
-    const configuration = new Configuration({
-      baseOptions: {
-        headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-      },
-    });
-    return new SalaryApi(configuration);
-  };
+  const { getSalaryApi } = useApiClient();
 
   async function fetchSalary(
     targetDate?: string,

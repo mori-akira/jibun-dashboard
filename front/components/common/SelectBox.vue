@@ -70,5 +70,5 @@ const onChangeValue = (e: Event): void => {
   }
 };
 
-const id = computed(() => `select-${generateRandomString()}`);
+const id = `input-${generateRandomString()}`;
 </script>

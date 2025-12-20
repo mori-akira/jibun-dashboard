@@ -91,5 +91,5 @@ const onKeydownEscape = (): void => {
   emit("keydown:escape");
 };
 
-const id = computed(() => `input-${generateRandomString()}`);
+const id = `input-${generateRandomString()}`;
 </script>

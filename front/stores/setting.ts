@@ -1,23 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { Configuration } from "~/generated/api/client/configuration";
 import type { Setting } from "~/generated/api/client/api";
-import { SettingApi } from "~/generated/api/client/api";
-import { useAuth } from "~/composables/common/useAuth";
+import { useApiClient } from "~/composables/common/useApiClient";
 
 export const useSettingStore = defineStore("setting", () => {
   const setting = ref<Setting | null>(null);
-
-  const { getAccessToken } = useAuth();
-  const getSettingApi = () => {
-    const configuration = new Configuration({
-      baseOptions: {
-        headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-      },
-    });
-    return new SettingApi(configuration);
-  };
+  const { getSettingApi } = useApiClient();
 
   async function fetchSetting() {
     const res = await getSettingApi().getSettings();

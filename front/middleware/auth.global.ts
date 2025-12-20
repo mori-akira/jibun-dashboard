@@ -32,8 +32,6 @@ export default defineNuxtRouteMiddleware((to) => {
       "scope",
       "openid email profile aws.cognito.signin.user.admin"
     );
-    console.log(requireAuth);
-    console.log(typeof requireAuth);
     window.location.href = loginUrl.toString();
   }
 });
