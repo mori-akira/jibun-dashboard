@@ -2,9 +2,9 @@ import { useAuth } from "~/composables/common/useAuth";
 
 export default defineNuxtRouteMiddleware((to) => {
   const config = useRuntimeConfig();
-  const requireAuth: boolean = config.public.requireAuth;
+  const requireAuth = config.public.requireAuth.toLowerCase();
 
-  if (!requireAuth) {
+  if (["off", "false"].includes(requireAuth)) {
     return;
   }
   if (to.path.startsWith("/callback") || to.path.startsWith("/public")) {
@@ -32,6 +32,8 @@ export default defineNuxtRouteMiddleware((to) => {
       "scope",
       "openid email profile aws.cognito.signin.user.admin"
     );
+    console.log(requireAuth);
+    console.log(typeof requireAuth);
     window.location.href = loginUrl.toString();
   }
 });

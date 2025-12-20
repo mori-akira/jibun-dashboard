@@ -2,13 +2,21 @@
   <div :class="['wrapper', wrapperClass]">
     <button
       :class="[
-        'py-[0.2rem] px-4 rounded-lg shadow-[1px_1px_2px_#000]',
+        'py-[0.2rem] px-4 rounded-lg shadow-[1px_1px_2px_#000] border-[3px] border-[#ddd] text-white',
         { 'text-[0.9rem] py-[0.1rem] px-2': size === 'small' },
+        {
+          'border-[#bbb] text-[#bbb] shadow-none translate-x-px translate-y-px':
+            disabled,
+        },
+        {
+          'hover:cursor-pointer hover:shadow-none hover:translate-x-px hover:translate-y-px':
+            !disabled,
+        },
+        { 'bg-[#88f]': type === 'action' || type === 'marked' },
+        { 'bg-[#f88]': type === 'add' },
+        { 'bg-[#888]': type === 'delete' || type === 'navigation' },
+        { 'bg-[#666]': type === 'default' || !type },
         buttonClass,
-        { 'action-button': type === 'action' || type === 'marked' },
-        { 'add-button': type === 'add' },
-        { 'delete-button': type === 'delete' },
-        { 'navigation-button': type === 'navigation' },
       ]"
       :disabled="disabled"
       :type="htmlType || 'button'"
@@ -37,40 +45,3 @@ const onClick = (): void => {
   emit("click");
 };
 </script>
-
-<style lang="css" scoped>
-button {
-  border: 3px solid #ddd;
-  background-color: #666;
-  color: #fff;
-}
-
-button[disabled] {
-  border: 3px solid #bbb;
-  color: #bbb;
-  box-shadow: none;
-  transform: translate(1px, 1px);
-}
-
-button:not([disabled]):hover {
-  cursor: pointer;
-  box-shadow: none;
-  transform: translate(1px, 1px);
-}
-
-button.action-button {
-  background-color: #88f;
-}
-
-button.add-button {
-  background-color: #f88;
-}
-
-button.delete-button {
-  background-color: #888;
-}
-
-button.navigation-button {
-  background-color: #888;
-}
-</style>

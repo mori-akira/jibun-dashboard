@@ -22,7 +22,7 @@ export default defineNuxtPlugin(() => {
     });
   }
 
-  if (!config.public.requireAuth) {
+  if (["off", "false"].includes(config.public.requireAuth.toLowerCase())) {
     axios.interceptors.request.use((req) => {
       req.headers["Authorization"] = "Bearer mock-token";
       return req;

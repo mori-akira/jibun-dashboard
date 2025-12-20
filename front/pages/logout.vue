@@ -15,7 +15,9 @@ const config = useRuntimeConfig();
 const logoutUrl = ref<string | null>(null);
 
 const buildCognitoLogoutUrl = (): string | null => {
-  const requireAuth = !!config.public.requireAuth;
+  const requireAuth = ["off", "false"].includes(
+    config.public.requireAuth.toLowerCase()
+  );
   const domain = config.public.cognitoDomain;
   const region = config.public.region;
   const clientId = config.public.cognitoClientId;
