@@ -12,7 +12,7 @@
 - structure.overtimePay: 「時間外勤務手当」「深夜勤務手当」「休日勤務手当」の合計
 - structure.housingAllowance: 0
 - structure.positionAllowance: 0
-- structure.other: overview.grossIncome - (structure.basicSalary + structure.overtimePay)
+- structure.other: 「通勤手当」「前月前払退職金」の合計
 
 - payslipData:
   - 「支給項目」「控除項目」「勤怠管理項目」をカテゴリ key とし、各明細（名称=key, 数値=data）を配列化
