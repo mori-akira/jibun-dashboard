@@ -1,20 +1,17 @@
 <template>
-  <div
-    :class="['wrapper', 'cursor-pointer', wrapperClass]"
-    @click="onClick(status)"
-  >
+  <div :class="['cursor-pointer', wrapperClass]" @click="onClick">
     <Icon
-      v-if="status === 'off'"
+      v-if="props.status === 'off'"
       name="tabler:square-dashed"
       :class="['adjust-icon-4', iconClass]"
     />
     <Icon
-      v-if="status === 'on'"
+      v-if="props.status === 'on'"
       name="tabler:square-check-filled"
       :class="['adjust-icon-4', 'text-blue-500', iconClass]"
     />
     <Icon
-      v-if="status === 'neutral'"
+      v-if="props.status === 'neutral'"
       name="tabler:square-minus-filled"
       :class="['adjust-icon-4', 'text-blue-500', iconClass]"
     />
@@ -22,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   status: CheckBoxStatus;
   type: "onOff" | "hasNeutral";
   disabled?: boolean;
@@ -34,7 +31,7 @@ const emits = defineEmits<{
   (event: "change:status", value: CheckBoxStatus): void;
 }>();
 
-const onClick = (status: CheckBoxStatus) => {
-  emits("change:status", status);
+const onClick = () => {
+  emits("change:status", props.status);
 };
 </script>

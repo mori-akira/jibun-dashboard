@@ -1,11 +1,11 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div :class="[wrapperClass]">
     <button
       :class="[
         'py-[0.2rem] px-4 rounded-lg shadow-[1px_1px_2px_#000] border-[3px] border-[#ddd] text-white',
         { 'text-[0.9rem] py-[0.1rem] px-2': size === 'small' },
         {
-          'border-[#bbb] text-[#bbb] shadow-none translate-x-px translate-y-px':
+          '!border-[#bbb] !text-[#bbb] !shadow-none !translate-x-px !translate-y-px':
             disabled,
         },
         {
