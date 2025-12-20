@@ -268,6 +268,7 @@ onMounted(async () => {
   await withErrorHandling(() => salaryStore.fetchSalary(), commonStore);
 });
 
+// 設定取得
 const financialYearStartMonth = computed(
   () => settingStore.setting?.salary.financialYearStartMonth ?? 1
 );
@@ -278,6 +279,8 @@ const compareDataColors = computed(() => {
   const colors = settingStore.setting?.salary.compareDataColors ?? [];
   return [colors?.[0] ?? "#ddd", colors?.[1] ?? "#ddd", colors?.[2] ?? "#ddd"];
 });
+
+// 年度関連のプロパティ
 const financialYears = computed(() =>
   getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
 );
@@ -289,6 +292,8 @@ watch(
 const targetFinancialYears = computed(() =>
   filterFinancialYears(financialYears.value, baseFinancialYear.value)
 );
+
+// 年度概要のプロパティ
 const aggregateOverviewAnnually = (key: keyof Overview) =>
   trimArray(
     targetFinancialYears.value,
@@ -309,6 +314,7 @@ const annualIncomes = computed(() => {
 });
 const annualOvertime = computed(() => aggregateOverviewAnnually("overtime"));
 
+// 比較データのプロパティ
 type TabSlot =
   | "grossIncome"
   | "netIncome"
@@ -339,7 +345,6 @@ const incomeMaxRange = computed(() => {
   );
   return Math.ceil(maxValue / 100000) * 100000;
 });
-
 const selectedTab = ref<TabSlot>("grossIncome");
 const onChangeTab = (slot: string) => {
   selectedTab.value = slot as TabSlot;
