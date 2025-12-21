@@ -67,5 +67,14 @@ resource "aws_dynamodb_table" "this" {
     }
   }
 
+  point_in_time_recovery {
+    enabled                 = true
+    recovery_period_in_days = 1
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+
   tags = var.application_tag
 }
