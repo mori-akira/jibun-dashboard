@@ -21,6 +21,16 @@ module "uploads" {
   ]
 }
 
+module "user_assets" {
+  source          = "./modules/user-assets"
+  bucket_name     = "${var.app_name}-${var.env_name}-user-assets-bucket"
+  application_tag = module.application.application_tag
+  allowed_origins = [
+    "http://localhost:8080",
+    var.api_gateway_origin,
+  ]
+}
+
 module "cognito" {
   source               = "./modules/cognito"
   region               = var.region
@@ -81,6 +91,9 @@ module "apprunner" {
 
   uploads_bucket_name = module.uploads.bucket_name
   uploads_bucket_arn  = module.uploads.bucket_arn
+
+  user_assets_bucket_name = module.user_assets.bucket_name
+  user_assets_bucket_arn  = module.user_assets.bucket_arn
 
   sqs_queue_arns       = [module.batch_salary_ocr.sqs_queue_arn]
   salary_ocr_queue_url = module.batch_salary_ocr.sqs_queue_url

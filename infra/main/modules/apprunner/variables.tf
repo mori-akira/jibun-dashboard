@@ -135,6 +135,16 @@ variable "uploads_bucket_arn" {
   type        = string
 }
 
+variable "user_assets_bucket_name" {
+  description = "ユーザアセット管理用S3バケット名"
+  type        = string
+}
+
+variable "user_assets_bucket_arn" {
+  description = "ユーザアセット管理用S3バケットARN"
+  type        = string
+}
+
 variable "salary_ocr_queue_url" {
   description = "給与明細OCR用キューURL"
   type        = string

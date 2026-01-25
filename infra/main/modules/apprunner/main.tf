@@ -71,15 +71,42 @@ data "aws_iam_policy_document" "apprunner_instance" {
     ]
   }
 
-  # アップロードS3バケット: マルチパート一覧
+  # アップロードS3バケット: 参照系
   statement {
-    sid    = "AllowListMultipartUploads"
+    sid    = "AllowBucketReadToUploads"
     effect = "Allow"
     actions = [
+      "s3:ListBucket",
       "s3:ListBucketMultipartUploads",
     ]
     resources = [
       var.uploads_bucket_arn
+    ]
+  }
+
+  # ユーザアセットS3バケット: オブジェクト操作
+  statement {
+    sid    = "AllowObjectAccessToUserAssets"
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject",
+    ]
+    resources = [
+      "${var.user_assets_bucket_arn}/*"
+    ]
+  }
+
+  # ユーザアセットS3バケット: 参照系
+  statement {
+    sid    = "AllowBucketReadToUserAssets"
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket",
+    ]
+    resources = [
+      var.user_assets_bucket_arn
     ]
   }
 
@@ -131,6 +158,7 @@ resource "aws_apprunner_service" "this" {
           COGNITO_CLIENT_ID           = var.cognito_client_id
           COGNITO_DOMAIN              = var.cognito_domain
           UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
+          USER_ASSETS_BUCKET_NAME     = var.user_assets_bucket_name
           SALARY_OCR_QUEUE_URL        = var.salary_ocr_queue_url
         }, var.runtime_env)
       }
