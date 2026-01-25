@@ -52,6 +52,8 @@ No modules.
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | タイムゾーン | `string` | `"Asia/Tokyo"` | no |
 | <a name="input_uploads_bucket_arn"></a> [uploads\_bucket\_arn](#input\_uploads\_bucket\_arn) | アップロード用S3バケットARN | `string` | n/a | yes |
 | <a name="input_uploads_bucket_name"></a> [uploads\_bucket\_name](#input\_uploads\_bucket\_name) | アップロード用S3バケット名 | `string` | n/a | yes |
+| <a name="input_user_assets_bucket_arn"></a> [user\_assets\_bucket\_arn](#input\_user\_assets\_bucket\_arn) | ユーザアセット管理用S3バケットARN | `string` | n/a | yes |
+| <a name="input_user_assets_bucket_name"></a> [user\_assets\_bucket\_name](#input\_user\_assets\_bucket\_name) | ユーザアセット管理用S3バケット名 | `string` | n/a | yes |
 
 ## Outputs
 

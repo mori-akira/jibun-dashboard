@@ -27,6 +27,7 @@
 | <a name="module_ecr"></a> [ecr](#module\_ecr) | ./modules/ecr | n/a |
 | <a name="module_frontend"></a> [frontend](#module\_frontend) | ./modules/frontend | n/a |
 | <a name="module_uploads"></a> [uploads](#module\_uploads) | ./modules/uploads | n/a |
+| <a name="module_user_assets"></a> [user\_assets](#module\_user\_assets) | ./modules/user-assets | n/a |
 
 ## Resources
 
