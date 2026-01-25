@@ -39,6 +39,8 @@ paths:
     $ref: "paths/files/upload-url.yaml"
   /files/upload-mock:
     $ref: "paths/files/upload-mock.yaml"
+  /files/user-assets/download-url:
+    $ref: "paths/files/user-assets/download-url.yaml"
   /salaries:
     $ref: "paths/salaries/index.yaml"
   /salaries/{salaryId}:
@@ -77,6 +79,8 @@ components:
       $ref: "schemas/setting/setting.yaml"
     UploadUrl:
       $ref: "schemas/file/uploadUrl.yaml"
+    DownloadUrl:
+      $ref: "schemas/file/downloadUrl.yaml"
     Salary:
       $ref: "schemas/salary/salary.yaml"
     SalaryId:

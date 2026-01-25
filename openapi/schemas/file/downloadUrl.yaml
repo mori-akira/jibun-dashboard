@@ -1,0 +1,17 @@
+type: object
+description: ダウンロードURL情報
+
+required:
+  - downloadUrl
+
+properties:
+
+  downloadUrl:
+    description: ダウンロードURL
+    type: string
+    format: uri
+
+  expireDateTime:
+    description: 期限切れ日時
+    type: string
+    format: date-time

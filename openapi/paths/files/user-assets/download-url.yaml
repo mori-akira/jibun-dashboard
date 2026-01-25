@@ -1,0 +1,33 @@
+get:
+  operationId: getUserAssetsDownloadUrl
+  summary: ユーザーアセットダウンロードURL取得
+  description: ユーザーアセットのダウンロード用署名付きURLを取得する
+  tags:
+    - File
+  
+  parameters:
+    - in: query
+      name: assetType
+      description: アセット種別
+      required: true
+      schema:
+        type: string
+        enum:
+          - qualification-certificate
+    - in: query
+      name: assetId
+      description: アセットID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  
+  responses:
+    "200":
+      description: 正常系
+      content:
+        application/json:
+          schema:
+            $ref: "../../../openapi.yaml#/components/schemas/DownloadUrl"
+    "400":
+      $ref: "../../../openapi.yaml#/components/responses/BadRequest"
