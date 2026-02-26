@@ -37,7 +37,7 @@ test("test qualification function", async ({ page }) => {
   await checkQualificationDisplay(page, dummyQualification, 6, 1);
 
   // delete dummy qualification
-  await page.locator("tr:nth-child(6) > td > .wrapper > .iconify").click();
+  await page.locator("tr:nth-child(6) > td > .cursor-pointer > .iconify").click();
   await page.getByRole("button", { name: "Delete All" }).click();
   await expect(
     page.getByText("Confirm deletion of all checked qualifications?")

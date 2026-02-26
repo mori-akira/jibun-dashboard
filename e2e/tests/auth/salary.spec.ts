@@ -446,27 +446,27 @@ test("test salary function", async ({ page }) => {
     page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
   ).toHaveText("235,000");
 
-  // Jan of 2024
-  await page.getByLabel('Financial Year*').selectOption('2024');
+  // Jan of last year
+  await page.getByLabel('Financial Year*').selectOption(`${currentYear - 1}`);
   await expect(page.locator("h4").nth(0)).toHaveText("Jan");
   await expect(
     page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
   ).toHaveText("361,000");
 
-  // Feb of 2024
+  // Feb of last year
   await expect(page.locator("h4").nth(1)).toHaveText("Feb");
   await expect(
     page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
   ).toHaveText("375,000");
 
-  // Jan of 2023
-  await page.getByLabel('Financial Year*').selectOption('2023');
+  // Jan of year before last
+  await page.getByLabel('Financial Year*').selectOption(`${currentYear - 2}`);
   await expect(page.locator("h4").nth(0)).toHaveText("Jan");
   await expect(
     page.locator(`div.label:has-text("Gross Income") + div`).nth(0)
   ).toHaveText("311,000");
 
-  // Feb of 2023
+  // Feb of year before last
   await expect(page.locator("h4").nth(1)).toHaveText("Feb");
   await expect(
     page.locator(`div.label:has-text("Gross Income") + div`).nth(1)
