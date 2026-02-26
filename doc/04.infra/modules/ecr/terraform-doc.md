@@ -26,7 +26,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | アプリ名 | `string` | n/a | yes |
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
-| <a name="input_keep_count"></a> [keep\_count](#input\_keep\_count) | 保持するイメージの数 | `number` | `5` | no |
+| <a name="input_keep_count"></a> [keep\_count](#input\_keep\_count) | 保持するイメージの数 | `number` | `2` | no |
 
 ## Outputs
 
