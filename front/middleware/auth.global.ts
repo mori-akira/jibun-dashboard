@@ -20,17 +20,17 @@ export default defineNuxtRouteMiddleware((to) => {
     const region = config.public.region;
     const domain = config.public.cognitoDomain;
     const loginUrl = new URL(
-      `https://${domain}.auth.${region}.amazoncognito.com/login`
+      `https://${domain}.auth.${region}.amazoncognito.com/login`,
     );
     loginUrl.searchParams.set("response_type", "token");
     loginUrl.searchParams.set("client_id", String(clientId));
     loginUrl.searchParams.set(
       "redirect_uri",
-      window.location.origin + "/callback"
+      window.location.origin + "/callback",
     );
     loginUrl.searchParams.set(
       "scope",
-      "openid email profile aws.cognito.signin.user.admin"
+      "openid email profile aws.cognito.signin.user.admin",
     );
     window.location.href = loginUrl.toString();
   }
