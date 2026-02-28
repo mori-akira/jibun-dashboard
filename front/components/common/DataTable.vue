@@ -250,6 +250,6 @@ watch(
   () => {
     displayRows.value = sortRows(props.rows);
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>

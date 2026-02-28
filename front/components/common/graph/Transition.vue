@@ -30,7 +30,7 @@ ChartJS.register(
   LineElement,
   CategoryScale,
   LinearScale,
-  PointElement
+  PointElement,
 );
 
 const props = defineProps<{

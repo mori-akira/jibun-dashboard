@@ -73,7 +73,7 @@ watch(
   (newVal) => {
     localList.value = newVal ? newVal.map((e) => ({ ...e })) : [];
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const onDragEnd = () => {

@@ -51,7 +51,7 @@ export type ItemDef = {
   itemStyle?: Record<string, string>;
   itemStyleFunction?: (
     value: unknown,
-    row: Record<string, unknown>
+    row: Record<string, unknown>,
   ) => Record<string, string>;
 };
 

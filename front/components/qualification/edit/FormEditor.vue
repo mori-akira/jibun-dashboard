@@ -107,7 +107,7 @@ const validationRules: {
   [K in keyof QualificationBase]?: GenericValidateFunction[];
 } = {
   qualificationName: zodToVeeRules(
-    schemas.QualificationBase.shape.qualificationName
+    schemas.QualificationBase.shape.qualificationName,
   ),
   abbreviation: zodToVeeRules(schemas.QualificationBase.shape.abbreviation),
   version: zodToVeeRules(schemas.QualificationBase.shape.version),
@@ -118,7 +118,7 @@ const validationRules: {
   expirationDate: zodToVeeRules(schemas.QualificationBase.shape.expirationDate),
   officialUrl: zodToVeeRules(schemas.QualificationBase.shape.officialUrl),
   certificationUrl: zodToVeeRules(
-    schemas.QualificationBase.shape.certificationUrl
+    schemas.QualificationBase.shape.certificationUrl,
   ),
   badgeUrl: zodToVeeRules(schemas.QualificationBase.shape.badgeUrl),
 };

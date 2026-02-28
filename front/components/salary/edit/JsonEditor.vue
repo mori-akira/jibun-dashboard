@@ -53,7 +53,7 @@ const emit = defineEmits<{
       overview: Overview;
       structure: Structure;
       payslipData: PayslipData[];
-    }
+    },
   ): void;
   (event: "execute"): void;
 }>();
@@ -68,13 +68,13 @@ const text = ref(
       structure: { ...props.targetSalary.structure },
       payslipData: structuredClone(
         toRaw(props.targetSalary.payslipData ?? []).map((e) =>
-          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
-        )
+          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) }),
+        ),
       ),
     },
     null,
-    2
-  )
+    2,
+  ),
 );
 watch(
   () => props.targetSalary,
@@ -85,15 +85,15 @@ watch(
         structure: { ...props.targetSalary.structure },
         payslipData: structuredClone(
           toRaw(props.targetSalary.payslipData ?? []).map((e) =>
-            toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
-          )
+            toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) }),
+          ),
         ),
       },
       null,
-      2
+      2,
     );
   },
-  { deep: true }
+  { deep: true },
 );
 
 const validateJson = () => {
@@ -109,13 +109,13 @@ const validateSchema = () => {
   try {
     const parsed = JSON.parse(text.value);
     const checkOverview = schemas.SalaryBase.shape.overview.safeParse(
-      parsed.overview
+      parsed.overview,
     );
     const checkStructure = schemas.SalaryBase.shape.structure.safeParse(
-      parsed.structure
+      parsed.structure,
     );
     const checkPayslipData = schemas.SalaryBase.shape.payslipData.safeParse(
-      parsed.payslipData
+      parsed.payslipData,
     );
     return (
       checkOverview.success &&

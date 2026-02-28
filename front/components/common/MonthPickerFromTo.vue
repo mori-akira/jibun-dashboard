@@ -65,7 +65,7 @@ watch(
       dateFromObj.value = null;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 watch(
   () => props.dateTo,
@@ -79,7 +79,7 @@ watch(
       dateToObj.value = null;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 const onChangeFrom = (data: { year: number; month: number } | null) => {
   if (data) {

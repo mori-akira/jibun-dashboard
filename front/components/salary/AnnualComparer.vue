@@ -67,32 +67,32 @@ const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 const salaries = computed(() => salaryStore.salaries ?? []);
 const years = computed(() =>
-  getFinancialYears(salaries.value ?? [], financialYearStartMonth.value)
+  getFinancialYears(salaries.value ?? [], financialYearStartMonth.value),
 );
 const thisYear = computed(
-  () => props.baseFinancialYear ?? years.value.at(-1) ?? ""
+  () => props.baseFinancialYear ?? years.value.at(-1) ?? "",
 );
 const lastYear = computed(() =>
   props.baseFinancialYear
     ? (Number(props.baseFinancialYear) - 1).toString()
-    : years.value.at(-2) ?? ""
+    : years.value.at(-2) ?? "",
 );
 const annualAggregation = computed(() => ({
   thisYear: aggregateAnnually(
     salaries.value,
     props.selector,
     thisYear.value,
-    financialYearStartMonth.value
+    financialYearStartMonth.value,
   ),
   lastYear: aggregateAnnually(
     salaries.value,
     props.selector,
     lastYear.value,
-    financialYearStartMonth.value
+    financialYearStartMonth.value,
   ),
 }));
 </script>

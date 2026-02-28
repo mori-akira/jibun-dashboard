@@ -52,7 +52,7 @@ watch(
       dateObj.value = null;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 const onChange = (data: { year: number; month: number } | null) => {
   if (data) {

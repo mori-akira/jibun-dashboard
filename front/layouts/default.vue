@@ -78,7 +78,7 @@ router.beforeEach(async (to, _, next) => {
   if (commonStore.hasUnsavedChange) {
     next(false);
     const confirmed = await openConfirmDialog(
-      t("message.confirm.checkUnsavedChanges")
+      t("message.confirm.checkUnsavedChanges"),
     );
     if (confirmed) {
       commonStore.setHasUnsavedChange(false);
@@ -97,7 +97,7 @@ onMounted(async () => {
   await withErrorHandling(
     async () =>
       await Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]),
-    commonStore
+    commonStore,
   );
 });
 

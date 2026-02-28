@@ -74,13 +74,13 @@ watch(
   () => props.dateFrom,
   () => {
     dateFromObj.value = props.dateFrom ? new Date(props.dateFrom) : null;
-  }
+  },
 );
 watch(
   () => props.dateTo,
   () => {
     dateToObj.value = props.dateTo ? new Date(props.dateTo) : null;
-  }
+  },
 );
 const onChangeFrom = (data: Date | null) => {
   if (data) {

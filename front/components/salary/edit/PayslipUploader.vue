@@ -70,7 +70,7 @@ const {
 const onUploadFile = async (file: File) => {
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      t("message.confirm.checkUnsavedChanges")
+      t("message.confirm.checkUnsavedChanges"),
     );
     if (!confirmed) {
       return;

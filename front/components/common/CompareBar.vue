@@ -22,9 +22,9 @@ const props = defineProps<{
 
 const total = computed(() => props.leftValue + props.rightValue);
 const leftValuePercent = computed(() =>
-  total.value === 0 ? undefined : (props.leftValue * 100) / total.value
+  total.value === 0 ? undefined : (props.leftValue * 100) / total.value,
 );
 const rightValuePercent = computed(() =>
-  total.value === 0 ? undefined : (props.rightValue * 100) / total.value
+  total.value === 0 ? undefined : (props.rightValue * 100) / total.value,
 );
 </script>

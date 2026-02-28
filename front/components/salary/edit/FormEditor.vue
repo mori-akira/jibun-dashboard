@@ -119,7 +119,7 @@
                         onChangePayslipData(
                           $event,
                           payslipCategory.key,
-                          payslip.key
+                          payslip.key,
                         );
                       }
                     }
@@ -238,7 +238,7 @@ const emit = defineEmits<{
       overview: Overview;
       structure: Structure;
       payslipData: PayslipData[];
-    }
+    },
   ): void;
   (e: "execute"): void;
 }>();
@@ -262,36 +262,36 @@ const {
 const validationRules = {
   overview: {
     grossIncome: zodToVeeRules(
-      schemas.SalaryBase.shape.overview.shape.grossIncome
+      schemas.SalaryBase.shape.overview.shape.grossIncome,
     ),
     netIncome: zodToVeeRules(schemas.SalaryBase.shape.overview.shape.netIncome),
     operatingTime: zodToVeeRules(
-      schemas.SalaryBase.shape.overview.shape.operatingTime
+      schemas.SalaryBase.shape.overview.shape.operatingTime,
     ),
     overtime: zodToVeeRules(schemas.SalaryBase.shape.overview.shape.overtime),
     bonus: zodToVeeRules(schemas.SalaryBase.shape.overview.shape.bonus),
     bonusTakeHome: zodToVeeRules(
-      schemas.SalaryBase.shape.overview.shape.bonusTakeHome
+      schemas.SalaryBase.shape.overview.shape.bonusTakeHome,
     ),
   },
   structure: {
     basicSalary: zodToVeeRules(
-      schemas.SalaryBase.shape.structure.shape.basicSalary
+      schemas.SalaryBase.shape.structure.shape.basicSalary,
     ),
     overtimePay: zodToVeeRules(
-      schemas.SalaryBase.shape.structure.shape.overtimePay
+      schemas.SalaryBase.shape.structure.shape.overtimePay,
     ),
     housingAllowance: zodToVeeRules(
-      schemas.SalaryBase.shape.structure.shape.housingAllowance
+      schemas.SalaryBase.shape.structure.shape.housingAllowance,
     ),
     positionAllowance: zodToVeeRules(
-      schemas.SalaryBase.shape.structure.shape.positionAllowance
+      schemas.SalaryBase.shape.structure.shape.positionAllowance,
     ),
     other: zodToVeeRules(schemas.SalaryBase.shape.structure.shape.other),
   },
   payslipData: zodToVeeRules(
     schemas.SalaryBase.shape.payslipData._def.type.shape.data._def.type.shape
-      .data
+      .data,
   ),
 };
 
@@ -345,7 +345,7 @@ const onChangeStructure = (e: Event, key: keyof Structure) => {
 
 const onAddCategory = async () => {
   const newCategory = await openInputDialog(
-    t("message.info.inputNewCategoryName")
+    t("message.info.inputNewCategoryName"),
   );
   if (newCategory) {
     const newSalary = {
@@ -361,13 +361,13 @@ const onAddCategory = async () => {
 };
 const onDeleteCategory = async (category: string) => {
   const confirmed = await openConfirmDialog(
-    t("message.confirm.deleteCategory")
+    t("message.confirm.deleteCategory"),
   );
   if (confirmed) {
     const newSalary = {
       ...props.targetSalary,
       payslipData: props.targetSalary.payslipData.filter(
-        (e) => e.key !== category
+        (e) => e.key !== category,
       ),
     };
     emit("update:targetSalary", newSalary);
@@ -377,7 +377,7 @@ const onDeleteCategory = async (category: string) => {
 
 const onAddNewPayslipKey = async (category: string) => {
   const newPayslipKey = await openInputDialog(
-    t("message.info.inputNewPayslip")
+    t("message.info.inputNewPayslip"),
   );
   if (newPayslipKey) {
     const newPayslipData = props.targetSalary.payslipData.map((e) =>
@@ -386,7 +386,7 @@ const onAddNewPayslipKey = async (category: string) => {
             ...e,
             data: [...e.data, { key: newPayslipKey, data: 0 }],
           }
-        : e
+        : e,
     );
     emit("update:targetSalary", {
       ...props.targetSalary,
@@ -403,10 +403,10 @@ const onChangePayslipData = (e: Event, category: string, key: string) => {
       ? {
           ...c,
           data: c.data.map((p) =>
-            p.key === key ? { ...p, data: Number.isFinite(val) ? val : 0 } : p
+            p.key === key ? { ...p, data: Number.isFinite(val) ? val : 0 } : p,
           ),
         }
-      : c
+      : c,
   );
   emit("update:targetSalary", {
     ...props.targetSalary,
@@ -421,7 +421,7 @@ const onDeletePayslipData = (category: string, key: string) => {
           ...c,
           data: c.data.filter((p) => p.key !== key),
         }
-      : c
+      : c,
   );
   emit("update:targetSalary", {
     ...props.targetSalary,

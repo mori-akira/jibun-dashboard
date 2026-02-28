@@ -54,7 +54,7 @@ watch(
   () => {
     dateObj.value = props.date ? new Date(props.date) : null;
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 const onChange = (data: Date | null) => {
   if (data) {

@@ -47,7 +47,7 @@ onMounted(async () => {
   await withErrorHandling(
     async () =>
       await Promise.all([userStore.fetchUser(), settingStore.fetchSetting()]),
-    commonStore
+    commonStore,
   );
   commonStore.setNavOpen(false);
 });

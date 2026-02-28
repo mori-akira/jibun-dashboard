@@ -34,7 +34,7 @@ const emits = defineEmits<{
 }>();
 
 const initialIndex = computed(() =>
-  props.initTab ? props.tabs.findIndex((tab) => tab.slot === props.initTab) : 0
+  props.initTab ? props.tabs.findIndex((tab) => tab.slot === props.initTab) : 0,
 );
 const activeIndex = ref(initialIndex.value);
 const setActiveIndex = (index: number) => {

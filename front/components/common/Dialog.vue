@@ -95,7 +95,7 @@ watch(
       await inputRef.value?.focus();
     }
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 const onClose = (): void => {

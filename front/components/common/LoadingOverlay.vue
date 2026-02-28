@@ -37,6 +37,6 @@ const props = defineProps<{
 const positionClass = computed(() =>
   props.fullscreen !== false
     ? "fixed inset-0 z-[1002]"
-    : "absolute inset-0 z-[100]"
+    : "absolute inset-0 z-[100]",
 );
 </script>

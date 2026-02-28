@@ -94,7 +94,7 @@ const props = defineProps<{
 const emits = defineEmits<{
   (
     event: "update:selectedStatus" | "update:selectedRank",
-    value: string[]
+    value: string[],
   ): void;
   (
     event:
@@ -104,7 +104,7 @@ const emits = defineEmits<{
       | "update:acquiredDateTo"
       | "update:expirationDateFrom"
       | "update:expirationDateTo",
-    value: string
+    value: string,
   ): void;
 }>();
 
