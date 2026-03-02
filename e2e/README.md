@@ -27,12 +27,7 @@ npm run generate:api
 ## テストの実行
 
 ```sh
-# 未認証時のテスト
-npm run test-no-auth
-# セットアップ (認証処理) のテスト
-npm run test-setup
-# 認証済みのテスト
-npm run test-auth
+npm run test
 ```
 
 ## テストレポートの確認
