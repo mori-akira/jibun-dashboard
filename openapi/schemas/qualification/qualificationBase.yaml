@@ -79,3 +79,8 @@ properties:
     description: バッジURL
     type: string
     format: uri
+
+  certificationAssetId:
+    description: 証明書アセットID
+    type: string
+    format: uuid
