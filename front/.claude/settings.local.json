@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's/panel-class=/wrapper-class=/g' \"$f\")",
+      "Bash(done)",
+      "Bash(ls /workspace/front/eslint.config* /workspace/front/.eslintrc*)",
+      "Bash(npx eslint:*)"
+    ]
+  }
+}
