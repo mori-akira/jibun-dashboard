@@ -364,6 +364,7 @@ const onSubmitEdit = async (value: QualificationBase) => {
         officialUrl: value.officialUrl,
         certificationUrl: value.certificationUrl || undefined,
         badgeUrl: value.badgeUrl || undefined,
+        certificationAssetId: value.certificationAssetId || undefined,
       },
     );
   }, commonStore);
