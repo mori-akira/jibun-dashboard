@@ -23,16 +23,19 @@
 <script setup lang="ts">
 import Label from "~/components/common/Label.vue";
 
-defineProps<{
-  label?: string;
-  required?: boolean;
-  options: string[];
-  values: string[];
-  selectedOptions: string[];
-  wrapperClass?: string;
-  labelClass?: string;
-  optionClass?: string;
-}>();
+withDefaults(
+  defineProps<{
+    label?: string;
+    required?: boolean;
+    options: string[];
+    values: string[];
+    selectedOptions: string[];
+    wrapperClass?: string;
+    labelClass?: string;
+    optionClass?: string;
+  }>(),
+  { label: "", optionClass: "ml-4", wrapperClass: "", labelClass: "" },
+);
 
 const emit = defineEmits<{
   (event: "click:value", value: string): void;
@@ -45,7 +48,6 @@ const onClickOption = (value: string) => {
 
 <style lang="css" scoped>
 .option {
-  margin-left: 1rem;
   padding: 0.2rem 1rem;
   font-size: 0.8rem;
   background-color: #888;

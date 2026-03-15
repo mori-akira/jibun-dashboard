@@ -46,14 +46,24 @@
 import type { Salary, Overview, Structure } from "~/generated/api/client";
 import { getYearMonthAsNumber } from "~/utils/salary";
 
-const props = defineProps<{
-  salary?: Salary;
-  titleClass?: string;
-  headlineClass?: string;
-  wrapperClass?: string;
-  labelClass?: string;
-  valueClass?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    salary?: Salary;
+    titleClass?: string;
+    headlineClass?: string;
+    wrapperClass?: string;
+    labelClass?: string;
+    valueClass?: string;
+  }>(),
+  {
+    salary: undefined,
+    titleClass: "",
+    headlineClass: "",
+    wrapperClass: "min-w-[21rem]",
+    labelClass: "",
+    valueClass: "",
+  },
+);
 
 const monthMapper = (month: number) => {
   const months = [
@@ -133,7 +143,6 @@ h5 {
 }
 
 .wrapper {
-  min-width: 21rem;
   margin: 1rem 0.5rem 0.5rem;
   padding: 1rem;
   background-color: #fff;

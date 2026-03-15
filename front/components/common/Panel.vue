@@ -1,7 +1,8 @@
 <template>
   <div
     :class="[
-      'm-4 p-4 rounded-lg bg-white shadow-[2px_2px_4px_#000]',
+      'p-4 rounded-lg bg-white shadow-[2px_2px_4px_#000]',
+      { 'm-4': !noMargin },
       { 'mx-auto': centered },
       wrapperClass,
     ]"
@@ -13,6 +14,7 @@
 <script setup lang="ts">
 defineProps<{
   centered?: boolean;
+  noMargin?: boolean;
   wrapperClass?: string;
 }>();
 </script>

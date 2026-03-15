@@ -212,7 +212,7 @@
             :disabled="!meta.valid"
             type="action"
             wrapper-class="flex justify-center mt-4"
-            @click="handleSubmit(onSubmit)"
+            @click:button="handleSubmit(onSubmit)"
           >
             <Icon name="tabler:database-share" class="adjust-icon-4" />
             <span class="ml-2">Execute</span>

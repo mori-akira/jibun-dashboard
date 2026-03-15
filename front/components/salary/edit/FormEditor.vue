@@ -130,7 +130,7 @@
                 type="cancel"
                 wrapper-class="w-10 ml-2 flex items-center"
                 icon-class="justify-icon-2 text-color-gray-700"
-                @click="
+                @click:button="
                   () => onDeletePayslipData(payslipCategory.key, payslip.key)
                 "
               />
@@ -141,7 +141,7 @@
               <Button
                 type="add"
                 size="small"
-                @click="onAddNewPayslipKey(payslipCategory.key)"
+                @click:button="onAddNewPayslipKey(payslipCategory.key)"
               >
                 <Icon name="tabler:plus" class="text-base translate-y-0.5" />
                 <span class="ml-2">Add Payslip</span>
@@ -153,7 +153,7 @@
             <Button
               type="delete"
               size="small"
-              @click="onDeleteCategory(payslipCategory.key)"
+              @click:button="onDeleteCategory(payslipCategory.key)"
             >
               <Icon name="tabler:trash" class="text-base translate-y-0.5" />
               <span class="ml-2">Delete Category</span>
@@ -162,7 +162,7 @@
         </Accordion>
       </template>
       <div class="flex justify-start ml-4">
-        <Button type="add" size="small" @click="onAddCategory">
+        <Button type="add" size="small" @click:button="onAddCategory">
           <Icon name="tabler:plus" class="text-base translate-y-0.5" />
           <span class="ml-2">Add Category</span>
         </Button>
@@ -173,7 +173,7 @@
           :disabled="!meta?.valid"
           type="action"
           wrapper-class="flex justify-center"
-          @click="onExecute"
+          @click:button="onExecute"
         >
           <Icon name="tabler:database-share" class="adjust-icon-4" />
           <span class="ml-2">Execute</span>

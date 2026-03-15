@@ -1,15 +1,15 @@
 <template>
   <ModalWindow
     :show-modal="showDialog"
-    modal-box-class="w-40vw"
+    modal-box-class="w-[40vw]"
     @close="onClose"
   >
     <div class="relative">
       <IconButton
         type="cancel"
         wrapper-class="absolute"
-        icon-class="w-8 h-8 text-white translate-x-40vw -translate-y-14"
-        @click="onClose"
+        icon-class="w-8 h-8 text-white translate-x-[40vw] -translate-y-14"
+        @click:button="onClose"
       />
       <div class="flex items-center justify-center">
         <div class="flex items-center justify-center w-16">
@@ -40,17 +40,17 @@
         </div>
       </div>
       <div v-if="buttonType === 'ok'" class="mt-4 flex justify-center">
-        <Button type="marked" @click="onClickOk">OK</Button>
+        <Button type="marked" @click:button="onClickOk">OK</Button>
       </div>
       <div v-if="buttonType === 'okCancel'" class="mt-4 flex justify-center">
-        <Button type="default" @click="onClickCancel">Cancel</Button>
-        <Button type="marked" wrapper-class="ml-8" @click="onClickOk"
+        <Button type="default" @click:button="onClickCancel">Cancel</Button>
+        <Button type="marked" wrapper-class="ml-8" @click:button="onClickOk"
           >OK</Button
         >
       </div>
       <div v-if="buttonType === 'yesNo'" class="mt-4 flex justify-center">
-        <Button type="default" @click="onClickNo">No</Button>
-        <Button type="marked" wrapper-class="ml-8" @click="onClickYes"
+        <Button type="default" @click:button="onClickNo">No</Button>
+        <Button type="marked" wrapper-class="ml-8" @click:button="onClickYes"
           >Yes</Button
         >
       </div>

@@ -17,7 +17,7 @@
       {{ t("message.validation.json.invalidSchema") }}
     </div>
     <div class="mt-4 flex justify-center space-x-2">
-      <Button type="action" :disabled="!isValid" @click="onExecute">
+      <Button type="action" :disabled="!isValid" @click:button="onExecute">
         <Icon name="tabler:database-share" class="adjust-icon-4" />
         <span class="ml-2">Execute</span>
       </Button>

@@ -10,7 +10,7 @@
           size="small"
           html-type="button"
           button-class="w-32"
-          @click="() => navigateTo('/salary/payslip')"
+          @click:button="() => navigateTo('/salary/payslip')"
         >
           <Icon
             name="tabler:align-box-left-top"
@@ -24,7 +24,7 @@
           html-type="button"
           button-class="w-32"
           wrapper-class="ml-2"
-          @click="() => navigateTo('/salary/edit')"
+          @click:button="() => navigateTo('/salary/edit')"
         >
           <Icon name="tabler:database-edit" class="text-base translate-y-0.5" />
           <span class="font-cursive ml-2">Edit</span>

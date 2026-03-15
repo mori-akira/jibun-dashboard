@@ -9,7 +9,7 @@
         size="small"
         html-type="button"
         button-class="w-32"
-        @click="() => navigateTo('/m/salary/payslip')"
+        @click:button="() => navigateTo('/m/salary/payslip')"
       >
         <Icon
           name="tabler:align-box-left-top"

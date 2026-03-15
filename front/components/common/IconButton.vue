@@ -36,11 +36,11 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "click"): void;
+  (event: "click:button"): void;
 }>();
 
 const onClick = (): void => {
-  emit("click");
+  emit("click:button");
 };
 </script>
 

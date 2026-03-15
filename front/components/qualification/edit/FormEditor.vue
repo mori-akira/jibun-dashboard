@@ -1,7 +1,7 @@
 <template>
   <Form v-slot="{ meta, handleSubmit }">
     <div class="flex justify-end">
-      <IconButton type="cancel" icon-class="w-6 h-6" @click="onCloseModal" />
+      <IconButton type="cancel" icon-class="w-6 h-6" @click:button="onCloseModal" />
     </div>
     <template v-for="def in editFieldDefs" :key="`filed-${def.key}`">
       <Field
@@ -104,7 +104,7 @@
         :disabled="!meta.valid"
         type="action"
         wrapper-class="flex justify-center mt-8"
-        @click="handleSubmit(onSubmit)"
+        @click:button="handleSubmit(onSubmit)"
       >
         <Icon name="tabler:database-share" class="adjust-icon-4" />
         <span class="ml-2">Execute</span>

@@ -15,8 +15,8 @@
           v-model:selected-rank="selectedRank"
           hide-accordion
           status-wrapper-class="flex-wrap"
-          status-label-class="!w-50"
-          status-options-class="mt-2 !ml-0 mr-2"
+          status-label-class="w-50"
+          status-options-class="mt-2 ml-0 mr-2"
         />
       </Panel>
     </div>

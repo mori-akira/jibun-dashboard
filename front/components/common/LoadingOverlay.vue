@@ -3,8 +3,9 @@
     v-if="isLoading"
     :class="[
       positionClass,
+      bgClass,
       wrapperClass,
-      'bg-black/80 flex justify-center items-center',
+      'flex justify-center items-center',
     ]"
     role="status"
     aria-busy="true"
@@ -27,12 +28,16 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-const props = defineProps<{
-  isLoading: boolean;
-  fullscreen: boolean;
-  message?: string;
-  wrapperClass?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    isLoading: boolean;
+    fullscreen: boolean;
+    message?: string;
+    bgClass?: string;
+    wrapperClass?: string;
+  }>(),
+  { message: "", bgClass: "bg-black/80", wrapperClass: "" },
+);
 
 const positionClass = computed(() =>
   props.fullscreen !== false

@@ -36,7 +36,7 @@
           )"
           :key="salary.salaryId"
           :salary="salary"
-          wrapper-class="!min-w-72 h-[calc(100vh-16rem)] overflow-y-auto"
+          wrapper-class="min-w-72 h-[calc(100vh-16rem)] overflow-y-auto"
           title-class="font-cursive font-bold"
           headline-class="font-cursive"
           label-class="font-cursive"

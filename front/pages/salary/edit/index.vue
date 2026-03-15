@@ -23,7 +23,7 @@
             size="small"
             wrapper-class="mx-8 min-w-24"
             :disabled="target === undefined"
-            @click="onDeleteSalary"
+            @click:button="onDeleteSalary"
           >
             <Icon name="tabler:trash" class="text-base translate-y-0.5" />
             <span class="font-bold ml-2">Delete</span>
@@ -34,7 +34,7 @@
 
     <div class="flex justify-center">
       <div class="relative w-2/3">
-        <Panel wrapper-class="w-full !m-0">
+        <Panel no-margin wrapper-class="w-full">
           <Tabs
             :tabs="[
               { label: 'Edit As Form', slot: 'editAsForm' },
@@ -93,7 +93,8 @@
           :is-loading="isRunningSalaryOcrTask"
           :fullscreen="false"
           message="Loading Payslip..."
-          wrapper-class="rounded-lg !bg-black/50"
+          bg-class="bg-black/50"
+          wrapper-class="rounded-lg"
         />
       </div>
     </div>

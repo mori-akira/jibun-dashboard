@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-end">
-    <IconButton type="cancel" icon-class="w-6 h-6" @click="onCloseModal" />
+    <IconButton type="cancel" icon-class="w-6 h-6" @click:button="onCloseModal" />
   </div>
 
   <ClientOnly>
@@ -41,7 +41,7 @@
     <Button
       type="action"
       wrapper-class="flex justify-center mt-4"
-      @click="onSubmit"
+      @click:button="onSubmit"
     >
       <Icon name="tabler:database-share" class="text-base translate-y-0.5" />
       <span class="ml-2">Execute</span>

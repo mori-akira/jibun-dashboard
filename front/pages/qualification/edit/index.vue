@@ -39,7 +39,7 @@
           size="small"
           wrapper-class="mx-8"
           :disabled="checkedId.length === 0"
-          @click="onDeleteAll"
+          @click:button="onDeleteAll"
         >
           <Icon name="tabler:trash" class="text-base translate-y-0.5" />
           <span class="font-bold ml-2">Delete All</span>
@@ -49,7 +49,7 @@
             type="action"
             size="small"
             wrapper-class="mr-4"
-            @click="onReorderItems"
+            @click:button="onReorderItems"
           >
             <Icon name="tabler:menu-order" class="text-base translate-y-0.5" />
             <span class="font-bold ml-2">Reorder Items</span>
@@ -58,7 +58,7 @@
             type="add"
             size="small"
             wrapper-class="mr-8"
-            @click="onAddNewOne"
+            @click:button="onAddNewOne"
           >
             <Icon name="tabler:plus" class="text-base translate-y-0.5" />
             <span class="font-bold ml-2">Add New One</span>
@@ -77,7 +77,7 @@
 
     <ModalWindow
       :show-modal="editTargetQualification !== undefined"
-      modal-box-class="w-1/2 h-80vh flex-col items-center overflow-y-auto"
+      modal-box-class="w-1/2 h-[80vh] flex-col items-center overflow-y-auto"
       @close="onCloseEditModal"
     >
       <FormEditor
@@ -89,7 +89,7 @@
 
     <ModalWindow
       :show-modal="reorderTargetQualification !== undefined"
-      modal-box-class="w-1/2 h-80vh flex-col items-center overflow-y-auto"
+      modal-box-class="w-1/2 h-[80vh] flex-col items-center overflow-y-auto"
       @close="onCloseReorderModal"
     >
       <ReorderEditor
