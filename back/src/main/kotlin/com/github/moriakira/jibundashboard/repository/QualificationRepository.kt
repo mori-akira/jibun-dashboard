@@ -196,4 +196,7 @@ class QualificationItem {
 
     @get:DynamoDbAttribute("badgeUrl")
     var badgeUrl: String? = null
+
+    @get:DynamoDbAttribute("certificationAssetId")
+    var certificationAssetId: String? = null
 }

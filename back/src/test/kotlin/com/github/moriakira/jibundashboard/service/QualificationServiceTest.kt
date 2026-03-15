@@ -10,15 +10,18 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import java.util.UUID
 
 class QualificationServiceTest :
     StringSpec({
 
         val repository = mockk<QualificationRepository>(relaxed = true)
-        val service = QualificationService(repository)
+        val userAssetService = mockk<UserAssetService>(relaxed = true)
+        val service = QualificationService(repository, userAssetService)
 
         beforeTest {
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(userAssetService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun item(
@@ -26,6 +29,7 @@ class QualificationServiceTest :
             userId: String = "u1",
             order: Int = 1,
             withOptionals: Boolean = true,
+            certificationAssetId: String? = null,
         ) = QualificationItem().apply {
             qualificationId = id
             this.userId = userId
@@ -41,6 +45,7 @@ class QualificationServiceTest :
             officialUrl = "https://example.com/off"
             certificationUrl = if (withOptionals) "https://example.com/cert" else null
             badgeUrl = if (withOptionals) "https://example.com/badge" else null
+            this.certificationAssetId = certificationAssetId
         }
 
         "listAll: 変換して返す" {
@@ -131,6 +136,7 @@ class QualificationServiceTest :
                 officialUrl = "https://example.com/gcp",
                 certificationUrl = null,
                 badgeUrl = null,
+                certificationAssetId = null,
             )
 
             val ret = service.put(model)
@@ -143,6 +149,98 @@ class QualificationServiceTest :
             capt.captured.status shouldBe "planning"
             capt.captured.rank shouldBe "B"
             capt.captured.officialUrl shouldBe "https://example.com/gcp"
+        }
+
+        fun model(
+            id: String = "qid-s3",
+            certificationAssetId: String? = null,
+        ) = QualificationModel(
+            qualificationId = id,
+            userId = "u1",
+            order = 1,
+            qualificationName = "AWS SAA",
+            abbreviation = null,
+            version = null,
+            status = "acquired",
+            rank = "A",
+            organization = "AWS",
+            acquiredDate = null,
+            expirationDate = null,
+            officialUrl = "https://example.com/off",
+            certificationUrl = null,
+            badgeUrl = null,
+            certificationAssetId = certificationAssetId,
+        )
+
+        "put: certificationAssetId 新規設定時は uploads からコピーする" {
+            val assetId = "33333333-3333-3333-3333-333333333333"
+            every { repository.getByQualificationId("qid-new") } returns null
+
+            service.put(model(id = "qid-new", certificationAssetId = assetId))
+
+            verify(exactly = 1) {
+                userAssetService.copyFromUploads(
+                    "qualification-certifications",
+                    "u1",
+                    UUID.fromString(assetId),
+                )
+            }
+            verify(exactly = 0) { userAssetService.delete(any(), any(), any()) }
+        }
+
+        "put: certificationAssetId が変わった場合は新しい ID でコピーする" {
+            val oldAssetId = "44444444-4444-4444-4444-444444444444"
+            val newAssetId = "55555555-5555-5555-5555-555555555555"
+            every { repository.getByQualificationId("qid-upd") } returns
+                item(id = "qid-upd", certificationAssetId = oldAssetId)
+
+            service.put(model(id = "qid-upd", certificationAssetId = newAssetId))
+
+            verify(exactly = 1) {
+                userAssetService.copyFromUploads(
+                    "qualification-certifications",
+                    "u1",
+                    UUID.fromString(newAssetId),
+                )
+            }
+            verify(exactly = 0) { userAssetService.delete(any(), any(), any()) }
+        }
+
+        "put: certificationAssetId が変わらない場合は S3 処理をしない" {
+            val assetId = "66666666-6666-6666-6666-666666666666"
+            every { repository.getByQualificationId("qid-same") } returns
+                item(id = "qid-same", certificationAssetId = assetId)
+
+            service.put(model(id = "qid-same", certificationAssetId = assetId))
+
+            verify(exactly = 0) { userAssetService.copyFromUploads(any(), any(), any()) }
+            verify(exactly = 0) { userAssetService.delete(any(), any(), any()) }
+        }
+
+        "put: certificationAssetId が削除された場合は user-assets から削除する" {
+            val oldAssetId = "77777777-7777-7777-7777-777777777777"
+            every { repository.getByQualificationId("qid-rm") } returns
+                item(id = "qid-rm", certificationAssetId = oldAssetId)
+
+            service.put(model(id = "qid-rm", certificationAssetId = null))
+
+            verify(exactly = 0) { userAssetService.copyFromUploads(any(), any(), any()) }
+            verify(exactly = 1) {
+                userAssetService.delete(
+                    "qualification-certifications",
+                    "u1",
+                    UUID.fromString(oldAssetId),
+                )
+            }
+        }
+
+        "put: certificationAssetId が元々なく引き続き null の場合は S3 処理をしない" {
+            every { repository.getByQualificationId("qid-null") } returns item(id = "qid-null")
+
+            service.put(model(id = "qid-null", certificationAssetId = null))
+
+            verify(exactly = 0) { userAssetService.copyFromUploads(any(), any(), any()) }
+            verify(exactly = 0) { userAssetService.delete(any(), any(), any()) }
         }
 
         "deleteByQualificationId: 削除を委譲" {

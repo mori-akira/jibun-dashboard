@@ -34,6 +34,7 @@ class QualificationControllerTest :
         fun model(
             id: String = "11111111-1111-1111-1111-111111111111",
             userId: String = "u1",
+            certificationAssetId: String? = null,
         ) = QualificationModel(
             qualificationId = id,
             userId = userId,
@@ -49,6 +50,7 @@ class QualificationControllerTest :
             officialUrl = "https://example.com/off",
             certificationUrl = "https://example.com/cert",
             badgeUrl = "https://example.com/badge",
+            certificationAssetId = certificationAssetId,
         )
 
         "getQualification: 条件指定で一覧を返す" {

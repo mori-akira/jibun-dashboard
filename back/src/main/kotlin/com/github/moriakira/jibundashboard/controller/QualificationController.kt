@@ -105,6 +105,7 @@ class QualificationController(
         officialUrl = URI.create(this.officialUrl),
         certificationUrl = this.certificationUrl?.let { URI.create(it) },
         badgeUrl = this.badgeUrl?.let { URI.create(it) },
+        certificationAssetId = this.certificationAssetId?.let { UUID.fromString(it) },
     )
 
     private fun QualificationBase.toModel(qualificationId: String): QualificationModel = QualificationModel(
@@ -122,5 +123,6 @@ class QualificationController(
         officialUrl = this.officialUrl.toString(),
         certificationUrl = this.certificationUrl?.toString(),
         badgeUrl = this.badgeUrl?.toString(),
+        certificationAssetId = this.certificationAssetId?.toString(),
     )
 }

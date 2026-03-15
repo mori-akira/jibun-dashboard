@@ -3,11 +3,16 @@ package com.github.moriakira.jibundashboard.service
 import com.github.moriakira.jibundashboard.repository.QualificationItem
 import com.github.moriakira.jibundashboard.repository.QualificationRepository
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class QualificationService(
     private val qualificationRepository: QualificationRepository,
+    private val userAssetService: UserAssetService,
 ) {
+    companion object {
+        private const val CERTIFICATION_ASSET_TYPE = "qualification-certifications"
+    }
     fun listAll(userId: String) = qualificationRepository.query(userId).map { it.toDomain() }
 
     @Suppress("LongParameterList")
@@ -37,6 +42,15 @@ class QualificationService(
         qualificationRepository.getByQualificationId(qualificationId)?.toDomain()
 
     fun put(model: QualificationModel): String {
+        val existing = qualificationRepository.getByQualificationId(model.qualificationId)?.toDomain()
+        if (model.certificationAssetId != existing?.certificationAssetId) {
+            val newId = model.certificationAssetId?.let { UUID.fromString(it) }
+            val oldId = existing?.certificationAssetId?.let { UUID.fromString(it) }
+            when {
+                newId != null -> userAssetService.copyFromUploads(CERTIFICATION_ASSET_TYPE, model.userId, newId)
+                oldId != null -> userAssetService.delete(CERTIFICATION_ASSET_TYPE, model.userId, oldId)
+            }
+        }
         qualificationRepository.put(model.toItem())
         return model.qualificationId
     }
@@ -60,6 +74,7 @@ class QualificationService(
         officialUrl = this.officialUrl!!,
         certificationUrl = this.certificationUrl,
         badgeUrl = this.badgeUrl,
+        certificationAssetId = this.certificationAssetId,
     )
 
     private fun QualificationModel.toItem(): QualificationItem = QualificationItem().also { item ->
@@ -77,6 +92,7 @@ class QualificationService(
         item.officialUrl = this.officialUrl
         item.certificationUrl = this.certificationUrl
         item.badgeUrl = this.badgeUrl
+        item.certificationAssetId = this.certificationAssetId
     }
 }
 
@@ -95,4 +111,5 @@ data class QualificationModel(
     val officialUrl: String,
     val certificationUrl: String?,
     val badgeUrl: String?,
+    val certificationAssetId: String?,
 )
