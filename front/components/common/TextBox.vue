@@ -18,7 +18,7 @@
           { 'border-0': noDrawBorder },
           { 'ml-4': label },
         ]"
-        :value="value != null ? String(value) : ''"
+        :value="actualValue != null ? String(actualValue) : ''"
         :aria-invalid="!!errorMessage"
         @change="onChangeValue($event)"
         @blur="onBlurValue($event)"
@@ -39,9 +39,10 @@
 import { generateRandomString } from "~/utils/rand";
 import Label from "~/components/common/Label.vue";
 
-defineProps<{
+const props = defineProps<{
   label?: string;
   required?: boolean;
+  modelValue?: string | number | null;
   value?: string | number | null;
   type?: string;
   noDrawBorder?: boolean;
@@ -53,10 +54,15 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "change:value" | "blur:value" | "input:value", value: string): void;
+  (
+    event: "update:modelValue" | "change:value" | "blur:value" | "input:value",
+    value: string,
+  ): void;
   (event: "change:event" | "blur:event" | "input:event", e: Event): void;
   (event: "keydown:enter" | "keydown:escape"): void;
 }>();
+
+const actualValue = computed(() => props.modelValue ?? props.value);
 
 const inputRef = ref<HTMLInputElement>();
 defineExpose({
@@ -71,6 +77,7 @@ export type TextBoxExpose = {
 
 const onChangeValue = (e: Event): void => {
   const target = e.target as HTMLInputElement;
+  emit("update:modelValue", target.value);
   emit("change:value", target.value);
   emit("change:event", e);
 };

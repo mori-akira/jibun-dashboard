@@ -17,7 +17,7 @@
           { 'ml-4': label },
           'hover:cursor-pointer',
         ]"
-        :value="value"
+        :value="actualValue"
         :aria-invalid="!!errorMessage"
         @change="onChangeValue($event)"
       >
@@ -46,6 +46,7 @@ import Label from "~/components/common/Label.vue";
 const props = defineProps<{
   label?: string;
   required?: boolean;
+  modelValue?: string;
   value?: string;
   placeholder?: string;
   options: { label: string; value: string }[];
@@ -58,13 +59,16 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "change:value", value: string): void;
+  (event: "update:modelValue" | "change:value", value: string): void;
   (event: "change:event", e: Event): void;
 }>();
 
+const actualValue = computed(() => props.modelValue ?? props.value);
+
 const onChangeValue = (e: Event): void => {
   const target = e.target as HTMLSelectElement;
-  if (props.value !== target.value) {
+  if (actualValue.value !== target.value) {
+    emit("update:modelValue", target.value);
     emit("change:value", target.value);
     emit("change:event", e);
   }

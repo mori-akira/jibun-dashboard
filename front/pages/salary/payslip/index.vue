@@ -8,7 +8,7 @@
     />
 
     <div class="flex justify-between">
-      <Panel panel-class="w-full">
+      <Panel wrapper-class="w-full">
         <MonthPickerFromTo
           label="Scope"
           :date-from="dateFrom"
@@ -29,7 +29,7 @@
       :key="`fy-${year}`"
     >
       <div class="flex justify-between">
-        <Panel panel-class="w-full overflow-x-auto">
+        <Panel wrapper-class="w-full overflow-x-auto">
           <h3>
             <span class="font-cursive font-bold ml-2">{{ `FY${year}` }}</span>
           </h3>

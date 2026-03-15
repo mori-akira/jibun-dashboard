@@ -5,7 +5,7 @@
     />
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full ml-2">
+      <Panel wrapper-class="w-full ml-2">
         <h3>
           <Icon name="tabler:search" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Condition</span>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full ml-2">
+      <Panel wrapper-class="w-full ml-2">
         <h3>
           <Icon name="tabler:chart-infographic" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Summary</span>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full ml-2 overflow-x-auto">
+      <Panel wrapper-class="w-full ml-2 overflow-x-auto">
         <h3>
           <Icon name="tabler:list" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Result</span>

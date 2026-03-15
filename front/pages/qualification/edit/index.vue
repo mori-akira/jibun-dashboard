@@ -28,7 +28,7 @@
       />
     </Panel>
 
-    <Panel panel-class="overflow-x-auto">
+    <Panel wrapper-class="overflow-x-auto">
       <h3>
         <Icon name="tabler:list" class="adjust-icon-4" />
         <span class="font-cursive font-bold ml-2">Result</span>

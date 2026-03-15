@@ -34,7 +34,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "change", value?: string): void;
+  (event: "change:date", value?: string): void;
 }>();
 
 const format = (date: Date) => moment(date).format("YYYY-MM-DD");
@@ -56,9 +56,9 @@ watch(
 );
 const onChange = (data: { year: number; month: number } | null) => {
   if (data) {
-    emit("change", format(new Date(data.year, data.month, 1)));
+    emit("change:date", format(new Date(data.year, data.month, 1)));
   } else {
-    emit("change", undefined);
+    emit("change:date", undefined);
   }
 };
 </script>

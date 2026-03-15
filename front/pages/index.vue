@@ -3,7 +3,7 @@
     <Breadcrumb :items="[{ text: 'Home', iconName: 'tabler:home' }]" />
 
     <div class="flex justify-between">
-      <Panel panel-class="w-full">
+      <Panel wrapper-class="w-full">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Salary</span>
@@ -16,7 +16,7 @@
           />
         </div>
       </Panel>
-      <Panel panel-class="w-full items-center">
+      <Panel wrapper-class="w-full items-center">
         <h3>
           <Icon name="tabler:certificate" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Qualification</span>
@@ -32,14 +32,14 @@
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-full">
+      <Panel wrapper-class="w-full">
         <h3>
           <Icon name="tabler:book" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Vocabulary</span>
         </h3>
         <div class="h-36 flex items-center"></div>
       </Panel>
-      <Panel panel-class="w-full items-center">
+      <Panel wrapper-class="w-full items-center">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Financial Asset</span>
@@ -49,14 +49,14 @@
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-full">
+      <Panel wrapper-class="w-full">
         <h3>
           <Icon name="tabler:file-pencil" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Study Plan</span>
         </h3>
         <div class="h-36 flex items-center"></div>
       </Panel>
-      <Panel panel-class="w-full items-center">
+      <Panel wrapper-class="w-full items-center">
         <h3>
           <Icon name="tabler:settings" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Setting</span>

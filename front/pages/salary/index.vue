@@ -33,8 +33,9 @@
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-full">
+      <Panel wrapper-class="w-full">
         <SelectBox
+          v-model="baseFinancialYear"
           label="Base Financial Year"
           :options="
             financialYears
@@ -44,16 +45,14 @@
               }))
               .toReversed()
           "
-          :value="baseFinancialYear"
           wrapper-class="items-center"
           label-class="font-cursive"
-          @change:value="baseFinancialYear = $event"
         />
       </Panel>
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-5/12">
+      <Panel wrapper-class="w-5/12">
         <h3>
           <Icon name="tabler:coin-yen" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Annual Income</span>
@@ -67,7 +66,7 @@
           />
         </div>
       </Panel>
-      <Panel panel-class="w-7/12">
+      <Panel wrapper-class="w-7/12">
         <h3>
           <Icon name="tabler:graph" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Transition</span>
@@ -91,7 +90,7 @@
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-5/12">
+      <Panel wrapper-class="w-5/12">
         <h3>
           <Icon name="tabler:stopwatch" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Annual Overtime</span>
@@ -109,7 +108,7 @@
           />
         </div>
       </Panel>
-      <Panel panel-class="w-7/12">
+      <Panel wrapper-class="w-7/12">
         <h3>
           <Icon name="tabler:graph" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Transition</span>
@@ -133,7 +132,7 @@
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-9/12">
+      <Panel wrapper-class="w-9/12">
         <h3>
           <Icon name="tabler:clipboard-data" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Compare</span>
@@ -183,13 +182,13 @@
           </template>
         </Tabs>
       </Panel>
-      <Panel panel-class="w-3/12">
+      <Panel wrapper-class="w-3/12">
         <OverviewCompareSummary :summary-data="summaryData" />
       </Panel>
     </div>
 
     <div class="flex justify-between">
-      <Panel panel-class="w-full overflow-x-auto">
+      <Panel wrapper-class="w-full overflow-x-auto">
         <h3>
           <Icon name="tabler:align-box-left-top" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Payslip</span>
@@ -201,12 +200,12 @@
                 filterSalaryByFinancialYears(
                   salaryStore.salaries ?? [],
                   targetFinancialYears,
-                  financialYearStartMonth
+                  financialYearStartMonth,
                 ).toReversed(),
-                3
+                3,
               ),
               3,
-              undefined
+              undefined,
             )"
             :key="salary?.salaryId ?? `empty-${i}`"
           >
@@ -270,10 +269,10 @@ onMounted(async () => {
 
 // 設定取得
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 const transitionItemCount = computed(
-  () => settingStore.setting?.salary.transitionItemCount ?? 1
+  () => settingStore.setting?.salary.transitionItemCount ?? 1,
 );
 const compareDataColors = computed(() => {
   const colors = settingStore.setting?.salary.compareDataColors ?? [];
@@ -282,15 +281,15 @@ const compareDataColors = computed(() => {
 
 // 年度関連のプロパティ
 const financialYears = computed(() =>
-  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
+  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value),
 );
 const baseFinancialYear = ref(financialYears.value.at(-1) ?? "");
 watch(
   () => financialYears.value,
-  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? "")
+  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? ""),
 );
 const targetFinancialYears = computed(() =>
-  filterFinancialYears(financialYears.value, baseFinancialYear.value)
+  filterFinancialYears(financialYears.value, baseFinancialYear.value),
 );
 
 // 年度概要のプロパティ
@@ -298,13 +297,13 @@ const aggregateOverviewAnnually = (key: keyof Overview) =>
   trimArray(
     targetFinancialYears.value,
     settingStore.setting?.salary.transitionItemCount ?? 1,
-    { from: "end" }
+    { from: "end" },
   ).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview?.[key],
       year,
-      financialYearStartMonth.value
+      financialYearStartMonth.value,
     );
   });
 const annualIncomes = computed(() => {
@@ -327,7 +326,7 @@ const aggregateCompareDataWrapper = (key: TabSlot) =>
     trimArray(targetFinancialYears.value, 3, { from: "end" }),
     key,
     compareDataColors.value,
-    financialYearStartMonth.value
+    financialYearStartMonth.value,
   );
 const compareData = computed(() => {
   return {
@@ -341,7 +340,7 @@ const compareData = computed(() => {
 const incomeMaxRange = computed(() => {
   const maxValue = compareData.value.grossIncome.reduce(
     (max: number, dataset) => Math.max(max, ...dataset.data),
-    0
+    0,
   );
   return Math.ceil(maxValue / 100000) * 100000;
 });

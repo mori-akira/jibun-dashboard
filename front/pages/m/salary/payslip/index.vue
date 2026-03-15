@@ -8,8 +8,9 @@
     />
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full ml-2">
+      <Panel wrapper-class="w-full ml-2">
         <SelectBox
+          v-model="targetFinancialYear"
           label="Financial Year"
           :options="
             financialYears
@@ -19,21 +20,19 @@
               }))
               .toReversed()
           "
-          :value="targetFinancialYear"
           wrapper-class="items-center"
           label-class="font-cursive"
-          @change:value="targetFinancialYear = $event"
         />
       </Panel>
     </div>
 
     <div class="flex-1 w-full mt-4">
-      <Panel panel-class="w-full ml-2 h-[calc(100vh-13rem)] overflow-y-auto">
+      <Panel wrapper-class="w-full ml-2 h-[calc(100vh-13rem)] overflow-y-auto">
         <Payslip
           v-for="salary in filterSalaryByFinancialYear(
             salaryStore.salaries ?? [],
             targetFinancialYear,
-            financialYearStartMonth
+            financialYearStartMonth,
           )"
           :key="salary.salaryId"
           :salary="salary"
@@ -70,23 +69,23 @@ onMounted(async () => {
 });
 
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 
 const fetchSalary = async () => {
   await withErrorHandling(
     async () => await salaryStore.fetchSalary(undefined),
-    commonStore
+    commonStore,
   );
 };
 
 const financialYears = computed(() =>
-  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
+  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value),
 );
 const targetFinancialYear = ref("");
 watch(
   () => financialYears.value,
   () => (targetFinancialYear.value = financialYears.value.at(-1) ?? ""),
-  { immediate: true }
+  { immediate: true },
 );
 </script>

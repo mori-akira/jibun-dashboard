@@ -48,7 +48,7 @@
           wrapper-class="mt-4 w-full justify-center"
           label-class="w-40 ml-4 font-cursive"
           pickers-wrapper-class="w-1/2 px-12"
-          @change="
+          @change:date="
             (value) => {
               commonStore.setHasUnsavedChange(true);
               field?.['onUpdate:modelValue']?.(value);

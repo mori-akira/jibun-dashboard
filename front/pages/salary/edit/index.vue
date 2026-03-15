@@ -8,7 +8,7 @@
     />
 
     <div class="flex justify-center items-center">
-      <Panel panel-class="w-2/3">
+      <Panel wrapper-class="w-2/3">
         <div class="flex justify-between">
           <MonthPicker
             label="Target"
@@ -16,7 +16,7 @@
             :date="tempDate"
             label-class="w-20 font-cursive"
             pickers-wrapper-class="min-w-40 w-1/5"
-            @change="onChangeDate"
+            @change:date="onChangeDate"
           />
           <Button
             type="delete"
@@ -34,7 +34,7 @@
 
     <div class="flex justify-center">
       <div class="relative w-2/3">
-        <Panel panel-class="w-full !m-0">
+        <Panel wrapper-class="w-full !m-0">
           <Tabs
             :tabs="[
               { label: 'Edit As Form', slot: 'editAsForm' },
