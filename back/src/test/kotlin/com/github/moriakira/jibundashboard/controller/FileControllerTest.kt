@@ -2,7 +2,9 @@ package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.service.FileUploadService
+import com.github.moriakira.jibundashboard.service.PresignedDownloadUrlResult
 import com.github.moriakira.jibundashboard.service.PresignedUrlResult
+import com.github.moriakira.jibundashboard.service.UserAssetService
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -18,7 +20,8 @@ class FileControllerTest :
 
         val currentAuth = mockk<CurrentAuth>(relaxed = true)
         val fileUploadService = mockk<FileUploadService>(relaxed = true)
-        val controller = FileController(currentAuth, fileUploadService)
+        val userAssetService = mockk<UserAssetService>(relaxed = true)
+        val controller = FileController(currentAuth, fileUploadService, userAssetService)
 
         beforeTest {
             every { currentAuth.userId } returns "user123"
@@ -142,6 +145,50 @@ class FileControllerTest :
             res.statusCode shouldBe HttpStatus.OK
             verify(exactly = 1) {
                 fileUploadService.issuePresignedPutUrl("user123", fileId, expiresIn)
+            }
+        }
+
+        "getUserAssetsDownloadUrl: assetType と assetId を指定した場合は正しく DownloadUrl を返す" {
+            val assetType = "qualification-certificate"
+            val assetId = UUID.fromString("11111111-1111-1111-1111-111111111111")
+            val expectedUrl = URI.create("https://s3.example.com/user-assets/$assetType/user123/$assetId")
+            val expectedExpireDateTime = OffsetDateTime.now().plusSeconds(3600)
+
+            every {
+                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
+            } returns PresignedDownloadUrlResult(
+                url = expectedUrl,
+                expireDateTime = expectedExpireDateTime,
+            )
+
+            val res = controller.getUserAssetsDownloadUrl(assetType, assetId)
+
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.downloadUrl shouldBe expectedUrl
+            res.body!!.expireDateTime shouldBe expectedExpireDateTime
+            verify(exactly = 1) {
+                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
+            }
+        }
+
+        "getUserAssetsDownloadUrl: currentAuth.userId がサービスに正しく渡される" {
+            val assetType = "qualification-certificate"
+            val assetId = UUID.fromString("22222222-2222-2222-2222-222222222222")
+            val expectedUrl = URI.create("https://s3.example.com/user-assets/$assetType/user123/$assetId")
+
+            every { currentAuth.userId } returns "user123"
+            every {
+                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
+            } returns PresignedDownloadUrlResult(
+                url = expectedUrl,
+                expireDateTime = OffsetDateTime.now().plusSeconds(3600),
+            )
+
+            val res = controller.getUserAssetsDownloadUrl(assetType, assetId)
+
+            res.statusCode shouldBe HttpStatus.OK
+            verify(exactly = 1) {
+                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
             }
         }
     })
