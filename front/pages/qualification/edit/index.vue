@@ -189,7 +189,7 @@ const fetchQualificationApi = async () => {
         acquiredDateFrom.value,
         acquiredDateTo.value,
         expirationDateFrom.value,
-        expirationDateTo.value
+        expirationDateTo.value,
       );
     } catch (err) {
       console.error(err);
@@ -218,7 +218,7 @@ watch(
     expirationDateTo,
   ],
   async () => await fetchQualificationApi(),
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 type QualificationWithIndex = Qualification & { index: number };
@@ -243,7 +243,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
       }
       if (checkedId.value.includes(row["qualificationId"])) {
         checkedId.value = checkedId.value.filter(
-          (e) => e !== row["qualificationId"]
+          (e) => e !== row["qualificationId"],
         );
       } else {
         checkedId.value.push(row["qualificationId"]);
@@ -255,7 +255,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
           .map((e) => e.qualificationId)
           .filter((e) => e !== undefined)
           .forEach(
-            (e) => !checkedId.value.includes(e) && checkedId.value.push(e)
+            (e) => !checkedId.value.includes(e) && checkedId.value.push(e),
           );
       } else {
         checkedId.value = [];
@@ -292,7 +292,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     bodyStyleFunction: (value: unknown) => ({
       color: getRankColorHexCode(
         value as Rank,
-        settingStore.setting?.qualification as SettingQualification
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },
@@ -301,7 +301,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     actionButtons: ["edit"],
     onClickEdit: (row: QualificationWithIndex) => {
       const target = qualificationStore.qualifications?.find(
-        (e) => e.qualificationId === row.qualificationId
+        (e) => e.qualificationId === row.qualificationId,
       );
       editTargetQualification.value = target
         ? {
@@ -330,7 +330,7 @@ const rows = computed(() =>
   (qualificationStore.qualifications ?? []).map((e, i) => ({
     ...e,
     index: i + 1,
-  }))
+  })),
 );
 const initSortState: SortDef<QualificationWithIndex> = {
   column: "index",
@@ -364,7 +364,7 @@ const onSubmitEdit = async (value: QualificationBase) => {
         officialUrl: value.officialUrl,
         certificationUrl: value.certificationUrl || undefined,
         badgeUrl: value.badgeUrl || undefined,
-      }
+      },
     );
   }, commonStore);
   if (result) {
@@ -377,7 +377,7 @@ const onSubmitEdit = async (value: QualificationBase) => {
 const onCloseEditModal = async () => {
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      t("message.confirm.checkUnsavedChanges")
+      t("message.confirm.checkUnsavedChanges"),
     );
     if (!confirmed) {
       return;
@@ -394,10 +394,13 @@ const onReorderItems = () =>
   ).map((e) => ({ ...e })));
 const onSubmitReorder = async (targetQualifications: Qualification[]) => {
   const original = new Map(
-    (qualificationStore.qualifications ?? []).map((q) => [q.qualificationId, q])
+    (qualificationStore.qualifications ?? []).map((q) => [
+      q.qualificationId,
+      q,
+    ]),
   );
   const changed = targetQualifications.filter(
-    (target) => original.get(target.qualificationId)?.order !== target.order
+    (target) => original.get(target.qualificationId)?.order !== target.order,
   );
   const result = await withErrorHandling(async () => {
     await Promise.all(
@@ -410,7 +413,7 @@ const onSubmitReorder = async (targetQualifications: Qualification[]) => {
           ...target,
           order: e.order,
         });
-      })
+      }),
     );
   }, commonStore);
   if (result) {
@@ -423,7 +426,7 @@ const onSubmitReorder = async (targetQualifications: Qualification[]) => {
 const onCloseReorderModal = async () => {
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      t("message.confirm.checkUnsavedChanges")
+      t("message.confirm.checkUnsavedChanges"),
     );
     if (!confirmed) {
       return;
@@ -435,7 +438,7 @@ const onCloseReorderModal = async () => {
 
 const onDeleteAll = async () => {
   const confirmed = await openConfirmDialog(
-    t("message.confirm.deleteAllQualifications")
+    t("message.confirm.deleteAllQualifications"),
   );
   if (!confirmed) {
     return;
@@ -444,8 +447,8 @@ const onDeleteAll = async () => {
   try {
     await Promise.all(
       checkedId.value.map(async (e) =>
-        qualificationStore.deleteQualification(e)
-      )
+        qualificationStore.deleteQualification(e),
+      ),
     );
     checkedId.value = [];
     commonStore.deleteLoadingQueue(id);

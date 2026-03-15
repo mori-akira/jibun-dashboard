@@ -25,7 +25,7 @@ run(
     "--additional-properties supportsES6=true,withInterfaces=true",
     "--global-property apiDocs=false,modelDocs=false",
   ].join(" "),
-  { cwd: openapiDir }
+  { cwd: openapiDir },
 );
 
 // LocaleCodeのaliasをapi.tsに追記
@@ -41,7 +41,7 @@ if (!apiTs.includes(localeExport)) {
 // openapi-zod-clientでzodスキーマ生成
 run(
   "npx --yes openapi-zod-client openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas",
-  { cwd: openapiDir }
+  { cwd: openapiDir },
 );
 
 // schemas.tsの先頭にESLint無効コメントを付与
@@ -58,5 +58,5 @@ run(
   'npx --yes prettier@3 --write "generated/api/client/**/*.{ts,tsx,js,json}"',
   {
     cwd: frontDir,
-  }
+  },
 );

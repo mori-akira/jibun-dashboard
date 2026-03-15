@@ -161,7 +161,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   if (result) {
     commonStore.setHasUnsavedChange(false);
     const confirmed = await openConfirmDialog(
-      t("message.confirm.signBackWithNewPassword")
+      t("message.confirm.signBackWithNewPassword"),
     );
     if (confirmed) {
       navigateTo("/logout");

@@ -9,7 +9,7 @@ export function getYearMonthAsNumber(date: string): (number | null)[] {
 export function getMonthsInFinancialYear(
   financialYear: string,
   financialYearStartMonth: number,
-  withFirstDay?: boolean
+  withFirstDay?: boolean,
 ): string[] {
   return Array.from({ length: 12 }, (_, i) => {
     const month = ((i + financialYearStartMonth - 1) % 12) + 1;
@@ -24,7 +24,7 @@ export function getMonthsInFinancialYear(
 
 export function getFinancialYear(
   salary: Salary,
-  financialYearStartMonth: number
+  financialYearStartMonth: number,
 ): string {
   const [year, month] = getYearMonthAsNumber(salary.targetDate);
   if (year == null || month == null) {
@@ -38,10 +38,10 @@ export function getFinancialYear(
 
 export function getFinancialYears(
   salaries: Salary[],
-  financialYearStartMonth: number
+  financialYearStartMonth: number,
 ): string[] {
   const years = salaries.map((e) =>
-    getFinancialYear(e, financialYearStartMonth)
+    getFinancialYear(e, financialYearStartMonth),
   );
   const uniqueYears = Array.from(new Set(years));
   return uniqueYears.sort();
@@ -49,7 +49,7 @@ export function getFinancialYears(
 
 export function filterFinancialYears(
   financialYears: string[],
-  untilYear: string
+  untilYear: string,
 ): string[] {
   return financialYears.filter((year) => year <= untilYear);
 }
@@ -57,28 +57,28 @@ export function filterFinancialYears(
 export function filterSalaryByFinancialYear(
   salaries: Salary[],
   targetYear: string,
-  financialYearStartMonth: number
+  financialYearStartMonth: number,
 ): Salary[] {
   return filterSalaryByFinancialYears(
     salaries,
     [targetYear],
-    financialYearStartMonth
+    financialYearStartMonth,
   );
 }
 
 export function filterSalaryByFinancialYears(
   salaries: Salary[],
   targetYear: string[],
-  financialYearStartMonth: number
+  financialYearStartMonth: number,
 ): Salary[] {
   return salaries.filter((e) =>
-    targetYear.includes(getFinancialYear(e, financialYearStartMonth))
+    targetYear.includes(getFinancialYear(e, financialYearStartMonth)),
   );
 }
 
 export function filterSalaryByFinancialYearMonth(
   salaries: Salary[],
-  targetYearMonth: string
+  targetYearMonth: string,
 ): Salary | undefined {
   const targetDate = targetYearMonth.match(/^\d{4}-\d{2}$/)
     ? `${targetYearMonth}-01`
@@ -91,12 +91,12 @@ export function aggregateAnnually(
   salaries: Salary[],
   selector: (salary: Salary) => number,
   targetYear: string,
-  financialYearStartMonth: number
+  financialYearStartMonth: number,
 ): number {
   return filterSalaryByFinancialYear(
     salaries,
     targetYear,
-    financialYearStartMonth
+    financialYearStartMonth,
   ).reduce((total: number, cv: Salary) => total + selector(cv), 0);
 }
 
@@ -105,7 +105,7 @@ export function aggregateCompareData(
   targetYears: string[],
   label: keyof Overview,
   backgroundColors: string[],
-  financialYearStartMonth: number
+  financialYearStartMonth: number,
 ): DataSet[] {
   return targetYears.map((year, index) => {
     return {
@@ -115,7 +115,7 @@ export function aggregateCompareData(
         (date) => {
           const salary = filterSalaryByFinancialYearMonth(salaries ?? [], date);
           return salary ? salary?.overview?.[label] : 0;
-        }
+        },
       ),
     };
   });

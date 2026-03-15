@@ -260,40 +260,40 @@ const { t } = useI18n();
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const setting = computed<Setting>(
-  () => ({ ...settingStore.setting } as Setting)
+  () => ({ ...settingStore.setting } as Setting),
 );
 const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =
   useInfoDialog();
 const validationRules = {
   salary: {
     financialYearStartMonth: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.financialYearStartMonth
+      schemas.Setting.shape.salary.shape.financialYearStartMonth,
     ),
     transitionItemCount: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.transitionItemCount
+      schemas.Setting.shape.salary.shape.transitionItemCount,
     ),
     compareDataColor1: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.type
+      schemas.Setting.shape.salary.shape.compareDataColors._def.type,
     ),
     compareDataColor2: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.type
+      schemas.Setting.shape.salary.shape.compareDataColors._def.type,
     ),
     compareDataColor3: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.type
+      schemas.Setting.shape.salary.shape.compareDataColors._def.type,
     ),
   },
   qualification: {
     rankAColor: zodToVeeRules(
-      schemas.Setting.shape.qualification.shape.rankAColor
+      schemas.Setting.shape.qualification.shape.rankAColor,
     ),
     rankBColor: zodToVeeRules(
-      schemas.Setting.shape.qualification.shape.rankBColor
+      schemas.Setting.shape.qualification.shape.rankBColor,
     ),
     rankCColor: zodToVeeRules(
-      schemas.Setting.shape.qualification.shape.rankCColor
+      schemas.Setting.shape.qualification.shape.rankCColor,
     ),
     rankDColor: zodToVeeRules(
-      schemas.Setting.shape.qualification.shape.rankDColor
+      schemas.Setting.shape.qualification.shape.rankDColor,
     ),
   },
 };

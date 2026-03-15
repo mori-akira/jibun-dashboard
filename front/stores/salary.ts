@@ -16,12 +16,12 @@ export const useSalaryStore = defineStore("salary", () => {
   async function fetchSalary(
     targetDate?: string,
     targetDateFrom?: string,
-    targetDateTo?: string
+    targetDateTo?: string,
   ) {
     const res = await getSalaryApi().getSalaries(
       targetDate,
       targetDateFrom,
-      targetDateTo
+      targetDateTo,
     );
     salaries.value = res.data;
   }
@@ -51,7 +51,7 @@ export const useSalaryStore = defineStore("salary", () => {
     await fetchSalaryOcrTasks(targetDate);
     return (
       salaryOcrTasks.value?.some(
-        (task) => task.status === "PENDING" || task.status === "RUNNING"
+        (task) => task.status === "PENDING" || task.status === "RUNNING",
       ) ?? false
     );
   }

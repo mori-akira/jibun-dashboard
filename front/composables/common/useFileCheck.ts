@@ -10,8 +10,12 @@ export const useFileCheck = (options?: {
   const extensions = options?.extensions ?? [".pdf"];
   const mimeTypes = options?.mimeTypes ?? ["application/pdf"];
   const { t } = useI18n();
-  const { showWarningDialog, warningDialogMessage, openWarningDialog, onWarningOk } =
-    useWarningDialog();
+  const {
+    showWarningDialog,
+    warningDialogMessage,
+    openWarningDialog,
+    onWarningOk,
+  } = useWarningDialog();
 
   const checkFileExtension = (file: File) =>
     extensions.some((ext) => file.name.toLowerCase().endsWith(ext));

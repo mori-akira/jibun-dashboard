@@ -179,34 +179,34 @@ onMounted(async () => {
 });
 
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 const transitionItemCount = computed(() =>
-  Math.min(settingStore.setting?.salary.transitionItemCount ?? 1, 4)
+  Math.min(settingStore.setting?.salary.transitionItemCount ?? 1, 4),
 );
 const financialYears = computed(() =>
-  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value)
+  getFinancialYears(salaryStore.salaries ?? [], financialYearStartMonth.value),
 );
 const baseFinancialYear = ref(financialYears.value.at(-1) ?? "");
 watch(
   () => financialYears.value,
-  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? "")
+  () => (baseFinancialYear.value = financialYears.value.at(-1) ?? ""),
 );
 
 const targetFinancialYears = computed(() =>
-  filterFinancialYears(financialYears.value, baseFinancialYear.value)
+  filterFinancialYears(financialYears.value, baseFinancialYear.value),
 );
 const aggregateOverviewAnnually = (key: keyof Overview) =>
   trimArray(
     targetFinancialYears.value,
     Math.min(settingStore.setting?.salary.transitionItemCount ?? 1, 4),
-    { from: "end" }
+    { from: "end" },
   ).map((year) => {
     return aggregateAnnually(
       salaryStore.salaries ?? [],
       (salary) => salary.overview?.[key],
       year,
-      financialYearStartMonth.value
+      financialYearStartMonth.value,
     );
   });
 const annualGrossIncomes = computed(() => {

@@ -24,7 +24,7 @@
     <template
       v-for="year in getFinancialYears(
         salaryStore.salaries ?? [],
-        financialYearStartMonth
+        financialYearStartMonth,
       ).toReversed()"
       :key="`fy-${year}`"
     >
@@ -38,9 +38,9 @@
               filterSalaryByFinancialYear(
                 salaryStore.salaries ?? [],
                 year,
-                financialYearStartMonth
+                financialYearStartMonth,
               ).toReversed(),
-              3
+              3,
             )"
             :key="`chunk-${year}-${i}`"
           >
@@ -88,14 +88,14 @@ onMounted(async () => {
 });
 
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 
 const fetchSalary = async () => {
   await withErrorHandling(
     async () =>
       await salaryStore.fetchSalary(undefined, dateFrom.value, dateTo.value),
-    commonStore
+    commonStore,
   );
 };
 

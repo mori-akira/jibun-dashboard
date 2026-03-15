@@ -197,7 +197,7 @@ describe("aggregateAnnually", () => {
       salaries,
       (salary) => salary.overview.grossIncome,
       "2024",
-      4
+      4,
     );
     expect(result).toEqual(2700000);
   });
@@ -207,7 +207,7 @@ describe("aggregateAnnually", () => {
       [],
       (salary) => salary.overview.grossIncome,
       "2024",
-      4
+      4,
     );
     expect(result).toEqual(0);
   });
@@ -245,7 +245,7 @@ describe("aggregateCompareData", () => {
       ["2024"],
       "grossIncome",
       ["#ff0000"],
-      4
+      4,
     );
     expect(result).toHaveLength(1);
     expect(result[0]!.label).toBe("FY2024");
@@ -261,7 +261,7 @@ describe("aggregateCompareData", () => {
       ["2024"],
       "grossIncome",
       ["#00ff00"],
-      4
+      4,
     );
     expect(result[0]!.data.every((val: number) => val === 0)).toBe(true);
   });

@@ -194,7 +194,7 @@ onMounted(async () => {
 const fetchSalary = async () => {
   const result = await withErrorHandling(
     async () => await salaryStore.fetchSalary(targetDate.value),
-    commonStore
+    commonStore,
   );
   if (result) {
     commonStore.setHasUnsavedChange(false);
@@ -210,7 +210,7 @@ const onChangeDate = async (value: string | undefined) => {
   tempDate.value = value;
   if (commonStore.hasUnsavedChange) {
     const confirmed = await openConfirmDialog(
-      t("message.confirm.checkUnsavedChanges")
+      t("message.confirm.checkUnsavedChanges"),
     );
     if (confirmed) {
       targetDate.value = tempDate.value;
@@ -275,11 +275,11 @@ watch(
       payslipData: structuredClone(toRaw(target.value?.payslipData ?? [])),
     };
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const isRunningSalaryOcrTask = computed(
-  () => isOcrPollingActive.value && lastOcrRunning.value !== false
+  () => isOcrPollingActive.value && lastOcrRunning.value !== false,
 );
 watch(targetDate, async () => await startOcrPolling(), { immediate: true });
 watch(
@@ -288,7 +288,7 @@ watch(
     if (prev === true && running === false) {
       await fetchSalary();
     }
-  }
+  },
 );
 const lastOcrTaskResult = computed(() => {
   const tasks = salaryStore.salaryOcrTasks ?? [];
@@ -310,8 +310,8 @@ const onPutSalary = async () => {
       structure: { ...targetSalary.value.structure },
       payslipData: structuredClone(
         toRaw(targetSalary.value?.payslipData ?? []).map((e) =>
-          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) })
-        )
+          toRaw({ ...e, data: e.data.map((e2) => toRaw(e2)) }),
+        ),
       ),
     });
   }, commonStore);

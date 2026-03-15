@@ -21,7 +21,7 @@ export const useQualificationStore = defineStore("qualification", () => {
     acquiredDateFrom?: string,
     acquiredDateTo?: string,
     expirationDateFrom?: string,
-    expirationDateTo?: string
+    expirationDateTo?: string,
   ) {
     const res = await getQualificationApi().getQualifications(
       qualificationName || undefined,
@@ -31,7 +31,7 @@ export const useQualificationStore = defineStore("qualification", () => {
       acquiredDateFrom || undefined,
       acquiredDateTo || undefined,
       expirationDateFrom || undefined,
-      expirationDateTo || undefined
+      expirationDateTo || undefined,
     );
     qualifications.value = res.data;
   }
@@ -42,12 +42,12 @@ export const useQualificationStore = defineStore("qualification", () => {
 
   async function putQualification(
     qualificationId: string | undefined,
-    qualification: QualificationBase
+    qualification: QualificationBase,
   ) {
     if (qualificationId) {
       await getQualificationApi().putQualifications(
         qualificationId,
-        qualification
+        qualification,
       );
     } else {
       await postQualification(qualification);

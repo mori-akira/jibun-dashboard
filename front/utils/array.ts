@@ -1,7 +1,7 @@
 export function trimArray<T>(
   arr: T[],
   maxSize: number,
-  options?: { from?: "start" | "end" }
+  options?: { from?: "start" | "end" },
 ): T[] {
   const direction = options?.from ?? "start";
   if (arr.length <= maxSize) {
@@ -28,7 +28,7 @@ export function chunkArray<T>(array: T[], size: number): T[][] {
 export function padArray<T>(
   array: T[],
   targetLength: number,
-  padValue: T
+  padValue: T,
 ): T[] {
   if (array.length >= targetLength) {
     return array.slice();

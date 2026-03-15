@@ -1,7 +1,11 @@
 <template>
   <Form v-slot="{ meta, handleSubmit }">
     <div class="flex justify-end">
-      <IconButton type="cancel" icon-class="w-6 h-6" @click:button="onCloseModal" />
+      <IconButton
+        type="cancel"
+        icon-class="w-6 h-6"
+        @click:button="onCloseModal"
+      />
     </div>
     <template v-for="def in editFieldDefs" :key="`filed-${def.key}`">
       <Field
@@ -76,8 +80,13 @@
             >
               <template v-if="certificationPdfFile">
                 <div class="w-full flex justify-center items-center">
-                  <Icon name="tabler:file-type-pdf" class="adjust-icon-2 text-red-500" />
-                  <span class="ml-2 font-cursive truncate max-w-48">{{ certificationPdfFile.name }}</span>
+                  <Icon
+                    name="tabler:file-type-pdf"
+                    class="adjust-icon-2 text-red-500"
+                  />
+                  <span class="ml-2 font-cursive truncate max-w-48">{{
+                    certificationPdfFile.name
+                  }}</span>
                 </div>
                 <div class="w-full flex justify-center mt-2 text-gray-400">
                   <Icon name="tabler:hand-click" class="adjust-icon-2" />

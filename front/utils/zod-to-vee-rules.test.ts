@@ -59,7 +59,7 @@ describe("zodToVeeRules", () => {
       named: undefined,
     });
     expect(rules[1]?.("test@example.com", {} as FieldValidationMetaInfo)).toBe(
-      true
+      true,
     );
   });
 

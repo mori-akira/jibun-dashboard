@@ -1,5 +1,5 @@
 export function getCurrentMonthFirstDateString(
-  timeZone = "Asia/Tokyo"
+  timeZone = "Asia/Tokyo",
 ): string {
   const now = new Date();
   const localeString = now.toLocaleString("sv-SE", {

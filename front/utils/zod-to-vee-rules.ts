@@ -19,7 +19,7 @@ const isEmptyInput = (v: unknown) =>
 
 export type GenericValidateFunction<TValue = unknown> = (
   value: TValue,
-  ctx: FieldValidationMetaInfo
+  ctx: FieldValidationMetaInfo,
 ) => boolean | string;
 
 export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
@@ -31,7 +31,7 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
 
   if (!schema.isOptional()) {
     rules.push((value) =>
-      isEmptyInput(value) ? t("message.validation.required") : true
+      isEmptyInput(value) ? t("message.validation.required") : true,
     );
   }
 
@@ -42,25 +42,25 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
         rules.push((value) =>
           (value as string)?.length >= check.value
             ? true
-            : t("message.validation.minCharacters", { min: check.value })
+            : t("message.validation.minCharacters", { min: check.value }),
         );
       } else if (check.kind === "max") {
         rules.push((value) =>
           (value as string)?.length <= check.value
             ? true
-            : t("message.validation.maxCharacters", { max: check.value })
+            : t("message.validation.maxCharacters", { max: check.value }),
         );
       } else if (check.kind === "regex") {
         rules.push((value) =>
           check.regex.test(value as string)
             ? true
-            : t("message.validation.invalidCharacters")
+            : t("message.validation.invalidCharacters"),
         );
       } else if (check.kind === "email") {
         rules.push((value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
             ? true
-            : t("message.validation.email")
+            : t("message.validation.email"),
         );
       }
     }
@@ -74,19 +74,19 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
         rules.push((value) =>
           Number(value as string) >= check.value
             ? true
-            : t("message.validation.minNumber", { min: check.value })
+            : t("message.validation.minNumber", { min: check.value }),
         );
       } else if (check.kind === "max") {
         rules.push((value) =>
           Number(value as string) <= check.value
             ? true
-            : t("message.validation.maxNumber", { max: check.value })
+            : t("message.validation.maxNumber", { max: check.value }),
         );
       } else if (check.kind === "int") {
         rules.push((value) =>
           Number.isInteger(Number(value))
             ? true
-            : t("message.validation.integer")
+            : t("message.validation.integer"),
         );
       }
     }

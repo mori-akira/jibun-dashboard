@@ -1,6 +1,10 @@
 <template>
   <div class="flex justify-end">
-    <IconButton type="cancel" icon-class="w-6 h-6" @click:button="onCloseModal" />
+    <IconButton
+      type="cancel"
+      icon-class="w-6 h-6"
+      @click:button="onCloseModal"
+    />
   </div>
 
   <ClientOnly>

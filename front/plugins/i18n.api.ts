@@ -6,11 +6,11 @@ import { useAuth } from "~/composables/common/useAuth";
 export default defineNuxtPlugin((nuxtApp) => {
   const cache = useState<Record<string, Record<string, string>>>(
     "i18nCache",
-    () => ({})
+    () => ({}),
   );
 
   const fetchMessages = async (
-    locale: string
+    locale: string,
   ): Promise<Record<string, string>> => {
     if (cache.value[locale]) {
       return cache.value[locale];
@@ -44,7 +44,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       i18n.setLocaleMessage(locale, messages);
     } else if (!cache.value[locale]) {
       cache.value[locale] = Object.fromEntries(
-        Object.entries(current).map(([k, v]) => [k, String(v ?? "")])
+        Object.entries(current).map(([k, v]) => [k, String(v ?? "")]),
       );
     }
   };

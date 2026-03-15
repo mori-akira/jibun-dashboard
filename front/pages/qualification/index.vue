@@ -126,7 +126,7 @@ const fetchQualificationApi = async () => {
         acquiredDateFrom.value,
         acquiredDateTo.value,
         expirationDateFrom.value,
-        expirationDateTo.value
+        expirationDateTo.value,
       );
     } catch (err) {
       console.error(err);
@@ -159,7 +159,7 @@ watch(
     expirationDateTo,
   ],
   async () => await fetchQualificationApi(),
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 type QualificationWithIndex = Qualification & { index: number };
@@ -194,7 +194,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     bodyStyleFunction: (value) => ({
       color: getRankColorHexCode(
         value as Rank,
-        settingStore.setting?.qualification as SettingQualification
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },
@@ -217,7 +217,7 @@ const rows = computed(() =>
   (qualificationStore.qualifications ?? []).map((e, i) => ({
     ...e,
     index: i + 1,
-  }))
+  })),
 );
 const initSortState: SortDef<QualificationWithIndex> = {
   column: "index",
@@ -225,7 +225,7 @@ const initSortState: SortDef<QualificationWithIndex> = {
 };
 const onClickRow = (row: QualificationWithIndex) => {
   const filtered = qualificationStore.qualifications?.find(
-    (e) => e.qualificationId === row.qualificationId
+    (e) => e.qualificationId === row.qualificationId,
   );
   selectedQualification.value = filtered ?? null;
 };
@@ -265,7 +265,7 @@ const itemDefs: ItemDef[] = [
     itemStyleFunction: (value) => ({
       color: getRankColorHexCode(
         value as Rank,
-        settingStore.setting?.qualification as SettingQualification
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },
@@ -311,7 +311,7 @@ const itemDefs: ItemDef[] = [
     asyncLinkFunction: async (value) => {
       const res = await fileApi.getUserAssetsDownloadUrl(
         GetUserAssetsDownloadUrlAssetTypeEnum.QualificationCertificate,
-        value as string
+        value as string,
       );
       return res.data.downloadUrl;
     },

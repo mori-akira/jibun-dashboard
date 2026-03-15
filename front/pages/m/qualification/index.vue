@@ -107,7 +107,7 @@ const fetchQualificationApi = async () => {
       await qualificationStore.fetchQualification(
         undefined,
         selectedStatus.value,
-        selectedRank.value
+        selectedRank.value,
       );
     } catch (err) {
       console.error(err);
@@ -121,7 +121,7 @@ const selectedRank = ref<GetQualificationsRankEnum[]>([]);
 watch(
   () => [selectedStatus, selectedRank],
   async () => await fetchQualificationApi(),
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 type QualificationWithIndex = Qualification & { index: number };
@@ -156,7 +156,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     bodyStyleFunction: (value) => ({
       color: getRankColorHexCode(
         value as Rank,
-        settingStore.setting?.qualification as SettingQualification
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },
@@ -179,7 +179,7 @@ const rows = computed(() =>
   (qualificationStore.qualifications ?? []).map((e, i) => ({
     ...e,
     index: i + 1,
-  }))
+  })),
 );
 const initSortState: SortDef<QualificationWithIndex> = {
   column: "index",
@@ -187,7 +187,7 @@ const initSortState: SortDef<QualificationWithIndex> = {
 };
 const onClickRow = (row: QualificationWithIndex) => {
   const filtered = qualificationStore.qualifications?.find(
-    (e) => e.qualificationId === row.qualificationId
+    (e) => e.qualificationId === row.qualificationId,
   );
   selectedQualification.value = filtered ?? null;
 };
@@ -222,7 +222,7 @@ const itemDefs: ItemDef[] = [
     itemStyleFunction: (value) => ({
       color: getRankColorHexCode(
         value as Rank,
-        settingStore.setting?.qualification as SettingQualification
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },

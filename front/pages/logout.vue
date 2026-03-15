@@ -16,7 +16,7 @@ const logoutUrl = ref<string | null>(null);
 
 const buildCognitoLogoutUrl = (): string | null => {
   const requireAuth = ["off", "false"].includes(
-    config.public.requireAuth.toLowerCase()
+    config.public.requireAuth.toLowerCase(),
   );
   const domain = config.public.cognitoDomain;
   const region = config.public.region;
@@ -30,7 +30,7 @@ const buildCognitoLogoutUrl = (): string | null => {
   }
 
   const url = new URL(
-    `https://${domain}.auth.${region}.amazoncognito.com/logout`
+    `https://${domain}.auth.${region}.amazoncognito.com/logout`,
   );
   url.searchParams.set("response_type", "token");
   url.searchParams.set("client_id", String(clientId));

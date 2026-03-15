@@ -1,7 +1,10 @@
 <template>
   <span
     v-if="asyncLink"
-    :class="['cursor-pointer text-blue-600 underline flex items-center', anchorClass]"
+    :class="[
+      'cursor-pointer text-blue-600 underline flex items-center',
+      anchorClass,
+    ]"
     @click="onClickAsyncLink"
   >
     <span>{{ text }}</span>

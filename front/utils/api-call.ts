@@ -9,7 +9,7 @@ type CommonStoreLike = {
 export async function withErrorHandling(
   caller: () => Promise<unknown>,
   commonStore: CommonStoreLike,
-  originalId?: string
+  originalId?: string,
 ): Promise<boolean> {
   const id = commonStore.addLoadingQueue(originalId);
   try {
