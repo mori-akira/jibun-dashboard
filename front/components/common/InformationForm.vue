@@ -29,6 +29,11 @@
           target="_blank"
           anchor-class="truncate"
         />
+        <AnchorLink
+          v-else-if="def.itemType === 'asyncLink'"
+          :text="(def.asyncLinkText ?? typedItem[def.field]) as string"
+          :async-link="() => def.asyncLinkFunction!(typedItem[def.field], typedItem)"
+        />
         <span v-else-if="def.itemType === undefined">{{
           typedItem[def.field]
         }}</span>
@@ -44,7 +49,9 @@ export type ItemDef = {
   field: string;
   label: string;
   skipIfNull?: boolean;
-  itemType?: "plainText" | "anchorLink";
+  itemType?: "plainText" | "anchorLink" | "asyncLink";
+  asyncLinkText?: string;
+  asyncLinkFunction?: (value: unknown, row: Record<string, unknown>) => Promise<string>;
   labelClass?: string;
   itemClass?: string;
   itemClassFunction?: (value: unknown, row: Record<string, unknown>) => string;

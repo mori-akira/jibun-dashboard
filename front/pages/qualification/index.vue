@@ -87,6 +87,11 @@ import type {
   Qualification,
   SettingQualification,
 } from "~/generated/api/client/api";
+import {
+  FileApi,
+  GetUserAssetsDownloadUrlAssetTypeEnum,
+} from "~/generated/api/client/api";
+import { Configuration } from "~/generated/api/client/configuration";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
@@ -100,10 +105,17 @@ import SearchConditionForm from "~/components/qualification/SearchConditionForm.
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
+import { useAuth } from "~/composables/common/useAuth";
 import { getRankColorHexCode } from "~/utils/qualification";
 import type { Rank } from "~/utils/qualification";
 import { generateRandomString } from "~/utils/rand";
 
+const { getAccessToken } = useAuth();
+const fileApi = new FileApi(
+  new Configuration({
+    baseOptions: { headers: { Authorization: `Bearer ${getAccessToken() || ""}` } },
+  })
+);
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
@@ -299,6 +311,20 @@ const itemDefs: ItemDef[] = [
     label: "Badge URL",
     skipIfNull: true,
     itemType: "anchorLink",
+  },
+  {
+    field: "certificationAssetId",
+    label: "Certificate PDF",
+    skipIfNull: true,
+    itemType: "asyncLink",
+    asyncLinkText: "View PDF",
+    asyncLinkFunction: async (value) => {
+      const res = await fileApi.getUserAssetsDownloadUrl(
+        GetUserAssetsDownloadUrlAssetTypeEnum.QualificationCertificate,
+        value as string
+      );
+      return res.data.downloadUrl;
+    },
   },
 ];
 const onCloseModal = () => (selectedQualification.value = null);

@@ -55,6 +55,48 @@
             }
           "
         />
+        <div
+          v-if="def.type === 'file'"
+          class="mt-4 w-full flex justify-center items-center"
+        >
+          <Label
+            :label="def.label"
+            :required="def.required"
+            label-class="w-40 ml-8 font-cursive"
+          />
+          <div class="w-1/2 ml-4">
+            <FileUploader
+              wrapper-class="h-24 flex-col"
+              @upload="
+                (file) => {
+                  certificationPdfFile = file;
+                  commonStore.setHasUnsavedChange(true);
+                }
+              "
+            >
+              <template v-if="certificationPdfFile">
+                <div class="w-full flex justify-center items-center">
+                  <Icon name="tabler:file-type-pdf" class="adjust-icon-2 text-red-500" />
+                  <span class="ml-2 font-cursive truncate max-w-48">{{ certificationPdfFile.name }}</span>
+                </div>
+                <div class="w-full flex justify-center mt-2 text-gray-400">
+                  <Icon name="tabler:hand-click" class="adjust-icon-2" />
+                  <span class="ml-2 text-sm">Click To Change File</span>
+                </div>
+              </template>
+              <template v-else>
+                <div class="w-full flex justify-center">
+                  <Icon name="tabler:drag-drop" class="adjust-icon-2" />
+                  <span class="ml-2">Drag And Drop File Here</span>
+                </div>
+                <div class="w-full flex justify-center mt-2">
+                  <Icon name="tabler:hand-click" class="adjust-icon-2" />
+                  <span class="ml-2">Or Click Here To Select One</span>
+                </div>
+              </template>
+            </FileUploader>
+          </div>
+        </div>
       </Field>
     </template>
     <div class="m-4">
@@ -69,21 +111,38 @@
       </Button>
     </div>
   </Form>
+  <Dialog
+    :show-dialog="showWarningDialog"
+    type="warning"
+    :message="warningDialogMessage"
+    button-type="ok"
+    @click:ok="onWarningOk"
+    @close="onWarningOk"
+  />
 </template>
 
 <script lang="ts" setup>
+import axios from "axios";
 import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
 
 import type { Qualification, QualificationBase } from "~/generated/api/client";
+import { FileApi } from "~/generated/api/client";
+import { Configuration } from "~/generated/api/client/configuration";
 import { schemas } from "~/generated/api/client/schemas";
 import Button from "~/components/common/Button.vue";
 import TextBox from "~/components/common/TextBox.vue";
 import SelectBox from "~/components/common/SelectBox.vue";
 import DatePicker from "~/components/common/DatePicker.vue";
 import IconButton from "~/components/common/IconButton.vue";
+import FileUploader from "~/components/common/FileUploader.vue";
+import Label from "~/components/common/Label.vue";
+import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
+import { useFileCheck } from "~/composables/common/useFileCheck";
+import { useAuth } from "~/composables/common/useAuth";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
+import { withErrorHandling } from "~/utils/api-call";
 
 defineProps<{
   targetQualification: Qualification | undefined;
@@ -93,10 +152,38 @@ const emit = defineEmits<{
   (e: "submit", values: QualificationBase): void;
 }>();
 
+const { getAccessToken } = useAuth();
+const configuration = new Configuration({
+  baseOptions: {
+    headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
+  },
+});
+const fileApi = new FileApi(configuration);
 const commonStore = useCommonStore();
+const { checkFile, showWarningDialog, warningDialogMessage, onWarningOk } =
+  useFileCheck({ maxSizeMB: 5 });
+
+const certificationPdfFile = ref<File | null>(null);
 
 const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
   const valueTyped = value as QualificationBase;
+  if (certificationPdfFile.value) {
+    if (!(await checkFile(certificationPdfFile.value))) {
+      return;
+    }
+    const result = await withErrorHandling(async () => {
+      const res = await fileApi.getUploadUrl();
+      const { fileId, uploadUrl } = res.data;
+      if (!uploadUrl) {
+        throw new TypeError(`uploadUrl is invalid: ${uploadUrl}`);
+      }
+      await axios.put(uploadUrl, certificationPdfFile.value, {
+        headers: { "Content-Type": "application/pdf" },
+      });
+      valueTyped.certificationAssetId = fileId;
+    }, commonStore);
+    if (!result) return;
+  }
   emit("submit", valueTyped);
 };
 const onCloseModal = () => {
@@ -125,7 +212,7 @@ const validationRules: {
 const editFieldDefs: {
   key: keyof QualificationBase;
   label: string;
-  type: "textbox" | "select" | "datepicker";
+  type: "textbox" | "select" | "datepicker" | "file";
   options?: string[];
   required: boolean;
 }[] = [
@@ -187,5 +274,11 @@ const editFieldDefs: {
     required: false,
   },
   { key: "badgeUrl", label: "Badge Url", type: "textbox", required: false },
+  {
+    key: "certificationAssetId",
+    label: "Certification Pdf",
+    type: "file",
+    required: false,
+  },
 ];
 </script>

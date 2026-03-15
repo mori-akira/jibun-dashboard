@@ -29,5 +29,7 @@ get:
         application/json:
           schema:
             $ref: "../../../openapi.yaml#/components/schemas/DownloadUrl"
+          example:
+            $ref: "../../../examples/files/user-assets/download-url/get.json"
     "400":
       $ref: "../../../openapi.yaml#/components/responses/BadRequest"

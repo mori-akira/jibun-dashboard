@@ -41,10 +41,8 @@ import { useI18n } from "vue-i18n";
 
 import FileUploader from "~/components/common/FileUploader.vue";
 import Dialog from "~/components/common/Dialog.vue";
-import {
-  useConfirmDialog,
-  useWarningDialog,
-} from "~/composables/common/useDialog";
+import { useConfirmDialog } from "~/composables/common/useDialog";
+import { useFileCheck } from "~/composables/common/useFileCheck";
 import { useCommonStore } from "~/stores/common";
 
 const emits = defineEmits<{
@@ -60,12 +58,8 @@ const {
   onConfirmYes,
   onConfirmNo,
 } = useConfirmDialog();
-const {
-  showWarningDialog,
-  warningDialogMessage,
-  openWarningDialog,
-  onWarningOk,
-} = useWarningDialog();
+const { checkFile, showWarningDialog, warningDialogMessage, onWarningOk } =
+  useFileCheck({ maxSizeMB: 1 });
 
 const onUploadFile = async (file: File) => {
   if (commonStore.hasUnsavedChange) {
@@ -80,27 +74,5 @@ const onUploadFile = async (file: File) => {
     return;
   }
   emits("upload", file);
-};
-const checkFile = async (file: File): Promise<boolean> => {
-  if (!checkFileExtension(file) || !checkFileType(file)) {
-    await openWarningDialog(t("message.warning.onlyPDFAccepted"));
-    return false;
-  }
-  if (!checkFileSize(file)) {
-    await openWarningDialog(t("message.warning.fileSizeLimitExceeded"));
-    return false;
-  }
-  return true;
-};
-const checkFileExtension = (file: File) => {
-  const fileName = file.name.toLowerCase();
-  return fileName.endsWith(".pdf");
-};
-const checkFileType = (file: File) => {
-  return file.type === "application/pdf";
-};
-const checkFileSize = (file: File) => {
-  const maxSizeInBytes = 1 * 1024 * 1024;
-  return file.size <= maxSizeInBytes;
 };
 </script>

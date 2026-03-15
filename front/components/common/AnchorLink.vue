@@ -1,6 +1,18 @@
 <template>
+  <span
+    v-if="asyncLink"
+    :class="['cursor-pointer text-blue-600 underline flex items-center', anchorClass]"
+    @click="onClickAsyncLink"
+  >
+    <span>{{ text }}</span>
+    <Icon
+      v-if="!noIcon"
+      :name="iconName ?? 'tabler:external-link'"
+      :class="iconClass ?? 'translate-x-0.5 translate-y-0.5'"
+    />
+  </span>
   <a
-    v-if="target === '_blank'"
+    v-else-if="target === '_blank'"
     :href="link"
     :class="['text-blue-600 underline', anchorClass]"
     :target="target"
@@ -15,7 +27,7 @@
   <NuxtLink
     v-else-if="target === '_self'"
     class="text-gray-900"
-    :to="link"
+    :to="link ?? ''"
     :class="[anchorClass]"
     :target="target"
   >
@@ -29,13 +41,20 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  link: string;
+const props = defineProps<{
+  link?: string;
   text: string;
   target?: "_blank" | "_self" | "_parent" | "_top";
+  asyncLink?: () => Promise<string>;
   iconName?: string;
   noIcon?: boolean;
   anchorClass?: string;
   iconClass?: string;
 }>();
+
+const onClickAsyncLink = async () => {
+  if (!props.asyncLink) return;
+  const url = await props.asyncLink();
+  window.open(url, "_blank");
+};
 </script>

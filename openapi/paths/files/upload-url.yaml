@@ -30,6 +30,6 @@ get:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/UploadUrl"
           example:
-            $ref: "../../examples/file/upload-url/get.json"
+            $ref: "../../examples/files/upload-url/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
