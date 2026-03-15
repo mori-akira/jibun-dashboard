@@ -45,7 +45,7 @@
         <DataTable
           :rows="rows"
           :column-defs="columnDefs"
-          :is-loading="loadingQueue.length > 0"
+          :is-loading="isLoading"
           row-clickable
           :init-sort-state="initSortState"
           wrapper-class="flex justify-center mt-4 mx-1"
@@ -90,6 +90,7 @@ import RankSummary from "~/components/qualification/RankSummary.vue";
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
+import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 
 definePageMeta({
   layout: "mobile",
@@ -99,22 +100,20 @@ const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
 
-const loadingQueue = ref<string[]>([]);
+const { isLoading, withLoading } = useLoadingQueue();
 const fetchQualificationApi = async () => {
-  const id = generateRandomString();
-  loadingQueue.value.push(id);
-  try {
-    await qualificationStore.fetchQualification(
-      undefined,
-      selectedStatus.value,
-      selectedRank.value
-    );
-  } catch (err) {
-    console.error(err);
-    commonStore.addErrorMessage(getErrorMessage(err));
-  } finally {
-    loadingQueue.value = loadingQueue.value.filter((e) => e !== id);
-  }
+  await withLoading(async () => {
+    try {
+      await qualificationStore.fetchQualification(
+        undefined,
+        selectedStatus.value,
+        selectedRank.value
+      );
+    } catch (err) {
+      console.error(err);
+      commonStore.addErrorMessage(getErrorMessage(err));
+    }
+  });
 };
 
 const selectedStatus = ref<GetQualificationsStatusEnum[]>([]);

@@ -127,8 +127,6 @@ import type { GenericObject, SubmissionHandler } from "vee-validate";
 import { Form, Field } from "vee-validate";
 
 import type { Qualification, QualificationBase } from "~/generated/api/client";
-import { FileApi } from "~/generated/api/client";
-import { Configuration } from "~/generated/api/client/configuration";
 import { schemas } from "~/generated/api/client/schemas";
 import Button from "~/components/common/Button.vue";
 import TextBox from "~/components/common/TextBox.vue";
@@ -140,7 +138,7 @@ import Label from "~/components/common/Label.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
 import { useFileCheck } from "~/composables/common/useFileCheck";
-import { useAuth } from "~/composables/common/useAuth";
+import { useApiClient } from "~/composables/common/useApiClient";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import { withErrorHandling } from "~/utils/api-call";
 
@@ -152,13 +150,8 @@ const emit = defineEmits<{
   (e: "submit", values: QualificationBase): void;
 }>();
 
-const { getAccessToken } = useAuth();
-const configuration = new Configuration({
-  baseOptions: {
-    headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-  },
-});
-const fileApi = new FileApi(configuration);
+const { getFileApi } = useApiClient();
+const fileApi = getFileApi();
 const commonStore = useCommonStore();
 const { checkFile, showWarningDialog, warningDialogMessage, onWarningOk } =
   useFileCheck({ maxSizeMB: 5 });

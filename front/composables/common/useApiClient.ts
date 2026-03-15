@@ -4,6 +4,7 @@ import {
   SalaryApi,
   QualificationApi,
   SettingApi,
+  FileApi,
 } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
@@ -22,6 +23,7 @@ export const useApiClient = () => {
   const getSalaryApi = () => new SalaryApi(getConfiguration());
   const getQualificationApi = () => new QualificationApi(getConfiguration());
   const getSettingApi = () => new SettingApi(getConfiguration());
+  const getFileApi = () => new FileApi(getConfiguration());
 
   return {
     getConfiguration,
@@ -29,5 +31,6 @@ export const useApiClient = () => {
     getSalaryApi,
     getQualificationApi,
     getSettingApi,
+    getFileApi,
   };
 };

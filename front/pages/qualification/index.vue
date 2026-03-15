@@ -56,7 +56,7 @@
       <DataTable
         :rows="rows"
         :column-defs="columnDefs"
-        :is-loading="loadingQueue.length > 0"
+        :is-loading="isLoading"
         row-clickable
         :init-sort-state="initSortState"
         wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
@@ -87,11 +87,7 @@ import type {
   Qualification,
   SettingQualification,
 } from "~/generated/api/client/api";
-import {
-  FileApi,
-  GetUserAssetsDownloadUrlAssetTypeEnum,
-} from "~/generated/api/client/api";
-import { Configuration } from "~/generated/api/client/configuration";
+import { GetUserAssetsDownloadUrlAssetTypeEnum } from "~/generated/api/client/api";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
@@ -105,44 +101,38 @@ import SearchConditionForm from "~/components/qualification/SearchConditionForm.
 import { useCommonStore } from "~/stores/common";
 import { useSettingStore } from "~/stores/setting";
 import { useQualificationStore } from "~/stores/qualification";
-import { useAuth } from "~/composables/common/useAuth";
+import { useApiClient } from "~/composables/common/useApiClient";
 import { getRankColorHexCode } from "~/utils/qualification";
 import type { Rank } from "~/utils/qualification";
-import { generateRandomString } from "~/utils/rand";
+import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 
-const { getAccessToken } = useAuth();
-const fileApi = new FileApi(
-  new Configuration({
-    baseOptions: { headers: { Authorization: `Bearer ${getAccessToken() || ""}` } },
-  })
-);
+const { getFileApi } = useApiClient();
+const fileApi = getFileApi();
 const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
 const router = useRoute();
 const rank = router.query?.rank as GetQualificationsRankEnum;
 
-const loadingQueue = ref<string[]>([]);
+const { isLoading, withLoading } = useLoadingQueue();
 const fetchQualificationApi = async () => {
-  const id = generateRandomString();
-  loadingQueue.value.push(id);
-  try {
-    await qualificationStore.fetchQualification(
-      qualificationName.value,
-      selectedStatus.value,
-      selectedRank.value,
-      organization.value,
-      acquiredDateFrom.value,
-      acquiredDateTo.value,
-      expirationDateFrom.value,
-      expirationDateTo.value
-    );
-  } catch (err) {
-    console.error(err);
-    commonStore.addErrorMessage(getErrorMessage(err));
-  } finally {
-    loadingQueue.value = loadingQueue.value.filter((e) => e !== id);
-  }
+  await withLoading(async () => {
+    try {
+      await qualificationStore.fetchQualification(
+        qualificationName.value,
+        selectedStatus.value,
+        selectedRank.value,
+        organization.value,
+        acquiredDateFrom.value,
+        acquiredDateTo.value,
+        expirationDateFrom.value,
+        expirationDateTo.value
+      );
+    } catch (err) {
+      console.error(err);
+      commonStore.addErrorMessage(getErrorMessage(err));
+    }
+  });
 };
 
 onMounted(async () => {

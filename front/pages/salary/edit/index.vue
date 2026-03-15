@@ -124,8 +124,7 @@
 import axios from "axios";
 import { useI18n } from "vue-i18n";
 
-import { Configuration } from "~/generated/api/client/configuration";
-import { FileApi, SalaryApi } from "~/generated/api/client";
+import { useApiClient } from "~/composables/common/useApiClient";
 import type { Overview, PayslipData, Structure } from "~/generated/api/client";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
@@ -142,7 +141,6 @@ import {
   useInfoDialog,
   useConfirmDialog,
 } from "~/composables/common/useDialog";
-import { useAuth } from "~/composables/common/useAuth";
 import { usePolling } from "~/composables/common/usePolling";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
@@ -151,14 +149,9 @@ import { withErrorHandling } from "~/utils/api-call";
 import { generateRandomString } from "~/utils/rand";
 
 const { t } = useI18n();
-const { getAccessToken } = useAuth();
-const configuration = new Configuration({
-  baseOptions: {
-    headers: { Authorization: `Bearer ${getAccessToken() || ""}` },
-  },
-});
-const fileApi = new FileApi(configuration);
-const salaryApi = new SalaryApi(configuration);
+const { getFileApi, getSalaryApi } = useApiClient();
+const fileApi = getFileApi();
+const salaryApi = getSalaryApi();
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
 const { showInfoDialog, infoDialogMessage, openInfoDialog, onInfoOk } =

@@ -5,38 +5,14 @@
       <VueDatePicker
         :model-value="dateFromObj"
         :format="format"
-        :enable-time-picker="false"
-        :teleport="true"
-        position="center"
-        :auto-position="autoPosition"
-        :text-input="
-          textInput && {
-            format: 'yyyy-MM-dd',
-            enterSubmit: true,
-            selectOnFocus: true,
-            openMenu: 'toggle',
-            escClose: true,
-          }
-        "
+        v-bind="config"
         @update:model-value="onChangeFrom"
       />
       <span class="mx-2">~</span>
       <VueDatePicker
         :model-value="dateToObj"
         :format="format"
-        :enable-time-picker="false"
-        :teleport="true"
-        position="center"
-        :auto-position="autoPosition"
-        :text-input="
-          textInput && {
-            format: 'yyyy-MM-dd',
-            enterSubmit: true,
-            selectOnFocus: true,
-            openMenu: 'toggle',
-            escClose: true,
-          }
-        "
+        v-bind="config"
         @update:model-value="onChangeTo"
       />
     </div>
@@ -46,9 +22,9 @@
 <script setup lang="ts">
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import moment from "moment";
 
 import Label from "~/components/common/Label.vue";
+import { useDatePickerConfig } from "~/composables/common/useDatePickerConfig";
 
 const props = defineProps<{
   label?: string;
@@ -66,7 +42,7 @@ const emit = defineEmits<{
   (event: "change:from" | "change:to", value?: string): void;
 }>();
 
-const format = (date: Date) => moment(date).format("YYYY-MM-DD");
+const { format, config } = useDatePickerConfig(props);
 
 const dateFromObj = ref();
 const dateToObj = ref();
@@ -75,12 +51,14 @@ watch(
   () => {
     dateFromObj.value = props.dateFrom ? new Date(props.dateFrom) : null;
   },
+  { immediate: true },
 );
 watch(
   () => props.dateTo,
   () => {
     dateToObj.value = props.dateTo ? new Date(props.dateTo) : null;
   },
+  { immediate: true },
 );
 const onChangeFrom = (data: Date | null) => {
   if (data) {

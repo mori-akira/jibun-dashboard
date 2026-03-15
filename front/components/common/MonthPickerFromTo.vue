@@ -5,22 +5,16 @@
       <VueDatePicker
         :model-value="dateFromObj"
         :format="format"
-        :month-picker="true"
-        :enable-time-picker="false"
-        :teleport="true"
-        position="center"
-        :auto-position="autoPosition"
+        month-picker
+        v-bind="config"
         @update:model-value="onChangeFrom"
       />
       <span class="mx-2">~</span>
       <VueDatePicker
         :model-value="dateToObj"
         :format="format"
-        :month-picker="true"
-        :enable-time-picker="false"
-        :teleport="true"
-        position="center"
-        :auto-position="autoPosition"
+        month-picker
+        v-bind="config"
         @update:model-value="onChangeTo"
       />
     </div>
@@ -30,9 +24,9 @@
 <script setup lang="ts">
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import moment from "moment";
 
 import Label from "~/components/common/Label.vue";
+import { useDatePickerConfig } from "~/composables/common/useDatePickerConfig";
 
 const props = defineProps<{
   label?: string;
@@ -49,7 +43,7 @@ const emit = defineEmits<{
   (event: "change:from" | "change:to", value?: string): void;
 }>();
 
-const format = (date: Date) => moment(date).format("YYYY-MM-DD");
+const { format, config } = useDatePickerConfig(props);
 
 const dateFromObj = ref();
 const dateToObj = ref();
