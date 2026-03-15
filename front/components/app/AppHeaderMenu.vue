@@ -10,44 +10,56 @@
       <span class="inline-block ml-2">{{ userStore?.user?.emailAddress }}</span>
     </div>
     <hr class="mt-3" />
-    <ul class="mt-3">
+    <ul class="mt-3 list-none p-0">
       <li>
         <NuxtLink
           to="/profile/edit"
-          class="menu-item font-cursive"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
           active-class="active"
         >
-          <Icon name="tabler:edit" class="menu-icon" />
+          <Icon
+            name="tabler:edit"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
           Edit Profile
         </NuxtLink>
       </li>
-      <li>
+      <li class="mt-2">
         <NuxtLink
           to="/profile/change-password"
-          class="menu-item font-cursive"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
           active-class="active"
         >
-          <Icon name="tabler:lock" class="menu-icon" />
+          <Icon
+            name="tabler:lock"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
           Change Password
         </NuxtLink>
       </li>
-      <li>
+      <li class="mt-2">
         <NuxtLink
           to="/profile/setting"
-          class="menu-item font-cursive"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
           active-class="active"
         >
-          <Icon name="tabler:settings" class="menu-icon" />
+          <Icon
+            name="tabler:settings"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
           Setting
         </NuxtLink>
       </li>
-      <li>
+      <li class="mt-2">
         <NuxtLink
           to="/logout"
-          class="menu-item font-cursive"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
           active-class="active"
         >
-          <Icon name="tabler:logout" class="menu-icon" />
+          <Icon
+            name="tabler:logout"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
           Logout
         </NuxtLink>
       </li>
@@ -62,43 +74,3 @@ import { useUserStore } from "~/stores/user";
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 </script>
-
-<style lang="css" scoped>
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li:nth-child(n + 2) {
-  margin-top: 0.5rem;
-}
-
-.menu-item {
-  display: inline-block;
-  width: stretch;
-  padding: 0.2rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.menu-item:hover {
-  background-color: #00000033;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.menu-item.active {
-  background-color: #00000033;
-  text-decoration: underline;
-}
-
-.menu-item.active:hover {
-  cursor: unset;
-}
-
-.menu-item .menu-icon {
-  transform: translate(-1px, 4px);
-  font-size: 1.3rem;
-}
-</style>

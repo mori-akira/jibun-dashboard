@@ -8,22 +8,22 @@
     <Icon
       v-if="type === 'plus'"
       name="tabler:plus"
-      :class="['icon', iconClass]"
+      :class="['hover:cursor-pointer', iconClass]"
     />
     <Icon
       v-if="type === 'cancel'"
       name="tabler:x"
-      :class="['icon', iconClass]"
+      :class="['hover:cursor-pointer', iconClass]"
     />
     <Icon
       v-if="type === 'edit'"
       name="tabler:database-edit"
-      :class="['icon', iconClass]"
+      :class="['hover:cursor-pointer', iconClass]"
     />
     <Icon
       v-if="type === 'delete'"
       name="tabler:trash"
-      :class="['icon', iconClass]"
+      :class="['hover:cursor-pointer', iconClass]"
     />
   </div>
 </template>
@@ -43,10 +43,3 @@ const onClick = (): void => {
   emit("click:button");
 };
 </script>
-
-<style lang="css" scoped>
-.icon:hover {
-  cursor: pointer;
-  color: brightness(0.7);
-}
-</style>

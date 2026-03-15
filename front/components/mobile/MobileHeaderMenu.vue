@@ -9,10 +9,13 @@
       <li>
         <NuxtLink
           to="/logout"
-          class="menu-item font-cursive"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
           active-class="active"
         >
-          <Icon name="tabler:logout" class="menu-icon" />
+          <Icon
+            name="tabler:logout"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
           Logout
         </NuxtLink>
       </li>
@@ -24,34 +27,3 @@
 import { useCommonStore } from "~/stores/common";
 const commonStore = useCommonStore();
 </script>
-
-<style lang="css" scoped>
-.menu-item {
-  display: inline-block;
-  width: stretch;
-  padding: 0.2rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.menu-item:hover {
-  background-color: #00000033;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.menu-item.active {
-  background-color: #00000033;
-  text-decoration: underline;
-}
-
-.menu-item.active:hover {
-  cursor: unset;
-}
-
-.menu-item .menu-icon {
-  transform: translate(-1px, 4px);
-  font-size: 1.3rem;
-}
-</style>

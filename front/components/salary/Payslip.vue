@@ -1,40 +1,51 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div
+    :class="[
+      'm-4 p-4 bg-white shadow-[1px_1px_2px_#000] overflow-y-auto',
+      wrapperClass,
+    ]"
+  >
     <h4 :class="titleClass">{{ title }}</h4>
 
-    <h5 :class="headlineClass">Overview</h5>
+    <h5 :class="['mt-4 border-b border-[#333]', headlineClass]">Overview</h5>
     <template v-for="def in overviewDef">
       <div
         v-if="salary?.overview?.[def.value]"
         :key="`overview-${def.label}`"
-        class="row"
+        class="w-full flex mt-[0.3rem] pl-2 [&:nth-of-type(even)]:bg-[#eee]"
       >
-        <div :class="['label', labelClass]">{{ def.label }}</div>
-        <div :class="['value', valueClass]">
+        <div :class="['w-1/2', labelClass]">{{ def.label }}</div>
+        <div :class="['w-1/2', valueClass]">
           {{ salary?.overview?.[def.value]?.toLocaleString() }}
         </div>
       </div>
     </template>
 
-    <h5 :class="headlineClass">Structure</h5>
+    <h5 :class="['mt-4 border-b border-[#333]', headlineClass]">Structure</h5>
     <template v-for="def in structureDef">
       <div
         v-if="salary?.structure?.[def.value]"
         :key="`structure-${def.label}`"
-        class="row"
+        class="w-full flex mt-[0.3rem] pl-2 [&:nth-of-type(even)]:bg-[#eee]"
       >
-        <div :class="['label', labelClass]">{{ def.label }}</div>
-        <div :class="['value', valueClass]">
+        <div :class="['w-1/2', labelClass]">{{ def.label }}</div>
+        <div :class="['w-1/2', valueClass]">
           {{ salary?.structure?.[def.value]?.toLocaleString() }}
         </div>
       </div>
     </template>
 
     <template v-for="group in salary?.payslipData" :key="group.key">
-      <h5 :class="headlineClass">{{ group.key }}</h5>
-      <div v-for="item in group.data" :key="item.key" class="row">
-        <div :class="['label', labelClass]">{{ item.key }}</div>
-        <div :class="['value', valueClass]">
+      <h5 :class="['mt-4 border-b border-[#333]', headlineClass]">
+        {{ group.key }}
+      </h5>
+      <div
+        v-for="item in group.data"
+        :key="item.key"
+        class="w-full flex mt-[0.3rem] pl-2 [&:nth-of-type(even)]:bg-[#eee]"
+      >
+        <div :class="['w-1/2', labelClass]">{{ item.key }}</div>
+        <div :class="['w-1/2', valueClass]">
           {{ item?.data?.toLocaleString() }}
         </div>
       </div>
@@ -135,37 +146,3 @@ const structureDef: { label: string; value: keyof Structure }[] = [
   },
 ];
 </script>
-
-<style lang="css" scoped>
-h5 {
-  margin-top: 1rem;
-  border-bottom: 1px solid #333;
-}
-
-.wrapper {
-  margin: 1rem 0.5rem 0.5rem;
-  padding: 1rem;
-  background-color: #fff;
-  box-shadow: 1px 1px 2px #000;
-  overflow-y: auto;
-}
-
-.row {
-  width: 100%;
-  display: flex;
-  margin-top: 0.3rem;
-  padding-left: 0.5rem;
-}
-
-.row:nth-of-type(even) {
-  background-color: #eee;
-}
-
-.label {
-  width: 50%;
-}
-
-.value {
-  width: 50%;
-}
-</style>

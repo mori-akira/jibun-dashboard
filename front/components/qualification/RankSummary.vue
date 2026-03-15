@@ -1,17 +1,20 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div :class="['flex justify-around items-center p-4', wrapperClass]">
     <div
       v-for="(value, key, index) in counter"
       :key="index"
       class="summary-item"
     >
       <span
-        :class="['label']"
+        class="text-xl"
         :style="{color: getRankColorHexCode(key, settingStore.setting?.qualification as SettingQualification)}"
         >{{ key }} :</span
       >
       <span
-        :class="['value', { 'can-navigate': canNavigate }]"
+        :class="[
+          'ml-2 text-xl font-bold',
+          { 'cursor-pointer underline': canNavigate },
+        ]"
         :style="{color: getRankColorHexCode(key, settingStore.setting?.qualification as SettingQualification)}"
         @click="onClickRank(key)"
         >{{ value }}</span
@@ -65,27 +68,3 @@ const onClickRank = (rank: string) => {
   });
 };
 </script>
-
-<style lang="css" scoped>
-.wrapper {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 1rem;
-}
-
-.label {
-  font-size: 1.25rem;
-}
-
-.value {
-  margin-left: 0.5rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.value.can-navigate {
-  cursor: pointer;
-  text-decoration: underline;
-}
-</style>

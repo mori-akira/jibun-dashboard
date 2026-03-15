@@ -5,7 +5,10 @@
       basic-setup
       editable
       theme="light"
-      :class="['code-mirror', { invalid: !isValid }]"
+      :class="[
+        'flex-1 max-h-[calc(100vh-27rem)] overflow-y-auto',
+        isValid ? 'shadow-[1px_1px_3px_#000]' : 'shadow-[1px_1px_3px_#f00]',
+      ]"
       :extensions="[json(), lintGutter(), linter(jsonParseLinter())]"
       :linter="jsonParseLinter()"
       @on-change="onUpdate"
@@ -149,16 +152,3 @@ const onExecute = () => {
   emit("execute");
 };
 </script>
-
-<style lang="css" scoped>
-.code-mirror {
-  flex: 1;
-  max-height: calc(100vh - 27rem);
-  box-shadow: 1px 1px 3px #000;
-  overflow-y: auto;
-}
-
-.code-mirror.invalid {
-  box-shadow: 1px 1px 3px #f00;
-}
-</style>

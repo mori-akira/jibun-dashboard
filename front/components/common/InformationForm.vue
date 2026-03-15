@@ -1,15 +1,17 @@
 <template>
-  <div :class="['wrapper', wrapperClass]">
+  <div :class="[wrapperClass]">
     <div
       v-for="(def, index) in itemDefs"
       v-show="def.skipIfNull && typedItem[def.field]"
       :key="index"
-      :class="['row', rowClass]"
+      :class="['flex justify-center w-full h-8 mt-[0.1rem]', rowClass]"
     >
-      <div :class="['label', labelClass, def.labelClass]">{{ def.label }}</div>
+      <div :class="['flex items-center p-2', labelClass, def.labelClass]">
+        {{ def.label }}
+      </div>
       <div
         :class="[
-          'item',
+          'flex items-center ml-[0.1rem] p-2 whitespace-nowrap overflow-hidden text-ellipsis',
           itemClass,
           def.itemClass,
           def.itemClassFunction?.(typedItem[def.field], typedItem),
@@ -51,7 +53,10 @@ export type ItemDef = {
   skipIfNull?: boolean;
   itemType?: "plainText" | "anchorLink" | "asyncLink";
   asyncLinkText?: string;
-  asyncLinkFunction?: (value: unknown, row: Record<string, unknown>) => Promise<string>;
+  asyncLinkFunction?: (
+    value: unknown,
+    row: Record<string, unknown>,
+  ) => Promise<string>;
   labelClass?: string;
   itemClass?: string;
   itemClassFunction?: (value: unknown, row: Record<string, unknown>) => string;
@@ -73,29 +78,3 @@ const props = defineProps<{
 
 const typedItem = computed(() => props.item as Record<string, unknown>);
 </script>
-
-<style lang="css" scoped>
-.row {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 2rem;
-  margin-top: 0.1rem;
-}
-
-.label {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  margin-left: 0.1rem;
-  padding: 0.5rem;
-  text-wrap: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>

@@ -5,7 +5,7 @@
       v-for="(option, index) in options"
       :key="index"
       :class="[
-        'option',
+        'py-[0.2rem] px-4 text-[0.8rem] bg-[#888] text-white rounded-lg hover:cursor-pointer hover:text-[#eee] [&.selected]:bg-[#bb88ff] [&:not(.selected)]:hover:bg-[#777] [&.selected]:hover:bg-[#aa77ee]',
         optionClass,
         { selected: selectedOptions.includes(values[index] ?? '') },
       ]"
@@ -45,30 +45,3 @@ const onClickOption = (value: string) => {
   emit("click:value", value);
 };
 </script>
-
-<style lang="css" scoped>
-.option {
-  padding: 0.2rem 1rem;
-  font-size: 0.8rem;
-  background-color: #888;
-  color: #fff;
-  border-radius: 0.5rem;
-}
-
-.option.selected {
-  background-color: #bb88ff;
-}
-
-.option:hover {
-  cursor: pointer;
-  color: #eee;
-}
-
-.option:not(.selected):hover {
-  background-color: #777;
-}
-
-.option.selected:hover {
-  background-color: #aa77ee;
-}
-</style>

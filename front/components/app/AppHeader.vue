@@ -4,14 +4,14 @@
   >
     <div
       :class="[
-        'toggle-area relative w-[30px] h-[30px] ml-3 cursor-pointer',
+        'toggle-area group relative w-[30px] h-[30px] ml-3 cursor-pointer',
         { opened: commonStore.isNavOpen },
       ]"
       @click="commonStore.toggleNav"
     >
-      <span class="line bg-gray-900" />
-      <span class="line bg-gray-900" />
-      <span class="line bg-gray-900" />
+      <span class="line bg-gray-900 group-hover:bg-[#666]" />
+      <span class="line bg-gray-900 group-hover:bg-[#666]" />
+      <span class="line bg-gray-900 group-hover:bg-[#666]" />
     </div>
     <div class="title-area">
       <NuxtLink
@@ -29,7 +29,10 @@
       >
         <Icon
           name="tabler:caret-left-filled"
-          :class="['toggle-menu-icon', { open: commonStore.isHeaderMenuOpen }]"
+          :class="[
+            'transition-transform duration-300',
+            { '-rotate-90': commonStore.isHeaderMenuOpen },
+          ]"
         />
       </div>
     </div>
@@ -55,10 +58,6 @@ const userName = computed(() => userStore.user?.userName ?? "");
   transition: 0.5s;
 }
 
-.toggle-area:hover .line {
-  background-color: #666;
-}
-
 .toggle-area .line:nth-child(1) {
   top: 3px;
 }
@@ -77,9 +76,5 @@ const userName = computed(() => userStore.user?.userName ?? "");
 
 .toggle-area.opened .line:nth-child(3) {
   transform: rotate(45deg) translateY(-12px);
-}
-
-.toggle-menu-icon.open {
-  transform: rotate(-90deg);
 }
 </style>

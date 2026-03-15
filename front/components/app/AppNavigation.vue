@@ -1,75 +1,104 @@
 <template>
   <nav
     :class="[
-      'w-64 bg-gray-100 pt-16 px-4 border-r-4 border-[#666] min-h-screen',
-      { closed: !commonStore.isNavOpen },
+      'w-64 bg-gray-100 pt-16 px-4 border-r-4 border-[#666] min-h-screen transition duration-500',
+      { 'w-[13px] p-0': !commonStore.isNavOpen },
     ]"
   >
     <div
       :class="['toggle-area', { closed: !commonStore.isNavOpen }]"
       @click="commonStore.toggleNav"
     >
-      <Icon name="tabler:caret-left-filled" class="toggle-icon" />
+      <Icon
+        name="tabler:caret-left-filled"
+        :class="[
+          'text-[1.2rem] text-[#333] translate-x-[-1px] translate-y-[-1px]',
+          { 'scale-x-[-1]': !commonStore.isNavOpen },
+        ]"
+      />
     </div>
-    <div :class="['content-area', { closed: !commonStore.isNavOpen }]">
-      <ul>
+    <div
+      :class="[
+        'w-56 transition duration-500',
+        { '-translate-x-56': !commonStore.isNavOpen },
+      ]"
+    >
+      <ul class="list-none p-0">
         <li>
           <NuxtLink
-            class="text-gray-900"
+            class="inline-block w-full py-[0.2rem] px-4 mb-[15px] rounded-lg no-underline font-bold text-gray-900 hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
             :class="{ active: isActive('/') }"
             to="/"
           >
-            <Icon name="tabler:home" class="nav-icon" />
+            <Icon
+              name="tabler:home"
+              class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+            />
             <span class="font-cursive ml-2">Home</span>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink
-            class="text-gray-900"
+            class="inline-block w-full py-[0.2rem] px-4 mb-[15px] rounded-lg no-underline font-bold text-gray-900 hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
             :class="{ active: isActive('/salary') }"
             to="/salary"
           >
-            <Icon name="tabler:report-money" class="nav-icon" />
+            <Icon
+              name="tabler:report-money"
+              class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+            />
             <span class="font-cursive ml-2">Salary</span>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink
-            class="text-gray-900"
+            class="inline-block w-full py-[0.2rem] px-4 mb-[15px] rounded-lg no-underline font-bold text-gray-900 hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
             :class="{ active: isActive('/qualification') }"
             to="/qualification"
           >
-            <Icon name="tabler:certificate" class="nav-icon" />
+            <Icon
+              name="tabler:certificate"
+              class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+            />
             <span class="font-cursive ml-2">Qualification</span>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink
-            class="text-gray-900"
+            class="inline-block w-full py-[0.2rem] px-4 mb-[15px] rounded-lg no-underline font-bold text-gray-900 hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
             :class="{ active: isActive('/vocabulary') }"
             to="/vocabulary"
           >
-            <Icon name="tabler:book" class="nav-icon" />
+            <Icon
+              name="tabler:book"
+              class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+            />
             <span class="font-cursive ml-2">Vocabulary</span>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink
-            class="text-gray-900"
+            class="inline-block w-full py-[0.2rem] px-4 mb-[15px] rounded-lg no-underline font-bold text-gray-900 hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
             :class="{ active: isActive('/financial-asset') }"
             to="/financial-asset"
           >
-            <Icon name="tabler:report-money" class="nav-icon" />
+            <Icon
+              name="tabler:report-money"
+              class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+            />
             <span class="font-cursive ml-2">Financial Asset</span>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink
-            class="text-gray-900"
+            class="inline-block w-full py-[0.2rem] px-4 mb-[15px] rounded-lg no-underline font-bold text-gray-900 hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
             :class="{ active: isActive('/study-plan') }"
             to="/study-plan"
           >
-            <Icon name="tabler:file-pencil" class="nav-icon" />
+            <Icon
+              name="tabler:file-pencil"
+              class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+            />
             <span class="font-cursive ml-2">Study Plan</span>
           </NuxtLink>
         </li>
@@ -91,45 +120,6 @@ const isActive = (base: string) =>
 </script>
 
 <style lang="css" scoped>
-nav {
-  transition: 0.5s;
-}
-
-nav.closed {
-  width: 13px;
-  padding: 0;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-a {
-  display: inline-block;
-  width: stretch;
-  padding: 0.2rem 1rem;
-  margin-bottom: 15px;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  background-color: #00000033;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-a.active {
-  background-color: #00000033;
-  text-decoration: underline;
-}
-
-a.active:hover {
-  cursor: unset;
-}
-
 .toggle-area {
   position: fixed;
   top: calc(50vh - 1rem);
@@ -140,38 +130,14 @@ a.active:hover {
   border: #666 3px solid;
   border-radius: 50%;
   transition: 0.5s;
+  cursor: pointer;
 }
 
 .toggle-area:hover {
-  cursor: pointer;
   background-color: #ddd;
 }
 
 .toggle-area.closed {
   left: 0px;
-}
-
-.toggle-area.closed .toggle-icon {
-  transform: translate(-1px, -1px) scaleX(-1);
-}
-
-.toggle-area .toggle-icon {
-  font-size: 1.2rem;
-  color: #333;
-  transform: translate(-1px, -1px);
-}
-
-.content-area {
-  width: 14rem;
-  transition: 0.5s;
-}
-
-.content-area.closed {
-  transform: translateX(-14rem);
-}
-
-.nav-icon {
-  transform: translate(-1px, 4px);
-  font-size: 1.3rem;
 }
 </style>
