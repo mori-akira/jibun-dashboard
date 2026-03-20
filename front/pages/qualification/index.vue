@@ -310,7 +310,7 @@ const itemDefs: ItemDef[] = [
     asyncLinkText: "View PDF",
     asyncLinkFunction: async (value) => {
       const res = await fileApi.getUserAssetsDownloadUrl(
-        GetUserAssetsDownloadUrlAssetTypeEnum.QualificationCertificate,
+        GetUserAssetsDownloadUrlAssetTypeEnum.QualificationCertifications,
         value as string,
       );
       return res.data.downloadUrl;

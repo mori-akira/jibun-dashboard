@@ -13,7 +13,7 @@ get:
       schema:
         type: string
         enum:
-          - qualification-certificate
+          - qualification-certifications
     - in: query
       name: assetId
       description: アセットID
