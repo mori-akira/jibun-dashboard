@@ -318,6 +318,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
             officialUrl: target.officialUrl,
             certificationUrl: target.certificationUrl,
             badgeUrl: target.badgeUrl,
+            certificationAssetId: target.certificationAssetId,
           }
         : undefined;
     },

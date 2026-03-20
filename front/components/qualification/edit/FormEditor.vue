@@ -61,19 +61,68 @@
         />
         <div
           v-if="def.type === 'file'"
-          class="mt-4 w-full flex justify-center items-center"
+          class="mt-4 w-full flex justify-center items-start"
         >
           <Label
             :label="def.label"
             :required="def.required"
-            label-class="w-40 ml-8 font-cursive"
+            label-class="w-40 ml-8 font-cursive mt-2"
           />
-          <div class="w-1/2 ml-4">
+          <div class="w-1/2 ml-4 space-y-2">
+            <!-- Registered badge -->
+            <div
+              v-if="
+                hasRegisteredCertification &&
+                !shouldDeleteCertification &&
+                !certificationPdfFile
+              "
+              class="flex items-center justify-between rounded-lg bg-green-50 border border-green-300 px-3 py-1.5"
+            >
+              <div class="flex items-center text-green-700">
+                <Icon
+                  name="tabler:file-type-pdf"
+                  class="adjust-icon-2 text-red-500"
+                />
+                <span class="ml-2 text-sm font-cursive">Registered</span>
+              </div>
+              <button
+                type="button"
+                class="ml-2 text-red-400 hover:text-red-600 transition-colors"
+                @click="onDeleteRegisteredCertification"
+              >
+                <Icon name="tabler:trash" class="adjust-icon-2" />
+              </button>
+            </div>
+            <!-- Pending delete badge -->
+            <div
+              v-if="
+                hasRegisteredCertification &&
+                shouldDeleteCertification &&
+                !certificationPdfFile
+              "
+              class="flex items-center justify-between rounded-lg bg-red-50 border border-red-300 px-3 py-1.5"
+            >
+              <div class="flex items-center text-red-600">
+                <Icon name="tabler:trash" class="adjust-icon-2" />
+                <span class="ml-2 text-sm font-cursive"
+                  >Will be deleted on save</span
+                >
+              </div>
+              <button
+                type="button"
+                class="ml-2 text-gray-500 hover:text-gray-700 transition-colors"
+                @click="shouldDeleteCertification = false"
+              >
+                <Icon name="tabler:arrow-back-up" class="adjust-icon-2" />
+              </button>
+            </div>
+            <!-- File uploader -->
             <FileUploader
               wrapper-class="h-24 flex-col"
               @upload="
                 (file) => {
                   certificationPdfFile = file;
+                  shouldDeleteCertification = false;
                   commonStore.setHasUnsavedChange(true);
                 }
               "
@@ -84,9 +133,16 @@
                     name="tabler:file-type-pdf"
                     class="adjust-icon-2 text-red-500"
                   />
-                  <span class="ml-2 font-cursive truncate max-w-48">{{
+                  <span class="ml-2 font-cursive truncate max-w-36">{{
                     certificationPdfFile.name
                   }}</span>
+                  <button
+                    type="button"
+                    class="ml-2 text-red-400 hover:text-red-600 transition-colors"
+                    @click.stop="certificationPdfFile = null"
+                  >
+                    <Icon name="tabler:x" class="adjust-icon-2" />
+                  </button>
                 </div>
                 <div class="w-full flex justify-center mt-2 text-gray-400">
                   <Icon name="tabler:hand-click" class="adjust-icon-2" />
@@ -151,7 +207,7 @@ import { useApiClient } from "~/composables/common/useApiClient";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 import { withErrorHandling } from "~/utils/api-call";
 
-defineProps<{
+const props = defineProps<{
   targetQualification: Qualification | undefined;
 }>();
 const emit = defineEmits<{
@@ -166,6 +222,14 @@ const { checkFile, showWarningDialog, warningDialogMessage, onWarningOk } =
   useFileCheck({ maxSizeMB: 5 });
 
 const certificationPdfFile = ref<File | null>(null);
+const shouldDeleteCertification = ref(false);
+const hasRegisteredCertification = computed(
+  () => !!props.targetQualification?.certificationAssetId,
+);
+const onDeleteRegisteredCertification = () => {
+  shouldDeleteCertification.value = true;
+  commonStore.setHasUnsavedChange(true);
+};
 
 const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
   const valueTyped = value as QualificationBase;
@@ -185,6 +249,8 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
       valueTyped.certificationAssetId = fileId;
     }, commonStore);
     if (!result) return;
+  } else if (shouldDeleteCertification.value) {
+    valueTyped.certificationAssetId = undefined;
   }
   emit("submit", valueTyped);
 };
