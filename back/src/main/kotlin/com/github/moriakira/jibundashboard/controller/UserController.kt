@@ -19,35 +19,14 @@ class UserController(
 ) : UserApi {
 
     override fun getUsers(): ResponseEntity<User> {
-        var user = userService.get(currentAuth.userId)
-        return user?.let {
-            // ユーザが登録済みなら返却
-            ResponseEntity.ok(
-                User(
-                    userId = user.userId,
-                    userName = user.userName,
-                    emailAddress = user.emailAddress,
-                ),
-            )
-        } ?: run {
-            // 未登録の場合、初期登録
-            user = userService.put(
-                UserModel(
-                    userId = currentAuth.userId,
-                    userName = currentAuth.email,
-                    emailAddress = currentAuth.email,
-                ),
-            )
-
-            // 登録したユーザ情報を返却
-            ResponseEntity.ok(
-                User(
-                    userId = user.userId,
-                    userName = user.userName,
-                    emailAddress = user.emailAddress,
-                ),
-            )
-        }
+        val user = userService.getOrInit(currentAuth.userId, currentAuth.email)
+        return ResponseEntity.ok(
+            User(
+                userId = user.userId,
+                userName = user.userName,
+                emailAddress = user.emailAddress,
+            ),
+        )
     }
 
     override fun putUsers(userBase: UserBase?): ResponseEntity<Unit> {

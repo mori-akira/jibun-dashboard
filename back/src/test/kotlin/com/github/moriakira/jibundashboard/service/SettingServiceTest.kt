@@ -164,4 +164,45 @@ class SettingServiceTest :
             capt.captured.salary!!.transitionItemCount shouldBe 12
             capt.captured.salary!!.compareDataColors shouldBe listOf("#111111", "#222222")
         }
+
+        "getOrDefault: 既存ならそのまま返す (putDefault は呼ばれない)" {
+            mockDefaults()
+            val service = SettingService(repository, resourceLoader)
+            val existing = SettingItem().apply {
+                userId = "u3"
+                salary = SalarySetting().apply {
+                    financialYearStartMonth = 4
+                    transitionItemCount = 12
+                    compareDataColors = listOf("#111111", "#222222")
+                }
+                qualification = QualificationSetting().apply {
+                    rankAColor = "#AA0000"
+                    rankBColor = "#00BB00"
+                    rankCColor = "#0000CC"
+                    rankDColor = "#DDDDDD"
+                }
+            }
+            every { repository.get("u3") } returns existing
+
+            val res = service.getOrDefault("u3")
+
+            res.userId shouldBe "u3"
+            res.salary.financialYearStartMonth shouldBe 4
+            verify(exactly = 0) { repository.put(any()) }
+        }
+
+        "getOrDefault: 未登録ならデフォルトを書き込んで返す" {
+            mockDefaults()
+            val service = SettingService(repository, resourceLoader)
+            every { repository.get("u4") } returns null
+            val capt = slot<SettingItem>()
+            every { repository.put(capture(capt)) } returns Unit
+
+            val res = service.getOrDefault("u4")
+
+            res.userId shouldBe "u4"
+            res.salary.financialYearStartMonth shouldBe 4
+            verify(exactly = 1) { repository.put(any()) }
+            capt.captured.userId shouldBe "u4"
+        }
     })

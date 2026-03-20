@@ -47,19 +47,15 @@ class QualificationController(
     override fun postQualifications(
         qualificationBase: QualificationBase?,
     ): ResponseEntity<QualificationId> {
-        // check
         requireNotNull(qualificationBase) { "Request body is required." }
-
-        // execute
-        val qualificationId = qualificationService.put(qualificationBase.toModel(UUID.randomUUID().toString()))
+        val qualificationId = qualificationService.create(qualificationBase.toModel())
         return ResponseEntity.ok().body(QualificationId(UUID.fromString(qualificationId)))
     }
 
     @Suppress("ReturnCount")
     override fun getQualificationsById(qualificationId: UUID): ResponseEntity<Qualification> {
-        val model = qualificationService.getByQualificationId(qualificationId.toString())
+        val model = qualificationService.getByQualificationIdForUser(qualificationId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
         return ResponseEntity.ok(model.toApi())
     }
 
@@ -68,25 +64,17 @@ class QualificationController(
         qualificationId: UUID,
         qualificationBase: QualificationBase?,
     ): ResponseEntity<QualificationId> {
-        // check
         requireNotNull(qualificationBase) { "Request body is required." }
-        val model = qualificationService.getByQualificationId(qualificationId.toString())
+        qualificationService.getByQualificationIdForUser(qualificationId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
-
-        // execute
         qualificationService.put(qualificationBase.toModel(qualificationId.toString()))
         return ResponseEntity.ok().body(QualificationId(qualificationId))
     }
 
     @Suppress("ReturnCount")
     override fun deleteQualifications(qualificationId: UUID): ResponseEntity<Unit> {
-        // check
-        val model = qualificationService.getByQualificationId(qualificationId.toString())
+        qualificationService.getByQualificationIdForUser(qualificationId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
-
-        // execute
         qualificationService.delete(currentAuth.userId, qualificationId.toString())
         return ResponseEntity.noContent().build()
     }
@@ -106,6 +94,24 @@ class QualificationController(
         certificationUrl = this.certificationUrl?.let { URI.create(it) },
         badgeUrl = this.badgeUrl?.let { URI.create(it) },
         certificationAssetId = this.certificationAssetId?.let { UUID.fromString(it) },
+    )
+
+    private fun QualificationBase.toModel(): QualificationModel = QualificationModel(
+        qualificationId = "",
+        userId = currentAuth.userId,
+        order = this.order,
+        qualificationName = this.qualificationName,
+        abbreviation = this.abbreviation,
+        version = this.version,
+        status = this.status.value,
+        rank = this.rank.value,
+        organization = this.organization,
+        acquiredDate = this.acquiredDate?.toString(),
+        expirationDate = this.expirationDate?.toString(),
+        officialUrl = this.officialUrl.toString(),
+        certificationUrl = this.certificationUrl?.toString(),
+        badgeUrl = this.badgeUrl?.toString(),
+        certificationAssetId = this.certificationAssetId?.toString(),
     )
 
     private fun QualificationBase.toModel(qualificationId: String): QualificationModel = QualificationModel(

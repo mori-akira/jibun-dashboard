@@ -8,7 +8,9 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkStatic
 import io.mockk.verify
 import java.util.UUID
 
@@ -246,5 +248,47 @@ class QualificationServiceTest :
         "deleteByQualificationId: 削除を委譲" {
             service.delete("u1", "qid-1")
             verify(exactly = 1) { repository.delete("u1", "qid-1") }
+        }
+
+        "getByQualificationIdForUser: 所有者なら返す" {
+            every { repository.getByQualificationId("qid-1") } returns item(id = "qid-1", userId = "u1")
+
+            val result = service.getByQualificationIdForUser("qid-1", "u1")
+
+            result!!.qualificationId shouldBe "qid-1"
+            result.userId shouldBe "u1"
+        }
+
+        "getByQualificationIdForUser: 他ユーザなら null" {
+            every { repository.getByQualificationId("qid-2") } returns item(id = "qid-2", userId = "other")
+
+            val result = service.getByQualificationIdForUser("qid-2", "u1")
+
+            result shouldBe null
+        }
+
+        "getByQualificationIdForUser: 存在しなければ null" {
+            every { repository.getByQualificationId("nope") } returns null
+
+            val result = service.getByQualificationIdForUser("nope", "u1")
+
+            result shouldBe null
+        }
+
+        "create: UUID を採番して put する" {
+            mockkStatic(UUID::class)
+            val fixed = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+            every { UUID.randomUUID() } returns fixed
+            val capt = slot<QualificationItem>()
+            every { repository.put(capture(capt)) } returns Unit
+            every { repository.getByQualificationId(fixed.toString()) } returns null
+
+            val inputModel = model(id = "", certificationAssetId = null)
+            val returnedId = service.create(inputModel)
+
+            returnedId shouldBe fixed.toString()
+            capt.captured.qualificationId shouldBe fixed.toString()
+
+            unmockkStatic(UUID::class)
         }
     })

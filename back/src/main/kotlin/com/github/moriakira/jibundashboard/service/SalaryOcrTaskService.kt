@@ -1,6 +1,7 @@
 package com.github.moriakira.jibundashboard.service
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.github.moriakira.jibundashboard.exception.ConflictException
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskItem
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskRepository
 import org.springframework.beans.factory.annotation.Value
@@ -30,6 +31,11 @@ class SalaryOcrTaskService(
         targetDate: String,
         fileId: String,
     ): String {
+        val existing = salaryOcrTaskRepository.findByUserAndDate(userId, targetDate).map { it.toDomain() }
+        if (existing.any { it.status == SalaryOcrTaskStatus.PENDING || it.status == SalaryOcrTaskStatus.RUNNING }) {
+            throw ConflictException("OCR task is already in progress for userId=$userId, targetDate=$targetDate")
+        }
+
         val now = OffsetDateTime.now(ZoneOffset.UTC).toString()
         val taskId = UUID.randomUUID().toString()
         val model = SalaryOcrTaskModel(

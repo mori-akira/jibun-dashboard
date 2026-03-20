@@ -18,7 +18,6 @@ import com.github.moriakira.jibundashboard.service.PayslipEntryModel
 import com.github.moriakira.jibundashboard.service.SalaryModel
 import com.github.moriakira.jibundashboard.service.SalaryOcrTaskModel
 import com.github.moriakira.jibundashboard.service.SalaryOcrTaskService
-import com.github.moriakira.jibundashboard.service.SalaryOcrTaskStatus
 import com.github.moriakira.jibundashboard.service.SalaryService
 import com.github.moriakira.jibundashboard.service.StructureModel
 import org.springframework.http.HttpStatus
@@ -41,54 +40,41 @@ class SalaryController(
         targetDateFrom: LocalDate?,
         targetDateTo: LocalDate?,
     ): ResponseEntity<List<Salary>> {
-        val list = when {
-            targetDate != null -> salaryService.listByExactDate(currentAuth.userId, targetDate.toString())
-            targetDateFrom != null || targetDateTo != null -> salaryService.listByDateRange(
-                currentAuth.userId,
-                targetDateFrom?.toString(),
-                targetDateTo?.toString(),
-            )
-
-            else -> salaryService.listAll(currentAuth.userId)
-        }
+        val list = salaryService.list(
+            currentAuth.userId,
+            targetDate?.toString(),
+            targetDateFrom?.toString(),
+            targetDateTo?.toString(),
+        )
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
     override fun postSalaries(salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
-        // check
         requireNotNull(salaryBase) { "Request body is required." }
-
-        // execute
-        val salaryId = salaryService.put(salaryBase.toModel(UUID.randomUUID().toString()))
+        val salaryId = salaryService.create(salaryBase.toModel())
         return ResponseEntity.status(HttpStatus.CREATED).body(SalaryId(salaryId = UUID.fromString(salaryId)))
     }
 
     @Suppress("ReturnCount")
     override fun getSalariesById(salaryId: UUID): ResponseEntity<Salary> {
-        val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
+        val model = salaryService.getByIdForUser(salaryId.toString(), currentAuth.userId)
+            ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(model.toApi())
     }
 
     @Suppress("ReturnCount")
     override fun putSalaries(salaryId: UUID, salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
-        // check
         requireNotNull(salaryBase) { "Request body is required." }
-        val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
-
-        // execute
+        salaryService.getByIdForUser(salaryId.toString(), currentAuth.userId)
+            ?: return ResponseEntity.notFound().build()
         salaryService.put(salaryBase.toModel(salaryId.toString()))
         return ResponseEntity.ok().body(SalaryId(salaryId))
     }
 
     @Suppress("ReturnCount")
     override fun deleteSalaries(salaryId: UUID): ResponseEntity<Unit> {
-        // check
-        val model = salaryService.getBySalaryId(salaryId.toString()) ?: return ResponseEntity.notFound().build()
-        if (model.userId != currentAuth.userId) return ResponseEntity.notFound().build()
-
-        // execute
+        val model = salaryService.getByIdForUser(salaryId.toString(), currentAuth.userId)
+            ?: return ResponseEntity.notFound().build()
         salaryService.delete(currentAuth.userId, model.targetDate)
         return ResponseEntity.noContent().build()
     }
@@ -113,19 +99,7 @@ class SalaryController(
     override fun postSalaryOcrTasksStart(
         postSalaryOcrTasksStartRequest: PostSalaryOcrTasksStartRequest?,
     ): ResponseEntity<SalaryOcrTaskId> {
-        // check
         requireNotNull(postSalaryOcrTasksStartRequest) { "Request body is required." }
-        val ocrTasks = salaryOcrTaskService.listByUserAndDate(
-            userId = currentAuth.userId,
-            targetDate = postSalaryOcrTasksStartRequest.targetDate.toString(),
-        )
-        if (
-            ocrTasks.any { (it.status == SalaryOcrTaskStatus.PENDING) || (it.status == SalaryOcrTaskStatus.RUNNING) }
-        ) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build()
-        }
-
-        // execute
         val taskId = salaryOcrTaskService.startTask(
             userId = currentAuth.userId,
             targetDate = postSalaryOcrTasksStartRequest.targetDate.toString(),
@@ -163,6 +137,42 @@ class SalaryController(
                 key = category.key,
                 data = category.data.map { data ->
                     PayslipDataDataInner(
+                        key = data.key,
+                        data = data.data,
+                    )
+                },
+            )
+        },
+    )
+
+    private fun SalaryBase.toModel(): SalaryModel = SalaryModel(
+        salaryId = "",
+        userId = currentAuth.userId,
+        targetDate = this.targetDate.toString(),
+        overview = this.overview.let {
+            OverviewModel(
+                grossIncome = it.grossIncome,
+                netIncome = it.netIncome,
+                operatingTime = it.operatingTime,
+                overtime = it.overtime,
+                bonus = it.bonus,
+                bonusTakeHome = it.bonusTakeHome,
+            )
+        },
+        structure = this.structure.let {
+            StructureModel(
+                basicSalary = it.basicSalary,
+                overtimePay = it.overtimePay,
+                housingAllowance = it.housingAllowance,
+                positionAllowance = it.positionAllowance,
+                other = it.other,
+            )
+        },
+        payslipData = this.payslipData.map { category ->
+            PayslipCategoryModel(
+                key = category.key,
+                data = category.data.map { data ->
+                    PayslipEntryModel(
                         key = data.key,
                         data = data.data,
                     )

@@ -100,4 +100,34 @@ class UserServiceTest :
 
             unmockkStatic(UUID::class)
         }
+
+        "getOrInit: 登録済みならそのまま返す (put は呼ばれない)" {
+            val item = UserItem().apply {
+                userId = "u5"
+                userName = "Dave"
+                emailAddress = "dave@example.com"
+            }
+            every { repository.get("u5") } returns item
+
+            val result = service.getOrInit("u5", "dave@example.com")
+
+            result shouldBe UserModel(userId = "u5", userName = "Dave", emailAddress = "dave@example.com")
+            verify(exactly = 0) { repository.put(any()) }
+        }
+
+        "getOrInit: 未登録ならメールアドレスで初期登録する" {
+            every { repository.get("u6") } returns null
+            val slotItem = slot<UserItem>()
+            every { repository.put(capture(slotItem)) } returns Unit
+
+            val result = service.getOrInit("u6", "eve@example.com")
+
+            result.userId shouldBe "u6"
+            result.userName shouldBe "eve@example.com"
+            result.emailAddress shouldBe "eve@example.com"
+            slotItem.captured.userId shouldBe "u6"
+            slotItem.captured.userName shouldBe "eve@example.com"
+            slotItem.captured.emailAddress shouldBe "eve@example.com"
+            verify(exactly = 1) { repository.put(any()) }
+        }
     })

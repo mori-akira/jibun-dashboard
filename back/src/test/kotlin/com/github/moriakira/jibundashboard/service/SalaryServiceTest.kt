@@ -8,8 +8,11 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkStatic
 import io.mockk.verify
+import java.util.UUID
 
 class SalaryServiceTest :
     StringSpec({
@@ -174,6 +177,96 @@ class SalaryServiceTest :
         "deleteBySalaryId: 指定キーで削除を委譲" {
             service.delete("u1", "2025-08-15")
             verify(exactly = 1) { repository.delete("u1", "2025-08-15") }
+        }
+
+        "getByIdForUser: 所有者なら返す" {
+            every { repository.getBySalaryId("sid-1") } returns item(salaryId = "sid-1", userId = "u1")
+
+            val result = service.getByIdForUser("sid-1", "u1")
+
+            result!!.salaryId shouldBe "sid-1"
+            result.userId shouldBe "u1"
+        }
+
+        "getByIdForUser: 他ユーザなら null" {
+            every { repository.getBySalaryId("sid-2") } returns item(salaryId = "sid-2", userId = "other")
+
+            val result = service.getByIdForUser("sid-2", "u1")
+
+            result shouldBe null
+        }
+
+        "getByIdForUser: 存在しなければ null" {
+            every { repository.getBySalaryId("nope") } returns null
+
+            val result = service.getByIdForUser("nope", "u1")
+
+            result shouldBe null
+        }
+
+        "list: targetDate なし → listAll" {
+            every { repository.findByUser("u1") } returns listOf(item())
+
+            val res = service.list("u1", null, null, null)
+
+            res.shouldHaveSize(1)
+            verify(exactly = 1) { repository.findByUser("u1") }
+            verify(exactly = 0) { repository.findByUserAndDate(any(), any()) }
+            verify(exactly = 0) { repository.findByUserAndDateRange(any(), any(), any()) }
+        }
+
+        "list: targetDate あり → listByExactDate" {
+            every { repository.findByUserAndDate("u1", "2025-01-01") } returns listOf(item(date = "2025-01-01"))
+
+            val res = service.list("u1", "2025-01-01", null, null)
+
+            res.shouldHaveSize(1)
+            verify(exactly = 1) { repository.findByUserAndDate("u1", "2025-01-01") }
+            verify(exactly = 0) { repository.findByUser(any()) }
+        }
+
+        "list: 期間指定 → listByDateRange" {
+            every { repository.findByUserAndDateRange("u1", "2025-01-01", "2025-12-31") } returns listOf(item())
+
+            val res = service.list("u1", null, "2025-01-01", "2025-12-31")
+
+            res.shouldHaveSize(1)
+            verify(exactly = 1) { repository.findByUserAndDateRange("u1", "2025-01-01", "2025-12-31") }
+            verify(exactly = 0) { repository.findByUser(any()) }
+        }
+
+        "list: targetDate があれば期間より優先して listByExactDate" {
+            every { repository.findByUserAndDate("u1", "2025-06-01") } returns listOf(item(date = "2025-06-01"))
+
+            val res = service.list("u1", "2025-06-01", "2025-01-01", "2025-12-31")
+
+            res.shouldHaveSize(1)
+            verify(exactly = 1) { repository.findByUserAndDate("u1", "2025-06-01") }
+            verify(exactly = 0) { repository.findByUserAndDateRange(any(), any(), any()) }
+        }
+
+        "create: UUID を採番して put する" {
+            mockkStatic(UUID::class)
+            val fixed = UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc")
+            every { UUID.randomUUID() } returns fixed
+            val capt = slot<SalaryItem>()
+            every { repository.put(capture(capt)) } returns Unit
+
+            val model = SalaryModel(
+                salaryId = "",
+                userId = "u1",
+                targetDate = "2025-08-15",
+                overview = OverviewModel(0, 0, 0.0, 0.0, 0, 0),
+                structure = StructureModel(0, 0, 0, 0, 0),
+                payslipData = emptyList(),
+            )
+
+            val returnedId = service.create(model)
+
+            returnedId shouldBe fixed.toString()
+            capt.captured.salaryId shouldBe fixed.toString()
+
+            unmockkStatic(UUID::class)
         }
 
         "toDomain: null はデフォルトで埋め、payslipData は空に" {

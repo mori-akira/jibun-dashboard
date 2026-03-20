@@ -31,8 +31,8 @@ class UserControllerTest :
             every { currentAuth.jwt } returns jwt
         }
 
-        "getUser: 登録済みユーザを返す" {
-            every { userService.get("u1") } returns UserModel(
+        "getUser: getOrInit の結果を返す" {
+            every { userService.getOrInit("u1", "u1@example.com") } returns UserModel(
                 userId = "u1",
                 userName = "Alice",
                 emailAddress = "alice@example.com",
@@ -44,20 +44,12 @@ class UserControllerTest :
             res.body!!.userId shouldBe "u1"
             res.body!!.userName shouldBe "Alice"
             res.body!!.emailAddress shouldBe "alice@example.com"
+            verify(exactly = 1) { userService.getOrInit("u1", "u1@example.com") }
             verify(exactly = 0) { userService.put(any()) }
         }
 
-        "getUser: 未登録なら初期登録して返す" {
-            every { userService.get("u1") } returns null
-            every {
-                userService.put(
-                    UserModel(
-                        userId = "u1",
-                        userName = "u1@example.com",
-                        emailAddress = "u1@example.com",
-                    ),
-                )
-            } returns UserModel(
+        "getUser: 未登録でも getOrInit が初期登録を担う (get/put は Controller 側では呼ばない)" {
+            every { userService.getOrInit("u1", "u1@example.com") } returns UserModel(
                 userId = "u1",
                 userName = "u1@example.com",
                 emailAddress = "u1@example.com",
@@ -68,16 +60,9 @@ class UserControllerTest :
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.userId shouldBe "u1"
             res.body!!.userName shouldBe "u1@example.com"
-            res.body!!.emailAddress shouldBe "u1@example.com"
-            verify(exactly = 1) {
-                userService.put(
-                    UserModel(
-                        userId = "u1",
-                        userName = "u1@example.com",
-                        emailAddress = "u1@example.com",
-                    ),
-                )
-            }
+            verify(exactly = 1) { userService.getOrInit("u1", "u1@example.com") }
+            verify(exactly = 0) { userService.get(any()) }
+            verify(exactly = 0) { userService.put(any()) }
         }
 
         "putUser: ユーザ情報を更新して200を返す" {

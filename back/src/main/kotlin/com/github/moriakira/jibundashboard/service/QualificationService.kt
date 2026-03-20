@@ -41,6 +41,11 @@ class QualificationService(
     fun getByQualificationId(qualificationId: String): QualificationModel? =
         qualificationRepository.getByQualificationId(qualificationId)?.toDomain()
 
+    fun getByQualificationIdForUser(qualificationId: String, userId: String): QualificationModel? =
+        getByQualificationId(qualificationId)?.takeIf { it.userId == userId }
+
+    fun create(model: QualificationModel): String = put(model.copy(qualificationId = UUID.randomUUID().toString()))
+
     fun put(model: QualificationModel): String {
         val existing = qualificationRepository.getByQualificationId(model.qualificationId)?.toDomain()
         if (model.certificationAssetId != existing?.certificationAssetId) {

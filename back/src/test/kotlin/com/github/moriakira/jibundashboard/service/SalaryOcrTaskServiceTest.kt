@@ -1,8 +1,10 @@
 package com.github.moriakira.jibundashboard.service
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.github.moriakira.jibundashboard.exception.ConflictException
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskItem
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskRepository
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -79,6 +81,79 @@ class SalaryOcrTaskServiceTest :
 
             result shouldBe null
             verify(exactly = 1) { repository.getByTaskId("nope") }
+        }
+
+        "startTask: PENDING タスクがあれば ConflictException をスロー" {
+            val pending = SalaryOcrTaskItem().apply {
+                taskId = "t-pending"
+                userId = "u1"
+                targetDate = "2025-11"
+                status = SalaryOcrTaskStatus.PENDING.name
+                createdAt = "2025-11-01T00:00:00Z"
+                updatedAt = "2025-11-01T00:00:00Z"
+            }
+            every { repository.findByUserAndDate("u1", "2025-11") } returns listOf(pending)
+
+            shouldThrow<ConflictException> {
+                service.startTask(userId = "u1", targetDate = "2025-11", fileId = "file-x")
+            }
+            verify(exactly = 0) { repository.put(any()) }
+            @Suppress("MaxLineLength")
+            verify(exactly = 0) {
+                sqsClient.sendMessage(
+                    any<java.util.function.Consumer<software.amazon.awssdk.services.sqs.model.SendMessageRequest.Builder>>(),
+                )
+            }
+        }
+
+        "startTask: RUNNING タスクがあれば ConflictException をスロー" {
+            val running = SalaryOcrTaskItem().apply {
+                taskId = "t-running"
+                userId = "u1"
+                targetDate = "2025-11"
+                status = SalaryOcrTaskStatus.RUNNING.name
+                createdAt = "2025-11-01T00:00:00Z"
+                updatedAt = "2025-11-01T00:00:00Z"
+            }
+            every { repository.findByUserAndDate("u1", "2025-11") } returns listOf(running)
+
+            shouldThrow<ConflictException> {
+                service.startTask(userId = "u1", targetDate = "2025-11", fileId = "file-x")
+            }
+            verify(exactly = 0) { repository.put(any()) }
+        }
+
+        "startTask: COMPLETED タスクのみなら正常に開始できる" {
+            val completed = SalaryOcrTaskItem().apply {
+                taskId = "t-done"
+                userId = "u1"
+                targetDate = "2025-12"
+                status = SalaryOcrTaskStatus.COMPLETED.name
+                createdAt = "2025-12-01T00:00:00Z"
+                updatedAt = "2025-12-01T00:00:00Z"
+            }
+            every { repository.findByUserAndDate("u1", "2025-12") } returns listOf(completed)
+            every { repository.put(any()) } returns Unit
+            @Suppress("MaxLineLength")
+            every {
+                sqsClient.sendMessage(
+                    any<java.util.function.Consumer<software.amazon.awssdk.services.sqs.model.SendMessageRequest.Builder>>(),
+                )
+            } answers { mockk(relaxed = true) }
+
+            mockkStatic(UUID::class)
+            val fixed = UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd")
+            every { UUID.randomUUID() } returns fixed
+            mockkStatic(OffsetDateTime::class)
+            every { OffsetDateTime.now(ZoneOffset.UTC) } returns OffsetDateTime.parse("2025-12-01T00:00:00Z")
+
+            val returnedId = service.startTask(userId = "u1", targetDate = "2025-12", fileId = "file-y")
+
+            returnedId shouldBe fixed.toString()
+            verify(exactly = 1) { repository.put(any()) }
+
+            unmockkStatic(UUID::class)
+            unmockkStatic(OffsetDateTime::class)
         }
 
         "startTask: DynamoDB に保存し SQS に送信して taskId を返す" {

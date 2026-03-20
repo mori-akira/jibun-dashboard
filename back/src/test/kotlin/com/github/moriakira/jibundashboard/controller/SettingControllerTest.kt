@@ -28,22 +28,24 @@ class SettingControllerTest :
             every { currentAuth.userId } returns "u1"
         }
 
-        "getSetting: 登録済み設定を返す" {
-            val existing = SettingModel(
-                userId = "u1",
-                salary = SalarySettingModel(
-                    financialYearStartMonth = 4,
-                    transitionItemCount = 12,
-                    compareDataColors = listOf("#111111", "#222222"),
-                ),
-                qualification = QualificationSettingModel(
-                    rankAColor = "#AA0000",
-                    rankBColor = "#00BB00",
-                    rankCColor = "#0000CC",
-                    rankDColor = "#DDDDDD",
-                ),
-            )
-            every { settingService.get("u1") } returns existing
+        @Suppress("LongParameterList")
+        fun model(
+            userId: String = "u1",
+            financialYearStartMonth: Int = 4,
+            transitionItemCount: Int = 12,
+            compareDataColors: List<String> = listOf("#111111", "#222222"),
+            rankAColor: String = "#AA0000",
+            rankBColor: String = "#00BB00",
+            rankCColor: String = "#0000CC",
+            rankDColor: String = "#DDDDDD",
+        ) = SettingModel(
+            userId = userId,
+            salary = SalarySettingModel(financialYearStartMonth, transitionItemCount, compareDataColors),
+            qualification = QualificationSettingModel(rankAColor, rankBColor, rankCColor, rankDColor),
+        )
+
+        "getSetting: getOrDefault の結果を返す" {
+            every { settingService.getOrDefault("u1") } returns model()
 
             val res = controller.getSettings()
 
@@ -56,44 +58,25 @@ class SettingControllerTest :
             res.body!!.qualification.rankBColor shouldBe "#00BB00"
             res.body!!.qualification.rankCColor shouldBe "#0000CC"
             res.body!!.qualification.rankDColor shouldBe "#DDDDDD"
-            verify(exactly = 0) { settingService.putDefault(any()) }
+            verify(exactly = 1) { settingService.getOrDefault("u1") }
         }
 
-        "getSetting: 未登録なら初期登録して返す" {
-            every { settingService.get("u1") } returns null
-            val created = SettingModel(
-                userId = "u1",
-                salary = SalarySettingModel(
-                    financialYearStartMonth = 1,
-                    transitionItemCount = 6,
-                    compareDataColors = listOf("#123456", "#654321"),
-                ),
-                qualification = QualificationSettingModel(
-                    rankAColor = "#A1A1A1",
-                    rankBColor = "#B2B2B2",
-                    rankCColor = "#C3C3C3",
-                    rankDColor = "#D4D4D4",
-                ),
-            )
-            every { settingService.putDefault("u1") } returns created
+        "getSetting: 未登録でも getOrDefault が初期化を担う (put/putDefault は Controller 側では呼ばない)" {
+            every { settingService.getOrDefault("u1") } returns
+                model(financialYearStartMonth = 1, transitionItemCount = 6)
 
             val res = controller.getSettings()
 
             res.statusCode shouldBe HttpStatus.OK
-            res.body!!.userId shouldBe "u1"
             res.body!!.salary.financialYearStartMonth shouldBe 1
-            res.body!!.salary.transitionItemCount shouldBe 6
-            res.body!!.salary.compareDataColors.shouldContainExactly("#123456", "#654321")
-            res.body!!.qualification.rankAColor shouldBe "#A1A1A1"
-            res.body!!.qualification.rankBColor shouldBe "#B2B2B2"
-            res.body!!.qualification.rankCColor shouldBe "#C3C3C3"
-            res.body!!.qualification.rankDColor shouldBe "#D4D4D4"
-            verify(exactly = 1) { settingService.putDefault("u1") }
+            verify(exactly = 1) { settingService.getOrDefault("u1") }
+            verify(exactly = 0) { settingService.putDefault(any()) }
+            verify(exactly = 0) { settingService.get(any()) }
         }
 
         "putSetting: 設定を保存して200を返す" {
             val req = Setting(
-                userId = null, // Controller 側で currentAuth.userId を使用
+                userId = null,
                 salary = SettingSalary(
                     financialYearStartMonth = 3,
                     transitionItemCount = 24,

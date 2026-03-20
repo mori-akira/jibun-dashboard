@@ -12,6 +12,9 @@ class UserService(
 
     fun get(userId: String): UserModel? = userRepository.get(userId)?.toDomain()
 
+    fun getOrInit(userId: String, email: String): UserModel =
+        get(userId) ?: put(UserModel(userId = userId, userName = email, emailAddress = email))
+
     fun put(user: UserModel): UserModel {
         val targetId = user.userId ?: UUID.randomUUID().toString()
         val item = UserItem().apply {

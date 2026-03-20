@@ -19,47 +19,23 @@ class SettingController(
 ) : SettingApi {
 
     override fun getSettings(): ResponseEntity<Setting> {
-        var setting = settingService.get(currentAuth.userId)
-        return setting?.let {
-            // 設定が登録済みなら返却
-            ResponseEntity.ok(
-                Setting(
-                    userId = currentAuth.userId,
-                    salary = SettingSalary(
-                        financialYearStartMonth = setting.salary.financialYearStartMonth,
-                        transitionItemCount = setting.salary.transitionItemCount,
-                        compareDataColors = setting.salary.compareDataColors,
-                    ),
-                    qualification = SettingQualification(
-                        rankAColor = setting.qualification.rankAColor,
-                        rankBColor = setting.qualification.rankBColor,
-                        rankCColor = setting.qualification.rankCColor,
-                        rankDColor = setting.qualification.rankDColor,
-                    ),
+        val setting = settingService.getOrDefault(currentAuth.userId)
+        return ResponseEntity.ok(
+            Setting(
+                userId = currentAuth.userId,
+                salary = SettingSalary(
+                    financialYearStartMonth = setting.salary.financialYearStartMonth,
+                    transitionItemCount = setting.salary.transitionItemCount,
+                    compareDataColors = setting.salary.compareDataColors,
                 ),
-            )
-        } ?: run {
-            // 未登録の場合、初期登録
-            setting = settingService.putDefault(currentAuth.userId)
-
-            // 登録した設定情報を返却
-            ResponseEntity.ok(
-                Setting(
-                    userId = currentAuth.userId,
-                    salary = SettingSalary(
-                        financialYearStartMonth = setting.salary.financialYearStartMonth,
-                        transitionItemCount = setting.salary.transitionItemCount,
-                        compareDataColors = setting.salary.compareDataColors,
-                    ),
-                    qualification = SettingQualification(
-                        rankAColor = setting.qualification.rankAColor,
-                        rankBColor = setting.qualification.rankBColor,
-                        rankCColor = setting.qualification.rankCColor,
-                        rankDColor = setting.qualification.rankDColor,
-                    ),
+                qualification = SettingQualification(
+                    rankAColor = setting.qualification.rankAColor,
+                    rankBColor = setting.qualification.rankBColor,
+                    rankCColor = setting.qualification.rankCColor,
+                    rankDColor = setting.qualification.rankDColor,
                 ),
-            )
-        }
+            ),
+        )
     }
 
     override fun putSettings(setting: Setting?): ResponseEntity<Unit> {

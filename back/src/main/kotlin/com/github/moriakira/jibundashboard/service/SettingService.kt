@@ -25,6 +25,8 @@ class SettingService(
 
     fun get(userId: String): SettingModel? = settingRepository.get(userId)?.toDomain()
 
+    fun getOrDefault(userId: String): SettingModel = get(userId) ?: putDefault(userId)
+
     fun put(model: SettingModel): SettingModel {
         val item = model.toItem()
         settingRepository.put(item)

@@ -3,8 +3,10 @@ package com.github.moriakira.jibundashboard.service
 import com.github.moriakira.jibundashboard.repository.SalaryItem
 import com.github.moriakira.jibundashboard.repository.SalaryRepository
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
+@Suppress("TooManyFunctions")
 class SalaryService(
     private val salaryRepository: SalaryRepository,
 ) {
@@ -20,6 +22,18 @@ class SalaryService(
         salaryRepository.findByUserAndDateRange(userId, from, to).map { it.toDomain() }
 
     fun getBySalaryId(salaryId: String): SalaryModel? = salaryRepository.getBySalaryId(salaryId)?.toDomain()
+
+    fun getByIdForUser(salaryId: String, userId: String): SalaryModel? =
+        getBySalaryId(salaryId)?.takeIf { it.userId == userId }
+
+    fun list(userId: String, targetDate: String?, targetDateFrom: String?, targetDateTo: String?): List<SalaryModel> =
+        when {
+            targetDate != null -> listByExactDate(userId, targetDate)
+            targetDateFrom != null || targetDateTo != null -> listByDateRange(userId, targetDateFrom, targetDateTo)
+            else -> listAll(userId)
+        }
+
+    fun create(model: SalaryModel): String = put(model.copy(salaryId = UUID.randomUUID().toString()))
 
     fun put(model: SalaryModel): String {
         salaryRepository.put(model.toItem())
