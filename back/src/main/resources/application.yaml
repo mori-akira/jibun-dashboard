@@ -38,6 +38,8 @@ app:
       salaries: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salaries
       qualifications: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-qualifications
       salary-ocr-tasks: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salary-ocr-tasks
+      vocabularies: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabularies
+      vocabulary_tags: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-tags
   s3:
     region: ${AWS_REGION:ap-northeast-1}
     uploads-bucket:
