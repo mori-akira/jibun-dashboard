@@ -1,5 +1,8 @@
 package com.github.moriakira.jibundashboard.service
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
@@ -17,13 +20,20 @@ class CognitoUserService(
     @param:Value("\${app.security.cognito.base-uri:}") private val baseUri: String?,
     @param:Value("\${app.security.cognito.region:ap-northeast-1}") private val cognitoRegion: String,
 ) {
-    fun fetch(accessToken: String): CognitoUserInfo = webClient.get()
-        .uri("$baseUri/oauth2/userInfo")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
-        .retrieve()
-        .bodyToMono(CognitoUserInfo::class.java)
-        .timeout(Duration.ofSeconds(5))
-        .block() ?: CognitoUserInfo()
+    private val logger = LoggerFactory.getLogger(CognitoUserService::class.java)
+    private val objectMapper = jacksonObjectMapper()
+
+    fun fetch(accessToken: String): CognitoUserInfo {
+        val raw = webClient.get()
+            .uri("$baseUri/oauth2/userInfo")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+            .retrieve()
+            .bodyToMono(String::class.java)
+            .timeout(Duration.ofSeconds(5))
+            .block()
+        logger.info("Cognito userInfo response: $raw")
+        return raw?.let { objectMapper.readValue<CognitoUserInfo>(it) } ?: CognitoUserInfo()
+    }
 
     fun updateEmail(accessToken: String, email: String) {
         CognitoIdentityProviderClient.builder()
