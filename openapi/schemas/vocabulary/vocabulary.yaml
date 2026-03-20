@@ -3,3 +3,14 @@ description: ボキャブラリー情報
 allOf:
   - $ref: vocabularyId.yaml
   - $ref: vocabularyBase.yaml
+  - type: object
+    properties:
+      createdDateTime:
+        description: 作成日時
+        type: string
+        format: date-time
+
+      updatedDateTime:
+        description: 更新日時
+        type: string
+        format: date-time

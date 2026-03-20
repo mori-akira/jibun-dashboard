@@ -27,7 +27,7 @@ get:
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 put:
-  operationId: putQualifications
+  operationId: putQualificationsById
   summary: 資格情報更新(ID)
   description: 資格情報を更新する
   tags:
@@ -59,7 +59,7 @@ put:
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 delete:
-  operationId: deleteQualifications
+  operationId: deleteQualificationsById
   summary: 資格情報削除(ID)
   description: IDを指定して資格情報を削除する
   tags:

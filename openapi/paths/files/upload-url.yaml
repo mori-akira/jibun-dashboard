@@ -1,30 +1,29 @@
-get:
-  operationId: getUploadUrl
+post:
+  operationId: postUploadUrl
   summary: アップロードURL取得
   description: ファイルアップロード用の署名付きURLを発行し、取得する
   tags:
     - File
 
-  parameters:
-    - in: query
-      name: fileId
-      description: ファイルID
-      required: false
-      schema:
-        type: string
-        format: uuid
-    - in: query
-      name: expiresIn
-      description: URLの有効期限（秒）
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 604800
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            fileId:
+              description: ファイルID
+              type: string
+              format: uuid
+            expiresIn:
+              description: URLの有効期限（秒）
+              type: integer
+              minimum: 1
+              maximum: 604800
 
   responses:
-    "200":
-      description: 正常系
+    "201":
+      description: 正常時
       content:
         application/json:
           schema:

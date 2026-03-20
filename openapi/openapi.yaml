@@ -49,14 +49,18 @@ paths:
     $ref: "paths/salaries/ocr-tasks/index.yaml"
   /salaries/ocr-tasks/{ocrTaskId}:
     $ref: "paths/salaries/ocr-tasks/ocrTaskId.yaml"
-  /salaries/ocr-tasks/start:
-    $ref: "paths/salaries/ocr-tasks/start.yaml"
   /qualifications:
     $ref: "paths/qualifications/index.yaml"
   /qualifications/{qualificationId}:
     $ref: "paths/qualifications/qualificationId.yaml"
-  /vocabulary:
-    $ref: "paths/vocabulary/index.yaml"
+  /vocabularies:
+    $ref: "paths/vocabularies/index.yaml"
+  /vocabularies/{vocabularyId}:
+    $ref: "paths/vocabularies/vocabularyId.yaml"
+  /vocabulary-tags:
+    $ref: "paths/vocabulary-tags/index.yaml"
+  /vocabulary-tags/{vocabularyTagId}:
+    $ref: "paths/vocabulary-tags/vocabularyTagId.yaml"
 
 components:
   securitySchemes:
@@ -105,6 +109,12 @@ components:
       $ref: "schemas/vocabulary/vocabularyId.yaml"
     VocabularyBase:
       $ref: "schemas/vocabulary/vocabularyBase.yaml"
+    VocabularyTag:
+      $ref: "schemas/vocabulary/vocabularyTag/vocabularyTag.yaml"
+    VocabularyTagId:
+      $ref: "schemas/vocabulary/vocabularyTag/vocabularyTagId.yaml"
+    VocabularyTagBase:
+      $ref: "schemas/vocabulary/vocabularyTag/vocabularyTagBase.yaml"
     ErrorInfo:
       $ref: "schemas/error/errorInfo.yaml"
   responses:

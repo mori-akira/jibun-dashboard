@@ -1,0 +1,8 @@
+type: object
+description: ボキャブラリータグID
+
+properties:
+  vocabularyTagId:
+    description: ボキャブラリータグID
+    type: string
+    format: uuid

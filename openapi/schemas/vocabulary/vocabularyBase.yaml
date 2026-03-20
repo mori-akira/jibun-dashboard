@@ -8,6 +8,7 @@ properties:
   name:
     description: 名前
     type: string
+    minLength: 1
     maxLength: 128
 
   description:
@@ -21,14 +22,4 @@ properties:
     maxItems: 64
     uniqueItems: true
     items:
-      $ref: tag.yaml
-
-  createdDateTime:
-    description: 作成日時
-    type: string
-    format: date-time
-
-  updatedDateTime:
-    description: 更新日時
-    type: string
-    format: date-time
+      $ref: vocabularyTag/vocabularyTag.yaml

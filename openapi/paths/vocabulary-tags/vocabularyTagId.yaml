@@ -1,0 +1,79 @@
+get:
+  operationId: getVocabularyTagsById
+  summary: ボキャブラリータグ取得(ID)
+  description: IDを指定してボキャブラリータグを取得する
+  tags:
+    - Vocabulary
+
+  parameters:
+    - in: path
+      name: vocabularyTagId
+      description: ボキャブラリータグID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/VocabularyTag"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+put:
+  operationId: putVocabularyTagsById
+  summary: ボキャブラリータグ更新(ID)
+  description: ボキャブラリータグを更新する
+  tags:
+    - Vocabulary
+
+  parameters:
+    - in: path
+      name: vocabularyTagId
+      description: ボキャブラリータグID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/VocabularyTagBase"
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/VocabularyTagId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+delete:
+  operationId: deleteVocabularyTagsById
+  summary: ボキャブラリータグ削除(ID)
+  description: IDを指定してボキャブラリータグを削除する
+  tags:
+    - Vocabulary
+
+  parameters:
+    - in: path
+      name: vocabularyTagId
+      description: ボキャブラリータグID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

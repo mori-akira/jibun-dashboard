@@ -1,0 +1,12 @@
+type: object
+description: ボキャブラリータグ基本情報
+
+required:
+  - vocabularyTag
+
+properties:
+  vocabularyTag:
+    description: ボキャブラリータグ
+    type: string
+    minLength: 1
+    maxLength: 64

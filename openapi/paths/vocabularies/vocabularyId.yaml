@@ -1,14 +1,14 @@
 get:
-  operationId: getSalariesById
-  summary: 給与情報取得(ID)
-  description: IDを指定して給与情報を取得する
+  operationId: getVocabulariesById
+  summary: ボキャブラリー取得(ID)
+  description: IDを指定してボキャブラリーを取得する
   tags:
-    - Salary
+    - Vocabulary
 
   parameters:
     - in: path
-      name: salaryId
-      description: 給与ID
+      name: vocabularyId
+      description: ボキャブラリーID
       required: true
       schema:
         type: string
@@ -20,23 +20,21 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../../openapi.yaml#/components/schemas/Salary"
-          example:
-            $ref: "../../examples/salary/salaryId/get.json"
+            $ref: "../../openapi.yaml#/components/schemas/Vocabulary"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 put:
-  operationId: putSalariesById
-  summary: 給与情報更新(ID)
-  description: 給与情報を更新する
+  operationId: putVocabulariesById
+  summary: ボキャブラリー更新(ID)
+  description: ボキャブラリーを更新する
   tags:
-    - Salary
+    - Vocabulary
 
   parameters:
     - in: path
-      name: salaryId
-      description: 給与ID
+      name: vocabularyId
+      description: ボキャブラリーID
       required: true
       schema:
         type: string
@@ -46,7 +44,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../../openapi.yaml#/components/schemas/SalaryBase"
+          $ref: "../../openapi.yaml#/components/schemas/VocabularyBase"
 
   responses:
     "200":
@@ -54,21 +52,21 @@ put:
       content:
         application/json:
           schema:
-            $ref: "../../openapi.yaml#/components/schemas/SalaryId"
+            $ref: "../../openapi.yaml#/components/schemas/VocabularyId"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
 delete:
-  operationId: deleteSalariesById
-  summary: 給与情報削除(ID)
-  description: IDを指定して給与情報を削除する
+  operationId: deleteVocabulariesById
+  summary: ボキャブラリー削除(ID)
+  description: IDを指定してボキャブラリーを削除する
   tags:
-    - Salary
+    - Vocabulary
 
   parameters:
     - in: path
-      name: salaryId
-      description: 給与ID
+      name: vocabularyId
+      description: ボキャブラリーID
       required: true
       schema:
         type: string

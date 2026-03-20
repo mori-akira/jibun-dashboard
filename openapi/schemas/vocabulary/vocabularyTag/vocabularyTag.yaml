@@ -1,0 +1,5 @@
+type: object
+description: ボキャブラリータグ
+allOf:
+  - $ref: vocabularyTagId.yaml
+  - $ref: vocabularyTagBase.yaml

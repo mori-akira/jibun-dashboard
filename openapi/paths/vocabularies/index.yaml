@@ -1,5 +1,5 @@
 get:
-  operationId: getVocabulary
+  operationId: getVocabularies
   summary: ボキャブラリー取得
   description: 検索条件を指定してボキャブラリーを取得する
   tags:
@@ -14,7 +14,7 @@ get:
         type: string
     - in: query
       name: tags
-      description: タグ
+      description: ボキャブラリータグ
       required: false
       style: form
       explode: true
@@ -25,12 +25,35 @@ get:
 
   responses:
     "200":
-      description: 正常終了
+      description: 正常時
       content:
         application/json:
           schema:
             type: array
             items:
               $ref: "../../openapi.yaml#/components/schemas/Vocabulary"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+post:
+  operationId: postVocabularies
+  summary: ボキャブラリー登録
+  description: ボキャブラリーを登録する
+  tags:
+    - Vocabulary
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/VocabularyBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/VocabularyId"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
