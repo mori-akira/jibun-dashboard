@@ -61,5 +61,31 @@ locals {
         }
       ]
     }
+    vocabularies = {
+      table_name = "${var.app_name}-${var.env_name}-vocabularies"
+      hash_key   = { name = "userId", type = "S" }
+      sort_key   = { name = "vocabularyId", type = "S" }
+      gsi = [
+        {
+          name            = "gsi_vocabulary_id",
+          hash_key_name   = "vocabularyId",
+          hash_key_type   = "S",
+          projection_type = "ALL"
+        }
+      ]
+    }
+    vocabulary_tags = {
+      table_name = "${var.app_name}-${var.env_name}-vocabulary-tags"
+      hash_key   = { name = "userId", type = "S" }
+      sort_key   = { name = "vocabularyTagId", type = "S" }
+      gsi = [
+        {
+          name            = "gsi_vocabulary_tag_id",
+          hash_key_name   = "vocabularyTagId",
+          hash_key_type   = "S",
+          projection_type = "ALL"
+        }
+      ]
+    }
   }
 }
