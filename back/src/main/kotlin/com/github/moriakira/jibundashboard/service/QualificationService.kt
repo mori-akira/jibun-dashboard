@@ -46,10 +46,8 @@ class QualificationService(
         if (model.certificationAssetId != existing?.certificationAssetId) {
             val newId = model.certificationAssetId?.let { UUID.fromString(it) }
             val oldId = existing?.certificationAssetId?.let { UUID.fromString(it) }
-            when {
-                newId != null -> userAssetService.copyFromUploads(CERTIFICATION_ASSET_TYPE, model.userId, newId)
-                oldId != null -> userAssetService.delete(CERTIFICATION_ASSET_TYPE, model.userId, oldId)
-            }
+            if (newId != null) userAssetService.copyFromUploads(CERTIFICATION_ASSET_TYPE, model.userId, newId)
+            if (oldId != null) userAssetService.delete(CERTIFICATION_ASSET_TYPE, model.userId, oldId)
         }
         qualificationRepository.put(model.toItem())
         return model.qualificationId
