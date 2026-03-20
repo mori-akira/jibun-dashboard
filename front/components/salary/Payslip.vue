@@ -14,7 +14,7 @@
         :key="`overview-${def.label}`"
         class="w-full flex mt-[0.3rem] pl-2 [&:nth-of-type(even)]:bg-[#eee]"
       >
-        <div :class="['w-1/2', labelClass]">{{ def.label }}</div>
+        <div :class="['label w-1/2', labelClass]">{{ def.label }}</div>
         <div :class="['w-1/2', valueClass]">
           {{ salary?.overview?.[def.value]?.toLocaleString() }}
         </div>
@@ -28,7 +28,7 @@
         :key="`structure-${def.label}`"
         class="w-full flex mt-[0.3rem] pl-2 [&:nth-of-type(even)]:bg-[#eee]"
       >
-        <div :class="['w-1/2', labelClass]">{{ def.label }}</div>
+        <div :class="['label w-1/2', labelClass]">{{ def.label }}</div>
         <div :class="['w-1/2', valueClass]">
           {{ salary?.structure?.[def.value]?.toLocaleString() }}
         </div>
@@ -44,7 +44,7 @@
         :key="item.key"
         class="w-full flex mt-[0.3rem] pl-2 [&:nth-of-type(even)]:bg-[#eee]"
       >
-        <div :class="['w-1/2', labelClass]">{{ item.key }}</div>
+        <div :class="['label w-1/2', labelClass]">{{ item.key }}</div>
         <div :class="['w-1/2', valueClass]">
           {{ item?.data?.toLocaleString() }}
         </div>
