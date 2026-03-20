@@ -125,7 +125,7 @@ module "codebuild" {
   application_tag       = module.application.application_tag
   github_url            = var.github_url
   app_url               = module.apigateway.apigw_url
-  cognito_domain        = var.cognito_domain
+  cognito_domain        = "${var.cognito_domain}.auth.${var.region}.amazoncognito.com"
   username              = var.e2e_username
   password              = var.e2e_password
   s3_bucket_name        = module.frontend.bucket_name
