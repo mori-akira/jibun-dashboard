@@ -17,6 +17,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import type { DataSet } from "./types";
+
+export type { DataSet };
 
 ChartJS.register(
   CategoryScale,
@@ -26,12 +29,6 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-
-export type DataSet = {
-  label: string;
-  data: number[];
-  backgroundColor: string;
-};
 
 const props = defineProps<{
   labels: string[];

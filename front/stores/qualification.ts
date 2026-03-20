@@ -45,7 +45,7 @@ export const useQualificationStore = defineStore("qualification", () => {
     qualification: QualificationBase,
   ) {
     if (qualificationId) {
-      await getQualificationApi().putQualifications(
+      await getQualificationApi().putQualificationsById(
         qualificationId,
         qualification,
       );
@@ -55,7 +55,7 @@ export const useQualificationStore = defineStore("qualification", () => {
   }
 
   async function deleteQualification(qualificationId: string) {
-    await getQualificationApi().deleteQualifications(qualificationId);
+    await getQualificationApi().deleteQualificationsById(qualificationId);
   }
 
   return {

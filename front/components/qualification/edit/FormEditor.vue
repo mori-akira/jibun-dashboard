@@ -238,7 +238,7 @@ const onSubmit: SubmissionHandler<GenericObject> = async (value) => {
       return;
     }
     const result = await withErrorHandling(async () => {
-      const res = await fileApi.getUploadUrl();
+      const res = await fileApi.postUploadUrl();
       const { fileId, uploadUrl } = res.data;
       if (!uploadUrl) {
         throw new TypeError(`uploadUrl is invalid: ${uploadUrl}`);

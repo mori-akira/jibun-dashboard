@@ -1,5 +1,5 @@
 import type { Overview, Salary } from "~/generated/api/client";
-import type { DataSet } from "~/components/common/graph/CompareBar.vue";
+import type { DataSet } from "~/components/common/graph/types";
 
 export function getYearMonthAsNumber(date: string): (number | null)[] {
   const [year, month] = date.split("-");

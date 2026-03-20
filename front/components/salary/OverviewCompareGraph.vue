@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import CompareBarGraph from "~/components/common/graph/CompareBar.vue";
-import type { DataSet } from "~/components/common/graph/CompareBar.vue";
+import type { DataSet } from "~/components/common/graph/types";
 
 defineProps<{
   datasets: DataSet[];

@@ -19,7 +19,7 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function postPassword(newPassword: Password) {
-    await getUserApi().postPassword(newPassword);
+    await getUserApi().putPassword(newPassword);
   }
 
   return {
