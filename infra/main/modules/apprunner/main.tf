@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "apprunner_trust" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -107,6 +109,18 @@ data "aws_iam_policy_document" "apprunner_instance" {
     ]
     resources = [
       var.user_assets_bucket_arn
+    ]
+  }
+
+  # Cognito: ユーザ情報取得
+  statement {
+    sid    = "CognitoAdminGetUser"
+    effect = "Allow"
+    actions = [
+      "cognito-idp:AdminGetUser",
+    ]
+    resources = [
+      "arn:aws:cognito-idp:${var.region}:${data.aws_caller_identity.current.account_id}:userpool/${var.cognito_user_pool_id}"
     ]
   }
 

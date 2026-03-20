@@ -1,38 +1,32 @@
 package com.github.moriakira.jibundashboard.service
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
-import org.springframework.web.reactive.function.client.WebClient
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminGetUserRequest
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ChangePasswordRequest
 import software.amazon.awssdk.services.cognitoidentityprovider.model.UpdateUserAttributesRequest
-import java.time.Duration
 
 @Service
 class CognitoUserService(
-    private val webClient: WebClient,
-    @param:Value("\${app.security.cognito.base-uri:}") private val baseUri: String?,
+    @param:Value("\${app.security.cognito.user-pool-id:}") private val userPoolId: String?,
     @param:Value("\${app.security.cognito.region:ap-northeast-1}") private val cognitoRegion: String,
 ) {
-    private val logger = LoggerFactory.getLogger(CognitoUserService::class.java)
-    private val objectMapper = jacksonObjectMapper()
-
-    fun fetch(accessToken: String): CognitoUserInfo {
-        val raw = webClient.get()
-            .uri("$baseUri/oauth2/userInfo")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
-            .retrieve()
-            .bodyToMono(String::class.java)
-            .timeout(Duration.ofSeconds(5))
-            .block()
-        logger.info("Cognito userInfo response: $raw")
-        return raw?.let { objectMapper.readValue<CognitoUserInfo>(it) } ?: CognitoUserInfo()
+    fun fetch(username: String): CognitoUserInfo {
+        val email = CognitoIdentityProviderClient.builder()
+            .region(Region.of(cognitoRegion))
+            .build()
+            .use { client ->
+                client.adminGetUser(
+                    AdminGetUserRequest.builder()
+                        .userPoolId(userPoolId)
+                        .username(username)
+                        .build(),
+                ).userAttributes().find { it.name() == "email" }?.value()
+            }
+        return CognitoUserInfo(sub = username, email = email)
     }
 
     fun updateEmail(accessToken: String, email: String) {

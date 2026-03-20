@@ -26,7 +26,7 @@ class CurrentAuth(
     val userId: String get() = jwt.subject
     val email: String by lazy {
         jwt.getClaimAsString("email") ?: run {
-            val userInfo = runCatching { cognitoUserInfoService.fetch(jwt.tokenValue) }
+            val userInfo = runCatching { cognitoUserInfoService.fetch(jwt.subject) }
                 .onFailure { logger.warn("Failed to fetch userInfo from Cognito: ${it.message}", it) }
                 .getOrNull()
             userInfo?.email ?: error("No email specified")

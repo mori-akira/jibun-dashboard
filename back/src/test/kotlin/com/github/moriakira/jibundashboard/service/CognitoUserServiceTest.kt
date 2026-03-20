@@ -8,61 +8,64 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.springframework.http.HttpHeaders
-import org.springframework.web.reactive.function.client.WebClient
-import reactor.core.publisher.Mono
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClientBuilder
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminGetUserRequest
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminGetUserResponse
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ChangePasswordRequest
 import software.amazon.awssdk.services.cognitoidentityprovider.model.UpdateUserAttributesRequest
 
 class CognitoUserServiceTest :
     StringSpec({
 
-        val webClient = mockk<WebClient>()
         val service = CognitoUserService(
-            webClient = webClient,
-            baseUri = "https://idp.example.com",
+            userPoolId = "pool-id",
             cognitoRegion = "ap-northeast-1",
         )
 
         beforeTest { clearAllMocks() }
 
         "fetch: 正常にユーザ情報を返す" {
-            val reqUriSpec = mockk<WebClient.RequestHeadersUriSpec<*>>()
-            val resSpec = mockk<WebClient.ResponseSpec>()
+            mockkStatic(CognitoIdentityProviderClient::class)
+            val builder = mockk<CognitoIdentityProviderClientBuilder>(relaxed = true)
+            val client = mockk<CognitoIdentityProviderClient>(relaxed = true)
+            val reqSlot = slot<AdminGetUserRequest>()
 
-            every { webClient.get() } returns reqUriSpec
-            every { reqUriSpec.uri("https://idp.example.com/oauth2/userInfo") } returns reqUriSpec
-            every { reqUriSpec.header(HttpHeaders.AUTHORIZATION, "Bearer token-xyz") } returns reqUriSpec
-            every { reqUriSpec.retrieve() } returns resSpec
-            every { resSpec.bodyToMono(CognitoUserInfo::class.java) } returns Mono.just(
-                CognitoUserInfo(
-                    sub = "sub-1",
-                    email = "u@example.com",
-                ),
-            )
+            every { CognitoIdentityProviderClient.builder() } returns builder
+            every { builder.region(Region.of("ap-northeast-1")) } returns builder
+            every { builder.build() } returns client
+            every { client.adminGetUser(capture(reqSlot)) } returns AdminGetUserResponse.builder()
+                .userAttributes(
+                    AttributeType.builder().name("email").value("u@example.com").build(),
+                )
+                .build()
 
-            val result = service.fetch("token-xyz")
+            val result = service.fetch("sub-1")
 
+            verify(exactly = 1) { client.adminGetUser(reqSlot.captured) }
+            reqSlot.captured.userPoolId() shouldBe "pool-id"
+            reqSlot.captured.username() shouldBe "sub-1"
             result.sub shouldBe "sub-1"
             result.email shouldBe "u@example.com"
         }
 
-        "fetch: レスポンスが空ならデフォルト値を返す" {
-            val reqUriSpec = mockk<WebClient.RequestHeadersUriSpec<*>>()
-            val resSpec = mockk<WebClient.ResponseSpec>()
+        "fetch: emailが存在しない場合はnullを返す" {
+            mockkStatic(CognitoIdentityProviderClient::class)
+            val builder = mockk<CognitoIdentityProviderClientBuilder>(relaxed = true)
+            val client = mockk<CognitoIdentityProviderClient>(relaxed = true)
 
-            every { webClient.get() } returns reqUriSpec
-            every { reqUriSpec.uri("https://idp.example.com/oauth2/userInfo") } returns reqUriSpec
-            every { reqUriSpec.header(HttpHeaders.AUTHORIZATION, "Bearer token-empty") } returns reqUriSpec
-            every { reqUriSpec.retrieve() } returns resSpec
-            every { resSpec.bodyToMono(CognitoUserInfo::class.java) } returns Mono.empty()
+            every { CognitoIdentityProviderClient.builder() } returns builder
+            every { builder.region(Region.of("ap-northeast-1")) } returns builder
+            every { builder.build() } returns client
+            every { client.adminGetUser(any<AdminGetUserRequest>()) } returns AdminGetUserResponse.builder()
+                .userAttributes(emptyList<AttributeType>())
+                .build()
 
-            val result = service.fetch("token-empty")
+            val result = service.fetch("sub-empty")
 
-            result.sub shouldBe null
+            result.sub shouldBe "sub-empty"
             result.email shouldBe null
         }
 
