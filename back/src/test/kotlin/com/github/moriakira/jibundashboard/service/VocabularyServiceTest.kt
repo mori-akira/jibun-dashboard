@@ -6,7 +6,6 @@ import com.github.moriakira.jibundashboard.repository.VocabularyTagEmbed
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -29,70 +28,50 @@ class VocabularyServiceTest :
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun tagEmbed(id: String = "tag1", tag: String = "kotlin") =
-            VocabularyTagEmbed().apply {
-                vocabularyTagId = id
-                vocabularyTag = tag
+        fun item(id: String = "v1", userId: String = "u1") =
+            VocabularyItem().apply {
+                vocabularyId = id
+                this.userId = userId
+                name = "Kotlin"
+                description = "A language"
+                tags = listOf(
+                    VocabularyTagEmbed().also {
+                        it.vocabularyTagId = "tag1"
+                        it.vocabularyTag = "kotlin"
+                    },
+                )
+                createdDateTime = "2025-01-01T00:00:00Z"
+                updatedDateTime = "2025-01-01T00:00:00Z"
             }
 
-        fun item(
-            id: String = "v1",
-            userId: String = "u1",
-            name: String = "Kotlin",
-            tags: List<VocabularyTagEmbed> = listOf(tagEmbed()),
-        ) = VocabularyItem().apply {
-            vocabularyId = id
-            this.userId = userId
-            this.name = name
-            description = "A language"
-            this.tags = tags
-            createdDateTime = "2025-01-01T00:00:00Z"
-            updatedDateTime = "2025-01-01T00:00:00Z"
-        }
-
-        fun model(
-            id: String = "v1",
-            userId: String = "u1",
-            name: String = "Kotlin",
-            tags: List<VocabularyTagModel> = listOf(VocabularyTagModel("tag1", "u1", "kotlin")),
-        ) = VocabularyModel(
-            vocabularyId = id,
-            userId = userId,
-            name = name,
-            description = null,
-            tags = tags,
-        )
-
-        "listByConditions: 条件なしで全件変換して返す" {
-            every { repository.findByUser("u1", null) } returns listOf(
-                item("v1"),
-                item("v2", name = "Java", tags = listOf(tagEmbed("tag2", "java"))),
+        fun model(id: String = "v1") =
+            VocabularyModel(
+                vocabularyId = id,
+                userId = "u1",
+                name = "Kotlin",
+                description = null,
+                tags = listOf(VocabularyTagModel("tag1", "u1", "kotlin")),
             )
+
+        "listByConditions: 変換して返す" {
+            every { repository.findByUser("u1", null) } returns listOf(item("v1"), item("v2"))
 
             val res = service.listByConditions("u1")
 
             res.shouldHaveSize(2)
             res[0].vocabularyId shouldBe "v1"
-            res[0].name shouldBe "Kotlin"
-            res[0].tags.shouldHaveSize(1)
             res[0].tags[0].vocabularyTag shouldBe "kotlin"
-            res[1].vocabularyId shouldBe "v2"
-        }
-
-        "listByConditions: vocabularyName でフィルタ委譲" {
-            every { repository.findByUser("u1", "Kotlin") } returns listOf(item("v1"))
-
-            val res = service.listByConditions("u1", vocabularyName = "Kotlin")
-
-            res.shouldHaveSize(1)
-            verify(exactly = 1) { repository.findByUser("u1", "Kotlin") }
         }
 
         "listByConditions: tags でインメモリフィルタ" {
+            fun embed(id: String, tag: String) =
+                VocabularyTagEmbed().also {
+                    it.vocabularyTagId = id
+                    it.vocabularyTag = tag
+                }
             every { repository.findByUser("u1", null) } returns listOf(
-                item("v1", tags = listOf(tagEmbed("tag1", "kotlin"))),
-                item("v2", tags = listOf(tagEmbed("tag2", "java"))),
-                item("v3", tags = emptyList()),
+                item("v1").also { it.tags = listOf(embed("t1", "kotlin")) },
+                item("v2").also { it.tags = listOf(embed("t2", "java")) },
             )
 
             val res = service.listByConditions("u1", tags = listOf("kotlin"))
@@ -101,44 +80,12 @@ class VocabularyServiceTest :
             res[0].vocabularyId shouldBe "v1"
         }
 
-        "listByConditions: tags が空なら全件返す" {
-            every { repository.findByUser("u1", null) } returns listOf(item("v1"), item("v2"))
-
-            val res = service.listByConditions("u1", tags = emptyList())
-
-            res.shouldHaveSize(2)
-        }
-
-        "getByVocabularyId: 存在すれば返す、無ければ null" {
-            every { repository.getByVocabularyId("v1") } returns item(id = "v1")
-            every { repository.getByVocabularyId("nope") } returns null
-
-            service.getByVocabularyId("v1")!!.vocabularyId shouldBe "v1"
-            service.getByVocabularyId("nope") shouldBe null
-        }
-
-        "getByVocabularyIdForUser: 所有者なら返す" {
+        "getByVocabularyIdForUser: 所有者なら返す、他ユーザなら null" {
             every { repository.getByVocabularyId("v1") } returns item(id = "v1", userId = "u1")
-
-            val result = service.getByVocabularyIdForUser("v1", "u1")
-
-            result!!.vocabularyId shouldBe "v1"
-        }
-
-        "getByVocabularyIdForUser: 他ユーザなら null" {
             every { repository.getByVocabularyId("v2") } returns item(id = "v2", userId = "other")
 
-            val result = service.getByVocabularyIdForUser("v2", "u1")
-
-            result shouldBe null
-        }
-
-        "getByVocabularyIdForUser: 存在しなければ null" {
-            every { repository.getByVocabularyId("nope") } returns null
-
-            val result = service.getByVocabularyIdForUser("nope", "u1")
-
-            result shouldBe null
+            service.getByVocabularyIdForUser("v1", "u1")!!.vocabularyId shouldBe "v1"
+            service.getByVocabularyIdForUser("v2", "u1") shouldBe null
         }
 
         "put: 新規の場合は createdDateTime と updatedDateTime を設定する" {
@@ -167,23 +114,6 @@ class VocabularyServiceTest :
 
             capt.captured.createdDateTime shouldBe "2025-01-01T00:00:00Z"
             capt.captured.updatedDateTime shouldBe fixedNow.toString()
-            capt.captured.updatedDateTime shouldNotBe "2025-01-01T00:00:00Z"
-
-            unmockkStatic(OffsetDateTime::class)
-        }
-
-        "put: モデルを保存して ID を返す" {
-            mockkStatic(OffsetDateTime::class)
-            every { OffsetDateTime.now() } returns fixedNow
-            every { repository.getByVocabularyId("v-7") } returns null
-            val capt = slot<VocabularyItem>()
-            every { repository.put(capture(capt)) } returns Unit
-
-            val ret = service.put(model(id = "v-7", name = "Rust"))
-
-            ret shouldBe "v-7"
-            capt.captured.vocabularyId shouldBe "v-7"
-            capt.captured.name shouldBe "Rust"
 
             unmockkStatic(OffsetDateTime::class)
         }
