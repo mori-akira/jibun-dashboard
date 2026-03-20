@@ -49,7 +49,7 @@ test("seed data", async ({ baseURL }) => {
   const resSalary = await salaryApi.getSalaries();
   const salaries = resSalary.data;
   await Promise.all(
-    salaries.map((salary) => salaryApi.deleteSalaries(salary.salaryId!))
+    salaries.map((salary) => salaryApi.deleteSalariesById(salary.salaryId!))
   );
 
   // qualification
@@ -57,7 +57,7 @@ test("seed data", async ({ baseURL }) => {
   const qualifications = resQualification.data;
   await Promise.all(
     qualifications.map((qualification) =>
-      qualificationApi.deleteQualifications(qualification.qualificationId!)
+      qualificationApi.deleteQualificationsById(qualification.qualificationId!)
     )
   );
 });
