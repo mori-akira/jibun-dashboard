@@ -3,6 +3,7 @@ package com.github.moriakira.jibundashboard.controller
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.FileApi
 import com.github.moriakira.jibundashboard.generated.model.DownloadUrl
+import com.github.moriakira.jibundashboard.generated.model.PostUploadUrlRequest
 import com.github.moriakira.jibundashboard.generated.model.UploadUrl
 import com.github.moriakira.jibundashboard.service.FileUploadService
 import com.github.moriakira.jibundashboard.service.UserAssetService
@@ -17,11 +18,11 @@ class FileController(
     private val userAssetService: UserAssetService,
 ) : FileApi {
 
-    override fun getUploadUrl(fileId: UUID?, expiresIn: Int?): ResponseEntity<UploadUrl> =
+    override fun postUploadUrl(postUploadUrlRequest: PostUploadUrlRequest?): ResponseEntity<UploadUrl> =
         fileUploadService.issuePresignedPutUrl(
             currentAuth.userId,
-            fileId,
-            expiresIn,
+            postUploadUrlRequest?.fileId,
+            postUploadUrlRequest?.expiresIn,
         ).let { res ->
             ResponseEntity.ok(
                 UploadUrl(

@@ -60,7 +60,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun putQualifications(
+    override fun putQualificationsById(
         qualificationId: UUID,
         qualificationBase: QualificationBase?,
     ): ResponseEntity<QualificationId> {
@@ -72,7 +72,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun deleteQualifications(qualificationId: UUID): ResponseEntity<Unit> {
+    override fun deleteQualificationsById(qualificationId: UUID): ResponseEntity<Unit> {
         qualificationService.getByQualificationIdForUser(qualificationId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
         qualificationService.delete(currentAuth.userId, qualificationId.toString())

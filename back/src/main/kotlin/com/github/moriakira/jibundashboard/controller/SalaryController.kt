@@ -5,7 +5,7 @@ import com.github.moriakira.jibundashboard.generated.api.SalaryApi
 import com.github.moriakira.jibundashboard.generated.model.Overview
 import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
-import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTasksStartRequest
+import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTasksRequest
 import com.github.moriakira.jibundashboard.generated.model.Salary
 import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.generated.model.SalaryId
@@ -63,7 +63,7 @@ class SalaryController(
     }
 
     @Suppress("ReturnCount")
-    override fun putSalaries(salaryId: UUID, salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
+    override fun putSalariesById(salaryId: UUID, salaryBase: SalaryBase?): ResponseEntity<SalaryId> {
         requireNotNull(salaryBase) { "Request body is required." }
         salaryService.getByIdForUser(salaryId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
@@ -72,7 +72,7 @@ class SalaryController(
     }
 
     @Suppress("ReturnCount")
-    override fun deleteSalaries(salaryId: UUID): ResponseEntity<Unit> {
+    override fun deleteSalariesById(salaryId: UUID): ResponseEntity<Unit> {
         val model = salaryService.getByIdForUser(salaryId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
         salaryService.delete(currentAuth.userId, model.targetDate)
@@ -96,14 +96,14 @@ class SalaryController(
         return ResponseEntity.ok(model.toApi())
     }
 
-    override fun postSalaryOcrTasksStart(
-        postSalaryOcrTasksStartRequest: PostSalaryOcrTasksStartRequest?,
+    override fun postSalaryOcrTasks(
+        postSalaryOcrTasksRequest: PostSalaryOcrTasksRequest?,
     ): ResponseEntity<SalaryOcrTaskId> {
-        requireNotNull(postSalaryOcrTasksStartRequest) { "Request body is required." }
+        requireNotNull(postSalaryOcrTasksRequest) { "Request body is required." }
         val taskId = salaryOcrTaskService.startTask(
             userId = currentAuth.userId,
-            targetDate = postSalaryOcrTasksStartRequest.targetDate.toString(),
-            fileId = postSalaryOcrTasksStartRequest.fileId.toString(),
+            targetDate = postSalaryOcrTasksRequest.targetDate.toString(),
+            fileId = postSalaryOcrTasksRequest.fileId.toString(),
         )
         return ResponseEntity
             .status(HttpStatus.ACCEPTED)

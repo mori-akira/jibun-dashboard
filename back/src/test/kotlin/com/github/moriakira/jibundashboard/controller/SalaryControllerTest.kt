@@ -5,7 +5,7 @@ import com.github.moriakira.jibundashboard.exception.ConflictException
 import com.github.moriakira.jibundashboard.generated.model.Overview
 import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
-import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTasksStartRequest
+import com.github.moriakira.jibundashboard.generated.model.PostSalaryOcrTasksRequest
 import com.github.moriakira.jibundashboard.generated.model.SalaryBase
 import com.github.moriakira.jibundashboard.service.OverviewModel
 import com.github.moriakira.jibundashboard.service.PayslipCategoryModel
@@ -155,7 +155,7 @@ class SalaryControllerTest :
                 payslipData = emptyList(),
             )
 
-            val res = controller.putSalaries(UUID.fromString(id), req)
+            val res = controller.putSalariesById(UUID.fromString(id), req)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.salaryId.toString() shouldBe id
@@ -172,7 +172,7 @@ class SalaryControllerTest :
                 structure = com.github.moriakira.jibundashboard.generated.model.Structure(0, 0, 0, 0, 0),
                 payslipData = emptyList(),
             )
-            val res = controller.putSalaries(UUID.fromString(id), req)
+            val res = controller.putSalariesById(UUID.fromString(id), req)
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { salaryService.put(any()) }
         }
@@ -200,7 +200,7 @@ class SalaryControllerTest :
             val id = "12121212-1212-1212-1212-121212121212"
             every { salaryService.getByIdForUser(id, "u1") } returns null
 
-            val res = controller.deleteSalaries(UUID.fromString(id))
+            val res = controller.deleteSalariesById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND
             verify(exactly = 0) { salaryService.delete(any(), any()) }
@@ -210,7 +210,7 @@ class SalaryControllerTest :
             val id = "14141414-1414-1414-1414-141414141414"
             every { salaryService.getByIdForUser(id, "u1") } returns sampleModel(id = id, userId = "u1")
 
-            val res = controller.deleteSalaries(UUID.fromString(id))
+            val res = controller.deleteSalariesById(UUID.fromString(id))
 
             res.statusCode shouldBe HttpStatus.NO_CONTENT
             verify(exactly = 1) { salaryService.delete("u1", "2025-08-15") }
@@ -286,11 +286,11 @@ class SalaryControllerTest :
             res.body!!.targetDate shouldBe LocalDate.parse("2025-11-01")
         }
 
-        "postSalaryOcrTaskStart: null ボディなら IllegalArgumentException" {
-            shouldThrow<IllegalArgumentException> { controller.postSalaryOcrTasksStart(null) }
+        "postSalaryOcrTask: null ボディなら IllegalArgumentException" {
+            shouldThrow<IllegalArgumentException> { controller.postSalaryOcrTasks(null) }
         }
 
-        "postSalaryOcrTaskStart: 進行中タスクがあれば Service が ConflictException をスロー → Controller は伝播させる" {
+        "postSalaryOcrTask: 進行中タスクがあれば Service が ConflictException をスロー → Controller は伝播させる" {
             every {
                 salaryOcrTaskService.startTask(
                     userId = "u1",
@@ -299,15 +299,15 @@ class SalaryControllerTest :
                 )
             } throws ConflictException("already in progress")
 
-            val req = PostSalaryOcrTasksStartRequest(
+            val req = PostSalaryOcrTasksRequest(
                 targetDate = LocalDate.parse("2025-11-01"),
                 fileId = UUID.fromString("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
             )
 
-            shouldThrow<ConflictException> { controller.postSalaryOcrTasksStart(req) }
+            shouldThrow<ConflictException> { controller.postSalaryOcrTasks(req) }
         }
 
-        "postSalaryOcrTaskStart: 実行可能ならキュー投入して 202 + ID 返す" {
+        "postSalaryOcrTask: 実行可能ならキュー投入して 202 + ID 返す" {
             every {
                 salaryOcrTaskService.startTask(
                     userId = "u1",
@@ -316,12 +316,12 @@ class SalaryControllerTest :
                 )
             } returns "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
 
-            val req = PostSalaryOcrTasksStartRequest(
+            val req = PostSalaryOcrTasksRequest(
                 targetDate = LocalDate.parse("2025-11-01"),
                 fileId = UUID.fromString("11111111-1111-1111-1111-111111111111"),
             )
 
-            val res = controller.postSalaryOcrTasksStart(req)
+            val res = controller.postSalaryOcrTasks(req)
 
             res.statusCode shouldBe HttpStatus.ACCEPTED
             res.body!!.ocrTaskId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"

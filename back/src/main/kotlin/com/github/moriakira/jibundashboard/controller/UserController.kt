@@ -47,7 +47,7 @@ class UserController(
         return ResponseEntity.ok().build()
     }
 
-    override fun postPassword(password: Password?): ResponseEntity<Unit> {
+    override fun putPassword(password: Password?): ResponseEntity<Unit> {
         requireNotNull(password) { "Request body is required." }
         cognitoUserService.changePassword(
             accessToken = currentAuth.jwt.tokenValue,

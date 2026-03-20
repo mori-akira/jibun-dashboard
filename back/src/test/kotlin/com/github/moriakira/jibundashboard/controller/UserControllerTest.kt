@@ -102,10 +102,10 @@ class UserControllerTest :
             }
         }
 
-        "postPassword: 変更を委譲して204を返す" {
+        "putPassword: 変更を委譲して204を返す" {
             val password = Password(oldPassword = "old-pass", newPassword = "new-pass")
 
-            val res = controller.postPassword(password)
+            val res = controller.putPassword(password)
 
             res.statusCode shouldBe HttpStatus.NO_CONTENT
             verify(exactly = 1) {
@@ -117,9 +117,9 @@ class UserControllerTest :
             }
         }
 
-        "postPassword: null は例外" {
+        "putPassword: null は例外" {
             shouldThrow<IllegalArgumentException> {
-                controller.postPassword(null)
+                controller.putPassword(null)
             }
         }
     })

@@ -1,6 +1,7 @@
 package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
+import com.github.moriakira.jibundashboard.generated.model.PostUploadUrlRequest
 import com.github.moriakira.jibundashboard.service.FileUploadService
 import com.github.moriakira.jibundashboard.service.PresignedDownloadUrlResult
 import com.github.moriakira.jibundashboard.service.PresignedUrlResult
@@ -27,7 +28,7 @@ class FileControllerTest :
             every { currentAuth.userId } returns "user123"
         }
 
-        "getUploadUrl: fileId と expiresIn 指定ありの場合は指定された値を使用する" {
+        "postUploadUrl: fileId と expiresIn 指定ありの場合は指定された値を使用する" {
             val fileId = UUID.fromString("12345678-1234-1234-1234-123456789abc")
             val expiresIn = 7200
             val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$fileId")
@@ -41,7 +42,7 @@ class FileControllerTest :
                 expireDateTime = expectedExpireDateTime,
             )
 
-            val res = controller.getUploadUrl(fileId, expiresIn)
+            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = fileId, expiresIn = expiresIn))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.fileId shouldBe fileId
@@ -52,7 +53,7 @@ class FileControllerTest :
             }
         }
 
-        "getUploadUrl: fileId 指定なしの場合は自動生成される" {
+        "postUploadUrl: fileId 指定なしの場合は自動生成される" {
             val generatedFileId = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
             val expiresIn = 3600
             val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$generatedFileId")
@@ -66,7 +67,7 @@ class FileControllerTest :
                 expireDateTime = expectedExpireDateTime,
             )
 
-            val res = controller.getUploadUrl(null, expiresIn)
+            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = null, expiresIn = expiresIn))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.fileId shouldBe generatedFileId
@@ -77,7 +78,7 @@ class FileControllerTest :
             }
         }
 
-        "getUploadUrl: expiresIn 指定なしの場合はデフォルト値が使用される" {
+        "postUploadUrl: expiresIn 指定なしの場合はデフォルト値が使用される" {
             val fileId = UUID.fromString("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
             val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$fileId")
             val expectedExpireDateTime = OffsetDateTime.now().plusSeconds(3600)
@@ -90,7 +91,7 @@ class FileControllerTest :
                 expireDateTime = expectedExpireDateTime,
             )
 
-            val res = controller.getUploadUrl(fileId, null)
+            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = fileId, expiresIn = null))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.fileId shouldBe fileId
@@ -101,7 +102,7 @@ class FileControllerTest :
             }
         }
 
-        "getUploadUrl: すべてのパラメータが null の場合はデフォルト値が使用される" {
+        "postUploadUrl: すべてのパラメータが null の場合はデフォルト値が使用される" {
             val generatedFileId = UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc")
             val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$generatedFileId")
             val expectedExpireDateTime = OffsetDateTime.now().plusSeconds(3600)
@@ -114,7 +115,7 @@ class FileControllerTest :
                 expireDateTime = expectedExpireDateTime,
             )
 
-            val res = controller.getUploadUrl(null, null)
+            val res = controller.postUploadUrl(null)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.fileId shouldBe generatedFileId
@@ -125,7 +126,7 @@ class FileControllerTest :
             }
         }
 
-        "getUploadUrl: currentAuth.userId がサービスに正しく渡される" {
+        "postUploadUrl: currentAuth.userId がサービスに正しく渡される" {
             val fileId = UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd")
             val expiresIn = 1800
             val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$fileId")
@@ -140,7 +141,7 @@ class FileControllerTest :
                 expireDateTime = expectedExpireDateTime,
             )
 
-            val res = controller.getUploadUrl(fileId, expiresIn)
+            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = fileId, expiresIn = expiresIn))
 
             res.statusCode shouldBe HttpStatus.OK
             verify(exactly = 1) {
