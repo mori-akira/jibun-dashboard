@@ -26,15 +26,22 @@ class UserAssetService(
         val sourceKey = "uploads/$userId/$fileId"
         val destKey = "$assetType/$userId/$fileId"
         s3Client.copyObject(
-            CopyObjectRequest.builder().sourceBucket(uploadsBucketName).sourceKey(sourceKey)
-                .destinationBucket(userAssetsBucketName).destinationKey(destKey).build(),
+            CopyObjectRequest.builder()
+                .sourceBucket(uploadsBucketName)
+                .sourceKey(sourceKey)
+                .destinationBucket(userAssetsBucketName)
+                .destinationKey(destKey)
+                .build(),
         )
     }
 
     fun delete(assetType: String, userId: String, fileId: UUID) {
         val key = "$assetType/$userId/$fileId"
         s3Client.deleteObject(
-            DeleteObjectRequest.builder().bucket(userAssetsBucketName).key(key).build(),
+            DeleteObjectRequest.builder()
+                .bucket(userAssetsBucketName)
+                .key(key)
+                .build(),
         )
     }
 
@@ -48,8 +55,10 @@ class UserAssetService(
         val key = "$assetType/$userId/$assetId"
         val getObj = GetObjectRequest.builder().bucket(userAssetsBucketName).key(key).build()
         val presignReq =
-            GetObjectPresignRequest.builder().signatureDuration(Duration.ofSeconds(appliedExpires.toLong()))
-                .getObjectRequest(getObj).build()
+            GetObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofSeconds(appliedExpires.toLong()))
+                .getObjectRequest(getObj)
+                .build()
         val presigned = presigner.presignGetObject(presignReq)
         return PresignedDownloadUrlResult(
             url = presigned.url().toURI(),
