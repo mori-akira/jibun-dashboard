@@ -9,7 +9,8 @@ val serviceTags = listOf(
     "Setting",
     "File",
     "Salary",
-    "Qualification"
+    "Qualification",
+    "Vocabulary"
 ).joinToString(",")
 
 plugins {
