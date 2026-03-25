@@ -69,7 +69,6 @@ module "batch_salary_ocr" {
   salaries_table_arn          = module.dynamodb["salaries"].table_arn
   salary_ocr_tasks_table_name = module.dynamodb["salary_ocr_tasks"].table_name
   salary_ocr_tasks_table_arn  = module.dynamodb["salary_ocr_tasks"].table_arn
-  openai_api_key              = var.openai_api_key
 }
 
 module "apprunner" {

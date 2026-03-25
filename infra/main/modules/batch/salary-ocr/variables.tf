@@ -55,20 +55,14 @@ variable "lambda_memory_size" {
   default     = 1024
 }
 
-variable "openai_api_key" {
-  description = "OpenAIのAPIキー"
+variable "bedrock_model_id" {
+  description = "使用するBedrockモデルID"
   type        = string
-  sensitive   = true
+  default     = "anthropic.claude-3-5-sonnet-20241022-v2:0"
 }
 
-variable "openai_model" {
-  description = "使用するOpenAIモデル"
-  type        = string
-  default     = "gpt-5.1"
-}
-
-variable "openai_ocr_max_attempts" {
-  description = "OpenAI OCRの最大試行回数"
+variable "bedrock_ocr_max_attempts" {
+  description = "Bedrock OCRの最大試行回数"
   type        = number
   default     = 3
 }

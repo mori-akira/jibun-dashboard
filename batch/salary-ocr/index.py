@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -10,7 +11,6 @@ from decimal import Decimal
 
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
-from openai import OpenAI
 
 
 # ログ設定
@@ -22,6 +22,8 @@ logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent
 PROMPTS_DIR = BASE_DIR / "prompts"
+
+DEFAULT_BEDROCK_MODEL_ID = "anthropic.claude-3-5-sonnet-20241022-v2:0"
 
 
 @dataclass
@@ -60,8 +62,8 @@ def get_boto3_clients() -> Dict[str, Any]:
     return {
         "sqs": session.client("sqs"),
         "s3": session.client("s3"),
-        "ssm": session.client("ssm"),
         "dynamodb": session.resource("dynamodb"),
+        "bedrock": session.client("bedrock-runtime"),
     }
 
 
@@ -106,21 +108,6 @@ def download_pdf_from_s3(s3, bucket_name: str, key: str) -> bytes:
         raise RuntimeError("Failed to download file from S3") from e
 
 
-def get_openai_api_key_from_ssm(ssm, param_name: str) -> str:
-    """SSMパラメータストアからOpenAI APIキーを取得"""
-    logger.info(
-        "Fetching OpenAI API key from SSM Parameter Store: %s", param_name)
-    try:
-        resp = ssm.get_parameter(
-            Name=param_name,
-            WithDecryption=True,
-        )
-        return resp["Parameter"]["Value"]
-    except (BotoCoreError, ClientError) as e:
-        logger.exception("Failed to fetch OpenAI API key from SSM")
-        raise RuntimeError("Failed to fetch OpenAI API key from SSM") from e
-
-
 def load_prompts() -> Tuple[str, str]:
     """
     prompts/system.md, prompts/user.md, prompts/sample.json を読み込み、
@@ -142,63 +129,54 @@ def load_prompts() -> Tuple[str, str]:
     return system_prompt, user_prompt
 
 
-def call_openai_ocr(
+def call_bedrock_ocr(
+    bedrock,
     pdf_bytes: bytes,
-    api_key: str,
-    model: str = "gpt-5.1",
+    model_id: str = DEFAULT_BEDROCK_MODEL_ID,
 ) -> Dict[str, Any]:
-    """OpenAI API に対してOCRを呼び出し、構造化JSONを取得"""
-    logger.info("Calling OpenAI OCR")
+    """Bedrock Converse API に対してOCRを呼び出し、構造化JSONを取得"""
+    logger.info("Calling Bedrock OCR with model=%s", model_id)
 
     system_prompt, user_prompt = load_prompts()
-    max_attempts = int(get_env_or_raise("OPENAI_OCR_MAX_ATTEMPTS"))
-    client = OpenAI(api_key=api_key, max_retries=max_attempts)
+    max_attempts = int(get_env_or_raise("BEDROCK_OCR_MAX_ATTEMPTS"))
 
-    # ファイルアップロード
-    file_obj = client.files.create(
-        file=("payslip.pdf", pdf_bytes, "application/pdf"),
-        purpose="assistants",
-    )
-
-    # OCRリクエスト
-    response = client.responses.create(
-        model=model,
-        input=[
-            {
-                "role": "system",
-                "content": [
+    last_exc: Exception = RuntimeError("Bedrock OCR failed")
+    for attempt in range(1, max_attempts + 1):
+        try:
+            response = bedrock.converse(
+                modelId=model_id,
+                system=[{"text": system_prompt}],
+                messages=[
                     {
-                        "type": "input_text",
-                        "text": system_prompt,
-                    },
+                        "role": "user",
+                        "content": [
+                            {
+                                "document": {
+                                    "format": "pdf",
+                                    "name": "payslip",
+                                    "source": {
+                                        "bytes": pdf_bytes,
+                                    },
+                                }
+                            },
+                            {"text": user_prompt},
+                        ],
+                    }
                 ],
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "input_text",
-                        "text": user_prompt,
-                    },
-                    {
-                        "type": "input_file",
-                        "file_id": file_obj.id,
-                    },
-                ],
-            },
-        ],
-        text={
-            "format": {
-                "type": "json_object",
-            }
-        },
-    )
+            )
+            raw_json = response["output"]["message"]["content"][0]["text"]
+            logger.debug("Raw OCR JSON: %s", raw_json)
+            result: Dict[str, Any] = json.loads(raw_json, parse_float=Decimal)
+            return result
+        except (BotoCoreError, ClientError) as e:
+            last_exc = e
+            logger.warning(
+                "Bedrock OCR attempt %d/%d failed: %s", attempt, max_attempts, e
+            )
+            if attempt < max_attempts:
+                time.sleep(2 ** (attempt - 1))
 
-    # 結果からJSON抽出
-    raw_json = response.output_text
-    logger.debug("Raw OCR JSON: %s", raw_json)
-    result: Dict[str, Any] = json.loads(raw_json, parse_float=Decimal)
-    return result
+    raise RuntimeError("Bedrock OCR failed after max attempts") from last_exc
 
 
 def save_salary(
@@ -229,13 +207,12 @@ def process_ocr_task(msg: OcrTaskMessage) -> None:
     clients = get_boto3_clients()
     dynamodb = clients["dynamodb"]
     s3 = clients["s3"]
-    ssm = clients["ssm"]
+    bedrock = clients["bedrock"]
 
     salary_table_name = get_env_or_raise("SALARIES_TABLE_NAME")
     ocr_task_table_name = get_env_or_raise("SALARY_OCR_TASKS_TABLE_NAME")
     uploads_bucket_name = get_env_or_raise("UPLOADS_BUCKET_NAME")
-    openai_param_name = get_env_or_raise("OPENAI_API_KEY_SSM_NAME")
-    openai_model = get_env_or_raise("OPENAI_MODEL")
+    bedrock_model_id = get_env_or_raise("BEDROCK_MODEL_ID")
 
     # RUNNING に更新
     try:
@@ -249,11 +226,8 @@ def process_ocr_task(msg: OcrTaskMessage) -> None:
         s3_key = build_s3_key(msg.user_id, msg.file_id)
         pdf_bytes = download_pdf_from_s3(s3, uploads_bucket_name, s3_key)
 
-        # APIキー取得
-        api_key = get_openai_api_key_from_ssm(ssm, openai_param_name)
-
         # OCR実行
-        ocr_result = call_openai_ocr(pdf_bytes, api_key, model=openai_model)
+        ocr_result = call_bedrock_ocr(bedrock, pdf_bytes, model_id=bedrock_model_id)
 
         # salariesに登録
         save_salary(

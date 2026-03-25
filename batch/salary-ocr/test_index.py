@@ -10,11 +10,10 @@ from botocore.exceptions import ClientError
 from index import (
     OcrTaskMessage,
     build_s3_key,
-    call_openai_ocr,
+    call_bedrock_ocr,
     download_pdf_from_s3,
     get_boto3_clients,
     get_env_or_raise,
-    get_openai_api_key_from_ssm,
     lambda_handler,
     load_prompts,
     now_iso,
@@ -117,8 +116,8 @@ class TestGetBoto3Clients:
 
             assert "sqs" in clients
             assert "s3" in clients
-            assert "ssm" in clients
             assert "dynamodb" in clients
+            assert "bedrock" in clients
             mock_session.assert_called_once_with(region_name="us-east-1")
 
 
@@ -163,33 +162,6 @@ class TestDownloadPdfFromS3:
             download_pdf_from_s3(mock_s3, "test-bucket", "test-key")
 
 
-class TestGetOpenaiApiKeyFromSsm:
-    """get_openai_api_key_from_ssm関数のテスト"""
-
-    def test_fetches_key_successfully(self):
-        mock_ssm = Mock()
-        mock_ssm.get_parameter.return_value = {
-            "Parameter": {"Value": "sk-test-key"}
-        }
-
-        result = get_openai_api_key_from_ssm(mock_ssm, "/test/param")
-
-        assert result == "sk-test-key"
-        mock_ssm.get_parameter.assert_called_once_with(
-            Name="/test/param",
-            WithDecryption=True,
-        )
-
-    def test_raises_on_client_error(self):
-        mock_ssm = Mock()
-        mock_ssm.get_parameter.side_effect = ClientError(
-            {"Error": {"Code": "ParameterNotFound"}}, "GetParameter"
-        )
-
-        with pytest.raises(RuntimeError, match="Failed to fetch OpenAI API key"):
-            get_openai_api_key_from_ssm(mock_ssm, "/test/param")
-
-
 class TestLoadPrompts:
     """load_prompts関数のテスト"""
 
@@ -222,37 +194,84 @@ class TestLoadPrompts:
                 load_prompts()
 
 
-class TestCallOpenaiOcr:
-    """call_openai_ocr関数のテスト"""
+class TestCallBedrockOcr:
+    """call_bedrock_ocr関数のテスト"""
 
     @patch("index.load_prompts")
-    @patch("index.OpenAI")
-    def test_calls_openai_api(self, mock_openai_class, mock_load_prompts):
+    def test_calls_bedrock_converse(self, mock_load_prompts):
         mock_load_prompts.return_value = ("system prompt", "user prompt")
 
-        mock_client = Mock()
-        mock_openai_class.return_value = mock_client
+        mock_bedrock = Mock()
+        mock_bedrock.converse.return_value = {
+            "output": {
+                "message": {
+                    "content": [
+                        {"text": '{"overview": {"grossIncome": 400000}}'}
+                    ]
+                }
+            }
+        }
 
-        mock_file_obj = Mock()
-        mock_file_obj.id = "file-123"
-        mock_client.files.create.return_value = mock_file_obj
-
-        mock_response = Mock()
-        mock_response.output_text = '{"overview": {"grossIncome": 400000}}'
-        mock_client.responses.create.return_value = mock_response
-
-        with patch.dict(os.environ, {"OPENAI_OCR_MAX_ATTEMPTS": "3"}):
-            result = call_openai_ocr(b"pdf content", "sk-test-key", "gpt-5.1")
+        with patch.dict(os.environ, {"BEDROCK_OCR_MAX_ATTEMPTS": "3"}):
+            result = call_bedrock_ocr(
+                mock_bedrock,
+                b"pdf content",
+                "anthropic.claude-3-5-sonnet-20241022-v2:0",
+            )
 
         assert result == {"overview": {"grossIncome": 400000}}
-        mock_client.files.create.assert_called_once()
+        mock_bedrock.converse.assert_called_once()
 
-        # responses.createの呼び出しを詳細に検証
-        mock_client.responses.create.assert_called_once()
-        call_args = mock_client.responses.create.call_args
-        assert call_args[1]["model"] == "gpt-5.1"
-        assert "text" in call_args[1]
-        assert call_args[1]["text"] == {"format": {"type": "json_object"}}
+        call_args = mock_bedrock.converse.call_args
+        assert call_args[1]["modelId"] == "anthropic.claude-3-5-sonnet-20241022-v2:0"
+        assert call_args[1]["system"] == [{"text": "system prompt"}]
+        messages = call_args[1]["messages"]
+        assert len(messages) == 1
+        assert messages[0]["role"] == "user"
+        content = messages[0]["content"]
+        assert content[0]["document"]["format"] == "pdf"
+        assert content[0]["document"]["source"]["bytes"] == b"pdf content"
+        assert content[1]["text"] == "user prompt"
+
+    @patch("index.load_prompts")
+    @patch("index.time.sleep")
+    def test_retries_on_client_error(self, mock_sleep, mock_load_prompts):
+        mock_load_prompts.return_value = ("system prompt", "user prompt")
+
+        mock_bedrock = Mock()
+        mock_bedrock.converse.side_effect = [
+            ClientError({"Error": {"Code": "ThrottlingException"}}, "Converse"),
+            {
+                "output": {
+                    "message": {
+                        "content": [{"text": '{"overview": {}}'}]
+                    }
+                }
+            },
+        ]
+
+        with patch.dict(os.environ, {"BEDROCK_OCR_MAX_ATTEMPTS": "3"}):
+            result = call_bedrock_ocr(mock_bedrock, b"pdf content")
+
+        assert result == {"overview": {}}
+        assert mock_bedrock.converse.call_count == 2
+        mock_sleep.assert_called_once_with(1)
+
+    @patch("index.load_prompts")
+    @patch("index.time.sleep")
+    def test_raises_after_max_attempts(self, mock_sleep, mock_load_prompts):
+        mock_load_prompts.return_value = ("system prompt", "user prompt")
+
+        mock_bedrock = Mock()
+        mock_bedrock.converse.side_effect = ClientError(
+            {"Error": {"Code": "ThrottlingException"}}, "Converse"
+        )
+
+        with patch.dict(os.environ, {"BEDROCK_OCR_MAX_ATTEMPTS": "3"}):
+            with pytest.raises(RuntimeError, match="Bedrock OCR failed after max attempts"):
+                call_bedrock_ocr(mock_bedrock, b"pdf content")
+
+        assert mock_bedrock.converse.call_count == 3
 
 
 class TestSaveSalary:
@@ -296,14 +315,12 @@ class TestProcessOcrTask:
     @patch("index.get_env_or_raise")
     @patch("index.update_task_status")
     @patch("index.download_pdf_from_s3")
-    @patch("index.get_openai_api_key_from_ssm")
-    @patch("index.call_openai_ocr")
+    @patch("index.call_bedrock_ocr")
     @patch("index.save_salary")
     def test_processes_task_successfully(
         self,
         mock_save_salary,
-        mock_call_openai,
-        mock_get_api_key,
+        mock_call_bedrock,
         mock_download_pdf,
         mock_update_status,
         mock_get_env,
@@ -312,20 +329,18 @@ class TestProcessOcrTask:
         mock_get_clients.return_value = {
             "dynamodb": Mock(),
             "s3": Mock(),
-            "ssm": Mock(),
+            "bedrock": Mock(),
         }
 
         mock_get_env.side_effect = lambda name: {
             "SALARIES_TABLE_NAME": "salaries",
             "SALARY_OCR_TASKS_TABLE_NAME": "tasks",
             "UPLOADS_BUCKET_NAME": "uploads",
-            "OPENAI_API_KEY_SSM_NAME": "/openai/key",
-            "OPENAI_MODEL": "gpt-5.1",
+            "BEDROCK_MODEL_ID": "anthropic.claude-3-5-sonnet-20241022-v2:0",
         }[name]
 
         mock_download_pdf.return_value = b"pdf content"
-        mock_get_api_key.return_value = "sk-test-key"
-        mock_call_openai.return_value = {"overview": {}, "structure": {}, "payslipData": []}
+        mock_call_bedrock.return_value = {"overview": {}, "structure": {}, "payslipData": []}
         mock_save_salary.return_value = "salary-123"
 
         msg = OcrTaskMessage(
@@ -354,15 +369,14 @@ class TestProcessOcrTask:
         mock_get_clients.return_value = {
             "dynamodb": Mock(),
             "s3": Mock(),
-            "ssm": Mock(),
+            "bedrock": Mock(),
         }
 
         mock_get_env.side_effect = lambda name: {
             "SALARIES_TABLE_NAME": "salaries",
             "SALARY_OCR_TASKS_TABLE_NAME": "tasks",
             "UPLOADS_BUCKET_NAME": "uploads",
-            "OPENAI_API_KEY_SSM_NAME": "/openai/key",
-            "OPENAI_MODEL": "gpt-5.1",
+            "BEDROCK_MODEL_ID": "anthropic.claude-3-5-sonnet-20241022-v2:0",
         }[name]
 
         mock_download_pdf.side_effect = RuntimeError("Download failed")

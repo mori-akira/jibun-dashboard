@@ -75,11 +75,6 @@ variable "api_gateway_origin" {
   }
 }
 
-variable "openai_api_key" {
-  description = "OpenAIのAPIキー"
-  type        = string
-  sensitive   = true
-}
 
 variable "e2e_username" {
   description = "E2Eテスト用のユーザ名"

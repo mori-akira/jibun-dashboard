@@ -61,14 +61,13 @@ data "aws_iam_policy_document" "salary_ocr_lambda_policy" {
   }
 
   statement {
-    sid    = "AllowGetParameters"
+    sid    = "AllowBedrockInvokeModel"
     effect = "Allow"
     actions = [
-      "ssm:GetParameter",
-      "ssm:GetParameters"
+      "bedrock:InvokeModel"
     ]
     resources = [
-      aws_ssm_parameter.openai_api_key.arn
+      "arn:aws:bedrock:*::foundation-model/${var.bedrock_model_id}"
     ]
   }
 }
@@ -102,9 +101,8 @@ resource "aws_lambda_function" "salary_ocr_lambda" {
       UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
       SALARIES_TABLE_NAME         = var.salaries_table_name
       SALARY_OCR_TASKS_TABLE_NAME = var.salary_ocr_tasks_table_name
-      OPENAI_API_KEY_SSM_NAME     = aws_ssm_parameter.openai_api_key.name
-      OPENAI_MODEL                = var.openai_model
-      OPENAI_OCR_MAX_ATTEMPTS     = var.openai_ocr_max_attempts
+      BEDROCK_MODEL_ID            = var.bedrock_model_id
+      BEDROCK_OCR_MAX_ATTEMPTS    = var.bedrock_ocr_max_attempts
     }
   }
 
