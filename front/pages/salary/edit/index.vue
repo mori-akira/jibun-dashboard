@@ -324,7 +324,7 @@ const onPutSalary = async () => {
 
 const onExecuteOcr = async (file: File) => {
   const result = await withErrorHandling(async () => {
-    const res = await fileApi.getUploadUrl();
+    const res = await fileApi.postUploadUrl();
     const { fileId, uploadUrl } = res.data;
     if (!uploadUrl) {
       throw new TypeError(`uploadUrl is invalid: ${uploadUrl}`);
@@ -334,7 +334,7 @@ const onExecuteOcr = async (file: File) => {
         "Content-Type": "application/pdf",
       },
     });
-    await salaryApi.postSalaryOcrTasksStart({
+    await salaryApi.postSalaryOcrTasks({
       targetDate: targetDate.value,
       fileId,
     });
