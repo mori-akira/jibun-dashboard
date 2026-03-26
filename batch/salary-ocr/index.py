@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent
 PROMPTS_DIR = BASE_DIR / "prompts"
 
-DEFAULT_BEDROCK_MODEL_ID = "anthropic.claude-sonnet-4-6"
+DEFAULT_BEDROCK_MODEL_ID = "global.anthropic.claude-sonnet-4-6"
 
 
 @dataclass
