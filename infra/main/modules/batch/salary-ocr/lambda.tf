@@ -1,3 +1,9 @@
+# 推論プロファイルID（例: "us.anthropic.claude-sonnet-4-6"）から
+# "us." などのリージョンプレフィックスを除去してファウンデーションモデルIDを得る
+locals {
+  bedrock_base_model_id = replace(var.bedrock_model_id, "/^[a-z]{2}\\./", "")
+}
+
 data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -67,7 +73,7 @@ data "aws_iam_policy_document" "salary_ocr_lambda_policy" {
       "bedrock:InvokeModel"
     ]
     resources = [
-      "arn:aws:bedrock:*::foundation-model/${var.bedrock_model_id}",
+      "arn:aws:bedrock:*::foundation-model/${local.bedrock_base_model_id}",
       "arn:aws:bedrock:*:*:inference-profile/${var.bedrock_model_id}",
     ]
   }
