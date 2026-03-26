@@ -67,7 +67,8 @@ data "aws_iam_policy_document" "salary_ocr_lambda_policy" {
       "bedrock:InvokeModel"
     ]
     resources = [
-      "arn:aws:bedrock:*::foundation-model/${var.bedrock_model_id}"
+      "arn:aws:bedrock:*::foundation-model/${var.bedrock_model_id}",
+      "arn:aws:bedrock:*:*:inference-profile/${var.bedrock_model_id}",
     ]
   }
 }

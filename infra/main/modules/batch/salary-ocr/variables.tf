@@ -58,7 +58,7 @@ variable "lambda_memory_size" {
 variable "bedrock_model_id" {
   description = "使用するBedrockモデルID"
   type        = string
-  default     = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+  default     = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
 }
 
 variable "bedrock_ocr_max_attempts" {
