@@ -55,8 +55,14 @@ variable "lambda_memory_size" {
   default     = 1024
 }
 
-variable "bedrock_model_id" {
-  description = "使用するBedrockモデルID"
+variable "bedrock_inference_profile_id" {
+  description = "使用するBedrock推論プロファイルID"
+  type        = string
+  default     = "global.anthropic.claude-sonnet-4-6"
+}
+
+variable "bedrock_foundation_model_id" {
+  description = "使用するBedrockファウンデーションモデルID"
   type        = string
   default     = "global.anthropic.claude-sonnet-4-6"
 }

@@ -1,9 +1,3 @@
-# 推論プロファイルID（例: "us.anthropic.claude-sonnet-4-6"）から
-# "us." などのリージョンプレフィックスを除去してファウンデーションモデルIDを得る
-locals {
-  bedrock_base_model_id = replace(var.bedrock_model_id, "/^[a-z]{2}\\./", "")
-}
-
 data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -73,8 +67,8 @@ data "aws_iam_policy_document" "salary_ocr_lambda_policy" {
       "bedrock:InvokeModel"
     ]
     resources = [
-      "arn:aws:bedrock:*::foundation-model/${local.bedrock_base_model_id}",
-      "arn:aws:bedrock:*:*:inference-profile/${var.bedrock_model_id}",
+      "arn:aws:bedrock:*::foundation-model/${var.bedrock_foundation_model_id}",
+      "arn:aws:bedrock:*:*:inference-profile/${var.bedrock_inference_profile_id}",
     ]
   }
 }
@@ -108,7 +102,7 @@ resource "aws_lambda_function" "salary_ocr_lambda" {
       UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
       SALARIES_TABLE_NAME         = var.salaries_table_name
       SALARY_OCR_TASKS_TABLE_NAME = var.salary_ocr_tasks_table_name
-      BEDROCK_MODEL_ID            = var.bedrock_model_id
+      BEDROCK_MODEL_ID            = var.bedrock_inference_profile_id
       BEDROCK_OCR_MAX_ATTEMPTS    = var.bedrock_ocr_max_attempts
     }
   }
