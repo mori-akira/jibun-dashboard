@@ -64,7 +64,7 @@ variable "bedrock_inference_profile_id" {
 variable "bedrock_foundation_model_id" {
   description = "使用するBedrockファウンデーションモデルID"
   type        = string
-  default     = "global.anthropic.claude-sonnet-4-6"
+  default     = "anthropic.claude-sonnet-4-6"
 }
 
 variable "bedrock_ocr_max_attempts" {
