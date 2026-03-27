@@ -17,6 +17,7 @@ from botocore.exceptions import BotoCoreError, ClientError
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+    force=True,
 )
 logger = logging.getLogger(__name__)
 
