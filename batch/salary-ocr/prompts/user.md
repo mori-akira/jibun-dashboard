@@ -4,12 +4,12 @@
 
 - overview.grossIncome: 「支給額合計」を参照
 - overview.netIncome: 「差引支給額」を参照
-- overview.operatingTime: 「所定内勤務時間数」に「時間外勤務時間数」「深夜勤務時間数」「休日勤務時間数」を加算
-- overview.overtime: 「時間外勤務時間数」「深夜勤務時間数」「休日勤務時間数」を加算
+- overview.operatingTime: 「所定内勤務時間数」に「時間外勤務時間数」「休日勤務時間数」を加算
+- overview.overtime: 「時間外勤務時間数」「休日勤務時間数」を加算
 - overview.bonus / overview.bonusTakeHome: 常に 0
 
 - structure.basicSalary: 「基礎給与」
-- structure.overtimePay: 「時間外勤務手当」「深夜勤務手当」「休日勤務手当」の合計
+- structure.overtimePay: 「時間外勤務手当」「深夜勤務手当」「休日勤務手当」「60時間超過勤務手当」の合計
 - structure.housingAllowance: 0
 - structure.positionAllowance: 0
 - structure.other: 「通勤手当」「前月前払退職金」の合計
