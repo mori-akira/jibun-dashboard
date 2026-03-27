@@ -23,8 +23,6 @@ logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent
 PROMPTS_DIR = BASE_DIR / "prompts"
 
-DEFAULT_BEDROCK_MODEL_ID = "global.anthropic.claude-sonnet-4-6"
-
 
 @dataclass
 class OcrTaskMessage:
@@ -132,7 +130,7 @@ def load_prompts() -> Tuple[str, str]:
 def call_bedrock_ocr(
     bedrock,
     pdf_bytes: bytes,
-    model_id: str = DEFAULT_BEDROCK_MODEL_ID,
+    model_id: str,
 ) -> Dict[str, Any]:
     """Bedrock Converse API に対してOCRを呼び出し、構造化JSONを取得"""
     logger.info("Calling Bedrock OCR with model=%s", model_id)
@@ -165,7 +163,7 @@ def call_bedrock_ocr(
                 ],
             )
             raw_json = response["output"]["message"]["content"][0]["text"]
-            logger.debug("Raw OCR JSON: %s", raw_json)
+            logger.info("Raw OCR JSON: %s", raw_json)
             result: Dict[str, Any] = json.loads(raw_json, parse_float=Decimal)
             return result
         except (BotoCoreError, ClientError) as e:

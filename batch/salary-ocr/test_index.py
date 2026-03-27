@@ -251,7 +251,7 @@ class TestCallBedrockOcr:
         ]
 
         with patch.dict(os.environ, {"BEDROCK_OCR_MAX_ATTEMPTS": "3"}):
-            result = call_bedrock_ocr(mock_bedrock, b"pdf content")
+            result = call_bedrock_ocr(mock_bedrock, b"pdf content", "anthropic.claude-3-5-sonnet-20241022-v2:0")
 
         assert result == {"overview": {}}
         assert mock_bedrock.converse.call_count == 2
@@ -269,7 +269,7 @@ class TestCallBedrockOcr:
 
         with patch.dict(os.environ, {"BEDROCK_OCR_MAX_ATTEMPTS": "3"}):
             with pytest.raises(RuntimeError, match="Bedrock OCR failed after max attempts"):
-                call_bedrock_ocr(mock_bedrock, b"pdf content")
+                call_bedrock_ocr(mock_bedrock, b"pdf content", "anthropic.claude-3-5-sonnet-20241022-v2:0")
 
         assert mock_bedrock.converse.call_count == 3
 
