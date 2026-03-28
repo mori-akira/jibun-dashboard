@@ -32,6 +32,8 @@ get:
             type: array
             items:
               $ref: "../../openapi.yaml#/components/schemas/Vocabulary"
+          example:
+            $ref: "../../examples/vocabularies/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
