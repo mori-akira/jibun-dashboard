@@ -21,8 +21,8 @@ get:
         application/json:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/Vocabulary"
-        example:
-          $ref: "../../examples/vocabularies/vocabularyId/get.json"
+          example:
+            $ref: "../../examples/vocabularies/vocabularyId/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
