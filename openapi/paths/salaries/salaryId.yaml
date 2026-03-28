@@ -22,7 +22,7 @@ get:
           schema:
             $ref: "../../openapi.yaml#/components/schemas/Salary"
           example:
-            $ref: "../../examples/salary/salaryId/get.json"
+            $ref: "../../examples/salaries/salaryId/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
