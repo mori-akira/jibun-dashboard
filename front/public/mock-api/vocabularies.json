@@ -1,0 +1,73 @@
+[
+  {
+    "vocabularyId": "6ec1e582-dcf3-44ca-b04d-8a0e5a171a51",
+    "name": "成人発達理論",
+    "description": "ハーバード大学教育学大学院名誉教授のロバート・キーガン博士が提供する理論。\n大人になっても人間は成長を続けることが可能であるとする理論。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学"
+      },
+      {
+        "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
+        "vocabularyTag": "YouTube"
+      },
+      {
+        "vocabularyTagId": "0125176a-4447-49e9-933d-4f46949dd4cc",
+        "vocabularyTag": "坂井 風太"
+      },
+      {
+        "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
+        "vocabularyTag": "経済"
+      },
+      {
+        "vocabularyTagId": "c73e1ea6-5c29-41a2-b6b8-ef51de8cb205",
+        "vocabularyTag": "社会学"
+      },
+      {
+        "vocabularyTagId": "487efd8d-7967-430c-816a-42bc1ae67b4c",
+        "vocabularyTag": "政治"
+      }
+    ],
+    "createdDateTime": "2026-03-28T14:48:17.969Z",
+    "updatedDateTime": "2026-03-28T14:48:17.969Z"
+  },
+  {
+    "vocabularyId": "543c48b1-7481-426e-ac48-fa6b8fc120ab",
+    "name": "トラックレコード",
+    "description": "過去の実績や履歴。株式投資では一定期間における売買履歴を表し、損益の取引回数、最大利益などで表されることが多い。",
+    "tags": [
+      {
+        "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
+        "vocabularyTag": "経済"
+      },
+      {
+        "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
+        "vocabularyTag": "YouTube"
+      },
+      {
+        "vocabularyTagId": "c52575d8-73cc-447e-9ec7-27744a6900dd",
+        "vocabularyTag": "玉木 雄一郎"
+      }
+    ],
+    "createdDateTime": "2026-03-28T14:51:22.365Z",
+    "updatedDateTime": "2026-03-28T14:51:22.365Z"
+  },
+  {
+    "vocabularyId": "dc93f6a5-f64d-44c3-94d6-5a2859b1b428",
+    "name": "ホフスタッターの法則",
+    "description": "作業は予定よりも時間がかかる傾向があるという経験則。\nアメリカの認知科学者ダグラス・ホフスタッターが「人は最初に計画した通りに物事が進まない」と述べたことから、このように呼ばれる。",
+    "tags": [
+      {
+        "vocabularyTagId": "d6ba3280-86a1-4d78-8420-32759e2bf244",
+        "vocabularyTag": "IT"
+      },
+      {
+        "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+        "vocabularyTag": "読書"
+      }
+    ],
+    "createdDateTime": "2026-03-28T14:52:33.444Z",
+    "updatedDateTime": "2026-03-28T14:52:33.444Z"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "vocabularyId": "dc93f6a5-f64d-44c3-94d6-5a2859b1b428",
+  "name": "ホフスタッターの法則",
+  "description": "作業は予定よりも時間がかかる傾向があるという経験則。\nアメリカの認知科学者ダグラス・ホフスタッターが「人は最初に計画した通りに物事が進まない」と述べたことから、このように呼ばれる。",
+  "tags": [
+    {
+      "vocabularyTagId": "d6ba3280-86a1-4d78-8420-32759e2bf244",
+      "vocabularyTag": "IT"
+    },
+    {
+      "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+      "vocabularyTag": "読書"
+    }
+  ],
+  "createdDateTime": "2026-03-28T14:52:33.444Z",
+  "updatedDateTime": "2026-03-28T14:52:33.444Z"
+}
