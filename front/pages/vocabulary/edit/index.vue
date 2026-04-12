@@ -171,6 +171,7 @@ const fetchData = async () => {
       await Promise.all([
         vocabularyStore.fetchVocabularies(
           vocabularyName.value,
+          description.value,
           selectedTagIds.value,
         ),
         vocabularyStore.fetchVocabularyTags(),
@@ -191,6 +192,7 @@ watch(
       try {
         await vocabularyStore.fetchVocabularies(
           vocabularyName.value,
+          description.value,
           selectedTagIds.value,
         );
       } catch (err) {
@@ -285,12 +287,6 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
 
 const rows = computed<VocabularyWithIndex[]>(() =>
   (vocabularyStore.vocabularies ?? [])
-    .filter((v) => {
-      if (!description.value) return true;
-      return v.description
-        ?.toLowerCase()
-        .includes(description.value.toLowerCase());
-    })
     .map((v, i) => ({
       ...v,
       index: i + 1,

@@ -107,6 +107,7 @@ import { useCommonStore } from "~/stores/common";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 import { getErrorMessage } from "~/utils/error";
+import { formatToJST } from "~/utils/date";
 
 const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();
@@ -122,6 +123,7 @@ const fetchData = async () => {
       await Promise.all([
         vocabularyStore.fetchVocabularies(
           vocabularyName.value,
+          description.value,
           selectedTagIds.value,
         ),
         vocabularyStore.fetchVocabularyTags(),
@@ -142,6 +144,7 @@ watch(
       try {
         await vocabularyStore.fetchVocabularies(
           vocabularyName.value,
+          description.value,
           selectedTagIds.value,
         );
       } catch (err) {
@@ -192,24 +195,17 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
 ];
 
 const rows = computed<VocabularyWithIndex[]>(() =>
-  (vocabularyStore.vocabularies ?? [])
-    .filter((v) => {
-      if (!description.value) return true;
-      return v.description
-        ?.toLowerCase()
-        .includes(description.value.toLowerCase());
-    })
-    .map((v, i) => ({
-      ...v,
-      index: i + 1,
-      tagNames: Array.from(v.tags ?? [])
-        .map((t) => t.vocabularyTag)
-        .join(", "),
-      tagBadges: Array.from(v.tags ?? []).map((t) => ({
-        name: t.vocabularyTag,
-        selected: selectedTagIds.value.includes(t.vocabularyTagId ?? ""),
-      })),
+  (vocabularyStore.vocabularies ?? []).map((v, i) => ({
+    ...v,
+    index: i + 1,
+    tagNames: Array.from(v.tags ?? [])
+      .map((t) => t.vocabularyTag)
+      .join(", "),
+    tagBadges: Array.from(v.tags ?? []).map((t) => ({
+      name: t.vocabularyTag,
+      selected: selectedTagIds.value.includes(t.vocabularyTagId ?? ""),
     })),
+  })),
 );
 
 const initSortState: SortDef<VocabularyWithIndex> = {
@@ -222,7 +218,13 @@ const selectedVocabulary = ref<Vocabulary | null>(null);
 const itemDefs: ItemDef[] = [
   { field: "vocabularyId", label: "Id", skipIfNull: true },
   { field: "name", label: "Name", skipIfNull: true },
-  { field: "description", label: "Description", skipIfNull: true, itemType: "multiline", itemClass: "!whitespace-normal items-start" },
+  {
+    field: "description",
+    label: "Description",
+    skipIfNull: true,
+    itemType: "multiline",
+    itemClass: "!whitespace-normal items-start",
+  },
   {
     field: "tagNames",
     label: "Tags",
@@ -242,6 +244,8 @@ const onClickRow = (row: VocabularyWithIndex) => {
     ? ({
         ...found,
         tagNames: Array.from(found.tags ?? []).map((t) => t.vocabularyTag),
+        createdDateTime: formatToJST(found.createdDateTime),
+        updatedDateTime: formatToJST(found.updatedDateTime),
       } as unknown as Vocabulary)
     : null;
 };

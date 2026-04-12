@@ -6,13 +6,14 @@ required:
   - vocabularyTag
 
 properties:
-  vocabularyTag:
-    description: ボキャブラリータグ
-    type: string
-    minLength: 1
-    maxLength: 64
   order:
     description: 並び順
     type: integer
     format: int32
     minimum: 1
+
+  vocabularyTag:
+    description: ボキャブラリータグ
+    type: string
+    minLength: 1
+    maxLength: 64

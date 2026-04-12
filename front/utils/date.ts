@@ -1,3 +1,17 @@
+export function formatToJST(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  return new Date(value).toLocaleString("sv-SE", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+}
+
 export function getCurrentMonthFirstDateString(
   timeZone = "Asia/Tokyo",
 ): string {

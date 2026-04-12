@@ -14,10 +14,10 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
   const vocabularyTags = ref<VocabularyTag[] | null>(null);
   const { getVocabularyApi } = useApiClient();
 
-  async function fetchVocabularies(name?: string, tags?: string[]) {
+  async function fetchVocabularies(name?: string, description?: string, tags?: string[]) {
     const res = await getVocabularyApi().getVocabularies(
       name || undefined,
-      undefined,
+      description || undefined,
       tags?.length ? tags : undefined,
     );
     vocabularies.value = res.data;

@@ -13,7 +13,11 @@
         <span class="font-cursive font-bold ml-2">Vocabulary Tags</span>
       </h3>
 
-      <div class="flex justify-end mt-4 mr-8">
+      <div class="flex justify-end gap-2 mt-4 mr-8">
+        <Button type="action" size="small" @click:button="onReorderItems">
+          <Icon name="tabler:menu-order" class="text-base translate-y-0.5" />
+          <span class="font-bold ml-2">Reorder Items</span>
+        </Button>
         <Button type="add" size="small" @click:button="onAddNewOne">
           <Icon name="tabler:plus" class="text-base translate-y-0.5" />
           <span class="font-bold ml-2">Add New One</span>
@@ -76,6 +80,19 @@
       </div>
     </ModalWindow>
 
+    <!-- Reorder modal -->
+    <ModalWindow
+      :show-modal="reorderTarget !== undefined"
+      modal-box-class="w-96 h-[80vh] flex-col items-center overflow-y-auto"
+      @close="onCloseReorderModal"
+    >
+      <ReorderEditor
+        :target-tags="reorderTarget"
+        @submit="onSubmitReorder"
+        @close-modal="onCloseReorderModal"
+      />
+    </ModalWindow>
+
     <Dialog
       :show-dialog="showInfoDialog"
       type="info"
@@ -125,6 +142,7 @@ import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
 import Dialog from "~/components/common/Dialog.vue";
+import ReorderEditor from "~/components/vocabulary/edit/ReorderEditor.vue";
 import {
   useInfoDialog,
   useConfirmDialog,
@@ -200,17 +218,14 @@ const columnDefs: ColumnDef<VocabularyTagWithIndex>[] = [
     onClickDelete: (row: VocabularyTagWithIndex) => {
       onDeleteOne(row.vocabularyTagId ?? "");
     },
-    headerStyle: { width: '4rem', maxWidth: '4rem' },
+    headerStyle: { width: "4rem", maxWidth: "4rem" },
     bodyClass: "h-12",
     iconClass: "w-5 h-5 text-indigo-700 translate-y-1",
   },
 ];
 
 const rows = computed<VocabularyTagWithIndex[]>(() =>
-  (vocabularyStore.vocabularyTags ?? []).map((t, i) => ({
-    ...t,
-    index: i + 1,
-  })),
+  (vocabularyStore.vocabularyTags ?? []).map((t, i) => ({ ...t, index: i + 1 })),
 );
 
 const initSortState: SortDef<VocabularyTagWithIndex> = {
@@ -222,15 +237,21 @@ const tagValidationRules = zodToVeeRules(
   schemas.VocabularyTagBase.shape.vocabularyTag,
 );
 
+// ── Create / Edit ────────────────────────────────────────────────────────────
+
 const editTarget = ref<VocabularyTag | undefined>(undefined);
 
 const onAddNewOne = () => {
-  editTarget.value = { vocabularyTag: "" };
+  editTarget.value = {
+    vocabularyTag: "",
+    order: (vocabularyStore.vocabularyTags?.length ?? 0) + 1,
+  };
 };
 
 const onSubmitTag: SubmissionHandler<GenericObject> = async (values) => {
   const payload: VocabularyTagBase = {
     vocabularyTag: values.vocabularyTag as string,
+    order: editTarget.value?.order ?? (vocabularyStore.vocabularyTags?.length ?? 0) + 1,
   };
   const result = await withErrorHandling(async () => {
     await vocabularyStore.putVocabularyTag(
@@ -256,6 +277,54 @@ const onCloseEditModal = async () => {
   editTarget.value = undefined;
   commonStore.setHasUnsavedChange(false);
 };
+
+// ── Reorder ──────────────────────────────────────────────────────────────────
+
+const reorderTarget = ref<VocabularyTag[] | undefined>(undefined);
+
+const onReorderItems = () => {
+  reorderTarget.value = (vocabularyStore.vocabularyTags ?? []).map((t) => ({ ...t }));
+};
+
+const onSubmitReorder = async (reordered: VocabularyTag[]) => {
+  const original = new Map(
+    (vocabularyStore.vocabularyTags ?? []).map((t) => [t.vocabularyTagId, t]),
+  );
+  const changed = reordered.filter(
+    (t) => original.get(t.vocabularyTagId)?.order !== t.order,
+  );
+  const result = await withErrorHandling(async () => {
+    await Promise.all(
+      changed.map((t) => {
+        const src = original.get(t.vocabularyTagId);
+        if (!src) return;
+        return vocabularyStore.putVocabularyTag(t.vocabularyTagId, {
+          vocabularyTag: src.vocabularyTag,
+          order: t.order,
+        });
+      }),
+    );
+  }, commonStore);
+  if (result) {
+    commonStore.setHasUnsavedChange(false);
+    reorderTarget.value = undefined;
+    await openInfoDialog(t("message.info.completeSuccessfully"));
+    await fetchTags();
+  }
+};
+
+const onCloseReorderModal = async () => {
+  if (commonStore.hasUnsavedChange) {
+    const confirmed = await openConfirmDialog(
+      t("message.confirm.checkUnsavedChanges"),
+    );
+    if (!confirmed) return;
+  }
+  reorderTarget.value = undefined;
+  commonStore.setHasUnsavedChange(false);
+};
+
+// ── Delete ───────────────────────────────────────────────────────────────────
 
 const onDeleteOne = async (vocabularyTagId: string) => {
   const confirmed = await openConfirmDialog("Confirm deletion of this tag?");

@@ -4,16 +4,19 @@
   "description": "ハーバード大学教育学大学院名誉教授のロバート・キーガン博士が提供する理論。\n大人になっても人間は成長を続けることが可能であるとする理論。",
   "tags": [
     {
-      "vocabularyTagId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "vocabularyTag": "心理学"
+      "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+      "vocabularyTag": "心理学",
+      "order": 5
     },
     {
       "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
-      "vocabularyTag": "YouTube"
+      "vocabularyTag": "YouTube",
+      "order": 7
     },
     {
       "vocabularyTagId": "0125176a-4447-49e9-933d-4f46949dd4cc",
-      "vocabularyTag": "坂井 風太"
+      "vocabularyTag": "坂井 風太",
+      "order": 9
     }
   ],
   "createdDateTime": "2026-03-28T14:48:17.969Z",

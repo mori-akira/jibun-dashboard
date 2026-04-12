@@ -5,7 +5,7 @@
       :model-value="vocabularyName"
       wrapper-class="items-center"
       label-class="w-24 ml-4 font-cursive"
-      input-wrapper-class="w-56"
+      input-wrapper-class="w-[28rem]"
       @update:model-value="(v) => emit('update:vocabularyName', v)"
     />
     <TextBox
@@ -13,7 +13,7 @@
       :model-value="description"
       wrapper-class="items-center"
       label-class="w-24 ml-4 font-cursive"
-      input-wrapper-class="w-56"
+      input-wrapper-class="w-[28rem]"
       @update:model-value="(v) => emit('update:description', v)"
     />
     <div v-if="vocabularyTags.length > 0" class="flex items-center mt-2">
