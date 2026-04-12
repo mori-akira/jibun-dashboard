@@ -4,7 +4,7 @@
       v-for="(def, index) in itemDefs"
       v-show="def.skipIfNull && typedItem[def.field]"
       :key="index"
-      :class="['flex justify-center w-full h-8 mt-[0.1rem]', rowClass]"
+      :class="['flex justify-center w-full min-h-8 mt-[0.1rem]', rowClass]"
     >
       <div :class="['flex items-center p-2', labelClass, def.labelClass]">
         {{ def.label }}
@@ -36,6 +36,16 @@
           :text="(def.asyncLinkText ?? typedItem[def.field]) as string"
           :async-link="() => def.asyncLinkFunction!(typedItem[def.field], typedItem)"
         />
+        <span v-else-if="def.itemType === 'multiline'" class="whitespace-pre-wrap">{{
+          typedItem[def.field]
+        }}</span>
+        <div v-else-if="def.itemType === 'badges'" class="flex flex-wrap gap-1 py-1">
+          <span
+            v-for="badge in (typedItem[def.field] as string[])"
+            :key="badge"
+            class="py-[0.2rem] px-2 text-[0.8rem] bg-[#888] text-white rounded-lg"
+          >{{ badge }}</span>
+        </div>
         <span v-else-if="def.itemType === undefined">{{
           typedItem[def.field]
         }}</span>
@@ -51,7 +61,7 @@ export type ItemDef = {
   field: string;
   label: string;
   skipIfNull?: boolean;
-  itemType?: "plainText" | "anchorLink" | "asyncLink";
+  itemType?: "plainText" | "anchorLink" | "asyncLink" | "badges" | "multiline";
   asyncLinkText?: string;
   asyncLinkFunction?: (
     value: unknown,

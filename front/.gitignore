@@ -25,3 +25,6 @@ logs
 
 # Generated module
 generated
+
+# Claude Code
+.claude

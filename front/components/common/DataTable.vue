@@ -20,6 +20,7 @@
               headerClass,
               column.headerClass,
             ]"
+            :style="column.headerStyle"
             :aria-selected="sortState?.column === column.field"
             :aria-sort="
               sortState?.column === column.field
@@ -123,7 +124,11 @@
                 ($event) => def.onChangeCheck && def.onChangeCheck($event, row)
               "
             />
-            <span v-if="def.field">{{ row[def.field] }}</span>
+            <template v-if="def.field">
+              <slot :name="`cell-${String(def.field)}`" :row="row" :value="row[def.field]">
+                <span>{{ row[def.field] }}</span>
+              </slot>
+            </template>
             <div
               v-if="def.actionButtons"
               class="flex justify-around items-center"
@@ -176,6 +181,7 @@ export type ColumnDef<T> = {
   onClickEdit?: (row: T) => void;
   onClickDelete?: (row: T) => void;
   headerClass?: string;
+  headerStyle?: Record<string, string>;
   bodyClass?: string;
   bodyClassFunction?: (value: unknown, row: T) => string;
   bodyStyle?: Record<string, string>;

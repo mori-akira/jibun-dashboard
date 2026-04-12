@@ -5,6 +5,7 @@ import {
   QualificationApi,
   SettingApi,
   FileApi,
+  VocabularyApi,
 } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
@@ -24,6 +25,7 @@ export const useApiClient = () => {
   const getQualificationApi = () => new QualificationApi(getConfiguration());
   const getSettingApi = () => new SettingApi(getConfiguration());
   const getFileApi = () => new FileApi(getConfiguration());
+  const getVocabularyApi = () => new VocabularyApi(getConfiguration());
 
   return {
     getConfiguration,
@@ -32,5 +34,6 @@ export const useApiClient = () => {
     getQualificationApi,
     getSettingApi,
     getFileApi,
+    getVocabularyApi,
   };
 };
