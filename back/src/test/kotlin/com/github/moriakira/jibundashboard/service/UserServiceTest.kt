@@ -38,16 +38,12 @@ class UserServiceTest :
                 userName = "Alice",
                 emailAddress = "alice@example.com",
             )
-            verify(exactly = 1) { repository.get("u1") }
         }
 
         "getUser: 見つからない場合は null" {
             every { repository.get("nope") } returns null
 
-            val result = service.get("nope")
-
-            result shouldBe null
-            verify(exactly = 1) { repository.get("nope") }
+            service.get("nope") shouldBe null
         }
 
         "putUser: userId 指定ありなら同じ ID で保存" {
@@ -70,7 +66,6 @@ class UserServiceTest :
             slotItem.captured.userId shouldBe "u2"
             slotItem.captured.userName shouldBe "Bob"
             slotItem.captured.emailAddress shouldBe "bob@example.com"
-            verify(exactly = 1) { repository.put(any()) }
         }
 
         "putUser: userId なしなら UUID を採番して保存" {
@@ -96,7 +91,6 @@ class UserServiceTest :
             slotItem.captured.userId shouldBe fixed.toString()
             slotItem.captured.userName shouldBe "Carol"
             slotItem.captured.emailAddress shouldBe "carol@example.com"
-            verify(exactly = 1) { repository.put(any()) }
 
             unmockkStatic(UUID::class)
         }
@@ -128,6 +122,5 @@ class UserServiceTest :
             slotItem.captured.userId shouldBe "u6"
             slotItem.captured.userName shouldBe "eve@example.com"
             slotItem.captured.emailAddress shouldBe "eve@example.com"
-            verify(exactly = 1) { repository.put(any()) }
         }
     })

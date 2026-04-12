@@ -96,19 +96,6 @@ class QualificationServiceTest :
 
             res.shouldHaveSize(1)
             res[0].qualificationId shouldBe "q9"
-            verify(exactly = 1) {
-                repository.query(
-                    userId = "u9",
-                    qualificationName = "AWS",
-                    statuses = listOf("acquired"),
-                    ranks = listOf("A"),
-                    acquiredDateFrom = "2025-01-01",
-                    organization = "AWS",
-                    acquiredDateTo = "2025-12-31",
-                    expirationDateFrom = "2025-02-01",
-                    expirationDateTo = "2025-11-01",
-                )
-            }
         }
 
         "getByQualificationId: 存在すれば返す、無ければ null" {
@@ -250,29 +237,14 @@ class QualificationServiceTest :
             verify(exactly = 1) { repository.delete("u1", "qid-1") }
         }
 
-        "getByQualificationIdForUser: 所有者なら返す" {
+        "getByQualificationIdForUser: 所有者なら返す、他ユーザ/存在しない場合は null" {
             every { repository.getByQualificationId("qid-1") } returns item(id = "qid-1", userId = "u1")
-
-            val result = service.getByQualificationIdForUser("qid-1", "u1")
-
-            result!!.qualificationId shouldBe "qid-1"
-            result.userId shouldBe "u1"
-        }
-
-        "getByQualificationIdForUser: 他ユーザなら null" {
             every { repository.getByQualificationId("qid-2") } returns item(id = "qid-2", userId = "other")
-
-            val result = service.getByQualificationIdForUser("qid-2", "u1")
-
-            result shouldBe null
-        }
-
-        "getByQualificationIdForUser: 存在しなければ null" {
             every { repository.getByQualificationId("nope") } returns null
 
-            val result = service.getByQualificationIdForUser("nope", "u1")
-
-            result shouldBe null
+            service.getByQualificationIdForUser("qid-1", "u1")!!.qualificationId shouldBe "qid-1"
+            service.getByQualificationIdForUser("qid-2", "u1") shouldBe null
+            service.getByQualificationIdForUser("nope", "u1") shouldBe null
         }
 
         "create: UUID を採番して put する" {

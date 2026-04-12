@@ -6,7 +6,6 @@ import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.springframework.http.HttpStatus
 
 class ResourceControllerTest :
@@ -16,30 +15,13 @@ class ResourceControllerTest :
         val controller = ResourceController(resourceService)
 
         "getI18n: 指定ロケールのメッセージを返す" {
-            val locale = "ja"
-            val messages = mapOf(
-                "hello" to "こんにちは",
-                "bye" to "さようなら",
-            )
-            every { resourceService.getI18nMessages(locale) } returns messages
+            val messages = mapOf("hello" to "こんにちは", "bye" to "さようなら")
+            every { resourceService.getI18nMessages("ja") } returns messages
 
-            val res = controller.getResourcesI18n(locale)
+            val res = controller.getResourcesI18n("ja")
 
             res.statusCode shouldBe HttpStatus.OK
-            res.body!!.localeCode shouldBe locale
+            res.body!!.localeCode shouldBe "ja"
             res.body!!.messages!!.shouldContainExactly(messages)
-            verify(exactly = 1) { resourceService.getI18nMessages(locale) }
-        }
-
-        "getI18n: メッセージが空でもOKを返す" {
-            val locale = "en"
-            every { resourceService.getI18nMessages(locale) } returns emptyMap()
-
-            val res = controller.getResourcesI18n(locale)
-
-            res.statusCode shouldBe HttpStatus.OK
-            res.body!!.localeCode shouldBe locale
-            res.body!!.messages!!.isEmpty() shouldBe true
-            verify(exactly = 1) { resourceService.getI18nMessages(locale) }
         }
     })

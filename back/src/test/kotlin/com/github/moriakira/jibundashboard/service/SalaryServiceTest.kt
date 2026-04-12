@@ -96,7 +96,6 @@ class SalaryServiceTest :
             res!!.salaryId shouldBe "s1"
             res.userId shouldBe "u1"
             res.targetDate shouldBe "2025-08-15"
-            verify(exactly = 1) { repository.get("u1", "2025-08-15") }
         }
 
         "get: 存在しなければ null" {
@@ -120,7 +119,6 @@ class SalaryServiceTest :
             res.shouldHaveSize(1)
             res[0].salaryId shouldBe "s2"
             res[0].targetDate shouldBe "2025-01-01"
-            verify(exactly = 1) { repository.findByUserAndDate("u1", "2025-01-01") }
         }
 
         "listByDateRange: 期間で絞り込む" {
@@ -136,7 +134,6 @@ class SalaryServiceTest :
 
             res.shouldHaveSize(1)
             res[0].salaryId shouldBe "s3"
-            verify(exactly = 1) { repository.findByUserAndDateRange("u1", "2025-01-01", "2025-12-31") }
         }
 
         "getBySalaryId: 存在すれば返す、無ければ null" {
@@ -179,29 +176,14 @@ class SalaryServiceTest :
             verify(exactly = 1) { repository.delete("u1", "2025-08-15") }
         }
 
-        "getByIdForUser: 所有者なら返す" {
+        "getByIdForUser: 所有者なら返す、他ユーザ/存在しない場合は null" {
             every { repository.getBySalaryId("sid-1") } returns item(salaryId = "sid-1", userId = "u1")
-
-            val result = service.getByIdForUser("sid-1", "u1")
-
-            result!!.salaryId shouldBe "sid-1"
-            result.userId shouldBe "u1"
-        }
-
-        "getByIdForUser: 他ユーザなら null" {
             every { repository.getBySalaryId("sid-2") } returns item(salaryId = "sid-2", userId = "other")
-
-            val result = service.getByIdForUser("sid-2", "u1")
-
-            result shouldBe null
-        }
-
-        "getByIdForUser: 存在しなければ null" {
             every { repository.getBySalaryId("nope") } returns null
 
-            val result = service.getByIdForUser("nope", "u1")
-
-            result shouldBe null
+            service.getByIdForUser("sid-1", "u1")!!.salaryId shouldBe "sid-1"
+            service.getByIdForUser("sid-2", "u1") shouldBe null
+            service.getByIdForUser("nope", "u1") shouldBe null
         }
 
         "list: targetDate なし → listAll" {

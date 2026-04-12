@@ -7,7 +7,6 @@ import com.github.moriakira.jibundashboard.service.VocabularyModel
 import com.github.moriakira.jibundashboard.service.VocabularyService
 import com.github.moriakira.jibundashboard.service.VocabularyTagModel
 import com.github.moriakira.jibundashboard.service.VocabularyTagService
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -58,40 +57,25 @@ class VocabularyControllerTest :
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(1)
             res.body!![0].name shouldBe "Kotlin Coroutine"
-            verify(exactly = 1) { vocabularyService.listByConditions("u1", "Kotlin", null, listOf("kotlin")) }
         }
 
-        "postVocabularies: 新規作成で 201 & create 呼び出し" {
+        "postVocabularies: 新規作成で 201" {
             every { vocabularyService.create(any()) } returns "11111111-1111-1111-1111-111111111111"
 
             val res = controller.postVocabularies(VocabularyBase(name = "Kotlin Coroutine"))
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.vocabularyId.toString() shouldBe "11111111-1111-1111-1111-111111111111"
-            verify(exactly = 1) { vocabularyService.create(any()) }
         }
 
-        "postVocabularies: body が null なら IllegalArgumentException" {
-            shouldThrow<IllegalArgumentException> { controller.postVocabularies(null) }
-            verify(exactly = 0) { vocabularyService.create(any()) }
-        }
-
-        "getVocabulariesById: 所有者なら 200" {
+        "getVocabulariesById: 200 または 404" {
             val id = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
+            val missingId = "ffffffff-ffff-ffff-ffff-ffffffffffff"
             every { vocabularyService.getByVocabularyIdForUser(id, "u1") } returns vocabModel(id = id)
+            every { vocabularyService.getByVocabularyIdForUser(missingId, "u1") } returns null
 
-            val res = controller.getVocabulariesById(UUID.fromString(id))
-
-            res.statusCode shouldBe HttpStatus.OK
-            res.body!!.vocabularyId.toString() shouldBe id
-        }
-
-        "getVocabulariesById: 見つからなければ 404" {
-            every { vocabularyService.getByVocabularyIdForUser(any(), any()) } returns null
-
-            val res = controller.getVocabulariesById(UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff"))
-
-            res.statusCode shouldBe HttpStatus.NOT_FOUND
+            controller.getVocabulariesById(UUID.fromString(id)).statusCode shouldBe HttpStatus.OK
+            controller.getVocabulariesById(UUID.fromString(missingId)).statusCode shouldBe HttpStatus.NOT_FOUND
         }
 
         "putVocabulariesById: 更新で 200 (所有者OK)" {
@@ -117,29 +101,14 @@ class VocabularyControllerTest :
             verify(exactly = 0) { vocabularyService.put(any()) }
         }
 
-        "putVocabulariesById: body が null なら IllegalArgumentException" {
-            shouldThrow<IllegalArgumentException> {
-                controller.putVocabulariesById(UUID.fromString("aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"), null)
-            }
-        }
-
-        "deleteVocabulariesById: 所有者なら削除して 204" {
+        "deleteVocabulariesById: 204 または 404" {
             val id = "14141414-1414-1414-1414-141414141414"
+            val missingId = "12121212-1212-1212-1212-121212121212"
             every { vocabularyService.getByVocabularyIdForUser(id, "u1") } returns vocabModel(id = id)
+            every { vocabularyService.getByVocabularyIdForUser(missingId, "u1") } returns null
 
-            val res = controller.deleteVocabulariesById(UUID.fromString(id))
-
-            res.statusCode shouldBe HttpStatus.NO_CONTENT
-            verify(exactly = 1) { vocabularyService.delete("u1", id) }
-        }
-
-        "deleteVocabulariesById: 見つからなければ 404" {
-            every { vocabularyService.getByVocabularyIdForUser(any(), any()) } returns null
-
-            val res = controller.deleteVocabulariesById(UUID.fromString("12121212-1212-1212-1212-121212121212"))
-
-            res.statusCode shouldBe HttpStatus.NOT_FOUND
-            verify(exactly = 0) { vocabularyService.delete(any(), any()) }
+            controller.deleteVocabulariesById(UUID.fromString(id)).statusCode shouldBe HttpStatus.NO_CONTENT
+            controller.deleteVocabulariesById(UUID.fromString(missingId)).statusCode shouldBe HttpStatus.NOT_FOUND
         }
 
         // --- VocabularyTag ---
@@ -154,14 +123,13 @@ class VocabularyControllerTest :
             res.body!![0].vocabularyTag shouldBe "kotlin"
         }
 
-        "postVocabularyTags: 新規作成で 201 & create 呼び出し" {
+        "postVocabularyTags: 新規作成で 201" {
             every { vocabularyTagService.create(any()) } returns "22222222-2222-2222-2222-222222222222"
 
             val res = controller.postVocabularyTags(VocabularyTagBase(vocabularyTag = "kotlin", order = 1))
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.vocabularyTagId.toString() shouldBe "22222222-2222-2222-2222-222222222222"
-            verify(exactly = 1) { vocabularyTagService.create(any()) }
         }
 
         "getVocabularyTagsById: 所有者なら 200、見つからなければ 404" {

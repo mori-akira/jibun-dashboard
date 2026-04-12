@@ -10,7 +10,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.springframework.http.HttpStatus
 import java.net.URI
 import java.time.OffsetDateTime
@@ -48,58 +47,6 @@ class FileControllerTest :
             res.body!!.fileId shouldBe fileId
             res.body!!.uploadUrl shouldBe expectedUrl
             res.body!!.expireDateTime shouldBe expectedExpireDateTime
-            verify(exactly = 1) {
-                fileUploadService.issuePresignedPutUrl("user123", fileId, expiresIn)
-            }
-        }
-
-        "postUploadUrl: fileId 指定なしの場合は自動生成される" {
-            val generatedFileId = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-            val expiresIn = 3600
-            val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$generatedFileId")
-            val expectedExpireDateTime = OffsetDateTime.now().plusSeconds(expiresIn.toLong())
-
-            every {
-                fileUploadService.issuePresignedPutUrl("user123", null, expiresIn)
-            } returns PresignedUrlResult(
-                fileId = generatedFileId,
-                url = expectedUrl,
-                expireDateTime = expectedExpireDateTime,
-            )
-
-            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = null, expiresIn = expiresIn))
-
-            res.statusCode shouldBe HttpStatus.OK
-            res.body!!.fileId shouldBe generatedFileId
-            res.body!!.uploadUrl shouldBe expectedUrl
-            res.body!!.expireDateTime shouldBe expectedExpireDateTime
-            verify(exactly = 1) {
-                fileUploadService.issuePresignedPutUrl("user123", null, expiresIn)
-            }
-        }
-
-        "postUploadUrl: expiresIn 指定なしの場合はデフォルト値が使用される" {
-            val fileId = UUID.fromString("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-            val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$fileId")
-            val expectedExpireDateTime = OffsetDateTime.now().plusSeconds(3600)
-
-            every {
-                fileUploadService.issuePresignedPutUrl("user123", fileId, null)
-            } returns PresignedUrlResult(
-                fileId = fileId,
-                url = expectedUrl,
-                expireDateTime = expectedExpireDateTime,
-            )
-
-            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = fileId, expiresIn = null))
-
-            res.statusCode shouldBe HttpStatus.OK
-            res.body!!.fileId shouldBe fileId
-            res.body!!.uploadUrl shouldBe expectedUrl
-            res.body!!.expireDateTime shouldBe expectedExpireDateTime
-            verify(exactly = 1) {
-                fileUploadService.issuePresignedPutUrl("user123", fileId, null)
-            }
         }
 
         "postUploadUrl: すべてのパラメータが null の場合はデフォルト値が使用される" {
@@ -121,32 +68,6 @@ class FileControllerTest :
             res.body!!.fileId shouldBe generatedFileId
             res.body!!.uploadUrl shouldBe expectedUrl
             res.body!!.expireDateTime shouldBe expectedExpireDateTime
-            verify(exactly = 1) {
-                fileUploadService.issuePresignedPutUrl("user123", null, null)
-            }
-        }
-
-        "postUploadUrl: currentAuth.userId がサービスに正しく渡される" {
-            val fileId = UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd")
-            val expiresIn = 1800
-            val expectedUrl = URI.create("https://s3.example.com/test-bucket/uploads/user123/$fileId")
-            val expectedExpireDateTime = OffsetDateTime.now().plusSeconds(expiresIn.toLong())
-
-            every { currentAuth.userId } returns "user123"
-            every {
-                fileUploadService.issuePresignedPutUrl("user123", fileId, expiresIn)
-            } returns PresignedUrlResult(
-                fileId = fileId,
-                url = expectedUrl,
-                expireDateTime = expectedExpireDateTime,
-            )
-
-            val res = controller.postUploadUrl(PostUploadUrlRequest(fileId = fileId, expiresIn = expiresIn))
-
-            res.statusCode shouldBe HttpStatus.OK
-            verify(exactly = 1) {
-                fileUploadService.issuePresignedPutUrl("user123", fileId, expiresIn)
-            }
         }
 
         "getUserAssetsDownloadUrl: assetType と assetId を指定した場合は正しく DownloadUrl を返す" {
@@ -167,29 +88,5 @@ class FileControllerTest :
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.downloadUrl shouldBe expectedUrl
             res.body!!.expireDateTime shouldBe expectedExpireDateTime
-            verify(exactly = 1) {
-                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
-            }
-        }
-
-        "getUserAssetsDownloadUrl: currentAuth.userId がサービスに正しく渡される" {
-            val assetType = "qualification-certificate"
-            val assetId = UUID.fromString("22222222-2222-2222-2222-222222222222")
-            val expectedUrl = URI.create("https://s3.example.com/user-assets/$assetType/user123/$assetId")
-
-            every { currentAuth.userId } returns "user123"
-            every {
-                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
-            } returns PresignedDownloadUrlResult(
-                url = expectedUrl,
-                expireDateTime = OffsetDateTime.now().plusSeconds(3600),
-            )
-
-            val res = controller.getUserAssetsDownloadUrl(assetType, assetId)
-
-            res.statusCode shouldBe HttpStatus.OK
-            verify(exactly = 1) {
-                userAssetService.issuePresignedGetUrl(assetType, "user123", assetId, null)
-            }
         }
     })

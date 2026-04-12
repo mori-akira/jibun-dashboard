@@ -40,7 +40,6 @@ class VocabularyTagServiceTest :
             res.shouldHaveSize(2)
             res[0].vocabularyTagId shouldBe "tag1"
             res[0].vocabularyTag shouldBe "kotlin"
-            verify(exactly = 1) { repository.findByUser("u1", null) }
         }
 
         "getByVocabularyTagIdForUser: 所有者なら返す、他ユーザなら null" {

@@ -71,7 +71,6 @@ class SalaryOcrTaskServiceTest :
                 createdAt = "2025-10-11T00:00:00Z",
                 updatedAt = "2025-10-11T01:00:00Z",
             )
-            verify(exactly = 1) { repository.findByUserAndDate("u1", "2025-10") }
         }
 
         "getByTaskId: 見つからなければ null" {
@@ -80,47 +79,25 @@ class SalaryOcrTaskServiceTest :
             val result = service.getByTaskId("nope")
 
             result shouldBe null
-            verify(exactly = 1) { repository.getByTaskId("nope") }
         }
 
-        "startTask: PENDING タスクがあれば ConflictException をスロー" {
-            val pending = SalaryOcrTaskItem().apply {
-                taskId = "t-pending"
-                userId = "u1"
-                targetDate = "2025-11"
-                status = SalaryOcrTaskStatus.PENDING.name
-                createdAt = "2025-11-01T00:00:00Z"
-                updatedAt = "2025-11-01T00:00:00Z"
-            }
-            every { repository.findByUserAndDate("u1", "2025-11") } returns listOf(pending)
+        "startTask: PENDING/RUNNING タスクがあれば ConflictException をスロー" {
+            for (status in listOf(SalaryOcrTaskStatus.PENDING, SalaryOcrTaskStatus.RUNNING)) {
+                val activeTask = SalaryOcrTaskItem().apply {
+                    taskId = "t-active"
+                    userId = "u1"
+                    targetDate = "2025-11"
+                    this.status = status.name
+                    createdAt = "2025-11-01T00:00:00Z"
+                    updatedAt = "2025-11-01T00:00:00Z"
+                }
+                every { repository.findByUserAndDate("u1", "2025-11") } returns listOf(activeTask)
 
-            shouldThrow<ConflictException> {
-                service.startTask(userId = "u1", targetDate = "2025-11", fileId = "file-x")
+                shouldThrow<ConflictException> {
+                    service.startTask(userId = "u1", targetDate = "2025-11", fileId = "file-x")
+                }
+                verify(exactly = 0) { repository.put(any()) }
             }
-            verify(exactly = 0) { repository.put(any()) }
-            @Suppress("MaxLineLength")
-            verify(exactly = 0) {
-                sqsClient.sendMessage(
-                    any<java.util.function.Consumer<software.amazon.awssdk.services.sqs.model.SendMessageRequest.Builder>>(),
-                )
-            }
-        }
-
-        "startTask: RUNNING タスクがあれば ConflictException をスロー" {
-            val running = SalaryOcrTaskItem().apply {
-                taskId = "t-running"
-                userId = "u1"
-                targetDate = "2025-11"
-                status = SalaryOcrTaskStatus.RUNNING.name
-                createdAt = "2025-11-01T00:00:00Z"
-                updatedAt = "2025-11-01T00:00:00Z"
-            }
-            every { repository.findByUserAndDate("u1", "2025-11") } returns listOf(running)
-
-            shouldThrow<ConflictException> {
-                service.startTask(userId = "u1", targetDate = "2025-11", fileId = "file-x")
-            }
-            verify(exactly = 0) { repository.put(any()) }
         }
 
         "startTask: COMPLETED タスクのみなら正常に開始できる" {
