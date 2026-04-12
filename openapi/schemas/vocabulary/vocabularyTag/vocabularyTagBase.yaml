@@ -2,6 +2,7 @@ type: object
 description: ボキャブラリータグ基本情報
 
 required:
+  - order
   - vocabularyTag
 
 properties:
@@ -10,3 +11,8 @@ properties:
     type: string
     minLength: 1
     maxLength: 64
+  order:
+    description: 並び順
+    type: integer
+    format: int32
+    minimum: 1

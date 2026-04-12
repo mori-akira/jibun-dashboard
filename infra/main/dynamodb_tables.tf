@@ -86,6 +86,14 @@ locals {
           projection_type = "ALL"
         }
       ]
+      lsi = [
+        {
+          name            = "lsi_order",
+          range_key_name  = "order",
+          range_key_type  = "N",
+          projection_type = "ALL"
+        }
+      ]
     }
   }
 }
