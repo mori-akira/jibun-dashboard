@@ -17,6 +17,7 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
   async function fetchVocabularies(name?: string, tags?: string[]) {
     const res = await getVocabularyApi().getVocabularies(
       name || undefined,
+      undefined,
       tags?.length ? tags : undefined,
     );
     vocabularies.value = res.data;
