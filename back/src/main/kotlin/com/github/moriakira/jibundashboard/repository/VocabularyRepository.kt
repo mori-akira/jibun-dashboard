@@ -35,6 +35,7 @@ class VocabularyRepository(
     fun findByUser(
         userId: String,
         vocabularyName: String? = null,
+        description: String? = null,
     ): List<VocabularyItem> {
         val names = mutableMapOf<String, String>()
         val values = mutableMapOf<String, AttributeValue>()
@@ -44,6 +45,12 @@ class VocabularyRepository(
             names["#name"] = "name"
             values[":name"] = AttributeValue.builder().s(it).build()
             conditions += "contains(#name, :name)"
+        }
+
+        description?.let {
+            names["#description"] = "description"
+            values[":description"] = AttributeValue.builder().s(it).build()
+            conditions += "contains(#description, :description)"
         }
 
         val filterExpr =
@@ -107,4 +114,7 @@ class VocabularyTagEmbed {
 
     @get:DynamoDbAttribute("vocabularyTag")
     var vocabularyTag: String? = null
+
+    @get:DynamoDbAttribute("order")
+    var order: Int? = null
 }

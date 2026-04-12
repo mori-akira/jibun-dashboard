@@ -11,6 +11,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttri
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondarySortKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
@@ -61,7 +62,7 @@ class VocabularyTagRepository(
                 .also { b -> filterExpr?.let { b.filterExpression(it) } }
                 .build()
 
-        return table().query(req).flatMap { it.items().toList() }.toList()
+        return table().index("gsi_user_order").query(req).flatMap { it.items().toList() }.toList()
     }
 
     fun put(item: VocabularyTagItem) {
@@ -81,9 +82,14 @@ class VocabularyTagItem {
     var vocabularyTagId: String? = null
 
     @get:DynamoDbPartitionKey
+    @get:DynamoDbSecondaryPartitionKey(indexNames = ["gsi_user_order"])
     @get:DynamoDbAttribute("userId")
     var userId: String? = null
 
     @get:DynamoDbAttribute("vocabularyTag")
     var vocabularyTag: String? = null
+
+    @get:DynamoDbSecondarySortKey(indexNames = ["gsi_user_order"])
+    @get:DynamoDbAttribute("order")
+    var order: Int? = null
 }

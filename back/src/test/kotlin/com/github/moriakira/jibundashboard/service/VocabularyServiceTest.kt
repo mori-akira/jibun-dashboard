@@ -38,6 +38,7 @@ class VocabularyServiceTest :
                     VocabularyTagEmbed().also {
                         it.vocabularyTagId = "tag1"
                         it.vocabularyTag = "kotlin"
+                        it.order = 1
                     },
                 )
                 createdDateTime = "2025-01-01T00:00:00Z"
@@ -50,11 +51,11 @@ class VocabularyServiceTest :
                 userId = "u1",
                 name = "Kotlin",
                 description = null,
-                tags = listOf(VocabularyTagModel("tag1", "u1", "kotlin")),
+                tags = listOf(VocabularyTagModel("tag1", "u1", "kotlin", order = 1)),
             )
 
         "listByConditions: 変換して返す" {
-            every { repository.findByUser("u1", null) } returns listOf(item("v1"), item("v2"))
+            every { repository.findByUser("u1", null, null) } returns listOf(item("v1"), item("v2"))
 
             val res = service.listByConditions("u1")
 
@@ -68,8 +69,9 @@ class VocabularyServiceTest :
                 VocabularyTagEmbed().also {
                     it.vocabularyTagId = id
                     it.vocabularyTag = tag
+                    it.order = 1
                 }
-            every { repository.findByUser("u1", null) } returns listOf(
+            every { repository.findByUser("u1", null, null) } returns listOf(
                 item("v1").also { it.tags = listOf(embed("t1", "kotlin")) },
                 item("v2").also { it.tags = listOf(embed("t2", "java")) },
             )

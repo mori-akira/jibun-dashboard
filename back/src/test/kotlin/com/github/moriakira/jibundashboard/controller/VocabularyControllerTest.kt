@@ -38,25 +38,27 @@ class VocabularyControllerTest :
                 userId = "u1",
                 name = "Kotlin Coroutine",
                 description = "Async programming",
-                tags = listOf(VocabularyTagModel("22222222-2222-2222-2222-222222222222", "u1", "kotlin")),
+                tags = listOf(VocabularyTagModel("22222222-2222-2222-2222-222222222222", "u1", "kotlin", order = 1)),
                 createdDateTime = "2025-01-01T00:00:00Z",
                 updatedDateTime = "2025-01-01T00:00:00Z",
             )
 
         fun tagModel(id: String = "22222222-2222-2222-2222-222222222222") =
-            VocabularyTagModel(vocabularyTagId = id, userId = "u1", vocabularyTag = "kotlin")
+            VocabularyTagModel(vocabularyTagId = id, userId = "u1", vocabularyTag = "kotlin", order = 1)
 
         // --- Vocabulary ---
 
         "getVocabularies: 条件指定で一覧を返す" {
-            every { vocabularyService.listByConditions("u1", "Kotlin", listOf("kotlin")) } returns listOf(vocabModel())
+            every {
+                vocabularyService.listByConditions("u1", "Kotlin", null, listOf("kotlin"))
+            } returns listOf(vocabModel())
 
-            val res = controller.getVocabularies(vocabularyName = "Kotlin", tags = listOf("kotlin"))
+            val res = controller.getVocabularies(vocabularyName = "Kotlin", description = null, tags = listOf("kotlin"))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(1)
             res.body!![0].name shouldBe "Kotlin Coroutine"
-            verify(exactly = 1) { vocabularyService.listByConditions("u1", "Kotlin", listOf("kotlin")) }
+            verify(exactly = 1) { vocabularyService.listByConditions("u1", "Kotlin", null, listOf("kotlin")) }
         }
 
         "postVocabularies: 新規作成で 201 & create 呼び出し" {
@@ -155,7 +157,7 @@ class VocabularyControllerTest :
         "postVocabularyTags: 新規作成で 201 & create 呼び出し" {
             every { vocabularyTagService.create(any()) } returns "22222222-2222-2222-2222-222222222222"
 
-            val res = controller.postVocabularyTags(VocabularyTagBase(vocabularyTag = "kotlin"))
+            val res = controller.postVocabularyTags(VocabularyTagBase(vocabularyTag = "kotlin", order = 1))
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.vocabularyTagId.toString() shouldBe "22222222-2222-2222-2222-222222222222"
@@ -177,7 +179,7 @@ class VocabularyControllerTest :
             val missingId = "66666666-6666-6666-6666-666666666666"
             every { vocabularyTagService.getByVocabularyTagIdForUser(id, "u1") } returns tagModel(id = id)
             every { vocabularyTagService.getByVocabularyTagIdForUser(missingId, "u1") } returns null
-            val req = VocabularyTagBase(vocabularyTag = "scala")
+            val req = VocabularyTagBase(vocabularyTag = "scala", order = 2)
 
             controller.putVocabularyTagsById(UUID.fromString(id), req).statusCode shouldBe HttpStatus.OK
             controller.putVocabularyTagsById(UUID.fromString(missingId), req).statusCode shouldBe HttpStatus.NOT_FOUND

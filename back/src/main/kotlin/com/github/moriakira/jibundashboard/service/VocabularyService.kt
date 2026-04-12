@@ -14,9 +14,10 @@ class VocabularyService(
     fun listByConditions(
         userId: String,
         vocabularyName: String? = null,
+        description: String? = null,
         tags: List<String>? = null,
     ): List<VocabularyModel> =
-        vocabularyRepository.findByUser(userId, vocabularyName)
+        vocabularyRepository.findByUser(userId, vocabularyName, description)
             .filter { item ->
                 tags.isNullOrEmpty() || item.tags?.any { tag -> tags.contains(tag.vocabularyTag) } == true
             }
@@ -58,6 +59,7 @@ class VocabularyService(
                     vocabularyTagId = embed.vocabularyTagId!!,
                     userId = this.userId!!,
                     vocabularyTag = embed.vocabularyTag!!,
+                    order = embed.order!!,
                 )
             } ?: emptyList(),
             createdDateTime = this.createdDateTime!!,
@@ -75,6 +77,7 @@ class VocabularyService(
                     VocabularyTagEmbed().also { embed ->
                         embed.vocabularyTagId = tag.vocabularyTagId
                         embed.vocabularyTag = tag.vocabularyTag
+                        embed.order = tag.order
                     }
                 }
             item.createdDateTime = this.createdDateTime

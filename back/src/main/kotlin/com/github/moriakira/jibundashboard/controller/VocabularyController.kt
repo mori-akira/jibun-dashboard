@@ -28,12 +28,14 @@ class VocabularyController(
 
     override fun getVocabularies(
         vocabularyName: String?,
+        description: String?,
         tags: List<String>?,
     ): ResponseEntity<List<Vocabulary>> {
         val list =
             vocabularyService.listByConditions(
                 userId = currentAuth.userId,
                 vocabularyName = vocabularyName,
+                description = description,
                 tags = tags,
             )
         return ResponseEntity.ok(list.map { it.toApi() })
@@ -134,6 +136,7 @@ class VocabularyController(
                 VocabularyTag(
                     vocabularyTagId = UUID.fromString(tag.vocabularyTagId),
                     vocabularyTag = tag.vocabularyTag,
+                    order = tag.order,
                 )
             }.toSet(),
             createdDateTime = OffsetDateTime.parse(this.createdDateTime),
@@ -144,6 +147,7 @@ class VocabularyController(
         VocabularyTag(
             vocabularyTagId = UUID.fromString(this.vocabularyTagId),
             vocabularyTag = this.vocabularyTag,
+            order = this.order,
         )
 
     private fun VocabularyBase.toModel(): VocabularyModel =
@@ -158,6 +162,7 @@ class VocabularyController(
                     vocabularyTagId = tag.vocabularyTagId?.toString() ?: UUID.randomUUID().toString(),
                     userId = currentAuth.userId,
                     vocabularyTag = tag.vocabularyTag,
+                    order = tag.order,
                 )
             } ?: emptyList(),
         )
@@ -174,6 +179,7 @@ class VocabularyController(
                     vocabularyTagId = tag.vocabularyTagId?.toString() ?: UUID.randomUUID().toString(),
                     userId = currentAuth.userId,
                     vocabularyTag = tag.vocabularyTag,
+                    order = tag.order,
                 )
             } ?: emptyList(),
         )
@@ -183,6 +189,7 @@ class VocabularyController(
             vocabularyTagId = "",
             userId = currentAuth.userId,
             vocabularyTag = this.vocabularyTag,
+            order = this.order,
         )
 
     private fun VocabularyTagBase.toModel(vocabularyTagId: String): VocabularyTagModel =
@@ -190,5 +197,6 @@ class VocabularyController(
             vocabularyTagId = vocabularyTagId,
             userId = currentAuth.userId,
             vocabularyTag = this.vocabularyTag,
+            order = this.order,
         )
 }

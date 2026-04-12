@@ -36,6 +36,7 @@ class VocabularyTagService(
             vocabularyTagId = this.vocabularyTagId!!,
             userId = this.userId!!,
             vocabularyTag = this.vocabularyTag!!,
+            order = this.order!!,
         )
 
     private fun VocabularyTagModel.toItem(): VocabularyTagItem =
@@ -43,6 +44,7 @@ class VocabularyTagService(
             item.vocabularyTagId = this.vocabularyTagId
             item.userId = this.userId
             item.vocabularyTag = this.vocabularyTag
+            item.order = this.order
         }
 }
 
@@ -50,4 +52,5 @@ data class VocabularyTagModel(
     val vocabularyTagId: String,
     val userId: String,
     val vocabularyTag: String,
+    val order: Int,
 )

@@ -46,24 +46,31 @@ class VocabularyRepositoryTest :
             verify(exactly = 1) { gsi.query(any<QueryEnhancedRequest>()) }
         }
 
-        "findByUser: 条件なし/vocabularyName フィルタで一覧を返す" {
+        "findByUser: 条件なし/vocabularyName/description フィルタで一覧を返す" {
             val page1 = mockk<Page<VocabularyItem>>()
             val page2 = mockk<Page<VocabularyItem>>()
+            val page3 = mockk<Page<VocabularyItem>>()
             val iterable1 = mockk<PageIterable<VocabularyItem>>()
             val iterable2 = mockk<PageIterable<VocabularyItem>>()
+            val iterable3 = mockk<PageIterable<VocabularyItem>>()
             every { enhanced.table("vocabularies", schema) } returns table
             every { page1.items() } returns listOf(item("v1"), item("v2", name = "Java"))
             every { page2.items() } returns listOf(item("v9"))
+            every { page3.items() } returns listOf(item("v8"))
             every { iterable1.iterator() } returns mutableListOf(page1).iterator()
             every { iterable2.iterator() } returns mutableListOf(page2).iterator()
-            every { table.query(any<QueryEnhancedRequest>()) } returnsMany listOf(iterable1, iterable2)
+            every { iterable3.iterator() } returns mutableListOf(page3).iterator()
+            every { table.query(any<QueryEnhancedRequest>()) } returnsMany listOf(iterable1, iterable2, iterable3)
 
             val all = repo.findByUser("u1")
-            val filtered = repo.findByUser("u9", vocabularyName = "Kotlin")
+            val filteredByName = repo.findByUser("u9", vocabularyName = "Kotlin")
+            val filteredByDescription = repo.findByUser("u10", description = "A language")
 
             all.shouldHaveSize(2)
-            filtered.shouldHaveSize(1)
-            filtered[0].vocabularyId shouldBe "v9"
+            filteredByName.shouldHaveSize(1)
+            filteredByName[0].vocabularyId shouldBe "v9"
+            filteredByDescription.shouldHaveSize(1)
+            filteredByDescription[0].vocabularyId shouldBe "v8"
         }
 
         "put/delete: 委譲" {
