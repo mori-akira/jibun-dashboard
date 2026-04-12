@@ -84,11 +84,11 @@ locals {
           hash_key_name   = "vocabularyTagId",
           hash_key_type   = "S",
           projection_type = "ALL"
-        }
-      ]
-      lsi = [
+        },
         {
-          name            = "lsi_order",
+          name            = "gsi_user_order",
+          hash_key_name   = "userId",
+          hash_key_type   = "S",
           range_key_name  = "order",
           range_key_type  = "N",
           projection_type = "ALL"
