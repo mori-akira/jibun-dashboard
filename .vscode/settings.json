@@ -30,5 +30,13 @@
         "**/*.kt",
         "**/*.kts"
     ],
+    "VSCodeCounter.exclude": [
+        "**/.gitignore",
+        "**/.vscode/**",
+        "**/node_modules/**",
+        "**/*.json",
+        "**/*.md",
+        "**/*.xml",
+    ],
     "git.ignoreLimitWarning": true
 }
