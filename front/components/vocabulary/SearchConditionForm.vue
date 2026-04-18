@@ -16,7 +16,10 @@
       input-wrapper-class="w-[28rem]"
       @update:model-value="(v) => emit('update:description', v)"
     />
-    <div v-if="vocabularyTags.length > 0" class="flex items-center mt-2">
+    <div
+      v-if="vocabularyTags.length > 0"
+      class="flex flex-col sm:flex-row sm:items-center mt-2"
+    >
       <span class="w-24 ml-4 font-cursive shrink-0">Tags</span>
       <MultiOptionSelector
         label=""
