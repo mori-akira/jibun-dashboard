@@ -26,10 +26,12 @@ class VocabularyService(
             } else {
                 vocabularyTagService.findByIds(userId, allTagIds).associateBy { it.vocabularyTagId }
             }
-        return items.map { item ->
-            val resolvedTags = (item.tagIds ?: emptyList()).mapNotNull { tagId -> tagMap[tagId] }
-            item.toDomain().copy(tags = resolvedTags)
-        }
+        return items
+            .map { item ->
+                val resolvedTags = (item.tagIds ?: emptyList()).mapNotNull { tagId -> tagMap[tagId] }
+                item.toDomain().copy(tags = resolvedTags)
+            }
+            .sortedByDescending { it.updatedDateTime }
     }
 
     fun getByVocabularyId(vocabularyId: String): VocabularyModel? =

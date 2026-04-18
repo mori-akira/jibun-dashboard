@@ -58,8 +58,19 @@ class VocabularyServiceTest :
             val res = service.listByConditions("u1")
 
             res.shouldHaveSize(2)
-            res[0].vocabularyId shouldBe "v1"
             res[0].tags[0].vocabularyTag shouldBe "kotlin"
+        }
+
+        "listByConditions: updatedDateTime の降順でソートされる" {
+            val older = item("v1").also { it.updatedDateTime = "2025-01-01T00:00:00Z" }
+            val newer = item("v2").also { it.updatedDateTime = "2025-06-01T00:00:00Z" }
+            every { repository.findByUser("u1", null, null) } returns listOf(older, newer)
+            every { vocabularyTagService.findByIds("u1", listOf("tag1")) } returns listOf(resolvedTag)
+
+            val res = service.listByConditions("u1")
+
+            res[0].vocabularyId shouldBe "v2"
+            res[1].vocabularyId shouldBe "v1"
         }
 
         "listByConditions: tagIds でフィルタ" {
