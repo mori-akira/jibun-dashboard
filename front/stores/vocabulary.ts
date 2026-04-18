@@ -17,12 +17,12 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
   async function fetchVocabularies(
     name?: string,
     description?: string,
-    tags?: string[],
+    tagIds?: string[],
   ) {
     const res = await getVocabularyApi().getVocabularies(
       name || undefined,
       description || undefined,
-      tags?.length ? tags : undefined,
+      tagIds?.length ? tagIds : undefined,
     );
     vocabularies.value = res.data;
   }
