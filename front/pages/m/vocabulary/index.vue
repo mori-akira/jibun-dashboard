@@ -59,39 +59,16 @@
 
     <ModalWindow
       :show-modal="selectedVocabulary !== null"
-      modal-box-class="w-[90vw] flex-col"
+      modal-box-class="overflow-x-auto"
       @close="onCloseModal"
     >
-      <div v-if="selectedVocabulary" class="p-2">
-        <div class="flex justify-end mb-2">
-          <IconButton
-            type="cancel"
-            icon-class="w-5 h-5"
-            @click:button="onCloseModal"
-          />
-        </div>
-        <div class="flex flex-col gap-3">
-          <div class="flex">
-            <span class="w-28 shrink-0 font-cursive text-[0.9rem] text-gray-600">Name</span>
-            <span class="text-[0.9rem] font-bold">{{ selectedVocabulary.name }}</span>
-          </div>
-          <div v-if="selectedVocabulary.description" class="flex items-start">
-            <span class="w-28 shrink-0 font-cursive text-[0.9rem] text-gray-600">Description</span>
-            <span class="text-[0.9rem] whitespace-pre-wrap">{{ selectedVocabulary.description }}</span>
-          </div>
-          <div v-if="(selectedVocabulary.tags?.size ?? 0) > 0" class="flex items-start">
-            <span class="w-28 shrink-0 font-cursive text-[0.9rem] text-gray-600">Tags</span>
-            <div class="flex flex-wrap gap-1">
-              <span
-                v-for="tag in Array.from(selectedVocabulary.tags ?? [])"
-                :key="tag.vocabularyTagId"
-                class="py-[0.2rem] px-2 text-[0.8rem] text-white bg-[#888] rounded-lg"
-                >{{ tag.vocabularyTag }}</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+      <InformationForm
+        :item="selectedVocabulary"
+        :item-defs="itemDefs"
+        wrapper-class="flex flex-col items-center w-[80vw]"
+        label-class="bg-gray-800 text-white w-28 font-cursive"
+        item-class="bg-gray-200 flex-1"
+      />
     </ModalWindow>
   </div>
 </template>
@@ -103,7 +80,8 @@ import Panel from "~/components/common/Panel.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
-import IconButton from "~/components/common/IconButton.vue";
+import InformationForm from "~/components/common/InformationForm.vue";
+import type { ItemDef } from "~/components/common/InformationForm.vue";
 import SearchConditionForm from "~/components/vocabulary/SearchConditionForm.vue";
 import { useCommonStore } from "~/stores/common";
 import { useVocabularyStore } from "~/stores/vocabulary";
@@ -166,6 +144,7 @@ type VocabularyWithIndex = Vocabulary & {
   index: number;
   tagNames: string;
   tagBadges: TagBadge[];
+  tagNameList: string[];
 } & Record<string, unknown>;
 
 const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
@@ -203,6 +182,7 @@ const rows = computed<VocabularyWithIndex[]>(() =>
       name: t.vocabularyTag,
       selected: selectedTagIds.value.includes(t.vocabularyTagId ?? ""),
     })),
+    tagNameList: Array.from(v.tags ?? []).map((t) => t.vocabularyTag),
   })),
 );
 
@@ -211,13 +191,30 @@ const initSortState: SortDef<VocabularyWithIndex> = {
   direction: "asc",
 };
 
-const selectedVocabulary = ref<Vocabulary | null>(null);
+const itemDefs: ItemDef[] = [
+  {
+    field: "name",
+    label: "Name",
+    skipIfNull: true,
+  },
+  {
+    field: "description",
+    label: "Description",
+    skipIfNull: true,
+    itemType: "multiline",
+  },
+  {
+    field: "tagNameList",
+    label: "Tags",
+    skipIfNull: true,
+    itemType: "badges",
+  },
+];
+
+const selectedVocabulary = ref<VocabularyWithIndex | null>(null);
 
 const onClickRow = (row: VocabularyWithIndex) => {
-  const found = vocabularyStore.vocabularies?.find(
-    (v) => v.vocabularyId === row.vocabularyId,
-  );
-  selectedVocabulary.value = found ?? null;
+  selectedVocabulary.value = row;
 };
 
 const onCloseModal = () => (selectedVocabulary.value = null);
