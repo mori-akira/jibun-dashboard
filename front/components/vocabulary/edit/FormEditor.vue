@@ -46,10 +46,7 @@
       />
     </Field>
 
-    <div
-      v-if="vocabularyTags.length > 0"
-      class="mt-4 w-full flex justify-center items-start"
-    >
+    <div class="mt-4 w-full flex justify-center items-start">
       <Label label="Tags" label-class="w-40 ml-4 font-cursive mt-1" />
       <div class="w-1/2 flex flex-wrap gap-2">
         <div
@@ -65,8 +62,24 @@
         >
           {{ tag.vocabularyTag }}
         </div>
+        <IconButton
+          type="plus"
+          icon-class="w-4 h-4"
+          wrapper-class="py-[0.2rem] px-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+          @click:button="openAddTagDialog"
+        />
       </div>
     </div>
+
+    <Dialog
+      :show-dialog="showInputDialog"
+      type="input"
+      message="New tag name"
+      button-type="okCancel"
+      @click:ok="onAddTagOk"
+      @click:cancel="onInputCancel"
+      @close="onInputCancel"
+    />
 
     <div class="m-4">
       <Button
@@ -97,7 +110,10 @@ import TextBox from "~/components/common/TextBox.vue";
 import TextArea from "~/components/common/TextArea.vue";
 import IconButton from "~/components/common/IconButton.vue";
 import Label from "~/components/common/Label.vue";
+import Dialog from "~/components/common/Dialog.vue";
 import { useCommonStore } from "~/stores/common";
+import { useVocabularyStore } from "~/stores/vocabulary";
+import { useInputDialog } from "~/composables/common/useDialog";
 import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 const props = defineProps<{
@@ -106,11 +122,32 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "closeModal"): void;
+  (e: "closeModal" | "addedTag"): void;
   (e: "submit", values: VocabularyRequest): void;
 }>();
 
 const commonStore = useCommonStore();
+const vocabularyStore = useVocabularyStore();
+
+const { showInputDialog, openInputDialog, onInputOk, onInputCancel } =
+  useInputDialog();
+
+const openAddTagDialog = () => openInputDialog("New tag name");
+
+const onAddTagOk = async (inputValue?: string) => {
+  onInputOk(inputValue);
+  const name = inputValue?.trim();
+  if (!name) return;
+  const newId = await vocabularyStore.postVocabularyTag({
+    vocabularyTag: name,
+    order: props.vocabularyTags.length + 1,
+  });
+  emit("addedTag");
+  if (newId) {
+    selectedTagIds.value.push(newId);
+    commonStore.setHasUnsavedChange(true);
+  }
+};
 
 const selectedTagIds = ref<string[]>(
   Array.from(props.targetVocabulary?.tags ?? [])

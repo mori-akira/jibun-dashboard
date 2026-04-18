@@ -51,8 +51,11 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
     vocabularyTags.value = res.data;
   }
 
-  async function postVocabularyTag(vocabularyTag: VocabularyTagBase) {
-    await getVocabularyApi().postVocabularyTags(vocabularyTag);
+  async function postVocabularyTag(
+    vocabularyTag: VocabularyTagBase,
+  ): Promise<string | undefined> {
+    const res = await getVocabularyApi().postVocabularyTags(vocabularyTag);
+    return res.data.vocabularyTagId;
   }
 
   async function putVocabularyTag(

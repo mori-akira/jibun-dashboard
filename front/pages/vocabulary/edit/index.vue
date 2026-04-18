@@ -87,6 +87,7 @@
         :vocabulary-tags="vocabularyStore.vocabularyTags ?? []"
         @submit="onSubmitEdit"
         @close-modal="onCloseEditModal"
+        @added-tag="vocabularyStore.fetchVocabularyTags()"
       />
     </ModalWindow>
 
