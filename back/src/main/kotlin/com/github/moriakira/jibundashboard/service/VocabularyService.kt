@@ -15,9 +15,10 @@ class VocabularyService(
         userId: String,
         vocabularyName: String? = null,
         description: String? = null,
-        tags: List<String>? = null,
+        tagIds: List<String>? = null,
     ): List<VocabularyModel> {
         val items = vocabularyRepository.findByUser(userId, vocabularyName, description)
+            .filter { item -> tagIds.isNullOrEmpty() || item.tagIds?.any { tagIds.contains(it) } == true }
         val allTagIds = items.flatMap { it.tagIds ?: emptyList() }.distinct()
         val tagMap =
             if (allTagIds.isEmpty()) {
@@ -25,14 +26,10 @@ class VocabularyService(
             } else {
                 vocabularyTagService.findByIds(userId, allTagIds).associateBy { it.vocabularyTagId }
             }
-        return items
-            .map { item ->
-                val resolvedTags = (item.tagIds ?: emptyList()).mapNotNull { tagId -> tagMap[tagId] }
-                item.toDomain().copy(tags = resolvedTags)
-            }
-            .filter { vocab ->
-                tags.isNullOrEmpty() || vocab.tags.any { tag -> tags.contains(tag.vocabularyTag) }
-            }
+        return items.map { item ->
+            val resolvedTags = (item.tagIds ?: emptyList()).mapNotNull { tagId -> tagMap[tagId] }
+            item.toDomain().copy(tags = resolvedTags)
+        }
     }
 
     fun getByVocabularyId(vocabularyId: String): VocabularyModel? =

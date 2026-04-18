@@ -48,11 +48,12 @@ class VocabularyControllerTest :
         // --- Vocabulary ---
 
         "getVocabularies: 条件指定で一覧を返す" {
+            val tagId = UUID.fromString("22222222-2222-2222-2222-222222222222")
             every {
-                vocabularyService.listByConditions("u1", "Kotlin", null, listOf("kotlin"))
+                vocabularyService.listByConditions("u1", "Kotlin", null, listOf(tagId.toString()))
             } returns listOf(vocabModel())
 
-            val res = controller.getVocabularies(vocabularyName = "Kotlin", description = null, tags = listOf("kotlin"))
+            val res = controller.getVocabularies(vocabularyName = "Kotlin", description = null, tagIds = listOf(tagId))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(1)

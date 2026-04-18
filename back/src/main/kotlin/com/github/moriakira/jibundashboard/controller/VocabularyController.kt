@@ -29,14 +29,14 @@ class VocabularyController(
     override fun getVocabularies(
         vocabularyName: String?,
         description: String?,
-        tags: List<String>?,
+        tagIds: List<UUID>?,
     ): ResponseEntity<List<Vocabulary>> {
         val list =
             vocabularyService.listByConditions(
                 userId = currentAuth.userId,
                 vocabularyName = vocabularyName,
                 description = description,
-                tags = tags,
+                tagIds = tagIds?.map { it.toString() },
             )
         return ResponseEntity.ok(list.map { it.toApi() })
     }

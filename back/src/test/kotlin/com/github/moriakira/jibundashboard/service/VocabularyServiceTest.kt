@@ -62,17 +62,16 @@ class VocabularyServiceTest :
             res[0].tags[0].vocabularyTag shouldBe "kotlin"
         }
 
-        "listByConditions: tags でインメモリフィルタ" {
+        "listByConditions: tagIds でフィルタ" {
             every { repository.findByUser("u1", null, null) } returns listOf(
                 item("v1").also { it.tagIds = listOf("t1") },
                 item("v2").also { it.tagIds = listOf("t2") },
             )
-            every { vocabularyTagService.findByIds("u1", any()) } returns listOf(
+            every { vocabularyTagService.findByIds("u1", listOf("t1")) } returns listOf(
                 VocabularyTagModel("t1", "u1", "kotlin", 1),
-                VocabularyTagModel("t2", "u1", "java", 1),
             )
 
-            val res = service.listByConditions("u1", tags = listOf("kotlin"))
+            val res = service.listByConditions("u1", tagIds = listOf("t1"))
 
             res.shouldHaveSize(1)
             res[0].vocabularyId shouldBe "v1"

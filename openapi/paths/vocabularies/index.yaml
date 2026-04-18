@@ -19,8 +19,8 @@ get:
       schema:
         type: string
     - in: query
-      name: tags
-      description: ボキャブラリータグ
+      name: tagIds
+      description: ボキャブラリータグIDリスト
       required: false
       style: form
       explode: true
@@ -28,6 +28,7 @@ get:
         type: array
         items:
           type: string
+          format: uuid
 
   responses:
     "200":
