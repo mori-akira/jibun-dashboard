@@ -153,7 +153,7 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
     header: "Name",
     sortable: true,
     headerClass: "w-64",
-    bodyClass: "h-12 text-[0.9rem]",
+    bodyClass: "h-12 text-[0.9rem] truncate",
   },
   {
     field: "tagNames",
