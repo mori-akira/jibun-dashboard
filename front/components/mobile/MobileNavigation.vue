@@ -2,7 +2,7 @@
   <div
     :class="[
       'fixed top-[4rem] left-2 z-[1001] w-54 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-300',
-      { '-translate-y-[12rem]': !commonStore.isNavOpen },
+      { '-translate-y-[14rem]': !commonStore.isNavOpen },
     ]"
   >
     <ul class="list-none p-0">
@@ -43,6 +43,19 @@
             class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
           />
           Qualification
+        </NuxtLink>
+      </li>
+      <li class="mt-2">
+        <NuxtLink
+          to="/m/vocabulary"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
+          active-class="active"
+        >
+          <Icon
+            name="tabler:book"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
+          Vocabulary
         </NuxtLink>
       </li>
     </ul>
