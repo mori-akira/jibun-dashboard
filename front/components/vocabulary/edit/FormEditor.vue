@@ -64,8 +64,8 @@
         </div>
         <IconButton
           type="plus"
-          icon-class="w-4 h-4"
-          wrapper-class="py-[0.2rem] px-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+          icon-class="w-3 h-3"
+          wrapper-class="self-stretch flex items-center px-2 bg-gray-200 rounded-lg hover:bg-gray-300"
           @click:button="openAddTagDialog"
         />
       </div>
