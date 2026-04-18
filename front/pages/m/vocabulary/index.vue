@@ -157,7 +157,7 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
     field: "name",
     header: "Name",
     sortable: true,
-    headerClass: "w-40",
+    headerClass: "w-64",
     bodyClass: "h-12 text-[0.9rem]",
   },
   {
