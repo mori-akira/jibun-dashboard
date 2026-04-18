@@ -1,0 +1,26 @@
+type: object
+description: ボキャブラリー登録・更新リクエスト
+
+required:
+  - name
+
+properties:
+  name:
+    description: 名前
+    type: string
+    minLength: 1
+    maxLength: 128
+
+  description:
+    description: 説明
+    type: string
+    maxLength: 2048
+
+  tagIds:
+    description: タグIDリスト
+    type: array
+    maxItems: 64
+    uniqueItems: true
+    items:
+      type: string
+      format: uuid

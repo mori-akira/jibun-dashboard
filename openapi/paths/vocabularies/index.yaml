@@ -54,7 +54,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../../openapi.yaml#/components/schemas/VocabularyBase"
+          $ref: "../../openapi.yaml#/components/schemas/VocabularyRequest"
 
   responses:
     "201":

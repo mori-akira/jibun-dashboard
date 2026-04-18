@@ -109,6 +109,8 @@ components:
       $ref: "schemas/vocabulary/vocabularyId.yaml"
     VocabularyBase:
       $ref: "schemas/vocabulary/vocabularyBase.yaml"
+    VocabularyRequest:
+      $ref: "schemas/vocabulary/vocabularyRequest.yaml"
     VocabularyTag:
       $ref: "schemas/vocabulary/vocabularyTag/vocabularyTag.yaml"
     VocabularyTagId:
