@@ -46,7 +46,10 @@
       />
     </Field>
 
-    <div v-if="vocabularyTags.length > 0" class="mt-4 w-full flex justify-center items-start">
+    <div
+      v-if="vocabularyTags.length > 0"
+      class="mt-4 w-full flex justify-center items-start"
+    >
       <Label label="Tags" label-class="w-40 ml-4 font-cursive mt-1" />
       <div class="w-1/2 flex flex-wrap gap-2">
         <div
@@ -134,7 +137,11 @@ const onToggleTag = (tagId: string) => {
   commonStore.setHasUnsavedChange(true);
 };
 
-const validationRules: { [K in keyof Pick<VocabularyRequest, "name" | "description">]?: ReturnType<typeof zodToVeeRules> } = {
+const validationRules: {
+  [K in keyof Pick<VocabularyRequest, "name" | "description">]?: ReturnType<
+    typeof zodToVeeRules
+  >;
+} = {
   name: zodToVeeRules(schemas.VocabularyRequest.shape.name),
   description: zodToVeeRules(schemas.VocabularyRequest.shape.description),
 };
@@ -143,7 +150,10 @@ const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
   emit("submit", {
     name: values.name as string,
     description: (values.description as string) || undefined,
-    tagIds: selectedTagIds.value.length > 0 ? new Set(selectedTagIds.value) : undefined,
+    tagIds:
+      selectedTagIds.value.length > 0
+        ? (selectedTagIds.value as unknown as Set<string>)
+        : undefined,
   });
 };
 
