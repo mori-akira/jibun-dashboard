@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Breadcrumb
-      :items="[{ text: 'Vocabulary', iconName: 'tabler:book' }]"
-    />
+    <Breadcrumb :items="[{ text: 'Vocabulary', iconName: 'tabler:book' }]" />
 
     <div class="flex-1 w-full mt-4">
       <Panel wrapper-class="w-full ml-2">
@@ -166,7 +164,7 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
     field: "tagNames",
     header: "Tags",
     sortable: false,
-    headerClass: "w-36",
+    headerClass: "w-64",
     bodyClass: "h-12",
   },
 ];
