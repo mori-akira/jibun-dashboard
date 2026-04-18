@@ -39,6 +39,7 @@ properties:
       - dream
       - planning
       - acquired
+      - expired
 
   rank:
     description: ランク

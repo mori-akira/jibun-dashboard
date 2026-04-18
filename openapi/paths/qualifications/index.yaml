@@ -26,6 +26,7 @@ get:
             - dream
             - planning
             - acquired
+            - expired
     - in: query
       name: rank
       description: ランク
