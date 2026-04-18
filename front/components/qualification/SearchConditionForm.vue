@@ -2,8 +2,8 @@
   <div>
     <MultiOptionSelector
       label="Status"
-      :options="['acquired', 'planning', 'dream']"
-      :values="['acquired', 'planning', 'dream']"
+      :options="['acquired', 'planning', 'dream', 'expired']"
+      :values="['acquired', 'planning', 'dream', 'expired']"
       :selected-options="selectedStatus"
       :wrapper-class="`m-4 flex justify-start items-center ${statusWrapperClass}`"
       :label-class="`${statusLabelClass ?? 'w-25'} font-cursive`"
