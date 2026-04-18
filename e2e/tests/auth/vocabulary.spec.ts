@@ -193,7 +193,6 @@ const checkVocabularyDisplay = async (
   row: number,
   offset: number = 0
 ) => {
-  console.log(vocabulary, row);
   // row number
   await expect(
     page.locator("tr").nth(row).locator("td").nth(offset)
