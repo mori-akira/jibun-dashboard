@@ -26,7 +26,7 @@
         :options="vocabularyTags.map((t) => t.vocabularyTag)"
         :values="vocabularyTags.map((t) => t.vocabularyTagId ?? '')"
         :selected-options="selectedTagIds"
-        wrapper-class="flex flex-wrap gap-1"
+        wrapper-class="flex flex-wrap gap-1 sm:mt-2"
         @click:value="onClickTag"
       />
     </div>
