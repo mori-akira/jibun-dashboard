@@ -2,7 +2,6 @@ package com.github.moriakira.jibundashboard.service
 
 import com.github.moriakira.jibundashboard.repository.VocabularyItem
 import com.github.moriakira.jibundashboard.repository.VocabularyRepository
-import com.github.moriakira.jibundashboard.repository.VocabularyTagEmbed
 import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -10,21 +9,37 @@ import java.util.UUID
 @Service
 class VocabularyService(
     private val vocabularyRepository: VocabularyRepository,
+    private val vocabularyTagService: VocabularyTagService,
 ) {
     fun listByConditions(
         userId: String,
         vocabularyName: String? = null,
         description: String? = null,
         tags: List<String>? = null,
-    ): List<VocabularyModel> =
-        vocabularyRepository.findByUser(userId, vocabularyName, description)
-            .filter { item ->
-                tags.isNullOrEmpty() || item.tags?.any { tag -> tags.contains(tag.vocabularyTag) } == true
+    ): List<VocabularyModel> {
+        val items = vocabularyRepository.findByUser(userId, vocabularyName, description)
+        val allTagIds = items.flatMap { it.tagIds ?: emptyList() }.distinct()
+        val tagMap =
+            if (allTagIds.isEmpty()) {
+                emptyMap()
+            } else {
+                vocabularyTagService.findByIds(userId, allTagIds).associateBy { it.vocabularyTagId }
             }
-            .map { it.toDomain() }
+        return items
+            .map { item ->
+                val resolvedTags = (item.tagIds ?: emptyList()).mapNotNull { tagId -> tagMap[tagId] }
+                item.toDomain().copy(tags = resolvedTags)
+            }
+            .filter { vocab ->
+                tags.isNullOrEmpty() || vocab.tags.any { tag -> tags.contains(tag.vocabularyTag) }
+            }
+    }
 
     fun getByVocabularyId(vocabularyId: String): VocabularyModel? =
-        vocabularyRepository.getByVocabularyId(vocabularyId)?.toDomain()
+        vocabularyRepository.getByVocabularyId(vocabularyId)?.let { item ->
+            val resolvedTags = vocabularyTagService.findByIds(item.userId!!, item.tagIds ?: emptyList())
+            item.toDomain().copy(tags = resolvedTags)
+        }
 
     fun getByVocabularyIdForUser(vocabularyId: String, userId: String): VocabularyModel? =
         getByVocabularyId(vocabularyId)?.takeIf { it.userId == userId }
@@ -53,17 +68,9 @@ class VocabularyService(
             userId = this.userId!!,
             name = this.name!!,
             description = this.description,
-            tags =
-            this.tags?.map { embed ->
-                VocabularyTagModel(
-                    vocabularyTagId = embed.vocabularyTagId!!,
-                    userId = this.userId!!,
-                    vocabularyTag = embed.vocabularyTag!!,
-                    order = embed.order!!,
-                )
-            } ?: emptyList(),
-            createdDateTime = this.createdDateTime!!,
-            updatedDateTime = this.updatedDateTime!!,
+            tagIds = this.tagIds ?: emptyList(),
+            createdDateTime = this.createdDateTime ?: "",
+            updatedDateTime = this.updatedDateTime ?: "",
         )
 
     private fun VocabularyModel.toItem(): VocabularyItem =
@@ -72,14 +79,7 @@ class VocabularyService(
             item.userId = this.userId
             item.name = this.name
             item.description = this.description
-            item.tags =
-                this.tags.map { tag ->
-                    VocabularyTagEmbed().also { embed ->
-                        embed.vocabularyTagId = tag.vocabularyTagId
-                        embed.vocabularyTag = tag.vocabularyTag
-                        embed.order = tag.order
-                    }
-                }
+            item.tagIds = this.tagIds
             item.createdDateTime = this.createdDateTime
             item.updatedDateTime = this.updatedDateTime
         }
@@ -90,7 +90,8 @@ data class VocabularyModel(
     val userId: String,
     val name: String,
     val description: String?,
-    val tags: List<VocabularyTagModel>,
+    val tagIds: List<String> = emptyList(),
+    val tags: List<VocabularyTagModel> = emptyList(),
     val createdDateTime: String = "",
     val updatedDateTime: String = "",
 )

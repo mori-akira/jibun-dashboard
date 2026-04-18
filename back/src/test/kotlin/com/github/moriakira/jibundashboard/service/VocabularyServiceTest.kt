@@ -2,7 +2,6 @@ package com.github.moriakira.jibundashboard.service
 
 import com.github.moriakira.jibundashboard.repository.VocabularyItem
 import com.github.moriakira.jibundashboard.repository.VocabularyRepository
-import com.github.moriakira.jibundashboard.repository.VocabularyTagEmbed
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -20,12 +19,14 @@ class VocabularyServiceTest :
     StringSpec({
 
         val repository = mockk<VocabularyRepository>(relaxed = true)
-        val service = VocabularyService(repository)
+        val vocabularyTagService = mockk<VocabularyTagService>(relaxed = true)
+        val service = VocabularyService(repository, vocabularyTagService)
 
         val fixedNow = OffsetDateTime.parse("2025-06-01T12:00:00Z")
 
         beforeTest {
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(vocabularyTagService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun item(id: String = "v1", userId: String = "u1") =
@@ -34,13 +35,7 @@ class VocabularyServiceTest :
                 this.userId = userId
                 name = "Kotlin"
                 description = "A language"
-                tags = listOf(
-                    VocabularyTagEmbed().also {
-                        it.vocabularyTagId = "tag1"
-                        it.vocabularyTag = "kotlin"
-                        it.order = 1
-                    },
-                )
+                tagIds = listOf("tag1")
                 createdDateTime = "2025-01-01T00:00:00Z"
                 updatedDateTime = "2025-01-01T00:00:00Z"
             }
@@ -51,11 +46,14 @@ class VocabularyServiceTest :
                 userId = "u1",
                 name = "Kotlin",
                 description = null,
-                tags = listOf(VocabularyTagModel("tag1", "u1", "kotlin", order = 1)),
+                tagIds = listOf("tag1"),
             )
+
+        val resolvedTag = VocabularyTagModel("tag1", "u1", "kotlin", order = 1)
 
         "listByConditions: 変換して返す" {
             every { repository.findByUser("u1", null, null) } returns listOf(item("v1"), item("v2"))
+            every { vocabularyTagService.findByIds("u1", listOf("tag1")) } returns listOf(resolvedTag)
 
             val res = service.listByConditions("u1")
 
@@ -65,15 +63,13 @@ class VocabularyServiceTest :
         }
 
         "listByConditions: tags でインメモリフィルタ" {
-            fun embed(id: String, tag: String) =
-                VocabularyTagEmbed().also {
-                    it.vocabularyTagId = id
-                    it.vocabularyTag = tag
-                    it.order = 1
-                }
             every { repository.findByUser("u1", null, null) } returns listOf(
-                item("v1").also { it.tags = listOf(embed("t1", "kotlin")) },
-                item("v2").also { it.tags = listOf(embed("t2", "java")) },
+                item("v1").also { it.tagIds = listOf("t1") },
+                item("v2").also { it.tagIds = listOf("t2") },
+            )
+            every { vocabularyTagService.findByIds("u1", any()) } returns listOf(
+                VocabularyTagModel("t1", "u1", "kotlin", 1),
+                VocabularyTagModel("t2", "u1", "java", 1),
             )
 
             val res = service.listByConditions("u1", tags = listOf("kotlin"))
@@ -85,6 +81,7 @@ class VocabularyServiceTest :
         "getByVocabularyIdForUser: 所有者なら返す、他ユーザなら null" {
             every { repository.getByVocabularyId("v1") } returns item(id = "v1", userId = "u1")
             every { repository.getByVocabularyId("v2") } returns item(id = "v2", userId = "other")
+            every { vocabularyTagService.findByIds(any(), any()) } returns emptyList()
 
             service.getByVocabularyIdForUser("v1", "u1")!!.vocabularyId shouldBe "v1"
             service.getByVocabularyIdForUser("v2", "u1") shouldBe null

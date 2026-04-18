@@ -14,6 +14,9 @@ class VocabularyTagService(
         vocabularyTag: String? = null,
     ): List<VocabularyTagModel> = vocabularyTagRepository.findByUser(userId, vocabularyTag).map { it.toDomain() }
 
+    fun findByIds(userId: String, tagIds: List<String>): List<VocabularyTagModel> =
+        vocabularyTagRepository.findByIds(userId, tagIds).map { it.toDomain() }
+
     fun getByVocabularyTagId(vocabularyTagId: String): VocabularyTagModel? =
         vocabularyTagRepository.getByVocabularyTagId(vocabularyTagId)?.toDomain()
 

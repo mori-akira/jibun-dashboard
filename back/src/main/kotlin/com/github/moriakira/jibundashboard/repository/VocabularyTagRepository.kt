@@ -15,6 +15,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecon
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
+import software.amazon.awssdk.enhanced.dynamodb.model.ReadBatch
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 
 @Repository
@@ -63,6 +64,19 @@ class VocabularyTagRepository(
                 .build()
 
         return table().index("gsi_user_order").query(req).flatMap { it.items().toList() }.toList()
+    }
+
+    fun findByIds(userId: String, tagIds: List<String>): List<VocabularyTagItem> {
+        if (tagIds.isEmpty()) return emptyList()
+        val readBatch =
+            ReadBatch.builder(VocabularyTagItem::class.java)
+                .mappedTableResource(table())
+        tagIds.forEach { tagId ->
+            readBatch.addGetItem(Key.builder().partitionValue(userId).sortValue(tagId).build())
+        }
+        return enhanced.batchGetItem { b -> b.readBatches(readBatch.build()) }
+            .flatMap { it.resultsForTable(table()).toList() }
+            .toList()
     }
 
     fun put(item: VocabularyTagItem) {

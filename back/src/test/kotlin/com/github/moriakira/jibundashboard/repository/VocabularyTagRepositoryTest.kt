@@ -64,6 +64,11 @@ class VocabularyTagRepositoryTest :
             filtered[0].vocabularyTagId shouldBe "tag9"
         }
 
+        "findByIds: tagIds が空の場合は DynamoDB を呼ばず空リストを返す" {
+            val res = repo.findByIds("u1", emptyList())
+            res shouldBe emptyList()
+        }
+
         "put/delete: 委譲" {
             every { enhanced.table("vocabulary-tags", schema) } returns table
             val it = item("tagX")

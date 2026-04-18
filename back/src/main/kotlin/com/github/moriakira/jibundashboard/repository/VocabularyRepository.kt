@@ -97,24 +97,12 @@ class VocabularyItem {
     @get:DynamoDbAttribute("description")
     var description: String? = null
 
-    @get:DynamoDbAttribute("tags")
-    var tags: List<VocabularyTagEmbed>? = null
+    @get:DynamoDbAttribute("tagIds")
+    var tagIds: List<String>? = null
 
     @get:DynamoDbAttribute("createdDateTime")
     var createdDateTime: String? = null
 
     @get:DynamoDbAttribute("updatedDateTime")
     var updatedDateTime: String? = null
-}
-
-@DynamoDbBean
-class VocabularyTagEmbed {
-    @get:DynamoDbAttribute("vocabularyTagId")
-    var vocabularyTagId: String? = null
-
-    @get:DynamoDbAttribute("vocabularyTag")
-    var vocabularyTag: String? = null
-
-    @get:DynamoDbAttribute("order")
-    var order: Int? = null
 }

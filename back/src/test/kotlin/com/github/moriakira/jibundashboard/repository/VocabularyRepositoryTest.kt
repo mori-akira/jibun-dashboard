@@ -30,7 +30,7 @@ class VocabularyRepositoryTest :
                 vocabularyId = id
                 userId = "u1"
                 this.name = name
-                tags = emptyList()
+                tagIds = emptyList()
                 createdDateTime = "2025-01-01T00:00:00Z"
                 updatedDateTime = "2025-01-01T00:00:00Z"
             }
