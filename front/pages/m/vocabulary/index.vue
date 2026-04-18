@@ -36,18 +36,13 @@
           <template #cell-tagNames="{ row }">
             <div class="flex flex-nowrap gap-1 overflow-hidden">
               <span
-                v-for="badge in (row.tagBadges as TagBadge[]).slice(0, 2)"
+                v-for="badge in (row.tagBadges as TagBadge[])"
                 :key="badge.name"
                 :class="[
                   'shrink-0 py-[0.2rem] px-2 text-[0.7rem] text-white rounded-lg',
                   badge.selected ? 'bg-[#bb88ff]' : 'bg-[#888]',
                 ]"
                 >{{ badge.name }}</span
-              >
-              <span
-                v-if="(row.tagBadges as TagBadge[]).length > 2"
-                class="shrink-0 text-[0.8rem] text-gray-400"
-                >...</span
               >
             </div>
           </template>
