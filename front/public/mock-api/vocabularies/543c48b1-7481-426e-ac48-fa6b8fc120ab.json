@@ -5,15 +5,18 @@
   "tags": [
     {
       "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
-      "vocabularyTag": "経済"
+      "vocabularyTag": "経済",
+      "order": 2
     },
     {
       "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
-      "vocabularyTag": "YouTube"
+      "vocabularyTag": "YouTube",
+      "order": 7
     },
     {
       "vocabularyTagId": "c52575d8-73cc-447e-9ec7-27744a6900dd",
-      "vocabularyTag": "玉木 雄一郎"
+      "vocabularyTag": "玉木 雄一郎",
+      "order": 12
     }
   ],
   "createdDateTime": "2026-03-28T14:51:22.365Z",

@@ -1,50 +1,62 @@
 [
   {
     "vocabularyTagId": "d6ba3280-86a1-4d78-8420-32759e2bf244",
-    "vocabularyTag": "IT"
+    "vocabularyTag": "IT",
+    "order": 1
   },
   {
     "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
-    "vocabularyTag": "経済"
+    "vocabularyTag": "経済",
+    "order": 2
   },
   {
     "vocabularyTagId": "c73e1ea6-5c29-41a2-b6b8-ef51de8cb205",
-    "vocabularyTag": "社会学"
+    "vocabularyTag": "社会学",
+    "order": 3
   },
   {
     "vocabularyTagId": "487efd8d-7967-430c-816a-42bc1ae67b4c",
-    "vocabularyTag": "政治"
+    "vocabularyTag": "政治",
+    "order": 4
   },
   {
     "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
-    "vocabularyTag": "心理学"
+    "vocabularyTag": "心理学",
+    "order": 5
   },
   {
     "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
-    "vocabularyTag": "読書"
+    "vocabularyTag": "読書",
+    "order": 6
   },
   {
     "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
-    "vocabularyTag": "YouTube"
+    "vocabularyTag": "YouTube",
+    "order": 7
   },
   {
     "vocabularyTagId": "b5e563a0-c091-4a73-9425-6cd254153241",
-    "vocabularyTag": "ニュース"
+    "vocabularyTag": "ニュース",
+    "order": 8
   },
   {
     "vocabularyTagId": "0125176a-4447-49e9-933d-4f46949dd4cc",
-    "vocabularyTag": "坂井 風太"
+    "vocabularyTag": "坂井 風太",
+    "order": 9
   },
   {
     "vocabularyTagId": "849242fc-01e2-44e2-8b35-0331b013bafa",
-    "vocabularyTag": "海老原 嗣生"
+    "vocabularyTag": "海老原 嗣生",
+    "order": 10
   },
   {
     "vocabularyTagId": "1deb8777-13a5-4dfa-b49d-619ac8bda2ed",
-    "vocabularyTag": "宮台 真司"
+    "vocabularyTag": "宮台 真司",
+    "order": 11
   },
   {
     "vocabularyTagId": "c52575d8-73cc-447e-9ec7-27744a6900dd",
-    "vocabularyTag": "玉木 雄一郎"
+    "vocabularyTag": "玉木 雄一郎",
+    "order": 12
   }
 ]
