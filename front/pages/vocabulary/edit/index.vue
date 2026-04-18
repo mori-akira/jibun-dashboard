@@ -123,7 +123,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 
-import type { Vocabulary, VocabularyBase } from "~/generated/api/client/api";
+import type { Vocabulary, VocabularyRequest } from "~/generated/api/client/api";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
@@ -205,7 +205,11 @@ watch(
 );
 
 type TagBadge = { name: string; selected: boolean };
-type VocabularyWithIndex = Vocabulary & { index: number; tagNames: string; tagBadges: TagBadge[] } & Record<string, unknown>;
+type VocabularyWithIndex = Vocabulary & {
+  index: number;
+  tagNames: string;
+  tagBadges: TagBadge[];
+} & Record<string, unknown>;
 
 const checkedIds = ref<string[]>([]);
 
@@ -226,7 +230,9 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
     onChangeCheck: (_, row: VocabularyWithIndex) => {
       if (!row.vocabularyId) return;
       if (checkedIds.value.includes(row.vocabularyId)) {
-        checkedIds.value = checkedIds.value.filter((id) => id !== row.vocabularyId);
+        checkedIds.value = checkedIds.value.filter(
+          (id) => id !== row.vocabularyId,
+        );
       } else {
         checkedIds.value.push(row.vocabularyId);
       }
@@ -236,7 +242,9 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
         rows
           .map((r) => r.vocabularyId)
           .filter((id): id is string => !!id)
-          .forEach((id) => !checkedIds.value.includes(id) && checkedIds.value.push(id));
+          .forEach(
+            (id) => !checkedIds.value.includes(id) && checkedIds.value.push(id),
+          );
       } else {
         checkedIds.value = [];
       }
@@ -286,16 +294,17 @@ const columnDefs: ColumnDef<VocabularyWithIndex>[] = [
 ];
 
 const rows = computed<VocabularyWithIndex[]>(() =>
-  (vocabularyStore.vocabularies ?? [])
-    .map((v, i) => ({
-      ...v,
-      index: i + 1,
-      tagNames: Array.from(v.tags ?? []).map((t) => t.vocabularyTag).join(", "),
-      tagBadges: Array.from(v.tags ?? []).map((t) => ({
-        name: t.vocabularyTag,
-        selected: selectedTagIds.value.includes(t.vocabularyTagId ?? ""),
-      })),
+  (vocabularyStore.vocabularies ?? []).map((v, i) => ({
+    ...v,
+    index: i + 1,
+    tagNames: Array.from(v.tags ?? [])
+      .map((t) => t.vocabularyTag)
+      .join(", "),
+    tagBadges: Array.from(v.tags ?? []).map((t) => ({
+      name: t.vocabularyTag,
+      selected: selectedTagIds.value.includes(t.vocabularyTagId ?? ""),
     })),
+  })),
 );
 
 const initSortState: SortDef<VocabularyWithIndex> = {
@@ -309,12 +318,12 @@ const onAddNewOne = () => {
   editTarget.value = { name: "" };
 };
 
-const onSubmitEdit = async (value: VocabularyBase) => {
+const onSubmitEdit = async (value: VocabularyRequest) => {
   const result = await withErrorHandling(async () => {
     await vocabularyStore.putVocabulary(editTarget.value?.vocabularyId, {
       name: value.name,
       description: value.description || undefined,
-      tags: value.tags,
+      tagIds: value.tagIds,
     });
   }, commonStore);
   if (result) {

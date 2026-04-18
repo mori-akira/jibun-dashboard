@@ -85,7 +85,7 @@ import { Form, Field } from "vee-validate";
 
 import type {
   Vocabulary,
-  VocabularyBase,
+  VocabularyRequest,
   VocabularyTag,
 } from "~/generated/api/client";
 import { schemas } from "~/generated/api/client/schemas";
@@ -104,7 +104,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "closeModal"): void;
-  (e: "submit", values: VocabularyBase): void;
+  (e: "submit", values: VocabularyRequest): void;
 }>();
 
 const commonStore = useCommonStore();
@@ -134,19 +134,16 @@ const onToggleTag = (tagId: string) => {
   commonStore.setHasUnsavedChange(true);
 };
 
-const validationRules: { [K in keyof Pick<VocabularyBase, "name" | "description">]?: ReturnType<typeof zodToVeeRules> } = {
-  name: zodToVeeRules(schemas.VocabularyBase.shape.name),
-  description: zodToVeeRules(schemas.VocabularyBase.shape.description),
+const validationRules: { [K in keyof Pick<VocabularyRequest, "name" | "description">]?: ReturnType<typeof zodToVeeRules> } = {
+  name: zodToVeeRules(schemas.VocabularyRequest.shape.name),
+  description: zodToVeeRules(schemas.VocabularyRequest.shape.description),
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {
-  const selectedTags = props.vocabularyTags.filter((t) =>
-    selectedTagIds.value.includes(t.vocabularyTagId ?? ""),
-  );
   emit("submit", {
     name: values.name as string,
     description: (values.description as string) || undefined,
-    tags: selectedTags.length > 0 ? selectedTags as unknown as Set<VocabularyTag> : undefined,
+    tagIds: selectedTagIds.value.length > 0 ? new Set(selectedTagIds.value) : undefined,
   });
 };
 

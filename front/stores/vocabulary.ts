@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import type {
   Vocabulary,
-  VocabularyBase,
+  VocabularyRequest,
   VocabularyTag,
   VocabularyTagBase,
 } from "~/generated/api/client/api";
@@ -14,7 +14,11 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
   const vocabularyTags = ref<VocabularyTag[] | null>(null);
   const { getVocabularyApi } = useApiClient();
 
-  async function fetchVocabularies(name?: string, description?: string, tags?: string[]) {
+  async function fetchVocabularies(
+    name?: string,
+    description?: string,
+    tags?: string[],
+  ) {
     const res = await getVocabularyApi().getVocabularies(
       name || undefined,
       description || undefined,
@@ -23,13 +27,13 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
     vocabularies.value = res.data;
   }
 
-  async function postVocabulary(vocabulary: VocabularyBase) {
+  async function postVocabulary(vocabulary: VocabularyRequest) {
     await getVocabularyApi().postVocabularies(vocabulary);
   }
 
   async function putVocabulary(
     vocabularyId: string | undefined,
-    vocabulary: VocabularyBase,
+    vocabulary: VocabularyRequest,
   ) {
     if (vocabularyId) {
       await getVocabularyApi().putVocabulariesById(vocabularyId, vocabulary);
