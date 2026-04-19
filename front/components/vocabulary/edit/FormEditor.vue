@@ -48,7 +48,7 @@
 
     <div class="mt-4 w-full flex justify-center items-start">
       <Label label="Tags" label-class="w-40 ml-4 font-cursive mt-1" />
-      <div class="w-1/2 flex flex-wrap gap-2">
+      <div class="w-1/2 flex flex-wrap gap-2 items-center">
         <div
           v-for="tag in vocabularyTags"
           :key="tag.vocabularyTagId"
