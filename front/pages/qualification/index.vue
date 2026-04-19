@@ -184,6 +184,8 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     sortable: true,
     headerClass: "w-26",
     bodyClass: "text-center h-12",
+    bodyClassFunction: (_value, row) =>
+      row.status === "expired" ? "text-red-600" : "",
   },
   {
     field: "rank",
@@ -204,6 +206,8 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     sortable: true,
     headerClass: "w-30",
     bodyClass: "text-center h-12",
+    bodyClassFunction: (_value, row) =>
+      row.status === "expired" ? "text-red-600 line-through" : "",
   },
   {
     field: "expirationDate",
@@ -211,6 +215,8 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     sortable: true,
     headerClass: "w-30",
     bodyClass: "text-center h-12",
+    bodyClassFunction: (_value, row) =>
+      row.status === "expired" ? "text-red-600 line-through" : "",
   },
 ];
 const rows = computed(() =>
