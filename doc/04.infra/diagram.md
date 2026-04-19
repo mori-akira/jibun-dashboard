@@ -29,13 +29,15 @@ flowchart LR
     DSettings["settings<br>PK: userId"]
     DSalaries["salaries<br>PK: userId, SK: targetDate<br>GSI: gsi_salary_id (salaryId)"]
     DOcrTasks["salary-ocr-tasks<br>PK: taskId<br>GSI: gsi_user_target_date<br>(userId, targetDate)"]
-    DQuals["qualifications<br>PK: userId, SK: qualificationId<br>GSI: gsi_qualification_id<br>LSI: lsi_order (order)"]
+    DQual["qualifications<br>PK: userId, SK: qualificationId<br>GSI: gsi_qualification_id<br>LSI: lsi_order (order)"]
   end
 
-  subgraph BATCH["Batch Processing<br>(給与OCR)"]
+  subgraph BATCH["Batch Processing"]
     Q_DLQ["SQS DLQ<br>salary-ocr-dlq"]
     Q_MAIN["SQS Queue<br>salary-ocr-queue"]
     L_SAL["Lambda: salary-ocr"]
+    SCH_EXP["EventBridge Scheduler<br>cron: 00:00 JST"]
+    L_EXP["Lambda: qualification-expiry-check"]
   end
 
   %% ルーティング（リンクラベル無し）
@@ -56,7 +58,7 @@ flowchart LR
   ARS --> DR18n
   ARS --> DSettings
   ARS --> DSalaries
-  ARS --> DQuals
+  ARS --> DQual
   ARS --> DOcrTasks
   ARS --> S3_UP
 
@@ -68,6 +70,10 @@ flowchart LR
   L_SAL --> S3_UP
   L_SAL --> DSalaries
   L_SAL --> DOcrTasks
+
+  %% 資格期限確認バッチフロー
+  SCH_EXP --> L_EXP
+  L_EXP --> DQual
 ```
 
 ## 運用オートメーション
