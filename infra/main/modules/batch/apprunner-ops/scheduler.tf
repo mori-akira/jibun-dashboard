@@ -37,8 +37,8 @@ resource "aws_scheduler_schedule_group" "apprunner_ops" {
 }
 
 resource "aws_scheduler_schedule" "pause_nightly" {
-  name                         = "apprunner-pause-01-00-jst"
-  description                  = "Pause App Runner at 01:00 JST daily"
+  name                         = "apprunner-pause-01-00"
+  description                  = "Pause App Runner at 01:00 daily"
   schedule_expression          = "cron(0 1 * * ? *)"
   schedule_expression_timezone = var.timezone
   group_name                   = aws_scheduler_schedule_group.apprunner_ops.name
@@ -57,8 +57,8 @@ resource "aws_scheduler_schedule" "pause_nightly" {
 }
 
 resource "aws_scheduler_schedule" "resume_morning" {
-  name                         = "apprunner-resume-06-00-jst"
-  description                  = "Resume App Runner at 06:00 JST daily"
+  name                         = "apprunner-resume-06-00"
+  description                  = "Resume App Runner at 06:00 daily"
   schedule_expression          = "cron(0 6 * * ? *)"
   schedule_expression_timezone = var.timezone
   group_name                   = aws_scheduler_schedule_group.apprunner_ops.name

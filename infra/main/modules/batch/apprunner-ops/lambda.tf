@@ -22,13 +22,6 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 
 data "aws_iam_policy_document" "apprunner_lambda_policy_doc" {
   statement {
-    sid = "Logs"
-    actions = [
-      "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"
-    ]
-    resources = ["*"]
-  }
-  statement {
     sid       = "PauseResume"
     actions   = ["apprunner:PauseService", "apprunner:ResumeService"]
     resources = [var.apprunner_service_arn]
@@ -44,7 +37,7 @@ resource "aws_iam_role_policy" "apprunner_ops_lambda_inline" {
 data "archive_file" "apprunner_ops_lambda_mock" {
   type        = "zip"
   source_file = "${path.module}/index.py"
-  output_path = "${path.module}/apprunner_ops_lambda.zip"
+  output_path = "${path.module}/index.zip"
 }
 
 resource "aws_lambda_function" "apprunner_ops_lambda" {

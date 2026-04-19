@@ -106,6 +106,15 @@ module "batch_apprunner_ops" {
   apprunner_service_arn = module.apprunner.apprunner_service_arn
 }
 
+module "batch_qualification_expiry_check" {
+  source                    = "./modules/batch/qualification-expiry-check"
+  application_tag           = module.application.application_tag
+  app_name                  = var.app_name
+  env_name                  = var.env_name
+  qualifications_table_name = module.dynamodb["qualifications"].table_name
+  qualifications_table_arn  = module.dynamodb["qualifications"].table_arn
+}
+
 module "apigateway" {
   source                 = "./modules/apigateway"
   region                 = var.region

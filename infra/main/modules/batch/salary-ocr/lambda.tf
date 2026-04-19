@@ -82,12 +82,11 @@ resource "aws_iam_role_policy" "salary_ocr_lambda_inline" {
 data "archive_file" "salary_ocr_lambda_mock" {
   type        = "zip"
   source_file = "${path.module}/index.py"
-  output_path = "${path.module}/salary_ocr_lambda.zip"
+  output_path = "${path.module}/index.zip"
 }
 
 resource "aws_lambda_function" "salary_ocr_lambda" {
-  function_name = "${var.app_name}-${var.env_name}-salary-ocr"
-
+  function_name    = "${var.app_name}-${var.env_name}-salary-ocr"
   role             = aws_iam_role.salary_ocr_lambda_role.arn
   runtime          = "python3.12"
   handler          = "index.lambda_handler"
