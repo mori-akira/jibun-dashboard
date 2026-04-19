@@ -31,13 +31,10 @@ jobs:
         with:
           filters: |
             salary-ocr:
-              - ".github/workflows/cd.yaml"
               - "batch/salary-ocr/**"
             apprunner-ops:
-              - ".github/workflows/cd.yaml"
               - "batch/apprunner-ops/**"
             qualification-expiry-check:
-              - ".github/workflows/cd.yaml"
               - "batch/qualification-expiry-check/**"
 
       - name: No Changes Notification
