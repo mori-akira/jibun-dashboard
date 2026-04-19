@@ -16,6 +16,10 @@ jobs:
         batch:
           - name: salary-ocr
             filter: salary-ocr
+          - name: apprunner-ops
+            filter: apprunner-ops
+          - name: qualification-expiry-check
+            filter: qualification-expiry-check
 
     steps:
       - name: Checkout
@@ -29,6 +33,12 @@ jobs:
             salary-ocr:
               - ".github/workflows/cd.yaml"
               - "batch/salary-ocr/**"
+            apprunner-ops:
+              - ".github/workflows/cd.yaml"
+              - "batch/apprunner-ops/**"
+            qualification-expiry-check:
+              - ".github/workflows/cd.yaml"
+              - "batch/qualification-expiry-check/**"
 
       - name: No Changes Notification
         if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'
