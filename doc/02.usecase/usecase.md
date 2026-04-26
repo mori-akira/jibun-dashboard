@@ -9,14 +9,12 @@ graph TB
         qualification[資格を参照する]
         educationPlan[教育計画を参照する]
         vocabulary[ボキャブラリーを参照する]
-        financialAsset[金融資産を参照する]
     end
 
     user --- salary
     user --- qualification
     user --- educationPlan
     user --- vocabulary
-    user --- financialAsset
 ```
 
 ## 給与
@@ -96,35 +94,3 @@ graph TB
     user --- quiz
 ```
 
-## 金融資産
-
-```mermaid
-graph TB
-
-    subgraph "金融資産"
-        user((ユーザ))
-        view[金融資産を参照する]
-        summary[金融資産のサマリーを参照する]
-        update[金資産情報を更新する]
-
-        sbi(SBI証券)
-        nomura(野村証券)
-        fx(FX口座)
-
-        manualUpdate(手動更新)
-        automaticUpdate(自動更新)
-        regularUpdate(定期更新)
-    end
-
-    user --- view
-    user --- summary
-    user --- update
-
-    view -.- sbi
-    view -.- nomura
-    view -.- fx
-
-    update -.- manualUpdate
-    update -.- automaticUpdate
-    update -.- regularUpdate
-```

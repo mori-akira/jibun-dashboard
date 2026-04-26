@@ -53,16 +53,6 @@
             <span class="font-cursive ml-2">Vocabulary</span>
           </NuxtLink>
         </li>
-        <li>
-          <NuxtLink
-            class="text-gray-900"
-            :class="{ active: isActive('/financial-asset') }"
-            to="/financial-asset"
-          >
-            <Icon name="tabler:report-money" class="nav-icon" />
-            <span class="font-cursive ml-2">Financial Asset</span>
-          </NuxtLink>
-        </li>
       </ul>
     </div>
   </nav>

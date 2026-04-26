@@ -39,15 +39,6 @@ test("test navigation", async ({ page }) => {
     page.getByRole("main").getByText("Vocabulary", { exact: true })
   ).toBeVisible();
 
-  // financial asset
-  await Promise.all([
-    page.waitForURL("**/financial-asset"),
-    page.getByRole("link", { name: "Financial Asset" }).click(),
-  ]);
-  await expect(
-    page.getByRole("main").getByText("Financial Asset", { exact: true })
-  ).toBeVisible();
-
   // home
   await Promise.all([
     page.waitForURL(""),

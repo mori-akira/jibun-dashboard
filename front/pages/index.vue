@@ -48,13 +48,7 @@
           />
         </div>
       </Panel>
-      <Panel wrapper-class="w-full items-center">
-        <h3>
-          <Icon name="tabler:report-money" class="adjust-icon-4" />
-          <span class="font-cursive font-bold ml-2">Financial Asset</span>
-        </h3>
-        <div class="h-36 flex justify-center items-center"></div>
-      </Panel>
+      <div class="w-full m-6" />
     </div>
   </div>
 </template>
