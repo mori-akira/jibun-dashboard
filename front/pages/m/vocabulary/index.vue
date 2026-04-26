@@ -77,7 +77,7 @@
 
     <ModalWindow
       :show-modal="showAddModal"
-      modal-box-class="w-[70vw]"
+      modal-box-class="w-[85vw]"
       @close="onCloseAddModal"
     >
       <Form v-slot="{ meta, handleSubmit }">
