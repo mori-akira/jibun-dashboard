@@ -32,6 +32,25 @@
         </div>
       </Panel>
     </div>
+
+    <div class="flex-1 w-full mt-4">
+      <Panel wrapper-class="w-full ml-2">
+        <h3>
+          <Icon name="tabler:book" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Vocabulary</span>
+        </h3>
+        <div class="h-36 flex items-center">
+          <TagCountSummary
+            :vocabularies="vocabularyStore.vocabularies ?? []"
+            wrapper-class="w-full"
+            :on-click-tag="
+              (tagId) =>
+                navigateTo({ path: '/m/vocabulary', query: { tagIds: tagId } })
+            "
+          />
+        </div>
+      </Panel>
+    </div>
   </div>
 </template>
 
@@ -40,10 +59,12 @@ import type { Salary } from "~/generated/api/client";
 import { useCommonStore } from "~/stores/common";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
+import { useVocabularyStore } from "~/stores/vocabulary";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
+import TagCountSummary from "~/components/vocabulary/TagCountSummary.vue";
 import { withErrorHandling } from "~/utils/api-call";
 
 definePageMeta({
@@ -53,12 +74,14 @@ definePageMeta({
 const commonStore = useCommonStore();
 const salaryStore = useSalaryStore();
 const qualificationStore = useQualificationStore();
+const vocabularyStore = useVocabularyStore();
 
 onMounted(async () => {
   await withErrorHandling(async () => {
     await Promise.all([
       qualificationStore.fetchQualification(),
       salaryStore.fetchSalary(),
+      vocabularyStore.fetchVocabularies(),
     ]);
   }, commonStore);
 });

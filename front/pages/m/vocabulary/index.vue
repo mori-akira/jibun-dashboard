@@ -151,9 +151,18 @@ const { isLoading, withLoading } = useLoadingQueue();
 
 // --- Search conditions ---
 
+const route = useRoute();
+const queryTagIds = route.query.tagIds;
+
 const vocabularyName = ref("");
 const description = ref("");
-const selectedTagIds = ref<string[]>([]);
+const selectedTagIds = ref<string[]>(
+  queryTagIds
+    ? Array.isArray(queryTagIds)
+      ? (queryTagIds as string[])
+      : [queryTagIds as string]
+    : [],
+);
 
 // --- Data fetching ---
 

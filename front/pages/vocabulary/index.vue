@@ -113,9 +113,18 @@ const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();
 const { isLoading, withLoading } = useLoadingQueue();
 
+const route = useRoute();
+const queryTagIds = route.query.tagIds;
+
 const vocabularyName = ref("");
 const description = ref("");
-const selectedTagIds = ref<string[]>([]);
+const selectedTagIds = ref<string[]>(
+  queryTagIds
+    ? Array.isArray(queryTagIds)
+      ? (queryTagIds as string[])
+      : [queryTagIds as string]
+    : [],
+);
 
 const fetchData = async () => {
   await withLoading(async () => {
