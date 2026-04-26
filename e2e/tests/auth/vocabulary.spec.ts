@@ -73,6 +73,19 @@ test("test vocabulary function", async ({ page }) => {
     await checkVocabularyDisplay(page, vocabulary, testData.vocabularies.length - Number(index));
   }
 
+  // === home (summary) ===
+  await page.getByTestId("app-header-title").click();
+
+  // check vocabulary summary
+  await checkTagCountSummaryDisplay(page);
+
+  // === mobile home (summary) ===
+  await page.goto("/m", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  // check vocabulary summary
+  await checkTagCountSummaryDisplay(page);
+
   // === mobile vocabulary list ===
   await page.goto("/m/vocabulary", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
@@ -82,6 +95,19 @@ test("test vocabulary function", async ({ page }) => {
     const vocabulary: Vocabulary = testData.vocabularies[index] as Vocabulary;
     await checkVocabularyDisplay(page, vocabulary, testData.vocabularies.length - Number(index));
   }
+
+  // === mobile vocabulary add ===
+  // add vocabulary with name only
+  const mobileAddName = "Mobile Test Vocabulary";
+  await addMobileVocabulary(page, mobileAddName);
+  await page.waitForLoadState("networkidle");
+
+  // check added vocabulary
+  await checkVocabularyDisplay(
+    page,
+    { name: mobileAddName, tags: [] },
+    1,
+  );
 
   // === delete all vocabularies ===
   await page.goto("/vocabulary/edit", { waitUntil: "domcontentloaded" });
@@ -185,6 +211,34 @@ const checkVocabularyTagDisplay = async (
   await expect(
     page.locator("tr").nth(row).locator("td").nth(1)
   ).toHaveText(tag.vocabularyTag);
+};
+
+const addMobileVocabulary = async (page: Page, name: string) => {
+  // open add modal
+  await page.getByRole("button", { name: "Add" }).first().click();
+  await page.waitForTimeout(100);
+  // name
+  await page
+    .locator("label:has-text('Name') + div > input")
+    .last()
+    .fill(name);
+  // submit (last "Add" button is the one inside the modal)
+  await page.getByRole("button", { name: "Add" }).last().click();
+};
+
+const checkTagCountSummaryDisplay = async (page: Page) => {
+  // top 3 tags from test data
+  const expectedTags = [
+    { tag: "IT", count: 3 },
+    { tag: "心理学", count: 2 },
+    { tag: "経済", count: 1 },
+  ];
+  for (const item of expectedTags) {
+    const row = page.locator("div.flex.items-center.gap-2", {
+      has: page.getByText(item.tag, { exact: true }),
+    });
+    await expect(row.locator("span").last()).toHaveText(item.count + "");
+  }
 };
 
 const checkVocabularyDisplay = async (
