@@ -4,7 +4,7 @@ export type TagCount = { id: string; name: string; count: number };
 
 export function getTopTagCounts(
   vocabularies: Vocabulary[],
-  limit: number = 3,
+  limit: number = 6,
 ): TagCount[] {
   const map = new Map<string, TagCount>();
   for (const vocab of vocabularies) {
