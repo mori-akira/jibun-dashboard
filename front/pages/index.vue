@@ -56,23 +56,6 @@
         <div class="h-36 flex justify-center items-center"></div>
       </Panel>
     </div>
-
-    <div class="flex justify-between">
-      <Panel wrapper-class="w-full">
-        <h3>
-          <Icon name="tabler:file-pencil" class="adjust-icon-4" />
-          <span class="font-cursive font-bold ml-2">Study Plan</span>
-        </h3>
-        <div class="h-36 flex items-center"></div>
-      </Panel>
-      <Panel wrapper-class="w-full items-center">
-        <h3>
-          <Icon name="tabler:settings" class="adjust-icon-4" />
-          <span class="font-cursive font-bold ml-2">Setting</span>
-        </h3>
-        <div class="h-36 flex justify-center items-center"></div>
-      </Panel>
-    </div>
   </div>
 </template>
 

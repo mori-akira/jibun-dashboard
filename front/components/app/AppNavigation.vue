@@ -63,16 +63,6 @@
             <span class="font-cursive ml-2">Financial Asset</span>
           </NuxtLink>
         </li>
-        <li>
-          <NuxtLink
-            class="text-gray-900"
-            :class="{ active: isActive('/study-plan') }"
-            to="/study-plan"
-          >
-            <Icon name="tabler:file-pencil" class="nav-icon" />
-            <span class="font-cursive ml-2">Study Plan</span>
-          </NuxtLink>
-        </li>
       </ul>
     </div>
   </nav>
