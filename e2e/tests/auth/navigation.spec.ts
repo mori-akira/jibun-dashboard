@@ -48,15 +48,6 @@ test("test navigation", async ({ page }) => {
     page.getByRole("main").getByText("Financial Asset", { exact: true })
   ).toBeVisible();
 
-  // study plan
-  await Promise.all([
-    page.waitForURL("**/study-plan"),
-    page.getByRole("link", { name: "Study Plan" }).click(),
-  ]);
-  await expect(
-    page.getByRole("main").getByText("Study Plan", { exact: true })
-  ).toBeVisible();
-
   // home
   await Promise.all([
     page.waitForURL(""),
@@ -127,6 +118,16 @@ test("test navigation", async ({ page }) => {
   ]);
   await expect(
     page.getByRole("main").getByText("Qualification", { exact: true })
+  ).toBeVisible();
+
+  // vocabulary
+  await openMobileMenu(page);
+  await Promise.all([
+    page.waitForURL("**/vocabulary"),
+    page.getByRole("link", { name: "Vocabulary" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Vocabulary", { exact: true })
   ).toBeVisible();
 
   // home
