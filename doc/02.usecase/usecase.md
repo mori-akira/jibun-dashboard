@@ -79,31 +79,6 @@ graph TB
     view -.- dream
 ```
 
-## 教育計画
-
-```mermaid
-graph TB
-
-    subgraph "教育計画"
-        user((ユーザ))
-        view[教育計画を参照する]
-        summary[教育計画のサマリーを参照する]
-        edit[教育計画を更新する]
-
-        achievementByDivision(種別毎の達成サマリー)
-        achievementByYearMonth(年月毎の達成サマリー)
-        readBooks(読んだ本一覧)
-    end
-
-    user --- view
-    user --- summary
-    user --- edit
-
-    summary -.- achievementByDivision
-    summary -.- achievementByYearMonth
-    summary -.- readBooks
-```
-
 ## ボキャブラリー
 
 ```mermaid
