@@ -1,6 +1,17 @@
 <template>
   <div>
-    <Breadcrumb :items="[{ text: 'Vocabulary', iconName: 'tabler:book' }]" />
+    <div class="flex items-center justify-between mr-2">
+      <Breadcrumb :items="[{ text: 'Vocabulary', iconName: 'tabler:book' }]" />
+      <Button
+        type="add"
+        size="small"
+        html-type="button"
+        @click:button="openAddModal"
+      >
+        <Icon name="tabler:plus" class="text-base translate-y-0.5" />
+        <span class="font-bold ml-2">Add</span>
+      </Button>
+    </div>
 
     <div class="flex-1 w-full mt-4">
       <Panel wrapper-class="w-full ml-2">
@@ -63,11 +74,56 @@
         item-class="bg-gray-200 flex-1"
       />
     </ModalWindow>
+
+    <ModalWindow
+      :show-modal="showAddModal"
+      modal-box-class="w-[70vw]"
+      @close="onCloseAddModal"
+    >
+      <Form v-slot="{ meta, handleSubmit }">
+        <div class="flex justify-end">
+          <IconButton
+            type="cancel"
+            icon-class="w-6 h-6"
+            @click:button="onCloseAddModal"
+          />
+        </div>
+        <h3 class="font-cursive font-bold text-center mb-2">Add Vocabulary</h3>
+        <Field
+          v-slot="{ field, errorMessage }"
+          name="name"
+          :rules="addValidationRules.name"
+        >
+          <TextBox
+            label="Name"
+            v-bind="field"
+            :error-message="errorMessage"
+            required
+            wrapper-class="mt-4 w-full justify-center"
+            label-class="ml-2 font-cursive"
+            input-wrapper-class="flex-1 mr-8"
+            @blur:event="field.onBlur"
+          />
+        </Field>
+        <Button
+          :disabled="!meta.valid"
+          type="action"
+          wrapper-class="flex justify-center mt-6 mb-2"
+          @click:button="handleSubmit(onAddSubmit)"
+        >
+          <Icon name="tabler:database-share" class="adjust-icon-4" />
+          <span class="ml-2">Add</span>
+        </Button>
+      </Form>
+    </ModalWindow>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Form, Field } from "vee-validate";
+import type { SubmissionHandler, GenericObject } from "vee-validate";
 import type { Vocabulary } from "~/generated/api/client/api";
+import { schemas } from "~/generated/api/client/schemas";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import DataTable from "~/components/common/DataTable.vue";
@@ -75,11 +131,15 @@ import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
 import InformationForm from "~/components/common/InformationForm.vue";
 import type { ItemDef } from "~/components/common/InformationForm.vue";
+import Button from "~/components/common/Button.vue";
+import IconButton from "~/components/common/IconButton.vue";
+import TextBox from "~/components/common/TextBox.vue";
 import SearchConditionForm from "~/components/vocabulary/SearchConditionForm.vue";
 import { useCommonStore } from "~/stores/common";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 import { getErrorMessage } from "~/utils/error";
+import { zodToVeeRules } from "~/utils/zod-to-vee-rules";
 
 definePageMeta({
   layout: "mobile",
@@ -87,11 +147,15 @@ definePageMeta({
 
 const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();
-
 const { isLoading, withLoading } = useLoadingQueue();
+
+// --- Search conditions ---
+
 const vocabularyName = ref("");
 const description = ref("");
 const selectedTagIds = ref<string[]>([]);
+
+// --- Data fetching ---
 
 const fetchData = async () => {
   await withLoading(async () => {
@@ -131,6 +195,8 @@ watch(
   },
   { deep: true },
 );
+
+// --- Table ---
 
 type TagBadge = { name: string; selected: boolean };
 type VocabularyWithIndex = Vocabulary & {
@@ -184,6 +250,8 @@ const initSortState: SortDef<VocabularyWithIndex> = {
   direction: "asc",
 };
 
+// --- Detail modal ---
+
 const itemDefs: ItemDef[] = [
   {
     field: "name",
@@ -203,12 +271,38 @@ const itemDefs: ItemDef[] = [
     itemType: "badges",
   },
 ];
-
 const selectedVocabulary = ref<VocabularyWithIndex | null>(null);
-
 const onClickRow = (row: VocabularyWithIndex) => {
   selectedVocabulary.value = row;
 };
-
 const onCloseModal = () => (selectedVocabulary.value = null);
+
+// --- Add modal ---
+
+const showAddModal = ref(false);
+const addValidationRules = {
+  name: zodToVeeRules(schemas.VocabularyRequest.shape.name),
+};
+const openAddModal = () => {
+  showAddModal.value = true;
+};
+const onCloseAddModal = () => {
+  showAddModal.value = false;
+};
+const onAddSubmit: SubmissionHandler<GenericObject> = async (values) => {
+  await withLoading(async () => {
+    try {
+      await vocabularyStore.postVocabulary({ name: values.name as string });
+      showAddModal.value = false;
+      await vocabularyStore.fetchVocabularies(
+        vocabularyName.value,
+        description.value,
+        selectedTagIds.value,
+      );
+    } catch (err) {
+      console.error(err);
+      commonStore.addErrorMessage(getErrorMessage(err));
+    }
+  });
+};
 </script>
