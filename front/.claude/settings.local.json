@@ -6,7 +6,8 @@
       "Bash(sed -i 's/panel-class=/wrapper-class=/g' \"$f\")",
       "Bash(done)",
       "Bash(ls /workspace/front/eslint.config* /workspace/front/.eslintrc*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(npm cache *)"
     ]
   }
 }
