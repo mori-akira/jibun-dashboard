@@ -1,0 +1,8 @@
+type: object
+description: 共有リンクトークン
+
+properties:
+  token:
+    description: トークン
+    type: string
+    format: uuid

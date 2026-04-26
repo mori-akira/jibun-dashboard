@@ -36,6 +36,20 @@ resource "aws_apigatewayv2_route" "default_route" {
   authorization_type = "NONE"
 }
 
+resource "aws_apigatewayv2_integration" "share_integration" {
+  api_id             = aws_apigatewayv2_api.http_api.id
+  integration_type   = "HTTP_PROXY"
+  integration_method = "GET"
+  integration_uri    = "${var.apprunner_url}${var.apprunner_context_path}/share/{proxy}"
+}
+
+resource "aws_apigatewayv2_route" "share_proxy" {
+  api_id             = aws_apigatewayv2_api.http_api.id
+  route_key          = "GET /api/v1/share/{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.share_integration.id}"
+  authorization_type = "NONE"
+}
+
 resource "aws_apigatewayv2_route" "api_v1_proxy" {
   api_id             = aws_apigatewayv2_api.http_api.id
   route_key          = "ANY /api/v1/{proxy+}"

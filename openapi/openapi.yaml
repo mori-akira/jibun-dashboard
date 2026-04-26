@@ -19,6 +19,10 @@ tags:
     description: 資格情報API
   - name: Vocabulary
     description: ボキャブラリー情報API
+  - name: SharedLink
+    description: 共有リンクAPI
+  - name: Share
+    description: 共有データ取得API
 
 security:
   - CognitoJwtAuth: []
@@ -61,6 +65,16 @@ paths:
     $ref: "paths/vocabulary-tags/index.yaml"
   /vocabulary-tags/{vocabularyTagId}:
     $ref: "paths/vocabulary-tags/vocabularyTagId.yaml"
+  /shared-links:
+    $ref: "paths/shared-links/index.yaml"
+  /shared-links/{token}:
+    $ref: "paths/shared-links/token.yaml"
+  /share/{token}/salaries:
+    $ref: "paths/share/token/salaries.yaml"
+  /share/{token}/qualifications:
+    $ref: "paths/share/token/qualifications.yaml"
+  /share/{token}/vocabularies:
+    $ref: "paths/share/token/vocabularies.yaml"
 
 components:
   securitySchemes:
@@ -117,11 +131,35 @@ components:
       $ref: "schemas/vocabulary/vocabularyTag/vocabularyTagId.yaml"
     VocabularyTagBase:
       $ref: "schemas/vocabulary/vocabularyTag/vocabularyTagBase.yaml"
+    SharedLink:
+      $ref: "schemas/shared-link/sharedLink.yaml"
+    SharedLinkToken:
+      $ref: "schemas/shared-link/sharedLinkToken.yaml"
+    SharedLinkBase:
+      $ref: "schemas/shared-link/sharedLinkBase.yaml"
     ErrorInfo:
       $ref: "schemas/error/errorInfo.yaml"
   responses:
     BadRequest:
       description: パラメータ不正
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorInfo"
+    Forbidden:
+      description: 権限なし
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorInfo"
+    NotFound:
+      description: リソース不在
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorInfo"
+    Gone:
+      description: リソース期限切れ
       content:
         application/json:
           schema:

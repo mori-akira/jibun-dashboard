@@ -1,0 +1,14 @@
+[
+  {
+    "token": "abc12345-e89b-12d3-a456-426614174000",
+    "dataTypes": ["salary", "qualification"],
+    "expiresAt": "2026-06-01",
+    "shareUrl": "https://example.com/share/abc12345-e89b-12d3-a456-426614174000"
+  },
+  {
+    "token": "def56789-e89b-12d3-a456-426614174001",
+    "dataTypes": ["vocabulary"],
+    "expiresAt": "2026-07-01",
+    "shareUrl": "https://example.com/share/def56789-e89b-12d3-a456-426614174001"
+  }
+]

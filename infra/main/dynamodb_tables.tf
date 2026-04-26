@@ -95,5 +95,17 @@ locals {
         }
       ]
     }
+    shared_links = {
+      table_name = "${var.app_name}-${var.env_name}-shared-links"
+      hash_key   = { name = "token", type = "S" }
+      gsi = [
+        {
+          name            = "gsi_user_id",
+          hash_key_name   = "userId",
+          hash_key_type   = "S",
+          projection_type = "ALL"
+        }
+      ]
+    }
   }
 }

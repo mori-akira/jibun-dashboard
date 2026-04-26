@@ -1,0 +1,11 @@
+type: object
+description: 共有リンク情報
+allOf:
+  - $ref: "./sharedLinkToken.yaml"
+  - $ref: "./sharedLinkBase.yaml"
+  - type: object
+    properties:
+      shareUrl:
+        description: 共有URL
+        type: string
+        format: uri

@@ -1,0 +1,43 @@
+get:
+  operationId: getSharedLinks
+  summary: 共有リンク一覧取得
+  description: 自分が作成した共有リンクの一覧を取得する
+  tags:
+    - SharedLink
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/SharedLink"
+          example:
+            $ref: "../../examples/shared-links/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+post:
+  operationId: postSharedLinks
+  summary: 共有リンク作成
+  description: 共有リンクを作成する
+  tags:
+    - SharedLink
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/SharedLinkBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/SharedLink"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

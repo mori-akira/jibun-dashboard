@@ -1,0 +1,21 @@
+delete:
+  operationId: deleteSharedLinksById
+  summary: 共有リンク削除
+  description: 指定したトークンの共有リンクを削除する
+  tags:
+    - SharedLink
+
+  parameters:
+    - in: path
+      name: token
+      description: トークン
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
