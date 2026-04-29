@@ -174,6 +174,7 @@ resource "aws_apprunner_service" "this" {
           UPLOADS_BUCKET_NAME         = var.uploads_bucket_name
           USER_ASSETS_BUCKET_NAME     = var.user_assets_bucket_name
           SALARY_OCR_QUEUE_URL        = var.salary_ocr_queue_url
+          APP_SHARE_BASE_URL          = var.app_share_base_url
         }, var.runtime_env)
       }
     }

@@ -149,3 +149,8 @@ variable "salary_ocr_queue_url" {
   description = "給与明細OCR用キューURL"
   type        = string
 }
+
+variable "app_share_base_url" {
+  description = "アプリ共有用のベースURL"
+  type        = string
+}

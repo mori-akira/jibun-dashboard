@@ -96,6 +96,8 @@ module "apprunner" {
 
   sqs_queue_arns       = [module.batch_salary_ocr.sqs_queue_arn]
   salary_ocr_queue_url = module.batch_salary_ocr.sqs_queue_url
+
+  app_share_base_url = var.api_gateway_origin
 }
 
 module "batch_apprunner_ops" {
