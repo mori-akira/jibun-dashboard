@@ -72,7 +72,7 @@
 
     <ModalWindow
       :show-modal="editTarget !== undefined"
-      modal-box-class="w-1/2 h-[80vh] flex-col items-center overflow-y-auto"
+      modal-box-class="w-3/5 h-[80vh] flex-col items-center overflow-y-auto"
       @close="onCloseEditModal"
     >
       <FormEditor
