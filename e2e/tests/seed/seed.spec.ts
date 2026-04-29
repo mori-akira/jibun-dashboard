@@ -5,6 +5,7 @@ import {
   SalaryApi,
   QualificationApi,
   VocabularyApi,
+  SharedLinkApi,
 } from "../../generated/api/client/api";
 
 import { getTokenFromStorageState } from "../helpers/auth";
@@ -36,6 +37,7 @@ test("seed data", async ({ baseURL }) => {
   const salaryApi = new SalaryApi(config);
   const qualificationApi = new QualificationApi(config);
   const vocabularyApi = new VocabularyApi(config);
+  const sharedLinkApi = new SharedLinkApi(config);
 
   // user
   const resUser = await userApi.getUsers();
@@ -78,6 +80,14 @@ test("seed data", async ({ baseURL }) => {
   await Promise.all(
     vocabularyTags.map((tag) =>
       vocabularyApi.deleteVocabularyTagsById(tag.vocabularyTagId!)
+    )
+  );
+
+  // shared links
+  const resSharedLinks = await sharedLinkApi.getSharedLinks();
+  await Promise.all(
+    resSharedLinks.data.map((link) =>
+      sharedLinkApi.deleteSharedLinksById(link.token!)
     )
   );
 });

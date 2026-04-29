@@ -78,6 +78,16 @@ test("test navigation", async ({ page }) => {
     page.getByRole("main").getByText("Setting", { exact: true })
   ).toBeVisible();
 
+  // shared-links
+  await openSubMenu(page, userName);
+  await Promise.all([
+    page.waitForURL("**/profile/shared-links"),
+    page.getByRole("link", { name: "Shared Links" }).click(),
+  ]);
+  await expect(
+    page.getByRole("main").getByText("Shared Links", { exact: true })
+  ).toBeVisible();
+
   // top
   await Promise.all([
     page.waitForURL(""),
