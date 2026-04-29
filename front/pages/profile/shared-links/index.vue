@@ -15,7 +15,7 @@
           @click:button="showCreateModal = true"
         >
           <Icon name="tabler:plus" class="text-base translate-y-0.5" />
-          <span class="font-bold ml-2">Create</span>
+          <span class="font-bold ml-2">Add New One</span>
         </Button>
       </div>
       <DataTable
@@ -61,10 +61,6 @@
           @click:button="onCloseCreateModal"
         />
       </div>
-      <h3 class="mb-6">
-        <Icon name="tabler:link" class="adjust-icon-4" />
-        <span class="font-cursive font-bold ml-2">Create Shared Link</span>
-      </h3>
       <div class="flex flex-col gap-5 w-full">
         <div class="flex">
           <p class="font-cursive mb-2 mr-4">

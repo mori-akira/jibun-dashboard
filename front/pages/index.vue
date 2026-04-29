@@ -48,7 +48,19 @@
           />
         </div>
       </Panel>
-      <div class="w-full m-6" />
+      <Panel wrapper-class="w-full">
+        <h3>
+          <Icon name="tabler:link" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Shared Links</span>
+        </h3>
+        <div class="h-36 flex items-center">
+          <StatusSummary
+            :shared-links="sharedLinkStore.sharedLinks ?? []"
+            wrapper-class="w-full"
+            :on-navigate="() => navigateTo('/profile/shared-links')"
+          />
+        </div>
+      </Panel>
     </div>
   </div>
 </template>
@@ -63,11 +75,13 @@ import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
 import { useVocabularyStore } from "~/stores/vocabulary";
+import { useSharedLinkStore } from "~/stores/sharedLink";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import RankSummary from "~/components/qualification/RankSummary.vue";
 import TagCountSummary from "~/components/vocabulary/TagCountSummary.vue";
+import StatusSummary from "~/components/shared-link/StatusSummary.vue";
 import { withErrorHandling } from "~/utils/api-call";
 
 const commonStore = useCommonStore();
@@ -76,6 +90,7 @@ const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 const qualificationStore = useQualificationStore();
 const vocabularyStore = useVocabularyStore();
+const sharedLinkStore = useSharedLinkStore();
 
 onMounted(async () => {
   await withErrorHandling(async () => {
@@ -85,6 +100,7 @@ onMounted(async () => {
       qualificationStore.fetchQualification(),
       salaryStore.fetchSalary(),
       vocabularyStore.fetchVocabularies(),
+      sharedLinkStore.fetchSharedLinks(),
     ]);
   }, commonStore);
 });
