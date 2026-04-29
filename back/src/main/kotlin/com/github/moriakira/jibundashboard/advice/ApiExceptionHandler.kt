@@ -2,6 +2,8 @@ package com.github.moriakira.jibundashboard.advice
 
 import com.github.moriakira.jibundashboard.generated.model.ErrorDetail
 import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
+import com.github.moriakira.jibundashboard.exception.ForbiddenException
+import com.github.moriakira.jibundashboard.exception.GoneException
 import jakarta.validation.ConstraintViolationException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -113,6 +115,30 @@ class ApiExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorInfo(errors = listOf(detail)))
+    }
+
+    @ExceptionHandler(ForbiddenException::class)
+    fun handleForbidden(ex: ForbiddenException): ResponseEntity<ErrorInfo> {
+        log.debug("ForbiddenException", ex)
+        val detail = ErrorDetail(
+            errorCode = ErrorDetail.ErrorCode.INVALID_ARGUMENT,
+            errorLevel = ErrorDetail.ErrorLevel.WARN,
+            errorMessage = ex.message ?: "Forbidden.",
+            errorItem = null,
+        )
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorInfo(errors = listOf(detail)))
+    }
+
+    @ExceptionHandler(GoneException::class)
+    fun handleGone(ex: GoneException): ResponseEntity<ErrorInfo> {
+        log.debug("GoneException", ex)
+        val detail = ErrorDetail(
+            errorCode = ErrorDetail.ErrorCode.INVALID_ARGUMENT,
+            errorLevel = ErrorDetail.ErrorLevel.WARN,
+            errorMessage = ex.message ?: "Gone.",
+            errorItem = null,
+        )
+        return ResponseEntity.status(HttpStatus.GONE).body(ErrorInfo(errors = listOf(detail)))
     }
 
     @ExceptionHandler(IllegalArgumentException::class)

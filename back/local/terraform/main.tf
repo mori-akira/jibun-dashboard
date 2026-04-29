@@ -108,6 +108,21 @@ module "dynamodb_qualifications" {
   ]
 }
 
+module "dynamodb_shared_links" {
+  source          = "../../../infra/main/modules/dynamodb"
+  application_tag = local.tag
+  table_name      = "${local.app_name}-${local.env_name}-shared-links"
+  hash_key        = { name = "token", type = "S" }
+  global_secondary_indexes = [
+    {
+      name            = "gsi_user_id"
+      hash_key_name   = "userId"
+      hash_key_type   = "S"
+      projection_type = "ALL"
+    }
+  ]
+}
+
 module "uploads_local" {
   source                  = "../../../infra/main/modules/uploads"
   bucket_name             = "${local.app_name}-${local.env_name}-uploads-bucket"

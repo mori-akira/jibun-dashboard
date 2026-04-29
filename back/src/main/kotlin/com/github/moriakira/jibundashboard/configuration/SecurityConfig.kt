@@ -28,6 +28,7 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }.authorizeHttpRequests {
             it.requestMatchers("/actuator/health").permitAll()
+            it.requestMatchers("/share/**").permitAll()
             it.anyRequest().authenticated()
         }.oauth2ResourceServer { it.jwt {} }
         return http.build()
