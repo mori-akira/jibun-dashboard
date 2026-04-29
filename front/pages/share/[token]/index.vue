@@ -21,6 +21,7 @@
             <AnnualComparer
               :selector="(salary: Salary) => salary.overview.grossIncome + salary.overview.bonus"
               :value-format="(value: number) => `￥${value.toLocaleString()}`"
+              :financial-year-start-month="shareSetting?.salary.financialYearStartMonth"
               wrapper-class="w-full"
             />
           </div>
@@ -33,6 +34,7 @@
           <div class="h-36 flex justify-center items-center">
             <RankSummary
               :qualifications="qualificationStore.qualifications ?? []"
+              :setting-qualification="shareSetting?.qualification"
               wrapper-class="w-full"
             />
           </div>
@@ -60,7 +62,7 @@
 
 <script setup lang="ts">
 import { AxiosError } from "axios";
-import type { Salary } from "~/generated/api/client";
+import type { Salary, Setting } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
@@ -81,6 +83,7 @@ const qualificationStore = useQualificationStore();
 const vocabularyStore = useVocabularyStore();
 
 const status = ref<"ok" | "gone">("ok");
+const shareSetting = ref<Setting | null>(null);
 
 const tryFetch = async (fn: () => Promise<void>) => {
   try {
@@ -107,6 +110,10 @@ onMounted(async () => {
     tryFetch(async () => {
       const res = await shareApi.getShareVocabularies(token);
       vocabularyStore.vocabularies = res.data;
+    }),
+    tryFetch(async () => {
+      const res = await shareApi.getShareSetting(token);
+      shareSetting.value = res.data;
     }),
   ]);
 });

@@ -46,6 +46,7 @@
         <div class="flex justify-center">
           <RankSummary
             :qualifications="qualificationStore.qualifications ?? []"
+            :setting-qualification="shareSetting?.qualification"
             wrapper-class="w-4/5"
           />
         </div>

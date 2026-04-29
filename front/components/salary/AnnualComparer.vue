@@ -56,6 +56,7 @@ const props = defineProps<{
   selector: (salary: Salary) => number;
   valueFormat: (value: number) => string;
   baseFinancialYear?: string;
+  financialYearStartMonth?: number;
   positiveColorTextClass?: string;
   negativeColorTextClass?: string;
   positiveColorBackgroundClass?: string;
@@ -67,7 +68,7 @@ const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
+  () => props.financialYearStartMonth ?? settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 const salaries = computed(() => salaryStore.salaries ?? []);
 const years = computed(() =>
