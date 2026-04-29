@@ -1,0 +1,6 @@
+{
+  "token": "def56789-e89b-12d3-a456-426614174001",
+  "dataTypes": ["vocabulary"],
+  "expiresAt": "2027-07-01",
+  "shareUrl": "http://localhost:3333/share/def56789-e89b-12d3-a456-426614174001"
+}

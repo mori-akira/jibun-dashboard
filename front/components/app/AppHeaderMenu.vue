@@ -2,7 +2,7 @@
   <div
     :class="[
       'fixed top-16 right-4 z-[998] w-64 bg-[#eee] shadow-[2px_2px_4px_#000] p-4 transition duration-500',
-      { '-translate-y-[17rem]': !commonStore.isHeaderMenuOpen },
+      { '-translate-y-[20rem]': !commonStore.isHeaderMenuOpen },
     ]"
   >
     <div class="w-full px-4 whitespace-nowrap">
@@ -48,6 +48,19 @@
             class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
           />
           Setting
+        </NuxtLink>
+      </li>
+      <li class="mt-2">
+        <NuxtLink
+          to="/profile/shared-links"
+          class="inline-block w-full py-[0.2rem] px-4 rounded-lg no-underline font-bold font-cursive hover:bg-black/20 hover:cursor-pointer hover:underline [&.active]:bg-black/20 [&.active]:underline [&.active]:hover:cursor-auto"
+          active-class="active"
+        >
+          <Icon
+            name="tabler:link"
+            class="translate-x-[-1px] translate-y-[4px] text-[1.3rem]"
+          />
+          Shared Links
         </NuxtLink>
       </li>
       <li class="mt-2">

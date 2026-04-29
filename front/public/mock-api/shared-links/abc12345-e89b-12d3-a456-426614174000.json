@@ -1,0 +1,6 @@
+{
+  "token": "abc12345-e89b-12d3-a456-426614174000",
+  "dataTypes": ["salary", "qualification"],
+  "expiresAt": "2027-06-01",
+  "shareUrl": "http://localhost:3333/share/abc12345-e89b-12d3-a456-426614174000"
+}
