@@ -24,7 +24,9 @@ export default defineNuxtPlugin(() => {
 
   if (["off", "false"].includes(config.public.requireAuth.toLowerCase())) {
     axios.interceptors.request.use((req) => {
-      req.headers["Authorization"] = "Bearer mock-token";
+      if (!req.url?.startsWith("/share/")) {
+        req.headers["Authorization"] = "Bearer mock-token";
+      }
       return req;
     });
   }

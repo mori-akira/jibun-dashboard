@@ -69,6 +69,8 @@ paths:
     $ref: "paths/shared-links/index.yaml"
   /shared-links/{token}:
     $ref: "paths/shared-links/token.yaml"
+  /share/{token}/setting:
+    $ref: "paths/share/token/setting.yaml"
   /share/{token}/salaries:
     $ref: "paths/share/token/salaries.yaml"
   /share/{token}/qualifications:

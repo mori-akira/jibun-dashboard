@@ -1,0 +1,28 @@
+get:
+  operationId: getShareSetting
+  summary: 共有リンク発行者の設定情報取得
+  description: トークンを指定して、共有リンクを発行したユーザの設定情報を取得する
+  tags:
+    - Share
+  security: []
+  parameters:
+    - in: path
+      name: token
+      description: トークン
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../../openapi.yaml#/components/schemas/Setting"
+          example:
+            $ref: "../../../examples/setting/get.yaml"
+    "404":
+      $ref: "../../../openapi.yaml#/components/responses/NotFound"
+    "410":
+      $ref: "../../../openapi.yaml#/components/responses/Gone"

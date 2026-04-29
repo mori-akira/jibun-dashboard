@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware((to) => {
   if (["off", "false"].includes(requireAuth)) {
     return;
   }
-  if (to.path.startsWith("/callback") || to.path.startsWith("/public")) {
+  if (to.path.startsWith("/callback") || to.path.startsWith("/public") || to.path.startsWith("/share/")) {
     return;
   }
 
