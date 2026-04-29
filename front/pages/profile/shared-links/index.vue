@@ -27,14 +27,25 @@
         header-class="font-cursive h-8 bg-gray-800 text-white"
       >
         <template #cell-shareUrl="{ row }">
-          <a
-            :href="(row.shareUrl as string)"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-blue-600 underline truncate block max-w-full"
-            @click.stop
-            >{{ row.shareUrl }}</a
-          >
+          <div class="flex items-center gap-2 h-full min-w-0">
+            <a
+              :href="(row.shareUrl as string)"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 underline truncate"
+              @click.stop
+              >{{ row.shareUrl }}</a
+            >
+            <button
+              class="shrink-0 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+              @click.stop="copyToClipboard(row.shareUrl as string, row.token as string)"
+            >
+              <Icon
+                :name="copiedToken === row.token ? 'tabler:clipboard-check' : 'tabler:clipboard'"
+                :class="['text-lg', copiedToken === row.token ? 'text-green-600' : '']"
+              />
+            </button>
+          </div>
         </template>
         <template #cell-dataTypesBadges="{ row }">
           <div class="flex flex-nowrap gap-1 overflow-hidden min-w-0">
@@ -277,7 +288,7 @@ const columnDefs: ColumnDef<SharedLinkRow>[] = [
     header: "Share URL",
     sortable: false,
     headerClass: "w-80",
-    bodyClass: "h-12 truncate",
+    bodyClass: "h-12",
   },
   {
     field: "dataTypesBadges",
@@ -317,5 +328,17 @@ const columnDefs: ColumnDef<SharedLinkRow>[] = [
 const initSortState: SortDef<SharedLinkRow> = {
   column: "index",
   direction: "asc",
+};
+
+const copiedToken = ref<string | null>(null);
+const copyToClipboard = (shareUrl: string, token: string) => {
+  const url = shareUrl.startsWith("http")
+    ? shareUrl
+    : `${window.location.origin}${shareUrl}`;
+  navigator.clipboard.writeText(url);
+  copiedToken.value = token;
+  setTimeout(() => {
+    copiedToken.value = null;
+  }, 2000);
 };
 </script>
