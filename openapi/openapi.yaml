@@ -77,6 +77,8 @@ paths:
     $ref: "paths/share/token/qualifications.yaml"
   /share/{token}/vocabularies:
     $ref: "paths/share/token/vocabularies.yaml"
+  /share/{token}/vocabulary-tags:
+    $ref: "paths/share/token/vocabulary-tags.yaml"
 
 components:
   securitySchemes:

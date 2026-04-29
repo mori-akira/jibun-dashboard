@@ -88,7 +88,7 @@
 
 <script setup lang="ts">
 import { AxiosError } from "axios";
-import type { Vocabulary, VocabularyTag } from "~/generated/api/client/api";
+import type { Vocabulary } from "~/generated/api/client/api";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
@@ -116,18 +116,12 @@ const allVocabularies = ref<Vocabulary[]>([]);
 onMounted(async () => {
   await withLoading(async () => {
     try {
-      const res = await getShareApi().getShareVocabularies(token);
-      allVocabularies.value = res.data;
-
-      // タグ一覧をボキャブラリーデータから抽出
-      const tagMap = new Map<string, VocabularyTag>();
-      res.data.forEach((v) => {
-        Array.from(v.tags ?? []).forEach((t) => {
-          if (t.vocabularyTagId) tagMap.set(t.vocabularyTagId, t);
-        });
-      });
-      vocabularyStore.vocabularyTags = Array.from(tagMap.values());
-
+      const [vocabularyRes, tagsRes] = await Promise.all([
+        getShareApi().getShareVocabularies(token),
+        getShareApi().getShareVocabularyTags(token),
+      ]);
+      allVocabularies.value = vocabularyRes.data;
+      vocabularyStore.vocabularyTags = tagsRes.data;
       applyFilters();
     } catch (err) {
       if (err instanceof AxiosError) {
