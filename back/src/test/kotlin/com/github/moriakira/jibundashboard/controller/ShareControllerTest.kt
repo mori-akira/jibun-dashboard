@@ -133,7 +133,7 @@ class ShareControllerTest :
             res.body!![0].qualificationName shouldBe "AWS SAA"
         }
 
-        "getShareVocabularies: 語彙一覧を返す" {
+        "getShareVocabularies: タグを含む語彙一覧を返す" {
             every { sharedLinkService.validateAndGet(token, "vocabulary") } returns link(listOf("vocabulary"))
             every { vocabularyService.listByConditions("u1") } returns listOf(
                 VocabularyModel(
@@ -143,6 +143,14 @@ class ShareControllerTest :
                     description = "Kotlin concurrency",
                     createdDateTime = "2025-01-01T00:00:00Z",
                     updatedDateTime = "2025-01-01T00:00:00Z",
+                    tags = listOf(
+                        VocabularyTagModel(
+                            vocabularyTagId = "tag1",
+                            userId = "u1",
+                            vocabularyTag = "kotlin",
+                            order = 1,
+                        ),
+                    ),
                 ),
             )
 
@@ -150,6 +158,8 @@ class ShareControllerTest :
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.size shouldBe 1
             res.body!![0].name shouldBe "Coroutine"
+            res.body!![0].tags!!.size shouldBe 1
+            res.body!![0].tags!!.first().vocabularyTag shouldBe "kotlin"
         }
 
         "getShareVocabularyTags: タグ一覧を返す" {
