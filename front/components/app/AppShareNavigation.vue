@@ -23,7 +23,7 @@
             <span class="font-cursive ml-2">Home</span>
           </NuxtLink>
         </li>
-        <li>
+        <li v-if="!forbiddenTypes.includes('salary')">
           <NuxtLink
             class="text-gray-900"
             :class="{ active: isActive('salary') }"
@@ -33,7 +33,7 @@
             <span class="font-cursive ml-2">Salary</span>
           </NuxtLink>
         </li>
-        <li>
+        <li v-if="!forbiddenTypes.includes('qualification')">
           <NuxtLink
             class="text-gray-900"
             :class="{ active: isActive('qualification') }"
@@ -43,7 +43,7 @@
             <span class="font-cursive ml-2">Qualification</span>
           </NuxtLink>
         </li>
-        <li>
+        <li v-if="!forbiddenTypes.includes('vocabulary')">
           <NuxtLink
             class="text-gray-900"
             :class="{ active: isActive('vocabulary') }"
@@ -59,12 +59,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Ref } from "vue";
 import { useRoute } from "#app";
 import { useCommonStore } from "~/stores/common";
 
 const route = useRoute();
 const commonStore = useCommonStore();
 const token = computed(() => route.params.token as string);
+const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes", ref([]));
 const isActive = (segment: string) => {
   const base = `/share/${token.value}`;
   if (segment === "") {

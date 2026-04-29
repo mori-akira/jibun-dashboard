@@ -3,6 +3,7 @@
     class="fixed flex justify-between z-[999] pt-[0.8rem] pb-[0.2rem] items-center w-screen bg-white border-b-2 border-[#666] translate-y-[-8px]"
   >
     <div
+      v-if="shareStatus === 'ok'"
       :class="[
         'toggle-area group relative w-[30px] h-[30px] ml-3 cursor-pointer',
         { opened: commonStore.isNavOpen },
@@ -13,6 +14,7 @@
       <span class="line bg-gray-900 group-hover:bg-[#666]" />
       <span class="line bg-gray-900 group-hover:bg-[#666]" />
     </div>
+    <div v-else class="w-[30px] ml-3" />
     <div class="title-area">
       <span class="font-sacramento text-3xl text-gray-900 font-bold"
         >Jibun Dashboard</span
@@ -23,9 +25,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Ref } from "vue";
 import { useCommonStore } from "~/stores/common";
 
 const commonStore = useCommonStore();
+const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus", ref("ok"));
 </script>
 
 <style lang="css" scoped>

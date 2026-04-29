@@ -26,7 +26,7 @@
       class="flex flex-col items-center py-16 gap-2 text-gray-500"
     >
       <Icon name="tabler:lock" class="text-5xl" />
-      <p>このシェアリンクには給与情報が含まれていません。</p>
+      <p>This share link does not include salary data.</p>
     </div>
 
     <div
@@ -34,7 +34,7 @@
       class="flex flex-col items-center py-16 gap-2 text-gray-500"
     >
       <Icon name="tabler:clock-off" class="text-5xl" />
-      <p>このシェアリンクは期限切れです。</p>
+      <p>This share link has expired.</p>
     </div>
 
     <template v-else>
@@ -244,6 +244,7 @@
 
 <script setup lang="ts">
 import { AxiosError } from "axios";
+import type { Ref } from "vue";
 import type { Overview, Salary, Setting } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useSalaryStore } from "~/stores/salary";
@@ -276,6 +277,8 @@ const salaryStore = useSalaryStore();
 
 const status = ref<"ok" | "forbidden" | "gone">("ok");
 const shareSetting = ref<Setting | null>(null);
+const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
+const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
 onMounted(async () => {
   try {
@@ -287,10 +290,13 @@ onMounted(async () => {
     shareSetting.value = settingRes.data;
   } catch (err) {
     if (err instanceof AxiosError) {
-      if (err.response?.status === 403) status.value = "forbidden";
-      else if (err.response?.status === 410) status.value = "gone";
+      if (err.response?.status === 403) {
+        status.value = "forbidden";
+        forbiddenTypes.value = [...forbiddenTypes.value, "salary"];
+      } else if (err.response?.status === 410) status.value = "gone";
     }
   }
+  if (status.value === "gone") shareStatus.value = "gone";
 });
 
 const financialYearStartMonth = computed(
