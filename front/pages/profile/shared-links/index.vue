@@ -54,6 +54,13 @@
       modal-box-class="w-128 flex-col items-center py-8 px-10"
       @close="onCloseCreateModal"
     >
+      <div class="flex justify-end w-full">
+        <IconButton
+          type="cancel"
+          icon-class="w-6 h-6"
+          @click:button="onCloseCreateModal"
+        />
+      </div>
       <h3 class="mb-6">
         <Icon name="tabler:link" class="adjust-icon-4" />
         <span class="font-cursive font-bold ml-2">Create Shared Link</span>
@@ -85,17 +92,14 @@
           required
           @change:date="(v: string | undefined) => (newExpiresAt = v ?? '')"
         />
-        <div class="flex justify-center gap-4 mt-2">
-          <Button type="navigation" @click:button="onCloseCreateModal">
-            <span class="font-bold">Cancel</span>
-          </Button>
+        <div class="flex justify-center mt-2">
           <Button
-            type="add"
+            type="action"
             :disabled="newDataTypes.length === 0 || !newExpiresAt"
             @click:button="onCreateLink"
           >
-            <Icon name="tabler:link" class="text-base translate-y-0.5" />
-            <span class="font-bold ml-2">Create</span>
+            <Icon name="tabler:database-share" class="adjust-icon-4" />
+            <span class="ml-2">Execute</span>
           </Button>
         </div>
       </div>
@@ -144,6 +148,7 @@ import DatePicker from "~/components/common/DatePicker.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
+import IconButton from "~/components/common/IconButton.vue";
 import Dialog from "~/components/common/Dialog.vue";
 import {
   useInfoDialog,
