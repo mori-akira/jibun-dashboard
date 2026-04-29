@@ -119,7 +119,13 @@ class ShareController(
                 description = m.description,
                 createdDateTime = OffsetDateTime.parse(m.createdDateTime),
                 updatedDateTime = OffsetDateTime.parse(m.updatedDateTime),
-                tags = emptySet(),
+                tags = m.tags.map { t ->
+                    VocabularyTag(
+                        vocabularyTagId = UUID.fromString(t.vocabularyTagId),
+                        vocabularyTag = t.vocabularyTag,
+                        order = t.order,
+                    )
+                }.toSet(),
             )
         }
         return ResponseEntity.ok(list)
