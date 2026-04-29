@@ -40,7 +40,7 @@ class SharedLinkController(
 
     private fun SharedLinkModel.toApi() = SharedLink(
         token = UUID.fromString(this.token),
-        dataTypes = this.dataTypes.map { SharedLink.DataTypes.forValue(it) },
+        dataTypes = this.dataTypes.map { SharedLink.DataTypes.forValue(it) }.toSet(),
         expiresAt = LocalDate.parse(this.expiresAt),
         shareUrl = URI.create(this.shareUrl),
     )

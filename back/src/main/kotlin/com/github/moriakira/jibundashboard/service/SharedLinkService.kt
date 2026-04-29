@@ -35,7 +35,7 @@ class SharedLinkService(
         sharedLinkRepository.delete(token)
     }
 
-    // 閲覧者向け: トークン検証 + dataType チェック
+    @Suppress("ThrowsCount")
     fun validateAndGet(token: String, dataType: String): SharedLinkModel {
         val item = sharedLinkRepository.getByToken(token)
             ?: throw java.util.NoSuchElementException("Token not found.")

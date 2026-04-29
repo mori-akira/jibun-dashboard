@@ -1,9 +1,9 @@
 package com.github.moriakira.jibundashboard.advice
 
-import com.github.moriakira.jibundashboard.generated.model.ErrorDetail
-import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
 import com.github.moriakira.jibundashboard.exception.ForbiddenException
 import com.github.moriakira.jibundashboard.exception.GoneException
+import com.github.moriakira.jibundashboard.generated.model.ErrorDetail
+import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
 import jakarta.validation.ConstraintViolationException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

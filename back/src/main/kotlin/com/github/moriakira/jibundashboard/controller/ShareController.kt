@@ -1,8 +1,12 @@
 package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.generated.api.ShareApi
+import com.github.moriakira.jibundashboard.generated.model.Overview
+import com.github.moriakira.jibundashboard.generated.model.PayslipData
+import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
 import com.github.moriakira.jibundashboard.generated.model.Qualification
 import com.github.moriakira.jibundashboard.generated.model.Salary
+import com.github.moriakira.jibundashboard.generated.model.Structure
 import com.github.moriakira.jibundashboard.generated.model.Vocabulary
 import com.github.moriakira.jibundashboard.service.QualificationService
 import com.github.moriakira.jibundashboard.service.SalaryService
@@ -12,6 +16,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.UUID
 
 @RestController
@@ -28,7 +33,7 @@ class ShareController(
             Salary(
                 salaryId = UUID.fromString(m.salaryId),
                 targetDate = LocalDate.parse(m.targetDate),
-                overview = Salary.Overview(
+                overview = Overview(
                     grossIncome = m.overview.grossIncome,
                     netIncome = m.overview.netIncome,
                     operatingTime = m.overview.operatingTime,
@@ -36,7 +41,7 @@ class ShareController(
                     bonus = m.overview.bonus,
                     bonusTakeHome = m.overview.bonusTakeHome,
                 ),
-                structure = Salary.Structure(
+                structure = Structure(
                     basicSalary = m.structure.basicSalary,
                     overtimePay = m.structure.overtimePay,
                     housingAllowance = m.structure.housingAllowance,
@@ -44,9 +49,9 @@ class ShareController(
                     other = m.structure.other,
                 ),
                 payslipData = m.payslipData.map { cat ->
-                    Salary.PayslipData(
+                    PayslipData(
                         key = cat.key,
-                        data = cat.data.map { e -> Salary.PayslipData.Data(key = e.key, data = e.data) },
+                        data = cat.data.map { e -> PayslipDataDataInner(key = e.key, data = e.data) },
                     )
                 },
             )
@@ -84,9 +89,9 @@ class ShareController(
                 vocabularyId = UUID.fromString(m.vocabularyId),
                 name = m.name,
                 description = m.description,
-                createdDateTime = m.createdDateTime,
-                updatedDateTime = m.updatedDateTime,
-                tags = emptyList(),
+                createdDateTime = OffsetDateTime.parse(m.createdDateTime),
+                updatedDateTime = OffsetDateTime.parse(m.updatedDateTime),
+                tags = emptySet(),
             )
         }
         return ResponseEntity.ok(list)
