@@ -48,6 +48,16 @@ class SharedLinkService(
         return item.toDomain()
     }
 
+    // 閲覧者向け: トークンの存在・有効期限のみ検証（dataType チェックなし）
+    fun validateTokenOnly(token: String): SharedLinkModel {
+        val item = sharedLinkRepository.getByToken(token)
+            ?: throw java.util.NoSuchElementException("Token not found.")
+        if (LocalDate.now().isAfter(LocalDate.parse(item.expiresAt!!))) {
+            throw GoneException("Token has expired.")
+        }
+        return item.toDomain()
+    }
+
     private fun SharedLinkItem.toDomain() = SharedLinkModel(
         token = this.token!!,
         userId = this.userId!!,

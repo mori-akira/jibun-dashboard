@@ -6,10 +6,14 @@ import com.github.moriakira.jibundashboard.generated.model.PayslipData
 import com.github.moriakira.jibundashboard.generated.model.PayslipDataDataInner
 import com.github.moriakira.jibundashboard.generated.model.Qualification
 import com.github.moriakira.jibundashboard.generated.model.Salary
+import com.github.moriakira.jibundashboard.generated.model.Setting
+import com.github.moriakira.jibundashboard.generated.model.SettingQualification
+import com.github.moriakira.jibundashboard.generated.model.SettingSalary
 import com.github.moriakira.jibundashboard.generated.model.Structure
 import com.github.moriakira.jibundashboard.generated.model.Vocabulary
 import com.github.moriakira.jibundashboard.service.QualificationService
 import com.github.moriakira.jibundashboard.service.SalaryService
+import com.github.moriakira.jibundashboard.service.SettingService
 import com.github.moriakira.jibundashboard.service.SharedLinkService
 import com.github.moriakira.jibundashboard.service.VocabularyService
 import org.springframework.http.ResponseEntity
@@ -25,7 +29,28 @@ class ShareController(
     private val salaryService: SalaryService,
     private val qualificationService: QualificationService,
     private val vocabularyService: VocabularyService,
+    private val settingService: SettingService,
 ) : ShareApi {
+
+    override fun getShareSetting(token: UUID): ResponseEntity<Setting> {
+        val link = sharedLinkService.validateTokenOnly(token.toString())
+        val setting = settingService.getOrDefault(link.userId)
+        return ResponseEntity.ok(
+            Setting(
+                salary = SettingSalary(
+                    financialYearStartMonth = setting.salary.financialYearStartMonth,
+                    transitionItemCount = setting.salary.transitionItemCount,
+                    compareDataColors = setting.salary.compareDataColors,
+                ),
+                qualification = SettingQualification(
+                    rankAColor = setting.qualification.rankAColor,
+                    rankBColor = setting.qualification.rankBColor,
+                    rankCColor = setting.qualification.rankCColor,
+                    rankDColor = setting.qualification.rankDColor,
+                ),
+            ),
+        )
+    }
 
     override fun getShareSalaries(token: UUID): ResponseEntity<List<Salary>> {
         val link = sharedLinkService.validateAndGet(token.toString(), "salary")
