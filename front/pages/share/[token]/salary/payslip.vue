@@ -91,8 +91,8 @@
 
 <script setup lang="ts">
 import { AxiosError } from "axios";
+import type { Setting } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
-import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
@@ -106,28 +106,29 @@ definePageMeta({ layout: "share" });
 const route = useRoute();
 const token = route.params.token as string;
 const { getShareApi } = useApiClient();
-const settingStore = useSettingStore();
 const salaryStore = useSalaryStore();
 
 const status = ref<"ok" | "forbidden" | "gone">("ok");
+const shareSetting = ref<Setting | null>(null);
 
 onMounted(async () => {
-  // salaryStore がすでに populated されていれば再取得しない
-  if (!salaryStore.salaries) {
-    try {
-      const res = await getShareApi().getShareSalaries(token);
-      salaryStore.salaries = res.data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 403) status.value = "forbidden";
-        else if (err.response?.status === 410) status.value = "gone";
-      }
+  try {
+    if (!salaryStore.salaries) {
+      const salaryRes = await getShareApi().getShareSalaries(token);
+      salaryStore.salaries = salaryRes.data;
+    }
+    const settingRes = await getShareApi().getShareSetting(token);
+    shareSetting.value = settingRes.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 403) status.value = "forbidden";
+      else if (err.response?.status === 410) status.value = "gone";
     }
   }
 });
 
 const financialYearStartMonth = computed(
-  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
+  () => shareSetting.value?.salary.financialYearStartMonth ?? 1,
 );
 
 const dateFrom = ref<string | undefined>("");

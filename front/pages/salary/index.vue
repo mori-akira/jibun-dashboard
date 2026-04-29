@@ -62,6 +62,7 @@
             :selector="(salary: Salary) => salary.overview.grossIncome + salary.overview.bonus"
             :value-format="(value: number) => `￥${value.toLocaleString()}`"
             :base-financial-year="baseFinancialYear"
+            :financial-year-start-month="financialYearStartMonth"
             wrapper-class="w-full"
           />
         </div>
@@ -100,6 +101,7 @@
             :selector="(salary: Salary) => salary.overview.overtime"
             :value-format="(value: number) => `${value.toLocaleString()} H`"
             :base-financial-year="baseFinancialYear"
+            :financial-year-start-month="financialYearStartMonth"
             positive-color-text-class="text-red-600"
             negative-color-text-class="text-blue-600"
             positive-color-background-class="bg-red-600"
