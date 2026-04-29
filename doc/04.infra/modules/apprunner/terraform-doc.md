@@ -31,6 +31,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | アプリケーション名 | `string` | n/a | yes |
+| <a name="input_app_share_base_url"></a> [app\_share\_base\_url](#input\_app\_share\_base\_url) | アプリ共有用のベースURL | `string` | n/a | yes |
 | <a name="input_application_tag"></a> [application\_tag](#input\_application\_tag) | 自分ダッシュボード用のアプリケーションタグ | `map(string)` | n/a | yes |
 | <a name="input_auto_deploy"></a> [auto\_deploy](#input\_auto\_deploy) | 自動デプロイ | `bool` | `true` | no |
 | <a name="input_cognito_client_id"></a> [cognito\_client\_id](#input\_cognito\_client\_id) | CognitoクライアントID | `string` | n/a | yes |
