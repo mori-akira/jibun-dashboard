@@ -3,7 +3,7 @@
     <div v-if="sharedLinks.length === 0" class="text-gray-400 text-xs">
       No data
     </div>
-    <div v-else class="w-2/3 flex flex-col gap-2">
+    <div v-else class="flex flex-col gap-2">
       <div
         v-for="item in statusItems"
         :key="item.status"
