@@ -7,7 +7,7 @@
     >
       <span
         class="text-xl"
-        :style="{color: getRankColorHexCode(key, qualificationSetting)}"
+        :style="{ color: getRankColorHexCode(key, qualificationSetting) }"
         >{{ key }} :</span
       >
       <span
@@ -15,7 +15,7 @@
           'ml-2 text-xl font-bold',
           { 'cursor-pointer underline': canNavigate },
         ]"
-        :style="{color: getRankColorHexCode(key, qualificationSetting)}"
+        :style="{ color: getRankColorHexCode(key, qualificationSetting) }"
         @click="onClickRank(key)"
         >{{ value }}</span
       >
@@ -40,6 +40,7 @@ type Counter = {
 
 const props = defineProps<{
   qualifications: Qualification[];
+  filter?: (qualification: Qualification) => boolean;
   settingQualification?: SettingQualification;
   wrapperClass?: string;
   canNavigate?: boolean;
@@ -47,7 +48,9 @@ const props = defineProps<{
 const settingStore = useSettingStore();
 
 const qualificationSetting = computed(
-  () => props.settingQualification ?? settingStore.setting?.qualification as SettingQualification,
+  () =>
+    props.settingQualification ??
+    (settingStore.setting?.qualification as SettingQualification),
 );
 
 const counter = computed(() => {
@@ -57,7 +60,9 @@ const counter = computed(() => {
     C: 0,
     D: 0,
   };
-  props.qualifications.forEach((e) => counter[e.rank]++);
+  props.qualifications
+    .filter((q) => (props.filter ? props.filter(q) : true))
+    .forEach((e) => counter[e.rank]++);
   return counter;
 });
 

@@ -24,6 +24,7 @@
         <div class="h-36 flex justify-center items-center">
           <RankSummary
             :qualifications="qualificationStore.qualifications ?? []"
+            :filter="(q) => q.status === 'acquired'"
             wrapper-class="w-full"
             can-navigate
           />
