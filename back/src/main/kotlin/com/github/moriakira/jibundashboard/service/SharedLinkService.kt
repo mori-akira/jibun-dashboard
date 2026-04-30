@@ -7,6 +7,7 @@ import com.github.moriakira.jibundashboard.repository.SharedLinkRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.ZoneId
 import java.util.UUID
 
 @Service
@@ -39,7 +40,7 @@ class SharedLinkService(
     fun validateAndGet(token: String, dataType: String): SharedLinkModel {
         val item = sharedLinkRepository.getByToken(token)
             ?: throw java.util.NoSuchElementException("Token not found.")
-        if (LocalDate.now().isAfter(LocalDate.parse(item.expiresAt!!))) {
+        if (LocalDate.now(ZoneId.of("Asia/Tokyo")).isAfter(LocalDate.parse(item.expiresAt!!))) {
             throw GoneException("Token has expired.")
         }
         if (item.dataTypes?.contains(dataType) != true) {
@@ -48,11 +49,10 @@ class SharedLinkService(
         return item.toDomain()
     }
 
-    // 閲覧者向け: トークンの存在・有効期限のみ検証（dataType チェックなし）
     fun validateTokenOnly(token: String): SharedLinkModel {
         val item = sharedLinkRepository.getByToken(token)
             ?: throw java.util.NoSuchElementException("Token not found.")
-        if (LocalDate.now().isAfter(LocalDate.parse(item.expiresAt!!))) {
+        if (LocalDate.now(ZoneId.of("Asia/Tokyo")).isAfter(LocalDate.parse(item.expiresAt!!))) {
             throw GoneException("Token has expired.")
         }
         return item.toDomain()

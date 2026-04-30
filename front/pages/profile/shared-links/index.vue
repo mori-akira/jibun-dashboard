@@ -176,6 +176,7 @@ import { useCommonStore } from "~/stores/common";
 import { useSharedLinkStore } from "~/stores/sharedLink";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 import { getErrorMessage } from "~/utils/error";
+import { getTodayJST } from "~/utils/date";
 
 const { t } = useI18n();
 const commonStore = useCommonStore();
@@ -279,7 +280,7 @@ const rows = computed<SharedLinkRow[]>(() =>
     index: i + 1,
     dataTypesBadges: Array.from(link.dataTypes),
     statusLabel:
-      link.expiresAt && link.expiresAt < new Date().toISOString().slice(0, 10)
+      link.expiresAt && link.expiresAt < getTodayJST()
         ? "expired"
         : "active",
   })),

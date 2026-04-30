@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import type { SharedLink } from "~/generated/api/client/api";
+import { getTodayJST } from "~/utils/date";
 
 const props = defineProps<{
   sharedLinks: SharedLink[];
@@ -40,7 +41,7 @@ const props = defineProps<{
   onNavigate?: () => void;
 }>();
 
-const today = new Date().toISOString().slice(0, 10);
+const today = getTodayJST();
 
 const statusItems = computed(() => {
   const active = props.sharedLinks.filter(

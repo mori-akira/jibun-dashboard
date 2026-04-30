@@ -12,6 +12,16 @@ export function formatToJST(value: string | undefined): string | undefined {
   });
 }
 
+export function getTodayJST(): string {
+  const localeString = new Date().toLocaleString("sv-SE", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  return localeString.split(" ")[0] ?? "";
+}
+
 export function getCurrentMonthFirstDateString(
   timeZone = "Asia/Tokyo",
 ): string {
