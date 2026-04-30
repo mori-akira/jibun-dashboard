@@ -1,5 +1,5 @@
 <template>
-  <div :class="['px-12 py-3 flex justify-center', wrapperClass]">
+  <div :class="['px-12 py-3', wrapperClass]">
     <div v-if="sharedLinks.length === 0" class="text-gray-400 text-xs">
       No data
     </div>
