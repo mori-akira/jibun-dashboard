@@ -93,4 +93,3 @@ graph TB
     user --- edit
     user --- quiz
 ```
-

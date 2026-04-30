@@ -30,6 +30,7 @@ flowchart LR
     DSalaries["salaries<br>PK: userId, SK: targetDate<br>GSI: gsi_salary_id (salaryId)"]
     DOcrTasks["salary-ocr-tasks<br>PK: taskId<br>GSI: gsi_user_target_date<br>(userId, targetDate)"]
     DQual["qualifications<br>PK: userId, SK: qualificationId<br>GSI: gsi_qualification_id<br>LSI: lsi_order (order)"]
+    DSharedLinks["shared-links<br>PK: token<br>GSI: gsi_user_id (userId)"]
   end
 
   subgraph BATCH["Batch Processing"]
@@ -60,6 +61,7 @@ flowchart LR
   ARS --> DSalaries
   ARS --> DQual
   ARS --> DOcrTasks
+  ARS --> DSharedLinks
   ARS --> S3_UP
 
   %% 給与OCRバッチフロー
