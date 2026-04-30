@@ -38,11 +38,21 @@
             >
             <button
               class="shrink-0 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-              @click.stop="copyToClipboard(row.shareUrl as string, row.token as string)"
+              @click.stop="
+                copyToClipboard(row.shareUrl as string, row.token as string)
+              "
             >
               <Icon
-                :name="copiedToken === row.token ? 'tabler:clipboard-check' : 'tabler:clipboard'"
-                :class="['text-lg', copiedToken === row.token ? 'text-green-600' : '']"
+                :name="
+                  copiedToken === row.token
+                    ? 'tabler:clipboard-check'
+                    : 'tabler:clipboard'
+                "
+                :class="[
+                  'text-lg',
+                  'translate-y-0.75',
+                  copiedToken === row.token ? 'text-green-600' : '',
+                ]"
               />
             </button>
           </div>
