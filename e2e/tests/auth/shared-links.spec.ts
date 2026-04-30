@@ -80,7 +80,7 @@ test("test shared-links function", async ({ page, browser }) => {
   await page.waitForLoadState("networkidle");
 
   // delete the shared link
-  await page.locator("table tbody tr").first().locator("span.iconify").click();
+  await page.locator("table tbody tr").first().locator("span.iconify.i-tabler\\:trash").click();
   await page.getByRole("button", { name: "Yes", exact: true }).click();
 
   // verify link is removed
