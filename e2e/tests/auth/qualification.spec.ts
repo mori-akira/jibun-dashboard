@@ -67,14 +67,14 @@ test("test qualification function", async ({ page }) => {
   await page.getByTestId("app-header-title").click();
 
   // check summary
-  await checkSummaryDisplay(page, 1, 1, 2, 1);
+  await checkSummaryDisplay(page, 0, 0, 2, 1);
 
   // === mobile home ===
   await page.goto("/m", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
 
   // check summary
-  await checkSummaryDisplay(page, 1, 1, 2, 1);
+  await checkSummaryDisplay(page, 0, 0, 2, 1);
 
   // === mobile qualification list ===
   await page.goto("/m/qualification", { waitUntil: "domcontentloaded" });

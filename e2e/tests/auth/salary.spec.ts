@@ -1,9 +1,9 @@
 import { test, expect, Page } from "@playwright/test";
 import testData from "./salary.spec.data.json";
 
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
-const currentMonth = currentDate.getMonth() + 1;
+const jstDateStr = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
+const currentYear = parseInt(jstDateStr.split("-")[0]);
+const currentMonth = parseInt(jstDateStr.split("-")[1]);
 
 test("test salary function", async ({ page }) => {
   // access to salary
