@@ -23,7 +23,7 @@ test("test shared-links function", async ({ page, browser }) => {
   await page.getByRole('dialog').getByText('Qualification').click();
 
   // set expiry date (1 year from now)
-  const currentDate = new Date().toISOString().split("T")[0];
+  const currentDate = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
   page.locator('[data-test-id="dp-input"]').click();
   await page.locator(`[data-test-id="dp-${currentDate}"]`).click();
   await page.locator('[data-test-id="select-button"]').click();
