@@ -112,6 +112,7 @@ const commonStore = useCommonStore();
 const settingStore = useSettingStore();
 const qualificationStore = useQualificationStore();
 const router = useRoute();
+const status = router.query?.status as GetQualificationsStatusEnum;
 const rank = router.query?.rank as GetQualificationsRankEnum;
 
 const { isLoading, withLoading } = useLoadingQueue();
@@ -139,7 +140,9 @@ onMounted(async () => {
   await fetchQualificationApi();
 });
 
-const selectedStatus = ref<GetQualificationsStatusEnum[]>([]);
+const selectedStatus = ref<GetQualificationsStatusEnum[]>(
+  status ? [status] : [],
+);
 const selectedRank = ref<GetQualificationsRankEnum[]>(rank ? [rank] : []);
 const qualificationName = ref<string>("");
 const organization = ref<string>("");

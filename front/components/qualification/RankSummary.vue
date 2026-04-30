@@ -73,6 +73,7 @@ const onClickRank = (rank: string) => {
   navigateTo({
     path: "/qualification",
     query: {
+      status: "acquired",
       rank,
     },
   });
