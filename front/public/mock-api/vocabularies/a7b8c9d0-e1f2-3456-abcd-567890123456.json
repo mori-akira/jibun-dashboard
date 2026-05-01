@@ -1,0 +1,24 @@
+{
+  "vocabularyId": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+  "name": "メタ認知",
+  "description": "自分自身の認知プロセスを客観的に把握・評価・制御する能力のこと。\n「考えることについて考える」とも表現される。学習効率や問題解決能力の向上に深く関係している。",
+  "tags": [
+    {
+      "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+      "vocabularyTag": "心理学",
+      "order": 5
+    },
+    {
+      "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+      "vocabularyTag": "読書",
+      "order": 6
+    },
+    {
+      "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
+      "vocabularyTag": "YouTube",
+      "order": 7
+    }
+  ],
+  "createdDateTime": "2026-04-15T10:30:00.000Z",
+  "updatedDateTime": "2026-04-15T10:30:00.000Z"
+}

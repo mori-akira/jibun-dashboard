@@ -80,5 +80,143 @@
     ],
     "createdDateTime": "2026-03-28T14:52:33.444Z",
     "updatedDateTime": "2026-03-28T14:52:33.444Z"
+  },
+  {
+    "vocabularyId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "パレートの法則",
+    "description": "全体の結果の80%は、全体の要因の20%が生み出しているという経験則。\nイタリアの経済学者ヴィルフレド・パレートが提唱した。80:20の法則とも呼ばれる。",
+    "tags": [
+      {
+        "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
+        "vocabularyTag": "経済",
+        "order": 2
+      },
+      {
+        "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+        "vocabularyTag": "読書",
+        "order": 6
+      }
+    ],
+    "createdDateTime": "2026-03-29T09:10:00.000Z",
+    "updatedDateTime": "2026-03-29T09:10:00.000Z"
+  },
+  {
+    "vocabularyId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "name": "ダニング＝クルーガー効果",
+    "description": "能力の低い人ほど自分の能力を過大評価し、能力の高い人ほど自分の能力を過小評価する傾向があるという認知バイアス。\n心理学者デイヴィッド・ダニングとジャスティン・クルーガーによって報告された。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学",
+        "order": 5
+      },
+      {
+        "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+        "vocabularyTag": "読書",
+        "order": 6
+      }
+    ],
+    "createdDateTime": "2026-03-29T10:20:00.000Z",
+    "updatedDateTime": "2026-03-29T10:20:00.000Z"
+  },
+  {
+    "vocabularyId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+    "name": "アンカリング",
+    "description": "最初に提示された情報（アンカー）が、その後の判断に過度な影響を与える認知バイアス。\n価格交渉や意思決定の場面でよく見られる。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学",
+        "order": 5
+      },
+      {
+        "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
+        "vocabularyTag": "経済",
+        "order": 2
+      }
+    ],
+    "createdDateTime": "2026-03-30T11:30:00.000Z",
+    "updatedDateTime": "2026-03-30T11:30:00.000Z"
+  },
+  {
+    "vocabularyId": "d4e5f6a7-b8c9-0123-defa-234567890123",
+    "name": "認知的不協和",
+    "description": "自分の中に矛盾する二つの認知（考えや信念）が存在するときに生じる不快感や緊張状態のこと。\n心理学者レオン・フェスティンガーが提唱した理論。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学",
+        "order": 5
+      },
+      {
+        "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
+        "vocabularyTag": "YouTube",
+        "order": 7
+      }
+    ],
+    "createdDateTime": "2026-04-01T08:00:00.000Z",
+    "updatedDateTime": "2026-04-01T08:00:00.000Z"
+  },
+  {
+    "vocabularyId": "e5f6a7b8-c9d0-1234-efab-345678901234",
+    "name": "心理的安全性",
+    "description": "チームの中でリスクのある行動を取っても罰せられないと信じられる状態のこと。\nGoogleが行った「プロジェクト・アリストテレス」で、生産性の高いチームに共通する最も重要な要素として特定された。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学",
+        "order": 5
+      },
+      {
+        "vocabularyTagId": "d6ba3280-86a1-4d78-8420-32759e2bf244",
+        "vocabularyTag": "IT",
+        "order": 1
+      },
+      {
+        "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+        "vocabularyTag": "読書",
+        "order": 6
+      }
+    ],
+    "createdDateTime": "2026-04-05T13:45:00.000Z",
+    "updatedDateTime": "2026-04-05T13:45:00.000Z"
+  },
+  {
+    "vocabularyId": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+    "name": "ピグマリオン効果",
+    "description": "他者からの期待が高いと、その期待に応えようとしてパフォーマンスが向上する心理効果。\n教師が生徒に期待をかけると成績が上がるという研究から広く知られるようになった。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学",
+        "order": 5
+      }
+    ],
+    "createdDateTime": "2026-04-10T09:00:00.000Z",
+    "updatedDateTime": "2026-04-10T09:00:00.000Z"
+  },
+  {
+    "vocabularyId": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+    "name": "メタ認知",
+    "description": "自分自身の認知プロセスを客観的に把握・評価・制御する能力のこと。\n「考えることについて考える」とも表現される。学習効率や問題解決能力の向上に深く関係している。",
+    "tags": [
+      {
+        "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+        "vocabularyTag": "心理学",
+        "order": 5
+      },
+      {
+        "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+        "vocabularyTag": "読書",
+        "order": 6
+      },
+      {
+        "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
+        "vocabularyTag": "YouTube",
+        "order": 7
+      }
+    ],
+    "createdDateTime": "2026-04-15T10:30:00.000Z",
+    "updatedDateTime": "2026-04-15T10:30:00.000Z"
   }
 ]

@@ -1,0 +1,24 @@
+{
+  "vocabularyId": "e5f6a7b8-c9d0-1234-efab-345678901234",
+  "name": "心理的安全性",
+  "description": "チームの中でリスクのある行動を取っても罰せられないと信じられる状態のこと。\nGoogleが行った「プロジェクト・アリストテレス」で、生産性の高いチームに共通する最も重要な要素として特定された。",
+  "tags": [
+    {
+      "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+      "vocabularyTag": "心理学",
+      "order": 5
+    },
+    {
+      "vocabularyTagId": "d6ba3280-86a1-4d78-8420-32759e2bf244",
+      "vocabularyTag": "IT",
+      "order": 1
+    },
+    {
+      "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+      "vocabularyTag": "読書",
+      "order": 6
+    }
+  ],
+  "createdDateTime": "2026-04-05T13:45:00.000Z",
+  "updatedDateTime": "2026-04-05T13:45:00.000Z"
+}

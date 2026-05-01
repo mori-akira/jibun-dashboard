@@ -1,0 +1,19 @@
+{
+  "vocabularyId": "d4e5f6a7-b8c9-0123-defa-234567890123",
+  "name": "認知的不協和",
+  "description": "自分の中に矛盾する二つの認知（考えや信念）が存在するときに生じる不快感や緊張状態のこと。\n心理学者レオン・フェスティンガーが提唱した理論。",
+  "tags": [
+    {
+      "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+      "vocabularyTag": "心理学",
+      "order": 5
+    },
+    {
+      "vocabularyTagId": "a4adeda2-aed3-4489-94ff-3669787626ed",
+      "vocabularyTag": "YouTube",
+      "order": 7
+    }
+  ],
+  "createdDateTime": "2026-04-01T08:00:00.000Z",
+  "updatedDateTime": "2026-04-01T08:00:00.000Z"
+}

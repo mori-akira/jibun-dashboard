@@ -1,0 +1,19 @@
+{
+  "vocabularyId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "パレートの法則",
+  "description": "全体の結果の80%は、全体の要因の20%が生み出しているという経験則。\nイタリアの経済学者ヴィルフレド・パレートが提唱した。80:20の法則とも呼ばれる。",
+  "tags": [
+    {
+      "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
+      "vocabularyTag": "経済",
+      "order": 2
+    },
+    {
+      "vocabularyTagId": "d30e1dec-9347-43e6-9a9e-e8ecaa773282",
+      "vocabularyTag": "読書",
+      "order": 6
+    }
+  ],
+  "createdDateTime": "2026-03-29T09:10:00.000Z",
+  "updatedDateTime": "2026-03-29T09:10:00.000Z"
+}

@@ -1,0 +1,19 @@
+{
+  "vocabularyId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+  "name": "アンカリング",
+  "description": "最初に提示された情報（アンカー）が、その後の判断に過度な影響を与える認知バイアス。\n価格交渉や意思決定の場面でよく見られる。",
+  "tags": [
+    {
+      "vocabularyTagId": "76848840-6169-4157-9d79-aa5a811477c5",
+      "vocabularyTag": "心理学",
+      "order": 5
+    },
+    {
+      "vocabularyTagId": "5820733a-4be1-4cc6-855b-7e346b442f1d",
+      "vocabularyTag": "経済",
+      "order": 2
+    }
+  ],
+  "createdDateTime": "2026-03-30T11:30:00.000Z",
+  "updatedDateTime": "2026-03-30T11:30:00.000Z"
+}
