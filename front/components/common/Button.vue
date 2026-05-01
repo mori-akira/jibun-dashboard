@@ -13,7 +13,7 @@
             !disabled,
         },
         { 'bg-[#88f]': type === 'action' || type === 'marked' },
-        { 'bg-[#f88]': type === 'add' },
+        { 'bg-[#f88]': type === 'add' || type === 'error' },
         { 'bg-[#888]': type === 'delete' || type === 'navigation' },
         { 'bg-[#666]': type === 'default' || !type },
         buttonClass,
@@ -29,7 +29,14 @@
 
 <script setup lang="ts">
 defineProps<{
-  type?: "action" | "marked" | "navigation" | "add" | "delete" | "default";
+  type?:
+    | "action"
+    | "marked"
+    | "navigation"
+    | "add"
+    | "delete"
+    | "error"
+    | "default";
   size?: "small" | "normal";
   htmlType?: "button" | "submit" | "reset";
   disabled?: boolean;

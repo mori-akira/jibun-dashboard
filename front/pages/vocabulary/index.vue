@@ -7,6 +7,16 @@
           type="navigation"
           size="small"
           html-type="button"
+          button-class="w-28"
+          @click:button="() => navigateTo('/vocabulary/quiz')"
+        >
+          <Icon name="tabler:cards" class="text-base translate-y-0.5" />
+          <span class="font-bold ml-2">Quiz</span>
+        </Button>
+        <Button
+          type="navigation"
+          size="small"
+          html-type="button"
           button-class="w-38"
           @click:button="() => navigateTo('/vocabulary/tags')"
         >

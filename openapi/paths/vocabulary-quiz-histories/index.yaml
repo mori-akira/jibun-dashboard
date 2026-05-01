@@ -14,6 +14,8 @@ get:
             type: array
             items:
               $ref: "../../openapi.yaml#/components/schemas/VocabularyQuizHistory"
+          example:
+            $ref: "../../examples/vocabulary-quiz-histories/get.json"
     "400":
       $ref: "../../openapi.yaml#/components/responses/BadRequest"
 
