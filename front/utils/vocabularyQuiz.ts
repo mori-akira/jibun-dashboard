@@ -2,7 +2,7 @@ import type {
   Vocabulary,
   VocabularyQuizHistory,
 } from "~/generated/api/client/api";
-import { shuffle } from "~/utils/rand";
+import { shuffle } from "./rand";
 
 export type QuizDirection = "FRONT_TO_BACK" | "BACK_TO_FRONT";
 export type QuizResult = "CORRECT" | "INCORRECT";
