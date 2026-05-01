@@ -49,14 +49,14 @@ test("seed data", async ({ baseURL }) => {
     });
   }
 
-  // salary
+  // salaries
   const resSalary = await salaryApi.getSalaries();
   const salaries = resSalary.data;
   await Promise.all(
     salaries.map((salary) => salaryApi.deleteSalariesById(salary.salaryId!))
   );
 
-  // qualification
+  // qualifications
   const resQualification = await qualificationApi.getQualifications();
   const qualifications = resQualification.data;
   await Promise.all(
@@ -65,7 +65,7 @@ test("seed data", async ({ baseURL }) => {
     )
   );
 
-  // vocabulary (delete vocabularies before tags due to tag references)
+  // vocabularies
   const resVocabularies = await vocabularyApi.getVocabularies();
   const vocabularies = resVocabularies.data;
   await Promise.all(
@@ -80,6 +80,14 @@ test("seed data", async ({ baseURL }) => {
   await Promise.all(
     vocabularyTags.map((tag) =>
       vocabularyApi.deleteVocabularyTagsById(tag.vocabularyTagId!)
+    )
+  );
+
+  // vocabulary quiz histories
+  const resQuizHistories = await vocabularyApi.getVocabularyQuizHistories();
+  await Promise.all(
+    resQuizHistories.data.map((history) =>
+      vocabularyApi.deleteVocabularyQuizHistoriesById(history.quizHistoryId!)
     )
   );
 

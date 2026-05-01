@@ -109,6 +109,85 @@ test("test vocabulary function", async ({ page }) => {
     1,
   );
 
+  // === PC Quiz: no tag filter, 5 questions, 3 correct, 2 incorrect ===
+  // 5 original vocabularies + 1 mobile test = 6 in scope with no filter
+  await page.goto("/vocabulary/quiz", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  await expect(page.getByText("/ 6 in scope")).toBeVisible();
+
+  await page.locator("select").selectOption("5");
+  await page.getByRole("button", { name: "Start Quiz" }).click();
+
+  const pcVocabularies: VocabularyPair[] = [
+    ...testData.vocabularies.map((v) => ({ name: v.name, description: v.description })),
+    { name: mobileAddName, description: "" },
+  ];
+  const pcAnswers = ["Correct", "Correct", "Correct", "Incorrect", "Incorrect"] as const;
+  for (let i = 0; i < pcAnswers.length; i++) {
+    await checkFlashcard(page, pcVocabularies);
+    await page.getByRole("button", { name: pcAnswers[i], exact: true }).click();
+    if (i < pcAnswers.length - 1) {
+      await page.getByRole("button", { name: "Next" }).click();
+    } else {
+      await page.getByRole("button", { name: "Complete" }).click();
+    }
+  }
+
+  await checkQuizResult(page, 3, 5);
+  await page.getByRole("button", { name: "Submit" }).click();
+  await page.waitForLoadState("networkidle");
+
+  // check PC quiz history
+  await page.waitForURL(/\/vocabulary\/quiz\/history/);
+  await expect(page.locator("tr")).toHaveCount(2);
+  // td indices: 0=answeredAt, 1=tags, 2=questionCount, 3=direction, 4=correctCount, 5=incorrectCount
+  await expect(page.locator("tr").nth(1).locator("td").nth(1)).toContainText("All");
+  await expect(page.locator("tr").nth(1).locator("td").nth(2)).toHaveText("5");
+  await expect(page.locator("tr").nth(1).locator("td").nth(4)).toHaveText("3");
+  await expect(page.locator("tr").nth(1).locator("td").nth(5)).toHaveText("2");
+
+  // === Mobile Quiz: IT + 読書 tags, 4 questions, all correct ===
+  // アジャイル(IT) + PDCA(IT) + フィードバックループ(IT) + アンカリング効果(読書) = 4 in scope
+  await page.goto("/m/vocabulary/quiz", { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+
+  await page.getByRole("button", { name: "IT", exact: true }).click();
+  await page.getByRole("button", { name: "読書", exact: true }).click();
+
+  await expect(page.getByText("/ 4 in scope")).toBeVisible();
+
+  await page.locator('input[type="radio"][value="BACK_TO_FRONT"]').click();
+
+  await page.getByRole("button", { name: "Start Quiz" }).click();
+
+  const mobileQuizVocabularies: VocabularyPair[] = testData.vocabularies
+    .filter((v) => v.tags.some((t) => ["IT", "読書"].includes(t)))
+    .map((v) => ({ name: v.name, description: v.description }));
+  for (let i = 0; i < 4; i++) {
+    await checkFlashcard(page, mobileQuizVocabularies);
+    await page.getByRole("button", { name: "Correct", exact: true }).click();
+    if (i < 3) {
+      await page.getByRole("button", { name: "Next" }).click();
+    } else {
+      await page.getByRole("button", { name: "Complete" }).click();
+    }
+  }
+
+  await checkQuizResult(page, 4, 4);
+  await page.getByRole("button", { name: "Submit" }).click();
+  await page.waitForLoadState("networkidle");
+
+  // check mobile quiz history
+  await page.waitForURL(/\/m\/vocabulary\/quiz\/history/);
+  await expect(page.locator("tr")).toHaveCount(3); // 1 header + 2 data rows
+  // Row 1 = most recent (mobile quiz), sorted by answeredAt desc
+  // Mobile visible fields: 0=answeredAt, 1=tags, 2=questionCount, 3=correctCount
+  await expect(page.locator("tr").nth(1).locator("td").nth(1)).toContainText("IT");
+  await expect(page.locator("tr").nth(1).locator("td").nth(1)).toContainText("読書");
+  await expect(page.locator("tr").nth(1).locator("td").nth(2)).toHaveText("4");
+  await expect(page.locator("tr").nth(1).locator("td").nth(3)).toHaveText("4");
+
   // === delete all vocabularies ===
   await page.goto("/vocabulary/edit", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
@@ -239,6 +318,61 @@ const checkTagCountSummaryDisplay = async (page: Page) => {
     });
     await expect(row.locator("span").last()).toHaveText(item.count + "");
   }
+};
+
+const checkQuizResult = async (
+  page: Page,
+  correct: number,
+  total: number
+) => {
+  const correctLabel = page.locator("p").filter({ hasText: /^Correct$/ });
+  await expect(
+    correctLabel.locator("xpath=preceding-sibling::p")
+  ).toHaveText(String(correct));
+  const totalLabel = page.locator("p").filter({ hasText: /^Total$/ });
+  await expect(
+    totalLabel.locator("xpath=preceding-sibling::p")
+  ).toHaveText(String(total));
+};
+
+type VocabularyPair = {
+  name: string;
+  description: string;
+};
+
+const checkFlashcard = async (page: Page, vocabularies: VocabularyPair[]) => {
+  const frontLabel = (
+    await page
+      .locator(".flashcard-front .flashcard-content p.font-cursive")
+      .textContent()
+  )?.trim() ?? "";
+  const frontContent = (
+    await page
+      .locator(".flashcard-front .flashcard-content p.whitespace-pre-wrap")
+      .textContent()
+  )?.trim() ?? "";
+
+  const isNameOnFront = frontLabel === "Name";
+  const vocab = vocabularies.find((v) =>
+    isNameOnFront ? v.name === frontContent : v.description === frontContent
+  );
+  expect(vocab).toBeDefined();
+
+  await page.locator(".flashcard").click();
+
+  const backLabel = (
+    await page
+      .locator(".flashcard-back .flashcard-content p.font-cursive")
+      .textContent()
+  )?.trim() ?? "";
+  const backContent = (
+    await page
+      .locator(".flashcard-back .flashcard-content p.whitespace-pre-wrap")
+      .textContent()
+  )?.trim() ?? "";
+
+  expect(backLabel).toBe(isNameOnFront ? "Description" : "Name");
+  expect(backContent).toBe(isNameOnFront ? vocab!.description : vocab!.name);
 };
 
 const checkVocabularyDisplay = async (
