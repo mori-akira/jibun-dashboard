@@ -131,7 +131,12 @@
             @click="onFlipCard"
           >
             <template #front>
-              <p class="text-xs text-gray-400 mb-2 font-cursive">
+              <p
+                :class="
+                  direction === 'FRONT_TO_BACK' ? 'text-center' : 'text-left'
+                "
+                class="text-xs text-gray-400 mb-2 font-cursive"
+              >
                 {{ direction === "FRONT_TO_BACK" ? "Name" : "Description" }}
               </p>
               <p
@@ -146,7 +151,12 @@
               </p>
             </template>
             <template #back>
-              <p class="text-xs text-gray-400 mb-2 font-cursive">
+              <p
+                :class="
+                  direction === 'FRONT_TO_BACK' ? 'text-left' : 'text-center'
+                "
+                class="text-xs text-gray-400 mb-2 font-cursive"
+              >
                 {{ direction === "FRONT_TO_BACK" ? "Description" : "Name" }}
               </p>
               <p
