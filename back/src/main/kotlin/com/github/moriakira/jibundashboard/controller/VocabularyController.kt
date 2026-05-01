@@ -4,11 +4,18 @@ import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.VocabularyApi
 import com.github.moriakira.jibundashboard.generated.model.Vocabulary
 import com.github.moriakira.jibundashboard.generated.model.VocabularyId
+import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistory
+import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
+import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryBase
+import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryId
 import com.github.moriakira.jibundashboard.generated.model.VocabularyRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTag
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagId
 import com.github.moriakira.jibundashboard.service.VocabularyModel
+import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryAnswerModel
+import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryModel
+import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryService
 import com.github.moriakira.jibundashboard.service.VocabularyService
 import com.github.moriakira.jibundashboard.service.VocabularyTagModel
 import com.github.moriakira.jibundashboard.service.VocabularyTagService
@@ -24,6 +31,7 @@ class VocabularyController(
     private val currentAuth: CurrentAuth,
     private val vocabularyService: VocabularyService,
     private val vocabularyTagService: VocabularyTagService,
+    private val vocabularyQuizHistoryService: VocabularyQuizHistoryService,
 ) : VocabularyApi {
 
     override fun getVocabularies(
@@ -126,6 +134,29 @@ class VocabularyController(
         return ResponseEntity.noContent().build()
     }
 
+    override fun getVocabularyQuizHistories(): ResponseEntity<List<VocabularyQuizHistory>> {
+        val list = vocabularyQuizHistoryService.listByUser(currentAuth.userId)
+        return ResponseEntity.ok(list.map { it.toApi() })
+    }
+
+    @Suppress("ReturnCount")
+    override fun postVocabularyQuizHistories(
+        vocabularyQuizHistoryBase: VocabularyQuizHistoryBase?,
+    ): ResponseEntity<VocabularyQuizHistoryId> {
+        requireNotNull(vocabularyQuizHistoryBase) { "Request body is required." }
+        val quizHistoryId = vocabularyQuizHistoryService.create(vocabularyQuizHistoryBase.toModel())
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(VocabularyQuizHistoryId(UUID.fromString(quizHistoryId)))
+    }
+
+    @Suppress("ReturnCount")
+    override fun deleteVocabularyQuizHistoriesById(quizHistoryId: UUID): ResponseEntity<Unit> {
+        vocabularyQuizHistoryService.getByQuizHistoryIdForUser(quizHistoryId.toString(), currentAuth.userId)
+            ?: return ResponseEntity.notFound().build()
+        vocabularyQuizHistoryService.delete(currentAuth.userId, quizHistoryId.toString())
+        return ResponseEntity.noContent().build()
+    }
+
     private fun VocabularyModel.toApi(): Vocabulary =
         Vocabulary(
             vocabularyId = UUID.fromString(this.vocabularyId),
@@ -182,5 +213,42 @@ class VocabularyController(
             userId = currentAuth.userId,
             vocabularyTag = this.vocabularyTag,
             order = this.order,
+        )
+
+    private fun VocabularyQuizHistoryModel.toApi(): VocabularyQuizHistory =
+        VocabularyQuizHistory(
+            quizHistoryId = UUID.fromString(this.quizHistoryId),
+            answeredAt = OffsetDateTime.parse(this.answeredAt),
+            tagIds = this.tagIds.map { UUID.fromString(it) },
+            questionCount = this.questionCount,
+            direction = VocabularyQuizHistory.Direction.valueOf(this.direction),
+            correctCount = this.correctCount,
+            incorrectCount = this.incorrectCount,
+            answers = this.answers.map { it.toApi() },
+        )
+
+    private fun VocabularyQuizHistoryAnswerModel.toApi(): VocabularyQuizHistoryAnswer =
+        VocabularyQuizHistoryAnswer(
+            vocabularyId = UUID.fromString(this.vocabularyId),
+            result = VocabularyQuizHistoryAnswer.Result.valueOf(this.result),
+        )
+
+    private fun VocabularyQuizHistoryBase.toModel(): VocabularyQuizHistoryModel =
+        VocabularyQuizHistoryModel(
+            quizHistoryId = "",
+            userId = currentAuth.userId,
+            answeredAt = "",
+            tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
+            questionCount = this.questionCount,
+            direction = this.direction.value,
+            correctCount = 0,
+            incorrectCount = 0,
+            answers = this.answers.map { it.toModel() },
+        )
+
+    private fun VocabularyQuizHistoryAnswer.toModel(): VocabularyQuizHistoryAnswerModel =
+        VocabularyQuizHistoryAnswerModel(
+            vocabularyId = this.vocabularyId.toString(),
+            result = this.result.value,
         )
 }

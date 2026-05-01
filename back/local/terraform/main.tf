@@ -123,6 +123,14 @@ module "dynamodb_shared_links" {
   ]
 }
 
+module "dynamodb_vocabulary_quiz_histories" {
+  source          = "../../../infra/main/modules/dynamodb"
+  application_tag = local.tag
+  table_name      = "${local.app_name}-${local.env_name}-vocabulary-quiz-histories"
+  hash_key        = { name = "userId", type = "S" }
+  sort_key        = { name = "quizHistoryId", type = "S" }
+}
+
 module "uploads_local" {
   source                  = "../../../infra/main/modules/uploads"
   bucket_name             = "${local.app_name}-${local.env_name}-uploads-bucket"

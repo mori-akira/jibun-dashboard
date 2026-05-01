@@ -40,6 +40,7 @@ app:
       salary-ocr-tasks: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-salary-ocr-tasks
       vocabularies: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabularies
       vocabulary_tags: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-tags
+      vocabulary_quiz_histories: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-quiz-histories
       shared-links: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-shared-links
   s3:
     region: ${AWS_REGION:ap-northeast-1}
