@@ -1,5 +1,8 @@
 <template>
-  <div :class="['flashcard', { flipped: flipped }]" @click="$emit('click')">
+  <div
+    :class="['flashcard', { flipped: flipped }, cardClass]"
+    @click="$emit('click')"
+  >
     <div class="flashcard-inner">
       <div class="flashcard-front">
         <div class="flashcard-content">
@@ -19,6 +22,7 @@
 <script setup lang="ts">
 defineProps<{
   flipped: boolean;
+  cardClass?: string | string[] | Record<string, boolean>;
 }>();
 
 defineEmits<{
@@ -28,7 +32,6 @@ defineEmits<{
 
 <style scoped>
 .flashcard {
-  width: 40rem;
   height: 16rem;
   perspective: 1000px;
   cursor: pointer;

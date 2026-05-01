@@ -1,25 +1,29 @@
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center mr-2">
       <Breadcrumb
         :items="[
-          { text: 'Vocabulary', iconName: 'tabler:book', link: '/vocabulary' },
+          {
+            text: 'Vocabulary',
+            iconName: 'tabler:book',
+            link: '/m/vocabulary',
+          },
           { text: 'Quiz', iconName: 'tabler:cards' },
         ]"
       />
-      <div class="flex items-center mr-4">
-        <Button
-          v-if="phase === 'settings'"
-          type="navigation"
-          size="small"
-          html-type="button"
-          button-class="w-38"
-          @click:button="() => navigateTo('/vocabulary/quiz/history')"
-        >
-          <Icon name="tabler:history" class="text-base translate-y-0.5" />
-          <span class="font-bold ml-2">Quiz History</span>
-        </Button>
-      </div>
+    </div>
+    <div class="flex justify-end items-center mt-2 mr-2">
+      <Button
+        v-if="phase === 'settings'"
+        type="navigation"
+        size="small"
+        html-type="button"
+        button-class="w-38"
+        @click:button="() => navigateTo('/m/vocabulary/quiz/history')"
+      >
+        <Icon name="tabler:history" class="text-base translate-y-0.5" />
+        <span class="font-bold ml-2">History</span>
+      </Button>
     </div>
 
     <!-- Settings Phase -->
@@ -32,6 +36,7 @@
         :count-options="countOptions"
         :scope-count="scopeCount"
         :is-loading="isLoading"
+        layout="vertical"
         @click:tag="onClickTag"
         @update:direction="direction = $event"
         @update:question-count="questionCount = $event"
@@ -50,7 +55,7 @@
         :direction="direction"
         :front-text="frontText"
         :back-text="backText"
-        flashcard-class="w-160"
+        flashcard-class="w-full"
         @flip="onFlipCard"
         @answer="onAnswer"
         @prev="onPrev"
@@ -81,6 +86,8 @@ import QuizResult from "~/components/vocabulary/quiz/QuizResult.vue";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useVocabularyQuiz } from "~/composables/vocabulary/useVocabularyQuiz";
 
+definePageMeta({ layout: "mobile" });
+
 const vocabularyStore = useVocabularyStore();
 const {
   phase,
@@ -107,7 +114,7 @@ const {
   onPrev,
   onComplete,
   onSubmit,
-} = useVocabularyQuiz();
+} = useVocabularyQuiz("/m/vocabulary/quiz/history");
 
 onMounted(init);
 </script>

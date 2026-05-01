@@ -2,16 +2,22 @@
   <div>
     <Breadcrumb
       :items="[
-        { text: 'Vocabulary', iconName: 'tabler:book', link: '/vocabulary' },
-        { text: 'Quiz', iconName: 'tabler:cards', link: '/vocabulary/quiz' },
+        { text: 'Vocabulary', iconName: 'tabler:book', link: '/m/vocabulary' },
+        { text: 'Quiz', iconName: 'tabler:cards', link: '/m/vocabulary/quiz' },
         { text: 'Quiz History', iconName: 'tabler:history' },
       ]"
     />
 
     <QuizHistoryPanel
       :is-loading="isLoading"
-      panel-wrapper-class="overflow-x-auto"
-      table-wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
+      panel-wrapper-class="w-full overflow-x-auto mt-4"
+      table-wrapper-class="min-w-96 flex justify-center mt-4 mx-1"
+      :visible-fields="[
+        'answeredAtFormatted',
+        'tagNames',
+        'questionCount',
+        'correctCount',
+      ]"
     />
   </div>
 </template>
@@ -23,6 +29,8 @@ import { useCommonStore } from "~/stores/common";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 import { getErrorMessage } from "~/utils/error";
+
+definePageMeta({ layout: "mobile" });
 
 const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();

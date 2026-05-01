@@ -2,15 +2,27 @@
   <div>
     <div class="flex items-center justify-between mr-2">
       <Breadcrumb :items="[{ text: 'Vocabulary', iconName: 'tabler:book' }]" />
-      <Button
-        type="add"
-        size="small"
-        html-type="button"
-        @click:button="openAddModal"
-      >
-        <Icon name="tabler:plus" class="text-base translate-y-0.5" />
-        <span class="font-bold ml-2">Add</span>
-      </Button>
+      <div class="flex items-center gap-2">
+        <Button
+          type="navigation"
+          size="small"
+          html-type="button"
+          button-class="w-28"
+          @click:button="() => navigateTo('/m/vocabulary/quiz')"
+        >
+          <Icon name="tabler:cards" class="text-base translate-y-0.5" />
+          <span class="font-bold ml-2">Quiz</span>
+        </Button>
+        <Button
+          type="add"
+          size="small"
+          html-type="button"
+          @click:button="openAddModal"
+        >
+          <Icon name="tabler:plus" class="text-base translate-y-0.5" />
+          <span class="font-bold ml-2">Add</span>
+        </Button>
+      </div>
     </div>
 
     <div class="flex-1 w-full mt-4">

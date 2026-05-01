@@ -79,6 +79,6 @@ export function getCountOptions(scopeCount: number): number[] {
 
 export function getDirectionLabel(direction: QuizDirection): string {
   return direction === "FRONT_TO_BACK"
-    ? "Name->Description"
-    : "Description->Name";
+    ? "Name → Description"
+    : "Description → Name";
 }
