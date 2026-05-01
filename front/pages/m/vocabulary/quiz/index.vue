@@ -56,6 +56,7 @@
         :front-text="frontText"
         :back-text="backText"
         flashcard-class="w-full"
+        answer-buttons-class="flex-col items-center"
         @flip="onFlipCard"
         @answer="onAnswer"
         @prev="onPrev"

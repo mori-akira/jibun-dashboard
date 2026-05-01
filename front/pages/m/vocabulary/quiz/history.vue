@@ -18,6 +18,9 @@
         'questionCount',
         'correctCount',
       ]"
+      modal-box-class="w-[85vw] max-h-[80vh] overflow-y-auto"
+      summary-wrapper-class="flex flex-col items-center w-full"
+      summary-label-class="bg-gray-800 text-white w-32 font-cursive"
     />
   </div>
 </template>
@@ -42,6 +45,7 @@ onMounted(async () => {
       await Promise.all([
         vocabularyStore.fetchQuizHistories(),
         vocabularyStore.fetchVocabularyTags(),
+        vocabularyStore.fetchVocabularies(),
       ]);
     } catch (err) {
       console.error(err);

@@ -12,6 +12,9 @@
       :is-loading="isLoading"
       panel-wrapper-class="overflow-x-auto"
       table-wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
+      modal-box-class="w-[40rem] max-h-[80vh] overflow-y-auto"
+      summary-wrapper-class="flex flex-col items-center w-full"
+      summary-label-class="bg-gray-800 text-white w-48 font-cursive"
     />
   </div>
 </template>
@@ -34,6 +37,7 @@ onMounted(async () => {
       await Promise.all([
         vocabularyStore.fetchQuizHistories(),
         vocabularyStore.fetchVocabularyTags(),
+        vocabularyStore.fetchVocabularies(),
       ]);
     } catch (err) {
       console.error(err);

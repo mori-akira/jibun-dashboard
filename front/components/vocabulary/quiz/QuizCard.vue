@@ -66,7 +66,10 @@
     </div>
 
     <!-- Answer Buttons (after flip) -->
-    <div v-if="flipped" class="flex justify-center gap-6 mb-4">
+    <div
+      v-if="flipped"
+      :class="['flex justify-center gap-4 mb-4', answerButtonsClass]"
+    >
       <Button
         :type="result === 'CORRECT' ? 'action' : 'default'"
         size="small"
@@ -143,6 +146,7 @@ defineProps<{
   frontText: string;
   backText: string;
   flashcardClass?: string;
+  answerButtonsClass?: string;
 }>();
 
 defineEmits<{

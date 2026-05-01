@@ -11,6 +11,8 @@
       :init-sort-state="initSortState"
       :wrapper-class="tableWrapperClass"
       header-class="font-cursive h-8 bg-gray-800 text-white"
+      row-clickable
+      @click:row="onClickRow"
     >
       <template #cell-tagNames="{ row }">
         <div class="flex flex-nowrap gap-1 overflow-hidden min-w-0">
@@ -29,6 +31,57 @@
       </template>
     </DataTable>
   </Panel>
+
+  <!-- Detail Modal -->
+  <ModalWindow
+    :show-modal="selectedRow !== null"
+    :modal-box-class="modalBoxClass"
+    @close="selectedRow = null"
+  >
+    <template v-if="selectedRow">
+      <div class="flex justify-end">
+        <IconButton
+          type="cancel"
+          icon-class="w-6 h-6"
+          @click:button="selectedRow = null"
+        />
+      </div>
+      <h3 class="font-cursive font-bold mb-4">Quiz History Detail</h3>
+
+      <!-- Summary -->
+      <InformationForm
+        :item="selectedRow"
+        :item-defs="summaryItemDefs"
+        :wrapper-class="summaryWrapperClass"
+        :label-class="summaryLabelClass"
+        item-class="bg-gray-200 flex-1"
+      />
+
+      <!-- Answer list -->
+      <h4 class="font-cursive font-bold mt-6 mb-2 ml-1">Answers</h4>
+      <div class="flex flex-col gap-1">
+        <div
+          v-for="answer in selectedAnswers"
+          :key="answer.vocabularyId"
+          class="inline-flex items-center gap-2 px-2 py-1 rounded self-start"
+          :class="answer.result === 'CORRECT' ? 'bg-green-50' : 'bg-red-50'"
+        >
+          <Icon
+            :name="
+              answer.result === 'CORRECT'
+                ? 'tabler:circle-check'
+                : 'tabler:circle-x'
+            "
+            :class="
+              answer.result === 'CORRECT' ? 'text-green-600' : 'text-red-500'
+            "
+            class="shrink-0 text-lg"
+          />
+          <span class="text-sm">{{ answer.vocabularyName }}</span>
+        </div>
+      </div>
+    </template>
+  </ModalWindow>
 </template>
 
 <script setup lang="ts">
@@ -36,6 +89,10 @@ import type { VocabularyQuizHistory } from "~/generated/api/client/api";
 import Panel from "~/components/common/Panel.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
+import ModalWindow from "~/components/common/ModalWindow.vue";
+import InformationForm from "~/components/common/InformationForm.vue";
+import type { ItemDef } from "~/components/common/InformationForm.vue";
+import IconButton from "~/components/common/IconButton.vue";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { formatToJST } from "~/utils/date";
 import { getDirectionLabel } from "~/utils/vocabularyQuiz";
@@ -45,6 +102,9 @@ const props = defineProps<{
   panelWrapperClass?: string;
   tableWrapperClass?: string;
   visibleFields?: string[];
+  modalBoxClass?: string;
+  summaryWrapperClass?: string;
+  summaryLabelClass?: string;
 }>();
 
 const vocabularyStore = useVocabularyStore();
@@ -121,6 +181,14 @@ const tagMap = computed(() => {
   return map;
 });
 
+const vocabularyMap = computed(() => {
+  const map = new Map<string, string>();
+  for (const v of vocabularyStore.vocabularies ?? []) {
+    map.set(v.vocabularyId ?? "", v.name);
+  }
+  return map;
+});
+
 const rows = computed<HistoryRow[]>(() =>
   (vocabularyStore.quizHistories ?? []).map((h, i) => ({
     ...h,
@@ -132,4 +200,29 @@ const rows = computed<HistoryRow[]>(() =>
     ),
   })),
 );
+
+// Modal
+const selectedRow = ref<HistoryRow | null>(null);
+
+const summaryItemDefs: ItemDef[] = [
+  { field: "answeredAtFormatted", label: "Answered At", skipIfNull: true },
+  { field: "tagNames", label: "Tags", itemType: "badges", skipIfNull: true },
+  { field: "questionCount", label: "Questions", skipIfNull: true },
+  { field: "directionLabel", label: "Direction", skipIfNull: true },
+  { field: "correctCount", label: "Correct", skipIfNull: true },
+  { field: "incorrectCount", label: "Incorrect", skipIfNull: true },
+];
+
+const selectedAnswers = computed(() => {
+  if (!selectedRow.value) return [];
+  return (selectedRow.value.answers ?? []).map((a) => ({
+    vocabularyId: a.vocabularyId,
+    vocabularyName: vocabularyMap.value.get(a.vocabularyId) ?? a.vocabularyId,
+    result: a.result,
+  }));
+});
+
+function onClickRow(row: HistoryRow) {
+  selectedRow.value = row;
+}
 </script>
