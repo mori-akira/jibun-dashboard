@@ -115,7 +115,7 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
   }
 
   function onAnswer(result: QuizResult) {
-    if (currentCard.value && currentCard.value.result === null) {
+    if (currentCard.value) {
       currentCard.value.result = result;
     }
   }

@@ -8,7 +8,9 @@
       <div class="flex flex-col items-center gap-4 mt-6 mb-4">
         <div class="flex gap-12 text-center">
           <div>
-            <p class="text-4xl font-bold text-gray-800">{{ correctCount }}</p>
+            <p class="text-4xl font-bold text-indigo-400">
+              {{ correctCount }}
+            </p>
             <p class="text-sm font-cursive text-gray-500 mt-1">Correct</p>
           </div>
           <div class="text-4xl font-bold text-gray-300">/</div>
@@ -19,7 +21,7 @@
         </div>
         <div class="w-64 bg-gray-200 rounded-full h-3 mt-2">
           <div
-            class="bg-gray-800 h-3 rounded-full"
+            class="h-3 rounded-full bg-indigo-400"
             :style="{ width: `${(correctCount / totalCount) * 100}%` }"
           />
         </div>

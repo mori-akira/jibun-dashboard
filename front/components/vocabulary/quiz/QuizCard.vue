@@ -74,7 +74,6 @@
         :type="result === 'CORRECT' ? 'action' : 'default'"
         size="small"
         button-class="w-36"
-        :disabled="result !== null"
         @click:button="$emit('answer', 'CORRECT')"
       >
         <Icon name="tabler:circle-check" class="text-base translate-y-0.5" />
@@ -84,7 +83,6 @@
         :type="result === 'INCORRECT' ? 'error' : 'default'"
         size="small"
         button-class="w-36"
-        :disabled="result !== null"
         @click:button="$emit('answer', 'INCORRECT')"
       >
         <Icon name="tabler:circle-x" class="text-base translate-y-0.5" />
