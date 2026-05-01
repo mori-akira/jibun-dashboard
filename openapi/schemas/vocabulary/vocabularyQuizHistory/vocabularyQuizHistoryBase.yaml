@@ -1,0 +1,29 @@
+type: object
+description: ボキャブラリークイズ履歴基本情報
+required:
+  - questionCount
+  - direction
+  - answers
+properties:
+  tagIds:
+    description: タグ
+    type: array
+    items:
+      type: string
+      format: uuid
+  questionCount:
+    description: 出題数
+    type: integer
+    minimum: 1
+  direction:
+    description: 出題方向
+    type: string
+    enum:
+      - FRONT_TO_BACK
+      - BACK_TO_FRONT
+  answers:
+    description: 回答リスト
+    type: array
+    items:
+      $ref: vocabularyQuizHistoryAnswer.yaml
+    minItems: 1

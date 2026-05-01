@@ -1,0 +1,7 @@
+type: object
+description: ボキャブラリークイズ履歴ID
+properties:
+  quizHistoryId:
+    description: クイズ履歴ID
+    type: string
+    format: uuid

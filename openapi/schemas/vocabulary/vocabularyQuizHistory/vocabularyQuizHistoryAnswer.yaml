@@ -1,0 +1,16 @@
+type: object
+description: ボキャブラリークイズ回答
+required:
+  - vocabularyId
+  - result
+properties:
+  vocabularyId:
+    description: ボキャブラリーID
+    type: string
+    format: uuid
+  result:
+    description: 回答結果 (正答 / 誤答)
+    type: string
+    enum:
+      - CORRECT
+      - INCORRECT

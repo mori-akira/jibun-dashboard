@@ -1,0 +1,41 @@
+get:
+  operationId: getVocabularyQuizHistories
+  summary: ボキャブラリークイズ履歴取得
+  description: ボキャブラリークイズ履歴の一覧を取得する
+  tags:
+    - Vocabulary
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/VocabularyQuizHistory"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+post:
+  operationId: postVocabularyQuizHistories
+  summary: ボキャブラリークイズ履歴登録
+  description: ボキャブラリークイズの回答結果を登録する
+  tags:
+    - Vocabulary
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/VocabularyQuizHistoryBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/VocabularyQuizHistoryId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

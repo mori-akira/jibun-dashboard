@@ -65,6 +65,10 @@ paths:
     $ref: "paths/vocabulary-tags/index.yaml"
   /vocabulary-tags/{vocabularyTagId}:
     $ref: "paths/vocabulary-tags/vocabularyTagId.yaml"
+  /vocabulary-quiz-histories:
+    $ref: "paths/vocabulary-quiz-histories/index.yaml"
+  /vocabulary-quiz-histories/{quizHistoryId}:
+    $ref: "paths/vocabulary-quiz-histories/quizHistoryId.yaml"
   /shared-links:
     $ref: "paths/shared-links/index.yaml"
   /shared-links/{token}:
@@ -135,6 +139,14 @@ components:
       $ref: "schemas/vocabulary/vocabularyTag/vocabularyTagId.yaml"
     VocabularyTagBase:
       $ref: "schemas/vocabulary/vocabularyTag/vocabularyTagBase.yaml"
+    VocabularyQuizHistory:
+      $ref: "schemas/vocabulary/vocabularyQuizHistory/vocabularyQuizHistory.yaml"
+    VocabularyQuizHistoryId:
+      $ref: "schemas/vocabulary/vocabularyQuizHistory/vocabularyQuizHistoryId.yaml"
+    VocabularyQuizHistoryBase:
+      $ref: "schemas/vocabulary/vocabularyQuizHistory/vocabularyQuizHistoryBase.yaml"
+    VocabularyQuizHistoryAnswer:
+      $ref: "schemas/vocabulary/vocabularyQuizHistory/vocabularyQuizHistoryAnswer.yaml"
     SharedLink:
       $ref: "schemas/shared-link/sharedLink.yaml"
     SharedLinkToken:
