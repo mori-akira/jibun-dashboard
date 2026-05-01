@@ -1,9 +1,14 @@
 package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
+import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
+import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
 import com.github.moriakira.jibundashboard.service.VocabularyModel
+import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryAnswerModel
+import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryModel
+import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryService
 import com.github.moriakira.jibundashboard.service.VocabularyService
 import com.github.moriakira.jibundashboard.service.VocabularyTagModel
 import com.github.moriakira.jibundashboard.service.VocabularyTagService
@@ -23,12 +28,19 @@ class VocabularyControllerTest :
         val currentAuth = mockk<CurrentAuth>(relaxed = true)
         val vocabularyService = mockk<VocabularyService>(relaxed = true)
         val vocabularyTagService = mockk<VocabularyTagService>(relaxed = true)
-        val controller = VocabularyController(currentAuth, vocabularyService, vocabularyTagService)
+        val vocabularyQuizHistoryService = mockk<VocabularyQuizHistoryService>(relaxed = true)
+        val controller = VocabularyController(
+            currentAuth,
+            vocabularyService,
+            vocabularyTagService,
+            vocabularyQuizHistoryService,
+        )
 
         beforeTest {
             every { currentAuth.userId } returns "u1"
             clearMocks(vocabularyService, answers = false, recordedCalls = true, childMocks = true)
             clearMocks(vocabularyTagService, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(vocabularyQuizHistoryService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun vocabModel(id: String = "11111111-1111-1111-1111-111111111111") =
@@ -110,6 +122,69 @@ class VocabularyControllerTest :
 
             controller.deleteVocabulariesById(UUID.fromString(id)).statusCode shouldBe HttpStatus.NO_CONTENT
             controller.deleteVocabulariesById(UUID.fromString(missingId)).statusCode shouldBe HttpStatus.NOT_FOUND
+        }
+
+        // --- VocabularyQuizHistory ---
+
+        fun quizHistoryModel(id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa") =
+            VocabularyQuizHistoryModel(
+                quizHistoryId = id,
+                userId = "u1",
+                answeredAt = "2025-01-01T00:00:00Z",
+                tagIds = listOf("22222222-2222-2222-2222-222222222222"),
+                questionCount = 2,
+                direction = "FRONT_TO_BACK",
+                correctCount = 1,
+                incorrectCount = 1,
+                answers = listOf(
+                    VocabularyQuizHistoryAnswerModel("11111111-1111-1111-1111-111111111111", "CORRECT"),
+                    VocabularyQuizHistoryAnswerModel("33333333-3333-3333-3333-333333333333", "INCORRECT"),
+                ),
+            )
+
+        "getVocabularyQuizHistories: 一覧を返す" {
+            every { vocabularyQuizHistoryService.listByUser("u1") } returns listOf(quizHistoryModel())
+
+            val res = controller.getVocabularyQuizHistories()
+
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.shouldHaveSize(1)
+            res.body!![0].correctCount shouldBe 1
+        }
+
+        "postVocabularyQuizHistories: 新規作成で 201" {
+            every { vocabularyQuizHistoryService.create(any()) } returns "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+            val req = VocabularyQuizHistoryBase(
+                questionCount = 1,
+                direction = VocabularyQuizHistoryBase.Direction.FRONT_TO_BACK,
+                answers = listOf(
+                    VocabularyQuizHistoryAnswer(
+                        vocabularyId = UUID.fromString("11111111-1111-1111-1111-111111111111"),
+                        result = VocabularyQuizHistoryAnswer.Result.CORRECT,
+                    ),
+                ),
+            )
+
+            val res = controller.postVocabularyQuizHistories(req)
+
+            res.statusCode shouldBe HttpStatus.CREATED
+            res.body!!.quizHistoryId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+        }
+
+        "deleteVocabularyQuizHistoriesById: 204 または 404" {
+            val id = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+            val missingId = "cccccccc-cccc-cccc-cccc-cccccccccccc"
+            every {
+                vocabularyQuizHistoryService.getByQuizHistoryIdForUser(id, "u1")
+            } returns quizHistoryModel(id = id)
+            every { vocabularyQuizHistoryService.getByQuizHistoryIdForUser(missingId, "u1") } returns null
+
+            controller.deleteVocabularyQuizHistoriesById(
+                UUID.fromString(id),
+            ).statusCode shouldBe HttpStatus.NO_CONTENT
+            controller.deleteVocabularyQuizHistoriesById(
+                UUID.fromString(missingId),
+            ).statusCode shouldBe HttpStatus.NOT_FOUND
         }
 
         // --- VocabularyTag ---

@@ -49,7 +49,6 @@ class VocabularyController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    @Suppress("ReturnCount")
     override fun postVocabularies(
         vocabularyRequest: VocabularyRequest?,
     ): ResponseEntity<VocabularyId> {
@@ -97,7 +96,6 @@ class VocabularyController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    @Suppress("ReturnCount")
     override fun postVocabularyTags(
         vocabularyTagBase: VocabularyTagBase?,
     ): ResponseEntity<VocabularyTagId> {
@@ -139,7 +137,6 @@ class VocabularyController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    @Suppress("ReturnCount")
     override fun postVocabularyQuizHistories(
         vocabularyQuizHistoryBase: VocabularyQuizHistoryBase?,
     ): ResponseEntity<VocabularyQuizHistoryId> {
