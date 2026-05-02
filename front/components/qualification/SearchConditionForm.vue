@@ -48,7 +48,7 @@
         :date-to="acquiredDateTo"
         wrapper-class="m-4"
         label-class="w-40 font-cursive"
-        pickers-wrapper-class="min-w-96 w-1/2"
+        pickers-wrapper-class="min-w-96 w-1/2 ml-4"
         @change:from="onChangeAcquiredDateFrom"
         @change:to="onChangeAcquiredDateTo"
       />
@@ -59,7 +59,7 @@
         :date-to="expirationDateTo"
         wrapper-class="m-4"
         label-class="w-40 font-cursive"
-        pickers-wrapper-class="min-w-96 w-1/2"
+        pickers-wrapper-class="min-w-96 w-1/2 ml-4"
         @change:from="onChangeExpirationDateFrom"
         @change:to="onChangeExpirationDateTo"
       />
