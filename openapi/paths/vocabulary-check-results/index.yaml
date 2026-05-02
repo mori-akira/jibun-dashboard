@@ -20,6 +20,29 @@ get:
       schema:
         type: string
         format: date
+    - in: query
+      name: severities
+      description: 重要度
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - HIGH
+            - MEDIUM
+            - LOW
+    - in: query
+      name: statuses
+      description: 確認ステータス
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - UNCHECKED
+            - CHECKED
 
   responses:
     "200":

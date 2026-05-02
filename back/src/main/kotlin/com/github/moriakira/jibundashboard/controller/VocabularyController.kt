@@ -163,11 +163,15 @@ class VocabularyController(
     override fun getVocabularyCheckResults(
         checkedAtFrom: LocalDate?,
         checkedAtTo: LocalDate?,
+        severities: List<String>?,
+        statuses: List<String>?,
     ): ResponseEntity<List<VocabularyCheckResult>> {
         val list = vocabularyCheckResultService.listByUser(
             userId = currentAuth.userId,
             checkedAtFrom = checkedAtFrom?.toString(),
             checkedAtTo = checkedAtTo?.toString(),
+            severities = severities,
+            statuses = statuses,
         )
         return ResponseEntity.ok(list.map { it.toApi() })
     }

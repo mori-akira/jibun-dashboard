@@ -86,6 +86,29 @@ class VocabularyCheckResultServiceTest :
             res[0].vocabularyCheckResultId shouldBe "r1"
         }
 
+        "listByUser: severities で絞り込みができる" {
+            val high = item(checkResultId = "r1", severity = "HIGH")
+            val medium = item(checkResultId = "r2", severity = "MEDIUM")
+            val low = item(checkResultId = "r3", severity = "LOW")
+            every { repository.findByUser("u1") } returns listOf(high, medium, low)
+
+            val res = service.listByUser("u1", severities = listOf("HIGH", "MEDIUM"))
+
+            res.shouldHaveSize(2)
+            res.map { it.vocabularyCheckResultId } shouldBe listOf("r2", "r1")
+        }
+
+        "listByUser: statuses で絞り込みができる" {
+            val unchecked = item(checkResultId = "r1", status = "UNCHECKED")
+            val checked = item(checkResultId = "r2", status = "CHECKED")
+            every { repository.findByUser("u1") } returns listOf(unchecked, checked)
+
+            val res = service.listByUser("u1", statuses = listOf("CHECKED"))
+
+            res.shouldHaveSize(1)
+            res[0].vocabularyCheckResultId shouldBe "r2"
+        }
+
         "updateStatus: 所有者なら status を更新して保存する" {
             every { repository.getByCheckResultId("r1") } returns item()
             val capt = slot<VocabularyCheckResultItem>()

@@ -12,11 +12,15 @@ class VocabularyCheckResultService(
         userId: String,
         checkedAtFrom: String? = null,
         checkedAtTo: String? = null,
+        severities: List<String>? = null,
+        statuses: List<String>? = null,
     ): List<VocabularyCheckResultModel> =
         repository.findByUser(userId)
             .filter { it.severity != null }
             .filter { checkedAtFrom == null || it.checkedAt!!.substring(0, 10) >= checkedAtFrom }
             .filter { checkedAtTo == null || it.checkedAt!!.substring(0, 10) <= checkedAtTo }
+            .filter { severities == null || it.severity in severities }
+            .filter { statuses == null || it.status in statuses }
             .map { it.toDomain() }
             .sortedByDescending { it.checkedAt }
 
