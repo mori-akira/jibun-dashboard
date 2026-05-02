@@ -98,8 +98,14 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
     await getVocabularyApi().deleteVocabularyQuizHistoriesById(quizHistoryId);
   }
 
-  async function fetchCheckResults() {
-    const res = await getVocabularyApi().getVocabularyCheckResults();
+  async function fetchCheckResults(
+    checkedAtFrom?: string,
+    checkedAtTo?: string,
+  ) {
+    const res = await getVocabularyApi().getVocabularyCheckResults(
+      checkedAtFrom || undefined,
+      checkedAtTo || undefined,
+    );
     checkResults.value = res.data;
   }
 

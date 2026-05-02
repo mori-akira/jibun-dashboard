@@ -64,6 +64,28 @@ class VocabularyCheckResultServiceTest :
             res[0].vocabularyCheckResultId shouldBe "r1"
         }
 
+        "listByUser: checkedAtFrom で範囲絞り込みができる" {
+            val old = item(checkResultId = "r1", checkedAt = "2025-03-01T00:00:00Z")
+            val new = item(checkResultId = "r2", checkedAt = "2025-06-01T00:00:00Z")
+            every { repository.findByUser("u1") } returns listOf(old, new)
+
+            val res = service.listByUser("u1", checkedAtFrom = "2025-04-01")
+
+            res.shouldHaveSize(1)
+            res[0].vocabularyCheckResultId shouldBe "r2"
+        }
+
+        "listByUser: checkedAtTo で範囲絞り込みができる" {
+            val old = item(checkResultId = "r1", checkedAt = "2025-03-01T00:00:00Z")
+            val new = item(checkResultId = "r2", checkedAt = "2025-06-01T00:00:00Z")
+            every { repository.findByUser("u1") } returns listOf(old, new)
+
+            val res = service.listByUser("u1", checkedAtTo = "2025-04-01")
+
+            res.shouldHaveSize(1)
+            res[0].vocabularyCheckResultId shouldBe "r1"
+        }
+
         "updateStatus: 所有者なら status を更新して保存する" {
             every { repository.getByCheckResultId("r1") } returns item()
             val capt = slot<VocabularyCheckResultItem>()

@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service
 class VocabularyCheckResultService(
     private val repository: VocabularyCheckResultRepository,
 ) {
-    fun listByUser(userId: String): List<VocabularyCheckResultModel> =
+    fun listByUser(
+        userId: String,
+        checkedAtFrom: String? = null,
+        checkedAtTo: String? = null,
+    ): List<VocabularyCheckResultModel> =
         repository.findByUser(userId)
             .filter { it.severity != null }
+            .filter { checkedAtFrom == null || it.checkedAt!!.substring(0, 10) >= checkedAtFrom }
+            .filter { checkedAtTo == null || it.checkedAt!!.substring(0, 10) <= checkedAtTo }
             .map { it.toDomain() }
             .sortedByDescending { it.checkedAt }
 

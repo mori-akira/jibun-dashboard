@@ -7,6 +7,18 @@
       ]"
     />
 
+    <Panel>
+      <DatePickerFromTo
+        label="Checked At"
+        :date-from="checkedAtFrom"
+        :date-to="checkedAtTo"
+        label-class="w-24 font-cursive"
+        pickers-wrapper-class="min-w-96 w-1/2"
+        @change:from="onChangeCheckedAtFrom"
+        @change:to="onChangeCheckedAtTo"
+      />
+    </Panel>
+
     <Panel wrapper-class="overflow-x-auto">
       <h3>
         <Icon name="tabler:list" class="adjust-icon-4" />
@@ -119,6 +131,7 @@ import IconButton from "~/components/common/IconButton.vue";
 import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
+import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
 import { useCommonStore } from "~/stores/common";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
@@ -131,16 +144,31 @@ const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();
 const { isLoading, withLoading } = useLoadingQueue();
 
-onMounted(async () => {
+const checkedAtFrom = ref<string | undefined>(undefined);
+const checkedAtTo = ref<string | undefined>(undefined);
+
+const fetchCheckResults = async () => {
   await withLoading(async () => {
     try {
-      await vocabularyStore.fetchCheckResults();
+      await vocabularyStore.fetchCheckResults(checkedAtFrom.value, checkedAtTo.value);
     } catch (err) {
       console.error(err);
       commonStore.addErrorMessage(getErrorMessage(err));
     }
   });
-});
+};
+
+onMounted(fetchCheckResults);
+
+const onChangeCheckedAtFrom = async (value: string | undefined) => {
+  checkedAtFrom.value = value;
+  await fetchCheckResults();
+};
+
+const onChangeCheckedAtTo = async (value: string | undefined) => {
+  checkedAtTo.value = value;
+  await fetchCheckResults();
+};
 
 type CheckResultRow = VocabularyCheckResult & { index: number } & Record<
     string,

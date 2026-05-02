@@ -193,9 +193,9 @@ class VocabularyControllerTest :
             )
 
         "getVocabularyCheckResults: 一覧を返す" {
-            every { vocabularyCheckResultService.listByUser("u1") } returns listOf(checkResultModel())
+            every { vocabularyCheckResultService.listByUser("u1", null, null) } returns listOf(checkResultModel())
 
-            val res = controller.getVocabularyCheckResults()
+            val res = controller.getVocabularyCheckResults(null, null)
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.shouldHaveSize(1)

@@ -159,8 +159,15 @@ class VocabularyController(
         return ResponseEntity.noContent().build()
     }
 
-    override fun getVocabularyCheckResults(): ResponseEntity<List<VocabularyCheckResult>> {
-        val list = vocabularyCheckResultService.listByUser(currentAuth.userId)
+    override fun getVocabularyCheckResults(
+        checkedAtFrom: LocalDate?,
+        checkedAtTo: LocalDate?,
+    ): ResponseEntity<List<VocabularyCheckResult>> {
+        val list = vocabularyCheckResultService.listByUser(
+            userId = currentAuth.userId,
+            checkedAtFrom = checkedAtFrom?.toString(),
+            checkedAtTo = checkedAtTo?.toString(),
+        )
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
