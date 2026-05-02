@@ -193,7 +193,9 @@ class VocabularyControllerTest :
             )
 
         "getVocabularyCheckResults: 一覧を返す" {
-            every { vocabularyCheckResultService.listByUser("u1", null, null, null, null) } returns listOf(checkResultModel())
+            every {
+                vocabularyCheckResultService.listByUser("u1", null, null, null, null)
+            } returns listOf(checkResultModel())
 
             val res = controller.getVocabularyCheckResults(null, null, null, null)
 
