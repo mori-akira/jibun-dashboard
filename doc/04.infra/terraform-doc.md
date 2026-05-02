@@ -22,6 +22,7 @@
 | <a name="module_batch_apprunner_ops"></a> [batch\_apprunner\_ops](#module\_batch\_apprunner\_ops) | ./modules/batch/apprunner-ops | n/a |
 | <a name="module_batch_qualification_expiry_check"></a> [batch\_qualification\_expiry\_check](#module\_batch\_qualification\_expiry\_check) | ./modules/batch/qualification-expiry-check | n/a |
 | <a name="module_batch_salary_ocr"></a> [batch\_salary\_ocr](#module\_batch\_salary\_ocr) | ./modules/batch/salary-ocr | n/a |
+| <a name="module_batch_vocabulary_check"></a> [batch\_vocabulary\_check](#module\_batch\_vocabulary\_check) | ./modules/batch/vocabulary-check | n/a |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ./modules/codebuild | n/a |
 | <a name="module_cognito"></a> [cognito](#module\_cognito) | ./modules/cognito | n/a |
 | <a name="module_dynamodb"></a> [dynamodb](#module\_dynamodb) | ./modules/dynamodb | n/a |
