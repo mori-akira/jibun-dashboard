@@ -18,5 +18,15 @@
     "report": "## チェック結果\n\n### 事実確認（重要度：中）\nDescriptionの「損益の取引回数、最大利益などで表されることが多い」という記述は、一般的な定義と一部異なる可能性があります。より正確な表現への修正を検討してください。",
     "vocabularyUpdatedAt": "2026-03-28T14:51:22.365Z",
     "checkedAt": "2026-05-01T00:00:00.000Z"
+  },
+  {
+    "vocabularyCheckResultId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+    "vocabularyId": "dc93f6a5-f64d-44c3-94d6-5a2859b1b428",
+    "vocabularyName": "ホフスタッターの法則",
+    "severity": "LOW",
+    "status": "UNCHECKED",
+    "report": "## チェック結果\n\n### 意味が類似する可能性（重要度：低）\n「ホフスタッターの法則」は「計画の誤謬」と意味が近い概念です。同一ではありませんが、関連性が高いため整理を検討してください。",
+    "vocabularyUpdatedAt": "2026-04-10T09:00:00.000Z",
+    "checkedAt": "2026-05-01T00:00:00.000Z"
   }
 ]

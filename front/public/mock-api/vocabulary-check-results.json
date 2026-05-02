@@ -1,0 +1,32 @@
+[
+  {
+    "vocabularyCheckResultId": "bb000001-0000-0000-0000-000000000001",
+    "vocabularyId": "6ec1e582-dcf3-44ca-b04d-8a0e5a171a51",
+    "vocabularyName": "成人発達理論",
+    "severity": "HIGH",
+    "status": "UNCHECKED",
+    "report": "## 問題レポート\n\n### 重複の可能性（HIGH）\n\n「成人発達理論」と「成人発達モデル」は同一の概念を指している可能性があります。登録済みのボキャブラリーと重複していないか確認してください。\n\n### 対処方法\n\n- いずれか一方を削除するか、名称を変更して区別を明確にすることを推奨します。",
+    "vocabularyUpdatedAt": "2025-05-01T00:00:00Z",
+    "checkedAt": "2025-06-15T01:30:00Z"
+  },
+  {
+    "vocabularyCheckResultId": "bb000002-0000-0000-0000-000000000002",
+    "vocabularyId": "543c48b1-7481-426e-ac48-fa6b8fc120ab",
+    "vocabularyName": "トラックレコード",
+    "severity": "MEDIUM",
+    "status": "CHECKED",
+    "report": "## 問題レポート\n\n### 事実と異なる記述の可能性（MEDIUM）\n\nDescriptionに「投資分野のみで使用される用語」と記載されていますが、「トラックレコード」はビジネス全般・スポーツ・音楽など幅広い文脈で使用される表現です。より正確な説明への修正を検討してください。",
+    "vocabularyUpdatedAt": "2025-04-20T00:00:00Z",
+    "checkedAt": "2025-06-15T01:30:00Z"
+  },
+  {
+    "vocabularyCheckResultId": "bb000003-0000-0000-0000-000000000003",
+    "vocabularyId": "dc93f6a5-f64d-44c3-94d6-5a2859b1b428",
+    "vocabularyName": "ホフスタッターの法則",
+    "severity": "LOW",
+    "status": "UNCHECKED",
+    "report": "## 問題レポート\n\n### 意味が類似する可能性（LOW）\n\n「ホフスタッターの法則」は「計画の誤謬」と意味が近い概念です。同一ではありませんが、関連性が高いため整理を検討してください。",
+    "vocabularyUpdatedAt": "2025-03-10T00:00:00Z",
+    "checkedAt": "2025-06-15T01:30:00Z"
+  }
+]

@@ -8,6 +8,8 @@ import type {
   VocabularyTagBase,
   VocabularyQuizHistory,
   VocabularyQuizHistoryBase,
+  VocabularyCheckResult,
+  VocabularyCheckResultStatus,
 } from "~/generated/api/client/api";
 import { useApiClient } from "~/composables/common/useApiClient";
 
@@ -15,6 +17,7 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
   const vocabularies = ref<Vocabulary[] | null>(null);
   const vocabularyTags = ref<VocabularyTag[] | null>(null);
   const quizHistories = ref<VocabularyQuizHistory[] | null>(null);
+  const checkResults = ref<VocabularyCheckResult[] | null>(null);
   const { getVocabularyApi } = useApiClient();
 
   async function fetchVocabularies(
@@ -95,10 +98,26 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
     await getVocabularyApi().deleteVocabularyQuizHistoriesById(quizHistoryId);
   }
 
+  async function fetchCheckResults() {
+    const res = await getVocabularyApi().getVocabularyCheckResults();
+    checkResults.value = res.data;
+  }
+
+  async function updateCheckResultStatus(
+    checkResultId: string,
+    status: VocabularyCheckResultStatus,
+  ) {
+    await getVocabularyApi().putVocabularyCheckResultStatusById(
+      checkResultId,
+      status,
+    );
+  }
+
   return {
     vocabularies,
     vocabularyTags,
     quizHistories,
+    checkResults,
     fetchVocabularies,
     postVocabulary,
     putVocabulary,
@@ -110,5 +129,7 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
     fetchQuizHistories,
     postQuizHistory,
     deleteQuizHistory,
+    fetchCheckResults,
+    updateCheckResultStatus,
   };
 });
