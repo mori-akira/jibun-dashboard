@@ -13,6 +13,7 @@ class VocabularyCheckResultService(
             .map { it.toDomain() }
             .sortedByDescending { it.checkedAt }
 
+    @Suppress("ReturnCount")
     fun updateStatus(checkResultId: String, userId: String, status: String): VocabularyCheckResultModel? {
         val item = repository.getByCheckResultId(checkResultId) ?: return null
         if (item.userId != userId) return null
