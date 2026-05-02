@@ -49,64 +49,61 @@
       @close="selectedResult = null"
     >
       <template v-if="selectedResult">
-        <div class="flex justify-end">
-          <IconButton
-            type="cancel"
-            icon-class="w-6 h-6"
-            @click:button="selectedResult = null"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2 mx-4 mb-4">
-          <div class="flex items-center justify-between">
-            <span class="font-bold">{{ selectedResult.vocabularyName }}</span>
-            <span class="text-sm text-gray-500 ml-auto"
-              >Checked: {{ formatToJST(selectedResult.checkedAt) }}</span
-            >
-          </div>
-          <div class="flex flex-wrap gap-2 items-center">
-            <span
-              :class="[
-                'py-[0.2rem] px-2 text-[0.8rem] text-white rounded-lg',
-                severityClass(selectedResult.severity),
-              ]"
-              >{{ selectedResult.severity }}</span
-            >
-            <span
-              :class="[
-                'py-[0.2rem] px-2 text-[0.8rem] text-white rounded-lg',
-                statusClass(selectedResult.status),
-              ]"
-              >{{ selectedResult.status }}</span
-            >
-          </div>
-        </div>
-
-        <div class="mx-4 mt-8">
-          <hr class="flex-1 border-t-2 border-gray-300" />
-        </div>
-
-        <div
-          class="markdown-body bg-gray-50 rounded p-4 text-sm leading-relaxed"
-          v-html="renderedReport"
-        />
-
-        <div
-          v-if="selectedResult.status === 'UNCHECKED'"
-          class="flex justify-end mt-4"
-        >
-          <Button
-            type="action"
-            size="small"
-            :disabled="isUpdating"
-            @click:button="onMarkAsChecked"
-          >
-            <Icon
-              name="tabler:circle-check"
-              class="text-base translate-y-0.5"
+        <div class="relative">
+          <div class="flex justify-end">
+            <IconButton
+              type="cancel"
+              icon-class="w-6 h-6"
+              @click:button="selectedResult = null"
             />
-            <span class="font-bold ml-2">Mark as Checked</span>
-          </Button>
+          </div>
+
+          <div class="flex flex-col gap-2 mx-4 mb-4">
+            <div class="flex items-center justify-between">
+              <span class="font-bold">{{ selectedResult.vocabularyName }}</span>
+              <span class="text-sm text-gray-500 ml-auto"
+                >Checked: {{ formatToJST(selectedResult.checkedAt) }}</span
+              >
+            </div>
+            <div class="flex flex-wrap gap-2 items-center">
+              <span
+                :class="[
+                  'py-[0.2rem] px-2 text-[0.8rem] text-white rounded-lg',
+                  severityClass(selectedResult.severity),
+                ]"
+                >{{ selectedResult.severity }}</span
+              >
+              <span
+                :class="[
+                  'py-[0.2rem] px-2 text-[0.8rem] text-white rounded-lg',
+                  statusClass(selectedResult.status),
+                ]"
+                >{{ selectedResult.status }}</span
+              >
+            </div>
+          </div>
+
+          <div class="mx-4 mt-8">
+            <hr class="flex-1 border-t-2 border-gray-300" />
+          </div>
+
+          <div
+            class="markdown-body bg-gray-50 rounded p-4 text-sm leading-relaxed"
+            v-html="renderedReport"
+          />
+
+          <div
+            v-if="selectedResult.status === 'UNCHECKED'"
+            class="flex justify-end mt-4"
+          >
+            <Button type="action" size="small" @click:button="onMarkAsChecked">
+              <Icon
+                name="tabler:circle-check"
+                class="text-base translate-y-0.5"
+              />
+              <span class="font-bold ml-2">Mark as Checked</span>
+            </Button>
+          </div>
         </div>
       </template>
     </ModalWindow>
@@ -133,7 +130,6 @@ import DOMPurify from "dompurify";
 const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();
 const { isLoading, withLoading } = useLoadingQueue();
-const isUpdating = ref(false);
 
 onMounted(async () => {
   await withLoading(async () => {
@@ -228,7 +224,7 @@ const onClickRow = (row: CheckResultRow) => {
 
 const onMarkAsChecked = async () => {
   if (!selectedResult.value?.vocabularyCheckResultId) return;
-  isUpdating.value = true;
+  const loadingId = commonStore.addLoadingQueue();
   try {
     await vocabularyStore.updateCheckResultStatus(
       selectedResult.value.vocabularyCheckResultId,
@@ -240,7 +236,7 @@ const onMarkAsChecked = async () => {
     console.error(err);
     commonStore.addErrorMessage(getErrorMessage(err));
   } finally {
-    isUpdating.value = false;
+    commonStore.deleteLoadingQueue(loadingId);
   }
 };
 </script>
