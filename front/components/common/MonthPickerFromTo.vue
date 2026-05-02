@@ -1,7 +1,7 @@
 <template>
   <div :class="['flex items-center', wrapperClass]">
     <Label :label="label" :required="required" :label-class="labelClass" />
-    <div :class="['flex items-center ml-4', pickersWrapperClass]">
+    <div :class="['flex items-center', pickersWrapperClass]">
       <VueDatePicker
         :model-value="dateFromObj"
         :format="format"

@@ -7,11 +7,11 @@
       ]"
     />
 
-    <Panel>
+    <Panel wrapper-class="w-full">
       <DatePickerFromTo
         :date-from="checkedAtFrom"
         :date-to="checkedAtTo"
-        label-class="w-24 font-cursive"
+        label-class="w-20 font-cursive"
         pickers-wrapper-class="min-w-96 w-1/2"
         @change:from="onChangeCheckedAtFrom"
         @change:to="onChangeCheckedAtTo"

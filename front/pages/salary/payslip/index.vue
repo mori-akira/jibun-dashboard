@@ -7,18 +7,16 @@
       ]"
     />
 
-    <div class="flex justify-between">
-      <Panel wrapper-class="w-full">
-        <MonthPickerFromTo
-          :date-from="dateFrom"
-          :date-to="dateTo"
-          label-class="w-20 font-cursive"
-          pickers-wrapper-class="min-w-96 w-1/2"
-          @change:from="onChangeDateFrom"
-          @change:to="onChangeDateTo"
-        />
-      </Panel>
-    </div>
+    <Panel wrapper-class="w-full">
+      <MonthPickerFromTo
+        :date-from="dateFrom"
+        :date-to="dateTo"
+        label-class="w-20 font-cursive"
+        pickers-wrapper-class="min-w-96 w-1/2"
+        @change:from="onChangeDateFrom"
+        @change:to="onChangeDateTo"
+      />
+    </Panel>
 
     <template
       v-for="year in getFinancialYears(
