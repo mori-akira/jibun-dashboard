@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import re
 import time
 import uuid
 from datetime import datetime, timezone
@@ -20,6 +21,12 @@ logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent
 PROMPTS_DIR = BASE_DIR / "prompts"
 BEDROCK_MAX_ATTEMPTS = 3
+_CODE_FENCE_RE = re.compile(r"^```(?:json)?\s*\n(.*)\n```\s*$", re.DOTALL)
+
+
+def strip_code_fence(text: str) -> str:
+    m = _CODE_FENCE_RE.match(text.strip())
+    return m.group(1) if m else text
 
 
 def get_env_or_raise(name: str) -> str:
@@ -157,7 +164,7 @@ def call_bedrock_check(
             )
             raw_json = response["output"]["message"]["content"][0]["text"]
             logger.debug("Bedrock raw response: %s", raw_json)
-            return json.loads(raw_json)
+            return json.loads(strip_code_fence(raw_json))
         except (BotoCoreError, ClientError) as e:
             last_exc = e
             logger.warning("Bedrock attempt %d/%d failed: %s", attempt, BEDROCK_MAX_ATTEMPTS, e)
