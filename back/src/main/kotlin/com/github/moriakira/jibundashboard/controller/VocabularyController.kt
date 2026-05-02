@@ -3,6 +3,8 @@ package com.github.moriakira.jibundashboard.controller
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.VocabularyApi
 import com.github.moriakira.jibundashboard.generated.model.Vocabulary
+import com.github.moriakira.jibundashboard.generated.model.VocabularyCheckResult
+import com.github.moriakira.jibundashboard.generated.model.VocabularyCheckResultStatus
 import com.github.moriakira.jibundashboard.generated.model.VocabularyId
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistory
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
@@ -12,6 +14,8 @@ import com.github.moriakira.jibundashboard.generated.model.VocabularyRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTag
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagId
+import com.github.moriakira.jibundashboard.service.VocabularyCheckResultModel
+import com.github.moriakira.jibundashboard.service.VocabularyCheckResultService
 import com.github.moriakira.jibundashboard.service.VocabularyModel
 import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryAnswerModel
 import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryModel
@@ -32,6 +36,7 @@ class VocabularyController(
     private val vocabularyService: VocabularyService,
     private val vocabularyTagService: VocabularyTagService,
     private val vocabularyQuizHistoryService: VocabularyQuizHistoryService,
+    private val vocabularyCheckResultService: VocabularyCheckResultService,
 ) : VocabularyApi {
 
     override fun getVocabularies(
@@ -154,6 +159,25 @@ class VocabularyController(
         return ResponseEntity.noContent().build()
     }
 
+    override fun getVocabularyCheckResults(): ResponseEntity<List<VocabularyCheckResult>> {
+        val list = vocabularyCheckResultService.listByUser(currentAuth.userId)
+        return ResponseEntity.ok(list.map { it.toApi() })
+    }
+
+    @Suppress("ReturnCount")
+    override fun putVocabularyCheckResultStatusById(
+        checkResultId: UUID,
+        vocabularyCheckResultStatus: VocabularyCheckResultStatus?,
+    ): ResponseEntity<Unit> {
+        requireNotNull(vocabularyCheckResultStatus) { "Request body is required." }
+        vocabularyCheckResultService.updateStatus(
+            checkResultId.toString(),
+            currentAuth.userId,
+            vocabularyCheckResultStatus.status.value,
+        ) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.noContent().build()
+    }
+
     private fun VocabularyModel.toApi(): Vocabulary =
         Vocabulary(
             vocabularyId = UUID.fromString(this.vocabularyId),
@@ -247,5 +271,17 @@ class VocabularyController(
         VocabularyQuizHistoryAnswerModel(
             vocabularyId = this.vocabularyId.toString(),
             result = this.result.value,
+        )
+
+    private fun VocabularyCheckResultModel.toApi(): VocabularyCheckResult =
+        VocabularyCheckResult(
+            vocabularyCheckResultId = UUID.fromString(this.vocabularyCheckResultId),
+            vocabularyId = UUID.fromString(this.vocabularyId),
+            vocabularyName = this.vocabularyName,
+            severity = VocabularyCheckResult.Severity.valueOf(this.severity),
+            status = VocabularyCheckResult.Status.valueOf(this.status),
+            report = this.report,
+            vocabularyUpdatedAt = OffsetDateTime.parse(this.vocabularyUpdatedAt),
+            checkedAt = OffsetDateTime.parse(this.checkedAt),
         )
 }

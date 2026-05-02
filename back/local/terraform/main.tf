@@ -131,6 +131,22 @@ module "dynamodb_vocabulary_quiz_histories" {
   sort_key        = { name = "quizHistoryId", type = "S" }
 }
 
+module "dynamodb_vocabulary_check_results" {
+  source          = "../../../infra/main/modules/dynamodb"
+  application_tag = local.tag
+  table_name      = "${local.app_name}-${local.env_name}-vocabulary-check-results"
+  hash_key        = { name = "userId", type = "S" }
+  sort_key        = { name = "vocabularyId", type = "S" }
+  global_secondary_indexes = [
+    {
+      name            = "gsi_vocabulary_check_result_id"
+      hash_key_name   = "vocabularyCheckResultId"
+      hash_key_type   = "S"
+      projection_type = "ALL"
+    }
+  ]
+}
+
 module "uploads_local" {
   source                  = "../../../infra/main/modules/uploads"
   bucket_name             = "${local.app_name}-${local.env_name}-uploads-bucket"

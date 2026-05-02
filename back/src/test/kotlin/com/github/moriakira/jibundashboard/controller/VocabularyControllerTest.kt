@@ -1,10 +1,13 @@
 package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
+import com.github.moriakira.jibundashboard.generated.model.VocabularyCheckResultStatus
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
+import com.github.moriakira.jibundashboard.service.VocabularyCheckResultModel
+import com.github.moriakira.jibundashboard.service.VocabularyCheckResultService
 import com.github.moriakira.jibundashboard.service.VocabularyModel
 import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryAnswerModel
 import com.github.moriakira.jibundashboard.service.VocabularyQuizHistoryModel
@@ -29,11 +32,13 @@ class VocabularyControllerTest :
         val vocabularyService = mockk<VocabularyService>(relaxed = true)
         val vocabularyTagService = mockk<VocabularyTagService>(relaxed = true)
         val vocabularyQuizHistoryService = mockk<VocabularyQuizHistoryService>(relaxed = true)
+        val vocabularyCheckResultService = mockk<VocabularyCheckResultService>(relaxed = true)
         val controller = VocabularyController(
             currentAuth,
             vocabularyService,
             vocabularyTagService,
             vocabularyQuizHistoryService,
+            vocabularyCheckResultService,
         )
 
         beforeTest {
@@ -41,6 +46,7 @@ class VocabularyControllerTest :
             clearMocks(vocabularyService, answers = false, recordedCalls = true, childMocks = true)
             clearMocks(vocabularyTagService, answers = false, recordedCalls = true, childMocks = true)
             clearMocks(vocabularyQuizHistoryService, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(vocabularyCheckResultService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun vocabModel(id: String = "11111111-1111-1111-1111-111111111111") =
@@ -169,6 +175,55 @@ class VocabularyControllerTest :
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.quizHistoryId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+        }
+
+        // --- VocabularyCheckResult ---
+
+        fun checkResultModel(id: String = "r1", vocabularyId: String = "v1", status: String = "UNCHECKED") =
+            VocabularyCheckResultModel(
+                vocabularyCheckResultId = id,
+                vocabularyId = vocabularyId,
+                userId = "u1",
+                vocabularyName = "Kotlin",
+                severity = "HIGH",
+                status = status,
+                report = "## report",
+                vocabularyUpdatedAt = "2025-05-01T00:00:00Z",
+                checkedAt = "2025-06-01T00:00:00Z",
+            )
+
+        "getVocabularyCheckResults: 一覧を返す" {
+            every { vocabularyCheckResultService.listByUser("u1") } returns listOf(checkResultModel())
+
+            val res = controller.getVocabularyCheckResults()
+
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.shouldHaveSize(1)
+            res.body!![0].vocabularyName shouldBe "Kotlin"
+        }
+
+        "putVocabularyCheckResultStatusById: 更新で 204" {
+            every {
+                vocabularyCheckResultService.updateStatus("r1", "u1", "CHECKED")
+            } returns checkResultModel(status = "CHECKED")
+
+            val res = controller.putVocabularyCheckResultStatusById(
+                UUID.fromString("r1r1r1r1-r1r1-r1r1-r1r1-r1r1r1r1r1r1"),
+                VocabularyCheckResultStatus(status = VocabularyCheckResultStatus.Status.CHECKED),
+            )
+
+            res.statusCode shouldBe HttpStatus.NO_CONTENT
+        }
+
+        "putVocabularyCheckResultStatusById: 対象が無ければ 404" {
+            every { vocabularyCheckResultService.updateStatus(any(), any(), any()) } returns null
+
+            val res = controller.putVocabularyCheckResultStatusById(
+                UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff"),
+                VocabularyCheckResultStatus(status = VocabularyCheckResultStatus.Status.CHECKED),
+            )
+
+            res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
 
         "deleteVocabularyQuizHistoriesById: 204 または 404" {

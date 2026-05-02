@@ -41,6 +41,7 @@ app:
       vocabularies: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabularies
       vocabulary_tags: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-tags
       vocabulary_quiz_histories: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-quiz-histories
+      vocabulary_check_results: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-check-results
       shared-links: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-shared-links
   s3:
     region: ${AWS_REGION:ap-northeast-1}
