@@ -1,0 +1,13 @@
+type: object
+description: ボキャブラリーチェック結果確認ステータス
+
+required:
+  - status
+
+properties:
+  status:
+    description: 確認ステータス
+    type: string
+    enum:
+      - UNCHECKED
+      - CHECKED

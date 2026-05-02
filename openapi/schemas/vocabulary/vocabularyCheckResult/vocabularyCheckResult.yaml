@@ -1,0 +1,12 @@
+type: object
+description: ボキャブラリーチェック結果
+allOf:
+  - $ref: vocabularyCheckResultId.yaml
+  - $ref: vocabularyCheckResultBase.yaml
+  - $ref: vocabularyCheckResultStatus.yaml
+  - type: object
+    properties:
+      checkedAt:
+        description: チェック日時
+        type: string
+        format: date-time

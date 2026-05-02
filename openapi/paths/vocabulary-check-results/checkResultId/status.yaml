@@ -1,0 +1,29 @@
+put:
+  operationId: putVocabularyCheckResultStatusById
+  summary: ボキャブラリーチェック結果ステータス更新(ID)
+  description: ボキャブラリーチェック結果の確認ステータスを更新する
+  tags:
+    - Vocabulary
+
+  parameters:
+    - in: path
+      name: checkResultId
+      description: ボキャブラリーチェック結果ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../../openapi.yaml#/components/schemas/VocabularyCheckResultStatus"
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../../openapi.yaml#/components/responses/NotFound"

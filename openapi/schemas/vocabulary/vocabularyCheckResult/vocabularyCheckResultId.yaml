@@ -1,0 +1,8 @@
+type: object
+description: ボキャブラリーチェック結果ID
+
+properties:
+  vocabularyCheckResultId:
+    description: ボキャブラリーチェック結果ID
+    type: string
+    format: uuid

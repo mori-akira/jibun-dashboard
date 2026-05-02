@@ -69,6 +69,10 @@ paths:
     $ref: "paths/vocabulary-quiz-histories/index.yaml"
   /vocabulary-quiz-histories/{quizHistoryId}:
     $ref: "paths/vocabulary-quiz-histories/quizHistoryId.yaml"
+  /vocabulary-check-results:
+    $ref: "paths/vocabulary-check-results/index.yaml"
+  /vocabulary-check-results/{checkResultId}/status:
+    $ref: "paths/vocabulary-check-results/checkResultId/status.yaml"
   /shared-links:
     $ref: "paths/shared-links/index.yaml"
   /shared-links/{token}:
@@ -147,6 +151,14 @@ components:
       $ref: "schemas/vocabulary/vocabularyQuizHistory/vocabularyQuizHistoryBase.yaml"
     VocabularyQuizHistoryAnswer:
       $ref: "schemas/vocabulary/vocabularyQuizHistory/vocabularyQuizHistoryAnswer.yaml"
+    VocabularyCheckResult:
+      $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResult.yaml"
+    VocabularyCheckResultId:
+      $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultId.yaml"
+    VocabularyCheckResultBase:
+      $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultBase.yaml"
+    VocabularyCheckResultStatus:
+      $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultStatus.yaml"
     SharedLink:
       $ref: "schemas/shared-link/sharedLink.yaml"
     SharedLinkToken:

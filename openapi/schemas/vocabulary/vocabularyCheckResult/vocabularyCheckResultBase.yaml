@@ -1,0 +1,36 @@
+type: object
+description: ボキャブラリーチェック結果基本情報
+
+required:
+  - vocabularyId
+  - vocabularyName
+  - severity
+  - report
+  - vocabularyUpdatedAt
+
+properties:
+  vocabularyId:
+    description: ボキャブラリーID
+    type: string
+    format: uuid
+
+  vocabularyName:
+    description: ボキャブラリー名
+    type: string
+
+  severity:
+    description: 重要度
+    type: string
+    enum:
+      - HIGH
+      - MEDIUM
+      - LOW
+
+  report:
+    description: チェック結果レポート (Markdown)
+    type: string
+
+  vocabularyUpdatedAt:
+    description: チェック時点のボキャブラリー更新日時
+    type: string
+    format: date-time
