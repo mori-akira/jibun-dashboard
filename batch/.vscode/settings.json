@@ -23,6 +23,9 @@
     "editor.tabSize": 2,
     "editor.insertSpaces": true
   },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
   "cSpell.words": [
     "apprunner"
   ]

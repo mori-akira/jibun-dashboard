@@ -19,7 +19,6 @@
 - 複数の問題がある場合、`severity` は最も高い重要度を設定すること。
 - `report` はマークダウン形式で日本語で記述すること。
 
-```json
 {
   "hasIssues": boolean,
   "severity": "HIGH" | "MEDIUM" | "LOW" | null,
@@ -32,4 +31,3 @@
   ],
   "report": string
 }
-```
