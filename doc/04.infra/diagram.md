@@ -24,13 +24,11 @@ flowchart LR
   ECR["ECR Repository<br>jibun-dashboard"]
 
   subgraph DDB["DynamoDB"]
-    DUsers["users<br>PK: userId"]
-    DR18n["resources-i18n<br>PK: localeCode, SK: messageKey"]
-    DSettings["settings<br>PK: userId"]
-    DSalaries["salaries<br>PK: userId, SK: targetDate<br>GSI: gsi_salary_id (salaryId)"]
-    DOcrTasks["salary-ocr-tasks<br>PK: taskId<br>GSI: gsi_user_target_date<br>(userId, targetDate)"]
-    DQual["qualifications<br>PK: userId, SK: qualificationId<br>GSI: gsi_qualification_id<br>LSI: lsi_order (order)"]
-    DSharedLinks["shared-links<br>PK: token<br>GSI: gsi_user_id (userId)"]
+    DDBU["User<br>users"]
+    DDBC["Common<br>resources-i18n / settings / shared-links"]
+    DDBS["Salary<br>salaries / salary-ocr-tasks"]
+    DDBQ["Qualification<br>qualifications"]
+    DDBV["Vocabulary<br>vocabularies / vocabulary-tags<br>vocabulary-quiz-histories / vocabulary-check-results"]
   end
 
   subgraph BATCH["Batch Processing"]
@@ -39,6 +37,9 @@ flowchart LR
     L_SAL["Lambda: salary-ocr"]
     SCH_EXP["EventBridge Scheduler<br>cron: 00:00 JST"]
     L_EXP["Lambda: qualification-expiry-check"]
+    SCH_VOCAB["EventBridge Scheduler<br>cron: 00:00 JST"]
+    L_VOCAB["Lambda: vocabulary-check"]
+    BED["Amazon Bedrock<br>(Claude)"]
   end
 
   %% ルーティング（リンクラベル無し）
@@ -55,13 +56,11 @@ flowchart LR
   %% バックエンド依存
   ARS --> ECR
   ARS --> CPool
-  ARS --> DUsers
-  ARS --> DR18n
-  ARS --> DSettings
-  ARS --> DSalaries
-  ARS --> DQual
-  ARS --> DOcrTasks
-  ARS --> DSharedLinks
+  ARS --> DDBU
+  ARS --> DDBC
+  ARS --> DDBS
+  ARS --> DDBQ
+  ARS --> DDBV
   ARS --> S3_UP
 
   %% 給与OCRバッチフロー
@@ -70,12 +69,18 @@ flowchart LR
   Q_DLQ -. DLQ .- Q_MAIN
 
   L_SAL --> S3_UP
-  L_SAL --> DSalaries
-  L_SAL --> DOcrTasks
+  L_SAL --> DDBS
+  L_SAL --> BED
 
   %% 資格期限確認バッチフロー
   SCH_EXP --> L_EXP
-  L_EXP --> DQual
+  L_EXP --> DDBQ
+
+  %% ボキャブラリーチェックバッチフロー
+  SCH_VOCAB --> L_VOCAB
+  L_VOCAB --> DDBU
+  L_VOCAB --> DDBV
+  L_VOCAB --> BED
 ```
 
 ## 運用オートメーション
