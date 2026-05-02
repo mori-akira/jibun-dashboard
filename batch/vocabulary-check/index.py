@@ -241,6 +241,10 @@ def process_user(
 
     for vocabulary in vocabularies:
         vocabulary_id = vocabulary["vocabularyId"]
+        if not vocabulary.get("description"):
+            logger.debug("Skipping vocabularyId=%s (no description)", vocabulary_id)
+            skipped += 1
+            continue
         try:
             check_result = get_check_result(dynamodb, check_results_table_name, user_id, vocabulary_id)
             if not needs_check(vocabulary, check_result):
