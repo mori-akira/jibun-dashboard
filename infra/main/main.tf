@@ -117,6 +117,21 @@ module "batch_qualification_expiry_check" {
   qualifications_table_arn  = module.dynamodb["qualifications"].table_arn
 }
 
+module "batch_vocabulary_check" {
+  source                              = "./modules/batch/vocabulary-check"
+  application_tag                     = module.application.application_tag
+  app_name                            = var.app_name
+  env_name                            = var.env_name
+  users_table_name                    = module.dynamodb["users"].table_name
+  users_table_arn                     = module.dynamodb["users"].table_arn
+  vocabularies_table_name             = module.dynamodb["vocabularies"].table_name
+  vocabularies_table_arn              = module.dynamodb["vocabularies"].table_arn
+  vocabulary_tags_table_name          = module.dynamodb["vocabulary_tags"].table_name
+  vocabulary_tags_table_arn           = module.dynamodb["vocabulary_tags"].table_arn
+  vocabulary_check_results_table_name = module.dynamodb["vocabulary_check_results"].table_name
+  vocabulary_check_results_table_arn  = module.dynamodb["vocabulary_check_results"].table_arn
+}
+
 module "apigateway" {
   source                 = "./modules/apigateway"
   region                 = var.region

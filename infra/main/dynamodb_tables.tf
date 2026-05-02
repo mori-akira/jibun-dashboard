@@ -100,6 +100,19 @@ locals {
       hash_key   = { name = "userId", type = "S" }
       sort_key   = { name = "quizHistoryId", type = "S" }
     }
+    vocabulary_check_results = {
+      table_name = "${var.app_name}-${var.env_name}-vocabulary-check-results"
+      hash_key   = { name = "userId", type = "S" }
+      sort_key   = { name = "vocabularyId", type = "S" }
+      gsi = [
+        {
+          name            = "gsi_vocabulary_check_result_id"
+          hash_key_name   = "vocabularyCheckResultId"
+          hash_key_type   = "S"
+          projection_type = "ALL"
+        }
+      ]
+    }
     shared_links = {
       table_name = "${var.app_name}-${var.env_name}-shared-links"
       hash_key   = { name = "token", type = "S" }
