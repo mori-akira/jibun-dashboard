@@ -14,7 +14,7 @@
         :values="['HIGH', 'MEDIUM', 'LOW']"
         :selected-options="selectedSeverities"
         wrapper-class="m-4 flex justify-start items-center"
-        label-class="w-20 font-cursive"
+        label-class="w-32 font-cursive"
         @click:value="onClickSeverity"
       />
       <MultiOptionSelector
@@ -23,7 +23,7 @@
         :values="['UNCHECKED', 'CHECKED']"
         :selected-options="selectedStatuses"
         wrapper-class="m-4 flex justify-start items-center"
-        label-class="w-20 font-cursive"
+        label-class="w-32 font-cursive"
         @click:value="onClickStatus"
       />
       <DatePickerFromTo
@@ -31,8 +31,8 @@
         :date-from="checkedAtFrom"
         :date-to="checkedAtTo"
         wrapper-class="m-4"
-        label-class="w-20 font-cursive"
-        pickers-wrapper-class="min-w-96 w-1/2"
+        label-class="w-32 font-cursive"
+        pickers-wrapper-class="min-w-96 w-1/2 ml-4"
         @change:from="onChangeCheckedAtFrom"
         @change:to="onChangeCheckedAtTo"
       />
