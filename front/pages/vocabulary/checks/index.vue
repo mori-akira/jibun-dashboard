@@ -9,7 +9,6 @@
 
     <Panel>
       <DatePickerFromTo
-        label="Checked At"
         :date-from="checkedAtFrom"
         :date-to="checkedAtTo"
         label-class="w-24 font-cursive"
@@ -150,7 +149,10 @@ const checkedAtTo = ref<string | undefined>(undefined);
 const fetchCheckResults = async () => {
   await withLoading(async () => {
     try {
-      await vocabularyStore.fetchCheckResults(checkedAtFrom.value, checkedAtTo.value);
+      await vocabularyStore.fetchCheckResults(
+        checkedAtFrom.value,
+        checkedAtTo.value,
+      );
     } catch (err) {
       console.error(err);
       commonStore.addErrorMessage(getErrorMessage(err));
