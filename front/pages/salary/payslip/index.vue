@@ -10,7 +10,6 @@
     <div class="flex justify-between">
       <Panel wrapper-class="w-full">
         <MonthPickerFromTo
-          label="Scope"
           :date-from="dateFrom"
           :date-to="dateTo"
           label-class="w-20 font-cursive"
