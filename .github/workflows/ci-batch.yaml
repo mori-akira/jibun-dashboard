@@ -20,6 +20,8 @@ jobs:
             filter: apprunner-ops
           - name: qualification-expiry-check
             filter: qualification-expiry-check
+          - name: vocabulary-check
+            filter: vocabulary-check
 
     steps:
       - name: Checkout
@@ -36,6 +38,8 @@ jobs:
               - "batch/apprunner-ops/**"
             qualification-expiry-check:
               - "batch/qualification-expiry-check/**"
+            vocabulary-check:
+              - "batch/vocabulary-check/**"
 
       - name: No Changes Notification
         if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'

@@ -25,6 +25,7 @@ class VocabularyCheckResultServiceTest :
             checkResultId: String = "r1",
             vocabularyId: String = "v1",
             userId: String = "u1",
+            severity: String? = "HIGH",
             status: String = "UNCHECKED",
             checkedAt: String = "2025-06-01T00:00:00Z",
         ) = VocabularyCheckResultItem().apply {
@@ -32,7 +33,7 @@ class VocabularyCheckResultServiceTest :
             this.vocabularyId = vocabularyId
             this.userId = userId
             this.vocabularyName = "Kotlin"
-            this.severity = "HIGH"
+            this.severity = severity
             this.status = status
             this.report = "## report"
             this.vocabularyUpdatedAt = "2025-05-01T00:00:00Z"
@@ -49,6 +50,17 @@ class VocabularyCheckResultServiceTest :
             res.shouldHaveSize(2)
             res[0].vocabularyCheckResultId shouldBe "r2"
             res[1].vocabularyCheckResultId shouldBe "r1"
+        }
+
+        "listByUser: severity が null のレコードは除外する" {
+            val withIssue = item(checkResultId = "r1", severity = "HIGH")
+            val clean = item(checkResultId = "r2", severity = null)
+            every { repository.findByUser("u1") } returns listOf(withIssue, clean)
+
+            val res = service.listByUser("u1")
+
+            res.shouldHaveSize(1)
+            res[0].vocabularyCheckResultId shouldBe "r1"
         }
 
         "updateStatus: 所有者なら status を更新して保存する" {

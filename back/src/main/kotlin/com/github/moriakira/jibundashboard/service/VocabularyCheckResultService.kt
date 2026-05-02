@@ -10,6 +10,7 @@ class VocabularyCheckResultService(
 ) {
     fun listByUser(userId: String): List<VocabularyCheckResultModel> =
         repository.findByUser(userId)
+            .filter { it.severity != null }
             .map { it.toDomain() }
             .sortedByDescending { it.checkedAt }
 

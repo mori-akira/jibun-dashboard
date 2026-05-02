@@ -274,7 +274,9 @@ jobs:
             filter: apprunner-ops
           - name: qualification-expiry-check
             filter: qualification-expiry-check
-    
+          - name: vocabulary-check
+            filter: vocabulary-check
+
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
       SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
@@ -300,6 +302,9 @@ jobs:
             qualification-expiry-check:
               - ".github/workflows/cd.yaml"
               - "batch/qualification-expiry-check/**"
+            vocabulary-check:
+              - ".github/workflows/cd.yaml"
+              - "batch/vocabulary-check/**"
 
       - name: No Changes Notification
         if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'

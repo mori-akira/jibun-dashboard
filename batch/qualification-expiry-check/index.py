@@ -70,7 +70,7 @@ def lambda_handler(event, _):
     region = get_env_or_raise("AWS_REGION")
 
     dynamodb = boto3.Session(region_name=region).resource("dynamodb")
-    table = dynamodb.Table(table_name)
+    table = dynamodb.Table(table_name)  # type: ignore
 
     today = today_str()
     logger.info("Scanning for expired qualifications. today=%s", today)
