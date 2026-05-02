@@ -21,6 +21,7 @@ class VocabularyCheckResultServiceTest :
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
+        @Suppress("LongParameterList")
         fun item(
             checkResultId: String = "r1",
             vocabularyId: String = "v1",
