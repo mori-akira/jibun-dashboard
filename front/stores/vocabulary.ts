@@ -10,6 +10,8 @@ import type {
   VocabularyQuizHistoryBase,
   VocabularyCheckResult,
   VocabularyCheckResultStatus,
+  GetVocabularyCheckResultsSeveritiesEnum,
+  GetVocabularyCheckResultsStatusesEnum,
 } from "~/generated/api/client/api";
 import { useApiClient } from "~/composables/common/useApiClient";
 
@@ -101,10 +103,18 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
   async function fetchCheckResults(
     checkedAtFrom?: string,
     checkedAtTo?: string,
+    severities?: string[],
+    statuses?: string[],
   ) {
     const res = await getVocabularyApi().getVocabularyCheckResults(
       checkedAtFrom || undefined,
       checkedAtTo || undefined,
+      severities?.length
+        ? (severities as GetVocabularyCheckResultsSeveritiesEnum[])
+        : undefined,
+      statuses?.length
+        ? (statuses as GetVocabularyCheckResultsStatusesEnum[])
+        : undefined,
     );
     checkResults.value = res.data;
   }

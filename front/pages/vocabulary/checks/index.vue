@@ -8,9 +8,29 @@
     />
 
     <Panel wrapper-class="w-full">
+      <MultiOptionSelector
+        label="Severity"
+        :options="['HIGH', 'MEDIUM', 'LOW']"
+        :values="['HIGH', 'MEDIUM', 'LOW']"
+        :selected-options="selectedSeverities"
+        wrapper-class="m-4 flex justify-start items-center"
+        label-class="w-20 font-cursive"
+        @click:value="onClickSeverity"
+      />
+      <MultiOptionSelector
+        label="Status"
+        :options="['UNCHECKED', 'CHECKED']"
+        :values="['UNCHECKED', 'CHECKED']"
+        :selected-options="selectedStatuses"
+        wrapper-class="m-4 flex justify-start items-center"
+        label-class="w-20 font-cursive"
+        @click:value="onClickStatus"
+      />
       <DatePickerFromTo
+        label="Checked At"
         :date-from="checkedAtFrom"
         :date-to="checkedAtTo"
+        wrapper-class="m-4"
         label-class="w-20 font-cursive"
         pickers-wrapper-class="min-w-96 w-1/2"
         @change:from="onChangeCheckedAtFrom"
@@ -131,6 +151,7 @@ import DataTable from "~/components/common/DataTable.vue";
 import type { ColumnDef, SortDef } from "~/components/common/DataTable.vue";
 import ModalWindow from "~/components/common/ModalWindow.vue";
 import DatePickerFromTo from "~/components/common/DatePickerFromTo.vue";
+import MultiOptionSelector from "~/components/common/MultiOptionSelector.vue";
 import { useCommonStore } from "~/stores/common";
 import { useVocabularyStore } from "~/stores/vocabulary";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
@@ -143,6 +164,8 @@ const commonStore = useCommonStore();
 const vocabularyStore = useVocabularyStore();
 const { isLoading, withLoading } = useLoadingQueue();
 
+const selectedSeverities = ref<string[]>([]);
+const selectedStatuses = ref<string[]>([]);
 const checkedAtFrom = ref<string | undefined>(undefined);
 const checkedAtTo = ref<string | undefined>(undefined);
 
@@ -152,6 +175,8 @@ const fetchCheckResults = async () => {
       await vocabularyStore.fetchCheckResults(
         checkedAtFrom.value,
         checkedAtTo.value,
+        selectedSeverities.value,
+        selectedStatuses.value,
       );
     } catch (err) {
       console.error(err);
@@ -161,6 +186,19 @@ const fetchCheckResults = async () => {
 };
 
 onMounted(fetchCheckResults);
+
+const toggle = (arr: string[], value: string) =>
+  arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
+
+const onClickSeverity = async (value: string) => {
+  selectedSeverities.value = toggle(selectedSeverities.value, value);
+  await fetchCheckResults();
+};
+
+const onClickStatus = async (value: string) => {
+  selectedStatuses.value = toggle(selectedStatuses.value, value);
+  await fetchCheckResults();
+};
 
 const onChangeCheckedAtFrom = async (value: string | undefined) => {
   checkedAtFrom.value = value;
@@ -260,7 +298,7 @@ const onMarkAsChecked = async () => {
       selectedResult.value.vocabularyCheckResultId,
       { status: "CHECKED" },
     );
-    await vocabularyStore.fetchCheckResults();
+    await fetchCheckResults();
     selectedResult.value = null;
   } catch (err) {
     console.error(err);
