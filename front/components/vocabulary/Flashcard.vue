@@ -64,6 +64,7 @@ defineEmits<{
   align-items: center;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
 .flashcard-back {
@@ -75,6 +76,7 @@ defineEmits<{
   max-height: 10rem;
   overflow-y: auto;
   width: 100%;
+  min-height: 0;
 }
 
 .flashcard:hover .flashcard-front,
