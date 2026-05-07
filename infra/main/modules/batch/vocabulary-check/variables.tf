@@ -68,7 +68,7 @@ variable "lambda_memory_size" {
 variable "bedrock_inference_profile_id" {
   description = "使用するBedrock推論プロファイルID"
   type        = string
-  default     = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+  default     = "global.anthropic.claude-haiku-4-5-20251001-v1:0"
 }
 
 variable "bedrock_foundation_model_id" {
