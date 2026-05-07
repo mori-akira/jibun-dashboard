@@ -12,7 +12,7 @@ import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
     force=True,
 )
