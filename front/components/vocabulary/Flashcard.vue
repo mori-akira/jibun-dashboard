@@ -67,6 +67,14 @@ defineEmits<{
   overflow: hidden;
 }
 
+.flashcard:not(.flipped) .flashcard-back {
+  pointer-events: none;
+}
+
+.flashcard.flipped .flashcard-front {
+  pointer-events: none;
+}
+
 .flashcard-back {
   transform: rotateY(180deg);
   background: #f8f8f8;
