@@ -4,7 +4,7 @@
     <div class="flex items-center justify-center gap-1">
       <button
         :disabled="currentPage <= 1"
-        class="px-1.5 py-0.5 border border-gray-400 rounded disabled:opacity-30 hover:enabled:bg-gray-100 disabled:cursor-default"
+        class="hidden sm:block px-1.5 py-0.5 border border-gray-400 rounded disabled:opacity-30 hover:enabled:bg-gray-100 disabled:cursor-default"
         @click="emit('update:currentPage', 1)"
       >
         <Icon name="tabler:chevrons-left" class="adjust-icon-2" />
@@ -28,13 +28,13 @@
       </button>
       <button
         :disabled="currentPage >= totalPages"
-        class="px-1.5 py-0.5 border border-gray-400 rounded disabled:opacity-30 hover:enabled:bg-gray-100 disabled:cursor-default"
+        class="hidden sm:block px-1.5 py-0.5 border border-gray-400 rounded disabled:opacity-30 hover:enabled:bg-gray-100 disabled:cursor-default"
         @click="emit('update:currentPage', totalPages)"
       >
         <Icon name="tabler:chevrons-right" class="adjust-icon-2" />
       </button>
     </div>
-    <div class="flex justify-end">
+    <div class="hidden sm:flex justify-end">
       <select
         v-if="pageSizeOptions"
         :value="pageSize"
