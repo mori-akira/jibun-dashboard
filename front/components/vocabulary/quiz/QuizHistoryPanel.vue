@@ -9,6 +9,7 @@
       :column-defs="filteredColumnDefs"
       :is-loading="isLoading"
       :init-sort-state="initSortState"
+      :page-size="paginationPageSize"
       :wrapper-class="tableWrapperClass"
       header-class="font-cursive h-8 bg-gray-800 text-white"
       row-clickable
@@ -172,6 +173,10 @@ const initSortState: SortDef<HistoryRow> = {
   column: "answeredAtFormatted",
   direction: "desc",
 };
+
+const paginationPageSize = computed(() =>
+  rows.value.length > 100 ? [100, 300, 500] : undefined,
+);
 
 const tagMap = computed(() => {
   const map = new Map<string, string>();

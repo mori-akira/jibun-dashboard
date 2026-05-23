@@ -52,6 +52,7 @@
           :is-loading="isLoading"
           :init-sort-state="initSortState"
           row-clickable
+          :page-size="paginationPageSize"
           wrapper-class="flex justify-center mt-4 mx-1"
           header-class="font-cursive h-8 bg-gray-800 text-white text-[0.9rem]"
           @click:row="onClickRow"
@@ -270,6 +271,10 @@ const initSortState: SortDef<VocabularyWithIndex> = {
   column: "index",
   direction: "asc",
 };
+
+const paginationPageSize = computed(() =>
+  rows.value.length > 100 ? [100, 300, 500] : undefined,
+);
 
 // --- Detail modal ---
 

@@ -9,6 +9,16 @@
         class="w-8 h-8 mt-8 animate-spin [animation-duration:3s]"
       />
     </div>
+    <Pagination
+      v-if="pagingEnabled"
+      class="mb-2"
+      :current-page="currentPage"
+      :total-items="rows.length"
+      :page-size="currentPageSize"
+      :page-size-options="pageSizeOptions"
+      @update:current-page="(page: number) => (currentPage = page)"
+      @update:page-size="onChangePageSize"
+    />
     <table :class="['w-full table-fixed', tableClass]">
       <thead>
         <tr>
@@ -125,7 +135,11 @@
               "
             />
             <template v-if="def.field">
-              <slot :name="`cell-${String(def.field)}`" :row="row" :value="row[def.field]">
+              <slot
+                :name="`cell-${String(def.field)}`"
+                :row="row"
+                :value="row[def.field]"
+              >
                 <span>{{ row[def.field] }}</span>
               </slot>
             </template>
@@ -158,12 +172,23 @@
     <div v-show="rows.length === 0" class="w-full text-center p-4 border-b">
       <span>No Item</span>
     </div>
+    <Pagination
+      v-if="pagingEnabled"
+      class="mt-2"
+      :current-page="currentPage"
+      :total-items="rows.length"
+      :page-size="currentPageSize"
+      :page-size-options="pageSizeOptions"
+      @update:current-page="(page: number) => (currentPage = page)"
+      @update:page-size="onChangePageSize"
+    />
   </div>
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import CheckBox from "~/components/common/CheckBox.vue";
 import IconButton from "./IconButton.vue";
+import Pagination from "./Pagination.vue";
 import type { CheckBoxStatus } from "~/components/common/CheckBox.vue";
 
 // 型定義
@@ -204,6 +229,7 @@ const props = defineProps<{
   tableClass?: string;
   headerClass?: string;
   bodyClass?: string;
+  pageSize?: number | number[];
 }>();
 const emit = defineEmits<{
   (event: "click:row", row: T): void;
@@ -221,6 +247,7 @@ const onClickRow = (row: T) => {
 const sortState = ref<SortDef<T> | null>(props.initSortState || null);
 const onChangeSortState = (value: SortDef<T>) => {
   sortState.value = value;
+  currentPage.value = 1;
 };
 const sortRows = (rows: T[]): T[] => {
   if (!sortState.value) {
@@ -249,13 +276,46 @@ const sortRows = (rows: T[]): T[] => {
   });
 };
 
-// 表示行
-const displayRows = ref<T[]>(sortRows(props.rows ?? []));
+// ページング
+const pagingEnabled = computed(() => props.pageSize !== undefined);
+const pageSizeOptions = computed(() =>
+  Array.isArray(props.pageSize) ? (props.pageSize as number[]) : undefined,
+);
+const currentPageSize = ref<number>(
+  Array.isArray(props.pageSize)
+    ? props.pageSize[0] ?? 10
+    : props.pageSize ?? 10,
+);
+const currentPage = ref(1);
+
+const onChangePageSize = (size: number) => {
+  currentPageSize.value = size;
+  currentPage.value = 1;
+};
+
 watch(
-  () => [props.rows, sortState.value],
-  () => {
-    displayRows.value = sortRows(props.rows);
+  () => props.pageSize,
+  (newVal: number | number[] | undefined) => {
+    currentPageSize.value = Array.isArray(newVal)
+      ? newVal[0] ?? 10
+      : newVal ?? 10;
+    currentPage.value = 1;
   },
-  { immediate: true },
+);
+
+// 表示行
+const sortedRows = computed(() => sortRows(props.rows ?? []));
+
+const displayRows = computed(() => {
+  if (!pagingEnabled.value) return sortedRows.value;
+  const start = (currentPage.value - 1) * currentPageSize.value;
+  return sortedRows.value.slice(start, start + currentPageSize.value);
+});
+
+watch(
+  () => props.rows,
+  () => {
+    currentPage.value = 1;
+  },
 );
 </script>

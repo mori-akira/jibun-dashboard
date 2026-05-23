@@ -51,6 +51,7 @@
         :column-defs="columnDefs"
         :is-loading="isLoading"
         :init-sort-state="initSortState"
+        :page-size="paginationPageSize"
         wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
         header-class="font-cursive h-8 bg-gray-800 text-white"
       >
@@ -305,6 +306,10 @@ const initSortState: SortDef<VocabularyWithIndex> = {
   column: "index",
   direction: "asc",
 };
+
+const paginationPageSize = computed(() =>
+  rows.value.length > 100 ? [100, 300, 500] : undefined,
+);
 
 const editTarget = ref<Vocabulary | undefined>(undefined);
 
