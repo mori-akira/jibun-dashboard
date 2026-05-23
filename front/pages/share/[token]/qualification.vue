@@ -63,6 +63,7 @@
           :is-loading="isLoading"
           row-clickable
           :init-sort-state="initSortState"
+          :page-size="paginationPageSize"
           wrapper-class="min-w-192 flex justify-center mt-4 ml-10 mr-10"
           header-class="font-cursive h-8 bg-gray-800 text-white"
           @click:row="onClickRow"
@@ -285,6 +286,11 @@ const initSortState: SortDef<QualificationWithIndex> = {
   column: "index",
   direction: "asc",
 };
+
+const paginationPageSize = computed(() =>
+  rows.value.length > 100 ? [100, 300, 500] : undefined,
+);
+
 const onClickRow = (row: QualificationWithIndex) => {
   const filtered = qualificationStore.qualifications?.find(
     (e) => e.qualificationId === row.qualificationId,
