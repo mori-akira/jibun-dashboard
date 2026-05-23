@@ -9,12 +9,14 @@ graph TB
         qualification[資格を参照する]
         educationPlan[教育計画を参照する]
         vocabulary[ボキャブラリーを参照する]
+        ramen[ラーメンを参照する]
     end
 
     user --- salary
     user --- qualification
     user --- educationPlan
     user --- vocabulary
+    user --- ramen
 ```
 
 ## 給与
@@ -92,4 +94,32 @@ graph TB
     user --- view
     user --- edit
     user --- quiz
+```
+
+## ラーメン
+
+```mermaid
+graph TB
+
+    subgraph "ラーメン"
+        user((ユーザ))
+        view[ラーメン評価を参照する]
+        edit[ラーメン評価を更新する]
+
+        list(評価一覧)
+        map(マップ)
+        register(評価登録)
+        update(評価編集)
+        delete(評価削除)
+    end
+
+    user --- view
+    user --- edit
+
+    view -.- list
+    view -.- map
+
+    edit -.- register
+    edit -.- update
+    edit -.- delete
 ```
