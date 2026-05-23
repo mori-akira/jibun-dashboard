@@ -1,0 +1,35 @@
+# Dependencies
+**/node_modules/
+
+# Build outputs
+back/build/
+front/.nuxt/
+front/.output/
+front/.cache/
+front/dist/
+
+# Auto-generated code (source of truth: openapi/; regenerate via commands in each CLAUDE.md)
+front/generated/
+e2e/generated/
+
+# Python artifacts
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# IDE / tool internals
+back/.gradle/
+back/.kotlin/
+back/.idea/
+
+# Playwright test artifacts
+e2e/.playwright/
+
+# Lock files (large, low signal for code understanding)
+**/package-lock.json
+tool/go.sum
+
+# Terraform internals & state
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.backup
