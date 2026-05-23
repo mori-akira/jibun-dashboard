@@ -34,7 +34,7 @@
         <Icon name="tabler:chevrons-right" class="adjust-icon-2" />
       </button>
     </div>
-    <div class="hidden sm:flex justify-end">
+    <div class="flex justify-end">
       <select
         v-if="pageSizeOptions"
         :value="pageSize"
