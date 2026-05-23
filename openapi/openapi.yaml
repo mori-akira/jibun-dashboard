@@ -19,6 +19,8 @@ tags:
     description: 資格情報API
   - name: Vocabulary
     description: ボキャブラリー情報API
+  - name: RamenReview
+    description: ラーメン評価API
   - name: SharedLink
     description: 共有リンクAPI
   - name: Share
@@ -73,6 +75,10 @@ paths:
     $ref: "paths/vocabulary-check-results/index.yaml"
   /vocabulary-check-results/{checkResultId}/status:
     $ref: "paths/vocabulary-check-results/checkResultId/status.yaml"
+  /ramen-reviews:
+    $ref: "paths/ramen-reviews/index.yaml"
+  /ramen-reviews/{ramenReviewId}:
+    $ref: "paths/ramen-reviews/ramenReviewId.yaml"
   /shared-links:
     $ref: "paths/shared-links/index.yaml"
   /shared-links/{token}:
@@ -159,6 +165,12 @@ components:
       $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultBase.yaml"
     VocabularyCheckResultStatus:
       $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultStatus.yaml"
+    RamenReview:
+      $ref: "schemas/ramen-review/ramenReview.yaml"
+    RamenReviewId:
+      $ref: "schemas/ramen-review/ramenReviewId.yaml"
+    RamenReviewBase:
+      $ref: "schemas/ramen-review/ramenReviewBase.yaml"
     SharedLink:
       $ref: "schemas/shared-link/sharedLink.yaml"
     SharedLinkToken:
