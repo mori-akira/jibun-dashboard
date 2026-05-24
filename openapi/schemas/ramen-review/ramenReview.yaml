@@ -1,5 +1,0 @@
-type: object
-description: ラーメン評価情報
-allOf:
-  - $ref: "./ramenReviewId.yaml"
-  - $ref: "./ramenReviewBase.yaml"

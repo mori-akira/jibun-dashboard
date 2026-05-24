@@ -14,7 +14,6 @@ get:
         type: string
         enum:
           - qualification-certifications
-          - ramen-review-images
     - in: query
       name: assetId
       description: アセットID

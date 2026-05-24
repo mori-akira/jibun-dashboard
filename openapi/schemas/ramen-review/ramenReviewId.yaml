@@ -1,8 +1,0 @@
-type: object
-description: ラーメン評価ID
-
-properties:
-  ramenReviewId:
-    description: ラーメン評価ID
-    type: string
-    format: uuid
