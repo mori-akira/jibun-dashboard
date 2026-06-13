@@ -1,0 +1,8 @@
+type: object
+description: カードID
+
+properties:
+  cardId:
+    description: カードID
+    type: string
+    format: uuid

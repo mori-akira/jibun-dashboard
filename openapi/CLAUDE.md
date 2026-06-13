@@ -50,3 +50,14 @@ Open `openapi.yaml` in VSCode → `Alt + Shift + P` (Swagger Viewer).
 - Add new endpoints by creating a file under `paths/<resource>/` and `$ref`-ing it from `openapi.yaml`.
 - Add new models under `schemas/<model>/` and `$ref`-ing them from path files.
 - Security: all endpoints use `CognitoJwtAuth` by default (defined at the root level).
+
+## Schema Design: `*Base` vs `*Request`
+
+schemas は paths から独立したレイヤーとして定義する。
+
+- **`*Base`**: リソースの基本フィールドを定義するスキーマ。POST/PUT の requestBody に直接使用する。
+- **`*Id`**: 作成・更新レスポンスで返す ID のみのスキーマ。
+- **`*`** (サフィックスなし): `*Id` + `*Base` + タイムスタンプ等を `allOf` で合成した完全なレスポンススキーマ。
+
+**`*Request` スキーマは作らない。** requestBody には `*Base` を直接 `$ref` する。  
+例外は、リクエストとレスポンスでフィールド構造が異なる場合のみ（例: 既存の `VocabularyRequest` は response が `tags: VocabularyTag[]` なのに対し request は `tagIds: UUID[]` のため別定義）。

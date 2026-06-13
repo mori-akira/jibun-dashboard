@@ -1,0 +1,12 @@
+type: object
+description: カード帳基本情報
+
+required:
+  - name
+
+properties:
+  name:
+    description: カード帳名
+    type: string
+    minLength: 1
+    maxLength: 128

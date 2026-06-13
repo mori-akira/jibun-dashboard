@@ -1,0 +1,23 @@
+type: object
+description: カード帳クイズ履歴
+allOf:
+  - $ref: cardbookQuizHistoryId.yaml
+  - $ref: cardbookQuizHistoryBase.yaml
+  - type: object
+    required:
+      - answeredAt
+      - correctCount
+      - incorrectCount
+    properties:
+      answeredAt:
+        description: 回答送信日時
+        type: string
+        format: date-time
+      correctCount:
+        description: 正答数
+        type: integer
+        minimum: 0
+      incorrectCount:
+        description: 誤答数
+        type: integer
+        minimum: 0

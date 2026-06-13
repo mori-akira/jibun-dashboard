@@ -1,0 +1,23 @@
+delete:
+  operationId: deleteCardbookQuizHistoriesById
+  summary: カード帳クイズ履歴削除(ID)
+  description: IDを指定してカード帳クイズ履歴を削除する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: path
+      name: quizHistoryId
+      description: クイズ履歴ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../openapi.yaml#/components/responses/NotFound"

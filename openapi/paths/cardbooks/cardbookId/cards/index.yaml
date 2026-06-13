@@ -1,0 +1,65 @@
+get:
+  operationId: getCardbookCards
+  summary: カード取得
+  description: カード帳に含まれるカードの一覧を取得する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: path
+      name: cardbookId
+      description: カード帳ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../../openapi.yaml#/components/schemas/CardbookCard"
+          example:
+            $ref: "../../../../examples/cardbooks/cardbookId/cards/get.json"
+    "400":
+      $ref: "../../../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../../../openapi.yaml#/components/responses/NotFound"
+
+post:
+  operationId: postCardbookCards
+  summary: カード登録
+  description: カード帳にカードを登録する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: path
+      name: cardbookId
+      description: カード帳ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../openapi.yaml#/components/schemas/CardbookCardBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../openapi.yaml#/components/schemas/CardbookCardId"
+    "400":
+      $ref: "../../../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../../../openapi.yaml#/components/responses/NotFound"

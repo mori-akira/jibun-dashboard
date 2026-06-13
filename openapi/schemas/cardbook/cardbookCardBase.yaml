@@ -1,0 +1,17 @@
+type: object
+description: カード基本情報
+
+required:
+  - front
+
+properties:
+  front:
+    description: 表（単語）
+    type: string
+    minLength: 1
+    maxLength: 512
+
+  back:
+    description: 裏（説明）
+    type: string
+    maxLength: 2048

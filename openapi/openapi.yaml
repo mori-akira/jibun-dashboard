@@ -19,6 +19,8 @@ tags:
     description: 資格情報API
   - name: Vocabulary
     description: ボキャブラリー情報API
+  - name: Cardbook
+    description: カード帳API
   - name: SharedLink
     description: 共有リンクAPI
   - name: Share
@@ -73,6 +75,18 @@ paths:
     $ref: "paths/vocabulary-check-results/index.yaml"
   /vocabulary-check-results/{checkResultId}/status:
     $ref: "paths/vocabulary-check-results/checkResultId/status.yaml"
+  /cardbooks:
+    $ref: "paths/cardbooks/index.yaml"
+  /cardbooks/{cardbookId}:
+    $ref: "paths/cardbooks/cardbookId.yaml"
+  /cardbooks/{cardbookId}/cards:
+    $ref: "paths/cardbooks/cardbookId/cards/index.yaml"
+  /cardbooks/{cardbookId}/cards/{cardId}:
+    $ref: "paths/cardbooks/cardbookId/cards/cardId.yaml"
+  /cardbook-quiz-histories:
+    $ref: "paths/cardbook-quiz-histories/index.yaml"
+  /cardbook-quiz-histories/{quizHistoryId}:
+    $ref: "paths/cardbook-quiz-histories/quizHistoryId.yaml"
   /shared-links:
     $ref: "paths/shared-links/index.yaml"
   /shared-links/{token}:
@@ -159,6 +173,26 @@ components:
       $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultBase.yaml"
     VocabularyCheckResultStatus:
       $ref: "schemas/vocabulary/vocabularyCheckResult/vocabularyCheckResultStatus.yaml"
+    Cardbook:
+      $ref: "schemas/cardbook/cardbook.yaml"
+    CardbookId:
+      $ref: "schemas/cardbook/cardbookId.yaml"
+    CardbookBase:
+      $ref: "schemas/cardbook/cardbookBase.yaml"
+    CardbookCard:
+      $ref: "schemas/cardbook/cardbookCard.yaml"
+    CardbookCardId:
+      $ref: "schemas/cardbook/cardbookCardId.yaml"
+    CardbookCardBase:
+      $ref: "schemas/cardbook/cardbookCardBase.yaml"
+    CardbookQuizHistory:
+      $ref: "schemas/cardbook/cardbookQuizHistory/cardbookQuizHistory.yaml"
+    CardbookQuizHistoryId:
+      $ref: "schemas/cardbook/cardbookQuizHistory/cardbookQuizHistoryId.yaml"
+    CardbookQuizHistoryBase:
+      $ref: "schemas/cardbook/cardbookQuizHistory/cardbookQuizHistoryBase.yaml"
+    CardbookQuizHistoryAnswer:
+      $ref: "schemas/cardbook/cardbookQuizHistory/cardbookQuizHistoryAnswer.yaml"
     SharedLink:
       $ref: "schemas/shared-link/sharedLink.yaml"
     SharedLinkToken:

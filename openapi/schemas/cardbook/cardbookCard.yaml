@@ -1,0 +1,16 @@
+type: object
+description: カード情報
+allOf:
+  - $ref: cardbookCardId.yaml
+  - $ref: cardbookCardBase.yaml
+  - type: object
+    properties:
+      cardbookId:
+        description: カード帳ID
+        type: string
+        format: uuid
+
+      createdDateTime:
+        description: 作成日時
+        type: string
+        format: date-time

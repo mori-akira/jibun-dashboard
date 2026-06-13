@@ -1,0 +1,87 @@
+get:
+  operationId: getCardbooksById
+  summary: カード帳取得(ID)
+  description: IDを指定してカード帳を取得する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: path
+      name: cardbookId
+      description: カード帳ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/Cardbook"
+          example:
+            $ref: "../../examples/cardbooks/cardbookId/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../openapi.yaml#/components/responses/NotFound"
+
+put:
+  operationId: putCardbooksById
+  summary: カード帳更新(ID)
+  description: カード帳を更新する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: path
+      name: cardbookId
+      description: カード帳ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/CardbookBase"
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/CardbookId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../openapi.yaml#/components/responses/NotFound"
+
+delete:
+  operationId: deleteCardbooksById
+  summary: カード帳削除(ID)
+  description: IDを指定してカード帳を削除する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: path
+      name: cardbookId
+      description: カード帳ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "204":
+      description: 正常時
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+    "404":
+      $ref: "../../openapi.yaml#/components/responses/NotFound"

@@ -1,0 +1,58 @@
+[
+  {
+    "cardId": "c1111111-1111-1111-1111-111111111111",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "Amazon S3",
+    "back": "AWS のオブジェクトストレージサービス。高い耐久性（イレブンナイン: 99.999999999%）を持ち、データレイクの基盤として広く使われる。ストレージクラス（Standard / Intelligent-Tiering / Glacier 等）によりコストとアクセス頻度を最適化できる。",
+    "createdDateTime": "2026-06-01T10:05:00.000Z"
+  },
+  {
+    "cardId": "c2222222-2222-2222-2222-222222222222",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "Amazon Redshift",
+    "back": "AWS のフルマネージド型ペタバイトスケールのデータウェアハウス。列指向ストレージと MPP（Massive Parallel Processing）アーキテクチャにより、大規模な分析クエリを高速に処理する。Redshift Spectrum で S3 上のデータも直接クエリ可能。",
+    "createdDateTime": "2026-06-01T10:10:00.000Z"
+  },
+  {
+    "cardId": "c3333333-3333-3333-3333-333333333333",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "AWS Glue",
+    "back": "サーバーレスの ETL（Extract / Transform / Load）サービス。Glue Data Catalog はメタデータリポジトリとして機能し、Athena・Redshift・EMR と連携する。Glue Studio でノーコード ETL ジョブを作成可能。",
+    "createdDateTime": "2026-06-01T10:15:00.000Z"
+  },
+  {
+    "cardId": "c4444444-4444-4444-4444-444444444444",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "Amazon Kinesis Data Streams",
+    "back": "リアルタイムのストリーミングデータを収集・処理するサービス。シャード単位でスループットをスケールし、デフォルト 24 時間（最大 365 日）データを保持する。Lambda・Kinesis Data Analytics・Firehose と組み合わせて使われる。",
+    "createdDateTime": "2026-06-01T10:20:00.000Z"
+  },
+  {
+    "cardId": "c5555555-5555-5555-5555-555555555555",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "Amazon DynamoDB",
+    "back": "フルマネージド型の NoSQL キー・バリューストア。シングルケタミリ秒のレイテンシを提供し、DynamoDB Streams でデータ変更を捕捉できる。オンデマンドキャパシティとプロビジョンドキャパシティを使い分けてコストを最適化する。",
+    "createdDateTime": "2026-06-01T10:25:00.000Z"
+  },
+  {
+    "cardId": "c6666666-6666-6666-6666-666666666666",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "Amazon EMR",
+    "back": "Apache Hadoop・Spark・Hive・HBase などのビッグデータフレームワークをマネージドで実行するサービス。EC2・EKS・Serverless の 3 デプロイオプションがある。S3 を HDFS の代替として使うことで、クラスター停止時のコストを削減できる。",
+    "createdDateTime": "2026-06-01T10:30:00.000Z"
+  },
+  {
+    "cardId": "c7777777-7777-7777-7777-777777777777",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "Amazon Athena",
+    "back": "S3 上のデータを標準 SQL でクエリできるサーバーレスのインタラクティブクエリサービス。スキャンしたデータ量に応じた従量課金。Parquet・ORC 形式を使うことでコストとパフォーマンスを改善できる。Glue Data Catalog をメタストアとして利用する。",
+    "createdDateTime": "2026-06-01T10:35:00.000Z"
+  },
+  {
+    "cardId": "c8888888-8888-8888-8888-888888888888",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "front": "AWS Lake Formation",
+    "back": "データレイクのセットアップ・セキュリティ・管理を簡素化するサービス。列・行レベルのきめ細かいアクセス制御を提供し、Glue・Athena・Redshift Spectrum・EMR と統合される。S3 上のデータに対してタグベースアクセスコントロール（LF-TBAC）を適用できる。",
+    "createdDateTime": "2026-06-01T10:40:00.000Z"
+  }
+]

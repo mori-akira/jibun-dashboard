@@ -1,0 +1,43 @@
+get:
+  operationId: getCardbooks
+  summary: カード帳取得
+  description: カード帳の一覧を取得する
+  tags:
+    - Cardbook
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/Cardbook"
+          example:
+            $ref: "../../examples/cardbooks/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+post:
+  operationId: postCardbooks
+  summary: カード帳登録
+  description: カード帳を登録する
+  tags:
+    - Cardbook
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/CardbookBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/CardbookId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

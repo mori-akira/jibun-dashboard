@@ -1,0 +1,52 @@
+get:
+  operationId: getCardbookQuizHistories
+  summary: カード帳クイズ履歴取得
+  description: カード帳クイズ履歴の一覧を取得する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: query
+      name: cardbookId
+      description: カード帳ID
+      required: false
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/CardbookQuizHistory"
+          example:
+            $ref: "../../examples/cardbook-quiz-histories/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
+
+post:
+  operationId: postCardbookQuizHistories
+  summary: カード帳クイズ履歴登録
+  description: カード帳クイズの回答結果を登録する
+  tags:
+    - Cardbook
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../openapi.yaml#/components/schemas/CardbookQuizHistoryBase"
+
+  responses:
+    "201":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yaml#/components/schemas/CardbookQuizHistoryId"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"
