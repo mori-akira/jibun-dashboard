@@ -60,4 +60,4 @@ schemas は paths から独立したレイヤーとして定義する。
 - **`*`** (サフィックスなし): `*Id` + `*Base` + タイムスタンプ等を `allOf` で合成した完全なレスポンススキーマ。
 
 **`*Request` スキーマは作らない。** requestBody には `*Base` を直接 `$ref` する。  
-例外は、リクエストとレスポンスでフィールド構造が異なる場合のみ（例: 既存の `VocabularyRequest` は response が `tags: VocabularyTag[]` なのに対し request は `tagIds: UUID[]` のため別定義）。
+リクエストにレスポンスと異なるフィールドが必要な場合（例: レスポンスは `tags: VocabularyTag[]`、リクエストは `tagIds: UUID[]`）は、paths ファイル内で `allOf: [*Base, { properties: { ... } }]` として inline で定義する。

@@ -55,7 +55,18 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../../openapi.yaml#/components/schemas/VocabularyRequest"
+          allOf:
+            - $ref: "../../openapi.yaml#/components/schemas/VocabularyBase"
+            - type: object
+              properties:
+                tagIds:
+                  description: タグIDリスト
+                  type: array
+                  maxItems: 64
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
 
   responses:
     "201":

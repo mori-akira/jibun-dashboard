@@ -4,6 +4,8 @@
         "apprunner",
         "axios",
         "buildx",
+        "cardbook",
+        "cardbooks",
         "Detekt",
         "dorny",
         "fileb",

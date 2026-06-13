@@ -15,11 +15,3 @@ properties:
     description: 説明
     type: string
     maxLength: 2048
-
-  tags:
-    description: タグ
-    type: array
-    maxItems: 64
-    uniqueItems: true
-    items:
-      $ref: vocabularyTag/vocabularyTag.yaml

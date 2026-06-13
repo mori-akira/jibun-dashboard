@@ -5,6 +5,14 @@ allOf:
   - $ref: vocabularyBase.yaml
   - type: object
     properties:
+      tags:
+        description: タグ
+        type: array
+        maxItems: 64
+        uniqueItems: true
+        items:
+          $ref: vocabularyTag/vocabularyTag.yaml
+
       createdDateTime:
         description: 作成日時
         type: string
