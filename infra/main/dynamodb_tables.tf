@@ -113,6 +113,31 @@ locals {
         }
       ]
     }
+    cardbooks = {
+      table_name = "${var.app_name}-${var.env_name}-cardbooks"
+      hash_key   = { name = "userId", type = "S" }
+      sort_key   = { name = "cardbookId", type = "S" }
+    }
+    cardbook_cards = {
+      table_name = "${var.app_name}-${var.env_name}-cardbook-cards"
+      hash_key   = { name = "userId", type = "S" }
+      sort_key   = { name = "cardId", type = "S" }
+      gsi = [
+        {
+          name            = "gsi_cardbook_id"
+          hash_key_name   = "cardbookId"
+          hash_key_type   = "S"
+          range_key_name  = "createdDateTime"
+          range_key_type  = "S"
+          projection_type = "ALL"
+        }
+      ]
+    }
+    cardbook_quiz_histories = {
+      table_name = "${var.app_name}-${var.env_name}-cardbook-quiz-histories"
+      hash_key   = { name = "userId", type = "S" }
+      sort_key   = { name = "quizHistoryId", type = "S" }
+    }
     shared_links = {
       table_name = "${var.app_name}-${var.env_name}-shared-links"
       hash_key   = { name = "token", type = "S" }
