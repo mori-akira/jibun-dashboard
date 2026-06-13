@@ -11,6 +11,7 @@ val serviceTags = listOf(
     "Salary",
     "Qualification",
     "Vocabulary",
+    "Cardbook",
     "Share",
     "SharedLink"
 ).joinToString(",")

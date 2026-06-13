@@ -42,6 +42,9 @@ app:
       vocabulary_tags: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-tags
       vocabulary_quiz_histories: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-quiz-histories
       vocabulary_check_results: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-vocabulary-check-results
+      cardbooks: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-cardbooks
+      cardbook_cards: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-cardbook-cards
+      cardbook_quiz_histories: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-cardbook-quiz-histories
       shared-links: ${APP_NAME:jibun-dashboard}-${ENV_NAME:local}-shared-links
   s3:
     region: ${AWS_REGION:ap-northeast-1}
