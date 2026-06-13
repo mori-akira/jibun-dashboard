@@ -1,10 +1,10 @@
 package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
+import com.github.moriakira.jibundashboard.generated.model.PostVocabulariesRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyCheckResultStatus
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryBase
-import com.github.moriakira.jibundashboard.generated.model.PostVocabulariesRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
 import com.github.moriakira.jibundashboard.service.VocabularyCheckResultModel
 import com.github.moriakira.jibundashboard.service.VocabularyCheckResultService
@@ -81,7 +81,7 @@ class VocabularyControllerTest :
         "postVocabularies: 新規作成で 201" {
             every { vocabularyService.create(any()) } returns "11111111-1111-1111-1111-111111111111"
 
-            val res = controller.postVocabularies(PostVocabulariesRequest(name ="Kotlin Coroutine"))
+            val res = controller.postVocabularies(PostVocabulariesRequest(name = "Kotlin Coroutine"))
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.vocabularyId.toString() shouldBe "11111111-1111-1111-1111-111111111111"
@@ -101,7 +101,7 @@ class VocabularyControllerTest :
             val id = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
             every { vocabularyService.getByVocabularyIdForUser(id, "u1") } returns vocabModel(id = id)
 
-            val res = controller.putVocabulariesById(UUID.fromString(id), PostVocabulariesRequest(name ="Updated"))
+            val res = controller.putVocabulariesById(UUID.fromString(id), PostVocabulariesRequest(name = "Updated"))
 
             res.statusCode shouldBe HttpStatus.OK
             res.body!!.vocabularyId.toString() shouldBe id
@@ -113,7 +113,7 @@ class VocabularyControllerTest :
 
             val res = controller.putVocabulariesById(
                 UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                PostVocabulariesRequest(name ="Updated"),
+                PostVocabulariesRequest(name = "Updated"),
             )
 
             res.statusCode shouldBe HttpStatus.NOT_FOUND

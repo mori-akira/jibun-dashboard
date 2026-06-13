@@ -2,6 +2,7 @@ package com.github.moriakira.jibundashboard.controller
 
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.VocabularyApi
+import com.github.moriakira.jibundashboard.generated.model.PostVocabulariesRequest
 import com.github.moriakira.jibundashboard.generated.model.Vocabulary
 import com.github.moriakira.jibundashboard.generated.model.VocabularyCheckResult
 import com.github.moriakira.jibundashboard.generated.model.VocabularyCheckResultStatus
@@ -10,7 +11,6 @@ import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistory
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryId
-import com.github.moriakira.jibundashboard.generated.model.PostVocabulariesRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTag
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagId
