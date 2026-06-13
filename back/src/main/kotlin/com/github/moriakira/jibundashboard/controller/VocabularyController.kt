@@ -10,7 +10,7 @@ import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistory
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryAnswer
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyQuizHistoryId
-import com.github.moriakira.jibundashboard.generated.model.VocabularyRequest
+import com.github.moriakira.jibundashboard.generated.model.PostVocabulariesRequest
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTag
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagBase
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTagId
@@ -56,10 +56,10 @@ class VocabularyController(
     }
 
     override fun postVocabularies(
-        vocabularyRequest: VocabularyRequest?,
+        postVocabulariesRequest: PostVocabulariesRequest?,
     ): ResponseEntity<VocabularyId> {
-        requireNotNull(vocabularyRequest) { "Request body is required." }
-        val vocabularyId = vocabularyService.create(vocabularyRequest.toModel())
+        requireNotNull(postVocabulariesRequest) { "Request body is required." }
+        val vocabularyId = vocabularyService.create(postVocabulariesRequest.toModel())
         return ResponseEntity.status(HttpStatus.CREATED).body(VocabularyId(UUID.fromString(vocabularyId)))
     }
 
@@ -74,12 +74,12 @@ class VocabularyController(
     @Suppress("ReturnCount")
     override fun putVocabulariesById(
         vocabularyId: UUID,
-        vocabularyRequest: VocabularyRequest?,
+        postVocabulariesRequest: PostVocabulariesRequest?,
     ): ResponseEntity<VocabularyId> {
-        requireNotNull(vocabularyRequest) { "Request body is required." }
+        requireNotNull(postVocabulariesRequest) { "Request body is required." }
         vocabularyService.getByVocabularyIdForUser(vocabularyId.toString(), currentAuth.userId)
             ?: return ResponseEntity.notFound().build()
-        vocabularyService.put(vocabularyRequest.toModel(vocabularyId.toString()))
+        vocabularyService.put(postVocabulariesRequest.toModel(vocabularyId.toString()))
         return ResponseEntity.ok(VocabularyId(vocabularyId))
     }
 
@@ -214,7 +214,7 @@ class VocabularyController(
             order = this.order,
         )
 
-    private fun VocabularyRequest.toModel(): VocabularyModel =
+    private fun PostVocabulariesRequest.toModel(): VocabularyModel =
         VocabularyModel(
             vocabularyId = "",
             userId = currentAuth.userId,
@@ -223,7 +223,7 @@ class VocabularyController(
             tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
         )
 
-    private fun VocabularyRequest.toModel(vocabularyId: String): VocabularyModel =
+    private fun PostVocabulariesRequest.toModel(vocabularyId: String): VocabularyModel =
         VocabularyModel(
             vocabularyId = vocabularyId,
             userId = currentAuth.userId,
