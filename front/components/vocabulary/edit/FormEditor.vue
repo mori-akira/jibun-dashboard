@@ -101,7 +101,7 @@ import { Form, Field } from "vee-validate";
 
 import type {
   Vocabulary,
-  VocabularyRequest,
+  PostVocabulariesRequest,
   VocabularyTag,
 } from "~/generated/api/client";
 import { schemas } from "~/generated/api/client/schemas";
@@ -123,7 +123,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "closeModal" | "addedTag"): void;
-  (e: "submit", values: VocabularyRequest): void;
+  (e: "submit", values: PostVocabulariesRequest): void;
 }>();
 
 const commonStore = useCommonStore();
@@ -175,12 +175,12 @@ const onToggleTag = (tagId: string) => {
 };
 
 const validationRules: {
-  [K in keyof Pick<VocabularyRequest, "name" | "description">]?: ReturnType<
+  [K in keyof Pick<PostVocabulariesRequest, "name" | "description">]?: ReturnType<
     typeof zodToVeeRules
   >;
 } = {
-  name: zodToVeeRules(schemas.VocabularyRequest.shape.name),
-  description: zodToVeeRules(schemas.VocabularyRequest.shape.description),
+  name: zodToVeeRules(schemas.VocabularyBase.shape.name),
+  description: zodToVeeRules(schemas.VocabularyBase.shape.description),
 };
 
 const onSubmit: SubmissionHandler<GenericObject> = async (values) => {

@@ -118,7 +118,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 
-import type { Vocabulary, VocabularyRequest } from "~/generated/api/client/api";
+import type { Vocabulary, PostVocabulariesRequest } from "~/generated/api/client/api";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
@@ -317,7 +317,7 @@ const onAddNewOne = () => {
   editTarget.value = { name: "" };
 };
 
-const onSubmitEdit = async (value: VocabularyRequest) => {
+const onSubmitEdit = async (value: PostVocabulariesRequest) => {
   const result = await withErrorHandling(async () => {
     await vocabularyStore.putVocabulary(editTarget.value?.vocabularyId, {
       name: value.name,

@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import type {
   Vocabulary,
-  VocabularyRequest,
+  PostVocabulariesRequest,
   VocabularyTag,
   VocabularyTagBase,
   VocabularyQuizHistory,
@@ -35,13 +35,13 @@ export const useVocabularyStore = defineStore("vocabulary", () => {
     vocabularies.value = res.data;
   }
 
-  async function postVocabulary(vocabulary: VocabularyRequest) {
+  async function postVocabulary(vocabulary: PostVocabulariesRequest) {
     await getVocabularyApi().postVocabularies(vocabulary);
   }
 
   async function putVocabulary(
     vocabularyId: string | undefined,
-    vocabulary: VocabularyRequest,
+    vocabulary: PostVocabulariesRequest,
   ) {
     if (vocabularyId) {
       await getVocabularyApi().putVocabulariesById(vocabularyId, vocabulary);

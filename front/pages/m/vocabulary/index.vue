@@ -307,7 +307,7 @@ const onCloseModal = () => (selectedVocabulary.value = null);
 
 const showAddModal = ref(false);
 const addValidationRules = {
-  name: zodToVeeRules(schemas.VocabularyRequest.shape.name),
+  name: zodToVeeRules(schemas.VocabularyBase.shape.name),
 };
 const openAddModal = () => {
   showAddModal.value = true;
