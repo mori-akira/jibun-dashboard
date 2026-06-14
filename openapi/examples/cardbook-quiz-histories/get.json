@@ -33,40 +33,5 @@
       { "cardId": "c7777777-7777-7777-7777-777777777777", "result": "INCORRECT" },
       { "cardId": "c8888888-8888-8888-8888-888888888888", "result": "CORRECT" }
     ]
-  },
-  {
-    "quizHistoryId": "h3333333-3333-3333-3333-333333333333",
-    "cardbookId": "b2cd3ef0-4567-8901-bcde-f01234567890",
-    "answeredAt": "2026-06-11T19:00:00.000Z",
-    "questionCount": 5,
-    "direction": "FRONT_TO_BACK",
-    "correctCount": 4,
-    "incorrectCount": 1,
-    "answers": [
-      { "cardId": "d1111111-1111-1111-1111-111111111111", "result": "CORRECT" },
-      { "cardId": "d2222222-2222-2222-2222-222222222222", "result": "CORRECT" },
-      { "cardId": "d3333333-3333-3333-3333-333333333333", "result": "INCORRECT" },
-      { "cardId": "d4444444-4444-4444-4444-444444444444", "result": "CORRECT" },
-      { "cardId": "d5555555-5555-5555-5555-555555555555", "result": "CORRECT" }
-    ]
-  },
-  {
-    "quizHistoryId": "h4444444-4444-4444-4444-444444444444",
-    "cardbookId": "b2cd3ef0-4567-8901-bcde-f01234567890",
-    "answeredAt": "2026-06-13T22:15:00.000Z",
-    "questionCount": 8,
-    "direction": "FRONT_TO_BACK",
-    "correctCount": 7,
-    "incorrectCount": 1,
-    "answers": [
-      { "cardId": "d1111111-1111-1111-1111-111111111111", "result": "CORRECT" },
-      { "cardId": "d2222222-2222-2222-2222-222222222222", "result": "CORRECT" },
-      { "cardId": "d3333333-3333-3333-3333-333333333333", "result": "CORRECT" },
-      { "cardId": "d4444444-4444-4444-4444-444444444444", "result": "CORRECT" },
-      { "cardId": "d5555555-5555-5555-5555-555555555555", "result": "CORRECT" },
-      { "cardId": "d6666666-6666-6666-6666-666666666666", "result": "CORRECT" },
-      { "cardId": "d7777777-7777-7777-7777-777777777777", "result": "INCORRECT" },
-      { "cardId": "d8888888-8888-8888-8888-888888888888", "result": "CORRECT" }
-    ]
   }
 ]

@@ -21,12 +21,13 @@ export type CardState = {
   result: QuizResult | null;
 };
 
-export function useCardbookQuiz(cardbookId: string) {
+export function useCardbookQuiz(cardbookId: string, historyPath?: string) {
   const commonStore = useCommonStore();
   const cardbookStore = useCardbookStore();
   const { isLoading, withLoading } = useLoadingQueue();
 
-  const historyPath = `/cardbook/${cardbookId}/quiz/history`;
+  const resolvedHistoryPath =
+    historyPath ?? `/cardbook/${cardbookId}/quiz/history`;
 
   const phase = ref<QuizPhase>("settings");
   const direction = ref<QuizDirection>("FRONT_TO_BACK");
@@ -143,7 +144,7 @@ export function useCardbookQuiz(cardbookId: string) {
         });
         submitted.value = true;
         await cardbookStore.fetchQuizHistories(cardbookId);
-        await navigateTo(historyPath);
+        await navigateTo(resolvedHistoryPath);
       } catch (err) {
         console.error(err);
         commonStore.addErrorMessage(getErrorMessage(err));
