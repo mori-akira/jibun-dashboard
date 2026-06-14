@@ -80,7 +80,7 @@
 import Panel from "~/components/common/Panel.vue";
 import Button from "~/components/common/Button.vue";
 import SelectBox from "~/components/common/SelectBox.vue";
-import { type QuizDirection } from "~/utils/vocabularyQuiz";
+import type { QuizDirection } from "~/utils/vocabularyQuiz";
 import { getCardbookDirectionLabel } from "~/utils/cardbookQuiz";
 
 defineProps<{
