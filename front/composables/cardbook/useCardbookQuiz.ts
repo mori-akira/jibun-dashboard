@@ -1,15 +1,14 @@
 import type {
-  Vocabulary,
-  VocabularyQuizHistoryBaseDirectionEnum,
-  VocabularyQuizHistoryAnswerResultEnum,
+  CardbookCard,
+  CardbookQuizHistoryBaseDirectionEnum,
+  CardbookQuizHistoryAnswerResultEnum,
 } from "~/generated/api/client/api";
 import { useCommonStore } from "~/stores/common";
-import { useVocabularyStore } from "~/stores/vocabulary";
+import { useCardbookStore } from "~/stores/cardbook";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 import { getErrorMessage } from "~/utils/error";
+import { selectQuizCards, getCardbookScopeCount } from "~/utils/cardbookQuiz";
 import {
-  selectQuizVocabularies,
-  getScopeCount,
   getCountOptions,
   type QuizDirection,
   type QuizResult,
@@ -17,18 +16,19 @@ import {
 
 export type QuizPhase = "settings" | "quiz" | "complete";
 export type CardState = {
-  vocabulary: Vocabulary;
+  card: CardbookCard;
   flipped: boolean;
   result: QuizResult | null;
 };
 
-export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
+export function useCardbookQuiz(cardbookId: string) {
   const commonStore = useCommonStore();
-  const vocabularyStore = useVocabularyStore();
+  const cardbookStore = useCardbookStore();
   const { isLoading, withLoading } = useLoadingQueue();
 
+  const historyPath = `/cardbook/${cardbookId}/quiz/history`;
+
   const phase = ref<QuizPhase>("settings");
-  const selectedTagIds = ref<string[]>([]);
   const direction = ref<QuizDirection>("FRONT_TO_BACK");
   const questionCount = ref(5);
   const cards = ref<CardState[]>([]);
@@ -36,7 +36,7 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
   const submitted = ref(false);
 
   const scopeCount = computed(() =>
-    getScopeCount(vocabularyStore.vocabularies ?? [], selectedTagIds.value),
+    getCardbookScopeCount(cardbookStore.cardbookCards ?? []),
   );
 
   const countOptions = computed(() => getCountOptions(scopeCount.value));
@@ -56,26 +56,25 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
   );
 
   const frontText = computed(() => {
-    const vocab = currentCard.value?.vocabulary;
+    const card = currentCard.value?.card;
     return direction.value === "FRONT_TO_BACK"
-      ? vocab?.name ?? ""
-      : vocab?.description ?? "";
+      ? card?.front ?? ""
+      : card?.back ?? "";
   });
 
   const backText = computed(() => {
-    const vocab = currentCard.value?.vocabulary;
+    const card = currentCard.value?.card;
     return direction.value === "FRONT_TO_BACK"
-      ? vocab?.description ?? ""
-      : vocab?.name ?? "";
+      ? card?.back ?? ""
+      : card?.front ?? "";
   });
 
   async function init() {
     await withLoading(async () => {
       try {
         await Promise.all([
-          vocabularyStore.fetchVocabularies(),
-          vocabularyStore.fetchVocabularyTags(),
-          vocabularyStore.fetchQuizHistories(),
+          cardbookStore.fetchCardbookCards(cardbookId),
+          cardbookStore.fetchQuizHistories(cardbookId),
         ]);
       } catch (err) {
         console.error(err);
@@ -84,22 +83,15 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
     });
   }
 
-  function onClickTag(tagId: string) {
-    const idx = selectedTagIds.value.indexOf(tagId);
-    if (idx >= 0) selectedTagIds.value.splice(idx, 1);
-    else selectedTagIds.value.push(tagId);
-  }
-
   function onStartQuiz() {
-    const selected = selectQuizVocabularies(
-      vocabularyStore.vocabularies ?? [],
-      vocabularyStore.quizHistories ?? [],
-      selectedTagIds.value,
+    const selected = selectQuizCards(
+      cardbookStore.cardbookCards ?? [],
+      cardbookStore.quizHistories ?? [],
       questionCount.value,
       direction.value,
     );
-    cards.value = selected.map((v) => ({
-      vocabulary: v,
+    cards.value = selected.map((c) => ({
+      card: c,
       flipped: false,
       result: null,
     }));
@@ -140,18 +132,17 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
     if (submitted.value) return;
     await withLoading(async () => {
       try {
-        await vocabularyStore.postQuizHistory({
-          tagIds:
-            selectedTagIds.value.length > 0 ? selectedTagIds.value : undefined,
+        await cardbookStore.postQuizHistory({
+          cardbookId,
           questionCount: cards.value.length,
-          direction: direction.value as VocabularyQuizHistoryBaseDirectionEnum,
+          direction: direction.value as CardbookQuizHistoryBaseDirectionEnum,
           answers: cards.value.map((c: CardState) => ({
-            vocabularyId: c.vocabulary.vocabularyId!,
-            result: c.result as VocabularyQuizHistoryAnswerResultEnum,
+            cardId: c.card.cardId!,
+            result: c.result as CardbookQuizHistoryAnswerResultEnum,
           })),
         });
         submitted.value = true;
-        await vocabularyStore.fetchQuizHistories();
+        await cardbookStore.fetchQuizHistories(cardbookId);
         await navigateTo(historyPath);
       } catch (err) {
         console.error(err);
@@ -163,7 +154,6 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
   return {
     // state
     phase,
-    selectedTagIds,
     direction,
     questionCount,
     cards,
@@ -180,7 +170,6 @@ export function useVocabularyQuiz(historyPath = "/vocabulary/quiz/history") {
     backText,
     // methods
     init,
-    onClickTag,
     onStartQuiz,
     onFlipCard,
     onAnswer,

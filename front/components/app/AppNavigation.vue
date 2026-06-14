@@ -53,6 +53,16 @@
             <span class="font-cursive ml-2">Vocabulary</span>
           </NuxtLink>
         </li>
+        <li>
+          <NuxtLink
+            class="text-gray-900"
+            :class="{ active: isActive('/cardbook') }"
+            to="/cardbook"
+          >
+            <Icon name="tabler:books" class="nav-icon" />
+            <span class="font-cursive ml-2">Cardbook</span>
+          </NuxtLink>
+        </li>
       </ul>
     </div>
   </nav>
@@ -67,7 +77,7 @@ const commonStore = useCommonStore();
 const isActive = (base: string) =>
   base === "/"
     ? route.path === base || route.path === ""
-    : route.path.startsWith(base);
+    : route.path === base || route.path.startsWith(base + "/");
 </script>
 
 <style lang="css" scoped>

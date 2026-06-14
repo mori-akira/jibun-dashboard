@@ -14,6 +14,7 @@
         <div class="flashcard-content">
           <slot name="back" />
         </div>
+        <p class="text-xs text-gray-400 mt-4">Click to flip back</p>
       </div>
     </div>
   </div>

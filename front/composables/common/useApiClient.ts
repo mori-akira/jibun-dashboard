@@ -1,13 +1,14 @@
 import { Configuration } from "~/generated/api/client/configuration";
 import {
-  UserApi,
-  SalaryApi,
-  QualificationApi,
-  SettingApi,
+  CardbookApi,
   FileApi,
-  VocabularyApi,
-  SharedLinkApi,
+  QualificationApi,
+  SalaryApi,
+  SettingApi,
   ShareApi,
+  SharedLinkApi,
+  UserApi,
+  VocabularyApi,
 } from "~/generated/api/client/api";
 import { useAuth } from "~/composables/common/useAuth";
 
@@ -24,24 +25,26 @@ export const useApiClient = () => {
 
   const getPublicConfiguration = () => new Configuration();
 
-  const getUserApi = () => new UserApi(getConfiguration());
-  const getSalaryApi = () => new SalaryApi(getConfiguration());
-  const getQualificationApi = () => new QualificationApi(getConfiguration());
-  const getSettingApi = () => new SettingApi(getConfiguration());
+  const getCardbookApi = () => new CardbookApi(getConfiguration());
   const getFileApi = () => new FileApi(getConfiguration());
-  const getVocabularyApi = () => new VocabularyApi(getConfiguration());
-  const getSharedLinkApi = () => new SharedLinkApi(getConfiguration());
+  const getQualificationApi = () => new QualificationApi(getConfiguration());
+  const getSalaryApi = () => new SalaryApi(getConfiguration());
+  const getSettingApi = () => new SettingApi(getConfiguration());
   const getShareApi = () => new ShareApi(getPublicConfiguration());
+  const getSharedLinkApi = () => new SharedLinkApi(getConfiguration());
+  const getUserApi = () => new UserApi(getConfiguration());
+  const getVocabularyApi = () => new VocabularyApi(getConfiguration());
 
   return {
     getConfiguration,
-    getUserApi,
-    getSalaryApi,
-    getQualificationApi,
-    getSettingApi,
+    getCardbookApi,
     getFileApi,
-    getVocabularyApi,
-    getSharedLinkApi,
+    getQualificationApi,
+    getSalaryApi,
+    getSettingApi,
     getShareApi,
+    getSharedLinkApi,
+    getUserApi,
+    getVocabularyApi,
   };
 };

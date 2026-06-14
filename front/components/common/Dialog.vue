@@ -32,6 +32,7 @@
               ref="inputRef"
               :value="inputValue"
               :input-class="['ml-0', inputClass ?? '']"
+              :input-wrapper-class="inputWrapperClass"
               @input:value="onChangeInputValue"
               @keydown:enter="onClickOk"
               @keydown:escape="onClickCancel"
@@ -76,6 +77,8 @@ const props = defineProps<{
   buttonType?: "ok" | "okCancel" | "yesNo";
   messageClass?: string;
   inputClass?: string;
+  inputWrapperClass?: string;
+  initialValue?: string;
 }>();
 
 const emit = defineEmits<{
@@ -91,6 +94,7 @@ watch(
   () => props.showDialog,
   async (newVal) => {
     if (newVal && props.type === "input") {
+      inputValue.value = props.initialValue ?? "";
       await nextTick();
       await inputRef.value?.focus();
     }

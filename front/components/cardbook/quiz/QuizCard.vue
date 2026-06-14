@@ -27,11 +27,8 @@
         @click="$emit('flip')"
       >
         <template #front>
-          <p
-            :class="direction === 'FRONT_TO_BACK' ? 'text-center' : 'text-left'"
-            class="text-xs text-gray-400 mb-2 font-cursive"
-          >
-            {{ direction === "FRONT_TO_BACK" ? "Name" : "Description" }}
+          <p class="text-xs text-gray-400 mb-2 font-cursive text-center">
+            {{ direction === "FRONT_TO_BACK" ? "Term" : "Description" }}
           </p>
           <p
             :class="
@@ -45,11 +42,8 @@
           </p>
         </template>
         <template #back>
-          <p
-            :class="direction === 'FRONT_TO_BACK' ? 'text-left' : 'text-center'"
-            class="text-xs text-gray-400 mb-2 font-cursive"
-          >
-            {{ direction === "FRONT_TO_BACK" ? "Description" : "Name" }}
+          <p class="text-xs text-gray-400 mb-2 font-cursive text-left">
+            {{ direction === "FRONT_TO_BACK" ? "Description" : "Term" }}
           </p>
           <p
             :class="
