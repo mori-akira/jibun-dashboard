@@ -77,7 +77,7 @@ class ShareControllerTest :
             every { sharedLinkService.validateAndGet(token, "salary") } returns link()
             every { salaryService.listAll("u1") } returns listOf(
                 SalaryModel(
-                    salaryId = "sal1",
+                    salaryId = "11111111-1111-1111-1111-111111111111",
                     userId = "u1",
                     targetDate = "2025-01-01",
                     overview = OverviewModel(
@@ -109,7 +109,7 @@ class ShareControllerTest :
             every { sharedLinkService.validateAndGet(token, "qualification") } returns link(listOf("qualification"))
             every { qualificationService.listAll("u1") } returns listOf(
                 QualificationModel(
-                    qualificationId = "q1",
+                    qualificationId = "22222222-2222-2222-2222-222222222222",
                     userId = "u1",
                     order = 1,
                     qualificationName = "AWS SAA",
@@ -137,7 +137,7 @@ class ShareControllerTest :
             every { sharedLinkService.validateAndGet(token, "vocabulary") } returns link(listOf("vocabulary"))
             every { vocabularyService.listByConditions("u1") } returns listOf(
                 VocabularyModel(
-                    vocabularyId = "v1",
+                    vocabularyId = "33333333-3333-3333-3333-333333333333",
                     userId = "u1",
                     name = "Coroutine",
                     description = "Kotlin concurrency",
@@ -145,7 +145,7 @@ class ShareControllerTest :
                     updatedDateTime = "2025-01-01T00:00:00Z",
                     tags = listOf(
                         VocabularyTagModel(
-                            vocabularyTagId = "tag1",
+                            vocabularyTagId = "44444444-4444-4444-4444-444444444444",
                             userId = "u1",
                             vocabularyTag = "kotlin",
                             order = 1,
@@ -165,7 +165,12 @@ class ShareControllerTest :
         "getShareVocabularyTags: タグ一覧を返す" {
             every { sharedLinkService.validateAndGet(token, "vocabulary") } returns link(listOf("vocabulary"))
             every { vocabularyTagService.listByConditions("u1") } returns listOf(
-                VocabularyTagModel(vocabularyTagId = "tag1", userId = "u1", vocabularyTag = "kotlin", order = 1),
+                VocabularyTagModel(
+                    vocabularyTagId = "44444444-4444-4444-4444-444444444444",
+                    userId = "u1",
+                    vocabularyTag = "kotlin",
+                    order = 1,
+                ),
             )
 
             val res = controller.getShareVocabularyTags(UUID.fromString(token))

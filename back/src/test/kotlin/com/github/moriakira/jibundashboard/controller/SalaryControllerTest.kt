@@ -133,7 +133,8 @@ class SalaryControllerTest :
             controller.putSalariesById(UUID.fromString(id), req).statusCode shouldBe HttpStatus.OK
             controller.putSalariesById(UUID.fromString(missingId), req).also {
                 it.statusCode shouldBe HttpStatus.NOT_FOUND
-                verify(exactly = 0) { salaryService.put(any()) }
+                // put は成功ケースで1回呼ばれるが、存在しない ID では呼ばれない
+                verify(exactly = 1) { salaryService.put(any()) }
             }
         }
 
@@ -156,7 +157,8 @@ class SalaryControllerTest :
             controller.deleteSalariesById(UUID.fromString(id)).statusCode shouldBe HttpStatus.NO_CONTENT
             controller.deleteSalariesById(UUID.fromString(missingId)).also {
                 it.statusCode shouldBe HttpStatus.NOT_FOUND
-                verify(exactly = 0) { salaryService.delete(any(), any()) }
+                // delete は成功ケースで1回呼ばれるが、存在しない ID では呼ばれない
+                verify(exactly = 1) { salaryService.delete(any(), any()) }
             }
         }
 

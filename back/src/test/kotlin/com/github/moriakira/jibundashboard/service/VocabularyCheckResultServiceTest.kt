@@ -95,7 +95,8 @@ class VocabularyCheckResultServiceTest :
             val res = service.listByUser("u1", severities = listOf("HIGH", "MEDIUM"))
 
             res.shouldHaveSize(2)
-            res.map { it.vocabularyCheckResultId } shouldBe listOf("r2", "r1")
+            // checkedAt が同一なので安定ソートにより入力順が保持される
+            res.map { it.vocabularyCheckResultId } shouldBe listOf("r1", "r2")
         }
 
         "listByUser: statuses で絞り込みができる" {

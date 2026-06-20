@@ -142,6 +142,9 @@ class SalaryOcrTaskServiceTest :
             every { UUID.randomUUID() } returns fixedId
             every { OffsetDateTime.now(ZoneOffset.UTC) } returns fixedNow
 
+            // 既存タスクなし（他テストの stub 漏れを上書き）
+            every { repository.findByUserAndDate("u1", "2025-11") } returns emptyList()
+
             // Repository への put の引数をキャプチャ
             val putSlot = slot<SalaryOcrTaskItem>()
             every { repository.put(capture(putSlot)) } returns Unit

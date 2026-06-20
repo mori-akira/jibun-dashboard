@@ -68,7 +68,7 @@ class UserAssetServiceTest :
         "issuePresignedGetUrl: デフォルトの有効期限で正しいキーの署名付き URL を返す" {
             val userId = "u3"
             val assetId = UUID.fromString("33333333-3333-3333-3333-333333333333")
-            val assetType = "qualification-certificate"
+            val assetType = "qualification-certifications"
             val expectedUrl = URL("https://s3.example.com/user-assets/$assetType/$userId/$assetId")
             val presignedResponse = mockk<PresignedGetObjectRequest>(relaxed = true)
 
@@ -92,7 +92,7 @@ class UserAssetServiceTest :
         "issuePresignedGetUrl: expires を指定した場合はその値を有効期限に使用する" {
             val userId = "u4"
             val assetId = UUID.fromString("44444444-4444-4444-4444-444444444444")
-            val assetType = "qualification-certificate"
+            val assetType = "qualification-certifications"
             val customExpires = 7200
             val expectedUrl = URL("https://s3.example.com/user-assets/$assetType/$userId/$assetId")
             val presignedResponse = mockk<PresignedGetObjectRequest>(relaxed = true)

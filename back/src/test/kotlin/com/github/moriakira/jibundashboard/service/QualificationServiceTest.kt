@@ -109,6 +109,7 @@ class QualificationServiceTest :
         "put: モデルを保存して ID を返す" {
             val capt = slot<QualificationItem>()
             every { repository.put(capture(capt)) } returns Unit
+            every { repository.getByQualificationId("qid-7") } returns null
 
             val model = QualificationModel(
                 qualificationId = "qid-7",
@@ -192,7 +193,14 @@ class QualificationServiceTest :
                     UUID.fromString(newAssetId),
                 )
             }
-            verify(exactly = 0) { userAssetService.delete(any(), any(), any()) }
+            // アセット差し替え時は旧アセットも削除される
+            verify(exactly = 1) {
+                userAssetService.delete(
+                    "qualification-certifications",
+                    "u1",
+                    UUID.fromString(oldAssetId),
+                )
+            }
         }
 
         "put: certificationAssetId が変わらない場合は S3 処理をしない" {

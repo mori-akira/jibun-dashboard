@@ -11,6 +11,7 @@ import com.github.moriakira.jibundashboard.service.SettingService
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -25,6 +26,7 @@ class SettingControllerTest :
 
         beforeTest {
             every { currentAuth.userId } returns "u1"
+            clearMocks(settingService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         @Suppress("LongParameterList")

@@ -163,6 +163,16 @@ detekt {
     parallel = true
 }
 
+// テスト設定（Kotest は JUnit Platform 上で動作する）
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+    // MockK の静的モック（mockkStatic(UUID/OffsetDateTime)）が JDK 内部にリフレクションするため対象パッケージを開放
+    jvmArgs(
+        "--add-opens", "java.base/java.util=ALL-UNNAMED",
+        "--add-opens", "java.base/java.time=ALL-UNNAMED",
+    )
+}
+
 // Jacoco 設定とレポート
 jacoco {
     toolVersion = "0.8.12"

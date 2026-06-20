@@ -3,6 +3,7 @@ package com.github.moriakira.jibundashboard.repository
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -24,6 +25,10 @@ class QualificationRepositoryTest :
         val lsi = mockk<DynamoDbIndex<QualificationItem>>()
         val repo = QualificationRepository(enhanced, "qualifications")
         val schema: TableSchema<QualificationItem> = TableSchema.fromBean(QualificationItem::class.java)
+
+        beforeTest {
+            clearMocks(enhanced, table, gsi, lsi, answers = false, recordedCalls = true, childMocks = true)
+        }
 
         fun item(id: String = "q1", user: String = "u1", order: Int = 1) = QualificationItem().apply {
             qualificationId = id

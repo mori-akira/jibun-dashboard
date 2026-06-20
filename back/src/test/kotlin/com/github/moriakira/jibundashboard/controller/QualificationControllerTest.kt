@@ -109,7 +109,8 @@ class QualificationControllerTest :
             controller.putQualificationsById(UUID.fromString(id), req()).statusCode shouldBe HttpStatus.OK
             controller.putQualificationsById(UUID.fromString(missingId), req()).also {
                 it.statusCode shouldBe HttpStatus.NOT_FOUND
-                verify(exactly = 0) { qualificationService.put(any()) }
+                // put は成功ケースで1回呼ばれるが、存在しない ID では呼ばれない
+                verify(exactly = 1) { qualificationService.put(any()) }
             }
         }
 

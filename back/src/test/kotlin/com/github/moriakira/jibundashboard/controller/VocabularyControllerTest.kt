@@ -179,7 +179,11 @@ class VocabularyControllerTest :
 
         // --- VocabularyCheckResult ---
 
-        fun checkResultModel(id: String = "r1", vocabularyId: String = "v1", status: String = "UNCHECKED") =
+        fun checkResultModel(
+            id: String = "55555555-5555-5555-5555-555555555555",
+            vocabularyId: String = "33333333-3333-3333-3333-333333333333",
+            status: String = "UNCHECKED",
+        ) =
             VocabularyCheckResultModel(
                 vocabularyCheckResultId = id,
                 vocabularyId = vocabularyId,
@@ -206,11 +210,11 @@ class VocabularyControllerTest :
 
         "putVocabularyCheckResultStatusById: 更新で 204" {
             every {
-                vocabularyCheckResultService.updateStatus("r1", "u1", "CHECKED")
+                vocabularyCheckResultService.updateStatus("55555555-5555-5555-5555-555555555555", "u1", "CHECKED")
             } returns checkResultModel(status = "CHECKED")
 
             val res = controller.putVocabularyCheckResultStatusById(
-                UUID.fromString("r1r1r1r1-r1r1-r1r1-r1r1-r1r1r1r1r1r1"),
+                UUID.fromString("55555555-5555-5555-5555-555555555555"),
                 VocabularyCheckResultStatus(status = VocabularyCheckResultStatus.Status.CHECKED),
             )
 
