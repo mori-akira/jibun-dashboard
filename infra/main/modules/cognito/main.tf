@@ -14,7 +14,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   user_pool_id                         = aws_cognito_user_pool.user_pool.id
   generate_secret                      = false
   allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_flows                  = ["code", "implicit"]
+  allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["openid", "email", "profile", "aws.cognito.signin.user.admin"]
   id_token_validity                    = var.id_token_validity
   access_token_validity                = var.access_token_validity
@@ -27,8 +27,14 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     "email", "email_verified"
   ]
 
-  callback_urls = [var.cognito_callback_url]
-  logout_urls   = [var.cognito_logout_url]
+  # The SPA uses the trailing-slash callback ("/callback/") to avoid the S3
+  # website 302 that would otherwise drop the OAuth query parameters. Register
+  # both forms so either path is accepted.
+  callback_urls = distinct([
+    var.cognito_callback_url,
+    "${trimsuffix(var.cognito_callback_url, "/")}/",
+  ])
+  logout_urls = [var.cognito_logout_url]
 
   supported_identity_providers = ["COGNITO"]
   explicit_auth_flows = [

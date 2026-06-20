@@ -27,7 +27,10 @@ const getManager = (): UserManager => {
   const settings: UserManagerSettings = {
     authority: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}`,
     client_id: clientId,
-    redirect_uri: `${window.location.origin}/callback`,
+    // Trailing slash is required: the S3 website host 302-redirects
+    // "/callback" -> "/callback/" and drops the query string (code/state)
+    // in the process, which breaks the Authorization Code response parsing.
+    redirect_uri: `${window.location.origin}/callback/`,
     response_type: "code",
     scope: "openid email profile aws.cognito.signin.user.admin",
     userStore: new WebStorageStateStore({ store: window.localStorage }),
