@@ -2,6 +2,7 @@ package com.github.moriakira.jibundashboard.service
 
 import com.github.moriakira.jibundashboard.exception.ForbiddenException
 import com.github.moriakira.jibundashboard.exception.GoneException
+import com.github.moriakira.jibundashboard.exception.NotFoundException
 import com.github.moriakira.jibundashboard.repository.SharedLinkItem
 import com.github.moriakira.jibundashboard.repository.SharedLinkRepository
 import org.springframework.beans.factory.annotation.Value
@@ -39,7 +40,7 @@ class SharedLinkService(
     @Suppress("ThrowsCount")
     fun validateAndGet(token: String, dataType: String): SharedLinkModel {
         val item = sharedLinkRepository.getByToken(token)
-            ?: throw java.util.NoSuchElementException("Token not found.")
+            ?: throw NotFoundException("Token not found.")
         if (LocalDate.now(ZoneId.of("Asia/Tokyo")).isAfter(LocalDate.parse(item.expiresAt!!))) {
             throw GoneException("Token has expired.")
         }
@@ -51,7 +52,7 @@ class SharedLinkService(
 
     fun validateTokenOnly(token: String): SharedLinkModel {
         val item = sharedLinkRepository.getByToken(token)
-            ?: throw java.util.NoSuchElementException("Token not found.")
+            ?: throw NotFoundException("Token not found.")
         if (LocalDate.now(ZoneId.of("Asia/Tokyo")).isAfter(LocalDate.parse(item.expiresAt!!))) {
             throw GoneException("Token has expired.")
         }

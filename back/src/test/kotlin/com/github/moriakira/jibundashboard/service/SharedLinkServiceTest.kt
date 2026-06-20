@@ -2,6 +2,7 @@ package com.github.moriakira.jibundashboard.service
 
 import com.github.moriakira.jibundashboard.exception.ForbiddenException
 import com.github.moriakira.jibundashboard.exception.GoneException
+import com.github.moriakira.jibundashboard.exception.NotFoundException
 import com.github.moriakira.jibundashboard.repository.SharedLinkItem
 import com.github.moriakira.jibundashboard.repository.SharedLinkRepository
 import io.kotest.assertions.throwables.shouldThrow
@@ -49,9 +50,9 @@ class SharedLinkServiceTest :
             model.userId shouldBe "u1"
         }
 
-        "validateAndGet: トークンが存在しない場合にNoSuchElementExceptionをスロー" {
+        "validateAndGet: トークンが存在しない場合にNotFoundExceptionをスロー" {
             every { repository.getByToken(token) } returns null
-            shouldThrow<NoSuchElementException> { service.validateAndGet(token, "salary") }
+            shouldThrow<NotFoundException> { service.validateAndGet(token, "salary") }
         }
 
         "validateAndGet: 期限切れの場合にGoneExceptionをスロー" {

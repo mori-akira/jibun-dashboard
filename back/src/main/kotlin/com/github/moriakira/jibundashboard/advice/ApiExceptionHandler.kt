@@ -2,6 +2,7 @@ package com.github.moriakira.jibundashboard.advice
 
 import com.github.moriakira.jibundashboard.exception.ForbiddenException
 import com.github.moriakira.jibundashboard.exception.GoneException
+import com.github.moriakira.jibundashboard.exception.NotFoundException
 import com.github.moriakira.jibundashboard.generated.model.ErrorDetail
 import com.github.moriakira.jibundashboard.generated.model.ErrorInfo
 import jakarta.validation.ConstraintViolationException
@@ -139,6 +140,18 @@ class ApiExceptionHandler {
             errorItem = null,
         )
         return ResponseEntity.status(HttpStatus.GONE).body(ErrorInfo(errors = listOf(detail)))
+    }
+
+    @ExceptionHandler(NotFoundException::class)
+    fun handleNotFound(ex: NotFoundException): ResponseEntity<ErrorInfo> {
+        log.debug("NotFoundException", ex)
+        val detail = ErrorDetail(
+            errorCode = ErrorDetail.ErrorCode.INVALID_ARGUMENT,
+            errorLevel = ErrorDetail.ErrorLevel.WARN,
+            errorMessage = ex.message ?: "Not found.",
+            errorItem = null,
+        )
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorInfo(errors = listOf(detail)))
     }
 
     @ExceptionHandler(IllegalArgumentException::class)
