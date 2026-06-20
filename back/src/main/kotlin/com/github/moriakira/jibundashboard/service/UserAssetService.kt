@@ -22,7 +22,17 @@ class UserAssetService(
     @param:Value("\${app.s3.user-assets-bucket.default-expires-in-seconds}")
     private val defaultUrlExpirationSeconds: Int,
 ) {
+    companion object {
+        const val QUALIFICATION_CERTIFICATIONS = "qualification-certifications"
+        val ALLOWED_ASSET_TYPES = setOf(QUALIFICATION_CERTIFICATIONS)
+    }
+
+    private fun validateAssetType(assetType: String) {
+        require(assetType in ALLOWED_ASSET_TYPES) { "Unsupported asset type: '$assetType'." }
+    }
+
     fun copyFromUploads(assetType: String, userId: String, fileId: UUID) {
+        validateAssetType(assetType)
         val sourceKey = "uploads/$userId/$fileId"
         val destKey = "$assetType/$userId/$fileId"
         s3Client.copyObject(
@@ -36,6 +46,7 @@ class UserAssetService(
     }
 
     fun delete(assetType: String, userId: String, fileId: UUID) {
+        validateAssetType(assetType)
         val key = "$assetType/$userId/$fileId"
         s3Client.deleteObject(
             DeleteObjectRequest.builder()
@@ -51,6 +62,7 @@ class UserAssetService(
         assetId: UUID,
         expires: Int? = null,
     ): PresignedDownloadUrlResult {
+        validateAssetType(assetType)
         val appliedExpires = expires ?: defaultUrlExpirationSeconds
         val key = "$assetType/$userId/$assetId"
         val getObj = GetObjectRequest.builder().bucket(userAssetsBucketName).key(key).build()

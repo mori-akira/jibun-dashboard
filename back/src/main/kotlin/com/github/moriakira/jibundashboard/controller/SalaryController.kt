@@ -145,43 +145,7 @@ class SalaryController(
         },
     )
 
-    private fun SalaryBase.toModel(): SalaryModel = SalaryModel(
-        salaryId = "",
-        userId = currentAuth.userId,
-        targetDate = this.targetDate.toString(),
-        overview = this.overview.let {
-            OverviewModel(
-                grossIncome = it.grossIncome,
-                netIncome = it.netIncome,
-                operatingTime = it.operatingTime,
-                overtime = it.overtime,
-                bonus = it.bonus,
-                bonusTakeHome = it.bonusTakeHome,
-            )
-        },
-        structure = this.structure.let {
-            StructureModel(
-                basicSalary = it.basicSalary,
-                overtimePay = it.overtimePay,
-                housingAllowance = it.housingAllowance,
-                positionAllowance = it.positionAllowance,
-                other = it.other,
-            )
-        },
-        payslipData = this.payslipData.map { category ->
-            PayslipCategoryModel(
-                key = category.key,
-                data = category.data.map { data ->
-                    PayslipEntryModel(
-                        key = data.key,
-                        data = data.data,
-                    )
-                },
-            )
-        },
-    )
-
-    private fun SalaryBase.toModel(salaryId: String): SalaryModel = SalaryModel(
+    private fun SalaryBase.toModel(salaryId: String = ""): SalaryModel = SalaryModel(
         salaryId = salaryId,
         userId = currentAuth.userId,
         targetDate = this.targetDate.toString(),

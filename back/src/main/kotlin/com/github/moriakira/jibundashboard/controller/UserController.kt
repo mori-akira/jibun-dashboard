@@ -31,19 +31,19 @@ class UserController(
 
     override fun putUsers(userBase: UserBase?): ResponseEntity<Unit> {
         requireNotNull(userBase) { "Request body is required." }
-        userBase.let {
-            userService.put(
-                UserModel(
-                    userId = currentAuth.userId,
-                    userName = it.userName,
-                    emailAddress = it.emailAddress,
-                ),
-            )
-            cognitoUserService.updateEmail(
-                accessToken = currentAuth.jwt.tokenValue,
-                email = userBase.emailAddress,
-            )
-        }
+        // Update Cognito first: if it fails, the local DB stays untouched and the
+        // two sources of truth do not diverge.
+        cognitoUserService.updateEmail(
+            accessToken = currentAuth.jwt.tokenValue,
+            email = userBase.emailAddress,
+        )
+        userService.put(
+            UserModel(
+                userId = currentAuth.userId,
+                userName = userBase.userName,
+                emailAddress = userBase.emailAddress,
+            ),
+        )
         return ResponseEntity.ok().build()
     }
 

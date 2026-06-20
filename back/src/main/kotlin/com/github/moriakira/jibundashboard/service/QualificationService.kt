@@ -10,9 +10,6 @@ class QualificationService(
     private val qualificationRepository: QualificationRepository,
     private val userAssetService: UserAssetService,
 ) {
-    companion object {
-        private const val CERTIFICATION_ASSET_TYPE = "qualification-certifications"
-    }
     fun listAll(userId: String) = qualificationRepository.query(userId).map { it.toDomain() }
 
     @Suppress("LongParameterList")
@@ -51,8 +48,12 @@ class QualificationService(
         if (model.certificationAssetId != existing?.certificationAssetId) {
             val newId = model.certificationAssetId?.let { UUID.fromString(it) }
             val oldId = existing?.certificationAssetId?.let { UUID.fromString(it) }
-            if (newId != null) userAssetService.copyFromUploads(CERTIFICATION_ASSET_TYPE, model.userId, newId)
-            if (oldId != null) userAssetService.delete(CERTIFICATION_ASSET_TYPE, model.userId, oldId)
+            if (newId != null) {
+                userAssetService.copyFromUploads(UserAssetService.QUALIFICATION_CERTIFICATIONS, model.userId, newId)
+            }
+            if (oldId != null) {
+                userAssetService.delete(UserAssetService.QUALIFICATION_CERTIFICATIONS, model.userId, oldId)
+            }
         }
         qualificationRepository.put(model.toItem())
         return model.qualificationId
