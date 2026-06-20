@@ -5,6 +5,7 @@ import {
   SalaryApi,
   QualificationApi,
   VocabularyApi,
+  CardbookApi,
   SharedLinkApi,
 } from "../../generated/api/client/api";
 
@@ -37,6 +38,7 @@ test("seed data", async ({ baseURL }) => {
   const salaryApi = new SalaryApi(config);
   const qualificationApi = new QualificationApi(config);
   const vocabularyApi = new VocabularyApi(config);
+  const cardbookApi = new CardbookApi(config);
   const sharedLinkApi = new SharedLinkApi(config);
 
   // user
@@ -89,6 +91,29 @@ test("seed data", async ({ baseURL }) => {
     resQuizHistories.data.map((history) =>
       vocabularyApi.deleteVocabularyQuizHistoriesById(history.quizHistoryId!)
     )
+  );
+
+  // cardbook quiz histories
+  const resCardbookHistories = await cardbookApi.getCardbookQuizHistories();
+  await Promise.all(
+    resCardbookHistories.data.map((h) =>
+      cardbookApi.deleteCardbookQuizHistoriesById(h.quizHistoryId!)
+    )
+  );
+
+  // cardbook cards & cardbooks
+  const resCardbooks = await cardbookApi.getCardbooks();
+  const cardbooks = resCardbooks.data;
+  for (const cardbook of cardbooks) {
+    const resCards = await cardbookApi.getCardbookCards(cardbook.cardbookId!);
+    await Promise.all(
+      resCards.data.map((card) =>
+        cardbookApi.deleteCardbookCardsById(cardbook.cardbookId!, card.cardId!)
+      )
+    );
+  }
+  await Promise.all(
+    cardbooks.map((b) => cardbookApi.deleteCardbooksById(b.cardbookId!))
   );
 
   // shared links

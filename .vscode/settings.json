@@ -6,6 +6,7 @@
         "buildx",
         "cardbook",
         "cardbooks",
+        "codegen",
         "Detekt",
         "dorny",
         "fileb",
