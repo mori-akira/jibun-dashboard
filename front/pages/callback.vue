@@ -5,24 +5,24 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { useCommonStore } from "~/stores/common";
+import { useAuth } from "~/composables/common/useAuth";
 
 const commonStore = useCommonStore();
-const router = useRoute();
+const { handleCallback } = useAuth();
 
-const extractTokensFromHash = (): Record<string, string> => {
-  const hash = router?.hash?.substring(1) ?? "";
-  return Object.fromEntries(new URLSearchParams(hash));
-};
-const tokens = extractTokensFromHash();
-
-if (tokens.id_token && import.meta.client) {
-  localStorage.setItem("id_token", tokens.id_token);
-  localStorage.setItem("access_token", tokens.access_token ?? "");
-  navigateTo("/");
-} else {
-  commonStore.addErrorMessage("Failed to login. Please try again.");
-  console.warn("Login failed:", tokens);
-  navigateTo("/");
-}
+onMounted(async () => {
+  if (!import.meta.client) {
+    return;
+  }
+  try {
+    const returnPath = await handleCallback();
+    await navigateTo(returnPath || "/");
+  } catch (err) {
+    commonStore.addErrorMessage("Failed to login. Please try again.");
+    console.warn("Login failed:", err);
+    await navigateTo("/");
+  }
+});
 </script>

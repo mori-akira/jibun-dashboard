@@ -1,6 +1,9 @@
 import { useAuth } from "~/composables/common/useAuth";
 
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(async (to) => {
+  if (!import.meta.client) {
+    return;
+  }
   const config = useRuntimeConfig();
   const requireAuth = config.public.requireAuth.toLowerCase();
 
@@ -11,27 +14,9 @@ export default defineNuxtRouteMiddleware((to) => {
     return;
   }
 
-  const { getIdToken, isTokenExpired } = useAuth();
-  const idToken = getIdToken();
-  if (!idToken || isTokenExpired()) {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("access_token");
-    const clientId = config.public.cognitoClientId;
-    const region = config.public.region;
-    const domain = config.public.cognitoDomain;
-    const loginUrl = new URL(
-      `https://${domain}.auth.${region}.amazoncognito.com/login`,
-    );
-    loginUrl.searchParams.set("response_type", "token");
-    loginUrl.searchParams.set("client_id", String(clientId));
-    loginUrl.searchParams.set(
-      "redirect_uri",
-      window.location.origin + "/callback",
-    );
-    loginUrl.searchParams.set(
-      "scope",
-      "openid email profile aws.cognito.signin.user.admin",
-    );
-    window.location.href = loginUrl.toString();
+  const { isAuthenticated, login } = useAuth();
+  if (!(await isAuthenticated())) {
+    await login(to.fullPath);
+    return abortNavigation();
   }
 });

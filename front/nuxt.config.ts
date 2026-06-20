@@ -51,6 +51,7 @@ export default defineNuxtConfig({
       region: process.env.NUXT_PUBLIC_REGION || "",
       cognitoClientId: process.env.NUXT_PUBLIC_COGNITO_CLIENT_ID || "",
       cognitoDomain: process.env.NUXT_PUBLIC_COGNITO_DOMAIN || "",
+      cognitoUserPoolId: process.env.NUXT_PUBLIC_COGNITO_USER_POOL_ID || "",
     },
   },
   app: {
