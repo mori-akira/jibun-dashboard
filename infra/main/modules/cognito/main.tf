@@ -1,3 +1,8 @@
+locals {
+  # App origin derived from the callback URL (e.g. "https://host/callback" -> "https://host").
+  app_origin = trimsuffix(trimsuffix(var.cognito_callback_url, "/"), "/callback")
+}
+
 resource "aws_cognito_user_pool" "user_pool" {
   name                     = "jibun-dashboard-user-pool"
   username_attributes      = ["email"]
@@ -34,7 +39,13 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     var.cognito_callback_url,
     "${trimsuffix(var.cognito_callback_url, "/")}/",
   ])
-  logout_urls = [var.cognito_logout_url]
+  # The SPA signs out via logout_uri = "{origin}/logout"; register both the
+  # plain and trailing-slash forms (the S3 website 302s "/logout" -> "/logout/").
+  logout_urls = distinct([
+    var.cognito_logout_url,
+    "${local.app_origin}/logout",
+    "${local.app_origin}/logout/",
+  ])
 
   supported_identity_providers = ["COGNITO"]
   explicit_auth_flows = [

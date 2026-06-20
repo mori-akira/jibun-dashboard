@@ -25,6 +25,24 @@ export function getTokenFromStorageState(origin: string): string | null {
     return null;
   }
 
+  // oidc-client-ts stores the User (incl. access_token) as JSON under a
+  // key prefixed with "oidc.user:".
+  const oidcUser = originData.localStorage.find((o) =>
+    o.name.startsWith("oidc.user:")
+  );
+  if (oidcUser) {
+    try {
+      const parsed = JSON.parse(oidcUser.value) as {
+        access_token?: string;
+      };
+      if (parsed.access_token) {
+        return parsed.access_token;
+      }
+    } catch {
+      // fall through to legacy lookup below
+    }
+  }
+
   const accessToken = originData.localStorage.find(
     (o) => o.name === "access_token"
   );
