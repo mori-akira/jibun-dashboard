@@ -8,6 +8,7 @@ Python AWS Lambda functions. Each job is self-contained under its own subdirecto
 | --- | --- | --- |
 | `salary-ocr/` | SQS (ReportBatchItemFailures) | Download payslip PDF from S3 → OCR via Bedrock Converse API → save to `salaries` DynamoDB table; track task status in `salary_ocr_tasks` |
 | `vocabulary-check/` | Scheduled (EventBridge) | Scan all users' vocabularies → check quality via Bedrock → save results to `vocabulary_check_results` |
+| `cardbook-check/` | Scheduled (EventBridge) | Scan all users' cardbook cards → check quality via Bedrock (duplicates scoped per cardbook) → save results to `cardbook_check_results` |
 | `qualification-expiry-check/` | Scheduled (EventBridge) | Scan `qualifications` table for `expirationDate < today` → set `status = "expired"` |
 | `apprunner-ops/` | Manual / EventBridge | Pause or resume the AppRunner service; `action` from event or `ACTION` env var |
 
