@@ -3,10 +3,13 @@ package com.github.moriakira.jibundashboard.controller
 import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.model.CardbookBase
 import com.github.moriakira.jibundashboard.generated.model.CardbookCardBase
+import com.github.moriakira.jibundashboard.generated.model.CardbookCheckResultStatus
 import com.github.moriakira.jibundashboard.generated.model.CardbookQuizHistoryAnswer
 import com.github.moriakira.jibundashboard.generated.model.CardbookQuizHistoryBase
 import com.github.moriakira.jibundashboard.service.CardbookCardModel
 import com.github.moriakira.jibundashboard.service.CardbookCardService
+import com.github.moriakira.jibundashboard.service.CardbookCheckResultModel
+import com.github.moriakira.jibundashboard.service.CardbookCheckResultService
 import com.github.moriakira.jibundashboard.service.CardbookModel
 import com.github.moriakira.jibundashboard.service.CardbookQuizHistoryAnswerModel
 import com.github.moriakira.jibundashboard.service.CardbookQuizHistoryModel
@@ -29,11 +32,13 @@ class CardbookControllerTest :
         val cardbookService = mockk<CardbookService>(relaxed = true)
         val cardbookCardService = mockk<CardbookCardService>(relaxed = true)
         val cardbookQuizHistoryService = mockk<CardbookQuizHistoryService>(relaxed = true)
+        val cardbookCheckResultService = mockk<CardbookCheckResultService>(relaxed = true)
         val controller = CardbookController(
             currentAuth,
             cardbookService,
             cardbookCardService,
             cardbookQuizHistoryService,
+            cardbookCheckResultService,
         )
 
         beforeTest {
@@ -41,6 +46,7 @@ class CardbookControllerTest :
             clearMocks(cardbookService, answers = false, recordedCalls = true, childMocks = true)
             clearMocks(cardbookCardService, answers = false, recordedCalls = true, childMocks = true)
             clearMocks(cardbookQuizHistoryService, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(cardbookCheckResultService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun cardbookModel(id: String = "11111111-1111-1111-1111-111111111111") =
@@ -62,6 +68,24 @@ class CardbookControllerTest :
             front = "Front text",
             back = "Back text",
             createdDateTime = "2025-01-01T00:00:00Z",
+            updatedDateTime = "2025-01-02T00:00:00Z",
+        )
+
+        fun checkResultModel(
+            id: String = "44444444-4444-4444-4444-444444444444",
+            cardbookId: String = "11111111-1111-1111-1111-111111111111",
+            status: String = "UNCHECKED",
+        ) = CardbookCheckResultModel(
+            cardbookCheckResultId = id,
+            cardbookId = cardbookId,
+            cardId = "22222222-2222-2222-2222-222222222222",
+            userId = "u1",
+            front = "Front text",
+            severity = "HIGH",
+            status = status,
+            report = "## report",
+            cardUpdatedAt = "2025-01-02T00:00:00Z",
+            checkedAt = "2025-06-01T00:00:00Z",
         )
 
         fun quizHistoryModel(id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa") =
@@ -317,5 +341,45 @@ class CardbookControllerTest :
             controller
                 .deleteCardbookQuizHistoriesById(UUID.fromString(missingId))
                 .statusCode shouldBe HttpStatus.NOT_FOUND
+        }
+
+        // --- CardbookCheckResult ---
+
+        "getCardbookCheckResults: 一覧を返す（cardbookId フィルタを委譲）" {
+            val cbId = UUID.fromString("11111111-1111-1111-1111-111111111111")
+            every {
+                cardbookCheckResultService.listByUser("u1", cbId.toString(), null, null, null, null)
+            } returns listOf(checkResultModel())
+
+            val res = controller.getCardbookCheckResults(cbId, null, null, null, null)
+
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.shouldHaveSize(1)
+            res.body!![0].severity.value shouldBe "HIGH"
+        }
+
+        "putCardbookCheckResultStatusById: 更新で 204" {
+            val id = "44444444-4444-4444-4444-444444444444"
+            every {
+                cardbookCheckResultService.updateStatus(id, "u1", "CHECKED")
+            } returns checkResultModel(id = id, status = "CHECKED")
+
+            val res = controller.putCardbookCheckResultStatusById(
+                UUID.fromString(id),
+                CardbookCheckResultStatus(status = CardbookCheckResultStatus.Status.CHECKED),
+            )
+
+            res.statusCode shouldBe HttpStatus.NO_CONTENT
+        }
+
+        "putCardbookCheckResultStatusById: 対象が無ければ 404" {
+            every { cardbookCheckResultService.updateStatus(any(), any(), any()) } returns null
+
+            val res = controller.putCardbookCheckResultStatusById(
+                UUID.fromString("55555555-5555-5555-5555-555555555555"),
+                CardbookCheckResultStatus(status = CardbookCheckResultStatus.Status.CHECKED),
+            )
+
+            res.statusCode shouldBe HttpStatus.NOT_FOUND
         }
     })

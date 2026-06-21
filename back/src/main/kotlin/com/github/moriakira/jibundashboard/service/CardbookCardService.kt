@@ -19,14 +19,15 @@ class CardbookCardService(
     fun create(model: CardbookCardModel): String {
         val cardId = UUID.randomUUID().toString()
         val now = OffsetDateTime.now().toString()
-        val toSave = model.copy(cardId = cardId, createdDateTime = now)
+        val toSave = model.copy(cardId = cardId, createdDateTime = now, updatedDateTime = now)
         repository.put(toSave.toItem())
         return cardId
     }
 
     fun put(model: CardbookCardModel) {
         val existing = repository.getByUserAndCardId(model.userId, model.cardId)?.toDomain()
-        val toSave = model.copy(createdDateTime = existing?.createdDateTime ?: OffsetDateTime.now().toString())
+        val now = OffsetDateTime.now().toString()
+        val toSave = model.copy(createdDateTime = existing?.createdDateTime ?: now, updatedDateTime = now)
         repository.put(toSave.toItem())
     }
 
@@ -42,6 +43,7 @@ class CardbookCardService(
             front = this.front!!,
             back = this.back,
             createdDateTime = this.createdDateTime ?: "",
+            updatedDateTime = this.updatedDateTime ?: this.createdDateTime ?: "",
         )
 
     private fun CardbookCardModel.toItem(): CardbookCardItem =
@@ -52,6 +54,7 @@ class CardbookCardService(
             item.front = this.front
             item.back = this.back
             item.createdDateTime = this.createdDateTime
+            item.updatedDateTime = this.updatedDateTime
         }
 }
 
@@ -62,4 +65,5 @@ data class CardbookCardModel(
     val front: String,
     val back: String?,
     val createdDateTime: String = "",
+    val updatedDateTime: String = "",
 )

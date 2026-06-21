@@ -84,12 +84,13 @@ class CardbookCardServiceTest :
             returnedId shouldBe fixed.toString()
             capt.captured.cardId shouldBe fixed.toString()
             capt.captured.createdDateTime shouldBe fixedNow.toString()
+            capt.captured.updatedDateTime shouldBe fixedNow.toString()
 
             unmockkStatic(UUID::class)
             unmockkStatic(OffsetDateTime::class)
         }
 
-        "put: 既存の場合は createdDateTime を保持する" {
+        "put: 既存の場合は createdDateTime を保持し updatedDateTime を now で更新する" {
             mockkStatic(OffsetDateTime::class)
             every { OffsetDateTime.now() } returns fixedNow
             every { repository.getByUserAndCardId("u1", "card-exist") } returns item(id = "card-exist")
@@ -99,8 +100,18 @@ class CardbookCardServiceTest :
             service.put(model(id = "card-exist"))
 
             capt.captured.createdDateTime shouldBe "2025-01-01T00:00:00Z"
+            capt.captured.updatedDateTime shouldBe fixedNow.toString()
 
             unmockkStatic(OffsetDateTime::class)
+        }
+
+        "toDomain: updatedDateTime が無い既存レコードは createdDateTime にフォールバックする" {
+            every { repository.getByUserAndCardId("u1", "legacy") } returns
+                item(id = "legacy").apply { updatedDateTime = null }
+
+            val res = service.getByCardIdForUser("legacy", "u1")!!
+
+            res.updatedDateTime shouldBe "2025-01-01T00:00:00Z"
         }
 
         "put: 新規の場合は createdDateTime を now で設定する" {

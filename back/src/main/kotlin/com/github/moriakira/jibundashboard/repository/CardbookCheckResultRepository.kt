@@ -10,33 +10,39 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttri
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondarySortKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 
 @Repository
-class CardbookCardRepository(
+class CardbookCheckResultRepository(
     private val enhanced: DynamoDbEnhancedClient,
-    @param:Value("\${app.dynamodb.tables.cardbook_cards}") private val tableName: String,
+    @param:Value("\${app.dynamodb.tables.cardbook_check_results}") private val tableName: String,
 ) {
-    private val schema: TableSchema<CardbookCardItem> = TableSchema.fromBean(CardbookCardItem::class.java)
+    private val schema: TableSchema<CardbookCheckResultItem> =
+        TableSchema.fromBean(CardbookCheckResultItem::class.java)
 
-    private fun table(): DynamoDbTable<CardbookCardItem> = enhanced.table(tableName, schema)
+    private fun table(): DynamoDbTable<CardbookCheckResultItem> = enhanced.table(tableName, schema)
 
-    fun getByUserAndCardId(userId: String, cardId: String): CardbookCardItem? =
-        table().getItem(Key.builder().partitionValue(userId).sortValue(cardId).build())
-
-    fun findByCardbookId(cardbookId: String): List<CardbookCardItem> {
-        val index = table().index("gsi_cardbook_id")
+    fun findByUser(userId: String): List<CardbookCheckResultItem> {
         val req =
             QueryEnhancedRequest.builder()
-                .queryConditional(keyEqualTo { it.partitionValue(cardbookId) })
+                .queryConditional(keyEqualTo { it.partitionValue(userId) })
                 .build()
-        return index.query(req).flatMap { it.items().toList() }.toList()
+        return table().query(req).flatMap { it.items().toList() }.toList()
     }
 
-    fun put(item: CardbookCardItem) {
+    fun getByCheckResultId(checkResultId: String): CardbookCheckResultItem? {
+        val index = table().index("gsi_cardbook_check_result_id")
+        val req =
+            QueryEnhancedRequest.builder()
+                .queryConditional(keyEqualTo { it.partitionValue(checkResultId) })
+                .limit(1)
+                .build()
+        return index.query(req).flatMap { it.items().toList() }.firstOrNull()
+    }
+
+    fun put(item: CardbookCheckResultItem) {
         table().putItem(item)
     }
 
@@ -46,7 +52,7 @@ class CardbookCardRepository(
 }
 
 @DynamoDbBean
-class CardbookCardItem {
+class CardbookCheckResultItem {
     @get:DynamoDbPartitionKey
     @get:DynamoDbAttribute("userId")
     var userId: String? = null
@@ -55,20 +61,28 @@ class CardbookCardItem {
     @get:DynamoDbAttribute("cardId")
     var cardId: String? = null
 
-    @get:DynamoDbSecondaryPartitionKey(indexNames = ["gsi_cardbook_id"])
+    @get:DynamoDbSecondaryPartitionKey(indexNames = ["gsi_cardbook_check_result_id"])
+    @get:DynamoDbAttribute("cardbookCheckResultId")
+    var cardbookCheckResultId: String? = null
+
     @get:DynamoDbAttribute("cardbookId")
     var cardbookId: String? = null
-
-    @get:DynamoDbSecondarySortKey(indexNames = ["gsi_cardbook_id"])
-    @get:DynamoDbAttribute("createdDateTime")
-    var createdDateTime: String? = null
-
-    @get:DynamoDbAttribute("updatedDateTime")
-    var updatedDateTime: String? = null
 
     @get:DynamoDbAttribute("front")
     var front: String? = null
 
-    @get:DynamoDbAttribute("back")
-    var back: String? = null
+    @get:DynamoDbAttribute("severity")
+    var severity: String? = null
+
+    @get:DynamoDbAttribute("status")
+    var status: String? = null
+
+    @get:DynamoDbAttribute("report")
+    var report: String? = null
+
+    @get:DynamoDbAttribute("cardUpdatedAt")
+    var cardUpdatedAt: String? = null
+
+    @get:DynamoDbAttribute("checkedAt")
+    var checkedAt: String? = null
 }

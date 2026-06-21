@@ -7,6 +7,8 @@ import com.github.moriakira.jibundashboard.generated.model.CardbookBase
 import com.github.moriakira.jibundashboard.generated.model.CardbookCard
 import com.github.moriakira.jibundashboard.generated.model.CardbookCardBase
 import com.github.moriakira.jibundashboard.generated.model.CardbookCardId
+import com.github.moriakira.jibundashboard.generated.model.CardbookCheckResult
+import com.github.moriakira.jibundashboard.generated.model.CardbookCheckResultStatus
 import com.github.moriakira.jibundashboard.generated.model.CardbookId
 import com.github.moriakira.jibundashboard.generated.model.CardbookQuizHistory
 import com.github.moriakira.jibundashboard.generated.model.CardbookQuizHistoryAnswer
@@ -14,6 +16,8 @@ import com.github.moriakira.jibundashboard.generated.model.CardbookQuizHistoryBa
 import com.github.moriakira.jibundashboard.generated.model.CardbookQuizHistoryId
 import com.github.moriakira.jibundashboard.service.CardbookCardModel
 import com.github.moriakira.jibundashboard.service.CardbookCardService
+import com.github.moriakira.jibundashboard.service.CardbookCheckResultModel
+import com.github.moriakira.jibundashboard.service.CardbookCheckResultService
 import com.github.moriakira.jibundashboard.service.CardbookModel
 import com.github.moriakira.jibundashboard.service.CardbookQuizHistoryAnswerModel
 import com.github.moriakira.jibundashboard.service.CardbookQuizHistoryModel
@@ -22,6 +26,7 @@ import com.github.moriakira.jibundashboard.service.CardbookService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -32,6 +37,7 @@ class CardbookController(
     private val cardbookService: CardbookService,
     private val cardbookCardService: CardbookCardService,
     private val cardbookQuizHistoryService: CardbookQuizHistoryService,
+    private val cardbookCheckResultService: CardbookCheckResultService,
 ) : CardbookApi {
 
     override fun getCardbooks(): ResponseEntity<List<Cardbook>> {
@@ -137,6 +143,51 @@ class CardbookController(
         return ResponseEntity.noContent().build()
     }
 
+    override fun getCardbookCheckResults(
+        cardbookId: UUID?,
+        checkedAtFrom: LocalDate?,
+        checkedAtTo: LocalDate?,
+        severities: List<String>?,
+        statuses: List<String>?,
+    ): ResponseEntity<List<CardbookCheckResult>> {
+        val list = cardbookCheckResultService.listByUser(
+            userId = currentAuth.userId,
+            cardbookId = cardbookId?.toString(),
+            checkedAtFrom = checkedAtFrom?.toString(),
+            checkedAtTo = checkedAtTo?.toString(),
+            severities = severities,
+            statuses = statuses,
+        )
+        return ResponseEntity.ok(list.map { it.toApi() })
+    }
+
+    @Suppress("ReturnCount")
+    override fun putCardbookCheckResultStatusById(
+        checkResultId: UUID,
+        cardbookCheckResultStatus: CardbookCheckResultStatus?,
+    ): ResponseEntity<Unit> {
+        requireNotNull(cardbookCheckResultStatus) { "Request body is required." }
+        cardbookCheckResultService.updateStatus(
+            checkResultId.toString(),
+            currentAuth.userId,
+            cardbookCheckResultStatus.status.value,
+        ) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.noContent().build()
+    }
+
+    private fun CardbookCheckResultModel.toApi(): CardbookCheckResult =
+        CardbookCheckResult(
+            cardbookCheckResultId = UUID.fromString(this.cardbookCheckResultId),
+            cardbookId = UUID.fromString(this.cardbookId),
+            cardId = UUID.fromString(this.cardId),
+            front = this.front,
+            severity = CardbookCheckResult.Severity.valueOf(this.severity),
+            status = CardbookCheckResult.Status.valueOf(this.status),
+            report = this.report,
+            cardUpdatedAt = OffsetDateTime.parse(this.cardUpdatedAt),
+            checkedAt = OffsetDateTime.parse(this.checkedAt),
+        )
+
     private fun CardbookModel.toApi(): Cardbook =
         Cardbook(
             cardbookId = UUID.fromString(this.cardbookId),
@@ -166,6 +217,7 @@ class CardbookController(
             front = this.front,
             back = this.back,
             createdDateTime = OffsetDateTime.parse(this.createdDateTime),
+            updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
         )
 
     private fun CardbookCardBase.toModel(cardbookId: String): CardbookCardModel =
