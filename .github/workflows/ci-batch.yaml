@@ -22,6 +22,8 @@ jobs:
             filter: qualification-expiry-check
           - name: vocabulary-check
             filter: vocabulary-check
+          - name: cardbook-check
+            filter: cardbook-check
 
     steps:
       - name: Checkout
@@ -40,6 +42,8 @@ jobs:
               - "batch/qualification-expiry-check/**"
             vocabulary-check:
               - "batch/vocabulary-check/**"
+            cardbook-check:
+              - "batch/cardbook-check/**"
 
       - name: No Changes Notification
         if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'

@@ -277,6 +277,8 @@ jobs:
             filter: qualification-expiry-check
           - name: vocabulary-check
             filter: vocabulary-check
+          - name: cardbook-check
+            filter: cardbook-check
 
     env:
       ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
@@ -306,6 +308,9 @@ jobs:
             vocabulary-check:
               - ".github/workflows/cd.yaml"
               - "batch/vocabulary-check/**"
+            cardbook-check:
+              - ".github/workflows/cd.yaml"
+              - "batch/cardbook-check/**"
 
       - name: No Changes Notification
         if: steps.filter_changes.outputs[matrix.batch.filter] != 'true'

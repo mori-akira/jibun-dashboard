@@ -132,6 +132,19 @@ module "batch_vocabulary_check" {
   vocabulary_check_results_table_arn  = module.dynamodb["vocabulary_check_results"].table_arn
 }
 
+module "batch_cardbook_check" {
+  source                            = "./modules/batch/cardbook-check"
+  application_tag                   = module.application.application_tag
+  app_name                          = var.app_name
+  env_name                          = var.env_name
+  users_table_name                  = module.dynamodb["users"].table_name
+  users_table_arn                   = module.dynamodb["users"].table_arn
+  cardbook_cards_table_name         = module.dynamodb["cardbook_cards"].table_name
+  cardbook_cards_table_arn          = module.dynamodb["cardbook_cards"].table_arn
+  cardbook_check_results_table_name = module.dynamodb["cardbook_check_results"].table_name
+  cardbook_check_results_table_arn  = module.dynamodb["cardbook_check_results"].table_arn
+}
+
 module "apigateway" {
   source                 = "./modules/apigateway"
   region                 = var.region
