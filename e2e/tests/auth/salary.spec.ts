@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "../_fixtures";
+import type { Page } from "@playwright/test";
 import testData from "./salary.spec.data.json";
 
 const jstDateStr = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });

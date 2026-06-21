@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "../_fixtures";
+import type { Page } from "@playwright/test";
 import testData from "./qualification.spec.data.json";
 
 test("test qualification function", async ({ page }) => {
