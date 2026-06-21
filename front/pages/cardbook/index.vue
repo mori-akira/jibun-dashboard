@@ -2,7 +2,17 @@
   <div>
     <div class="flex justify-between">
       <Breadcrumb :items="[{ text: 'Cardbook', iconName: 'tabler:books' }]" />
-      <div class="flex items-center mr-4">
+      <div class="flex items-center gap-2 mr-4">
+        <Button
+          type="navigation"
+          size="small"
+          html-type="button"
+          button-class="w-28"
+          @click:button="() => navigateTo('/cardbook/checks')"
+        >
+          <Icon name="tabler:shield-check" class="text-base translate-y-0.5" />
+          <span class="font-bold ml-2">Checks</span>
+        </Button>
         <Button
           type="add"
           size="small"

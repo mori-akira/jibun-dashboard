@@ -6,8 +6,12 @@ import type {
   CardbookBase,
   CardbookCard,
   CardbookCardBase,
+  CardbookCheckResult,
+  CardbookCheckResultStatus,
   CardbookQuizHistory,
   CardbookQuizHistoryBase,
+  GetCardbookCheckResultsSeveritiesEnum,
+  GetCardbookCheckResultsStatusesEnum,
 } from "~/generated/api/client/api";
 import { useApiClient } from "~/composables/common/useApiClient";
 
@@ -15,6 +19,7 @@ export const useCardbookStore = defineStore("cardbook", () => {
   const cardbooks = ref<Cardbook[] | null>(null);
   const cardbookCards = ref<CardbookCard[] | null>(null);
   const quizHistories = ref<CardbookQuizHistory[] | null>(null);
+  const checkResults = ref<CardbookCheckResult[] | null>(null);
   const cardCountMap = ref<Map<string, number>>(new Map());
   const { getCardbookApi } = useApiClient();
 
@@ -89,10 +94,42 @@ export const useCardbookStore = defineStore("cardbook", () => {
     await getCardbookApi().deleteCardbookQuizHistoriesById(quizHistoryId);
   }
 
+  async function fetchCheckResults(
+    cardbookId?: string,
+    checkedAtFrom?: string,
+    checkedAtTo?: string,
+    severities?: string[],
+    statuses?: string[],
+  ) {
+    const res = await getCardbookApi().getCardbookCheckResults(
+      cardbookId || undefined,
+      checkedAtFrom || undefined,
+      checkedAtTo || undefined,
+      severities?.length
+        ? (severities as GetCardbookCheckResultsSeveritiesEnum[])
+        : undefined,
+      statuses?.length
+        ? (statuses as GetCardbookCheckResultsStatusesEnum[])
+        : undefined,
+    );
+    checkResults.value = res.data;
+  }
+
+  async function updateCheckResultStatus(
+    checkResultId: string,
+    status: CardbookCheckResultStatus,
+  ) {
+    await getCardbookApi().putCardbookCheckResultStatusById(
+      checkResultId,
+      status,
+    );
+  }
+
   return {
     cardbooks,
     cardbookCards,
     quizHistories,
+    checkResults,
     cardCountMap,
     fetchCardbooks,
     fetchCardCountMap,
@@ -106,5 +143,7 @@ export const useCardbookStore = defineStore("cardbook", () => {
     fetchQuizHistories,
     postQuizHistory,
     deleteQuizHistory,
+    fetchCheckResults,
+    updateCheckResultStatus,
   };
 });

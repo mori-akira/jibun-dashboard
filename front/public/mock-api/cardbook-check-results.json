@@ -1,0 +1,35 @@
+[
+  {
+    "cardbookCheckResultId": "cc000001-0000-0000-0000-000000000001",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "cardId": "d1000001-0000-0000-0000-000000000001",
+    "front": "ephemeral",
+    "severity": "HIGH",
+    "status": "UNCHECKED",
+    "report": "## 問題レポート\n\n### 説明の誤り（HIGH）\n\n裏面の説明「永続的な」は誤りです。`ephemeral` は「儚い・短命の」という意味で、正反対の説明になっています。修正してください。",
+    "cardUpdatedAt": "2026-06-08T00:00:00Z",
+    "checkedAt": "2026-06-15T01:30:00Z"
+  },
+  {
+    "cardbookCheckResultId": "cc000002-0000-0000-0000-000000000002",
+    "cardbookId": "a1bc2def-3456-7890-abcd-ef0123456789",
+    "cardId": "d1000002-0000-0000-0000-000000000002",
+    "front": "candid",
+    "severity": "MEDIUM",
+    "status": "CHECKED",
+    "report": "## 問題レポート\n\n### 重複の可能性（MEDIUM）\n\nこのカード帳内の「frank」と意味が重複しています。学習効率のため統合または整理を検討してください。",
+    "cardUpdatedAt": "2026-06-09T00:00:00Z",
+    "checkedAt": "2026-06-15T01:30:00Z"
+  },
+  {
+    "cardbookCheckResultId": "cc000003-0000-0000-0000-000000000003",
+    "cardbookId": "b2cd3ef0-4567-8901-bcde-f01234567890",
+    "cardId": "d1000003-0000-0000-0000-000000000003",
+    "front": "idempotent",
+    "severity": "LOW",
+    "status": "UNCHECKED",
+    "report": "## 問題レポート\n\n### 補足の提案（LOW）\n\n裏面に具体例（同じリクエストを複数回送っても結果が変わらない、など）を補足するとより理解しやすくなります。",
+    "cardUpdatedAt": "2026-06-11T00:00:00Z",
+    "checkedAt": "2026-06-15T01:30:00Z"
+  }
+]
