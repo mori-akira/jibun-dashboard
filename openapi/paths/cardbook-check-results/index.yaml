@@ -1,0 +1,66 @@
+get:
+  operationId: getCardbookCheckResults
+  summary: カードチェック結果取得
+  description: カードチェック結果一覧を取得する
+  tags:
+    - Cardbook
+
+  parameters:
+    - in: query
+      name: cardbookId
+      description: カード帳ID
+      required: false
+      schema:
+        type: string
+        format: uuid
+    - in: query
+      name: checkedAtFrom
+      description: チェック日時From
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: checkedAtTo
+      description: チェック日時To
+      required: false
+      schema:
+        type: string
+        format: date
+    - in: query
+      name: severities
+      description: 重要度
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - HIGH
+            - MEDIUM
+            - LOW
+    - in: query
+      name: statuses
+      description: 確認ステータス
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - UNCHECKED
+            - CHECKED
+
+  responses:
+    "200":
+      description: 正常時
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../openapi.yaml#/components/schemas/CardbookCheckResult"
+          example:
+            $ref: "../../examples/cardbook-check-results/get.json"
+    "400":
+      $ref: "../../openapi.yaml#/components/responses/BadRequest"

@@ -87,6 +87,10 @@ paths:
     $ref: "paths/cardbook-quiz-histories/index.yaml"
   /cardbook-quiz-histories/{quizHistoryId}:
     $ref: "paths/cardbook-quiz-histories/quizHistoryId.yaml"
+  /cardbook-check-results:
+    $ref: "paths/cardbook-check-results/index.yaml"
+  /cardbook-check-results/{checkResultId}/status:
+    $ref: "paths/cardbook-check-results/checkResultId/status.yaml"
   /shared-links:
     $ref: "paths/shared-links/index.yaml"
   /shared-links/{token}:
@@ -191,6 +195,14 @@ components:
       $ref: "schemas/cardbook/cardbookQuizHistory/cardbookQuizHistoryBase.yaml"
     CardbookQuizHistoryAnswer:
       $ref: "schemas/cardbook/cardbookQuizHistory/cardbookQuizHistoryAnswer.yaml"
+    CardbookCheckResult:
+      $ref: "schemas/cardbook/cardbookCheckResult/cardbookCheckResult.yaml"
+    CardbookCheckResultId:
+      $ref: "schemas/cardbook/cardbookCheckResult/cardbookCheckResultId.yaml"
+    CardbookCheckResultBase:
+      $ref: "schemas/cardbook/cardbookCheckResult/cardbookCheckResultBase.yaml"
+    CardbookCheckResultStatus:
+      $ref: "schemas/cardbook/cardbookCheckResult/cardbookCheckResultStatus.yaml"
     SharedLink:
       $ref: "schemas/shared-link/sharedLink.yaml"
     SharedLinkToken:

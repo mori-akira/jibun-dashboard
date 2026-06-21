@@ -1,0 +1,8 @@
+type: object
+description: カードチェック結果ID
+
+properties:
+  cardbookCheckResultId:
+    description: カードチェック結果ID
+    type: string
+    format: uuid

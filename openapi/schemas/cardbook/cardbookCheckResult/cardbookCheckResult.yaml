@@ -1,0 +1,12 @@
+type: object
+description: カードチェック結果
+allOf:
+  - $ref: cardbookCheckResultId.yaml
+  - $ref: cardbookCheckResultBase.yaml
+  - $ref: cardbookCheckResultStatus.yaml
+  - type: object
+    properties:
+      checkedAt:
+        description: チェック日時
+        type: string
+        format: date-time

@@ -1,0 +1,42 @@
+type: object
+description: カードチェック結果基本情報
+
+required:
+  - cardbookId
+  - cardId
+  - front
+  - severity
+  - report
+  - cardUpdatedAt
+
+properties:
+  cardbookId:
+    description: カード帳ID
+    type: string
+    format: uuid
+
+  cardId:
+    description: カードID
+    type: string
+    format: uuid
+
+  front:
+    description: カード表（単語）
+    type: string
+
+  severity:
+    description: 重要度
+    type: string
+    enum:
+      - HIGH
+      - MEDIUM
+      - LOW
+
+  report:
+    description: チェック結果レポート (Markdown)
+    type: string
+
+  cardUpdatedAt:
+    description: チェック時点のカード更新日時
+    type: string
+    format: date-time

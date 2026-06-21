@@ -14,3 +14,8 @@ allOf:
         description: 作成日時
         type: string
         format: date-time
+
+      updatedDateTime:
+        description: 更新日時
+        type: string
+        format: date-time
