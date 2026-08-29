@@ -21,6 +21,25 @@
 
     <div class="flex-1 w-full mt-4">
       <Panel wrapper-class="w-full ml-2">
+        <SelectBox
+          v-model="baseFinancialYear"
+          label="Base Financial Year"
+          :options="
+            financialYears
+              .map((year) => ({
+                label: year,
+                value: year,
+              }))
+              .toReversed()
+          "
+          wrapper-class="items-center"
+          label-class="font-cursive"
+        />
+      </Panel>
+    </div>
+
+    <div class="flex-1 w-full mt-4">
+      <Panel wrapper-class="w-full ml-2">
         <h3>
           <Icon name="tabler:report-money" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Annual Gross Income</span>
@@ -159,6 +178,7 @@ import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
+import SelectBox from "~/components/common/SelectBox.vue";
 import Button from "~/components/common/Button.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import TransitionGraph from "~/components/common/graph/Transition.vue";
