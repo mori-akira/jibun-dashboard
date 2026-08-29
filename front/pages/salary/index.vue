@@ -190,6 +190,33 @@
     </div>
 
     <div class="flex justify-between">
+      <Panel wrapper-class="w-9/12">
+        <h3>
+          <Icon name="tabler:chart-bar" class="adjust-icon-4" />
+          <span class="font-cursive font-bold ml-2">Composition</span>
+        </h3>
+        <div class="mt-4">
+          <StructureCompositionGraph
+            :summary="structureSummary"
+            :base-financial-year="baseFinancialYear"
+            :financial-year-start-month="financialYearStartMonth"
+            :selected-month-index="selectedStructureMonth"
+            wrapper-class="w-full h-48"
+            @click:month="onClickStructureMonth"
+          />
+        </div>
+      </Panel>
+      <Panel wrapper-class="w-3/12">
+        <StructureCompositionSummary
+          :summary="structureSummary"
+          :base-financial-year="baseFinancialYear"
+          :financial-year-start-month="financialYearStartMonth"
+          :selected-month-index="selectedStructureMonth"
+        />
+      </Panel>
+    </div>
+
+    <div class="flex justify-between">
       <Panel wrapper-class="w-full overflow-x-auto">
         <h3>
           <Icon name="tabler:align-box-left-top" class="adjust-icon-4" />
@@ -250,6 +277,8 @@ import TransitionGraph from "~/components/common/graph/Transition.vue";
 import AnnualComparer from "~/components/salary/AnnualComparer.vue";
 import OverviewCompareGraph from "~/components/salary/OverviewCompareGraph.vue";
 import OverviewCompareSummary from "~/components/salary/OverviewCompareSummary.vue";
+import StructureCompositionGraph from "~/components/salary/StructureCompositionGraph.vue";
+import StructureCompositionSummary from "~/components/salary/StructureCompositionSummary.vue";
 import Payslip from "~/components/salary/Payslip.vue";
 import {
   getFinancialYears,
@@ -257,6 +286,8 @@ import {
   filterSalaryByFinancialYears,
   aggregateAnnually,
   aggregateCompareData,
+  aggregateStructureSummary,
+  aggregateStructureSummaryOfMonth,
 } from "~/utils/salary";
 import { trimArray } from "~/utils/array";
 import { withErrorHandling } from "~/utils/api-call";
@@ -350,6 +381,32 @@ const selectedTab = ref<TabSlot>("grossIncome");
 const onChangeTab = (slot: string) => {
   selectedTab.value = slot as TabSlot;
 };
+// 給与構成のプロパティ
+// 月を選択すると当該月、再度同じ月を選択すると年度合計に戻る
+const selectedStructureMonth = ref<number | null>(null);
+watch(
+  () => [baseFinancialYear.value, financialYearStartMonth.value],
+  () => (selectedStructureMonth.value = null),
+);
+const onClickStructureMonth = (index: number) => {
+  selectedStructureMonth.value =
+    selectedStructureMonth.value === index ? null : index;
+};
+const structureSummary = computed(() =>
+  selectedStructureMonth.value === null
+    ? aggregateStructureSummary(
+        salaryStore.salaries ?? [],
+        baseFinancialYear.value,
+        financialYearStartMonth.value,
+      )
+    : aggregateStructureSummaryOfMonth(
+        salaryStore.salaries ?? [],
+        baseFinancialYear.value,
+        financialYearStartMonth.value,
+        selectedStructureMonth.value,
+      ),
+);
+
 const summaryData = computed<{ label: string; value: number }[]>(() => {
   const targetData = compareData.value[selectedTab.value];
   return targetData.toReversed().map((dataset) => ({

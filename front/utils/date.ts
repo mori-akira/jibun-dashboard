@@ -1,3 +1,19 @@
+const SHORT_MONTH_FORMATTER = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  timeZone: "UTC",
+});
+
+/**
+ * 月(1〜12)を英語の短縮表記(Jan, Feb, ...)にする。
+ * 画面表記を表示言語に依存させないため locale は固定。
+ */
+export function getShortMonthLabel(month: number): string {
+  if (!Number.isInteger(month) || month < 1 || month > 12) {
+    return "";
+  }
+  return SHORT_MONTH_FORMATTER.format(Date.UTC(2000, month - 1, 1));
+}
+
 export function formatToJST(value: string | undefined): string | undefined {
   if (!value) return undefined;
   return new Date(value).toLocaleString("sv-SE", {

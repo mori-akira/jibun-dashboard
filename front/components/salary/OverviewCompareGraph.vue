@@ -12,26 +12,21 @@
 </template>
 
 <script setup lang="ts">
+import { useSettingStore } from "~/stores/setting";
 import CompareBarGraph from "~/components/common/graph/CompareBar.vue";
 import type { DataSet } from "~/components/common/graph/types";
+import { getMonthLabelsInFinancialYear } from "~/utils/salary";
 
 defineProps<{
   datasets: DataSet[];
   yAxisMax?: number;
 }>();
 
-const compareDataHeaders = [
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-  "Jan",
-  "Feb",
-  "Mar",
-];
+const settingStore = useSettingStore();
+
+const compareDataHeaders = computed(() =>
+  getMonthLabelsInFinancialYear(
+    settingStore.setting?.salary.financialYearStartMonth ?? 1,
+  ),
+);
 </script>

@@ -17,6 +17,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import type { TooltipItem, ChartEvent, ActiveElement } from "chart.js";
 import type { DataSet } from "./types";
 
 export type { DataSet };
@@ -33,6 +34,8 @@ ChartJS.register(
 const props = defineProps<{
   labels: string[];
   datasets: DataSet[];
+  stacked?: boolean;
+  valueFormat?: (value: number) => string;
   showXGrid?: boolean;
   showYGrid?: boolean;
   xAxisMin?: number;
@@ -44,16 +47,33 @@ const props = defineProps<{
   wrapperClass?: string;
 }>();
 
+const emits = defineEmits<{
+  (e: "click:label", index: number): void;
+}>();
+
+// 積み上げ時は隣接する区間を背景色の隙間で分離し、最上段のみ角を丸める
 const chartData = computed(() => ({
   labels: props.labels,
-  datasets: props.datasets,
+  datasets: props.stacked
+    ? props.datasets.map((dataset, index) => ({
+        ...dataset,
+        borderColor: "#fff",
+        borderWidth: 2,
+        borderSkipped: false,
+        borderRadius: index === props.datasets.length - 1 ? 4 : 0,
+      }))
+    : props.datasets,
 }));
+
+const formatValue = (value: number) =>
+  props.valueFormat ? props.valueFormat(value) : value.toLocaleString();
 
 const chartOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
   scales: {
     x: {
+      stacked: props.stacked ?? false,
       grid: {
         display: props.showXGrid ?? false,
       },
@@ -61,11 +81,15 @@ const chartOptions = computed(() => ({
       max: props.xAxisMax,
     },
     y: {
+      stacked: props.stacked ?? false,
       grid: {
         display: props.showYGrid ?? false,
       },
       min: props.yAxisMin,
       max: props.yAxisMax,
+      ticks: props.valueFormat
+        ? { callback: (value: string | number) => formatValue(Number(value)) }
+        : undefined,
     },
   },
   plugins: {
@@ -75,9 +99,31 @@ const chartOptions = computed(() => ({
     title: {
       display: props.showTitle ?? false,
     },
+    tooltip: {
+      callbacks: {
+        label: (context: TooltipItem<"bar">) =>
+          ` ${context.dataset.label}: ${formatValue(context.parsed.y ?? 0)}`,
+      },
+    },
   },
   animation: {
     duration: 0,
+  },
+  // バーそのものだけでなく、その月の列全体をクリック対象にする
+  onClick: (event: ChartEvent, _elements: ActiveElement[], chart: ChartJS) => {
+    if (!event.native) {
+      return;
+    }
+    const points = chart.getElementsAtEventForMode(
+      event.native,
+      "index",
+      { intersect: false },
+      true,
+    );
+    const index = points[0]?.index;
+    if (index !== undefined) {
+      emits("click:label", index);
+    }
   },
 }));
 </script>

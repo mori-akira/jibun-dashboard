@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import type { Salary, Overview, Structure } from "~/generated/api/client";
 import { getYearMonthAsNumber } from "~/utils/salary";
+import { getShortMonthLabel } from "~/utils/date";
 
 const props = withDefaults(
   defineProps<{
@@ -76,26 +77,9 @@ const props = withDefaults(
   },
 );
 
-const monthMapper = (month: number) => {
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return months[month - 1];
-};
 const title = computed(() => {
   const [_, month] = getYearMonthAsNumber(props.salary?.targetDate ?? "");
-  return monthMapper(month ?? 0);
+  return getShortMonthLabel(month ?? 0);
 });
 const overviewDef: { label: string; value: keyof Overview }[] = [
   {
