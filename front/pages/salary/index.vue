@@ -134,7 +134,7 @@
     </div>
 
     <div class="flex justify-between">
-      <Panel wrapper-class="w-9/12">
+      <Panel wrapper-class="w-9/12 min-w-0">
         <h3>
           <Icon name="tabler:clipboard-data" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Compare</span>
@@ -148,7 +148,8 @@
             { label: 'Bonus', slot: 'bonus' },
           ]"
           :init-tab="selectedTab"
-          button-class="font-cursive"
+          button-class="font-cursive whitespace-nowrap"
+          tab-list-wrapper-class="overflow-x-auto"
           @change:tab="onChangeTab"
         >
           <template #grossIncome>
@@ -184,13 +185,13 @@
           </template>
         </Tabs>
       </Panel>
-      <Panel wrapper-class="w-3/12">
+      <Panel wrapper-class="w-3/12 min-w-0">
         <OverviewCompareSummary :summary-data="summaryData" />
       </Panel>
     </div>
 
     <div class="flex justify-between">
-      <Panel wrapper-class="w-9/12">
+      <Panel wrapper-class="w-9/12 min-w-0">
         <h3>
           <Icon name="tabler:chart-bar" class="adjust-icon-4" />
           <span class="font-cursive font-bold ml-2">Composition</span>
@@ -206,7 +207,7 @@
           />
         </div>
       </Panel>
-      <Panel wrapper-class="w-3/12">
+      <Panel wrapper-class="w-3/12 min-w-0">
         <StructureCompositionSummary
           :summary="structureSummary"
           :base-financial-year="baseFinancialYear"

@@ -1,16 +1,19 @@
 <template>
   <div>
-    <CompareBarGraph
-      :labels="monthLabels"
-      :datasets="datasets"
-      :stacked="true"
-      :bar-percentage="0.55"
-      :value-format="formatAmount"
-      :y-axis-min="0"
-      :show-y-grid="true"
-      :wrapper-class="['cursor-pointer', wrapperClass]"
-      @click:label="(index: number) => emits('click:month', index)"
-    />
+    <!-- canvas の実寸がパネルの最小幅を押し広げないよう overflow で切る -->
+    <div class="overflow-hidden">
+      <CompareBarGraph
+        :labels="monthLabels"
+        :datasets="datasets"
+        :stacked="true"
+        :bar-percentage="0.55"
+        :value-format="formatAmount"
+        :y-axis-min="0"
+        :show-y-grid="true"
+        :wrapper-class="['cursor-pointer', wrapperClass]"
+        @click:label="(index: number) => emits('click:month', index)"
+      />
+    </div>
     <div class="flex flex-wrap justify-center gap-x-6 gap-y-1 mt-4 px-2">
       <div
         v-for="item in visibleSummary"

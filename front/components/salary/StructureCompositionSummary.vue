@@ -5,15 +5,18 @@
       wrapperClass,
     ]"
   >
-    <Doughnut
-      :labels="summary.map((item) => item.label)"
-      :values="summary.map((item) => item.total)"
-      :colors="summary.map((item) => item.color)"
-      :value-format="formatAmount"
-      :center-label="selectedMonthLabel ?? `FY${baseFinancialYear}`"
-      :center-value="formatAmount(summaryTotal)"
-      wrapper-class="w-full h-48"
-    />
+    <!-- canvas の実寸がパネルの最小幅を押し広げないよう overflow で切る -->
+    <div class="w-full overflow-hidden">
+      <Doughnut
+        :labels="summary.map((item) => item.label)"
+        :values="summary.map((item) => item.total)"
+        :colors="summary.map((item) => item.color)"
+        :value-format="formatAmount"
+        :center-label="selectedMonthLabel ?? `FY${baseFinancialYear}`"
+        :center-value="formatAmount(summaryTotal)"
+        wrapper-class="w-full h-48"
+      />
+    </div>
     <p class="mt-2 text-xs text-gray-500 text-center">
       {{
         selectedMonthIndex == null
