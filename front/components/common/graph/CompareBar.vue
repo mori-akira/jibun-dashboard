@@ -35,6 +35,8 @@ const props = defineProps<{
   labels: string[];
   datasets: DataSet[];
   stacked?: boolean;
+  /** バーの太さ(カテゴリ幅に対する割合)。Chart.js 既定は 0.9 */
+  barPercentage?: number;
   valueFormat?: (value: number) => string;
   showXGrid?: boolean;
   showYGrid?: boolean;
@@ -54,15 +56,19 @@ const emits = defineEmits<{
 // 積み上げ時は隣接する区間を背景色の隙間で分離し、最上段のみ角を丸める
 const chartData = computed(() => ({
   labels: props.labels,
-  datasets: props.stacked
-    ? props.datasets.map((dataset, index) => ({
-        ...dataset,
-        borderColor: "#fff",
-        borderWidth: 2,
-        borderSkipped: false,
-        borderRadius: index === props.datasets.length - 1 ? 4 : 0,
-      }))
-    : props.datasets,
+  datasets: props.datasets.map((dataset, index) => {
+    const decorated: DataSet & Record<string, unknown> = { ...dataset };
+    if (props.barPercentage !== undefined) {
+      decorated.barPercentage = props.barPercentage;
+    }
+    if (props.stacked) {
+      decorated.borderColor = "#fff";
+      decorated.borderWidth = 1;
+      decorated.borderSkipped = false;
+      decorated.borderRadius = index === props.datasets.length - 1 ? 4 : 0;
+    }
+    return decorated;
+  }),
 }));
 
 const formatValue = (value: number) =>

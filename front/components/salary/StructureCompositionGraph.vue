@@ -4,6 +4,7 @@
       :labels="monthLabels"
       :datasets="datasets"
       :stacked="true"
+      :bar-percentage="0.55"
       :value-format="formatAmount"
       :y-axis-min="0"
       :show-y-grid="true"
