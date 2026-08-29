@@ -14,6 +14,13 @@
       :center-value="formatAmount(summaryTotal)"
       wrapper-class="w-full h-48"
     />
+    <p class="mt-2 text-xs text-gray-500 text-center">
+      {{
+        selectedMonthIndex == null
+          ? "Click a month to focus"
+          : "Click the month again to clear"
+      }}
+    </p>
   </div>
 </template>
 
