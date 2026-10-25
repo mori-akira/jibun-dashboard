@@ -1,11 +1,26 @@
 <template>
   <div>
-    <Breadcrumb
-      :items="[
-        { text: 'Salary', iconName: 'tabler:report-money', link: '/salary' },
-        { text: 'Payslip', iconName: 'tabler:align-box-left-top' },
-      ]"
-    />
+    <div class="flex justify-between">
+      <Breadcrumb
+        :items="[
+          { text: 'Salary', iconName: 'tabler:report-money', link: '/salary' },
+          { text: 'Payslip', iconName: 'tabler:align-box-left-top' },
+        ]"
+      />
+      <div class="flex items-center mr-4">
+        <Button
+          type="navigation"
+          size="small"
+          html-type="button"
+          button-class="w-32"
+          :disabled="!salaryStore.salaries?.length"
+          @click:button="onClickDownloadJson"
+        >
+          <Icon name="tabler:download" class="text-base translate-y-0.5" />
+          <span class="font-cursive ml-2">Download</span>
+        </Button>
+      </div>
+    </div>
 
     <Panel wrapper-class="w-full">
       <MonthPickerFromTo
@@ -66,6 +81,7 @@
 
 <script setup lang="ts">
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
+import Button from "~/components/common/Button.vue";
 import Panel from "~/components/common/Panel.vue";
 import MonthPickerFromTo from "~/components/common/MonthPickerFromTo.vue";
 import Payslip from "~/components/salary/Payslip.vue";
@@ -74,6 +90,8 @@ import { useSettingStore } from "~/stores/setting";
 import { useSalaryStore } from "~/stores/salary";
 import { chunkArray } from "~/utils/array";
 import { withErrorHandling } from "~/utils/api-call";
+import { getTodayJST } from "~/utils/date";
+import { buildJsonFileName, downloadJson } from "~/utils/download";
 import { getFinancialYears, filterSalaryByFinancialYear } from "~/utils/salary";
 
 const commonStore = useCommonStore();
@@ -106,5 +124,12 @@ const dateTo = ref<string | undefined>("");
 const onChangeDateTo = async (value: string | undefined) => {
   dateTo.value = value;
   await fetchSalary();
+};
+
+const onClickDownloadJson = () => {
+  downloadJson(
+    salaryStore.salaries ?? [],
+    buildJsonFileName("salary", getTodayJST()),
+  );
 };
 </script>

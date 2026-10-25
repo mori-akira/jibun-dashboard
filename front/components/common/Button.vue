@@ -14,8 +14,13 @@
         },
         { 'bg-[#88f]': type === 'action' || type === 'marked' },
         { 'bg-[#f88]': type === 'add' || type === 'error' },
-        { 'bg-[#888]': type === 'delete' || type === 'navigation' },
-        { 'bg-[#666]': type === 'default' || !type },
+        {
+          'bg-[#888]':
+            type === 'delete' ||
+            type === 'navigation' ||
+            type === 'default' ||
+            !type,
+        },
         buttonClass,
       ]"
       :disabled="disabled"
