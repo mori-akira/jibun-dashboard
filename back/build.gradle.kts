@@ -52,10 +52,10 @@ dependencies {
     implementation("software.amazon.awssdk:sqs:2.32.33")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
-    testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
-    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
+    testImplementation("io.kotest:kotest-runner-junit5:6.2.6")
+    testImplementation("io.kotest:kotest-assertions-core:6.2.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
+    testImplementation("io.kotest:kotest-extensions-spring:6.2.6")
     testImplementation("io.mockk:mockk:1.14.5")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
