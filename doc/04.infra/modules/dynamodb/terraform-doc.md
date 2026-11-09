@@ -28,6 +28,7 @@ No modules.
 | <a name="input_global_secondary_indexes"></a> [global\_secondary\_indexes](#input\_global\_secondary\_indexes) | GSI | <pre>list(object({<br/>    name               = string<br/>    hash_key_name      = string<br/>    hash_key_type      = string<br/>    range_key_name     = optional(string)<br/>    range_key_type     = optional(string)<br/>    projection_type    = string<br/>    non_key_attributes = optional(list(string))<br/>  }))</pre> | `[]` | no |
 | <a name="input_hash_key"></a> [hash\_key](#input\_hash\_key) | ハッシュキー | <pre>object({<br/>    name = string<br/>    type = string<br/>  })</pre> | n/a | yes |
 | <a name="input_local_secondary_indexes"></a> [local\_secondary\_indexes](#input\_local\_secondary\_indexes) | LSI | <pre>list(object({<br/>    name               = string<br/>    range_key_name     = string<br/>    range_key_type     = string<br/>    projection_type    = string<br/>    non_key_attributes = optional(list(string))<br/>  }))</pre> | `[]` | no |
+| <a name="input_point_in_time_recovery_enabled"></a> [point\_in\_time\_recovery\_enabled](#input\_point\_in\_time\_recovery\_enabled) | ポイントインタイムリカバリ（PITR）を有効にするか（DynamoDB Local は PITR 非対応のため、ローカルでは false にする） | `bool` | `true` | no |
 | <a name="input_sort_key"></a> [sort\_key](#input\_sort\_key) | ソートキー | <pre>object({<br/>    name = string<br/>    type = string<br/>  })</pre> | `null` | no |
 | <a name="input_table_name"></a> [table\_name](#input\_table\_name) | テーブル名 | `string` | n/a | yes |
 
