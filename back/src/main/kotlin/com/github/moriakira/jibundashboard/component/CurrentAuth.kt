@@ -11,9 +11,7 @@ import org.springframework.web.context.annotation.RequestScope
 
 @Component
 @RequestScope
-class CurrentAuth(
-    private val cognitoUserInfoService: CognitoUserService,
-) {
+class CurrentAuth(private val cognitoUserInfoService: CognitoUserService) {
     private val logger = LoggerFactory.getLogger(CurrentAuth::class.java)
 
     val jwt: Jwt by lazy {

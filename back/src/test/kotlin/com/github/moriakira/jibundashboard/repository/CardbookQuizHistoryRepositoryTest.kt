@@ -22,23 +22,22 @@ class CardbookQuizHistoryRepositoryTest :
         val repo = CardbookQuizHistoryRepository(enhanced, "cardbook-quiz-histories")
         val schema: TableSchema<CardbookQuizHistoryItem> = TableSchema.fromBean(CardbookQuizHistoryItem::class.java)
 
-        fun item(id: String = "qh1") =
-            CardbookQuizHistoryItem().apply {
-                quizHistoryId = id
-                userId = "u1"
-                cardbookId = "cb1"
-                answeredAt = "2025-01-01T00:00:00Z"
-                questionCount = 2
-                direction = "FRONT_TO_BACK"
-                correctCount = 1
-                incorrectCount = 1
-                answers = listOf(
-                    CardbookQuizHistoryAnswerItem().apply {
-                        cardId = "card1"
-                        result = "CORRECT"
-                    },
-                )
-            }
+        fun item(id: String = "qh1") = CardbookQuizHistoryItem().apply {
+            quizHistoryId = id
+            userId = "u1"
+            cardbookId = "cb1"
+            answeredAt = "2025-01-01T00:00:00Z"
+            questionCount = 2
+            direction = "FRONT_TO_BACK"
+            correctCount = 1
+            incorrectCount = 1
+            answers = listOf(
+                CardbookQuizHistoryAnswerItem().apply {
+                    cardId = "card1"
+                    result = "CORRECT"
+                },
+            )
+        }
 
         "getByUserAndQuizHistoryId: PK+SK で1件返す" {
             every { enhanced.table("cardbook-quiz-histories", schema) } returns table

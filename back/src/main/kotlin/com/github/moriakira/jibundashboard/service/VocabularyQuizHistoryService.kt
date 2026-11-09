@@ -8,9 +8,7 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class VocabularyQuizHistoryService(
-    private val repository: VocabularyQuizHistoryRepository,
-) {
+class VocabularyQuizHistoryService(private val repository: VocabularyQuizHistoryRepository) {
     fun listByUser(userId: String): List<VocabularyQuizHistoryModel> =
         repository.findByUser(userId).map { it.toDomain() }
 
@@ -36,18 +34,17 @@ class VocabularyQuizHistoryService(
         repository.delete(userId, quizHistoryId)
     }
 
-    private fun VocabularyQuizHistoryItem.toDomain(): VocabularyQuizHistoryModel =
-        VocabularyQuizHistoryModel(
-            quizHistoryId = this.quizHistoryId!!,
-            userId = this.userId!!,
-            answeredAt = this.answeredAt!!,
-            tagIds = this.tagIds ?: emptyList(),
-            questionCount = this.questionCount!!,
-            direction = this.direction!!,
-            correctCount = this.correctCount!!,
-            incorrectCount = this.incorrectCount!!,
-            answers = (this.answers ?: emptyList()).map { it.toDomain() },
-        )
+    private fun VocabularyQuizHistoryItem.toDomain(): VocabularyQuizHistoryModel = VocabularyQuizHistoryModel(
+        quizHistoryId = this.quizHistoryId!!,
+        userId = this.userId!!,
+        answeredAt = this.answeredAt!!,
+        tagIds = this.tagIds ?: emptyList(),
+        questionCount = this.questionCount!!,
+        direction = this.direction!!,
+        correctCount = this.correctCount!!,
+        incorrectCount = this.incorrectCount!!,
+        answers = (this.answers ?: emptyList()).map { it.toDomain() },
+    )
 
     private fun VocabularyQuizHistoryAnswerItem.toDomain(): VocabularyQuizHistoryAnswerModel =
         VocabularyQuizHistoryAnswerModel(
@@ -87,7 +84,4 @@ data class VocabularyQuizHistoryModel(
     val answers: List<VocabularyQuizHistoryAnswerModel>,
 )
 
-data class VocabularyQuizHistoryAnswerModel(
-    val vocabularyId: String,
-    val result: String,
-)
+data class VocabularyQuizHistoryAnswerModel(val vocabularyId: String, val result: String)

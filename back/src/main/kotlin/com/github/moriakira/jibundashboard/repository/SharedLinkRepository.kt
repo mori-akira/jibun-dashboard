@@ -21,8 +21,7 @@ class SharedLinkRepository(
     private val schema: TableSchema<SharedLinkItem> = TableSchema.fromBean(SharedLinkItem::class.java)
     private fun table(): DynamoDbTable<SharedLinkItem> = enhanced.table(tableName, schema)
 
-    fun getByToken(token: String): SharedLinkItem? =
-        table().getItem(Key.builder().partitionValue(token).build())
+    fun getByToken(token: String): SharedLinkItem? = table().getItem(Key.builder().partitionValue(token).build())
 
     fun findByUserId(userId: String): List<SharedLinkItem> {
         val req = QueryEnhancedRequest.builder()

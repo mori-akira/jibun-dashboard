@@ -24,15 +24,14 @@ class CardbookCardRepositoryTest :
         val repo = CardbookCardRepository(enhanced, "cardbook-cards")
         val schema: TableSchema<CardbookCardItem> = TableSchema.fromBean(CardbookCardItem::class.java)
 
-        fun item(id: String = "card1", cardbookId: String = "cb1") =
-            CardbookCardItem().apply {
-                cardId = id
-                this.cardbookId = cardbookId
-                userId = "u1"
-                front = "Front text"
-                back = "Back text"
-                createdDateTime = "2025-01-01T00:00:00Z"
-            }
+        fun item(id: String = "card1", cardbookId: String = "cb1") = CardbookCardItem().apply {
+            cardId = id
+            this.cardbookId = cardbookId
+            userId = "u1"
+            front = "Front text"
+            back = "Back text"
+            createdDateTime = "2025-01-01T00:00:00Z"
+        }
 
         "getByUserAndCardId: PK+SK で1件返す" {
             every { enhanced.table("cardbook-cards", schema) } returns table

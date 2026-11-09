@@ -61,27 +61,25 @@ class VocabularyService(
         vocabularyRepository.delete(userId, vocabularyId)
     }
 
-    private fun VocabularyItem.toDomain(): VocabularyModel =
-        VocabularyModel(
-            vocabularyId = this.vocabularyId!!,
-            userId = this.userId!!,
-            name = this.name!!,
-            description = this.description,
-            tagIds = this.tagIds ?: emptyList(),
-            createdDateTime = this.createdDateTime ?: "",
-            updatedDateTime = this.updatedDateTime ?: "",
-        )
+    private fun VocabularyItem.toDomain(): VocabularyModel = VocabularyModel(
+        vocabularyId = this.vocabularyId!!,
+        userId = this.userId!!,
+        name = this.name!!,
+        description = this.description,
+        tagIds = this.tagIds ?: emptyList(),
+        createdDateTime = this.createdDateTime ?: "",
+        updatedDateTime = this.updatedDateTime ?: "",
+    )
 
-    private fun VocabularyModel.toItem(): VocabularyItem =
-        VocabularyItem().also { item ->
-            item.vocabularyId = this.vocabularyId
-            item.userId = this.userId
-            item.name = this.name
-            item.description = this.description
-            item.tagIds = this.tagIds
-            item.createdDateTime = this.createdDateTime
-            item.updatedDateTime = this.updatedDateTime
-        }
+    private fun VocabularyModel.toItem(): VocabularyItem = VocabularyItem().also { item ->
+        item.vocabularyId = this.vocabularyId
+        item.userId = this.userId
+        item.name = this.name
+        item.description = this.description
+        item.tagIds = this.tagIds
+        item.createdDateTime = this.createdDateTime
+        item.updatedDateTime = this.updatedDateTime
+    }
 }
 
 data class VocabularyModel(

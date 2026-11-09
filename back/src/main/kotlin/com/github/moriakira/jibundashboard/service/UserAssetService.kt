@@ -79,7 +79,4 @@ class UserAssetService(
     }
 }
 
-data class PresignedDownloadUrlResult(
-    val url: URI,
-    val expireDateTime: OffsetDateTime,
-)
+data class PresignedDownloadUrlResult(val url: URI, val expireDateTime: OffsetDateTime)

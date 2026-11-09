@@ -11,10 +11,7 @@ import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Service
 
 @Service
-class SettingService(
-    private val settingRepository: SettingRepository,
-    private val resourceLoader: ResourceLoader,
-) {
+class SettingService(private val settingRepository: SettingRepository, private val resourceLoader: ResourceLoader) {
     private val yamlMapper: ObjectMapper = ObjectMapper(YAMLFactory()).registerModule(KotlinModule.Builder().build())
 
     private val defaultSetting: SettingModel by lazy {

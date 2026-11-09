@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class UserService(
-    private val userRepository: UserRepository,
-) {
+class UserService(private val userRepository: UserRepository) {
 
     fun get(userId: String): UserModel? = userRepository.get(userId)?.toDomain()
 
@@ -33,8 +31,4 @@ class UserService(
     )
 }
 
-data class UserModel(
-    val userId: String?,
-    val userName: String,
-    val emailAddress: String,
-)
+data class UserModel(val userId: String?, val userName: String, val emailAddress: String)

@@ -137,12 +137,13 @@ spotless {
     // 成果物のフォーマット
     kotlin {
         target("src/**/*.kt")
-        ktlint("1.3.1").editorConfigOverride(
+        ktlint("1.8.0").editorConfigOverride(
             mapOf(
                 // ワイルドカードimportを許可
                 "ktlint_standard_no-wildcard-imports" to "disabled",
-                // 長い行の警告をOFF
-                "ktlint_standard_max-line-length" to "off",
+                // detekt の MaxLineLength（既定 120）に合わせる
+                // ktlint 1.x では max-line-length ルールを無効にすると他ルールの折り返し判定も無制限になるため、無効化しない
+                "max_line_length" to "120",
             ),
         )
         endWithNewline()

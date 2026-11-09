@@ -41,14 +41,13 @@ class CardbookCardServiceTest :
             this.createdDateTime = createdDateTime
         }
 
-        fun model(id: String = "card1") =
-            CardbookCardModel(
-                cardId = id,
-                cardbookId = "cb1",
-                userId = "u1",
-                front = "Front text",
-                back = "Back text",
-            )
+        fun model(id: String = "card1") = CardbookCardModel(
+            cardId = id,
+            cardbookId = "cb1",
+            userId = "u1",
+            front = "Front text",
+            back = "Back text",
+        )
 
         "listByCardbookId: createdDateTime の昇順でソートされる" {
             val older = item("card1", createdDateTime = "2025-01-01T00:00:00Z")

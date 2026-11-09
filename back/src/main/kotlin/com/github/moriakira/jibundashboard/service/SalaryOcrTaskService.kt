@@ -23,14 +23,9 @@ class SalaryOcrTaskService(
     fun listByUserAndDate(userId: String, targetDate: String): List<SalaryOcrTaskModel> =
         salaryOcrTaskRepository.findByUserAndDate(userId, targetDate).map { it.toDomain() }
 
-    fun getByTaskId(taskId: String): SalaryOcrTaskModel? =
-        salaryOcrTaskRepository.getByTaskId(taskId)?.toDomain()
+    fun getByTaskId(taskId: String): SalaryOcrTaskModel? = salaryOcrTaskRepository.getByTaskId(taskId)?.toDomain()
 
-    fun startTask(
-        userId: String,
-        targetDate: String,
-        fileId: String,
-    ): String {
+    fun startTask(userId: String, targetDate: String, fileId: String): String {
         val existing = salaryOcrTaskRepository.findByUserAndDate(userId, targetDate).map { it.toDomain() }
         if (existing.any { it.status == SalaryOcrTaskStatus.PENDING || it.status == SalaryOcrTaskStatus.RUNNING }) {
             throw ConflictException("OCR task is already in progress for userId=$userId, targetDate=$targetDate")
@@ -84,22 +79,20 @@ enum class SalaryOcrTaskStatus {
     FAILED,
 }
 
-private fun SalaryOcrTaskItem.toDomain(): SalaryOcrTaskModel =
-    SalaryOcrTaskModel(
-        ocrTaskId = this.taskId!!,
-        userId = this.userId!!,
-        targetDate = this.targetDate!!,
-        status = SalaryOcrTaskStatus.valueOf(this.status ?: SalaryOcrTaskStatus.PENDING.name),
-        createdAt = this.createdAt!!,
-        updatedAt = this.updatedAt!!,
-    )
+private fun SalaryOcrTaskItem.toDomain(): SalaryOcrTaskModel = SalaryOcrTaskModel(
+    ocrTaskId = this.taskId!!,
+    userId = this.userId!!,
+    targetDate = this.targetDate!!,
+    status = SalaryOcrTaskStatus.valueOf(this.status ?: SalaryOcrTaskStatus.PENDING.name),
+    createdAt = this.createdAt!!,
+    updatedAt = this.updatedAt!!,
+)
 
-private fun SalaryOcrTaskModel.toItem(): SalaryOcrTaskItem =
-    SalaryOcrTaskItem().also { item ->
-        item.taskId = this.ocrTaskId
-        item.userId = this.userId
-        item.targetDate = this.targetDate
-        item.status = this.status.name
-        item.createdAt = this.createdAt
-        item.updatedAt = this.updatedAt
-    }
+private fun SalaryOcrTaskModel.toItem(): SalaryOcrTaskItem = SalaryOcrTaskItem().also { item ->
+    item.taskId = this.ocrTaskId
+    item.userId = this.userId
+    item.targetDate = this.targetDate
+    item.status = this.status.name
+    item.createdAt = this.createdAt
+    item.updatedAt = this.updatedAt
+}

@@ -24,13 +24,12 @@ class VocabularyTagRepositoryTest :
         val repo = VocabularyTagRepository(enhanced, "vocabulary-tags")
         val schema: TableSchema<VocabularyTagItem> = TableSchema.fromBean(VocabularyTagItem::class.java)
 
-        fun item(id: String = "tag1", tag: String = "kotlin") =
-            VocabularyTagItem().apply {
-                vocabularyTagId = id
-                userId = "u1"
-                vocabularyTag = tag
-                order = 1
-            }
+        fun item(id: String = "tag1", tag: String = "kotlin") = VocabularyTagItem().apply {
+            vocabularyTagId = id
+            userId = "u1"
+            vocabularyTag = tag
+            order = 1
+        }
 
         "getByVocabularyTagId: GSI で1件返す" {
             val page = mockk<Page<VocabularyTagItem>>()

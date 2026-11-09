@@ -55,9 +55,7 @@ class VocabularyController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    override fun postVocabularies(
-        postVocabulariesRequest: PostVocabulariesRequest?,
-    ): ResponseEntity<VocabularyId> {
+    override fun postVocabularies(postVocabulariesRequest: PostVocabulariesRequest?): ResponseEntity<VocabularyId> {
         requireNotNull(postVocabulariesRequest) { "Request body is required." }
         val vocabularyId = vocabularyService.create(postVocabulariesRequest.toModel())
         return ResponseEntity.status(HttpStatus.CREATED).body(VocabularyId(UUID.fromString(vocabularyId)))
@@ -91,9 +89,7 @@ class VocabularyController(
         return ResponseEntity.noContent().build()
     }
 
-    override fun getVocabularyTags(
-        vocabularyTag: String?,
-    ): ResponseEntity<List<VocabularyTag>> {
+    override fun getVocabularyTags(vocabularyTag: String?): ResponseEntity<List<VocabularyTag>> {
         val list =
             vocabularyTagService.listByConditions(
                 userId = currentAuth.userId,
@@ -102,9 +98,7 @@ class VocabularyController(
         return ResponseEntity.ok(list.map { it.toApi() })
     }
 
-    override fun postVocabularyTags(
-        vocabularyTagBase: VocabularyTagBase?,
-    ): ResponseEntity<VocabularyTagId> {
+    override fun postVocabularyTags(vocabularyTagBase: VocabularyTagBase?): ResponseEntity<VocabularyTagId> {
         requireNotNull(vocabularyTagBase) { "Request body is required." }
         val vocabularyTagId = vocabularyTagService.create(vocabularyTagBase.toModel())
         return ResponseEntity.status(HttpStatus.CREATED).body(VocabularyTagId(UUID.fromString(vocabularyTagId)))
@@ -190,94 +184,85 @@ class VocabularyController(
         return ResponseEntity.noContent().build()
     }
 
-    private fun VocabularyModel.toApi(): Vocabulary =
-        Vocabulary(
-            vocabularyId = UUID.fromString(this.vocabularyId),
-            name = this.name,
-            description = this.description,
-            tags =
-            this.tags.map { tag ->
-                VocabularyTag(
-                    vocabularyTagId = UUID.fromString(tag.vocabularyTagId),
-                    vocabularyTag = tag.vocabularyTag,
-                    order = tag.order,
-                )
-            }.toSet(),
-            createdDateTime = OffsetDateTime.parse(this.createdDateTime),
-            updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
-        )
+    private fun VocabularyModel.toApi(): Vocabulary = Vocabulary(
+        vocabularyId = UUID.fromString(this.vocabularyId),
+        name = this.name,
+        description = this.description,
+        tags =
+        this.tags.map { tag ->
+            VocabularyTag(
+                vocabularyTagId = UUID.fromString(tag.vocabularyTagId),
+                vocabularyTag = tag.vocabularyTag,
+                order = tag.order,
+            )
+        }.toSet(),
+        createdDateTime = OffsetDateTime.parse(this.createdDateTime),
+        updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
+    )
 
-    private fun VocabularyTagModel.toApi(): VocabularyTag =
-        VocabularyTag(
-            vocabularyTagId = UUID.fromString(this.vocabularyTagId),
-            vocabularyTag = this.vocabularyTag,
-            order = this.order,
-        )
+    private fun VocabularyTagModel.toApi(): VocabularyTag = VocabularyTag(
+        vocabularyTagId = UUID.fromString(this.vocabularyTagId),
+        vocabularyTag = this.vocabularyTag,
+        order = this.order,
+    )
 
-    private fun PostVocabulariesRequest.toModel(): VocabularyModel =
-        VocabularyModel(
-            vocabularyId = "",
-            userId = currentAuth.userId,
-            name = this.name,
-            description = this.description,
-            tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
-        )
+    private fun PostVocabulariesRequest.toModel(): VocabularyModel = VocabularyModel(
+        vocabularyId = "",
+        userId = currentAuth.userId,
+        name = this.name,
+        description = this.description,
+        tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
+    )
 
-    private fun PostVocabulariesRequest.toModel(vocabularyId: String): VocabularyModel =
-        VocabularyModel(
-            vocabularyId = vocabularyId,
-            userId = currentAuth.userId,
-            name = this.name,
-            description = this.description,
-            tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
-        )
+    private fun PostVocabulariesRequest.toModel(vocabularyId: String): VocabularyModel = VocabularyModel(
+        vocabularyId = vocabularyId,
+        userId = currentAuth.userId,
+        name = this.name,
+        description = this.description,
+        tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
+    )
 
-    private fun VocabularyTagBase.toModel(): VocabularyTagModel =
-        VocabularyTagModel(
-            vocabularyTagId = "",
-            userId = currentAuth.userId,
-            vocabularyTag = this.vocabularyTag,
-            order = this.order,
-        )
+    private fun VocabularyTagBase.toModel(): VocabularyTagModel = VocabularyTagModel(
+        vocabularyTagId = "",
+        userId = currentAuth.userId,
+        vocabularyTag = this.vocabularyTag,
+        order = this.order,
+    )
 
-    private fun VocabularyTagBase.toModel(vocabularyTagId: String): VocabularyTagModel =
-        VocabularyTagModel(
-            vocabularyTagId = vocabularyTagId,
-            userId = currentAuth.userId,
-            vocabularyTag = this.vocabularyTag,
-            order = this.order,
-        )
+    private fun VocabularyTagBase.toModel(vocabularyTagId: String): VocabularyTagModel = VocabularyTagModel(
+        vocabularyTagId = vocabularyTagId,
+        userId = currentAuth.userId,
+        vocabularyTag = this.vocabularyTag,
+        order = this.order,
+    )
 
-    private fun VocabularyQuizHistoryModel.toApi(): VocabularyQuizHistory =
-        VocabularyQuizHistory(
-            quizHistoryId = UUID.fromString(this.quizHistoryId),
-            answeredAt = OffsetDateTime.parse(this.answeredAt),
-            tagIds = this.tagIds.map { UUID.fromString(it) },
-            questionCount = this.questionCount,
-            direction = VocabularyQuizHistory.Direction.valueOf(this.direction),
-            correctCount = this.correctCount,
-            incorrectCount = this.incorrectCount,
-            answers = this.answers.map { it.toApi() },
-        )
+    private fun VocabularyQuizHistoryModel.toApi(): VocabularyQuizHistory = VocabularyQuizHistory(
+        quizHistoryId = UUID.fromString(this.quizHistoryId),
+        answeredAt = OffsetDateTime.parse(this.answeredAt),
+        tagIds = this.tagIds.map { UUID.fromString(it) },
+        questionCount = this.questionCount,
+        direction = VocabularyQuizHistory.Direction.valueOf(this.direction),
+        correctCount = this.correctCount,
+        incorrectCount = this.incorrectCount,
+        answers = this.answers.map { it.toApi() },
+    )
 
-    private fun VocabularyQuizHistoryAnswerModel.toApi(): VocabularyQuizHistoryAnswer =
-        VocabularyQuizHistoryAnswer(
-            vocabularyId = UUID.fromString(this.vocabularyId),
-            result = VocabularyQuizHistoryAnswer.Result.valueOf(this.result),
-        )
+    private fun VocabularyQuizHistoryAnswerModel.toApi(): VocabularyQuizHistoryAnswer = VocabularyQuizHistoryAnswer(
+        vocabularyId = UUID.fromString(this.vocabularyId),
+        result = VocabularyQuizHistoryAnswer.Result.valueOf(this.result),
+    )
 
-    private fun VocabularyQuizHistoryBase.toModel(): VocabularyQuizHistoryModel =
-        VocabularyQuizHistoryModel(
-            quizHistoryId = "",
-            userId = currentAuth.userId,
-            answeredAt = "",
-            tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
-            questionCount = this.questionCount,
-            direction = this.direction.value,
-            correctCount = 0,
-            incorrectCount = 0,
-            answers = this.answers.map { it.toModel() },
-        )
+    private fun VocabularyQuizHistoryBase.toModel(): VocabularyQuizHistoryModel = VocabularyQuizHistoryModel(
+        quizHistoryId = "",
+        userId = currentAuth.userId,
+        answeredAt = "",
+        tagIds = this.tagIds?.map { it.toString() } ?: emptyList(),
+        questionCount = this.questionCount,
+        direction = this.direction.value,
+        correctCount = 0,
+        incorrectCount = 0,
+        answers = this.answers.map { it.toModel() },
+    )
 
     private fun VocabularyQuizHistoryAnswer.toModel(): VocabularyQuizHistoryAnswerModel =
         VocabularyQuizHistoryAnswerModel(
@@ -285,15 +270,14 @@ class VocabularyController(
             result = this.result.value,
         )
 
-    private fun VocabularyCheckResultModel.toApi(): VocabularyCheckResult =
-        VocabularyCheckResult(
-            vocabularyCheckResultId = UUID.fromString(this.vocabularyCheckResultId),
-            vocabularyId = UUID.fromString(this.vocabularyId),
-            vocabularyName = this.vocabularyName,
-            severity = VocabularyCheckResult.Severity.valueOf(this.severity),
-            status = VocabularyCheckResult.Status.valueOf(this.status),
-            report = this.report,
-            vocabularyUpdatedAt = OffsetDateTime.parse(this.vocabularyUpdatedAt),
-            checkedAt = OffsetDateTime.parse(this.checkedAt),
-        )
+    private fun VocabularyCheckResultModel.toApi(): VocabularyCheckResult = VocabularyCheckResult(
+        vocabularyCheckResultId = UUID.fromString(this.vocabularyCheckResultId),
+        vocabularyId = UUID.fromString(this.vocabularyId),
+        vocabularyName = this.vocabularyName,
+        severity = VocabularyCheckResult.Severity.valueOf(this.severity),
+        status = VocabularyCheckResult.Status.valueOf(this.status),
+        report = this.report,
+        vocabularyUpdatedAt = OffsetDateTime.parse(this.vocabularyUpdatedAt),
+        checkedAt = OffsetDateTime.parse(this.checkedAt),
+    )
 }

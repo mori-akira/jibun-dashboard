@@ -27,21 +27,19 @@ class CardbookServiceTest :
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun item(id: String = "cb1", userId: String = "u1") =
-            CardbookItem().apply {
-                cardbookId = id
-                this.userId = userId
-                name = "My Cardbook"
-                createdDateTime = "2025-01-01T00:00:00Z"
-                updatedDateTime = "2025-01-01T00:00:00Z"
-            }
+        fun item(id: String = "cb1", userId: String = "u1") = CardbookItem().apply {
+            cardbookId = id
+            this.userId = userId
+            name = "My Cardbook"
+            createdDateTime = "2025-01-01T00:00:00Z"
+            updatedDateTime = "2025-01-01T00:00:00Z"
+        }
 
-        fun model(id: String = "cb1") =
-            CardbookModel(
-                cardbookId = id,
-                userId = "u1",
-                name = "My Cardbook",
-            )
+        fun model(id: String = "cb1") = CardbookModel(
+            cardbookId = id,
+            userId = "u1",
+            name = "My Cardbook",
+        )
 
         "listByUser: 変換して返す" {
             every { repository.findByUser("u1") } returns listOf(item("cb1"), item("cb2"))

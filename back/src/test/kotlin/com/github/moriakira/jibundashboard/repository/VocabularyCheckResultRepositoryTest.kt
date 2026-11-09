@@ -26,21 +26,18 @@ class VocabularyCheckResultRepositoryTest :
         val schema: TableSchema<VocabularyCheckResultItem> =
             TableSchema.fromBean(VocabularyCheckResultItem::class.java)
 
-        fun item(
-            checkResultId: String = "r1",
-            vocabularyId: String = "v1",
-            userId: String = "u1",
-        ) = VocabularyCheckResultItem().apply {
-            this.vocabularyCheckResultId = checkResultId
-            this.vocabularyId = vocabularyId
-            this.userId = userId
-            this.vocabularyName = "Kotlin"
-            this.severity = "HIGH"
-            this.status = "UNCHECKED"
-            this.report = "## report"
-            this.vocabularyUpdatedAt = "2025-05-01T00:00:00Z"
-            this.checkedAt = "2025-06-01T00:00:00Z"
-        }
+        fun item(checkResultId: String = "r1", vocabularyId: String = "v1", userId: String = "u1") =
+            VocabularyCheckResultItem().apply {
+                this.vocabularyCheckResultId = checkResultId
+                this.vocabularyId = vocabularyId
+                this.userId = userId
+                this.vocabularyName = "Kotlin"
+                this.severity = "HIGH"
+                this.status = "UNCHECKED"
+                this.report = "## report"
+                this.vocabularyUpdatedAt = "2025-05-01T00:00:00Z"
+                this.checkedAt = "2025-06-01T00:00:00Z"
+            }
 
         "findByUser: userId でクエリして一覧を返す" {
             val page = mockk<Page<VocabularyCheckResultItem>>()

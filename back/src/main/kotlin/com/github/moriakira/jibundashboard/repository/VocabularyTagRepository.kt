@@ -34,10 +34,7 @@ class VocabularyTagRepository(
         return index.query(req).flatMap { it.items().toList() }.firstOrNull()
     }
 
-    fun findByUser(
-        userId: String,
-        vocabularyTag: String? = null,
-    ): List<VocabularyTagItem> {
+    fun findByUser(userId: String, vocabularyTag: String? = null): List<VocabularyTagItem> {
         val names = mutableMapOf<String, String>()
         val values = mutableMapOf<String, AttributeValue>()
         val conditions = mutableListOf<String>()

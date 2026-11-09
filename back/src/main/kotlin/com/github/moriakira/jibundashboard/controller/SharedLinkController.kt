@@ -13,10 +13,8 @@ import java.time.LocalDate
 import java.util.UUID
 
 @RestController
-class SharedLinkController(
-    private val currentAuth: CurrentAuth,
-    private val sharedLinkService: SharedLinkService,
-) : SharedLinkApi {
+class SharedLinkController(private val currentAuth: CurrentAuth, private val sharedLinkService: SharedLinkService) :
+    SharedLinkApi {
 
     override fun getSharedLinks(): ResponseEntity<List<SharedLink>> {
         val list = sharedLinkService.listByUser(currentAuth.userId)

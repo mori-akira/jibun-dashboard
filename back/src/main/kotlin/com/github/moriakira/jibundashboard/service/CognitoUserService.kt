@@ -62,7 +62,4 @@ class CognitoUserService(
     }
 }
 
-data class CognitoUserInfo(
-    val sub: String? = null,
-    val email: String? = null,
-)
+data class CognitoUserInfo(val sub: String? = null, val email: String? = null)

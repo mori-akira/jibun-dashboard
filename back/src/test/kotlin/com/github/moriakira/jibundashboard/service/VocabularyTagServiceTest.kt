@@ -24,13 +24,12 @@ class VocabularyTagServiceTest :
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun item(id: String = "tag1", userId: String = "u1") =
-            VocabularyTagItem().apply {
-                vocabularyTagId = id
-                this.userId = userId
-                vocabularyTag = "kotlin"
-                order = 1
-            }
+        fun item(id: String = "tag1", userId: String = "u1") = VocabularyTagItem().apply {
+            vocabularyTagId = id
+            this.userId = userId
+            vocabularyTag = "kotlin"
+            order = 1
+        }
 
         "findByIds: 指定 ID のタグを返す" {
             every { repository.findByIds("u1", listOf("tag1", "tag2")) } returns listOf(item("tag1"), item("tag2"))

@@ -114,7 +114,7 @@ class SalaryOcrTaskServiceTest :
             @Suppress("MaxLineLength")
             every {
                 sqsClient.sendMessage(
-                    any<java.util.function.Consumer<software.amazon.awssdk.services.sqs.model.SendMessageRequest.Builder>>(),
+                    any<Consumer<SendMessageRequest.Builder>>(),
                 )
             } answers { mockk(relaxed = true) }
 

@@ -22,9 +22,7 @@ class ApiExceptionHandler {
     private val log = LoggerFactory.getLogger(ApiExceptionHandler::class.java)
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleMethodArgumentNotValid(
-        ex: MethodArgumentNotValidException,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException): ResponseEntity<ErrorInfo> {
         log.debug("MethodArgumentNotValidException", ex)
 
         val details = ex.bindingResult.allErrors.map { error ->
@@ -43,9 +41,7 @@ class ApiExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolation(
-        ex: ConstraintViolationException,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleConstraintViolation(ex: ConstraintViolationException): ResponseEntity<ErrorInfo> {
         log.debug("ConstraintViolationException", ex)
 
         val details = ex.constraintViolations.map { violation ->
@@ -63,9 +59,7 @@ class ApiExceptionHandler {
     }
 
     @ExceptionHandler(MissingServletRequestParameterException::class)
-    fun handleMissingServletRequestParameter(
-        ex: MissingServletRequestParameterException,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleMissingServletRequestParameter(ex: MissingServletRequestParameterException): ResponseEntity<ErrorInfo> {
         log.debug("MissingServletRequestParameterException", ex)
 
         val detail = ErrorDetail(
@@ -81,9 +75,7 @@ class ApiExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
-    fun handleMethodArgumentTypeMismatch(
-        ex: MethodArgumentTypeMismatchException,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleMethodArgumentTypeMismatch(ex: MethodArgumentTypeMismatchException): ResponseEntity<ErrorInfo> {
         log.debug("MethodArgumentTypeMismatchException", ex)
 
         val paramName = ex.name
@@ -101,9 +93,7 @@ class ApiExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
-    fun handleHttpMessageNotReadable(
-        ex: HttpMessageNotReadableException,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleHttpMessageNotReadable(ex: HttpMessageNotReadableException): ResponseEntity<ErrorInfo> {
         log.debug("HttpMessageNotReadableException", ex)
 
         val detail = ErrorDetail(
@@ -155,9 +145,7 @@ class ApiExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgument(
-        ex: IllegalArgumentException,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleIllegalArgument(ex: IllegalArgumentException): ResponseEntity<ErrorInfo> {
         log.debug("IllegalArgumentException", ex)
 
         val detail = ErrorDetail(
@@ -173,9 +161,7 @@ class ApiExceptionHandler {
     }
 
     @ExceptionHandler(Exception::class)
-    fun handleUnhandledException(
-        ex: Exception,
-    ): ResponseEntity<ErrorInfo> {
+    fun handleUnhandledException(ex: Exception): ResponseEntity<ErrorInfo> {
         log.error("Unhandled exception", ex)
 
         val detail = ErrorDetail(

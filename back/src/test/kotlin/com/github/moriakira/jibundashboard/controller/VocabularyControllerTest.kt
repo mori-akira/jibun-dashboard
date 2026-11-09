@@ -49,16 +49,15 @@ class VocabularyControllerTest :
             clearMocks(vocabularyCheckResultService, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun vocabModel(id: String = "11111111-1111-1111-1111-111111111111") =
-            VocabularyModel(
-                vocabularyId = id,
-                userId = "u1",
-                name = "Kotlin Coroutine",
-                description = "Async programming",
-                tags = listOf(VocabularyTagModel("22222222-2222-2222-2222-222222222222", "u1", "kotlin", order = 1)),
-                createdDateTime = "2025-01-01T00:00:00Z",
-                updatedDateTime = "2025-01-01T00:00:00Z",
-            )
+        fun vocabModel(id: String = "11111111-1111-1111-1111-111111111111") = VocabularyModel(
+            vocabularyId = id,
+            userId = "u1",
+            name = "Kotlin Coroutine",
+            description = "Async programming",
+            tags = listOf(VocabularyTagModel("22222222-2222-2222-2222-222222222222", "u1", "kotlin", order = 1)),
+            createdDateTime = "2025-01-01T00:00:00Z",
+            updatedDateTime = "2025-01-01T00:00:00Z",
+        )
 
         fun tagModel(id: String = "22222222-2222-2222-2222-222222222222") =
             VocabularyTagModel(vocabularyTagId = id, userId = "u1", vocabularyTag = "kotlin", order = 1)
@@ -132,21 +131,20 @@ class VocabularyControllerTest :
 
         // --- VocabularyQuizHistory ---
 
-        fun quizHistoryModel(id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa") =
-            VocabularyQuizHistoryModel(
-                quizHistoryId = id,
-                userId = "u1",
-                answeredAt = "2025-01-01T00:00:00Z",
-                tagIds = listOf("22222222-2222-2222-2222-222222222222"),
-                questionCount = 2,
-                direction = "FRONT_TO_BACK",
-                correctCount = 1,
-                incorrectCount = 1,
-                answers = listOf(
-                    VocabularyQuizHistoryAnswerModel("11111111-1111-1111-1111-111111111111", "CORRECT"),
-                    VocabularyQuizHistoryAnswerModel("33333333-3333-3333-3333-333333333333", "INCORRECT"),
-                ),
-            )
+        fun quizHistoryModel(id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa") = VocabularyQuizHistoryModel(
+            quizHistoryId = id,
+            userId = "u1",
+            answeredAt = "2025-01-01T00:00:00Z",
+            tagIds = listOf("22222222-2222-2222-2222-222222222222"),
+            questionCount = 2,
+            direction = "FRONT_TO_BACK",
+            correctCount = 1,
+            incorrectCount = 1,
+            answers = listOf(
+                VocabularyQuizHistoryAnswerModel("11111111-1111-1111-1111-111111111111", "CORRECT"),
+                VocabularyQuizHistoryAnswerModel("33333333-3333-3333-3333-333333333333", "INCORRECT"),
+            ),
+        )
 
         "getVocabularyQuizHistories: 一覧を返す" {
             every { vocabularyQuizHistoryService.listByUser("u1") } returns listOf(quizHistoryModel())
@@ -183,18 +181,17 @@ class VocabularyControllerTest :
             id: String = "55555555-5555-5555-5555-555555555555",
             vocabularyId: String = "33333333-3333-3333-3333-333333333333",
             status: String = "UNCHECKED",
-        ) =
-            VocabularyCheckResultModel(
-                vocabularyCheckResultId = id,
-                vocabularyId = vocabularyId,
-                userId = "u1",
-                vocabularyName = "Kotlin",
-                severity = "HIGH",
-                status = status,
-                report = "## report",
-                vocabularyUpdatedAt = "2025-05-01T00:00:00Z",
-                checkedAt = "2025-06-01T00:00:00Z",
-            )
+        ) = VocabularyCheckResultModel(
+            vocabularyCheckResultId = id,
+            vocabularyId = vocabularyId,
+            userId = "u1",
+            vocabularyName = "Kotlin",
+            severity = "HIGH",
+            status = status,
+            report = "## report",
+            vocabularyUpdatedAt = "2025-05-01T00:00:00Z",
+            checkedAt = "2025-06-01T00:00:00Z",
+        )
 
         "getVocabularyCheckResults: 一覧を返す" {
             every {

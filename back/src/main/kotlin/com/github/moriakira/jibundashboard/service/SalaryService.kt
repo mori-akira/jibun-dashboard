@@ -7,9 +7,7 @@ import java.util.UUID
 
 @Service
 @Suppress("TooManyFunctions")
-class SalaryService(
-    private val salaryRepository: SalaryRepository,
-) {
+class SalaryService(private val salaryRepository: SalaryRepository) {
 
     fun get(userId: String, targetDate: String): SalaryModel? = salaryRepository.get(userId, targetDate)?.toDomain()
 
@@ -144,12 +142,6 @@ data class StructureModel(
     val other: Int,
 )
 
-data class PayslipCategoryModel(
-    val key: String,
-    val data: List<PayslipEntryModel>,
-)
+data class PayslipCategoryModel(val key: String, val data: List<PayslipEntryModel>)
 
-data class PayslipEntryModel(
-    val key: String,
-    val data: Double,
-)
+data class PayslipEntryModel(val key: String, val data: Double)

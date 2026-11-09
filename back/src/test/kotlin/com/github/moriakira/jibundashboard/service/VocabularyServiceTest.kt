@@ -29,25 +29,23 @@ class VocabularyServiceTest :
             clearMocks(vocabularyTagService, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun item(id: String = "v1", userId: String = "u1") =
-            VocabularyItem().apply {
-                vocabularyId = id
-                this.userId = userId
-                name = "Kotlin"
-                description = "A language"
-                tagIds = listOf("tag1")
-                createdDateTime = "2025-01-01T00:00:00Z"
-                updatedDateTime = "2025-01-01T00:00:00Z"
-            }
+        fun item(id: String = "v1", userId: String = "u1") = VocabularyItem().apply {
+            vocabularyId = id
+            this.userId = userId
+            name = "Kotlin"
+            description = "A language"
+            tagIds = listOf("tag1")
+            createdDateTime = "2025-01-01T00:00:00Z"
+            updatedDateTime = "2025-01-01T00:00:00Z"
+        }
 
-        fun model(id: String = "v1") =
-            VocabularyModel(
-                vocabularyId = id,
-                userId = "u1",
-                name = "Kotlin",
-                description = null,
-                tagIds = listOf("tag1"),
-            )
+        fun model(id: String = "v1") = VocabularyModel(
+            vocabularyId = id,
+            userId = "u1",
+            name = "Kotlin",
+            description = null,
+            tagIds = listOf("tag1"),
+        )
 
         val resolvedTag = VocabularyTagModel("tag1", "u1", "kotlin", order = 1)
 

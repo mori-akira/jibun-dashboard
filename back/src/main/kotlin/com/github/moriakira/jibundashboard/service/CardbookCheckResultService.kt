@@ -5,9 +5,7 @@ import com.github.moriakira.jibundashboard.repository.CardbookCheckResultReposit
 import org.springframework.stereotype.Service
 
 @Service
-class CardbookCheckResultService(
-    private val repository: CardbookCheckResultRepository,
-) {
+class CardbookCheckResultService(private val repository: CardbookCheckResultRepository) {
     @Suppress("LongParameterList")
     fun listByUser(
         userId: String,
@@ -16,16 +14,15 @@ class CardbookCheckResultService(
         checkedAtTo: String? = null,
         severities: List<String>? = null,
         statuses: List<String>? = null,
-    ): List<CardbookCheckResultModel> =
-        repository.findByUser(userId)
-            .filter { it.severity != null }
-            .filter { cardbookId == null || it.cardbookId == cardbookId }
-            .filter { checkedAtFrom == null || it.checkedAt!!.substring(0, 10) >= checkedAtFrom }
-            .filter { checkedAtTo == null || it.checkedAt!!.substring(0, 10) <= checkedAtTo }
-            .filter { severities == null || it.severity in severities }
-            .filter { statuses == null || it.status in statuses }
-            .map { it.toDomain() }
-            .sortedByDescending { it.checkedAt }
+    ): List<CardbookCheckResultModel> = repository.findByUser(userId)
+        .filter { it.severity != null }
+        .filter { cardbookId == null || it.cardbookId == cardbookId }
+        .filter { checkedAtFrom == null || it.checkedAt!!.substring(0, 10) >= checkedAtFrom }
+        .filter { checkedAtTo == null || it.checkedAt!!.substring(0, 10) <= checkedAtTo }
+        .filter { severities == null || it.severity in severities }
+        .filter { statuses == null || it.status in statuses }
+        .map { it.toDomain() }
+        .sortedByDescending { it.checkedAt }
 
     @Suppress("ReturnCount")
     fun updateStatus(checkResultId: String, userId: String, status: String): CardbookCheckResultModel? {
@@ -36,19 +33,18 @@ class CardbookCheckResultService(
         return item.toDomain()
     }
 
-    private fun CardbookCheckResultItem.toDomain(): CardbookCheckResultModel =
-        CardbookCheckResultModel(
-            cardbookCheckResultId = this.cardbookCheckResultId!!,
-            cardbookId = this.cardbookId!!,
-            cardId = this.cardId!!,
-            userId = this.userId!!,
-            front = this.front!!,
-            severity = this.severity!!,
-            status = this.status!!,
-            report = this.report!!,
-            cardUpdatedAt = this.cardUpdatedAt!!,
-            checkedAt = this.checkedAt!!,
-        )
+    private fun CardbookCheckResultItem.toDomain(): CardbookCheckResultModel = CardbookCheckResultModel(
+        cardbookCheckResultId = this.cardbookCheckResultId!!,
+        cardbookId = this.cardbookId!!,
+        cardId = this.cardId!!,
+        userId = this.userId!!,
+        front = this.front!!,
+        severity = this.severity!!,
+        status = this.status!!,
+        report = this.report!!,
+        cardUpdatedAt = this.cardUpdatedAt!!,
+        checkedAt = this.checkedAt!!,
+    )
 }
 
 data class CardbookCheckResultModel(

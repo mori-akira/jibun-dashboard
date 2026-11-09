@@ -23,8 +23,7 @@ class SalaryOcrTaskRepository(
     private val schema: TableSchema<SalaryOcrTaskItem> = TableSchema.fromBean(SalaryOcrTaskItem::class.java)
     private fun table(): DynamoDbTable<SalaryOcrTaskItem> = enhanced.table(tableName, schema)
 
-    fun getByTaskId(taskId: String): SalaryOcrTaskItem? =
-        table().getItem(Key.builder().partitionValue(taskId).build())
+    fun getByTaskId(taskId: String): SalaryOcrTaskItem? = table().getItem(Key.builder().partitionValue(taskId).build())
 
     fun findByUserAndDate(userId: String, targetDate: String): List<SalaryOcrTaskItem> {
         val index = table().index("gsi_user_target_date")

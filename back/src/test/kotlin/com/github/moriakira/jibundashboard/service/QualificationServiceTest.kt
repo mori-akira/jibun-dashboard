@@ -141,10 +141,7 @@ class QualificationServiceTest :
             capt.captured.officialUrl shouldBe "https://example.com/gcp"
         }
 
-        fun model(
-            id: String = "qid-s3",
-            certificationAssetId: String? = null,
-        ) = QualificationModel(
+        fun model(id: String = "qid-s3", certificationAssetId: String? = null) = QualificationModel(
             qualificationId = id,
             userId = "u1",
             order = 1,

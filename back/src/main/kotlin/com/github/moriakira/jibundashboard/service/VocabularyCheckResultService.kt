@@ -5,24 +5,21 @@ import com.github.moriakira.jibundashboard.repository.VocabularyCheckResultRepos
 import org.springframework.stereotype.Service
 
 @Service
-class VocabularyCheckResultService(
-    private val repository: VocabularyCheckResultRepository,
-) {
+class VocabularyCheckResultService(private val repository: VocabularyCheckResultRepository) {
     fun listByUser(
         userId: String,
         checkedAtFrom: String? = null,
         checkedAtTo: String? = null,
         severities: List<String>? = null,
         statuses: List<String>? = null,
-    ): List<VocabularyCheckResultModel> =
-        repository.findByUser(userId)
-            .filter { it.severity != null }
-            .filter { checkedAtFrom == null || it.checkedAt!!.substring(0, 10) >= checkedAtFrom }
-            .filter { checkedAtTo == null || it.checkedAt!!.substring(0, 10) <= checkedAtTo }
-            .filter { severities == null || it.severity in severities }
-            .filter { statuses == null || it.status in statuses }
-            .map { it.toDomain() }
-            .sortedByDescending { it.checkedAt }
+    ): List<VocabularyCheckResultModel> = repository.findByUser(userId)
+        .filter { it.severity != null }
+        .filter { checkedAtFrom == null || it.checkedAt!!.substring(0, 10) >= checkedAtFrom }
+        .filter { checkedAtTo == null || it.checkedAt!!.substring(0, 10) <= checkedAtTo }
+        .filter { severities == null || it.severity in severities }
+        .filter { statuses == null || it.status in statuses }
+        .map { it.toDomain() }
+        .sortedByDescending { it.checkedAt }
 
     @Suppress("ReturnCount")
     fun updateStatus(checkResultId: String, userId: String, status: String): VocabularyCheckResultModel? {
@@ -33,18 +30,17 @@ class VocabularyCheckResultService(
         return item.toDomain()
     }
 
-    private fun VocabularyCheckResultItem.toDomain(): VocabularyCheckResultModel =
-        VocabularyCheckResultModel(
-            vocabularyCheckResultId = this.vocabularyCheckResultId!!,
-            vocabularyId = this.vocabularyId!!,
-            userId = this.userId!!,
-            vocabularyName = this.vocabularyName!!,
-            severity = this.severity!!,
-            status = this.status!!,
-            report = this.report!!,
-            vocabularyUpdatedAt = this.vocabularyUpdatedAt!!,
-            checkedAt = this.checkedAt!!,
-        )
+    private fun VocabularyCheckResultItem.toDomain(): VocabularyCheckResultModel = VocabularyCheckResultModel(
+        vocabularyCheckResultId = this.vocabularyCheckResultId!!,
+        vocabularyId = this.vocabularyId!!,
+        userId = this.userId!!,
+        vocabularyName = this.vocabularyName!!,
+        severity = this.severity!!,
+        status = this.status!!,
+        report = this.report!!,
+        vocabularyUpdatedAt = this.vocabularyUpdatedAt!!,
+        checkedAt = this.checkedAt!!,
+    )
 }
 
 data class VocabularyCheckResultModel(

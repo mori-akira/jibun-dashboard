@@ -6,13 +6,9 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class VocabularyTagService(
-    private val vocabularyTagRepository: VocabularyTagRepository,
-) {
-    fun listByConditions(
-        userId: String,
-        vocabularyTag: String? = null,
-    ): List<VocabularyTagModel> = vocabularyTagRepository.findByUser(userId, vocabularyTag).map { it.toDomain() }
+class VocabularyTagService(private val vocabularyTagRepository: VocabularyTagRepository) {
+    fun listByConditions(userId: String, vocabularyTag: String? = null): List<VocabularyTagModel> =
+        vocabularyTagRepository.findByUser(userId, vocabularyTag).map { it.toDomain() }
 
     fun findByIds(userId: String, tagIds: List<String>): List<VocabularyTagModel> =
         vocabularyTagRepository.findByIds(userId, tagIds).map { it.toDomain() }
@@ -34,21 +30,19 @@ class VocabularyTagService(
         vocabularyTagRepository.delete(userId, vocabularyTagId)
     }
 
-    private fun VocabularyTagItem.toDomain(): VocabularyTagModel =
-        VocabularyTagModel(
-            vocabularyTagId = this.vocabularyTagId!!,
-            userId = this.userId!!,
-            vocabularyTag = this.vocabularyTag!!,
-            order = this.order!!,
-        )
+    private fun VocabularyTagItem.toDomain(): VocabularyTagModel = VocabularyTagModel(
+        vocabularyTagId = this.vocabularyTagId!!,
+        userId = this.userId!!,
+        vocabularyTag = this.vocabularyTag!!,
+        order = this.order!!,
+    )
 
-    private fun VocabularyTagModel.toItem(): VocabularyTagItem =
-        VocabularyTagItem().also { item ->
-            item.vocabularyTagId = this.vocabularyTagId
-            item.userId = this.userId
-            item.vocabularyTag = this.vocabularyTag
-            item.order = this.order
-        }
+    private fun VocabularyTagModel.toItem(): VocabularyTagItem = VocabularyTagItem().also { item ->
+        item.vocabularyTagId = this.vocabularyTagId
+        item.userId = this.userId
+        item.vocabularyTag = this.vocabularyTag
+        item.order = this.order
+    }
 }
 
 data class VocabularyTagModel(

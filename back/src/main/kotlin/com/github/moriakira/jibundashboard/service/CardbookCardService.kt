@@ -7,9 +7,7 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class CardbookCardService(
-    private val repository: CardbookCardRepository,
-) {
+class CardbookCardService(private val repository: CardbookCardRepository) {
     fun listByCardbookId(cardbookId: String): List<CardbookCardModel> =
         repository.findByCardbookId(cardbookId).map { it.toDomain() }.sortedBy { it.createdDateTime }
 
@@ -35,27 +33,25 @@ class CardbookCardService(
         repository.delete(userId, cardId)
     }
 
-    private fun CardbookCardItem.toDomain(): CardbookCardModel =
-        CardbookCardModel(
-            cardId = this.cardId!!,
-            cardbookId = this.cardbookId!!,
-            userId = this.userId!!,
-            front = this.front!!,
-            back = this.back,
-            createdDateTime = this.createdDateTime ?: "",
-            updatedDateTime = this.updatedDateTime ?: this.createdDateTime ?: "",
-        )
+    private fun CardbookCardItem.toDomain(): CardbookCardModel = CardbookCardModel(
+        cardId = this.cardId!!,
+        cardbookId = this.cardbookId!!,
+        userId = this.userId!!,
+        front = this.front!!,
+        back = this.back,
+        createdDateTime = this.createdDateTime ?: "",
+        updatedDateTime = this.updatedDateTime ?: this.createdDateTime ?: "",
+    )
 
-    private fun CardbookCardModel.toItem(): CardbookCardItem =
-        CardbookCardItem().also { item ->
-            item.cardId = this.cardId
-            item.cardbookId = this.cardbookId
-            item.userId = this.userId
-            item.front = this.front
-            item.back = this.back
-            item.createdDateTime = this.createdDateTime
-            item.updatedDateTime = this.updatedDateTime
-        }
+    private fun CardbookCardModel.toItem(): CardbookCardItem = CardbookCardItem().also { item ->
+        item.cardId = this.cardId
+        item.cardbookId = this.cardbookId
+        item.userId = this.userId
+        item.front = this.front
+        item.back = this.back
+        item.createdDateTime = this.createdDateTime
+        item.updatedDateTime = this.updatedDateTime
+    }
 }
 
 data class CardbookCardModel(

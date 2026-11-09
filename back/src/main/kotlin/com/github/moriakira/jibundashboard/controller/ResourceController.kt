@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ResourceController(
-    private val resourceService: ResourceService,
-) : ResourceApi {
+class ResourceController(private val resourceService: ResourceService) : ResourceApi {
 
     override fun getResourcesI18n(localeCode: String): ResponseEntity<I18n> {
         val messages = resourceService.getI18nMessages(localeCode)

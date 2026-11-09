@@ -13,10 +13,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class SettingController(
-    private val currentAuth: CurrentAuth,
-    private val settingService: SettingService,
-) : SettingApi {
+class SettingController(private val currentAuth: CurrentAuth, private val settingService: SettingService) :
+    SettingApi {
 
     override fun getSettings(): ResponseEntity<Setting> {
         val setting = settingService.getOrDefault(currentAuth.userId)

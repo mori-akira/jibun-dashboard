@@ -8,9 +8,7 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class CardbookQuizHistoryService(
-    private val repository: CardbookQuizHistoryRepository,
-) {
+class CardbookQuizHistoryService(private val repository: CardbookQuizHistoryRepository) {
     fun listByUser(userId: String, cardbookId: String? = null): List<CardbookQuizHistoryModel> =
         repository.findByUser(userId)
             .filter { cardbookId == null || it.cardbookId == cardbookId }
@@ -38,18 +36,17 @@ class CardbookQuizHistoryService(
         repository.delete(userId, quizHistoryId)
     }
 
-    private fun CardbookQuizHistoryItem.toDomain(): CardbookQuizHistoryModel =
-        CardbookQuizHistoryModel(
-            quizHistoryId = this.quizHistoryId!!,
-            userId = this.userId!!,
-            cardbookId = this.cardbookId!!,
-            answeredAt = this.answeredAt!!,
-            questionCount = this.questionCount!!,
-            direction = this.direction!!,
-            correctCount = this.correctCount!!,
-            incorrectCount = this.incorrectCount!!,
-            answers = (this.answers ?: emptyList()).map { it.toDomain() },
-        )
+    private fun CardbookQuizHistoryItem.toDomain(): CardbookQuizHistoryModel = CardbookQuizHistoryModel(
+        quizHistoryId = this.quizHistoryId!!,
+        userId = this.userId!!,
+        cardbookId = this.cardbookId!!,
+        answeredAt = this.answeredAt!!,
+        questionCount = this.questionCount!!,
+        direction = this.direction!!,
+        correctCount = this.correctCount!!,
+        incorrectCount = this.incorrectCount!!,
+        answers = (this.answers ?: emptyList()).map { it.toDomain() },
+    )
 
     private fun CardbookQuizHistoryAnswerItem.toDomain(): CardbookQuizHistoryAnswerModel =
         CardbookQuizHistoryAnswerModel(
@@ -57,18 +54,17 @@ class CardbookQuizHistoryService(
             result = this.result!!,
         )
 
-    private fun CardbookQuizHistoryModel.toItem(): CardbookQuizHistoryItem =
-        CardbookQuizHistoryItem().also { item ->
-            item.quizHistoryId = this.quizHistoryId
-            item.userId = this.userId
-            item.cardbookId = this.cardbookId
-            item.answeredAt = this.answeredAt
-            item.questionCount = this.questionCount
-            item.direction = this.direction
-            item.correctCount = this.correctCount
-            item.incorrectCount = this.incorrectCount
-            item.answers = this.answers.map { it.toItem() }
-        }
+    private fun CardbookQuizHistoryModel.toItem(): CardbookQuizHistoryItem = CardbookQuizHistoryItem().also { item ->
+        item.quizHistoryId = this.quizHistoryId
+        item.userId = this.userId
+        item.cardbookId = this.cardbookId
+        item.answeredAt = this.answeredAt
+        item.questionCount = this.questionCount
+        item.direction = this.direction
+        item.correctCount = this.correctCount
+        item.incorrectCount = this.incorrectCount
+        item.answers = this.answers.map { it.toItem() }
+    }
 
     private fun CardbookQuizHistoryAnswerModel.toItem(): CardbookQuizHistoryAnswerItem =
         CardbookQuizHistoryAnswerItem().also { item ->
@@ -89,7 +85,4 @@ data class CardbookQuizHistoryModel(
     val answers: List<CardbookQuizHistoryAnswerModel>,
 )
 
-data class CardbookQuizHistoryAnswerModel(
-    val cardId: String,
-    val result: String,
-)
+data class CardbookQuizHistoryAnswerModel(val cardId: String, val result: String)

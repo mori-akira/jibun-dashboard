@@ -7,9 +7,7 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class CardbookService(
-    private val repository: CardbookRepository,
-) {
+class CardbookService(private val repository: CardbookRepository) {
     fun listByUser(userId: String): List<CardbookModel> =
         repository.findByUser(userId).map { it.toDomain() }.sortedByDescending { it.updatedDateTime }
 
@@ -34,23 +32,21 @@ class CardbookService(
         repository.delete(userId, cardbookId)
     }
 
-    private fun CardbookItem.toDomain(): CardbookModel =
-        CardbookModel(
-            cardbookId = this.cardbookId!!,
-            userId = this.userId!!,
-            name = this.name!!,
-            createdDateTime = this.createdDateTime ?: "",
-            updatedDateTime = this.updatedDateTime ?: "",
-        )
+    private fun CardbookItem.toDomain(): CardbookModel = CardbookModel(
+        cardbookId = this.cardbookId!!,
+        userId = this.userId!!,
+        name = this.name!!,
+        createdDateTime = this.createdDateTime ?: "",
+        updatedDateTime = this.updatedDateTime ?: "",
+    )
 
-    private fun CardbookModel.toItem(): CardbookItem =
-        CardbookItem().also { item ->
-            item.cardbookId = this.cardbookId
-            item.userId = this.userId
-            item.name = this.name
-            item.createdDateTime = this.createdDateTime
-            item.updatedDateTime = this.updatedDateTime
-        }
+    private fun CardbookModel.toItem(): CardbookItem = CardbookItem().also { item ->
+        item.cardbookId = this.cardbookId
+        item.userId = this.userId
+        item.name = this.name
+        item.createdDateTime = this.createdDateTime
+        item.updatedDateTime = this.updatedDateTime
+    }
 }
 
 data class CardbookModel(

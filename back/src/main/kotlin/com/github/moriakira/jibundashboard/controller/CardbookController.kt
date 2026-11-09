@@ -175,103 +175,92 @@ class CardbookController(
         return ResponseEntity.noContent().build()
     }
 
-    private fun CardbookCheckResultModel.toApi(): CardbookCheckResult =
-        CardbookCheckResult(
-            cardbookCheckResultId = UUID.fromString(this.cardbookCheckResultId),
-            cardbookId = UUID.fromString(this.cardbookId),
-            cardId = UUID.fromString(this.cardId),
-            front = this.front,
-            severity = CardbookCheckResult.Severity.valueOf(this.severity),
-            status = CardbookCheckResult.Status.valueOf(this.status),
-            report = this.report,
-            cardUpdatedAt = OffsetDateTime.parse(this.cardUpdatedAt),
-            checkedAt = OffsetDateTime.parse(this.checkedAt),
-        )
+    private fun CardbookCheckResultModel.toApi(): CardbookCheckResult = CardbookCheckResult(
+        cardbookCheckResultId = UUID.fromString(this.cardbookCheckResultId),
+        cardbookId = UUID.fromString(this.cardbookId),
+        cardId = UUID.fromString(this.cardId),
+        front = this.front,
+        severity = CardbookCheckResult.Severity.valueOf(this.severity),
+        status = CardbookCheckResult.Status.valueOf(this.status),
+        report = this.report,
+        cardUpdatedAt = OffsetDateTime.parse(this.cardUpdatedAt),
+        checkedAt = OffsetDateTime.parse(this.checkedAt),
+    )
 
-    private fun CardbookModel.toApi(): Cardbook =
-        Cardbook(
-            cardbookId = UUID.fromString(this.cardbookId),
-            name = this.name,
-            createdDateTime = OffsetDateTime.parse(this.createdDateTime),
-            updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
-        )
+    private fun CardbookModel.toApi(): Cardbook = Cardbook(
+        cardbookId = UUID.fromString(this.cardbookId),
+        name = this.name,
+        createdDateTime = OffsetDateTime.parse(this.createdDateTime),
+        updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
+    )
 
-    private fun CardbookBase.toModel(): CardbookModel =
-        CardbookModel(
-            cardbookId = "",
-            userId = currentAuth.userId,
-            name = this.name,
-        )
+    private fun CardbookBase.toModel(): CardbookModel = CardbookModel(
+        cardbookId = "",
+        userId = currentAuth.userId,
+        name = this.name,
+    )
 
-    private fun CardbookBase.toModel(cardbookId: String): CardbookModel =
-        CardbookModel(
-            cardbookId = cardbookId,
-            userId = currentAuth.userId,
-            name = this.name,
-        )
+    private fun CardbookBase.toModel(cardbookId: String): CardbookModel = CardbookModel(
+        cardbookId = cardbookId,
+        userId = currentAuth.userId,
+        name = this.name,
+    )
 
-    private fun CardbookCardModel.toApi(): CardbookCard =
-        CardbookCard(
-            cardId = UUID.fromString(this.cardId),
-            cardbookId = UUID.fromString(this.cardbookId),
-            front = this.front,
-            back = this.back,
-            createdDateTime = OffsetDateTime.parse(this.createdDateTime),
-            updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
-        )
+    private fun CardbookCardModel.toApi(): CardbookCard = CardbookCard(
+        cardId = UUID.fromString(this.cardId),
+        cardbookId = UUID.fromString(this.cardbookId),
+        front = this.front,
+        back = this.back,
+        createdDateTime = OffsetDateTime.parse(this.createdDateTime),
+        updatedDateTime = OffsetDateTime.parse(this.updatedDateTime),
+    )
 
-    private fun CardbookCardBase.toModel(cardbookId: String): CardbookCardModel =
-        CardbookCardModel(
-            cardId = "",
-            cardbookId = cardbookId,
-            userId = currentAuth.userId,
-            front = this.front,
-            back = this.back,
-        )
+    private fun CardbookCardBase.toModel(cardbookId: String): CardbookCardModel = CardbookCardModel(
+        cardId = "",
+        cardbookId = cardbookId,
+        userId = currentAuth.userId,
+        front = this.front,
+        back = this.back,
+    )
 
-    private fun CardbookCardBase.toModel(cardbookId: String, cardId: String): CardbookCardModel =
-        CardbookCardModel(
-            cardId = cardId,
-            cardbookId = cardbookId,
-            userId = currentAuth.userId,
-            front = this.front,
-            back = this.back,
-        )
+    private fun CardbookCardBase.toModel(cardbookId: String, cardId: String): CardbookCardModel = CardbookCardModel(
+        cardId = cardId,
+        cardbookId = cardbookId,
+        userId = currentAuth.userId,
+        front = this.front,
+        back = this.back,
+    )
 
-    private fun CardbookQuizHistoryModel.toApi(): CardbookQuizHistory =
-        CardbookQuizHistory(
-            quizHistoryId = UUID.fromString(this.quizHistoryId),
-            cardbookId = UUID.fromString(this.cardbookId),
-            answeredAt = OffsetDateTime.parse(this.answeredAt),
-            questionCount = this.questionCount,
-            direction = CardbookQuizHistory.Direction.valueOf(this.direction),
-            correctCount = this.correctCount,
-            incorrectCount = this.incorrectCount,
-            answers = this.answers.map { it.toApi() },
-        )
+    private fun CardbookQuizHistoryModel.toApi(): CardbookQuizHistory = CardbookQuizHistory(
+        quizHistoryId = UUID.fromString(this.quizHistoryId),
+        cardbookId = UUID.fromString(this.cardbookId),
+        answeredAt = OffsetDateTime.parse(this.answeredAt),
+        questionCount = this.questionCount,
+        direction = CardbookQuizHistory.Direction.valueOf(this.direction),
+        correctCount = this.correctCount,
+        incorrectCount = this.incorrectCount,
+        answers = this.answers.map { it.toApi() },
+    )
 
-    private fun CardbookQuizHistoryAnswerModel.toApi(): CardbookQuizHistoryAnswer =
-        CardbookQuizHistoryAnswer(
-            cardId = UUID.fromString(this.cardId),
-            result = CardbookQuizHistoryAnswer.Result.valueOf(this.result),
-        )
+    private fun CardbookQuizHistoryAnswerModel.toApi(): CardbookQuizHistoryAnswer = CardbookQuizHistoryAnswer(
+        cardId = UUID.fromString(this.cardId),
+        result = CardbookQuizHistoryAnswer.Result.valueOf(this.result),
+    )
 
-    private fun CardbookQuizHistoryBase.toModel(): CardbookQuizHistoryModel =
-        CardbookQuizHistoryModel(
-            quizHistoryId = "",
-            userId = currentAuth.userId,
-            cardbookId = this.cardbookId.toString(),
-            answeredAt = "",
-            questionCount = this.questionCount,
-            direction = this.direction.value,
-            correctCount = 0,
-            incorrectCount = 0,
-            answers = this.answers.map { it.toModel() },
-        )
+    private fun CardbookQuizHistoryBase.toModel(): CardbookQuizHistoryModel = CardbookQuizHistoryModel(
+        quizHistoryId = "",
+        userId = currentAuth.userId,
+        cardbookId = this.cardbookId.toString(),
+        answeredAt = "",
+        questionCount = this.questionCount,
+        direction = this.direction.value,
+        correctCount = 0,
+        incorrectCount = 0,
+        answers = this.answers.map { it.toModel() },
+    )
 
-    private fun CardbookQuizHistoryAnswer.toModel(): CardbookQuizHistoryAnswerModel =
-        CardbookQuizHistoryAnswerModel(
-            cardId = this.cardId.toString(),
-            result = this.result.value,
-        )
+    private fun CardbookQuizHistoryAnswer.toModel(): CardbookQuizHistoryAnswerModel = CardbookQuizHistoryAnswerModel(
+        cardId = this.cardId.toString(),
+        result = this.result.value,
+    )
 }

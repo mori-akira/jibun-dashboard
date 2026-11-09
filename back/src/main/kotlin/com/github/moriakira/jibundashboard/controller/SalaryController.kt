@@ -79,9 +79,7 @@ class SalaryController(
         return ResponseEntity.noContent().build()
     }
 
-    override fun getSalaryOcrTasks(
-        targetDate: LocalDate,
-    ): ResponseEntity<List<SalaryOcrTask>> {
+    override fun getSalaryOcrTasks(targetDate: LocalDate): ResponseEntity<List<SalaryOcrTask>> {
         val list = salaryOcrTaskService.listByUserAndDate(
             userId = currentAuth.userId,
             targetDate = targetDate.toString(),
@@ -181,12 +179,11 @@ class SalaryController(
         },
     )
 
-    private fun SalaryOcrTaskModel.toApi(): SalaryOcrTask =
-        SalaryOcrTask(
-            ocrTaskId = UUID.fromString(this.ocrTaskId),
-            status = SalaryOcrTask.Status.valueOf(this.status.name),
-            targetDate = LocalDate.parse(this.targetDate),
-            createdAt = OffsetDateTime.parse(this.createdAt),
-            updatedAt = OffsetDateTime.parse(this.updatedAt),
-        )
+    private fun SalaryOcrTaskModel.toApi(): SalaryOcrTask = SalaryOcrTask(
+        ocrTaskId = UUID.fromString(this.ocrTaskId),
+        status = SalaryOcrTask.Status.valueOf(this.status.name),
+        targetDate = LocalDate.parse(this.targetDate),
+        createdAt = OffsetDateTime.parse(this.createdAt),
+        updatedAt = OffsetDateTime.parse(this.updatedAt),
+    )
 }

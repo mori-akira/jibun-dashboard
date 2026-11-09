@@ -28,43 +28,40 @@ class CardbookQuizHistoryServiceTest :
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun answerItem(cardId: String, result: String) =
-            CardbookQuizHistoryAnswerItem().apply {
-                this.cardId = cardId
-                this.result = result
-            }
+        fun answerItem(cardId: String, result: String) = CardbookQuizHistoryAnswerItem().apply {
+            this.cardId = cardId
+            this.result = result
+        }
 
-        fun item(id: String = "qh1", cardbookId: String = "cb1") =
-            CardbookQuizHistoryItem().apply {
-                quizHistoryId = id
-                userId = "u1"
-                this.cardbookId = cardbookId
-                answeredAt = "2025-01-01T00:00:00Z"
-                questionCount = 2
-                direction = "FRONT_TO_BACK"
-                correctCount = 1
-                incorrectCount = 1
-                answers = listOf(
-                    answerItem("card1", "CORRECT"),
-                    answerItem("card2", "INCORRECT"),
-                )
-            }
-
-        fun model(id: String = "qh1") =
-            CardbookQuizHistoryModel(
-                quizHistoryId = id,
-                userId = "u1",
-                cardbookId = "cb1",
-                answeredAt = "2025-01-01T00:00:00Z",
-                questionCount = 2,
-                direction = "FRONT_TO_BACK",
-                correctCount = 1,
-                incorrectCount = 1,
-                answers = listOf(
-                    CardbookQuizHistoryAnswerModel("card1", "CORRECT"),
-                    CardbookQuizHistoryAnswerModel("card2", "INCORRECT"),
-                ),
+        fun item(id: String = "qh1", cardbookId: String = "cb1") = CardbookQuizHistoryItem().apply {
+            quizHistoryId = id
+            userId = "u1"
+            this.cardbookId = cardbookId
+            answeredAt = "2025-01-01T00:00:00Z"
+            questionCount = 2
+            direction = "FRONT_TO_BACK"
+            correctCount = 1
+            incorrectCount = 1
+            answers = listOf(
+                answerItem("card1", "CORRECT"),
+                answerItem("card2", "INCORRECT"),
             )
+        }
+
+        fun model(id: String = "qh1") = CardbookQuizHistoryModel(
+            quizHistoryId = id,
+            userId = "u1",
+            cardbookId = "cb1",
+            answeredAt = "2025-01-01T00:00:00Z",
+            questionCount = 2,
+            direction = "FRONT_TO_BACK",
+            correctCount = 1,
+            incorrectCount = 1,
+            answers = listOf(
+                CardbookQuizHistoryAnswerModel("card1", "CORRECT"),
+                CardbookQuizHistoryAnswerModel("card2", "INCORRECT"),
+            ),
+        )
 
         "listByUser: 変換して返す" {
             every { repository.findByUser("u1") } returns listOf(item("qh1"), item("qh2"))

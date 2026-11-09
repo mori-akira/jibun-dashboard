@@ -29,43 +29,40 @@ class VocabularyQuizHistoryServiceTest :
             clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun answerItem(vocabularyId: String, result: String) =
-            VocabularyQuizHistoryAnswerItem().apply {
-                this.vocabularyId = vocabularyId
-                this.result = result
-            }
+        fun answerItem(vocabularyId: String, result: String) = VocabularyQuizHistoryAnswerItem().apply {
+            this.vocabularyId = vocabularyId
+            this.result = result
+        }
 
-        fun item(id: String = "qh1", userId: String = "u1") =
-            VocabularyQuizHistoryItem().apply {
-                quizHistoryId = id
-                this.userId = userId
-                answeredAt = "2025-01-01T00:00:00Z"
-                tagIds = listOf("tag1")
-                questionCount = 2
-                direction = "FRONT_TO_BACK"
-                correctCount = 1
-                incorrectCount = 1
-                answers = listOf(
-                    answerItem("v1", "CORRECT"),
-                    answerItem("v2", "INCORRECT"),
-                )
-            }
-
-        fun model(id: String = "qh1") =
-            VocabularyQuizHistoryModel(
-                quizHistoryId = id,
-                userId = "u1",
-                answeredAt = "2025-01-01T00:00:00Z",
-                tagIds = listOf("tag1"),
-                questionCount = 2,
-                direction = "FRONT_TO_BACK",
-                correctCount = 1,
-                incorrectCount = 1,
-                answers = listOf(
-                    VocabularyQuizHistoryAnswerModel("v1", "CORRECT"),
-                    VocabularyQuizHistoryAnswerModel("v2", "INCORRECT"),
-                ),
+        fun item(id: String = "qh1", userId: String = "u1") = VocabularyQuizHistoryItem().apply {
+            quizHistoryId = id
+            this.userId = userId
+            answeredAt = "2025-01-01T00:00:00Z"
+            tagIds = listOf("tag1")
+            questionCount = 2
+            direction = "FRONT_TO_BACK"
+            correctCount = 1
+            incorrectCount = 1
+            answers = listOf(
+                answerItem("v1", "CORRECT"),
+                answerItem("v2", "INCORRECT"),
             )
+        }
+
+        fun model(id: String = "qh1") = VocabularyQuizHistoryModel(
+            quizHistoryId = id,
+            userId = "u1",
+            answeredAt = "2025-01-01T00:00:00Z",
+            tagIds = listOf("tag1"),
+            questionCount = 2,
+            direction = "FRONT_TO_BACK",
+            correctCount = 1,
+            incorrectCount = 1,
+            answers = listOf(
+                VocabularyQuizHistoryAnswerModel("v1", "CORRECT"),
+                VocabularyQuizHistoryAnswerModel("v2", "INCORRECT"),
+            ),
+        )
 
         "listByUser: 変換して返す" {
             every { repository.findByUser("u1") } returns listOf(item("qh1"), item("qh2"))

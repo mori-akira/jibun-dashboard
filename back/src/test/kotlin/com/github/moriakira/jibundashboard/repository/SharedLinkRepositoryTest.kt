@@ -24,13 +24,12 @@ class SharedLinkRepositoryTest :
         val repo = SharedLinkRepository(enhanced, "shared-links")
         val schema: TableSchema<SharedLinkItem> = TableSchema.fromBean(SharedLinkItem::class.java)
 
-        fun item(token: String = "tok1", userId: String = "u1") =
-            SharedLinkItem().apply {
-                this.token = token
-                this.userId = userId
-                this.dataTypes = listOf("salary")
-                this.expiresAt = "2099-12-31"
-            }
+        fun item(token: String = "tok1", userId: String = "u1") = SharedLinkItem().apply {
+            this.token = token
+            this.userId = userId
+            this.dataTypes = listOf("salary")
+            this.expiresAt = "2099-12-31"
+        }
 
         "getByToken: トークンで1件返す" {
             every { enhanced.table("shared-links", schema) } returns table

@@ -65,15 +65,14 @@ class SalaryControllerTest :
             targetDate: String = "2025-11-01",
             createdAt: String = "2025-11-01T00:00:00Z",
             updatedAt: String = "2025-11-01T00:00:00Z",
-        ): SalaryOcrTaskModel =
-            SalaryOcrTaskModel(
-                ocrTaskId = id,
-                userId = userId,
-                targetDate = targetDate,
-                status = status,
-                createdAt = createdAt,
-                updatedAt = updatedAt,
-            )
+        ): SalaryOcrTaskModel = SalaryOcrTaskModel(
+            ocrTaskId = id,
+            userId = userId,
+            targetDate = targetDate,
+            status = status,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
 
         "getSalary: パラメータなし/targetDate/期間でそれぞれ正しい list を呼ぶ" {
             every { salaryService.list("u1", null, null, null) } returns listOf(sampleModel())

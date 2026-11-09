@@ -32,11 +32,7 @@ class VocabularyRepository(
         return index.query(req).flatMap { it.items().toList() }.firstOrNull()
     }
 
-    fun findByUser(
-        userId: String,
-        vocabularyName: String? = null,
-        description: String? = null,
-    ): List<VocabularyItem> {
+    fun findByUser(userId: String, vocabularyName: String? = null, description: String? = null): List<VocabularyItem> {
         val names = mutableMapOf<String, String>()
         val values = mutableMapOf<String, AttributeValue>()
         val conditions = mutableListOf<String>()

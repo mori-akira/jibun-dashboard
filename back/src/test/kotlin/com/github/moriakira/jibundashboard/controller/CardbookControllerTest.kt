@@ -49,14 +49,13 @@ class CardbookControllerTest :
             clearMocks(cardbookCheckResultService, answers = false, recordedCalls = true, childMocks = true)
         }
 
-        fun cardbookModel(id: String = "11111111-1111-1111-1111-111111111111") =
-            CardbookModel(
-                cardbookId = id,
-                userId = "u1",
-                name = "My Cardbook",
-                createdDateTime = "2025-01-01T00:00:00Z",
-                updatedDateTime = "2025-01-01T00:00:00Z",
-            )
+        fun cardbookModel(id: String = "11111111-1111-1111-1111-111111111111") = CardbookModel(
+            cardbookId = id,
+            userId = "u1",
+            name = "My Cardbook",
+            createdDateTime = "2025-01-01T00:00:00Z",
+            updatedDateTime = "2025-01-01T00:00:00Z",
+        )
 
         fun cardModel(
             id: String = "22222222-2222-2222-2222-222222222222",
@@ -88,21 +87,20 @@ class CardbookControllerTest :
             checkedAt = "2025-06-01T00:00:00Z",
         )
 
-        fun quizHistoryModel(id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa") =
-            CardbookQuizHistoryModel(
-                quizHistoryId = id,
-                userId = "u1",
-                cardbookId = "11111111-1111-1111-1111-111111111111",
-                answeredAt = "2025-01-01T00:00:00Z",
-                questionCount = 2,
-                direction = "FRONT_TO_BACK",
-                correctCount = 1,
-                incorrectCount = 1,
-                answers = listOf(
-                    CardbookQuizHistoryAnswerModel("22222222-2222-2222-2222-222222222222", "CORRECT"),
-                    CardbookQuizHistoryAnswerModel("33333333-3333-3333-3333-333333333333", "INCORRECT"),
-                ),
-            )
+        fun quizHistoryModel(id: String = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa") = CardbookQuizHistoryModel(
+            quizHistoryId = id,
+            userId = "u1",
+            cardbookId = "11111111-1111-1111-1111-111111111111",
+            answeredAt = "2025-01-01T00:00:00Z",
+            questionCount = 2,
+            direction = "FRONT_TO_BACK",
+            correctCount = 1,
+            incorrectCount = 1,
+            answers = listOf(
+                CardbookQuizHistoryAnswerModel("22222222-2222-2222-2222-222222222222", "CORRECT"),
+                CardbookQuizHistoryAnswerModel("33333333-3333-3333-3333-333333333333", "INCORRECT"),
+            ),
+        )
 
         // --- Cardbook ---
 

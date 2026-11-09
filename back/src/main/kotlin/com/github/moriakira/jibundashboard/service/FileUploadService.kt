@@ -18,11 +18,7 @@ class FileUploadService(
     @param:Value("\${app.s3.uploads-bucket.default-expires-in-seconds}") private val defaultUrlExpirationSeconds: Int,
 ) {
 
-    fun issuePresignedPutUrl(
-        userId: String,
-        fileId: UUID?,
-        expires: Int?,
-    ): PresignedUrlResult {
+    fun issuePresignedPutUrl(userId: String, fileId: UUID?, expires: Int?): PresignedUrlResult {
         val appliedFileId = fileId ?: UUID.randomUUID()
         val appliedExpires = expires ?: defaultUrlExpirationSeconds
         val key = uploadKey(userId, appliedFileId)
@@ -42,8 +38,4 @@ class FileUploadService(
     fun uploadKey(userId: String, fileId: UUID): String = "uploads/$userId/$fileId"
 }
 
-data class PresignedUrlResult(
-    val fileId: UUID,
-    val url: URI,
-    val expireDateTime: OffsetDateTime,
-)
+data class PresignedUrlResult(val fileId: UUID, val url: URI, val expireDateTime: OffsetDateTime)

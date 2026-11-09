@@ -44,9 +44,7 @@ class QualificationController(
     }
 
     @Suppress("ReturnCount")
-    override fun postQualifications(
-        qualificationBase: QualificationBase?,
-    ): ResponseEntity<QualificationId> {
+    override fun postQualifications(qualificationBase: QualificationBase?): ResponseEntity<QualificationId> {
         requireNotNull(qualificationBase) { "Request body is required." }
         val qualificationId = qualificationService.create(qualificationBase.toModel())
         return ResponseEntity.ok().body(QualificationId(UUID.fromString(qualificationId)))

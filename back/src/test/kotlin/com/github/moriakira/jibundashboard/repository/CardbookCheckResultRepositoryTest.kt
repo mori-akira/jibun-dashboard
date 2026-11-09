@@ -26,22 +26,19 @@ class CardbookCheckResultRepositoryTest :
         val schema: TableSchema<CardbookCheckResultItem> =
             TableSchema.fromBean(CardbookCheckResultItem::class.java)
 
-        fun item(
-            checkResultId: String = "r1",
-            cardId: String = "c1",
-            userId: String = "u1",
-        ) = CardbookCheckResultItem().apply {
-            this.cardbookCheckResultId = checkResultId
-            this.cardId = cardId
-            this.cardbookId = "cb1"
-            this.userId = userId
-            this.front = "ephemeral"
-            this.severity = "HIGH"
-            this.status = "UNCHECKED"
-            this.report = "## report"
-            this.cardUpdatedAt = "2025-05-01T00:00:00Z"
-            this.checkedAt = "2025-06-01T00:00:00Z"
-        }
+        fun item(checkResultId: String = "r1", cardId: String = "c1", userId: String = "u1") =
+            CardbookCheckResultItem().apply {
+                this.cardbookCheckResultId = checkResultId
+                this.cardId = cardId
+                this.cardbookId = "cb1"
+                this.userId = userId
+                this.front = "ephemeral"
+                this.severity = "HIGH"
+                this.status = "UNCHECKED"
+                this.report = "## report"
+                this.cardUpdatedAt = "2025-05-01T00:00:00Z"
+                this.checkedAt = "2025-06-01T00:00:00Z"
+            }
 
         "findByUser: userId でクエリして一覧を返す" {
             val page = mockk<Page<CardbookCheckResultItem>>()

@@ -25,15 +25,14 @@ class VocabularyRepositoryTest :
         val repo = VocabularyRepository(enhanced, "vocabularies")
         val schema: TableSchema<VocabularyItem> = TableSchema.fromBean(VocabularyItem::class.java)
 
-        fun item(id: String = "v1", name: String = "Kotlin") =
-            VocabularyItem().apply {
-                vocabularyId = id
-                userId = "u1"
-                this.name = name
-                tagIds = emptyList()
-                createdDateTime = "2025-01-01T00:00:00Z"
-                updatedDateTime = "2025-01-01T00:00:00Z"
-            }
+        fun item(id: String = "v1", name: String = "Kotlin") = VocabularyItem().apply {
+            vocabularyId = id
+            userId = "u1"
+            this.name = name
+            tagIds = emptyList()
+            createdDateTime = "2025-01-01T00:00:00Z"
+            updatedDateTime = "2025-01-01T00:00:00Z"
+        }
 
         "getByVocabularyId: GSI で1件返す" {
             val page = mockk<Page<VocabularyItem>>()

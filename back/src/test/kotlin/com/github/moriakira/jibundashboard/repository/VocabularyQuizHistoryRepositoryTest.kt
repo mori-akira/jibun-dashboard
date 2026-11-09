@@ -22,23 +22,22 @@ class VocabularyQuizHistoryRepositoryTest :
         val repo = VocabularyQuizHistoryRepository(enhanced, "vocabulary-quiz-histories")
         val schema: TableSchema<VocabularyQuizHistoryItem> = TableSchema.fromBean(VocabularyQuizHistoryItem::class.java)
 
-        fun item(id: String = "qh1") =
-            VocabularyQuizHistoryItem().apply {
-                quizHistoryId = id
-                userId = "u1"
-                answeredAt = "2025-01-01T00:00:00Z"
-                tagIds = listOf("tag1")
-                questionCount = 2
-                direction = "FRONT_TO_BACK"
-                correctCount = 1
-                incorrectCount = 1
-                answers = listOf(
-                    VocabularyQuizHistoryAnswerItem().apply {
-                        vocabularyId = "v1"
-                        result = "CORRECT"
-                    },
-                )
-            }
+        fun item(id: String = "qh1") = VocabularyQuizHistoryItem().apply {
+            quizHistoryId = id
+            userId = "u1"
+            answeredAt = "2025-01-01T00:00:00Z"
+            tagIds = listOf("tag1")
+            questionCount = 2
+            direction = "FRONT_TO_BACK"
+            correctCount = 1
+            incorrectCount = 1
+            answers = listOf(
+                VocabularyQuizHistoryAnswerItem().apply {
+                    vocabularyId = "v1"
+                    result = "CORRECT"
+                },
+            )
+        }
 
         "getByUserAndQuizHistoryId: PK+SK で1件返す" {
             every { enhanced.table("vocabulary-quiz-histories", schema) } returns table
