@@ -7,7 +7,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 22
+      nodejs: 24
     commands:
       - cd e2e
       - npm ci --loglevel=error --no-progress --no-audit --no-fund --prefer-offline
