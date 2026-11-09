@@ -17,14 +17,14 @@ val serviceTags = listOf(
 ).joinToString(",")
 
 plugins {
-    kotlin("jvm") version "2.0.21"
-    id("org.jetbrains.kotlin.plugin.spring") version "2.0.21"
+    kotlin("jvm") version "2.3.21"
+    id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
     id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
     id("org.openapi.generator") version "7.14.0"
     id("com.github.node-gradle.node") version "7.0.2"
     id("com.diffplug.spotless") version "6.25.0"
-    id("io.gitlab.arturbosch.detekt") version "1.23.8"
+    id("dev.detekt") version "2.0.0-alpha.6"
     id("jacoco")
 }
 
@@ -164,6 +164,16 @@ detekt {
     buildUponDefaultConfig = true
     autoCorrect = false
     parallel = true
+}
+
+// detekt は自身のビルドに使われた Kotlin でしか起動しないため、detekt 用の Kotlin だけを固定する
+// https://detekt.dev/docs/gettingstarted/gradle#dependencies
+configurations.matching { it.name == "detekt" }.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.jetbrains.kotlin") {
+            useVersion("2.4.10")
+        }
+    }
 }
 
 // テスト設定（Kotest は JUnit Platform 上で動作する）
