@@ -22,9 +22,10 @@ class CurrentAuth(private val cognitoUserInfoService: CognitoUserService) {
     }
 
     val userId: String get() = jwt.subject
+        ?: throw AuthenticationCredentialsNotFoundException("No subject in JWT")
     val email: String by lazy {
         jwt.getClaimAsString("email") ?: run {
-            val userInfo = runCatching { cognitoUserInfoService.fetch(jwt.subject) }
+            val userInfo = runCatching { cognitoUserInfoService.fetch(userId) }
                 .onFailure { logger.warn("Failed to fetch userInfo from Cognito: ${it.message}", it) }
                 .getOrNull()
             userInfo?.email ?: error("No email specified")
