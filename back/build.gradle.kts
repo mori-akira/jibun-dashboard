@@ -272,9 +272,17 @@ tasks.register("localEnvUp") {
     dependsOn("localDockerUp", "localTfApply")
 }
 
+// DynamoDB Local（-inMemory）/ LocalStack のリソースはコンテナ停止で消えるため、
+// state を残すと次回の localTfApply が実体と食い違って失敗する
+tasks.register<Delete>("localTfStateClean") {
+    group = "local-env"
+    delete(tfDir.resolve("terraform.tfstate"), tfDir.resolve("terraform.tfstate.backup"))
+    mustRunAfter("localDockerDown")
+}
+
 tasks.register("localEnvDown") {
     group = "local-env"
-    dependsOn("localDockerDown")
+    dependsOn("localDockerDown", "localTfStateClean")
 }
 
 fun registerSeedTaskFor(file: File) = tasks.register<Exec>("seed_" + file.nameWithoutExtension) {
