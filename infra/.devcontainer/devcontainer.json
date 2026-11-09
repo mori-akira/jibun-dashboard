@@ -7,7 +7,7 @@
     "features": {
         "ghcr.io/devcontainers-extra/features/terraform-docs:1": {},
         "ghcr.io/devcontainers/features/node:1": {
-            "version": "22"
+            "version": "24"
         }
     },
     "customizations": {

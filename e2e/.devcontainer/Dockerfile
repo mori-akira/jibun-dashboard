@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.50.0-jammy
+FROM mcr.microsoft.com/playwright:v1.55.1-noble
 
 ENV TZ=Asia/Tokyo
 
