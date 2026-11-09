@@ -15,7 +15,7 @@ Monorepo containing frontend, backend, batch jobs, infrastructure, and supportin
 ├ infra/    — AWS infrastructure (Terraform); CLAUDE.md: see infra/README.md
 ├ openapi/  — API contract (OpenAPI YAML split by path/schema); source of truth for front & back
 ├ front/    — Nuxt 4 / Vue 3 / TypeScript SPA (SSR off); see front/CLAUDE.md
-├ back/     — Kotlin / Spring Boot 3 REST API; see back/CLAUDE.md
+├ back/     — Kotlin / Spring Boot 4 REST API; see back/CLAUDE.md
 ├ batch/    — Python AWS Lambda functions
 │   ├ salary-ocr/               — OCR processing for payslip images
 │   ├ vocabulary-check/         — Vocabulary quiz batch

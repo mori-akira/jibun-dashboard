@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-**Jibun Dashboard — back** — Kotlin / Spring Boot 3 REST API.
+**Jibun Dashboard — back** — Kotlin / Spring Boot 4 REST API.
 Provides endpoints for managing salary records, qualifications, vocabulary, user settings, and file assets.
 Deployed on AWS AppRunner. Uses DynamoDB (Enhanced Client) as the database and S3 / SQS for file storage and async processing.
 
@@ -58,8 +58,8 @@ build/generated/            # Auto-generated code from OpenAPI spec (do NOT edit
 
 | Tech | Purpose |
 | --- | --- |
-| Kotlin 2.0 / JVM 21 | Language & runtime |
-| Spring Boot 3.3 | Web / Security / Actuator |
+| Kotlin 2.3 / JVM 21 | Language & runtime |
+| Spring Boot 4.1 | Web / Security / Actuator |
 | Spring Security OAuth2 Resource Server | JWT validation (Cognito or HS256 for local) |
 | AWS SDK v2 DynamoDB Enhanced Client | DynamoDB access with `@DynamoDbBean` annotations |
 | AWS SDK v2 S3 / SQS | File storage & async OCR job dispatch |
