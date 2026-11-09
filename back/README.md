@@ -13,20 +13,24 @@
 - [AWS CLI](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/getting-started-install.html)
 - [Terraform](https://developer.hashicorp.com/terraform/install)
 
-### ローカルでDynamoDBエミュレータを起動
+### ローカル環境（DynamoDB Local / LocalStack）を起動
+Docker コンテナの起動、Terraform によるテーブル・バケット・キューの作成、シードデータの投入を行う
 ```
-./gradlew dynamodbUp
+./gradlew localEnvUp
 ```
 
-### ローカルでDynamoDBエミュレータを終了
+### ローカル環境を終了
+コンテナを停止し、Terraform の state を削除する（DynamoDB Local はインメモリのため、データは破棄される）
 ```
-./gradlew dynamodbDown
+./gradlew localEnvDown
 ```
 
 ### バックエンドの起動
 ```
-SPRING_PROFILES_ACTIVE=local
-AWS_ACCESS_KEY_ID=dymmy
-AWS_SECRET_ACCESS_KEY=dymmy
+export SPRING_PROFILES_ACTIVE=local
+export AWS_ACCESS_KEY_ID=dummy
+export AWS_SECRET_ACCESS_KEY=dummy
+export UPLOADS_BUCKET_NAME=jibun-dashboard-local-uploads-bucket
+export USER_ASSETS_BUCKET_NAME=jibun-dashboard-local-user-assets-bucket
 ./gradlew clean bootRun
 ```
