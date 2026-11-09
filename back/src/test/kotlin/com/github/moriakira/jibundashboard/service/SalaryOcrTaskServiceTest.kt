@@ -1,6 +1,5 @@
 package com.github.moriakira.jibundashboard.service
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.moriakira.jibundashboard.exception.ConflictException
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskItem
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskRepository
@@ -17,6 +16,7 @@ import io.mockk.unmockkStatic
 import io.mockk.verify
 import software.amazon.awssdk.services.sqs.SqsClient
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*

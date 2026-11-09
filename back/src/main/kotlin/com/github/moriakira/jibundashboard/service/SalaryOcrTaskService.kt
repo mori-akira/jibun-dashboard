@@ -1,12 +1,12 @@
 package com.github.moriakira.jibundashboard.service
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.moriakira.jibundashboard.exception.ConflictException
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskItem
 import com.github.moriakira.jibundashboard.repository.SalaryOcrTaskRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.sqs.SqsClient
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.UUID

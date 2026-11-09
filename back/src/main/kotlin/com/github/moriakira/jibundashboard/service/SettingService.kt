@@ -1,18 +1,18 @@
 package com.github.moriakira.jibundashboard.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.github.moriakira.jibundashboard.repository.QualificationSetting
 import com.github.moriakira.jibundashboard.repository.SalarySetting
 import com.github.moriakira.jibundashboard.repository.SettingItem
 import com.github.moriakira.jibundashboard.repository.SettingRepository
 import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Service
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.dataformat.yaml.YAMLMapper
+import tools.jackson.module.kotlin.KotlinModule
 
 @Service
 class SettingService(private val settingRepository: SettingRepository, private val resourceLoader: ResourceLoader) {
-    private val yamlMapper: ObjectMapper = ObjectMapper(YAMLFactory()).registerModule(KotlinModule.Builder().build())
+    private val yamlMapper: ObjectMapper = YAMLMapper.builder().addModule(KotlinModule.Builder().build()).build()
 
     private val defaultSetting: SettingModel by lazy {
         val res = resourceLoader.getResource("classpath:defaults/setting.yaml")
