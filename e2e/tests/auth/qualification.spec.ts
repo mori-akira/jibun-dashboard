@@ -168,6 +168,13 @@ const addQualification = async (page: Page, qualification: Qualification) => {
   await page.getByRole("button", { name: "Execute" }).click();
   await expect(page.getByText("Process completed successfully")).toBeVisible();
   await page.getByRole("button", { name: "OK" }).click();
+  // wait for the list to be re-fetched; the next "Add New One" derives its
+  // `order` from the current list length, so opening it too early duplicates it
+  await expect(
+    page
+      .locator("td")
+      .getByText(qualification.qualificationName ?? "", { exact: true })
+  ).toBeVisible();
 };
 
 const checkQualificationDisplay = async (

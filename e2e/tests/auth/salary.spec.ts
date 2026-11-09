@@ -26,7 +26,10 @@ test("test salary function", async ({ page }) => {
   // select April
   await page.locator('[data-test-id="dp-input"]').click();
   await page.getByText("Apr").click();
-  await page.locator('[data-test-id="select-button"]').click();
+  await Promise.all([
+    waitForSalaryFetch(page, `${currentYear}-04-01`),
+    page.locator('[data-test-id="select-button"]').click(),
+  ]);
 
   // check target date
   await expect(page.locator("[data-test-id='dp-input']")).toHaveValue(
@@ -78,6 +81,7 @@ test("test salary function", async ({ page }) => {
 
   // execute
   await page.getByRole("button", { name: "Execute", exact: true }).click();
+  await expect(page.getByText("Process completed successfully")).toBeVisible();
   await page.getByRole("button", { name: "OK" }).click();
 
   // add salary simply: May
@@ -143,14 +147,16 @@ test("test salary function", async ({ page }) => {
   ).toHaveText("133 H");
 
   // check fiscal year summary
+  // (`.ml-4` scopes to the Compare summary; the Composition doughnut also
+  //  renders an "FY{year}" center label followed by the total)
   await expect(
-    page.locator(`span:has-text("FY${currentYear}") + span`)
+    page.locator(`span:has-text("FY${currentYear}") + span.ml-4`)
   ).toHaveText("614,000");
   await expect(
-    page.locator(`span:has-text("FY${currentYear - 1}") + span`)
+    page.locator(`span:has-text("FY${currentYear - 1}") + span.ml-4`)
   ).toHaveText("736,000");
   await expect(
-    page.locator(`span:has-text("FY${currentYear - 2}") + span`)
+    page.locator(`span:has-text("FY${currentYear - 2}") + span.ml-4`)
   ).toHaveText("546,000");
 
   // check payslip
@@ -578,15 +584,17 @@ const addSalarySimply = async (
     await page.getByRole("button", { name: "Previous year" }).click();
   }
   await page.getByText(month).click();
-  await page.locator('[data-test-id="select-button"]').click();
+  // the form is reset when the salary of the selected month is fetched,
+  // so wait for it before filling in
+  await Promise.all([
+    waitForSalaryFetch(page, expectedDate),
+    page.locator('[data-test-id="select-button"]').click(),
+  ]);
 
   // check target date
   await expect(page.locator("[data-test-id='dp-input']")).toHaveValue(
     expectedDate
   );
-
-  // wait for few seconds
-  await page.waitForTimeout(500);
 
   // input
   await fillOverview(page, salaryData.overview);
@@ -595,5 +603,16 @@ const addSalarySimply = async (
 
   // execute
   await page.getByRole("button", { name: "Execute", exact: true }).click();
+  await expect(page.getByText("Process completed successfully")).toBeVisible();
   await page.getByRole("button", { name: "OK" }).click();
 };
+
+const waitForSalaryFetch = (page: Page, targetDate: string) =>
+  page.waitForResponse((res) => {
+    const url = new URL(res.url());
+    return (
+      res.request().method() === "GET" &&
+      url.pathname.endsWith("/salaries") &&
+      url.searchParams.get("targetDate") === targetDate
+    );
+  });
