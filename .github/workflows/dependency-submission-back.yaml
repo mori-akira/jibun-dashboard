@@ -1,0 +1,38 @@
+name: Dependency Submission - Backend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "back/build.gradle.kts"
+      - "back/settings.gradle.kts"
+      - "back/gradle/**"
+      - ".github/workflows/dependency-submission-back.yaml"
+  workflow_dispatch:
+
+jobs:
+
+  dependency-submission:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # Resolve Gradle dependencies (incl. transitive) and submit them to the
+      # GitHub dependency graph so that Dependabot can raise alerts.
+      # Caching is disabled so the proprietary gradle-actions-caching component
+      # (introduced in v6) is not loaded.
+      - name: Submit Dependencies
+        uses: gradle/actions/dependency-submission@v6
+        with:
+          build-root-directory: back
+          cache-disabled: true
