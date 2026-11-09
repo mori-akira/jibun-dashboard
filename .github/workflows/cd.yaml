@@ -128,7 +128,7 @@ jobs:
         if: steps.filter_changes.outputs.changes == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Install Dependencies
         if: steps.filter_changes.outputs.changes == 'true'
