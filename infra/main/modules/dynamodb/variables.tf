@@ -56,3 +56,9 @@ variable "billing_mode" {
   type        = string
   default     = "PAY_PER_REQUEST"
 }
+
+variable "point_in_time_recovery_enabled" {
+  description = "ポイントインタイムリカバリ（PITR）を有効にするか（DynamoDB Local は PITR 非対応のため、ローカルでは false にする）"
+  type        = bool
+  default     = true
+}

@@ -68,8 +68,8 @@ resource "aws_dynamodb_table" "this" {
   }
 
   point_in_time_recovery {
-    enabled                 = true
-    recovery_period_in_days = 1
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_enabled ? 1 : null
   }
 
   lifecycle {

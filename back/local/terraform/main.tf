@@ -27,9 +27,10 @@ locals {
 }
 
 module "dynamodb_users" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-users"
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-users"
   hash_key = {
     name = "userId"
     type = "S"
@@ -37,25 +38,28 @@ module "dynamodb_users" {
 }
 
 module "dynamodb_resources_i18n" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-resources-i18n"
-  hash_key = { name = "localeCode", type = "S" }
-  sort_key = { name = "messageKey", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-resources-i18n"
+  hash_key                       = { name = "localeCode", type = "S" }
+  sort_key                       = { name = "messageKey", type = "S" }
 }
 
 module "dynamodb_settings" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-settings"
-  hash_key = { name = "userId", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-settings"
+  hash_key                       = { name = "userId", type = "S" }
 }
 
 module "dynamodb_salary_ocr_tasks" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-salary-ocr-tasks"
-  hash_key = { name = "taskId", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-salary-ocr-tasks"
+  hash_key                       = { name = "taskId", type = "S" }
   global_secondary_indexes = [
     {
       name            = "gsi_user_target_date"
@@ -69,11 +73,12 @@ module "dynamodb_salary_ocr_tasks" {
 }
 
 module "dynamodb_salaries" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-salaries"
-  hash_key = { name = "userId", type = "S" }
-  sort_key = { name = "targetDate", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-salaries"
+  hash_key                       = { name = "userId", type = "S" }
+  sort_key                       = { name = "targetDate", type = "S" }
   global_secondary_indexes = [
     {
       name            = "gsi_salary_id"
@@ -85,11 +90,12 @@ module "dynamodb_salaries" {
 }
 
 module "dynamodb_qualifications" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-qualifications"
-  hash_key = { name = "userId", type = "S" }
-  sort_key = { name = "qualificationId", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-qualifications"
+  hash_key                       = { name = "userId", type = "S" }
+  sort_key                       = { name = "qualificationId", type = "S" }
   global_secondary_indexes = [
     {
       name            = "gsi_qualification_id"
@@ -109,10 +115,11 @@ module "dynamodb_qualifications" {
 }
 
 module "dynamodb_shared_links" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-shared-links"
-  hash_key        = { name = "token", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-shared-links"
+  hash_key                       = { name = "token", type = "S" }
   global_secondary_indexes = [
     {
       name            = "gsi_user_id"
@@ -124,19 +131,21 @@ module "dynamodb_shared_links" {
 }
 
 module "dynamodb_vocabulary_quiz_histories" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-vocabulary-quiz-histories"
-  hash_key        = { name = "userId", type = "S" }
-  sort_key        = { name = "quizHistoryId", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-vocabulary-quiz-histories"
+  hash_key                       = { name = "userId", type = "S" }
+  sort_key                       = { name = "quizHistoryId", type = "S" }
 }
 
 module "dynamodb_vocabulary_check_results" {
-  source          = "../../../infra/main/modules/dynamodb"
-  application_tag = local.tag
-  table_name      = "${local.app_name}-${local.env_name}-vocabulary-check-results"
-  hash_key        = { name = "userId", type = "S" }
-  sort_key        = { name = "vocabularyId", type = "S" }
+  source                         = "../../../infra/main/modules/dynamodb"
+  point_in_time_recovery_enabled = false
+  application_tag                = local.tag
+  table_name                     = "${local.app_name}-${local.env_name}-vocabulary-check-results"
+  hash_key                       = { name = "userId", type = "S" }
+  sort_key                       = { name = "vocabularyId", type = "S" }
   global_secondary_indexes = [
     {
       name            = "gsi_vocabulary_check_result_id"
