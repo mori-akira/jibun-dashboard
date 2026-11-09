@@ -71,7 +71,7 @@ tasks.named<BootJar>("bootJar") {
 // Node.js設定
 node {
     download.set(true)
-    version.set("22.15.0")
+    version.set("24.22.2")
 }
 
 // OpenAPIバンドルタスク
