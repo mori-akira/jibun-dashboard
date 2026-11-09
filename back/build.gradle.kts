@@ -19,8 +19,8 @@ val serviceTags = listOf(
 plugins {
     kotlin("jvm") version "2.3.21"
     id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
-    id("org.springframework.boot") version "3.3.1"
-    id("io.spring.dependency-management") version "1.1.5"
+    id("org.springframework.boot") version "4.1.2"
+    id("io.spring.dependency-management") version "1.1.7"
     id("org.openapi.generator") version "7.14.0"
     id("com.github.node-gradle.node") version "7.0.2"
     id("com.diffplug.spotless") version "6.25.0"
@@ -42,6 +42,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.2")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
