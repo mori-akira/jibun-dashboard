@@ -62,6 +62,11 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
+// AWS SDK は同期クライアントのみ使用（HTTP は apache-client）。非同期用の Netty は不要なため除外する
+configurations.all {
+    exclude(group = "software.amazon.awssdk", module = "netty-nio-client")
+}
+
 // Jarファイル名を指定
 tasks.named<BootJar>("bootJar") {
     archiveFileName.set("app.jar")
