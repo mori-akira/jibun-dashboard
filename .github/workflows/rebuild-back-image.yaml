@@ -1,0 +1,67 @@
+name: Rebuild Backend Image
+# back のコードに変更がなくても、ベースイメージ（JRE・OS）のセキュリティパッチを取り込むため定期的に再ビルドする
+# latest タグへの push で App Runner が自動デプロイする
+on:
+  schedule:
+    # 毎週月曜 09:00 JST（App Runner の停止時間帯 01:00〜06:00 JST を避ける）
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+# CD と同じグループにして、CD のイメージ push と同時に走らないようにする
+concurrency:
+  group: cd-${{ github.ref }}
+
+jobs:
+  back:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: dev
+    defaults:
+      run:
+        working-directory: back
+
+    env:
+      ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
+      SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: "gradle"
+
+      - name: Make Gradle Wrapper Executable
+        run: sudo chmod +x gradlew
+
+      # コードは CD でデプロイ済みのものと同じため、テスト等は省略して jar のみ作る
+      - name: Build Jar
+        run: ./gradlew bootJar --no-daemon
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE_ARN }}
+          role-session-name: ${{ env.SESSION_NAME }}
+          aws-region: ${{ vars.REGION }}
+
+      - name: Login To Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push Image
+        run: |
+          REPO="${{ steps.ecr.outputs.registry }}/${{ vars.APP_NAME }}"
+          docker buildx build \
+            --pull \
+            --platform linux/amd64 \
+            -t "$REPO:latest" \
+            -t "$REPO:${{ github.sha }}-rebuild-${{ github.run_number }}" \
+            --push \
+            .

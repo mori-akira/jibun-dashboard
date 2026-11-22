@@ -50,6 +50,7 @@ GitHub Actions workflows in `.github/workflows/`:
 | `ci-infra.yaml` | Push to infra/** |
 | `ci-openapi.yaml` | Push to openapi/** |
 | `cd.yaml` | Manual / release |
+| `rebuild-back-image.yaml` | Weekly (Mon 09:00 JST) / manual — rebuilds the back image to pick up base image patches |
 
 ## Per-Module Details
 
