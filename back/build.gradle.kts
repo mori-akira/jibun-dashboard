@@ -16,6 +16,17 @@ val serviceTags = listOf(
     "SharedLink"
 ).joinToString(",")
 
+buildscript {
+    dependencies {
+        constraints {
+            // OpenAPI Generator プラグインが脆弱な Guava 32.1.3 を引き込むため、プラグインのクラスパスで引き上げる
+            classpath("com.google.guava:guava:33.7.2-jre") {
+                because("GHSA-xxph-c9ww-hj94")
+            }
+        }
+    }
+}
+
 plugins {
     kotlin("jvm") version "2.3.21"
     id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
