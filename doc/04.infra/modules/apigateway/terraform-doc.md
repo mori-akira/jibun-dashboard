@@ -37,6 +37,7 @@ No modules.
 | <a name="input_apprunner_context_path"></a> [apprunner\_context\_path](#input\_apprunner\_context\_path) | App Runnerのコンテキストパス | `string` | `"/api/v1"` | no |
 | <a name="input_apprunner_url"></a> [apprunner\_url](#input\_apprunner\_url) | App RunnerのURL | `string` | n/a | yes |
 | <a name="input_frontend_bucket_name"></a> [frontend\_bucket\_name](#input\_frontend\_bucket\_name) | フロントエンドのS3バケット名 | `string` | n/a | yes |
+| <a name="input_origin_verify_secret"></a> [origin\_verify\_secret](#input\_origin\_verify\_secret) | App Runnerへの転送時に付与するX-Origin-Verifyヘッダの値 | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | リージョン | `string` | n/a | yes |
 | <a name="input_user_pool_client_id"></a> [user\_pool\_client\_id](#input\_user\_pool\_client\_id) | CognitoユーザープールクライアントID | `string` | n/a | yes |
 | <a name="input_user_pool_id"></a> [user\_pool\_id](#input\_user\_pool\_id) | CognitoユーザープールID | `string` | n/a | yes |
