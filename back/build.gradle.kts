@@ -18,6 +18,9 @@ val serviceTags = listOf(
 
 buildscript {
     dependencies {
+        // OpenAPI Generator プラグインが脆弱な Jackson 2.22.1 を引き込むため、BOM で全モジュールをそろえて引き上げる
+        // （GHSA-p6pp-m3f8-5c89, GHSA-7hhh-6rmp-j9qf, GHSA-q4xh-88c3-wmh7, GHSA-wv8q-qhhj-9h54, GHSA-cxp5-3px4-pw24）
+        classpath(platform("com.fasterxml.jackson:jackson-bom:2.22.4"))
         constraints {
             // OpenAPI Generator プラグインが脆弱な Guava 32.1.3 を引き込むため、プラグインのクラスパスで引き上げる
             classpath("com.google.guava:guava:33.7.2-jre") {
