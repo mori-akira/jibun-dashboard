@@ -1,0 +1,77 @@
+name: Rebuild Backend Image
+# back のコードに変更がなくても、ベースイメージ（JRE・OS）のセキュリティパッチを取り込むため定期的に再ビルドする
+# latest タグへの push で App Runner が自動デプロイする
+on:
+  schedule:
+    # 毎週月曜 09:00 JST（App Runner の停止時間帯 01:00〜06:00 JST を避ける）
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+jobs:
+  back:
+    # 手動実行では任意のブランチを選べるため、デプロイ対象の main に限定する
+    if: github.ref == 'refs/heads/main'
+    # CD の back ジョブと同じグループにして、イメージの push を直列化する
+    # （ワークフロー全体で共有すると、待機中の CD の front / infra / batch ジョブまで取り消されるため、ジョブ単位にする）
+    concurrency:
+      group: back-image-push
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: dev
+    defaults:
+      run:
+        working-directory: back
+
+    env:
+      ROLE_ARN: arn:aws:iam::${{ secrets.AWS_ID }}:role/${{ secrets.ROLE_NAME }}
+      SESSION_NAME: gh-oidc-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: "gradle"
+
+      - name: Make Gradle Wrapper Executable
+        run: sudo chmod +x gradlew
+
+      # main が CD の検査に落ちたままの場合に、未検査のコードをデプロイしないよう CD と同じ検査を行う
+      - name: Build Jar
+        run: |
+          ./gradlew \
+            openApiGenerate \
+            spotlessKotlinGeneratedApply \
+            detekt \
+            spotlessCheck \
+            test \
+            bootJar \
+            --no-daemon
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE_ARN }}
+          role-session-name: ${{ env.SESSION_NAME }}
+          aws-region: ${{ vars.REGION }}
+
+      - name: Login To Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push Image
+        run: |
+          REPO="${{ steps.ecr.outputs.registry }}/${{ vars.APP_NAME }}"
+          docker buildx build \
+            --pull \
+            --platform linux/amd64 \
+            -t "$REPO:latest" \
+            -t "$REPO:${{ github.sha }}-rebuild-${{ github.run_number }}" \
+            --push \
+            .
