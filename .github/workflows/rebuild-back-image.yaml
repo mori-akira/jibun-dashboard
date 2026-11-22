@@ -40,9 +40,17 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: sudo chmod +x gradlew
 
-      # コードは CD でデプロイ済みのものと同じため、テスト等は省略して jar のみ作る
+      # main が CD の検査に落ちたままの場合に、未検査のコードをデプロイしないよう CD と同じ検査を行う
       - name: Build Jar
-        run: ./gradlew bootJar --no-daemon
+        run: |
+          ./gradlew \
+            openApiGenerate \
+            spotlessKotlinGeneratedApply \
+            detekt \
+            spotlessCheck \
+            test \
+            bootJar \
+            --no-daemon
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
