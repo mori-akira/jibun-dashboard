@@ -10,7 +10,7 @@
         :value-format="formatAmount"
         :y-axis-min="0"
         :show-y-grid="true"
-        :wrapper-class="['cursor-pointer', wrapperClass]"
+        :wrapper-class="`cursor-pointer ${wrapperClass ?? ''}`"
         @click:label="(index: number) => emits('click:month', index)"
       />
     </div>
