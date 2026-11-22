@@ -58,7 +58,7 @@ build/generated/            # Auto-generated code from OpenAPI spec (do NOT edit
 
 | Tech | Purpose |
 | --- | --- |
-| Kotlin 2.3 / JVM 21 | Language & runtime |
+| Kotlin 2.4 / JVM 21 | Language & runtime |
 | Spring Boot 4.1 | Web / Security / Actuator |
 | Spring Security OAuth2 Resource Server | JWT validation (Cognito or HS256 for local) |
 | AWS SDK v2 DynamoDB Enhanced Client | DynamoDB access with `@DynamoDbBean` annotations |
