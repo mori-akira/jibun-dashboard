@@ -1,5 +1,6 @@
 package com.github.moriakira.jibundashboard.advice
 
+import com.github.moriakira.jibundashboard.exception.ConflictException
 import com.github.moriakira.jibundashboard.exception.ForbiddenException
 import com.github.moriakira.jibundashboard.exception.GoneException
 import com.github.moriakira.jibundashboard.exception.NotFoundException
@@ -142,6 +143,18 @@ class ApiExceptionHandler {
             errorItem = null,
         )
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorInfo(errors = listOf(detail)))
+    }
+
+    @ExceptionHandler(ConflictException::class)
+    fun handleConflict(ex: ConflictException): ResponseEntity<ErrorInfo> {
+        log.debug("ConflictException", ex)
+        val detail = ErrorDetail(
+            errorCode = ErrorDetail.ErrorCode.INVALID_ARGUMENT,
+            errorLevel = ErrorDetail.ErrorLevel.WARN,
+            errorMessage = ex.message ?: "Conflict.",
+            errorItem = null,
+        )
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorInfo(errors = listOf(detail)))
     }
 
     @ExceptionHandler(IllegalArgumentException::class)
