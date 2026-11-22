@@ -180,6 +180,9 @@ jobs:
   back:
     runs-on: ubuntu-latest
     needs: [infra]
+    # 定期再ビルド（rebuild-back-image.yaml）と同じグループにして、イメージの push を直列化する
+    concurrency:
+      group: back-image-push
     permissions:
       id-token: write
       contents: read

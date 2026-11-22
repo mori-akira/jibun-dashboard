@@ -7,12 +7,14 @@ on:
     - cron: "0 0 * * 1"
   workflow_dispatch:
 
-# CD と同じグループにして、CD のイメージ push と同時に走らないようにする
-concurrency:
-  group: cd-${{ github.ref }}
-
 jobs:
   back:
+    # 手動実行では任意のブランチを選べるため、デプロイ対象の main に限定する
+    if: github.ref == 'refs/heads/main'
+    # CD の back ジョブと同じグループにして、イメージの push を直列化する
+    # （ワークフロー全体で共有すると、待機中の CD の front / infra / batch ジョブまで取り消されるため、ジョブ単位にする）
+    concurrency:
+      group: back-image-push
     runs-on: ubuntu-latest
     permissions:
       id-token: write
