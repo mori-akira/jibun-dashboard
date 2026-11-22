@@ -27,10 +27,11 @@ class SalaryOcrTaskServiceTest :
         val repository = mockk<SalaryOcrTaskRepository>(relaxed = true)
         val sqsClient = mockk<SqsClient>(relaxed = true)
         val queueUrl = "https://sqs.local/queue"
-        val service = SalaryOcrTaskService(repository, sqsClient, queueUrl)
+        val salaryService = mockk<SalaryService>(relaxed = true)
+        val service = SalaryOcrTaskService(repository, salaryService, sqsClient, queueUrl)
 
         beforeTest {
-            clearMocks(repository, sqsClient, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(repository, salaryService, sqsClient, answers = false, recordedCalls = true, childMocks = true)
         }
 
         "listByUserAndDate: Repository からの Item を Domain に変換して返す" {
@@ -98,6 +99,17 @@ class SalaryOcrTaskServiceTest :
                 }
                 verify(exactly = 0) { repository.put(any()) }
             }
+        }
+
+        "startTask: 同じ月に給与があればタスクを作らない" {
+            every { repository.findByUserAndDate("u1", "2025-11-01") } returns emptyList()
+            every { salaryService.requireMonthAvailable("u1", "2025-11-01") } throws IllegalArgumentException("exists")
+
+            shouldThrow<IllegalArgumentException> {
+                service.startTask(userId = "u1", targetDate = "2025-11-01", fileId = "file-x")
+            }
+            verify(exactly = 0) { repository.put(any()) }
+            verify(exactly = 0) { sqsClient.sendMessage(any<Consumer<SendMessageRequest.Builder>>()) }
         }
 
         "startTask: COMPLETED タスクのみなら正常に開始できる" {

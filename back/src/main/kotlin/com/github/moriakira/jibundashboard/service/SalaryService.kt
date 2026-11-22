@@ -35,13 +35,13 @@ class SalaryService(private val salaryRepository: SalaryRepository) {
 
     fun create(model: SalaryModel): String {
         val toSave = model.copy(salaryId = UUID.randomUUID().toString())
-        requireMonthAvailable(toSave)
+        requireMonthAvailable(toSave.userId, toSave.targetDate, toSave.salaryId)
         salaryRepository.put(toSave.toItem())
         return toSave.salaryId
     }
 
     fun update(current: SalaryModel, model: SalaryModel): String {
-        requireMonthAvailable(model)
+        requireMonthAvailable(model.userId, model.targetDate, model.salaryId)
         salaryRepository.put(model.toItem())
         // targetDate はキーなので、変更時は旧レコードを消さないと同じ salaryId が2件残る
         if (current.targetDate != model.targetDate) {
@@ -54,11 +54,11 @@ class SalaryService(private val salaryRepository: SalaryRepository) {
         salaryRepository.delete(userId, targetDate)
     }
 
-    private fun requireMonthAvailable(model: SalaryModel) {
-        val month = YearMonth.from(LocalDate.parse(model.targetDate))
+    fun requireMonthAvailable(userId: String, targetDate: String, excludeSalaryId: String? = null) {
+        val month = YearMonth.from(LocalDate.parse(targetDate))
         val exists = salaryRepository
-            .findByUserAndDateRange(model.userId, month.atDay(1).toString(), month.atEndOfMonth().toString())
-            .any { it.salaryId != model.salaryId }
+            .findByUserAndDateRange(userId, month.atDay(1).toString(), month.atEndOfMonth().toString())
+            .any { it.salaryId != excludeSalaryId }
         require(!exists) { "Salary for $month already exists." }
     }
 

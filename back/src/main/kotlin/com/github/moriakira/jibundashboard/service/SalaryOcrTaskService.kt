@@ -14,6 +14,7 @@ import java.util.UUID
 @Service
 class SalaryOcrTaskService(
     private val salaryOcrTaskRepository: SalaryOcrTaskRepository,
+    private val salaryService: SalaryService,
     private val sqsClient: SqsClient,
     @param:Value("\${app.sqs.salary-ocr-queue.url}") private val salaryOcrQueueUrl: String,
 ) {
@@ -30,6 +31,7 @@ class SalaryOcrTaskService(
         if (existing.any { it.status == SalaryOcrTaskStatus.PENDING || it.status == SalaryOcrTaskStatus.RUNNING }) {
             throw ConflictException("OCR task is already in progress for userId=$userId, targetDate=$targetDate")
         }
+        salaryService.requireMonthAvailable(userId, targetDate)
 
         val now = OffsetDateTime.now(ZoneOffset.UTC).toString()
         val taskId = UUID.randomUUID().toString()
