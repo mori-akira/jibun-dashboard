@@ -26,6 +26,11 @@ buildscript {
             classpath("com.google.guava:guava:33.7.2-jre") {
                 because("GHSA-xxph-c9ww-hj94")
             }
+            // OpenAPI Generator プラグインが脆弱な Handlebars 4.3.1 を引き込むため引き上げる
+            // handlebars-jackson2 は 4.3.1 が最終版のため据え置く（上流の更新案 OpenAPITools/openapi-generator#21976 と同じ構成）
+            classpath("com.github.jknack:handlebars:4.5.8") {
+                because("GHSA-r4gv-qr8j-p3pg")
+            }
         }
     }
 }
