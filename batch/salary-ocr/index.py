@@ -178,6 +178,53 @@ def call_bedrock_ocr(
     raise RuntimeError("Bedrock OCR failed after max attempts") from last_exc
 
 
+OVERVIEW_INT_FIELDS = ("grossIncome", "netIncome", "bonus", "bonusTakeHome")
+OVERVIEW_NUMBER_FIELDS = ("operatingTime", "overtime")
+STRUCTURE_INT_FIELDS = ("basicSalary", "overtimePay", "housingAllowance", "positionAllowance", "other")
+
+
+def _is_number(value: Any) -> bool:
+    return isinstance(value, (int, Decimal)) and not isinstance(value, bool)
+
+
+def _is_int(value: Any) -> bool:
+    return _is_number(value) and value == int(value)
+
+
+def validate_ocr_result(result: Any) -> None:
+    """back が読み込めない形（欠損・型違い）の OCR 結果を保存前に弾く"""
+    if not isinstance(result, dict):
+        raise ValueError("OCR result must be an object")
+
+    overview = result.get("overview")
+    structure = result.get("structure")
+    payslip_data = result.get("payslipData")
+    if not isinstance(overview, dict) or not isinstance(structure, dict) or not isinstance(payslip_data, list):
+        raise ValueError("OCR result must have overview, structure and payslipData")
+
+    for field in OVERVIEW_INT_FIELDS:
+        if not _is_int(overview.get(field)):
+            raise ValueError(f"overview.{field} must be an integer")
+    for field in OVERVIEW_NUMBER_FIELDS:
+        if not _is_number(overview.get(field)):
+            raise ValueError(f"overview.{field} must be a number")
+    for field in STRUCTURE_INT_FIELDS:
+        if not _is_int(structure.get(field)):
+            raise ValueError(f"structure.{field} must be an integer")
+
+    for i, category in enumerate(payslip_data):
+        if not isinstance(category, dict) or not isinstance(category.get("key"), str):
+            raise ValueError(f"payslipData[{i}].key must be a string")
+        entries = category.get("data")
+        if not isinstance(entries, list):
+            raise ValueError(f"payslipData[{i}].data must be an array")
+        for j, entry in enumerate(entries):
+            if not isinstance(entry, dict) or not isinstance(entry.get("key"), str):
+                raise ValueError(f"payslipData[{i}].data[{j}].key must be a string")
+            if not _is_number(entry.get("data")):
+                raise ValueError(f"payslipData[{i}].data[{j}].data must be a number")
+
+
 def save_salary(
     dynamodb,
     table_name: str,
@@ -227,6 +274,7 @@ def process_ocr_task(msg: OcrTaskMessage) -> None:
 
         # OCR実行
         ocr_result = call_bedrock_ocr(bedrock, pdf_bytes, model_id=bedrock_model_id)
+        validate_ocr_result(ocr_result)
 
         # salariesに登録
         save_salary(

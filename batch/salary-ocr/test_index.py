@@ -2,6 +2,8 @@ import json
 import os
 import uuid
 from datetime import datetime
+from decimal import Decimal
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
@@ -20,6 +22,7 @@ from index import (
     parse_sqs_message,
     process_ocr_task,
     save_salary,
+    validate_ocr_result,
     update_task_status,
 )
 
@@ -308,6 +311,38 @@ class TestSaveSalary:
         assert item["overview"] == {"grossIncome": 400000}
 
 
+def valid_ocr_result():
+    sample = Path(__file__).resolve().parent / "prompts" / "sample.json"
+    return json.loads(sample.read_text(encoding="utf-8"), parse_float=Decimal)
+
+
+class TestValidateOcrResult:
+    """validate_ocr_result関数のテスト"""
+
+    def test_accepts_sample(self):
+        validate_ocr_result(valid_ocr_result())
+
+    @pytest.mark.parametrize(
+        "mutate",
+        [
+            lambda r: r.pop("overview"),
+            lambda r: r["overview"].pop("grossIncome"),
+            lambda r: r["overview"].update(grossIncome="400,000"),
+            lambda r: r["overview"].update(netIncome=Decimal("1.5")),
+            lambda r: r["overview"].update(overtime=None),
+            lambda r: r["structure"].update(other=True),
+            lambda r: r.update(payslipData={}),
+            lambda r: r["payslipData"][0].pop("key"),
+            lambda r: r["payslipData"][0]["data"][0].update(data="x"),
+        ],
+    )
+    def test_rejects_invalid(self, mutate):
+        result = valid_ocr_result()
+        mutate(result)
+        with pytest.raises(ValueError):
+            validate_ocr_result(result)
+
+
 class TestProcessOcrTask:
     """process_ocr_task関数のテスト"""
 
@@ -340,7 +375,7 @@ class TestProcessOcrTask:
         }[name]
 
         mock_download_pdf.return_value = b"pdf content"
-        mock_call_bedrock.return_value = {"overview": {}, "structure": {}, "payslipData": []}
+        mock_call_bedrock.return_value = valid_ocr_result()
         mock_save_salary.return_value = "salary-123"
 
         msg = OcrTaskMessage(
@@ -396,6 +431,35 @@ class TestProcessOcrTask:
         failed_call = mock_update_status.call_args_list[1]
         assert failed_call[0][2] == "task-123"
         assert failed_call[0][3] == "FAILED"
+
+
+    @patch("index.get_boto3_clients")
+    @patch("index.get_env_or_raise")
+    @patch("index.update_task_status")
+    @patch("index.download_pdf_from_s3")
+    @patch("index.call_bedrock_ocr")
+    @patch("index.save_salary")
+    def test_does_not_save_invalid_result(
+        self,
+        mock_save_salary,
+        mock_call_bedrock,
+        mock_download_pdf,
+        mock_update_status,
+        mock_get_env,
+        mock_get_clients,
+    ):
+        mock_get_clients.return_value = {"dynamodb": Mock(), "s3": Mock(), "bedrock": Mock()}
+        mock_get_env.return_value = "dummy"
+        mock_download_pdf.return_value = b"pdf content"
+        mock_call_bedrock.return_value = {"overview": {}, "structure": {}, "payslipData": []}
+
+        msg = OcrTaskMessage(ocr_task_id="task-123", user_id="u", target_date="2025-11-01", file_id="f")
+
+        with pytest.raises(ValueError):
+            process_ocr_task(msg)
+
+        mock_save_salary.assert_not_called()
+        assert mock_update_status.call_args_list[-1][0][3] == "FAILED"
 
 
 class TestLambdaHandler:
