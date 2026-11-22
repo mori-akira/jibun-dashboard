@@ -69,7 +69,7 @@ scripts/        # Build-time scripts (generate-api-client.mjs)
 | @nuxtjs/i18n               | Internationalisation (default locale: `en`)     |
 | Axios                      | HTTP client (configured via `plugins/axios.ts`) |
 | Chart.js + vue-chartjs     | Data visualisation                              |
-| openapi-zod-client         | API client / schema generation from OpenAPI     |
+| openapi-zod-client         | Zod schema generation from OpenAPI (via npx)    |
 | @stoplight/prism-cli       | Mock API server                                 |
 | Vitest + @nuxt/test-utils  | Unit testing                                    |
 | @vite-pwa/nuxt             | PWA support                                     |

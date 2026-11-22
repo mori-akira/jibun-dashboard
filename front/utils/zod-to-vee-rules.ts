@@ -1,6 +1,18 @@
-import type { ZodTypeAny } from "zod";
-import { ZodEffects, ZodNumber, ZodString } from "zod";
+import { ZodNumber, ZodString, type ZodType } from "zod";
 import { i18nT as t } from "~/utils/i18n";
+
+// zod 4 のチェック定義（core の $ZodCheckDef 各種）のうち、ここで参照する項目のみ
+type CheckDef = {
+  check: string;
+  value?: number;
+  minimum?: number;
+  maximum?: number;
+  format?: string;
+  pattern?: RegExp;
+};
+
+const getCheckDefs = (schema: ZodType): CheckDef[] =>
+  (schema.def.checks ?? []).map((c) => c._zod.def as CheckDef);
 
 export type FieldValidationMetaInfo = {
   field: string;
@@ -22,12 +34,8 @@ export type GenericValidateFunction<TValue = unknown> = (
   ctx: FieldValidationMetaInfo,
 ) => boolean | string;
 
-export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
+export function zodToVeeRules(schema: ZodType): GenericValidateFunction[] {
   const rules: ((value: unknown, ctx?: unknown) => true | string)[] = [];
-
-  if (schema instanceof ZodEffects) {
-    schema = schema._def.schema;
-  }
 
   if (!schema.isOptional()) {
     rules.push((value) =>
@@ -36,27 +44,29 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
   }
 
   if (schema instanceof ZodString) {
-    const checks = schema._def.checks;
-    for (const check of checks) {
-      if (check.kind === "min") {
+    for (const check of getCheckDefs(schema)) {
+      if (check.check === "min_length") {
+        const min = check.minimum!;
         rules.push((value) =>
-          (value as string)?.length >= check.value
+          (value as string)?.length >= min
             ? true
-            : t("message.validation.minCharacters", { min: check.value }),
+            : t("message.validation.minCharacters", { min }),
         );
-      } else if (check.kind === "max") {
+      } else if (check.check === "max_length") {
+        const max = check.maximum!;
         rules.push((value) =>
-          (value as string)?.length <= check.value
+          (value as string)?.length <= max
             ? true
-            : t("message.validation.maxCharacters", { max: check.value }),
+            : t("message.validation.maxCharacters", { max }),
         );
-      } else if (check.kind === "regex") {
+      } else if (check.format === "regex") {
+        const pattern = check.pattern!;
         rules.push((value) =>
-          check.regex.test(value as string)
+          pattern.test(value as string)
             ? true
             : t("message.validation.invalidCharacters"),
         );
-      } else if (check.kind === "email") {
+      } else if (check.format === "email") {
         rules.push((value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value as string)
             ? true
@@ -66,23 +76,27 @@ export function zodToVeeRules(schema: ZodTypeAny): GenericValidateFunction[] {
     }
   }
 
-  const zNumber = schema instanceof ZodNumber ? schema : schema._def?.innerType;
+  const zNumber =
+    schema instanceof ZodNumber
+      ? schema
+      : (schema.def as { innerType?: unknown }).innerType;
   if (zNumber instanceof ZodNumber) {
-    const checks = zNumber._def.checks;
-    for (const check of checks) {
-      if (check.kind === "min") {
+    for (const check of getCheckDefs(zNumber)) {
+      if (check.check === "greater_than") {
+        const min = check.value!;
         rules.push((value) =>
-          Number(value as string) >= check.value
+          Number(value as string) >= min
             ? true
-            : t("message.validation.minNumber", { min: check.value }),
+            : t("message.validation.minNumber", { min }),
         );
-      } else if (check.kind === "max") {
+      } else if (check.check === "less_than") {
+        const max = check.value!;
         rules.push((value) =>
-          Number(value as string) <= check.value
+          Number(value as string) <= max
             ? true
-            : t("message.validation.maxNumber", { max: check.value }),
+            : t("message.validation.maxNumber", { max }),
         );
-      } else if (check.kind === "int") {
+      } else if (check.check === "number_format") {
         rules.push((value) =>
           Number.isInteger(Number(value))
             ? true

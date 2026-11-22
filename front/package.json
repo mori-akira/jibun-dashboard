@@ -24,7 +24,6 @@
     "@unhead/vue": "^2.0.8",
     "@vee-validate/nuxt": "^4.15.1",
     "@vee-validate/rules": "^4.15.1",
-    "@vee-validate/zod": "^4.15.1",
     "@vuepic/vue-datepicker": "^11.0.2",
     "axios": "^1.5.1",
     "better-sqlite3": "^11.10.0",
@@ -43,7 +42,7 @@
     "vue-chartjs": "^5.3.2",
     "vue-router": "^4.5.1",
     "vuedraggable": "^4.1.0",
-    "zod": "^3.25.71"
+    "zod": "^4.6.7"
   },
   "overrides": {
     "@tootallnate/once": ">=3.0.1",
@@ -64,7 +63,6 @@
     "@vite-pwa/nuxt": "^1.1.1",
     "@vue/test-utils": "^2.4.6",
     "eslint-plugin-pinia": "^0.4.1",
-    "openapi-zod-client": "^1.18.3",
     "vitest": "^5.1.0"
   }
 }
