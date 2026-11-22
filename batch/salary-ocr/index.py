@@ -164,7 +164,6 @@ def call_bedrock_ocr(
                 ],
             )
             raw_json = response["output"]["message"]["content"][0]["text"]
-            logger.info("Raw OCR JSON: %s", raw_json)
             result: Dict[str, Any] = json.loads(raw_json, parse_float=Decimal)
             return result
         except (BotoCoreError, ClientError) as e:
