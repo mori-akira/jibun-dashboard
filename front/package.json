@@ -45,12 +45,7 @@
     "zod": "^4.6.7"
   },
   "overrides": {
-    "@tootallnate/once": ">=3.0.1",
-    "vue-i18n": "^11.3.2",
-    "source-map": "^0.7.4",
     "glob": "^14.0.2",
-    "serialize-javascript": ">=7.0.5",
-    "fast-xml-parser": ">=5.7.0",
     "lodash": ">=4.18.0",
     "minimatch@>=7.0.0 <11.0.1": "^11.0.1",
     "fontless": {
