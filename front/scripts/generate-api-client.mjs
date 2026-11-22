@@ -39,8 +39,10 @@ if (!apiTs.includes(localeExport)) {
 }
 
 // openapi-zod-clientでzodスキーマ生成
+// zod 3 にしか対応しない Zodios クライアントは不要なため、スキーマのみを出力する
+// （openapi-zod-client 同梱の schemas-only.hbs の写し。CLI からは名前で指定できない）
 run(
-  "npx --yes openapi-zod-client openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas",
+  "npx --yes openapi-zod-client@1.18.3 openapi.yaml -o ../front/generated/api/client/schemas.ts --export-schemas --template ../front/scripts/templates/schemas-only.hbs",
   { cwd: openapiDir },
 );
 
@@ -52,6 +54,11 @@ if (!schemas.startsWith("/* eslint-disable */")) {
   writeFileSync(schemasPath, schemas);
   console.log("Prepended /* eslint-disable */ to schemas.ts");
 }
+
+// openapi-zod-clientは zod 3 形式の z.record(値) を出力するが、zod 4 ではキーの指定が必須
+// JSONのキーは常に文字列のため z.string() を補う
+schemas = schemas.replaceAll("z.record(", "z.record(z.string(), ");
+writeFileSync(schemasPath, schemas);
 
 // prettierで整形
 run(
