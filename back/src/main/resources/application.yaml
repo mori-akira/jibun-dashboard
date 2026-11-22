@@ -29,6 +29,8 @@ app:
   security:
     cognito:
       region: ${AWS_REGION:ap-northeast-1}
+    # API Gateway が付与するヘッダの値。空なら検証しない（local 用）
+    origin-verify-secret: ${ORIGIN_VERIFY_SECRET:}
   dynamodb:
     region: ${AWS_REGION:ap-northeast-1}
     tables:

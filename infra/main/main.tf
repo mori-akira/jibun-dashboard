@@ -154,6 +154,7 @@ module "apigateway" {
   user_pool_client_id    = module.cognito.user_pool_client_id
   apprunner_url          = "https://${module.apprunner.apprunner_service_url}"
   apprunner_context_path = "/api/v1"
+  origin_verify_secret   = module.apprunner.origin_verify_secret
 }
 
 module "codebuild" {

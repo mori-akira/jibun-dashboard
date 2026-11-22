@@ -16,6 +16,9 @@ resource "aws_apigatewayv2_integration" "apprunner_integration" {
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
   integration_uri    = "${var.apprunner_url}${var.apprunner_context_path}/{proxy}"
+  request_parameters = {
+    "overwrite:header.X-Origin-Verify" = var.origin_verify_secret
+  }
 }
 
 resource "aws_apigatewayv2_authorizer" "cognito_auth" {
@@ -41,6 +44,9 @@ resource "aws_apigatewayv2_integration" "share_integration" {
   integration_type   = "HTTP_PROXY"
   integration_method = "GET"
   integration_uri    = "${var.apprunner_url}${var.apprunner_context_path}/share/{proxy}"
+  request_parameters = {
+    "overwrite:header.X-Origin-Verify" = var.origin_verify_secret
+  }
 }
 
 resource "aws_apigatewayv2_route" "share_proxy" {

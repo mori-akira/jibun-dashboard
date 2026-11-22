@@ -146,6 +146,12 @@ resource "aws_iam_role_policy" "apprunner_instance_policy" {
   policy = data.aws_iam_policy_document.apprunner_instance.json
 }
 
+# API Gateway 経由のリクエストだけが持つヘッダの値。App Runner の公開 URL への直接アクセスを back で拒否するために使う
+resource "random_password" "origin_verify" {
+  length  = 48
+  special = false
+}
+
 resource "aws_apprunner_service" "this" {
   service_name = "${var.app_name}-${var.env_name}"
   tags         = var.application_tag
@@ -175,6 +181,7 @@ resource "aws_apprunner_service" "this" {
           USER_ASSETS_BUCKET_NAME     = var.user_assets_bucket_name
           SALARY_OCR_QUEUE_URL        = var.salary_ocr_queue_url
           APP_SHARE_BASE_URL          = var.app_share_base_url
+          ORIGIN_VERIFY_SECRET        = random_password.origin_verify.result
         }, var.runtime_env)
       }
     }

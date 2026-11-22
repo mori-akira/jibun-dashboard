@@ -37,6 +37,12 @@ variable "apprunner_url" {
   }
 }
 
+variable "origin_verify_secret" {
+  description = "App Runnerへの転送時に付与するX-Origin-Verifyヘッダの値"
+  type        = string
+  sensitive   = true
+}
+
 variable "apprunner_context_path" {
   description = "App Runnerのコンテキストパス"
   type        = string
