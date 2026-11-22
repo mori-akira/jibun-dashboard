@@ -290,8 +290,7 @@ const validationRules = {
     other: zodToVeeRules(schemas.SalaryBase.shape.structure.shape.other),
   },
   payslipData: zodToVeeRules(
-    schemas.SalaryBase.shape.payslipData._def.type.shape.data._def.type.shape
-      .data,
+    schemas.SalaryBase.shape.payslipData.element.shape.data.element.shape.data,
   ),
 };
 

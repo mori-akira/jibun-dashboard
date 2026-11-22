@@ -273,13 +273,13 @@ const validationRules = {
       schemas.Setting.shape.salary.shape.transitionItemCount,
     ),
     compareDataColor1: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.type,
+      schemas.Setting.shape.salary.shape.compareDataColors.element,
     ),
     compareDataColor2: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.type,
+      schemas.Setting.shape.salary.shape.compareDataColors.element,
     ),
     compareDataColor3: zodToVeeRules(
-      schemas.Setting.shape.salary.shape.compareDataColors._def.type,
+      schemas.Setting.shape.salary.shape.compareDataColors.element,
     ),
   },
   qualification: {
