@@ -237,9 +237,17 @@ class QualificationServiceTest :
             verify(exactly = 0) { userAssetService.delete(any(), any(), any()) }
         }
 
-        "deleteByQualificationId: 削除を委譲" {
+        "delete: レコードと証明書アセットを削除する" {
+            val assetId = "11111111-1111-1111-1111-111111111111"
+            every { repository.getByQualificationId("qid-1") } returns
+                item(id = "qid-1", certificationAssetId = assetId)
+
             service.delete("u1", "qid-1")
+
             verify(exactly = 1) { repository.delete("u1", "qid-1") }
+            verify(exactly = 1) {
+                userAssetService.delete(UserAssetService.QUALIFICATION_CERTIFICATIONS, "u1", UUID.fromString(assetId))
+            }
         }
 
         "getByQualificationIdForUser: 所有者なら返す、他ユーザ/存在しない場合は null" {

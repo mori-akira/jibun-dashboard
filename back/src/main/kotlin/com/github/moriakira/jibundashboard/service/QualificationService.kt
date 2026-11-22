@@ -60,7 +60,11 @@ class QualificationService(
     }
 
     fun delete(userId: String, qualificationId: String) {
+        val existing = getByQualificationIdForUser(qualificationId, userId)
         qualificationRepository.delete(userId, qualificationId)
+        existing?.certificationAssetId?.let {
+            userAssetService.delete(UserAssetService.QUALIFICATION_CERTIFICATIONS, userId, UUID.fromString(it))
+        }
     }
 
     private fun QualificationItem.toDomain(): QualificationModel = QualificationModel(

@@ -19,12 +19,13 @@ class CardbookCardServiceTest :
     StringSpec({
 
         val repository = mockk<CardbookCardRepository>(relaxed = true)
-        val service = CardbookCardService(repository)
+        val checkResultService = mockk<CardbookCheckResultService>(relaxed = true)
+        val service = CardbookCardService(repository, checkResultService)
 
         val fixedNow = OffsetDateTime.parse("2025-06-01T12:00:00Z")
 
         beforeTest {
-            clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(repository, checkResultService, answers = false, recordedCalls = true, childMocks = true)
         }
 
         fun item(
@@ -127,8 +128,21 @@ class CardbookCardServiceTest :
             unmockkStatic(OffsetDateTime::class)
         }
 
-        "delete: 削除を委譲" {
+        "delete: カードとチェック結果を削除する" {
             service.delete("u1", "card-1")
+            verify(exactly = 1) { checkResultService.deleteByCardId("u1", "card-1") }
             verify(exactly = 1) { repository.delete("u1", "card-1") }
+        }
+
+        "deleteByCardbookId: 自分のカードだけを削除する" {
+            every { repository.findByCardbookId("cb-1") } returns listOf(
+                item(id = "card-1", userId = "u1"),
+                item(id = "card-2", userId = "other"),
+            )
+
+            service.deleteByCardbookId("u1", "cb-1")
+
+            verify(exactly = 1) { repository.delete("u1", "card-1") }
+            verify(exactly = 1) { repository.delete(any(), any()) }
         }
     })

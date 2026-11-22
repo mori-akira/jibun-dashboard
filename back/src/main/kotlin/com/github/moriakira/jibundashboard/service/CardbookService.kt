@@ -7,7 +7,11 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class CardbookService(private val repository: CardbookRepository) {
+class CardbookService(
+    private val repository: CardbookRepository,
+    private val cardbookCardService: CardbookCardService,
+    private val cardbookQuizHistoryService: CardbookQuizHistoryService,
+) {
     fun listByUser(userId: String): List<CardbookModel> =
         repository.findByUser(userId).map { it.toDomain() }.sortedByDescending { it.updatedDateTime }
 
@@ -28,7 +32,10 @@ class CardbookService(private val repository: CardbookRepository) {
         return model.cardbookId
     }
 
+    // 子を先に消すことで、途中で失敗してもカードブックが残り再実行できる
     fun delete(userId: String, cardbookId: String) {
+        cardbookCardService.deleteByCardbookId(userId, cardbookId)
+        cardbookQuizHistoryService.deleteByCardbookId(userId, cardbookId)
         repository.delete(userId, cardbookId)
     }
 

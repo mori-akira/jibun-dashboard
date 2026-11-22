@@ -24,6 +24,10 @@ class CardbookCheckResultService(private val repository: CardbookCheckResultRepo
         .map { it.toDomain() }
         .sortedByDescending { it.checkedAt }
 
+    fun deleteByCardId(userId: String, cardId: String) {
+        repository.delete(userId, cardId)
+    }
+
     @Suppress("ReturnCount")
     fun updateStatus(checkResultId: String, userId: String, status: String): CardbookCheckResultModel? {
         val item = repository.getByCheckResultId(checkResultId) ?: return null

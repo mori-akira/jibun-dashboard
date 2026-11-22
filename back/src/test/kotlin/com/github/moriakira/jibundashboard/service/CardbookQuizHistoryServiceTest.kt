@@ -131,4 +131,14 @@ class CardbookQuizHistoryServiceTest :
             service.delete("u1", "qh-1")
             verify(exactly = 1) { repository.delete("u1", "qh-1") }
         }
+
+        "deleteByCardbookId: 指定カードブックの履歴だけを削除する" {
+            every { repository.findByUser("u1") } returns
+                listOf(item(id = "qh1", cardbookId = "cb1"), item(id = "qh2", cardbookId = "cb2"))
+
+            service.deleteByCardbookId("u1", "cb1")
+
+            verify(exactly = 1) { repository.delete("u1", "qh1") }
+            verify(exactly = 1) { repository.delete(any(), any()) }
+        }
     })

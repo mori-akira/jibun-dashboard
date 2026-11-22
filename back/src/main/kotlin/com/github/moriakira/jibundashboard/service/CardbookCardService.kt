@@ -7,7 +7,10 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class CardbookCardService(private val repository: CardbookCardRepository) {
+class CardbookCardService(
+    private val repository: CardbookCardRepository,
+    private val cardbookCheckResultService: CardbookCheckResultService,
+) {
     fun listByCardbookId(cardbookId: String): List<CardbookCardModel> =
         repository.findByCardbookId(cardbookId).map { it.toDomain() }.sortedBy { it.createdDateTime }
 
@@ -30,7 +33,14 @@ class CardbookCardService(private val repository: CardbookCardRepository) {
     }
 
     fun delete(userId: String, cardId: String) {
+        cardbookCheckResultService.deleteByCardId(userId, cardId)
         repository.delete(userId, cardId)
+    }
+
+    fun deleteByCardbookId(userId: String, cardbookId: String) {
+        repository.findByCardbookId(cardbookId)
+            .filter { it.userId == userId }
+            .forEach { delete(userId, it.cardId!!) }
     }
 
     private fun CardbookCardItem.toDomain(): CardbookCardModel = CardbookCardModel(

@@ -36,6 +36,12 @@ class CardbookQuizHistoryService(private val repository: CardbookQuizHistoryRepo
         repository.delete(userId, quizHistoryId)
     }
 
+    fun deleteByCardbookId(userId: String, cardbookId: String) {
+        repository.findByUser(userId)
+            .filter { it.cardbookId == cardbookId }
+            .forEach { delete(userId, it.quizHistoryId!!) }
+    }
+
     private fun CardbookQuizHistoryItem.toDomain(): CardbookQuizHistoryModel = CardbookQuizHistoryModel(
         quizHistoryId = this.quizHistoryId!!,
         userId = this.userId!!,

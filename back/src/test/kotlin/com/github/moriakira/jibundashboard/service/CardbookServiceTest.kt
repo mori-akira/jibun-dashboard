@@ -12,6 +12,7 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkStatic
 import io.mockk.verify
+import io.mockk.verifyOrder
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -19,12 +20,21 @@ class CardbookServiceTest :
     StringSpec({
 
         val repository = mockk<CardbookRepository>(relaxed = true)
-        val service = CardbookService(repository)
+        val cardService = mockk<CardbookCardService>(relaxed = true)
+        val quizHistoryService = mockk<CardbookQuizHistoryService>(relaxed = true)
+        val service = CardbookService(repository, cardService, quizHistoryService)
 
         val fixedNow = OffsetDateTime.parse("2025-06-01T12:00:00Z")
 
         beforeTest {
-            clearMocks(repository, answers = false, recordedCalls = true, childMocks = true)
+            clearMocks(
+                repository,
+                cardService,
+                quizHistoryService,
+                answers = false,
+                recordedCalls = true,
+                childMocks = true,
+            )
         }
 
         fun item(id: String = "cb1", userId: String = "u1") = CardbookItem().apply {
@@ -119,8 +129,12 @@ class CardbookServiceTest :
             unmockkStatic(OffsetDateTime::class)
         }
 
-        "delete: 削除を委譲" {
+        "delete: 子データを削除してからカードブックを削除する" {
             service.delete("u1", "cb-1")
-            verify(exactly = 1) { repository.delete("u1", "cb-1") }
+            verifyOrder {
+                cardService.deleteByCardbookId("u1", "cb-1")
+                quizHistoryService.deleteByCardbookId("u1", "cb-1")
+                repository.delete("u1", "cb-1")
+            }
         }
     })
