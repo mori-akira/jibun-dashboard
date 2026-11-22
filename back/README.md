@@ -3,7 +3,7 @@
 ## 実行環境 (開発時のバージョン)
 - Java: openjdk 21.0.8
 - Gradle: 8.14.3
-- Kotlin: 2.3.21
+- Kotlin: 2.4.21
 - Spring Boot: 4.1.2
 
 ## ローカル実行手順
