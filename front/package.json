@@ -12,7 +12,7 @@
     "postinstall": "nuxt prepare",
     "mock": "prism mock ../openapi/openapi.yaml --port 4011",
     "generate:api": "node ./scripts/generate-api-client.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "nuxi typecheck"
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.2",
@@ -63,6 +63,7 @@
     "@vite-pwa/nuxt": "^1.1.1",
     "@vue/test-utils": "^2.4.6",
     "eslint-plugin-pinia": "^0.4.1",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.0",
+    "vue-tsc": "^3.3.14"
   }
 }
