@@ -112,7 +112,7 @@ class SalaryControllerTest :
 
             res.statusCode shouldBe HttpStatus.CREATED
             res.body!!.salaryId.toString() shouldBe "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-            verify(exactly = 0) { salaryService.put(any()) }
+            verify(exactly = 0) { salaryService.update(any(), any()) }
         }
 
         "putSalary: 200 または 404" {
@@ -120,7 +120,7 @@ class SalaryControllerTest :
             val missingId = "cccccccc-cccc-cccc-cccc-cccccccccccc"
             every { salaryService.getByIdForUser(id, "u1") } returns sampleModel(id = id)
             every { salaryService.getByIdForUser(missingId, "u1") } returns null
-            every { salaryService.put(any()) } returns id
+            every { salaryService.update(any(), any()) } returns id
 
             val req = SalaryBase(
                 targetDate = LocalDate.parse("2025-08-15"),
@@ -132,8 +132,8 @@ class SalaryControllerTest :
             controller.putSalariesById(UUID.fromString(id), req).statusCode shouldBe HttpStatus.OK
             controller.putSalariesById(UUID.fromString(missingId), req).also {
                 it.statusCode shouldBe HttpStatus.NOT_FOUND
-                // put は成功ケースで1回呼ばれるが、存在しない ID では呼ばれない
-                verify(exactly = 1) { salaryService.put(any()) }
+                // update は成功ケースで1回呼ばれるが、存在しない ID では呼ばれない
+                verify(exactly = 1) { salaryService.update(any(), any()) }
             }
         }
 

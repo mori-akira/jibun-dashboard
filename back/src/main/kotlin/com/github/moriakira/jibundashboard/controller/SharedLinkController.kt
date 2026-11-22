@@ -4,12 +4,10 @@ import com.github.moriakira.jibundashboard.component.CurrentAuth
 import com.github.moriakira.jibundashboard.generated.api.SharedLinkApi
 import com.github.moriakira.jibundashboard.generated.model.SharedLink
 import com.github.moriakira.jibundashboard.generated.model.SharedLinkBase
-import com.github.moriakira.jibundashboard.service.SharedLinkModel
+import com.github.moriakira.jibundashboard.mapper.toApi
 import com.github.moriakira.jibundashboard.service.SharedLinkService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
-import java.net.URI
-import java.time.LocalDate
 import java.util.UUID
 
 @RestController
@@ -35,11 +33,4 @@ class SharedLinkController(private val currentAuth: CurrentAuth, private val sha
         sharedLinkService.delete(token.toString(), currentAuth.userId)
         return ResponseEntity.noContent().build()
     }
-
-    private fun SharedLinkModel.toApi() = SharedLink(
-        token = UUID.fromString(this.token),
-        dataTypes = this.dataTypes.map { SharedLink.DataTypes.forValue(it) }.toSet(),
-        expiresAt = LocalDate.parse(this.expiresAt),
-        shareUrl = URI.create(this.shareUrl),
-    )
 }

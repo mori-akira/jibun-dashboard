@@ -3,6 +3,8 @@ package com.github.moriakira.jibundashboard.service
 import com.github.moriakira.jibundashboard.repository.SalaryItem
 import com.github.moriakira.jibundashboard.repository.SalaryRepository
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.time.YearMonth
 import java.util.UUID
 
 @Service
@@ -31,15 +33,33 @@ class SalaryService(private val salaryRepository: SalaryRepository) {
             else -> listAll(userId)
         }
 
-    fun create(model: SalaryModel): String = put(model.copy(salaryId = UUID.randomUUID().toString()))
+    fun create(model: SalaryModel): String {
+        val toSave = model.copy(salaryId = UUID.randomUUID().toString())
+        requireMonthAvailable(toSave)
+        salaryRepository.put(toSave.toItem())
+        return toSave.salaryId
+    }
 
-    fun put(model: SalaryModel): String {
+    fun update(current: SalaryModel, model: SalaryModel): String {
+        requireMonthAvailable(model)
         salaryRepository.put(model.toItem())
+        // targetDate はキーなので、変更時は旧レコードを消さないと同じ salaryId が2件残る
+        if (current.targetDate != model.targetDate) {
+            salaryRepository.delete(current.userId, current.targetDate)
+        }
         return model.salaryId
     }
 
     fun delete(userId: String, targetDate: String) {
         salaryRepository.delete(userId, targetDate)
+    }
+
+    private fun requireMonthAvailable(model: SalaryModel) {
+        val month = YearMonth.from(LocalDate.parse(model.targetDate))
+        val exists = salaryRepository
+            .findByUserAndDateRange(model.userId, month.atDay(1).toString(), month.atEndOfMonth().toString())
+            .any { it.salaryId != model.salaryId }
+        require(!exists) { "Salary for $month already exists." }
     }
 
     @Suppress("CyclomaticComplexMethod")

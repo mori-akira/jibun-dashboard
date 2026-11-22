@@ -2,6 +2,7 @@ package com.github.moriakira.jibundashboard.service
 
 import com.github.moriakira.jibundashboard.repository.SalaryItem
 import com.github.moriakira.jibundashboard.repository.SalaryRepository
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -144,22 +145,23 @@ class SalaryServiceTest :
             service.getBySalaryId("nope") shouldBe null
         }
 
-        "put: 渡したモデルが保存され salaryId が返る" {
+        fun model(salaryId: String = "sid-9", targetDate: String = "2025-02-02") = SalaryModel(
+            salaryId = salaryId,
+            userId = "u9",
+            targetDate = targetDate,
+            overview = OverviewModel(1, 2, 3.0, 4.0, 5, 6),
+            structure = StructureModel(7, 8, 9, 10, 11),
+            payslipData = listOf(
+                PayslipCategoryModel("k", listOf(PayslipEntryModel("e", 12.3))),
+            ),
+        )
+
+        "update: 渡したモデルが保存され salaryId が返る" {
             val capt = slot<SalaryItem>()
+            every { repository.findByUserAndDateRange("u9", "2025-02-01", "2025-02-28") } returns emptyList()
             every { repository.put(capture(capt)) } returns Unit
 
-            val model = SalaryModel(
-                salaryId = "sid-9",
-                userId = "u9",
-                targetDate = "2025-02-02",
-                overview = OverviewModel(1, 2, 3.0, 4.0, 5, 6),
-                structure = StructureModel(7, 8, 9, 10, 11),
-                payslipData = listOf(
-                    PayslipCategoryModel("k", listOf(PayslipEntryModel("e", 12.3))),
-                ),
-            )
-
-            val returned = service.put(model)
+            val returned = service.update(model(), model())
 
             returned shouldBe "sid-9"
             capt.captured.salaryId shouldBe "sid-9"
@@ -169,6 +171,25 @@ class SalaryServiceTest :
             capt.captured.structure!!.basicSalary shouldBe 7
             capt.captured.payslipData!![0].key shouldBe "k"
             capt.captured.payslipData!![0].data!![0].key shouldBe "e"
+            verify(exactly = 0) { repository.delete(any(), any()) }
+        }
+
+        "update: targetDate を変更すると旧レコードを削除する" {
+            every { repository.findByUserAndDateRange("u9", "2025-03-01", "2025-03-31") } returns emptyList()
+
+            service.update(model(), model(targetDate = "2025-03-01"))
+
+            verify(exactly = 1) { repository.put(match { it.targetDate == "2025-03-01" }) }
+            verify(exactly = 1) { repository.delete("u9", "2025-02-02") }
+        }
+
+        "update/create: 同じ月に別の給与があれば IllegalArgumentException" {
+            every { repository.findByUserAndDateRange("u9", "2025-02-01", "2025-02-28") } returns
+                listOf(item(salaryId = "other", userId = "u9", date = "2025-02-01"))
+
+            shouldThrow<IllegalArgumentException> { service.update(model(), model()) }
+            shouldThrow<IllegalArgumentException> { service.create(model(salaryId = "")) }
+            verify(exactly = 0) { repository.put(any()) }
         }
 
         "deleteBySalaryId: 指定キーで削除を委譲" {

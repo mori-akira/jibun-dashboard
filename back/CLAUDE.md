@@ -45,6 +45,7 @@ src/main/kotlin/.../
   configuration/    # AWS client config (DynamoDB, S3, SQS, Security)
   controller/       # REST controllers — implements generated VocabularyApi etc.
   exception/        # Custom exception classes
+  mapper/           # Generated API model ↔ domain model conversions (shared by controllers)
   repository/       # DynamoDB access + DynamoDbBean item classes
   service/          # Business logic + domain model data classes (FooModel)
 src/main/resources/
@@ -90,7 +91,8 @@ The source of truth for the API is `../openapi/openapi.yaml`.
 
 | Layer | Package | Responsibility |
 | --- | --- | --- |
-| Controller | `controller` | HTTP in/out, converts between generated API models ↔ domain models (`FooModel`) |
+| Controller | `controller` | HTTP in/out and status decisions; uses `mapper` for API ↔ domain conversion |
+| Mapper | `mapper` | Public extension functions converting generated API models ↔ domain models (`FooModel`) |
 | Service | `service` | Business logic; owns domain model (`data class FooModel`); calls repositories |
 | Repository | `repository` | DynamoDB access; owns `@DynamoDbBean` item classes (`FooItem`) |
 
@@ -104,7 +106,9 @@ Each feature defines a domain model (e.g., `VocabularyModel`) in the service fil
 - Generated API models (`com.github.moriakira.jibundashboard.generated.model.*`)
 - DynamoDB item classes (`*Item` in the repository file)
 
-Conversion between layers is done via private extension functions (`fun FooItem.toDomain()`, `fun FooModel.toApi()`).
+Conversion between layers is done via extension functions:
+- Item ↔ domain: private in the service file (`fun FooItem.toDomain()`, `fun FooModel.toItem()`).
+- Domain ↔ API: public in `mapper/FooMapper.kt` (`fun FooModel.toApi()`, `fun FooBase.toModel(userId, id = "")`), shared by every controller that returns the model (e.g., `ShareController`).
 
 ### DynamoDB
 
