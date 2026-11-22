@@ -21,7 +21,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
     id("org.springframework.boot") version "4.1.2"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.openapi.generator") version "7.14.0"
+    id("org.openapi.generator") version "7.27.0"
     id("com.github.node-gradle.node") version "7.0.2"
     id("com.diffplug.spotless") version "6.25.0"
     id("dev.detekt") version "2.0.0-alpha.6"
