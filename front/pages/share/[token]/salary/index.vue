@@ -279,7 +279,6 @@ const salaryStore = useSalaryStore();
 const status = ref<"ok" | "forbidden" | "gone">("ok");
 const settingStore = useSettingStore();
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
-const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
 onMounted(async () => {
   try {
@@ -289,7 +288,6 @@ onMounted(async () => {
     if (err instanceof AxiosError) {
       if (err.response?.status === 403) {
         status.value = "forbidden";
-        forbiddenTypes.value = [...forbiddenTypes.value, "salary"];
       } else if (err.response?.status === 410) status.value = "gone";
     }
   }

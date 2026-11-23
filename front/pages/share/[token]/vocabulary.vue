@@ -115,7 +115,6 @@ const { isLoading, withLoading } = useLoadingQueue();
 const status = ref<"ok" | "forbidden" | "gone">("ok");
 const allVocabularies = ref<Vocabulary[]>([]);
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
-const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
 onMounted(async () => {
   await withLoading(async () => {
@@ -131,7 +130,6 @@ onMounted(async () => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 403) {
           status.value = "forbidden";
-          forbiddenTypes.value = [...forbiddenTypes.value, "vocabulary"];
         } else if (err.response?.status === 410) status.value = "gone";
       }
     }

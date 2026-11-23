@@ -23,7 +23,7 @@
             <span class="font-cursive ml-2">Home</span>
           </NuxtLink>
         </li>
-        <li v-if="!forbiddenTypes.includes('salary')">
+        <li v-if="isShared('salary')">
           <NuxtLink
             class="text-gray-900"
             :class="{ active: isActive('salary') }"
@@ -33,7 +33,7 @@
             <span class="font-cursive ml-2">Salary</span>
           </NuxtLink>
         </li>
-        <li v-if="!forbiddenTypes.includes('qualification')">
+        <li v-if="isShared('qualification')">
           <NuxtLink
             class="text-gray-900"
             :class="{ active: isActive('qualification') }"
@@ -43,7 +43,7 @@
             <span class="font-cursive ml-2">Qualification</span>
           </NuxtLink>
         </li>
-        <li v-if="!forbiddenTypes.includes('vocabulary')">
+        <li v-if="isShared('vocabulary')">
           <NuxtLink
             class="text-gray-900"
             :class="{ active: isActive('vocabulary') }"
@@ -60,13 +60,20 @@
 
 <script setup lang="ts">
 import type { Ref } from "vue";
+import type { SharedLinkBaseDataTypesEnum } from "~/generated/api/client";
 import { useRoute } from "#app";
 import { useCommonStore } from "~/stores/common";
 
 const route = useRoute();
 const commonStore = useCommonStore();
 const token = computed(() => route.params.token as string);
-const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes", ref([]));
+const sharedDataTypes = inject<Ref<SharedLinkBaseDataTypesEnum[] | null>>(
+  "sharedDataTypes",
+  ref(null),
+);
+// 共有リンク情報の取得前は表示しない（アクセス不可の画面を一瞬表示させないため）
+const isShared = (dataType: SharedLinkBaseDataTypesEnum) =>
+  sharedDataTypes.value?.includes(dataType) ?? false;
 const isActive = (segment: string) => {
   const base = `/share/${token.value}`;
   if (segment === "") {

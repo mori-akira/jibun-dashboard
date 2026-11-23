@@ -16,15 +16,16 @@
 import ShareHeader from "~/components/app/AppShareHeader.vue";
 import ShareNavigation from "~/components/app/AppShareNavigation.vue";
 import { AxiosError } from "axios";
+import type { SharedLinkBaseDataTypesEnum } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useSettingStore } from "~/stores/setting";
 
 const shareStatus = ref<"ok" | "gone">("ok");
 provide("shareStatus", shareStatus);
 
-// forbidden data types discovered across page navigations (not reset — stable per session)
-const forbiddenTypes = ref<string[]>([]);
-provide("forbiddenTypes", forbiddenTypes);
+// 共有リンクで閲覧可能なデータ種別（取得前は null）
+const sharedDataTypes = ref<SharedLinkBaseDataTypesEnum[] | null>(null);
+provide("sharedDataTypes", sharedDataTypes);
 
 const route = useRoute();
 watch(
@@ -34,22 +35,31 @@ watch(
   },
 );
 
-// 共有元ユーザーの設定を settingStore に格納し、通常画面と同じコンポーネントで参照できるようにする
+// 共有リンク情報と共有元ユーザーの設定を取得する
+// 設定は settingStore に格納し、通常画面と同じコンポーネントで参照できるようにする
 const { getShareApi } = useApiClient();
 const settingStore = useSettingStore();
+const handleShareError = (err: unknown) => {
+  if (err instanceof AxiosError && err.response?.status === 410) {
+    shareStatus.value = "gone";
+  }
+};
 watch(
   () => route.params.token as string | undefined,
   async (token) => {
+    sharedDataTypes.value = null;
     settingStore.setting = null;
     if (!token) return;
-    try {
-      const res = await getShareApi().getShareSetting(token);
-      settingStore.setting = res.data;
-    } catch (err) {
-      if (err instanceof AxiosError && err.response?.status === 410) {
-        shareStatus.value = "gone";
-      }
-    }
+    await Promise.all([
+      getShareApi()
+        .getShareInfo(token)
+        .then((res) => (sharedDataTypes.value = [...res.data.dataTypes]))
+        .catch(handleShareError),
+      getShareApi()
+        .getShareSetting(token)
+        .then((res) => (settingStore.setting = res.data))
+        .catch(handleShareError),
+    ]);
   },
   { immediate: true },
 );

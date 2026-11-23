@@ -116,7 +116,6 @@ const salaryStatus = ref<"ok" | "forbidden">("ok");
 const qualificationStatus = ref<"ok" | "forbidden">("ok");
 const vocabularyStatus = ref<"ok" | "forbidden">("ok");
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
-const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
 const tryFetch = async (fn: () => Promise<void>, onForbidden?: () => void) => {
   try {
@@ -139,7 +138,6 @@ onMounted(async () => {
       },
       () => {
         salaryStatus.value = "forbidden";
-        forbiddenTypes.value = [...forbiddenTypes.value, "salary"];
       },
     ),
     tryFetch(
@@ -149,7 +147,6 @@ onMounted(async () => {
       },
       () => {
         qualificationStatus.value = "forbidden";
-        forbiddenTypes.value = [...forbiddenTypes.value, "qualification"];
       },
     ),
     tryFetch(
@@ -159,7 +156,6 @@ onMounted(async () => {
       },
       () => {
         vocabularyStatus.value = "forbidden";
-        forbiddenTypes.value = [...forbiddenTypes.value, "vocabulary"];
       },
     ),
   ]);

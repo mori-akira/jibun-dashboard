@@ -4,9 +4,11 @@ import com.github.moriakira.jibundashboard.generated.api.ShareApi
 import com.github.moriakira.jibundashboard.generated.model.Qualification
 import com.github.moriakira.jibundashboard.generated.model.Salary
 import com.github.moriakira.jibundashboard.generated.model.Setting
+import com.github.moriakira.jibundashboard.generated.model.SharedLinkBase
 import com.github.moriakira.jibundashboard.generated.model.Vocabulary
 import com.github.moriakira.jibundashboard.generated.model.VocabularyTag
 import com.github.moriakira.jibundashboard.mapper.toApi
+import com.github.moriakira.jibundashboard.mapper.toApiBase
 import com.github.moriakira.jibundashboard.service.QualificationService
 import com.github.moriakira.jibundashboard.service.SalaryService
 import com.github.moriakira.jibundashboard.service.SettingService
@@ -26,6 +28,11 @@ class ShareController(
     private val vocabularyTagService: VocabularyTagService,
     private val settingService: SettingService,
 ) : ShareApi {
+
+    override fun getShareInfo(token: UUID): ResponseEntity<SharedLinkBase> {
+        val link = sharedLinkService.validateTokenOnly(token.toString())
+        return ResponseEntity.ok(link.toApiBase())
+    }
 
     override fun getShareSetting(token: UUID): ResponseEntity<Setting> {
         val link = sharedLinkService.validateTokenOnly(token.toString())

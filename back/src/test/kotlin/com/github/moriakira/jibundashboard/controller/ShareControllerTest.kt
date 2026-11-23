@@ -1,5 +1,6 @@
 package com.github.moriakira.jibundashboard.controller
 
+import com.github.moriakira.jibundashboard.generated.model.SharedLinkBase
 import com.github.moriakira.jibundashboard.service.OverviewModel
 import com.github.moriakira.jibundashboard.service.QualificationModel
 import com.github.moriakira.jibundashboard.service.QualificationService
@@ -21,6 +22,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.http.HttpStatus
+import java.time.LocalDate
 import java.util.UUID
 
 class ShareControllerTest :
@@ -50,6 +52,15 @@ class ShareControllerTest :
             expiresAt = "2099-12-31",
             shareUrl = "http://localhost:3333/share/$token",
         )
+
+        "getShareInfo: 共有対象種別と有効期限を返す" {
+            every { sharedLinkService.validateTokenOnly(token) } returns link(listOf("salary", "vocabulary"))
+
+            val res = controller.getShareInfo(UUID.fromString(token))
+            res.statusCode shouldBe HttpStatus.OK
+            res.body!!.dataTypes shouldBe setOf(SharedLinkBase.DataTypes.salary, SharedLinkBase.DataTypes.vocabulary)
+            res.body!!.expiresAt shouldBe LocalDate.parse("2099-12-31")
+        }
 
         "getShareSetting: 設定を返す" {
             every { sharedLinkService.validateTokenOnly(token) } returns link()
