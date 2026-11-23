@@ -15,6 +15,9 @@
 <script setup lang="ts">
 import ShareHeader from "~/components/app/AppShareHeader.vue";
 import ShareNavigation from "~/components/app/AppShareNavigation.vue";
+import { AxiosError } from "axios";
+import { useApiClient } from "~/composables/common/useApiClient";
+import { useSettingStore } from "~/stores/setting";
 
 const shareStatus = ref<"ok" | "gone">("ok");
 provide("shareStatus", shareStatus);
@@ -29,5 +32,25 @@ watch(
   () => {
     shareStatus.value = "ok";
   },
+);
+
+// 共有元ユーザーの設定を settingStore に格納し、通常画面と同じコンポーネントで参照できるようにする
+const { getShareApi } = useApiClient();
+const settingStore = useSettingStore();
+watch(
+  () => route.params.token as string | undefined,
+  async (token) => {
+    settingStore.setting = null;
+    if (!token) return;
+    try {
+      const res = await getShareApi().getShareSetting(token);
+      settingStore.setting = res.data;
+    } catch (err) {
+      if (err instanceof AxiosError && err.response?.status === 410) {
+        shareStatus.value = "gone";
+      }
+    }
+  },
+  { immediate: true },
 );
 </script>

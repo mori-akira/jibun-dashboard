@@ -92,9 +92,9 @@
 <script setup lang="ts">
 import { AxiosError } from "axios";
 import type { Ref } from "vue";
-import type { Setting } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useSalaryStore } from "~/stores/salary";
+import { useSettingStore } from "~/stores/setting";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import MonthPickerFromTo from "~/components/common/MonthPickerFromTo.vue";
@@ -110,7 +110,7 @@ const { getShareApi } = useApiClient();
 const salaryStore = useSalaryStore();
 
 const status = ref<"ok" | "forbidden" | "gone">("ok");
-const shareSetting = ref<Setting | null>(null);
+const settingStore = useSettingStore();
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
 const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
@@ -120,8 +120,6 @@ onMounted(async () => {
       const salaryRes = await getShareApi().getShareSalaries(token);
       salaryStore.salaries = salaryRes.data;
     }
-    const settingRes = await getShareApi().getShareSetting(token);
-    shareSetting.value = settingRes.data;
   } catch (err) {
     if (err instanceof AxiosError) {
       if (err.response?.status === 403) {
@@ -134,7 +132,7 @@ onMounted(async () => {
 });
 
 const financialYearStartMonth = computed(
-  () => shareSetting.value?.salary.financialYearStartMonth ?? 1,
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 
 const dateFrom = ref<string | undefined>("");

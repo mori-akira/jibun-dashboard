@@ -46,7 +46,6 @@
         <div class="flex justify-center">
           <RankSummary
             :qualifications="qualificationStore.qualifications ?? []"
-            :setting-qualification="shareSetting?.qualification"
             wrapper-class="w-4/5"
           />
         </div>
@@ -93,11 +92,11 @@ import type {
   GetQualificationsRankEnum,
   GetQualificationsStatusEnum,
   Qualification,
-  Setting,
   SettingQualification,
 } from "~/generated/api/client/api";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useQualificationStore } from "~/stores/qualification";
+import { useSettingStore } from "~/stores/setting";
 import { useLoadingQueue } from "~/composables/common/useLoadingQueue";
 import { getRankColorHexCode } from "~/utils/qualification";
 import type { Rank } from "~/utils/qualification";
@@ -121,19 +120,16 @@ const { isLoading, withLoading } = useLoadingQueue();
 
 const status = ref<"ok" | "forbidden" | "gone">("ok");
 const allQualifications = ref<Qualification[]>([]);
-const shareSetting = ref<Setting | null>(null);
+const settingStore = useSettingStore();
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
 const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
 onMounted(async () => {
   await withLoading(async () => {
     try {
-      const [qualificationRes, settingRes] = await Promise.all([
-        getShareApi().getShareQualifications(token),
-        getShareApi().getShareSetting(token),
-      ]);
+      const qualificationRes =
+        await getShareApi().getShareQualifications(token);
       allQualifications.value = qualificationRes.data;
-      shareSetting.value = settingRes.data;
       applyFilters();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -253,7 +249,7 @@ const columnDefs: ColumnDef<QualificationWithIndex>[] = [
     bodyStyleFunction: (value: unknown) => ({
       color: getRankColorHexCode(
         value as Rank,
-        shareSetting.value?.qualification as SettingQualification,
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },
@@ -313,7 +309,7 @@ const itemDefs: ItemDef[] = [
     itemStyleFunction: (value: unknown) => ({
       color: getRankColorHexCode(
         value as Rank,
-        shareSetting.value?.qualification as SettingQualification,
+        settingStore.setting?.qualification as SettingQualification,
       ),
     }),
   },

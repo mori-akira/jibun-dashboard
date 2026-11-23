@@ -245,9 +245,10 @@
 <script setup lang="ts">
 import { AxiosError } from "axios";
 import type { Ref } from "vue";
-import type { Overview, Salary, Setting } from "~/generated/api/client";
+import type { Overview, Salary } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useSalaryStore } from "~/stores/salary";
+import { useSettingStore } from "~/stores/setting";
 import Breadcrumb from "~/components/common/Breadcrumb.vue";
 import Panel from "~/components/common/Panel.vue";
 import Tabs from "~/components/common/Tabs.vue";
@@ -276,18 +277,14 @@ const { getShareApi } = useApiClient();
 const salaryStore = useSalaryStore();
 
 const status = ref<"ok" | "forbidden" | "gone">("ok");
-const shareSetting = ref<Setting | null>(null);
+const settingStore = useSettingStore();
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
 const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
 onMounted(async () => {
   try {
-    const [salaryRes, settingRes] = await Promise.all([
-      getShareApi().getShareSalaries(token),
-      getShareApi().getShareSetting(token),
-    ]);
+    const salaryRes = await getShareApi().getShareSalaries(token);
     salaryStore.salaries = salaryRes.data;
-    shareSetting.value = settingRes.data;
   } catch (err) {
     if (err instanceof AxiosError) {
       if (err.response?.status === 403) {
@@ -300,13 +297,13 @@ onMounted(async () => {
 });
 
 const financialYearStartMonth = computed(
-  () => shareSetting.value?.salary.financialYearStartMonth ?? 1,
+  () => settingStore.setting?.salary.financialYearStartMonth ?? 1,
 );
 const transitionItemCount = computed(
-  () => shareSetting.value?.salary.transitionItemCount ?? 1,
+  () => settingStore.setting?.salary.transitionItemCount ?? 1,
 );
 const compareDataColors = computed(() => {
-  const colors = shareSetting.value?.salary.compareDataColors ?? [];
+  const colors = settingStore.setting?.salary.compareDataColors ?? [];
   return [colors?.[0] ?? "#ddd", colors?.[1] ?? "#ddd", colors?.[2] ?? "#ddd"];
 });
 
@@ -325,7 +322,7 @@ const targetFinancialYears = computed(() =>
 const aggregateOverviewAnnually = (key: keyof Overview) =>
   trimArray(
     targetFinancialYears.value,
-    shareSetting.value?.salary.transitionItemCount ?? 1,
+    settingStore.setting?.salary.transitionItemCount ?? 1,
     { from: "end" },
   ).map((year) =>
     aggregateAnnually(
@@ -374,11 +371,16 @@ const selectedTab = ref<TabSlot>("grossIncome");
 const onChangeTab = (slot: string) => {
   selectedTab.value = slot as TabSlot;
 };
-const summaryData = computed<{ label: string; value: number }[]>(() => {
+const summaryData = computed<
+  { label: string; value: number; color: string }[]
+>(() => {
   const targetData = compareData.value[selectedTab.value];
   return targetData.toReversed().map((dataset) => ({
     label: dataset.label,
     value: dataset.data.reduce((sum, value) => sum + value, 0),
+    color: Array.isArray(dataset.backgroundColor)
+      ? (dataset.backgroundColor[0] ?? "#ddd")
+      : dataset.backgroundColor,
   }));
 });
 </script>

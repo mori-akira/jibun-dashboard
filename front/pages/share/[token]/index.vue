@@ -31,9 +31,6 @@
               v-else
               :selector="(salary: Salary) => salary.overview.grossIncome + salary.overview.bonus"
               :value-format="(value: number) => `￥${value.toLocaleString()}`"
-              :financial-year-start-month="
-                shareSetting?.salary.financialYearStartMonth
-              "
               wrapper-class="w-full"
             />
           </div>
@@ -56,7 +53,6 @@
             <RankSummary
               v-else
               :qualifications="qualificationStore.qualifications ?? []"
-              :setting-qualification="shareSetting?.qualification"
               wrapper-class="w-full"
             />
           </div>
@@ -95,7 +91,7 @@
 <script setup lang="ts">
 import { AxiosError } from "axios";
 import type { Ref } from "vue";
-import type { Salary, Setting } from "~/generated/api/client";
+import type { Salary } from "~/generated/api/client";
 import { useApiClient } from "~/composables/common/useApiClient";
 import { useSalaryStore } from "~/stores/salary";
 import { useQualificationStore } from "~/stores/qualification";
@@ -119,7 +115,6 @@ const status = ref<"ok" | "gone">("ok");
 const salaryStatus = ref<"ok" | "forbidden">("ok");
 const qualificationStatus = ref<"ok" | "forbidden">("ok");
 const vocabularyStatus = ref<"ok" | "forbidden">("ok");
-const shareSetting = ref<Setting | null>(null);
 const shareStatus = inject<Ref<"ok" | "gone">>("shareStatus")!;
 const forbiddenTypes = inject<Ref<string[]>>("forbiddenTypes")!;
 
@@ -167,10 +162,6 @@ onMounted(async () => {
         forbiddenTypes.value = [...forbiddenTypes.value, "vocabulary"];
       },
     ),
-    tryFetch(async () => {
-      const res = await shareApi.getShareSetting(token);
-      shareSetting.value = res.data;
-    }),
   ]);
   if (status.value === "gone") shareStatus.value = "gone";
 });

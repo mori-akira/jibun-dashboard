@@ -408,11 +408,16 @@ const structureSummary = computed(() =>
       ),
 );
 
-const summaryData = computed<{ label: string; value: number }[]>(() => {
+const summaryData = computed<
+  { label: string; value: number; color: string }[]
+>(() => {
   const targetData = compareData.value[selectedTab.value];
   return targetData.toReversed().map((dataset) => ({
     label: dataset.label,
     value: dataset.data.reduce((sum, value) => sum + value, 0),
+    color: Array.isArray(dataset.backgroundColor)
+      ? (dataset.backgroundColor[0] ?? "#ddd")
+      : dataset.backgroundColor,
   }));
 });
 </script>
